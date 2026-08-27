@@ -1,0 +1,28 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base
+  title="Coil"
+  description="A small, statically typed scripting language."
+  ogImage="/og-home.png"
+>
+  <h1 class="hero">A small, statically typed scripting language.</h1>
+
+  <div class="stack">
+    <p>
+      Coil uses Hindley–Milner inference. Source files use <code>.hy</code>.
+      Compiled archives are <code>.hyc</code>.
+    </p>
+    <p>The <code>coil</code> CLI is the command for the language.</p>
+    <p>
+      <a href="https://github.com/ardax-corp/spool">spool</a> is a git-based
+      library dependency manager for Coil.
+    </p>
+  </div>
+
+  <pre><code>.hy      source
+.hyc     compiled archive
+coil     CLI
+spool    library dependencies</code></pre>
+</Base>

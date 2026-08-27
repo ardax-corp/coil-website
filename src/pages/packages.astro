@@ -1,0 +1,37 @@
+---
+import Base from "../layouts/Base.astro";
+
+const packages = [
+  {
+    name: "regex",
+    href: "https://github.com/ardax-corp/coil-regex",
+    note: "Userland PCRE2 regex for Coil.",
+  },
+  {
+    name: "tls",
+    href: "https://github.com/ardax-corp/coil-tls",
+    note: "Userland TLS for Coil.",
+  },
+  {
+    name: "crypto",
+    href: "https://github.com/ardax-corp/coil-crypto",
+    note: "Userland cryptography for Coil.",
+  },
+];
+---
+
+<Base title="Packages" description="Coil packages: regex, tls, and crypto.">
+  <h1 class="page-title">Packages</h1>
+  <ul class="list">
+    {
+      packages.map((pkg) => (
+        <li>
+          <h2>
+            <a href={pkg.href}>{pkg.name}</a>
+          </h2>
+          <p class="muted">{pkg.note}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Base>

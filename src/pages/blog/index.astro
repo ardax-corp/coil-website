@@ -1,0 +1,31 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const formatter = new Intl.DateTimeFormat("en", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+  timeZone: "UTC",
+});
+---
+
+<Base title="Blog" description="Writing about Coil.">
+  <h1 class="page-title">Blog</h1>
+  <ul class="list">
+    {
+      posts.map((post) => (
+        <li>
+          <h2>
+            <a href={`/blog/${post.id}`}>{post.data.title}</a>
+          </h2>
+          <p class="muted">{formatter.format(post.data.date)}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Base>
