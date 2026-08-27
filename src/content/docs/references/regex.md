@@ -11,16 +11,17 @@ PCRE2 regex is **userland** in [coil-regex](https://github.com/ardax-corp/coil-r
 
 ```toml
 [dependencies]
-regex = { git = "https://github.com/ardax-corp/coil-regex.git", version = "^0.1" }
+regex = { git = "https://github.com/ardax-corp/coil-regex.git", version = "^0.1", trusted = true }
 
 [module]
 roots = ["./src", "./.spool/deps/regex/src"]
 
 [ffi]
 search_paths = ["./.spool/deps/regex/native"]
+allow = ["regex"]
 ```
 
-`dload` of stem `regex` is first-party (no `allow`, no lock hash). `search_paths` only locates the native.
+`dload` of stem `regex` needs `[ffi] allow` plus `trusted = true` (or a matching lock `sha256`). `search_paths` only locates the native.
 
 Run `spool install`, then:
 
@@ -40,9 +41,13 @@ roots = ["./src", "../coil-regex/src"]
 
 [ffi]
 search_paths = ["../coil-regex/native"]
+allow = ["regex"]
+
+[dependencies]
+regex = { path = "../coil-regex", trusted = true }
 ```
 
-Same first-party stem: no hash gate. Build the native library: `make -C ../coil-regex/native`.
+Same gate: allow plus trusted (or a lock hash). Build the native library: `make -C ../coil-regex/native`.
 
 See [consume.md](https://github.com/ardax-corp/coil-regex/blob/main/docs/consume.md) for flags, `RegexError`, and `fn drop()` lifecycle.
 

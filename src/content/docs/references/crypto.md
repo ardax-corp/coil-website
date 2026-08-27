@@ -17,9 +17,13 @@ roots = ["./src", "../coil-crypto/src"]
 
 [ffi]
 search_paths = ["../coil-crypto/native"]
+allow = ["crypto"]
+
+[dependencies]
+crypto = { path = "../coil-crypto", trusted = true }
 ```
 
-`dload("crypto")` is a first-party stem: no `[ffi] allow` and no lock hash. `search_paths` locates the package native; it does not grant the load. Do not put `crypto` on `allow` as a requirement to load it.
+`dload("crypto")` needs `[ffi] allow` plus `trusted = true` on the coil-crypto dep (or a matching `[[package.native]] sha256`). `search_paths` locates the package native; it does not grant the load.
 
 Then:
 
