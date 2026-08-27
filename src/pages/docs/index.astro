@@ -1,0 +1,17 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+const docs = await getCollection("docs");
+const index = docs.find((doc) => doc.id === "index");
+if (!index) {
+  throw new Error("Missing src/content/docs/index.md");
+}
+const { Content } = await render(index);
+---
+
+<Base title={index.data.title} description={index.data.description}>
+  <article class="post">
+    <Content />
+  </article>
+</Base>

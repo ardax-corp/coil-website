@@ -1,0 +1,53 @@
+---
+import "@fontsource/ibm-plex-sans/400.css";
+import "@fontsource/ibm-plex-sans/500.css";
+import "@fontsource/ibm-plex-mono/400.css";
+import "../styles/tokens.css";
+
+type Props = {
+  title: string;
+  description: string;
+  ogImage?: string;
+};
+
+const { title, description, ogImage } = Astro.props;
+const canonicalTitle = title === "Coil" ? title : `${title} · Coil`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={canonicalTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta name="twitter:card" content="summary_large_image" />}
+    <title>{canonicalTitle}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="wordmark" href="/">Coil</a>
+        <nav class="nav" aria-label="Site">
+          <a href="/packages">Packages</a>
+          <a href="/blog">Blog</a>
+          <a href="/docs">Source</a>
+        </nav>
+      </div>
+    </header>
+    <main class="site-main">
+      <div class="wrap">
+        <slot />
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>Coil</span>
+      </div>
+    </footer>
+  </body>
+</html>
