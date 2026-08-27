@@ -1,91 +1,17 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 
 const docs = await getCollection("docs");
-const byId = new Map(docs.map((doc) => [doc.id, doc]));
-
-const manualIds = [
-  "manual/getting-started",
-  "manual/tutorial/01-basics",
-  "manual/tutorial/02-types-and-variables",
-  "manual/tutorial/03-enums-and-match",
-  "manual/tutorial/04-records-and-fields",
-  "manual/tutorial/05-aggregates",
-  "manual/tutorial/06-modules",
-  "manual/tutorial/07-ffi",
-  "manual/tutorial/08-coroutines",
-  "manual/tutorial/09-error-handling",
-  "manual/tutorial/10-io-streams",
-  "manual/tutorial/11-threads",
-  "manual/examples",
-];
-
-const referenceIds = [
-  "references/syntax",
-  "references/types",
-  "references/operators",
-  "references/keywords",
-  "references/modules",
-  "references/project-config",
-  "references/error-codes",
-  "references/time",
-  "references/regex",
-  "references/tls",
-  "references/crypto",
-];
-
-function entries(ids: string[]) {
-  return ids.map((id) => {
-    const doc = byId.get(id);
-    if (!doc) {
-      throw new Error(`Missing docs entry: ${id}`);
-    }
-    return doc;
-  });
+const index = docs.find((doc) => doc.id === "index");
+if (!index) {
+  throw new Error("Missing src/content/docs/index.md");
 }
-
-const manual = entries(manualIds);
-const references = entries(referenceIds);
+const { Content } = await render(index);
 ---
 
-<Base title="Docs" description="Coil manual and language references.">
-  <h1 class="page-title">Docs</h1>
-
-  <p class="section-label">Manual</p>
-  <ul class="list">
-    {
-      manual.map((doc) => (
-        <li>
-          <h2>
-            <a href={`/docs/${doc.id}`}>{doc.data.title}</a>
-          </h2>
-          <p class="muted">{doc.data.description}</p>
-        </li>
-      ))
-    }
-  </ul>
-
-  <p class="section-label">References</p>
-  <ul class="list">
-    {
-      references.map((doc) => (
-        <li>
-          <h2>
-            <a href={`/docs/${doc.id}`}>{doc.data.title}</a>
-          </h2>
-          <p class="muted">{doc.data.description}</p>
-        </li>
-      ))
-    }
-  </ul>
-
-  <p class="section-label">Source</p>
-  <div class="stack">
-    <p>
-      The language lives in
-      <a href="https://github.com/ardax-corp/coil-lang">ardax-corp/coil-lang</a>.
-      Internals stay in that repository.
-    </p>
-  </div>
+<Base title={index.data.title} description={index.data.description}>
+  <article class="post">
+    <Content />
+  </article>
 </Base>

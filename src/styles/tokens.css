@@ -209,6 +209,35 @@ pre code {
   padding-left: 1.2rem;
 }
 
+.post table {
+  border-collapse: collapse;
+  display: block;
+  font-size: 0.92em;
+  margin: 0 0 1.1rem;
+  overflow-x: auto;
+}
+
+.post th,
+.post td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.4rem 0.75rem 0.4rem 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+.post hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 1.6rem 0;
+}
+
+.post blockquote {
+  border-left: 3px solid var(--accent);
+  color: var(--muted);
+  margin: 0 0 1.1rem;
+  padding: 0 0 0 0.9rem;
+}
+
 .section-label {
   color: var(--muted);
   font-size: 0.9rem;
