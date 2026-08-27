@@ -13,6 +13,8 @@ The language targets embeddable scripting: you get real type checking and infere
 
 ## Quick start
 
+Download the toolkit for your OS. When a GitHub Release exists, use [GitHub Releases](https://github.com/ardax-corp/coil-lang/releases) (latest). There is no tagged release yet. Until then, the current build is the latest [`release-binaries`](https://github.com/ardax-corp/coil-lang/actions/workflows/release-binaries.yml) workflow on `main` (`binaries-<triple>` artifacts, 30-day retention). See [Getting Started](/docs/manual/getting-started).
+
 ```coil
 use io::{stdout};
 use io::sync::{write_all};
@@ -22,16 +24,13 @@ fn main() {
 }
 ```
 
-Run any program from the repository root:
+With `coil` on your `PATH`, from a clone of the repository:
 
 ```bash
-cargo build   # coil + coil-debug + coil-dissect + coil-fmt + coil-lsp + coil-embed
-cargo run -- examples/print_literal.hy
+coil examples/print_literal.hy
 ```
 
 Expected output: `hello`
-
-See [Getting Started](/docs/manual/getting-started) for prerequisites, project layout, and a guided first run.
 
 ## How programs run
 
@@ -119,7 +118,9 @@ coil/
 └── coil.toml.example  # Example project manifest
 ```
 
-## Building and running
+## From source
+
+`cargo build` is the from-source path, not the default install.
 
 ```bash
 # Build CLI binaries (coil + helpers)

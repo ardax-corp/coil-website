@@ -1,76 +1,41 @@
 ---
 title: Getting Started
-description: This guide walks you through building coil, running your first program, and understanding how source becomes bytecode on the VM.
+description: Download the Coil toolkit for your OS, run a first program, and see how source becomes bytecode on the VM.
 ---
 
 # Getting Started
 
-This guide walks you through building coil, running your first program, and understanding how source becomes bytecode on the VM.
+This guide covers installing Coil, running a first program, and how source becomes bytecode on the VM.
 
-## Prerequisites
+## Install
 
-### Rust toolchain
+Download the toolkit for your OS. That is the default install. `cargo build` is the from-source path only.
 
-coil is a Rust workspace. Install a recent stable Rust toolchain ([rustup](https://rustup.rs/)) and ensure `cargo` is on your `PATH`.
+When a GitHub Release exists, get the latest toolkit from [GitHub Releases](https://github.com/ardax-corp/coil-lang/releases). There is no GitHub Release and no `v*` tag yet, so that page has no toolkit archives.
 
-```bash
-rustc --version
-cargo --version
-```
+Until a tag exists, the current build is the latest [`release-binaries`](https://github.com/ardax-corp/coil-lang/actions/workflows/release-binaries.yml) workflow on `main`. Every push to `main` uploads `binaries-<triple>` artifacts (30-day retention) for:
 
-### libffi (optional, for FFI examples)
+- `x86_64-unknown-linux-gnu`
+- `x86_64-unknown-linux-musl`
+- `aarch64-apple-darwin`
+- `x86_64-pc-windows-gnu`
 
-Examples that call C code (`examples/strlen.hy`, `examples/ffi_sum.hy`) require **libffi** at link time.
+On a `v*` tag, the same workflow attaches toolkit archives to the GitHub Release: `coil-<triple>.tar.gz` / `.zip` and `coil-embed-<triple>` for those triples.
 
-| Platform | Package |
-|----------|---------|
-| Arch Linux | `libffi` |
-| Debian / Ubuntu | `libffi-dev` |
-| Fedora | `libffi-devel` |
-
-You can build and run all non-FFI examples without libffi.
+Put the extracted `coil` binary on your `PATH`.
 
 ### Regular expressions ([coil-regex](https://github.com/ardax-corp/coil-regex))
 
 Regex is a **userland** package (not a virtual module). Clone [coil-regex](https://github.com/ardax-corp/coil-regex) separately or add via spool; see [regex reference](/docs/references/regex). Tests and examples live in that repo (`coil test` after `make -C native`).
 
-### Optional Cargo feature (`time`)
+## Run your first program
 
-The default build enables virtual `time`. Embedders can strip it:
-
-```toml
-machine = { path = "...", default-features = false, features = ["time"] }
-```
-
-The `compiler` and root `coil` crates mirror the same feature name. With `time` disabled, `use time::{timestamp};` will not resolve. Crypto is [coil-crypto](https://github.com/ardax-corp/coil-crypto), not a virtual module. Use [coil-regex](https://github.com/ardax-corp/coil-regex) for `use regex::{…}` and [coil-tls](https://github.com/ardax-corp/coil-tls) for `use tls::{…}` ([tls](/docs/references/tls)).
-
-## Build the project
-
-Clone the repository and build from the root (builds `coil` plus helpers
-`coil-debug`, `coil-dissect`, `coil-fmt`, and `coil-embed`):
+The examples live in the [coil-lang](https://github.com/ardax-corp/coil-lang) repository. Clone it (this is not the install step):
 
 ```bash
 git clone git@github.com:ardax-corp/coil-lang.git
 cd coil-lang
-git clone git@github.com:ardax-corp/coil-stdlib.git ../coil-stdlib
-cargo build
 ```
-
-The GitHub repository is named **`coil-lang`**. If you previously cloned **`zero`** / **zero-script**, update the remote after the repository is renamed on GitHub, or clone fresh:
-
-```bash
-git remote set-url origin git@github.com:ardax-corp/coil-lang.git
-```
-
-For optimized binaries:
-
-```bash
-cargo build --release --workspace
-```
-
-A successful build produces the `coil` binary (via `src/main.rs`) plus the `parser`, `compiler`, `machine`, and `common` crates as libraries.
-
-## Run your first program
 
 The canonical starter example computes the 10th Fibonacci number recursively
 (fast enough for debug builds). Fair cross-language CPU baselines live under
@@ -93,10 +58,10 @@ fn main() {
 }
 ```
 
-Run it:
+Run it (toolkit `coil` on your `PATH`):
 
 ```bash
-cargo run -- examples/fib.hy
+coil examples/fib.hy
 ```
 
 **Expected output:** `55`
@@ -133,38 +98,37 @@ Examples:
 
 ```bash
 # Compile only, custom archive path
-cargo run -- compile examples/fib.hy -o /tmp/fib.hyc
+coil compile examples/fib.hy -o /tmp/fib.hyc
 
 # Run that archive
-cargo run -- run /tmp/fib.hyc
+coil run /tmp/fib.hyc
 
 # Inspect final bytecode for `fib` (and optionally pre-opt IL)
-cargo run -- dissect examples/fib.hy --fn fib
-cargo run -- dissect examples/fib.hy --fn fib --il
+coil dissect examples/fib.hy --fn fib
+coil dissect examples/fib.hy --fn fib --il
 
 # Debug interactively, or with a script
-cargo run -- debug examples/fib.hy
-cargo run -- debug examples/fib.hy -x /tmp/cmds.txt --batch
+coil debug examples/fib.hy
+coil debug examples/fib.hy -x /tmp/cmds.txt --batch
 
 # Format sources (rewrites in place; --check for CI)
-cargo run -- fmt examples/fib.hy
-cargo run -- fmt --check .
+coil fmt examples/fib.hy
+coil fmt --check .
 
 # Single-file app for this machine (embeds into `coil-embed`; no separate .hyc needed to run)
-cargo build --release
-cargo run --release -- package examples/fib.hy -o ./fib-app
+coil package examples/fib.hy -o ./fib-app
 ./fib-app
 
 # Or pass an explicit runner template
-cargo run --release -- package examples/fib.hy -o ./fib-app --runner ./target/release/coil-embed
+coil package examples/fib.hy -o ./fib-app --runner /path/to/coil-embed
 
 # With FFI: verify required shared libraries exist on this machine before shipping
-cargo run --release -- package examples/strlen.hy -o ./strlen-app --check-native
+coil package examples/strlen.hy -o ./strlen-app --check-native
 
 # Project tests (default root ./tests)
-cargo run -- test
-cargo run -- test ./tests
-cargo run -- test --fail-fast   # stop after the first failed case
+coil test
+coil test ./tests
+coil test --fail-fast   # stop after the first failed case
 ```
 
 Layout under `./tests`:
@@ -203,7 +167,7 @@ The default (`BuildAndRun`) path caches `out.hyc`. After editing a `.hy` file, d
 
 ```bash
 rm -f out.hyc
-cargo run -- examples/fib.hy
+coil examples/fib.hy
 ```
 
 The CLI recompiles automatically when the archive is missing, corrupt, incompatible with this runtime (different major, or archive minor newer than the runtime), **older than any source file recorded in the archive** (entry *and* imported modules), or was built for a **different entry** than the one you are running (the shared `out.hyc` path is not per-file). The dedicated `compile` command always recompiles; `run` never recompiles (it rejects an incompatible archive and asks you to rebuild from source).
@@ -215,7 +179,7 @@ If worker/`use` modules change and prints or behavior look “stuck” or interm
 For a minimal smoke test:
 
 ```bash
-cargo run -- examples/print_literal.hy
+coil examples/print_literal.hy
 ```
 
 Source:
@@ -230,6 +194,65 @@ fn main() {
 ```
 
 **Expected output:** `hello`
+
+## From source
+
+`cargo build` is how you build Coil from a checkout. It is not the default install.
+
+### Rust toolchain
+
+coil is a Rust workspace. Install a recent stable Rust toolchain ([rustup](https://rustup.rs/)) and ensure `cargo` is on your `PATH`.
+
+```bash
+rustc --version
+cargo --version
+```
+
+### libffi (optional, for FFI examples)
+
+Examples that call C code (`examples/strlen.hy`, `examples/ffi_sum.hy`) require **libffi** at link time.
+
+| Platform | Package |
+|----------|---------|
+| Arch Linux | `libffi` |
+| Debian / Ubuntu | `libffi-dev` |
+| Fedora | `libffi-devel` |
+
+You can build and run all non-FFI examples without libffi.
+
+### Optional Cargo feature (`time`)
+
+The default build enables virtual `time`. Embedders can strip it:
+
+```toml
+machine = { path = "...", default-features = false, features = ["time"] }
+```
+
+The `compiler` and root `coil` crates mirror the same feature name. With `time` disabled, `use time::{timestamp};` will not resolve. Crypto is [coil-crypto](https://github.com/ardax-corp/coil-crypto), not a virtual module. Use [coil-regex](https://github.com/ardax-corp/coil-regex) for `use regex::{…}` and [coil-tls](https://github.com/ardax-corp/coil-tls) for `use tls::{…}` ([tls](/docs/references/tls)).
+
+Clone the repository and build from the root (builds `coil` plus helpers
+`coil-debug`, `coil-dissect`, `coil-fmt`, and `coil-embed`):
+
+```bash
+git clone git@github.com:ardax-corp/coil-lang.git
+cd coil-lang
+git clone git@github.com:ardax-corp/coil-stdlib.git ../coil-stdlib
+cargo build
+```
+
+The GitHub repository is named **`coil-lang`**. If you previously cloned **`zero`** / **zero-script**, update the remote after the repository is renamed on GitHub, or clone fresh:
+
+```bash
+git remote set-url origin git@github.com:ardax-corp/coil-lang.git
+```
+
+For optimized binaries:
+
+```bash
+cargo build --release --workspace
+```
+
+A successful build produces the `coil` binary (via `src/main.rs`) plus the `parser`, `compiler`, `machine`, and `common` crates as libraries. From that checkout, `cargo run -- examples/fib.hy` is the same as `coil examples/fib.hy` once the built `coil` is on your `PATH`.
 
 ## Project layout
 
