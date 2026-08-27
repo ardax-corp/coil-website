@@ -17,9 +17,13 @@ roots = ["./src", "../coil-tls/src"]
 
 [ffi]
 search_paths = ["../coil-tls/native"]
+allow = ["tls"]
+
+[dependencies]
+tls = { path = "../coil-tls", trusted = true }
 ```
 
-`dload("tls")` is a first-party stem: no `[ffi] allow` and no lock hash. `search_paths` locates `libtls`; it is not a grant.
+`dload("tls")` needs `[ffi] allow` plus `trusted = true` on the coil-tls dep (or a matching `[[package.native]] sha256`). `search_paths` locates `libtls`; it is not a grant.
 
 Build the native library in that repo, then:
 

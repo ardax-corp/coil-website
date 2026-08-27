@@ -162,7 +162,7 @@ roots = ["./src", "./.spool/deps"]
 
 `use greet::hello;` then resolves under `.spool/deps/greet/hello.hy` with the same
 algorithm as any other root — first match wins; local `./src` still shadows
-deps. The compiler reads `coil.lock` `[[package.native]] sha256` for extra
+deps. The compiler reads `coil.lock` `[[package.native]] sha256` for
 `dload` stems; it does **not** auto-inject `[module].roots`.
 See [Project configuration](/docs/references/project-config) for `[package]` / `[dependencies]` / `[ffi]`
 schema and the **`spool` vs `coil package`** naming distinction (`coil package`

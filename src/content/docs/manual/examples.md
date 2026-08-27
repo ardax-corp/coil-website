@@ -1583,7 +1583,7 @@ fn main() {
 | **Run** | Build the shared library first, then run |
 | **Build helper** | Linux: `cc -shared -fPIC -o examples/libsum.so examples/sum.c`; macOS: `-dynamiclib` → `libsum.dylib`; Windows: `clang -shared` → `sum.dll` |
 | **Output** | `42` |
-| **Note** | `sum` is an extra stem: `[ffi] allow` plus a matching lock `sha256`. `search_paths` locates `libsum.so` / `libsum.dylib` / `sum.dll`; an absolute path is not a bypass. |
+| **Note** | Every stem needs `[ffi] allow` plus a matching lock `sha256` or `trusted`. `search_paths` locates `libsum.so` / `libsum.dylib` / `sum.dll`; an absolute path is not a bypass. |
 
 ---
 
