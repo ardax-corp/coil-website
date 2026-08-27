@@ -1,6 +1,10 @@
 ---
-title: time module
-description: UTC wall clock, Period arithmetic, format/parse, monotonic instants, and sleep_ms.
+title: "`time` module"
+description: "use time::{timestamp, sleepms, format, parse}; — UTC wall clock (timestamp, epoch), Period arithmetic, format / parse (strftime-style), monotonic instantnow / elapsed, and…"
 ---
 
-# time module
+# `time` module
+
+`use time::{timestamp, sleep_ms, format, parse};` — UTC wall clock (`timestamp`, `epoch`), `Period` arithmetic, `format` / `parse` (strftime-style), monotonic `instant_now` / `elapsed_*`, and `sleep_ms`. Errors use `TimeError` inside `prelude::Result`. File bytes are not handled here; use `io` streams.
+
+---
