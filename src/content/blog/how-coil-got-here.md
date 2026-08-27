@@ -20,6 +20,6 @@ I called it zero-script because I wanted the core small. The name was taken, and
 
 Source files are `.hy` because henry is the SI unit of inductance. Programs compile to `.hyc` and run on the VM. Types are Hindley-Milner, so you get checking without a heavyweight toolchain.
 
-It is 0.1.0. Download from [GitHub Releases](https://github.com/ardax-corp/coil-lang/releases), or the latest [`release-binaries`](https://github.com/ardax-corp/coil-lang/actions/workflows/release-binaries.yml) build. There is no versioned release yet. This site is new.
+It is 0.1.0. Download from [GitHub Releases](https://github.com/ardax-corp/coil-lang/releases), or the latest [release-binaries](https://github.com/ardax-corp/coil-lang/actions) build. There is no versioned release yet. Cargo build stays in getting-started. This site is new.
 
 That is the state I am starting from.
