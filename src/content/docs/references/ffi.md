@@ -40,12 +40,12 @@ Notes:
 
 - Requires libffi-enabled build.
 - The `dload` gate runs before the process opens the file. See [Project config — `[ffi]`](/docs/references/project-config#ffi).
-- First-party stems `time`, `crypto`, `tls`, and `regex` load with **no** lock hash and without `[ffi] allow`. A missing file for one of those stems is `ErrorKind::LibraryNotFound`.
-- Extra stems need `[ffi] allow` **and** a matching `coil.lock` `[[package.native]] sha256`. Denied extras are `ErrorKind::Other`.
-- `[ffi] search_paths` locates files (`dload("sum")` → `libsum.so` / `libsum.dylib` / `sum.dll` via `platform_lib_names`). It is not a grant. `sum` is an extra stem.
+- Every stem (including `time`, `crypto`, `tls`, `regex`) needs `[ffi] allow` **and** a matching `coil.lock` `[[package.native]] sha256` **or** `trusted = true` on that dep row. No first-party exemption.
+- No allow is `LibraryDenied` (userland `ErrorKind::Other`). Allow plus `trusted` (or a matching pin) with a missing file is `ErrorKind::LibraryNotFound`.
+- `[ffi] search_paths` locates files (`dload("sum")` → `libsum.so` / `libsum.dylib` / `sum.dll` via `platform_lib_names`). It is not a grant.
 - `dload("c")` / `extern "c"` stay **deny** (libc aliases). An absolute path is not a bypass — the gate uses the filename stem.
 - Same resolver as the string in `extern "..." { ... }` blocks (`extern` does **not** require `use ffi::{…};`; it unwraps Results and panics on `e.message`).
-- Check `e.kind` (`ErrorKind::LibraryNotFound`, …) for recovery; use `e.message` for display.
+- Check `e.kind` (`ErrorKind::LibraryNotFound`, `ErrorKind::Other` for `LibraryDenied`, …) for recovery; use `e.message` for display.
 
 ---
 
@@ -135,7 +135,7 @@ Virtual `ffi` exports (via `use ffi::{Error, ErrorKind};`):
 | `ErrorKind` | Unit enum — `LibraryNotFound`, `SymbolNotFound`, `ArityMismatch`, `Libffi`, `InvalidSignature`, `InvalidHandle`, `Unsupported`, `Other` |
 | `Error` | `Error { kind: ErrorKind, message: string }` — access `e.kind` / `e.message` |
 
-Match on `e.kind` for recovery; use `e.message` for logging / `panic`. A library blocked by the `dload` gate (unknown stem, missing allow+hash, hash mismatch, or libc) is `ErrorKind::Other`. Missing first-party files stay `LibraryNotFound`.
+Match on `e.kind` for recovery; use `e.message` for logging / `panic`. A library blocked by the `dload` gate (no allow, allow without hash or `trusted`, hash mismatch, or libc) is `LibraryDenied` (`ErrorKind::Other`). A missing file that already passed the gate is `ErrorKind::LibraryNotFound`.
 
 ---
 
@@ -163,7 +163,7 @@ fn main() {
 
 ## Related
 
-- [Project configuration](/docs/references/project-config#ffi) — `[ffi] allow` / `search_paths` / first-party stems
+- [Project configuration](/docs/references/project-config#ffi) — `[ffi] allow` / `search_paths` / lock hash or `trusted`
 - [FFI tutorial](/docs/manual/tutorial/07-ffi)
 - [Getting Started](/docs/manual/getting-started)
 - [Host embedder API](/docs/references/host-natives) — Rust closures via `HostInvoke` (embedder API, not the `dload` gate)

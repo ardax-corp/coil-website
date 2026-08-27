@@ -217,7 +217,7 @@ Example:
 [dependencies]
 http = { git = "https://github.com/coil-lang/http.git" }
 local_http = { path = "../local-http" }
-coil_crypto = { git = "https://github.com/ardax-corp/coil-crypto.git", trusted = true }
+crypto = { git = "https://github.com/ardax-corp/coil-crypto.git", trusted = true }
 ```
 
 `version` and `rev` may appear on a git entry; both are optional:
@@ -272,7 +272,7 @@ roots = ["./src", "./vendor", "../coil-stdlib/src"]
 # http = { git = "https://github.com/coil-lang/http.git", version = "^0.2" }
 # http = { git = "https://github.com/coil-lang/http.git", rev = "abc123" }
 # local_http = { path = "../local-http" }
-# coil_crypto = { git = "https://github.com/ardax-corp/coil-crypto.git", trusted = true }
+# crypto = { git = "https://github.com/ardax-corp/coil-crypto.git", trusted = true }
 
 # [scripts]
 # pre_install = "./scripts/pre-install.sh"
