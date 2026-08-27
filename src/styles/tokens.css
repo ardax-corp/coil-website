@@ -184,8 +184,39 @@ pre code {
   margin: 0 0 1.25rem;
 }
 
+.post h2,
+.post h3 {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 1.6rem 0 0.7rem;
+}
+
+.post h2 {
+  font-size: 1.15rem;
+}
+
+.post h3 {
+  font-size: 1.02rem;
+}
+
 .post p {
   margin: 0 0 1.1rem;
+}
+
+.post ul,
+.post ol {
+  margin: 0 0 1.1rem;
+  padding-left: 1.2rem;
+}
+
+.section-label {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 2rem 0 0.75rem;
+}
+
+.section-label:first-of-type {
+  margin-top: 0;
 }
 
 .meta {
