@@ -114,6 +114,36 @@ Example:
 allow_exec = true   # opt-in: enable env::exec for trusted scripts
 ```
 
+### `[ffi]` {#ffi}
+
+Controls how `dload` / `extern` resolve and whether a shared library may open. The gate runs **before** the process opens the file. `[ffi] search_paths` only locates candidates; it is not a grant.
+
+| Key | Type | Required | Description |
+|-----|------|----------|-------------|
+| `search_paths` | array of strings | No (defaults to `[]`) | Extra directories searched for the shared-library file, relative to the project root. |
+| `allow` | array of strings | No (defaults to `[]`) | Extra `dload` stems **beyond** the four first-party names. Each entry is a stem (no `/` or `\`). Duplicate stems are ignored. |
+
+```toml
+[ffi]
+search_paths = ["./.spool/native"]
+allow = ["plugin"]
+```
+
+**First-party stems** — `time`, `crypto`, `tls`, `regex` — always pass the gate. They do not need `allow` and they do not need a lock hash. A missing file whose filename stem is one of these four is `ErrorKind::LibraryNotFound`, not a deny. Listing a first-party name in `allow` does not change that (and does not hash-gate `crypto` in order to load `crypto`).
+
+**Extra stems** (anything else, including `sum` or a plugin) need **both**:
+
+1. the stem on this project's `[ffi] allow`, and
+2. a matching `[[package.native]] sha256` pin in `coil.lock` (64 hex digits).
+
+Allow without a pin, a pin without allow, or a hash mismatch is denied (`ErrorKind::Other`). A lock pin whose package is not on consumer `allow` is ignored. Optional `stem` / `lib` on the native row sets the `dload` stem; otherwise a `coil-` prefix is stripped from the package name (`coil-http` → `http`).
+
+**`c` stays deny.** Libc aliases (`c`, `libc`, `libc.so.6`, `libsystem`, `ucrtbase`, `msvcrt`, …) cannot be loaded. Putting them in `allow` is a parse error; a lock pin for those names is ignored.
+
+An absolute or relative path is **not** a bypass. The gate uses the filename stem (`/abs/libfoo.so` → `foo`). `trusted` on a `[dependencies]` row does not change this gate.
+
+See [FFI](/docs/references/ffi) for `dload` errors and consume.
+
 ### `[package]`
 
 Optional package identity for publishing / consuming libraries via **`spool`**. When the section is present, `name` and `version` are required. Other keys below are optional.
@@ -169,7 +199,7 @@ Declares library dependencies for **`spool`**. Each key is the short package nam
 | Git | `git` (string URL). Optional `version`, optional `rev`. Optional `trusted` (bool, default `false`). | `{ git = "…" }` is valid. `version` is optional schema, not a resolved tag. `rev` is stored only. The pin is `coil.lock` (`rev` + `content_hash`) until COI-219. |
 | Path | `path` (string). Optional `trusted` (bool, default `false`). | Local checkout relative to the project root. |
 
-Optional **`trusted`** is per dep row. Omitted / `false` is the default. `true` means **`spool` may skip native `sha256`** on that dependency only (so a consumer can depend on coil-crypto and use it to verify other deps later). It is **not** git `content_hash`, not hooks, not engine, and never `dload("c")`. The compiler parses and stores the flag; it does not skip a hash and does not change FFI loading. First-party `time` / crypto / tls / regex still load with no hash ([COI-229](https://linear.app/ardax/issue/COI-229)).
+Optional **`trusted`** is per dep row. Omitted / `false` is the default. `true` means **`spool` may skip native `sha256`** on that dependency only (so a consumer can depend on coil-crypto and use it to verify other deps later). It is **not** git `content_hash`, not hooks, not engine, and never `dload("c")`. The compiler parses and stores the flag; it does not skip a hash and does not change FFI loading. First-party `dload` stems are listed under [`[ffi]`](#ffi).
 
 `git` and `path` must not be combined on the same entry. `version` or `rev` without `git` is a parse error. Unknown inline keys are parse errors. Duplicate dependency names are parse errors.
 
@@ -190,7 +220,7 @@ http = { git = "https://github.com/coil-lang/http.git", rev = "abc123" }
 http = { git = "https://github.com/coil-lang/http.git", version = "^0.2", rev = "abc123" }
 ```
 
-**Compiler role:** parse and store the schema so manifests with deps still compile. Optional `version` and `rev` are stored as parsed fields only — the compiler does not resolve tags, fetch git, or write a lockfile. Git tag resolution is COI-219; until then `coil.lock` (`rev` + `content_hash`) remains the pin. **`spool`** (`install` / `add` / `update`) resolves deps, writes that lock, and maintains a project-local managed root (e.g. `.spool/deps/<name>`) that should appear in `[module].roots`. The compiler does **not** read `coil.lock` or auto-inject roots.
+**Compiler role:** parse and store the schema so manifests with deps still compile. Optional `version` and `rev` are stored as parsed fields only — the compiler does not resolve tags, fetch git, or write a lockfile. Git tag resolution is COI-219; until then `coil.lock` (`rev` + `content_hash`) remains the pin. **`spool`** (`install` / `add` / `update`) resolves deps, writes that lock, and maintains a project-local managed root (e.g. `.spool/deps/<name>`) that should appear in `[module].roots`. The compiler reads `coil.lock` `[[package.native]] sha256` rows for extra `dload` stems (see [`[ffi]`](#ffi)). It does **not** auto-inject `[module].roots`.
 
 When a managed root is on disk:
 
@@ -241,6 +271,13 @@ roots = ["./src", "./vendor", "../coil-stdlib/src"]
 # post_install = "./scripts/post-install.sh"
 # pre_update = "./scripts/pre-update.sh"
 # post_update = "./scripts/post-update.sh"
+
+# [ffi]
+# search_paths locates shared libraries; it is not a grant.
+# time / crypto / tls / regex always pass the dload gate (no lock hash).
+# Extra stems need allow AND a matching [[package.native]] sha256 in coil.lock.
+# search_paths = ["./.spool/native"]
+# allow = ["plugin"]
 ```
 
 ---
@@ -338,6 +375,8 @@ When no `coil.toml` exists in the project root (or the file cannot be read):
 |---------|---------|
 | `[module].roots` | `["src"]` |
 | `[entry].file` | None — use CLI argument |
+| `[ffi].search_paths` | `[]` |
+| `[ffi].allow` | `[]` — first-party stems still pass; extra stems are denied |
 
 This means a minimal project with only `src/main.hy` and `src/foo/bar.hy` works without any manifest, as long as you run the compiler from the project root:
 
@@ -376,5 +415,6 @@ project/
 ## Related documentation
 
 - [Modules reference](/docs/references/modules) — `use` / `mod` syntax, FQN rules, dep roots
+- [FFI](/docs/references/ffi) — `dload` gate, first-party stems, extra allow + lock hash
 - [Tutorial: Modules](/docs/manual/tutorial/06-modules) — walkthrough with `examples/modules.hy`
 - [Getting started](/docs/manual/getting-started) — `coil package` (embed executable), unrelated to `spool`
