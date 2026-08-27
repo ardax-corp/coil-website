@@ -39,8 +39,11 @@ let lib = match dload("sum") {
 Notes:
 
 - Requires libffi-enabled build.
-- `dload("sum")` resolves to `libsum.so` / `libsum.dylib` / `sum.dll` via `platform_lib_names` and `[ffi] search_paths`.
-- `dload("c")` / `extern "c"` is the portable libc alias.
+- The `dload` gate runs before the process opens the file. See [Project config — `[ffi]`](/docs/references/project-config#ffi).
+- First-party stems `time`, `crypto`, `tls`, and `regex` load with **no** lock hash and without `[ffi] allow`. A missing file for one of those stems is `ErrorKind::LibraryNotFound`.
+- Extra stems need `[ffi] allow` **and** a matching `coil.lock` `[[package.native]] sha256`. Denied extras are `ErrorKind::Other`.
+- `[ffi] search_paths` locates files (`dload("sum")` → `libsum.so` / `libsum.dylib` / `sum.dll` via `platform_lib_names`). It is not a grant. `sum` is an extra stem.
+- `dload("c")` / `extern "c"` stay **deny** (libc aliases). An absolute path is not a bypass — the gate uses the filename stem.
 - Same resolver as the string in `extern "..." { ... }` blocks (`extern` does **not** require `use ffi::{…};`; it unwraps Results and panics on `e.message`).
 - Check `e.kind` (`ErrorKind::LibraryNotFound`, …) for recovery; use `e.message` for display.
 
@@ -132,7 +135,7 @@ Virtual `ffi` exports (via `use ffi::{Error, ErrorKind};`):
 | `ErrorKind` | Unit enum — `LibraryNotFound`, `SymbolNotFound`, `ArityMismatch`, `Libffi`, `InvalidSignature`, `InvalidHandle`, `Unsupported`, `Other` |
 | `Error` | `Error { kind: ErrorKind, message: string }` — access `e.kind` / `e.message` |
 
-Match on `e.kind` for recovery; use `e.message` for logging / `panic`.
+Match on `e.kind` for recovery; use `e.message` for logging / `panic`. A library blocked by the `dload` gate (unknown stem, missing allow+hash, hash mismatch, or libc) is `ErrorKind::Other`. Missing first-party files stay `LibraryNotFound`.
 
 ---
 
@@ -154,11 +157,13 @@ fn main() {
 }
 ```
 
-`extern "c"` is the portable libc alias. Compiler-emitted setup unwraps `dload`/`declare`/`invoke` Results and panics with a clear message on failure. See [FFI tutorial](/docs/manual/tutorial/07-ffi).
+`extern "c"` is a libc alias and is **denied** by the same gate as `dload("c")`. Compiler-emitted setup unwraps `dload`/`declare`/`invoke` Results and panics with a clear message on failure. See [FFI tutorial](/docs/manual/tutorial/07-ffi) and [Project config — `[ffi]`](/docs/references/project-config#ffi).
 
 ---
 
 ## Related
 
+- [Project configuration](/docs/references/project-config#ffi) — `[ffi] allow` / `search_paths` / first-party stems
 - [FFI tutorial](/docs/manual/tutorial/07-ffi)
 - [Getting Started](/docs/manual/getting-started)
+- [Host embedder API](/docs/references/host-natives) — Rust closures via `HostInvoke` (embedder API, not the `dload` gate)
