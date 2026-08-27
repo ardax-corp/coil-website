@@ -118,28 +118,7 @@ coil/
 └── coil.toml.example  # Example project manifest
 ```
 
-## From source
-
-`cargo build` is the from-source path, not the default install.
-
-```bash
-# Build CLI binaries (coil + helpers)
-cargo build
-# Or every workspace crate:
-cargo build --workspace
-
-# Default: compile to out.hyc (cached) and run
-cargo run -- examples/fib.hy
-
-# Compile only / run archive / project tests
-cargo run -- compile examples/fib.hy -o fib.hyc
-cargo run -- run fib.hyc
-cargo run -- test   # every .hy under ./tests
-
-# Release build
-cargo build --release --workspace
-cargo run --release -- examples/fib.hy
-```
+## Running
 
 | Command | Role |
 |---------|------|
@@ -150,7 +129,7 @@ cargo run --release -- examples/fib.hy
 | `test [path] [--fail-fast]` | Compile+run all `[path]/**/*.hy` (default `./tests`); continue after failures unless `--fail-fast` |
 | `lsp` | Start the Coil language server over stdin/stdout |
 
-For FFI examples you also need **libffi** (e.g. `libffi-dev` on Debian/Ubuntu, `libffi` on Arch). See [Getting Started](/docs/manual/getting-started).
+For FFI examples you also need **libffi** (e.g. `libffi-dev` on Debian/Ubuntu, `libffi` on Arch). To build from a checkout, see [Getting Started](/docs/manual/getting-started).
 
 ## Learn by example
 
