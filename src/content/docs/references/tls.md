@@ -19,6 +19,8 @@ roots = ["./src", "../coil-tls/src"]
 search_paths = ["../coil-tls/native"]
 ```
 
+`dload("tls")` is a first-party stem: no `[ffi] allow` and no lock hash. `search_paths` locates `libtls`; it is not a grant.
+
 Build the native library in that repo, then:
 
 ```coil

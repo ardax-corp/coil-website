@@ -337,7 +337,7 @@ extern "c" {
 }
 ```
 
-`extern "c"` is the portable libc alias. See [FFI tutorial](/docs/manual/tutorial/07-ffi).
+`extern "c"` is a libc alias and is **denied** by the `dload` gate. See [FFI tutorial](/docs/manual/tutorial/07-ffi) and [Project config — `[ffi]`](/docs/references/project-config#ffi).
 
 Equivalent attribute form for a single function:
 

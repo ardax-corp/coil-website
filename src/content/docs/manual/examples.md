@@ -762,7 +762,7 @@ fn main() {
 |---|---|
 | **Run** | `cargo run -- examples/attr_ffi.hy` |
 | **Output** | `5` |
-| **Requires** | Platform C library via `lib = "c"` |
+| **Requires** | Production **denies** `lib = "c"` |
 
 ---
 
@@ -1524,7 +1524,7 @@ fn main() {
 |---|---|
 | **Run** | `cargo run -- examples/strlen.hy` |
 | **Output** | `5` |
-| **Requires** | Platform C library via `extern "c"` (`libc.so.6` / `libSystem` / `ucrtbase`, …) |
+| **Requires** | Production **denies** `extern "c"`. Cargo tests grant `c` for this fixture. |
 
 ---
 
@@ -1546,7 +1546,7 @@ fn main() {
 |---|---|
 | **Run** | `cargo run -- examples/ffi_printf.hy` |
 | **Output** | `hello 42` |
-| **Requires** | Platform C library via `extern "c"` |
+| **Requires** | Production **denies** `extern "c"` |
 
 ---
 
@@ -1583,7 +1583,7 @@ fn main() {
 | **Run** | Build the shared library first, then run |
 | **Build helper** | Linux: `cc -shared -fPIC -o examples/libsum.so examples/sum.c`; macOS: `-dynamiclib` → `libsum.dylib`; Windows: `clang -shared` → `sum.dll` |
 | **Output** | `42` |
-| **Note** | `dload("sum")` resolves via `platform_lib_names` + `[ffi] search_paths` (no absolute path required) |
+| **Note** | `sum` is an extra stem: `[ffi] allow` plus a matching lock `sha256`. `search_paths` locates `libsum.so` / `libsum.dylib` / `sum.dll`; an absolute path is not a bypass. |
 
 ---
 

@@ -57,7 +57,7 @@ fn main() {
 
 **Expected output:** `5`
 
-`extern "c"` is the portable libc alias — the resolver maps it to `libc.so.6` (Linux), `libSystem` (macOS), `ucrtbase` (Windows), and so on. On load/declare failure the compiler-emitted unwrap panics with a clear message.
+`extern "c"` is a libc alias. Production `dload` **denies** `c` (and the other libc aliases); the compiler-emitted unwrap panics with a deny message. Language-repo `examples/strlen.hy` is the same syntax; the cargo test harness grants `c` for that fixture only.
 
 ### Attribute sugar: `#[ffi]`
 
@@ -76,7 +76,7 @@ fn main() {
 }
 ```
 
-Optional `name = "symbol"` overrides the C symbol when it differs from the coil identifier; optional `variadic = true` marks C varargs. See `examples/attr_ffi.hy`.
+Optional `name = "symbol"` overrides the C symbol when it differs from the coil identifier; optional `variadic = true` marks C varargs. See `examples/attr_ffi.hy`. `lib = "c"` is still a libc alias and is denied in production.
 
 ---
 
@@ -97,7 +97,7 @@ fn main() {
 }
 ```
 
-Userland mirror — optional 5th `bool` on `declare`:
+Userland mirror — optional 5th `bool` on `declare`. Production **denies** `dload("c")`; extra stems need `[ffi] allow` plus a lock hash.
 
 ```coil
 use ffi::{dload, declare, invoke};
@@ -120,7 +120,7 @@ extern_arg_list ::= /* fixed `T name` args, optional trailing bare `...` */
 
 | Part | Meaning |
 |------|---------|
-| `"c"` | Portable libc alias (or any path / soname / basename) |
+| `"c"` | Libc alias — **denied** by the `dload` gate (or any extra stem / first-party stem) |
 | `fn strlen(string s) -> int;` | Signature only — no body, trailing `;` required |
 | `fn printf(string fmt, ...) -> int;` | C varargs — bare `...`, not `T... name` |
 | `strlen("hello")` | Ordinary call site; compiler wires FFI behind the scenes |
@@ -212,7 +212,7 @@ fn main() {
 }
 ```
 
-`dload("sum")` resolves to `libsum.so` / `libsum.dylib` / `sum.dll` via `platform_lib_names` and `[ffi] search_paths` in `coil.toml`. Tag constructors (`Int`, `Ptr`, …) come from `ffi::types` — you do not declare them in source.
+`dload("sum")` resolves to `libsum.so` / `libsum.dylib` / `sum.dll` via `platform_lib_names` and `[ffi] search_paths` in `coil.toml`. `sum` is an **extra** stem: production also requires `[ffi] allow = ["sum"]` and a matching `[[package.native]] sha256` in `coil.lock`. Search paths locate the file; they are not a grant. An absolute path is not a bypass. Tag constructors (`Int`, `Ptr`, …) come from `ffi::types` — you do not declare them in source.
 
 **Expected output:** `42`
 
@@ -232,7 +232,7 @@ fn main() {
 | `kind` | `ErrorKind` | Typed failure category (match this — do not string-match) |
 | `message` | `string` | Human-readable detail (safe for `panic` / logging) |
 
-`ErrorKind` variants: `LibraryNotFound`, `SymbolNotFound`, `ArityMismatch`, `Libffi`, `InvalidSignature`, `InvalidHandle`, `Unsupported`, `Other`.
+`ErrorKind` variants: `LibraryNotFound`, `SymbolNotFound`, `ArityMismatch`, `Libffi`, `InvalidSignature`, `InvalidHandle`, `Unsupported`, `Other`. Missing first-party libraries (`time` / `crypto` / `tls` / `regex`) are `LibraryNotFound`. Denied stems (libc, unknown extra, allow without pin, hash mismatch) are `Other`.
 
 ```coil
 match dload("missing") {
@@ -292,7 +292,7 @@ Runtime tag mapping:
 
 1. Write C functions with C linkage and stable symbol names.
 2. Compile as a shared library for your platform (see table below).
-3. Place the artifact where `[ffi] search_paths` or the dynamic linker can find it, or pass a full path to `dload`.
+3. Place the artifact where `[ffi] search_paths` can find it. Extra stems still need `allow` plus a lock hash; a full path does not skip the gate.
 
 | Platform | Command |
 |----------|---------|
@@ -304,12 +304,13 @@ Runtime tag mapping:
 
 | Approach | Example | Notes |
 |----------|---------|-------|
-| Basename | `dload("sum")` | Resolves to `libsum.so` / `libsum.dylib` / `sum.dll` via `platform_lib_names` + `[ffi] search_paths` |
-| Portable libc | `extern "c"` / `dload("c")` | Maps to the platform C library |
-| Full path | `dload("/abs/path/libsum.so")` | Bypasses search when the exact file is known |
-| Relative path | `dload("./vendor/libfoo.so")` | Works if cwd at runtime matches |
+| First-party stem | `dload("tls")` | `time` / `crypto` / `tls` / `regex` pass with no hash. `search_paths` locates the file. |
+| Extra basename | `dload("sum")` | Resolves via `platform_lib_names` + `[ffi] search_paths`. Needs `[ffi] allow` **and** a matching lock `sha256`. |
+| Libc alias | `extern "c"` / `dload("c")` | **Denied** |
+| Full path | `dload("/abs/path/libsum.so")` | Filename stem is still gated; not a bypass |
+| Relative path | `dload("./vendor/libfoo.so")` | Same stem gate; cwd / `base_dir` still matter for locating |
 
-The `extern` block string and the `dload` path use the same resolver (`base_dir`, `[ffi] search_paths`, system search).
+The `extern` block string and the `dload` path use the same resolver (`base_dir`, `[ffi] search_paths`) and the same gate. See [Project config — `[ffi]`](/docs/references/project-config#ffi).
 
 ### C function guidelines
 
@@ -376,7 +377,7 @@ This produces `HostInvoke` bytecode from `Compiler::register()`. See [Built-ins 
 | Risk | Guidance |
 |------|----------|
 | **Memory safety** | FFI bypasses the typechecker at the C boundary. Buggy C code can corrupt the VM process. |
-| **No sandbox** | `dload` runs with the host process privileges. Only load libraries you trust. |
+| **Load gate** | Only first-party stems and extra stems with `[ffi] allow` plus a lock hash may open. Loaded code still runs with the host process privileges. Host-registered Rust closures (`HostInvoke`) are an embedder API, not this gate. |
 | **Symbol collisions** | `dlsym` resolves by name; duplicate weak symbols can bind unexpectedly. |
 | **Platform ABI** | libffi maps to the platform C ABI. Struct padding and calling conventions must match your C compiler. Prefer `int32`/`int64` field widths that match the C layout. |
 | **String lifetimes** | Do not let C retain script string pointers; do not return dangling `char *` from C. |
@@ -385,7 +386,7 @@ This produces `HostInvoke` bytecode from `Compiler::register()`. See [Built-ins 
 
 | Limitation | Detail |
 |------------|--------|
-| Failed `dload` | `Result::Err(string)` — match or `?`; never `-1` |
+| Failed `dload` | `Result::Err(Error)` — match `e.kind` (`LibraryNotFound` vs `Other` for deny); never `-1` |
 | Failed `declare` | `Result::Err` (missing symbol, libffi error) |
 | `extern` failure | Compiler unwraps Results and panics with a clear message |
 | No automatic `out.hyc` invalidation for new `.so` | Rebuild C libraries separately; bytecode does not embed shared-library contents |
@@ -399,14 +400,14 @@ This produces `HostInvoke` bytecode from `Compiler::register()`. See [Built-ins 
 |--------------------|--------------------------------------|
 | Library and API are fixed at compile time | You need runtime plugin loading |
 | You want ordinary call syntax | You build tooling or REPL-style scripts |
-| Examples: libc `strlen` via `extern "c"`, fixed vendor SDK | Examples: hot-plug extensions, user-provided shared libs |
+| Examples: first-party `dload("tls")` / `dload("crypto")`, a pinned extra stem | Examples: extras listed in `[ffi] allow` with a matching lock hash |
 
 ---
 
 ## Exercises
 
-1. Run `examples/strlen.hy` and confirm output `5`. Change the string and predict the new length.
-2. Build the platform `libsum` artifact from `examples/sum.c` and run `examples/ffi_sum.hy`.
+1. First-party stems (`time`, `crypto`, `tls`, `regex`) load with no hash — see [Project config — `[ffi]`](/docs/references/project-config#ffi). Language-repo `examples/strlen.hy` uses `extern "c"`, which production **denies**.
+2. Build the platform `libsum` artifact from `examples/sum.c` and run `examples/ffi_sum.hy` only with `[ffi] allow = ["sum"]` and a matching lock hash (an absolute path is not a bypass).
 3. Add a C function `int triple(int x) { return x * 3; }`, export it from the same library, and call it via `declare`/`invoke` (unwrap the `Result`s).
 4. Try an incorrect signature (e.g. declare `sum` with one `int` argument) and observe `Result::Err`.
 
