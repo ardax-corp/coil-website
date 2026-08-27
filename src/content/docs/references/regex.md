@@ -20,6 +20,8 @@ roots = ["./src", "./.spool/deps/regex/src"]
 search_paths = ["./.spool/deps/regex/native"]
 ```
 
+`dload` of stem `regex` is first-party (no `allow`, no lock hash). `search_paths` only locates the native.
+
 Run `spool install`, then:
 
 ```coil
@@ -40,7 +42,7 @@ roots = ["./src", "../coil-regex/src"]
 search_paths = ["../coil-regex/native"]
 ```
 
-Build the native library: `make -C ../coil-regex/native`.
+Same first-party stem: no hash gate. Build the native library: `make -C ../coil-regex/native`.
 
 See [consume.md](https://github.com/ardax-corp/coil-regex/blob/main/docs/consume.md) for flags, `RegexError`, and `fn drop()` lifecycle.
 
