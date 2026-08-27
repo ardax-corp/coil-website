@@ -41,7 +41,7 @@ The parser accepts a minimal TOML-like subset:
 - Key-value lines: `key = value`
 - String values: double-quoted (`"./src"`)
 - Array values: `["a", "b"]`
-- Inline tables: `{ git = "…" }` (used under `[dependencies]`; optional `version` / `rev`)
+- Inline tables: `{ git = "…" }` (used under `[dependencies]`; optional `version` / `rev` / `trusted`)
 - Comments: `#` to end of line
 - Blank lines are ignored
 
@@ -166,8 +166,10 @@ Declares library dependencies for **`spool`**. Each key is the short package nam
 
 | Form | Keys | Description |
 |------|------|-------------|
-| Git | `git` (string URL). Optional `version`, optional `rev`. | `{ git = "…" }` is valid. `version` is optional schema, not a resolved tag. `rev` is stored only. The pin is `coil.lock` (`rev` + `content_hash`) until COI-219. |
-| Path | `path` (string) | Local checkout relative to the project root. |
+| Git | `git` (string URL). Optional `version`, optional `rev`. Optional `trusted` (bool, default `false`). | `{ git = "…" }` is valid. `version` is optional schema, not a resolved tag. `rev` is stored only. The pin is `coil.lock` (`rev` + `content_hash`) until COI-219. |
+| Path | `path` (string). Optional `trusted` (bool, default `false`). | Local checkout relative to the project root. |
+
+Optional **`trusted`** is per dep row. Omitted / `false` is the default. `true` means **`spool` may skip native `sha256`** on that dependency only (so a consumer can depend on coil-crypto and use it to verify other deps later). It is **not** git `content_hash`, not hooks, not engine, and never `dload("c")`. The compiler parses and stores the flag; it does not skip a hash and does not change FFI loading. First-party `time` / crypto / tls / regex still load with no hash ([COI-229](https://linear.app/ardax/issue/COI-229)).
 
 `git` and `path` must not be combined on the same entry. `version` or `rev` without `git` is a parse error. Unknown inline keys are parse errors. Duplicate dependency names are parse errors.
 
@@ -177,6 +179,7 @@ Example:
 [dependencies]
 http = { git = "https://github.com/coil-lang/http.git" }
 local_http = { path = "../local-http" }
+coil_crypto = { git = "https://github.com/ardax-corp/coil-crypto.git", trusted = true }
 ```
 
 `version` and `rev` may appear on a git entry; both are optional:
@@ -231,6 +234,7 @@ roots = ["./src", "./vendor", "../coil-stdlib/src"]
 # http = { git = "https://github.com/coil-lang/http.git", version = "^0.2" }
 # http = { git = "https://github.com/coil-lang/http.git", rev = "abc123" }
 # local_http = { path = "../local-http" }
+# coil_crypto = { git = "https://github.com/ardax-corp/coil-crypto.git", trusted = true }
 
 # [scripts]
 # pre_install = "./scripts/pre-install.sh"
