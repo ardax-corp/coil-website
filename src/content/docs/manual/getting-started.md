@@ -77,7 +77,8 @@ The default CLI invocation compiles `examples/fib.hy` to bytecode, serializes it
 | `coil -V` / `coil --version` | Print `coil 0.1.0` on stdout. These flags win over other args. |
 | `coil -O0` … `-O3` / `-Os` / `-Og` | Optimization preset (`none`/`basic`/`standard`/`aggressive`/`size`/`debug`); default `-O2` |
 | `coil run <file.hyc>` | Execute a previously compiled archive |
-| `coil package <file.hy> [-o path]` | Build a **single executable** for this OS/arch (embeds `.hyc` into `coil-embed` by default); always requires an explicit `.hy` path (does not read `[entry].file`) |
+| `coil package <file.hy> [-o path]` | Build a **single executable** for this OS/arch (embeds `.hyc` into `coil-embed` by default); always requires an explicit `.hy` path (does not read `[entry].file`). Embeds a native lock when `[[ffi.native]]` matches `dload` stems. |
+| `coil natives dump [exe] [--tsv]` | Print the native lock (JSON or fetch TSV) from a packaged exe, or from project `[[ffi.native]]` when `exe` is omitted |
 | `coil test [path] [--fail-fast]` | Compile and run every `.hy` under `[path]` (default `./tests`) |
 | `coil dissect <file.hy> [--fn pat] [--il] [--ast]` | Re-execs `coil-dissect`: in-memory compile and dump filtered bytecode (optional pre-opt IL / entry AST); never writes `out.hyc` |
 | `coil debug <file.hy> [-x script] [--batch]` | Re-execs `coil-debug`: GDB-style debugger (REPL; optional script / batch mode); never writes `out.hyc` |
@@ -124,6 +125,11 @@ coil package examples/fib.hy -o ./fib-app --runner /path/to/coil-embed
 
 # With FFI: verify required shared libraries exist on this machine before shipping
 coil package examples/strlen.hy -o ./strlen-app --check-native
+
+# Apps with userland natives ([[ffi.native]]): package embeds a lock; fetch before run
+# spool download ./my-app
+# ./my-app
+# Project prep in one step: spool install --with-natives
 
 # Project tests (default root ./tests)
 coil test
