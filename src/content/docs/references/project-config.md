@@ -11,8 +11,8 @@ The **`coil.toml`** file at a project's root tells the compiler where to find mo
 
 | Command | Role |
 |---------|------|
-| **`spool`** | Library dependency management (`install` / `add` / `update`): resolve git/path deps, write `coil.lock`, maintain a shared cache and project `.spool/deps` roots. Coil userland (not a Rust subcommand of `coil`). |
-| **`coil package`** | Build an embedded **executable** (`.hyc` + runner such as `coil-embed`). Unrelated to library deps — do not confuse the names. |
+| **`spool`** | Library dependency management (`install` / `add` / `update`): resolve git/path deps, write `coil.lock`, maintain a shared cache and project `.spool/deps` roots. Also **`spool download`** for direct native shared libraries into `~/.coil/natives`. Coil userland (not a Rust subcommand of `coil`). |
+| **`coil package`** | Build an embedded **executable** (`.hyc` + runner such as `coil-embed`). May embed a **native lock** (URLs + hashes only — no `.so` bytes). Target machines run `spool download ./app` before the first launch when natives are required. |
 
 ---
 
@@ -37,11 +37,12 @@ If `coil.toml` is absent, the compiler uses built-in defaults (see [Default beha
 
 The parser accepts a minimal TOML-like subset:
 
-- Section headers: `[module]`, `[entry]`, `[env]`, `[ffi]`, `[package]`, `[dependencies]`, `[scripts]`
+- Section headers: `[module]`, `[entry]`, `[env]`, `[ffi]`, `[[ffi.native]]`, `[package]`, `[dependencies]`, `[scripts]`
 - Key-value lines: `key = value`
 - String values: double-quoted (`"./src"`)
 - Array values: `["a", "b"]`
 - Inline tables: `{ git = "…" }` (used under `[dependencies]`; optional `version` / `rev` / `trusted`)
+- Array-of-tables: `[[ffi.native]]` (one or more native artifact rows for packaging / `spool download`)
 - Comments: `#` to end of line
 - Blank lines are ignored
 
