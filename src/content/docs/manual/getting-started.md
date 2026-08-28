@@ -28,6 +28,10 @@ Put the extracted `coil` binary on your `PATH`.
 
 Regex is a **userland** package (not a virtual module). Clone [coil-regex](https://github.com/ardax-corp/coil-regex) separately or add via spool; see [regex reference](/docs/references/regex). Tests and examples live in that repo (`coil test` after `make -C native`).
 
+### Time ([coil-time](https://github.com/ardax-corp/coil-time))
+
+Time is a **userland** package (not a virtual module). Clone [coil-time](https://github.com/ardax-corp/coil-time) separately or add via spool; see [time reference](/docs/references/time). Tests live in that repo (`coil test` after `make`).
+
 ## Run your first program
 
 The examples live in the [coil-lang](https://github.com/ardax-corp/coil-lang) repository. Clone it (this is not the install step):
@@ -225,16 +229,6 @@ Examples that call C code (`examples/strlen.hy`, `examples/ffi_sum.hy`) require 
 | Fedora | `libffi-devel` |
 
 You can build and run all non-FFI examples without libffi.
-
-### Optional Cargo feature (`time`)
-
-The default build enables virtual `time`. Embedders can strip it:
-
-```toml
-machine = { path = "...", default-features = false, features = ["time"] }
-```
-
-The `compiler` and root `coil` crates mirror the same feature name. With `time` disabled, `use time::{timestamp};` will not resolve. Crypto is [coil-crypto](https://github.com/ardax-corp/coil-crypto), not a virtual module. Use [coil-regex](https://github.com/ardax-corp/coil-regex) for `use regex::{…}` and [coil-tls](https://github.com/ardax-corp/coil-tls) for `use tls::{…}` ([tls](/docs/references/tls)).
 
 Clone the repository and build from the root (builds `coil` plus helpers
 `coil-debug`, `coil-dissect`, `coil-fmt`, and `coil-embed`):

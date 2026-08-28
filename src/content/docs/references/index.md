@@ -7,7 +7,7 @@ description: Lookup docs for language constructs and compiler-provided APIs. For
 
 Lookup docs for language constructs and compiler-provided APIs. For a guided introduction, start with the [manual](/docs/manual/getting-started).
 
-Compiler builtins live in **virtual modules** (not `.hy` files). Every file gets prelude auto-injected (`inject_prelude_scope` — `prelude`, `prelude::ops`, `prelude::test`, `prelude::math`; no source `use` needed). FFI, `io`, `string`, `thread`, `time`, `env`, and `gc` require an explicit `use` with concrete or brace imports (`use io::{stdout, open};`). `use path::*` is always rejected (`E0124`).
+Compiler builtins live in **virtual modules** (not `.hy` files). Every file gets prelude auto-injected (`inject_prelude_scope` — `prelude`, `prelude::ops`, `prelude::test`, `prelude::math`; no source `use` needed). FFI, `io`, `string`, `thread`, `env`, and `gc` require an explicit `use` with concrete or brace imports (`use io::{stdout, open};`). `use path::*` is always rejected (`E0124`).
 
 ## Language
 
@@ -40,11 +40,11 @@ Compiler builtins live in **virtual modules** (not `.hy` files). Every file gets
 | [test harness](/docs/references/test-harness) | CLI | `test("…")` / `#[test]` |
 | [panic](/docs/references/panic) | Keyword | Abort with a message |
 | [casts](/docs/references/casts) | Expression | `expr as T` |
-| [time](/docs/references/time) | Virtual module | Timestamps, sleep |
 | [env](/docs/references/env) | Virtual module | Args, env vars, `exec` |
 | [crypto](/docs/references/crypto) | Userland package | [coil-crypto](https://github.com/ardax-corp/coil-crypto) — hashes / AEAD via `dload` |
 | [regex](/docs/references/regex) | Userland package | [coil-regex](https://github.com/ardax-corp/coil-regex) — PCRE2 via FFI |
 | [tls](/docs/references/tls) | Userland package | [coil-tls](https://github.com/ardax-corp/coil-tls) — rustls via `dload("tls")` |
+| [time](/docs/references/time) | Userland package | [coil-time](https://github.com/ardax-corp/coil-time) — calendar / Instant via `dload("time")` |
 | [gc](/docs/references/gc) | Virtual module | `Root` / `Weak` pins |
 | [ord / char](/docs/references/ord-char) | Prelude | Single-byte string ↔ `byte` |
 | [host natives](/docs/references/host-natives) | Embedder API | Rust closures via `HostInvoke` |
@@ -53,6 +53,7 @@ Compiler builtins live in **virtual modules** (not `.hy` files). Every file gets
 | [coil-regex](https://github.com/ardax-corp/coil-regex/blob/main/docs/README.md) | Userland | PCRE2 regex — see [regex](/docs/references/regex) |
 | [coil-tls](https://github.com/ardax-corp/coil-tls) | Userland | TLS (`libtls`) — see [tls](/docs/references/tls) |
 | [coil-crypto](https://github.com/ardax-corp/coil-crypto) | Userland | hashes / AEAD — see [crypto](/docs/references/crypto) |
+| [coil-time](https://github.com/ardax-corp/coil-time) | Userland | calendar / Instant — see [time](/docs/references/time) |
 
 Do not document coil-stdlib APIs here; they live in that repo. Workspace
 `[module].roots` look for `./.deps/coil-stdlib/src` or `../coil-stdlib/src`.
