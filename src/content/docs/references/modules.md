@@ -68,12 +68,11 @@ Some `use` paths resolve to **compiler-owned virtual modules**, not `.hy` files 
 | `io::net::tcp` | `connect` / `connect_timeout` / `listen` / `accept` / `accept_wait` / `accept_wait_timeout`, address helpers, `set_nodelay`, `shutdown` | No — `use io::net::tcp::{connect, listen, …};` |
 | `io::net::udp` | `bind` / `connect` / `send_to` / `recv_from` / `recv_from_wait` / `local_port` | No — `use io::net::udp::{bind, send_to, …};` |
 | `io::fs` | Path/metadata helpers (`exists`, `realpath`, `list_dir`, …) | No — `use io::fs::{exists, list_dir, …};` |
-| `time` | `timestamp`, `Period`, `format` / `parse`, monotonic `Instant` | No — `use time::{timestamp, sleep_ms, …};` |
 | `env` | `args`, `var`, `cwd`, `exit`, `exec` (argv-only) | No — `use env::{args, var, …};` |
 | `thread` | `spawn`, channels, mutexes | No — `use thread::{spawn, join, channel, …};` |
 | `gc` | `Root` / `Weak`, `root` / `unroot` / `get` / `weak` / `upgrade`, `heap_bytes` / `collect` | No — `use gc::{root, weak, collect, …};` |
 
-TLS for applications is **not** a virtual module named `tls` or `io::net::tls`. Use the [coil-tls](https://github.com/ardax-corp/coil-tls) package (`use tls::{client, server}`); see [tls](/docs/references/tls). `use tls` / `use io::net::tls` / `use io::__tls` without that package on `[module].roots` is a module-not-found error. Crypto is [coil-crypto](https://github.com/ardax-corp/coil-crypto), not a virtual module.
+TLS for applications is **not** a virtual module named `tls` or `io::net::tls`. Use the [coil-tls](https://github.com/ardax-corp/coil-tls) package (`use tls::{client, server}`); see [tls](/docs/references/tls). `use tls` / `use io::net::tls` / `use io::__tls` without that package on `[module].roots` is a module-not-found error. Crypto is [coil-crypto](https://github.com/ardax-corp/coil-crypto), not a virtual module. Time is [coil-time](https://github.com/ardax-corp/coil-time), not a virtual module (`use time::{timestamp, Instant}`).
 
 ### Prelude rebind / redefine
 
