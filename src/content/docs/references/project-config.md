@@ -153,6 +153,36 @@ An absolute or relative path is **not** a bypass. The gate uses the filename ste
 
 See [FFI](/docs/references/ffi) for `dload` errors and consume.
 
+### `[[ffi.native]]` {#ffi-native}
+
+Rows that declare **direct** shared libraries for `coil package` / **`spool download`**. Transitive linker deps (e.g. `libpcre2`) stay on the OS — list them under `requires` for error hints only. This is separate from the `dload` allow/hash gate above.
+
+| Key | Type | Required | Description |
+|-----|------|----------|-------------|
+| `name` | string | Yes | `dload` stem (`regex` → `libregex.so` / `libregex.dylib` / `regex.dll`) |
+| `package` | string | No | Cache key (defaults to `name`) |
+| `version` | string | Yes | Version string used in the natives cache path |
+| `path` | string | Yes | Directory (relative to project root) containing the local platform library (hashed at package time) |
+| `url` | string | Yes | `https://` URL `spool download` fetches |
+| `requires` | array of strings | No | Sonames expected from the OS (never downloaded) |
+| `requires_hint` | string | No | Install hint when a `requires` soname is missing |
+
+```toml
+[ffi]
+search_paths = ["./.spool/deps/regex/native"]
+allow = ["regex"]
+
+[[ffi.native]]
+name = "regex"
+version = "0.3.0"
+path = ".spool/deps/regex/native"
+url = "https://github.com/ardax-corp/coil-regex/releases/download/v0.3.0/libregex-linux-x86_64.so"
+requires = ["libpcre2-8.so.0"]
+requires_hint = "Arch: pacman -S pcre2; Debian: apt install libpcre2-8-0"
+```
+
+Packaged apps look under `~/.coil/natives/cache/<package>/<version>/<sha16>/` (override with `COIL_NATIVES_DIR`). Missing natives fail closed with a hint to run `spool download <exe>`. Use `spool install --with-natives` to install source deps and fetch project natives in one step. Inspect a lock with `coil natives dump [exe] [--tsv]`.
+
 ### `[package]`
 
 Optional package identity for publishing / consuming libraries via **`spool`**. When the section is present, `name` and `version` are required. Other keys below are optional.
