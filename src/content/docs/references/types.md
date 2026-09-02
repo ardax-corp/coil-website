@@ -109,7 +109,9 @@ Ty::Sum {
 
 ### Runtime representation
 
-User code always sees constructors and `match`. At runtime, enums are heap objects (`MakeEnum`). Codegen may skip that allocation only for a discarded constructor (`MakeEnum; POP`) or a unary variant immediately consumed by `Unpack` / `LoadField(0)`. Wider payloads, values that escape, and control-flow joins stay heap-backed — a DCE ceiling, not a second enum ABI ([COI-94](https://linear.app/ardax/issue/COI-94)). Named-local class unboxing is a different rule ([COI-84](https://linear.app/ardax/issue/COI-84)). Builtin `Option` / `Result` have their own niche / pair / boxed matrix ([Option / Result runtime ABI](#option--result-runtime-abi)).
+User code always sees constructors and `match`. **Payload** enums (unit, tuple, or record variants) are heap objects (`MakeEnum`). Codegen may skip that allocation only for a discarded constructor (`MakeEnum; POP`) or a unary variant immediately consumed by `Unpack` / `LoadField(0)`. Wider payloads, values that escape, and control-flow joins stay heap-backed — a DCE ceiling, not a second enum ABI ([COI-94](https://linear.app/ardax/issue/COI-94)). Named-local class unboxing is a different rule ([COI-84](https://linear.app/ardax/issue/COI-84)). Builtin `Option` / `Result` have their own niche / pair / boxed matrix ([Option / Result runtime ABI](#option--result-runtime-abi)).
+
+**Scalar-backed** enums ([below](#scalar-backed-enums)) are not heap `MakeEnum` values. Each case is the backing word (`int`, `string`, `float`, or `bool`) while the static type stays the enum name.
 
 ### Generic enums (`Ty::App`)
 
@@ -139,7 +141,52 @@ fn unwrap(Box<int> b) -> int {
 | Tuple | `Some(int)` | `Tuple([int])` |
 | Record | `Point { x: int, y: int }` | `Record([("x", int), ("y", int)])` |
 
-Constructors in expressions and patterns use qualified form: `Option::Some(42)` (builtin), `Point::Point { x: 1, y: 2 }` (user enum).
+Constructors in expressions and patterns use **`Enum::Variant`** (`::`). That is the form the parser and language tests accept (`Status::Ok`, `Option::Some(x)`, `Color::Red`). Dot field access (`expr.field`) is a different production; `Status.Ok` is not a constructor.
+
+Bare `Some` / `None` / `Ok` / `Err` (and other case names) is prelude sugar only when a **single** in-scope enum owns that case. Two enums that share a case name make a bare use `E0201` (`Ambiguous constructor`) — write the qualified form (`Status::Ok` next to `Result::Ok(1)`).
+
+### Scalar-backed enums
+
+A scalar-backed enum maps each case to a literal of one primitive type. The value’s **type** is still the enum; the **runtime word** is the `=` literal.
+
+```coil
+#[repr(int)]
+#[derive(Show, Eq, Ord, Hash)]
+enum Status {
+    Ok = 200,
+    NotFound = 404,
+}
+```
+
+`#[repr(int)]`, `#[repr(string)]`, `#[repr(float)]`, and `#[repr(bool)]` compose with `#[derive(...)]` on the same declaration. You may omit `#[repr(...)]` when every case has `= lit` and those literals share one simple type (inferred `int` / `float` / `string` / `bool`). Every scalar case needs an explicit `=`; there is no auto-increment. Mixing backings, mixing payload variants with `=` scalars, omitting `=`, or duplicating a backing value is `E0213` / `E0214`.
+
+```coil
+#[repr(string)]
+enum Mode { Fast = "fast", Slow = "slow" }
+
+#[repr(float)]
+enum Ratio { Half = 0.5, Full = 1.0 }
+
+#[repr(bool)]
+enum Switch { Off = false, On = true }
+
+let n: int = Status::Ok;          // 200
+let mode: string = Mode::Fast;    // "fast"
+```
+
+| Rule | Behavior |
+|------|----------|
+| Type of `Status::Ok` | `Status` (nominal: params, locals, exhaustive `match`) |
+| Runtime word | `200` (the `=` literal) |
+| Expression coerce | Implicit to the backing wherever that primitive is expected: `let n: int = Status::Ok`, `Status::Ok + 1`, pass `Status` to an `int` parameter, `format("%i", s)` |
+| Reverse coerce | None. Write `Status::Ok`, not `200 as Status`. Matching a raw `200` against a `Status` scrutinee is a type error |
+| `.value` | Does not exist. Conversion is the implicit coerce above |
+| `Show` / `String` | Prints the backing (`Status::Ok` shows as `200`, same as showing that `int`). Not the qualified name |
+| `Eq` / `Hash` / `Ord` | Compare, hash, and order the backing word (`Ord` follows the numeric/string order, not declaration order) |
+| `Default` | First case, same as payload enums |
+| `match` | Constructor cases (`Status::Ok`) plus a `default` catch-all. Payload enums stay the same |
+
+Payload enums (`Color::Red`, `Option::Some(x)`) remain heap-backed. See `examples/scalar_enum.hy` and `tests/positive/scalar_enums.hy` in coil-lang.
 
 ### Constructor types (`Ty::Constructor`)
 
@@ -392,7 +439,7 @@ Bare `[T]` (no `; N`) is rejected at typecheck (`E0119`).
 |---------|----------|
 | Let-polymorphism | `let`-bound names generalize free type variables at binding site |
 | Function recursion | Monomorphic recursion — `fn` body sees monomorphic self type |
-| `match` exhaustiveness | Checked post-inference; non-exhaustive match → diagnostic |
+| `match` exhaustiveness | Checked post-inference; missing variants → diagnostic unless a `default` arm is present. Whole-arm `_` is not a catch-all (`E0216`) |
 | Format strings | `string::format("%i", x)` validates specifier vs argument type |
 | `impl` methods | `self` is implicit first parameter of owner class type |
 | API style | Prefer inherent/`impl` methods over free functions for type-tied ops (`m.insert` not `insert(m)`); virtual-module host primitives (`io::read`) stay free fns |
@@ -687,12 +734,12 @@ class Cell {
 
 | Trait | Synthesized methods | Strategy |
 |-------|---------------------|----------|
-| `Show` | `show` | Enum: `match` + `format` / string lits; class: field walk via `.field` |
-| `Eq` | `eq`, `ne` | Tag + payload `==`; `ne` is `!(a == b)` |
-| `Ord` | `lt`, `le`, `gt`, `ge` | Lexicographic on declaration order |
+| `Show` | `show` | Payload enum: `match` + `format` / string lits (qualified case names). Scalar enum: the backing word (`Status::Ok` shows as `200`). Class: field walk via `.field` |
+| `Eq` | `eq`, `ne` | Payload: tag + payload `==`. Scalar: backing-word `==`. `ne` is `!(a == b)` |
+| `Ord` | `lt`, `le`, `gt`, `ge` | Payload: lexicographic on declaration order. Scalar: order of the backing word |
 | `Default` | `default` | First enum variant / zero field values for classes |
-| `Hash` | `hash` | Tag + recursive `field.hash()` mix (`* 31 + hash`); builtins for `int`/`byte`/`bool`/`float`/`string`/`unit`; nested `Hash` types recurse |
-| `String` | `to_string` | `format` with `%v` per field |
+| `Hash` | `hash` | Payload: tag + recursive `field.hash()`. Scalar: hash of the backing word |
+| `String` | `to_string` | Payload: `format` with `%v` per field. Scalar: same as showing the backing |
 | `Serialize` | `serialize` | `Vec<byte>` wire: tag byte + payload field bytes in order (enum) or fields only (class). **MVP:** each payload field is cast through `byte` (`as_byte` / `as_int`); values outside `0..=255` and non-byte types silently corrupt — use only small integer / `byte` fields until a real encoding exists |
 | `Deserialize` | `deserialize` | Inverse of `Serialize` from `Vec<byte>`; invalid tag → `panic` |
 | `Send` | _(marker)_ | Empty instance (thread spawn still uses structural sendability) |
@@ -941,7 +988,7 @@ Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`. Use
 | Existentials | Bare class names are existential value types only for unary `* -> Constraint` classes; multi-param bare existentials and constructor-kinded bare existentials are rejected |
 | Higher-kinded types | Constructor kinds such as `F: * -> *`, `F: * -> * -> *`, and `F: (* -> *) -> *` are supported; kind variables / kind polymorphism are not supported |
 | Associated types | Nullary associated types and generic associated type projections are supported; associated-type equality constraints in `where` clauses are not syntax |
-| Typeclass deriving | `#[derive(Show, Eq, Ord)]` on non-generic `enum` / `class` (see [Trait derive](#trait-derive)); user traits and generics need an explicit `impl` |
+| Typeclass deriving | `#[derive(Show, Eq, Ord, Hash)]` on non-generic payload or scalar `enum` / `class` (see [Trait derive](#trait-derive)); user traits and generics need an explicit `impl` |
 | Effect system | No linear/ownership types |
 | Callback returns | Opaque `Ptr` address; re-invoke requires host/`declare` of the pointed-to symbol (no automatic trampoline) |
 | Inner match patterns | Same outer tag with different inner tags — supported (Phase 18A); complex nested cases may still need careful arm ordering |
