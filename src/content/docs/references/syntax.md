@@ -563,7 +563,7 @@ Examples:
 match x {
     Option::None => 0,
     Option::Some(v) => v,
-    _ => -1,
+    default => -1,
 }
 
 match p {

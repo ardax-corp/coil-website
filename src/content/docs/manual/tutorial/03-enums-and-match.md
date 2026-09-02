@@ -203,7 +203,7 @@ match o {
 // or, with a wildcard for the second variant:
 match o {
     Option::None => 0,
-    _ => 1,
+    default => 1,
 }
 ```
 
@@ -392,7 +392,7 @@ match value {
     E::Unit => ...,
     E::Tuple(a, b) => ...,
     E::Record { x, y } => ...,
-    _ => ...,                // wildcard
+    default => ...,                // wildcard
 }
 ```
 

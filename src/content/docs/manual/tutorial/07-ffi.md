@@ -242,7 +242,7 @@ match dload("missing") {
             // fallback / alternate path
             panic e.message;
         }
-        _ => panic e.message,
+        default => panic e.message,
     },
 }
 ```
