@@ -23,6 +23,8 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | Code | Name | Meaning |
 |------|------|---------|
 | `E0001` | `ParseError` | Syntax / parse error |
+| `E0200` | `DuplicateEnum` | Two `enum` declarations with the same name in one scope |
+| `E0201` | `DuplicateConstructor` | Duplicate variant on one enum, or a bare constructor when two in-scope enums share that case name (`Ambiguous constructor`). Write `Status::Ok` / `Result::Ok(…)` |
 | `E0208` | `DuplicateField` | Duplicate record field (parse-time for literals, constructors, patterns, and enum variant field decls; typecheck keeps the same code if parse is bypassed). Also duplicate named arguments. |
 | `E0100` | `UnknownValue` | Cannot find value in this scope |
 | `E0101` | `UnknownFunction` | Cannot find function |
@@ -49,7 +51,11 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0124` | `WildcardImport` | `use path::*` is banned (virtual and userland) — list names explicitly; prelude is auto-injected |
 | `E0125` | `ExpressionNestingTooDeep` | A single expression recursed past the compiler's internal depth limit during typecheck or codegen (not the compiled program's own call stack — see `UnboundedRecursion`) |
 | `E0126` | `InvalidDrop` | Invalid `fn drop(self)` (not an inherent class method, static, extra args, duplicate, or non-unit return) |
-| `E0200`–`E0212` | Enum / match family | Duplicate enum, unknown variant, non-exhaustive match, field errors, … |
+| `E0200`–`E0216` | Enum / match family | Duplicate enum, ambiguous / duplicate constructor, unknown variant, non-exhaustive match, scalar `#[repr]`, `default` catch-all, … |
+| `E0213` | `InvalidEnumRepr` | Invalid scalar enum (`#[repr]` / `=`): mixed backing, missing `=`, or `=` mixed with a payload |
+| `E0214` | `DuplicateEnumDiscriminant` | Two scalar cases share the same backing value |
+| `E0215` | `MultipleMatchCatchall` | More than one `default` arm in a `match` |
+| `E0216` | `UnderscoreMatchArm` | Whole-arm `_ =>` — catch-all is `default` only. Nested `_` (`Err(_)`, `Some(_)`) is allowed |
 | `E0300`–`E0301` | Format family | Specifier / arity mismatch |
 | `E0400`–`E0405` | Aggregate / FFI family | Index OOB, array element mismatch, `declare`/`invoke` arity, … |
 | `E0800`–`E0801` | Codegen family | Unknown expression / codegen error |
