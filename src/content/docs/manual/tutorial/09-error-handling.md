@@ -20,7 +20,9 @@ You do **not** declare these yourself — they live in the virtual `prelude` mod
 | `Option` | `None`, `Some(T)` | Present or absent value |
 | `Result` | `Ok(T)`, `Err(E)` | Success or failure |
 
-Construct and match them like any other enum:
+Construct and match them like any other enum. Qualified form is `Option::Some(v)` / `Result::Err(_)` (`::`). Nested `_` discards a payload; a whole-arm catch-all is `default =>`, not `_ =>`.
+
+If you also declare `enum Status { Ok = 200, … }`, prelude `Ok` is no longer unique — use `Result::Ok(x)` and `Status::Ok`.
 
 ```coil
 fn unwrap(Option o) -> int {
