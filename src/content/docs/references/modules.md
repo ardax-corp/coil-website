@@ -76,7 +76,7 @@ TLS for applications is **not** a virtual module named `tls` or `io::net::tls`. 
 
 ### Prelude rebind / redefine
 
-Short prelude names are bound in scope so `Option::Some` and `T: Eq` work without imports. To redefine a prelude name:
+Short prelude names are bound in scope so `Option::Some` and `T: Eq` work without imports. Bare `Some` / `Ok` is the same sugar; if another enum also declares `Ok`, the bare name is `E0201` and you write `Status::Ok` / `Result::Ok`. To redefine a prelude name:
 
 ```coil
 use prelude::ops::Eq as PreludeEq; // frees short `Eq`
