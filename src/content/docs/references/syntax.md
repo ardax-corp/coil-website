@@ -66,7 +66,8 @@ class Point { x: int, y: int }
 
 | Attribute | Target | Semantics |
 |-----------|--------|-----------|
-| `#[derive(Trait, …)]` | `enum` / `class` | Synthesizes structural trait instances (`Show`, `Eq`, `Ord`, …). Without derive, non-generic types still get a default `Show`/`String` that returns the type name string. |
+| `#[derive(Trait, …)]` | `enum` / `class` | Synthesizes structural trait instances (`Show`, `Eq`, `Ord`, `Hash`, …). Without derive, non-generic **payload** types still get a default `Show`/`String` that returns the type name string. Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
+| `#[repr(int)]` / `#[repr(string)]` / `#[repr(float)]` / `#[repr(bool)]` | `enum` | Scalar-backed enum: each case is `Name = lit` of that primitive. May be omitted when every case has `=` and the literals share one type. See [Types — Scalar-backed enums](/docs/references/types#scalar-backed-enums). |
 | `#[test]` / `#[test("desc")]` | `fn` with body | Registers a `coil test` harness case (Result mode) |
 | `#[ffi(lib = "…", name = "…", variadic = true)]` | signature-only `fn …;` | Desugars to compile-time `extern` lowering |
 | `#[max_depth(N)]` | recursive `fn` | Required when call-frame depth cannot be proven (dynamic args, mutual recursion, non-measure shapes). Optional when the compiler already proves a bound (e.g. `fib(10)`). |
@@ -268,16 +269,19 @@ function body so codegen can pass a concrete dictionary at call sites.
 ### Enums
 
 ```
-enum_decl   ::= 'enum' IDENT '{' enum_variant (',' enum_variant)* ','? '}'
-enum_variant ::= IDENT variant_payload?
+enum_decl   ::= attr_list? 'enum' IDENT type_param_list? '{' enum_variant (',' enum_variant)* ','? '}'
+enum_variant ::= IDENT variant_payload? ('=' scalar_lit)?
 variant_payload ::= unit | tuple_payload | record_payload
 unit            ::= /* nothing, or empty () */
 tuple_payload   ::= '(' type (',' type)* ')'
 record_payload  ::= '{' field_decl (',' field_decl)* '}'
 field_decl      ::= IDENT ':' type
+scalar_lit      ::= int | float | string | 'true' | 'false' | '-' int
 ```
 
-Grammar (with optional derive attribute):
+`=` on a variant is a scalar discriminant. It cannot mix with a tuple or record payload. See [Types — Scalar-backed enums](/docs/references/types#scalar-backed-enums).
+
+Grammar (with optional attributes):
 
 ```
 enum_decl ::= attr_list? 'enum' IDENT type_param_list? '{' variant (',' variant)* ','? '}'
@@ -290,6 +294,8 @@ enum Tree { Leaf, Node(int, Tree, Tree) }
 enum Point { Origin, Point { x: int, y: int } }
 #[derive(Show, Eq, Ord)]
 enum Color { Red, Blue }
+#[repr(int)]
+enum Status { Ok = 200, NotFound = 404 }
 ```
 
 ### Type aliases
@@ -489,7 +495,7 @@ Primitive casts use postfix `expr as T` (`int` / `float` / `byte` / `bool`). `fl
 | Tuple | `(e1, e2)` or `(e,)` | Comma required for tuple |
 | Array | `[e1, e2, ...]` or `[]` | Homogeneous; literal → `[T; N]`; empty `[]` needs `Vec<T>` / `[T; 0]` |
 | Dict | `{ name: expr, ... }` | Anonymous record; field names must be unique (`E0208`) |
-| Construct | `Enum::Variant(...)` | Qualified constructor |
+| Construct | `Enum::Variant(...)` | Qualified constructor (`::` only; not `Enum.Variant`) |
 | Call | `f(args)` | Args are positional `expr` and/or named `name: expr` (positional prefix, then named; no positional after named). Includes user functions and FFI-wrapped extern fns |
 | Instantiate | `new Class(args)` | Class construction |
 | Match | `match expr '{' arm (',' arm)* '}'` | See patterns below |
@@ -557,17 +563,29 @@ field_pattern   ::= IDENT (':' pattern)?   /* shorthand: x => x: x */
 
 Field names in a record literal, constructor, pattern, or enum variant field list must be unique (`E0208`).
 
-Examples:
+`default` is the **only** match catch-all. It must appear as a whole arm (`default => …`). A whole-arm `_ =>` is illegal (`E0216`). Nested `_` stays legal inside constructor, tuple, and record patterns (`Result::Err(_)`, `Option::Some(_)`) and in `let` destructuring. Two `default` arms in one `match` is `E0215`. Combining `default` with a whole-arm `_` is also illegal (the `_` is still `E0216`).
+
+Constructor patterns use `Enum::Variant`, same as expressions.
 
 ```coil
 match x {
     Option::None => 0,
     Option::Some(v) => v,
-    _ => -1,
+    default => -1,
 }
 
 match p {
     Point::Point { x, y } => x + y,
+}
+
+match s {
+    Status::Ok => "ok",
+    default => "other",
+}
+
+match r {
+    Result::Err(_) => -1,
+    Result::Ok(v) => v,
 }
 ```
 
@@ -608,7 +626,7 @@ arm ::= pattern '=>' (block_expr | expr)
 block_expr ::= '{' (expr ';'?)* '}'
 ```
 
-Arms are comma-separated inside `match { ... }`. The last arm may use `_` or `default` as wildcard.
+Arms are comma-separated inside `match { ... }`. Close exhaustiveness with `default =>`, not a whole-arm `_`. Nested `_` is a payload wildcard only.
 
 Brace bodies (`{ … }`) are **expression blocks**, not dict literals — so
 `self.method()` and other non-`name: value` forms work inside them.

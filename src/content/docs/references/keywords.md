@@ -31,7 +31,7 @@ All reserved words in the coil parser. Keywords cannot be used as identifiers.
 | `typeof` | Expression | Compile-time fully-qualified type name as `string` | [Types — typeof](/docs/references/types#typeof) |
 | `enum` | Declaration | Sum type definition | [Types — Sum types](/docs/references/types#sum-types--enums-tysum) |
 | `match` | Expression | Pattern match | [Syntax — Patterns](/docs/references/syntax#patterns-match) |
-| `default` | Pattern | Wildcard arm (same as `_`) | [Syntax — Patterns](/docs/references/syntax#patterns-match) |
+| `default` | Pattern | Match catch-all arm (`default => …` only; not interchangeable with whole-arm `_`) | [Syntax — Patterns](/docs/references/syntax#patterns-match) |
 | `type` | Declaration | Type alias | [Types — Aliases](/docs/references/types#type-aliases-type-name--t) |
 | `use` | Declaration | Import module item | [Modules](/docs/references/modules) |
 | `as` | Import | Rename imported item | [Modules](/docs/references/modules#aliasing-rules) |
@@ -93,7 +93,7 @@ Parsed as **atoms** before the generic `ident()` rule so they are never treated 
 default
 ```
 
-Maps to `Pattern::Wildcard` — equivalent to `_` in match arms.
+Maps to `Pattern::Default`. Whole-arm `_` is `E0216`; nested `_` is still `Pattern::Wildcard` inside payloads.
 
 ---
 

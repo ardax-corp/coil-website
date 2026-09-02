@@ -1,19 +1,19 @@
 ---
 title: Enums and Pattern Matching
-description: Enums let you define a type as a choice among named variants. Each variant can carry no data (unit), positional values (tuple), or named fields (record). You create values with…
+description: Enums are a choice among named cases. Payload cases carry unit, tuple, or record data. Scalar-backed cases map to int, string, float, or bool literals. Construct with Enum::Variant and branch with match.
 ---
 
 # Enums and Pattern Matching
 
-Enums let you define a type as a choice among named variants. Each variant can carry no data (unit), positional values (tuple), or named fields (record). You create values with constructor syntax and branch on them with `match` expressions.
+Enums let you define a type as a choice among named cases. **Payload** cases carry no data (unit), positional values (tuple), or named fields (record). **Scalar-backed** cases assign a primitive literal (`Ok = 200`) so the runtime word is that backing while the type stays the enum. You create values with `Enum::Variant` and branch with `match`.
 
-This chapter builds on [Types and Variables](/docs/manual/tutorial/02-types-and-variables). Record-shaped variants and field access are covered in depth in [Records and Fields](/docs/manual/tutorial/04-records-and-fields).
+This chapter builds on [Types and Variables](/docs/manual/tutorial/02-types-and-variables). Record-shaped variants and field access are covered in depth in [Records and Fields](/docs/manual/tutorial/04-records-and-fields). Scalar rules are also in [Types — Scalar-backed enums](/docs/references/types#scalar-backed-enums).
 
 ---
 
 ## Declaring an enum
 
-An enum groups related variants under one type name. For the common “maybe” / “success or failure” shapes, prefer the **compiler-built-in** [`Option` and `Result`](/docs/manual/tutorial/09-error-handling) — do not redeclare those names.
+An enum groups related cases under one type name. For the common “maybe” / “success or failure” shapes, prefer the **compiler-built-in** [`Option` and `Result`](/docs/manual/tutorial/09-error-handling) — do not redeclare those names.
 
 ```coil
 enum Tree {
@@ -22,7 +22,7 @@ enum Tree {
 }
 ```
 
-Each line inside the braces is a **variant**. Variants fall into three shapes:
+Each line inside the braces is a **variant**. Payload variants fall into three shapes:
 
 | Shape | Syntax | Example |
 |-------|--------|---------|
@@ -30,18 +30,21 @@ Each line inside the braces is a **variant**. Variants fall into three shapes:
 | **Tuple** | name followed by types in parentheses | `Some(int)` |
 | **Record** | name followed by named fields in braces | `Point { x: int, y: int }` |
 
-A single enum can mix all three shapes. See [Mixed-shape enums](#mixed-shape-enums) below.
+A fourth shape is **scalar-backed**: `Case = lit` with `#[repr(int|string|float|bool)]` (or inferred from the literals). See [Scalar-backed enums](#scalar-backed-enums). A payload enum can mix unit, tuple, and record ([Mixed-shape enums](#mixed-shape-enums)); it cannot mix those with `=` discriminants.
 
 ---
 
 ## Constructing values
 
-Use `Enum::Variant` to build a value:
+Canonical constructors are **`Enum::Variant`** (`::`). Language tests and the parser use this form (`Tree::Leaf`, `Option::Some(42)`, `Status::Ok`, `Color::Red`). Dot access (`expr.field`) is a different production.
 
 ```coil
 Tree::Leaf                // unit variant
 Option::Some(42)          // built-in Option — tuple payload
+Status::Ok                // scalar-backed case (type Status, word 200)
 ```
+
+Bare `Some` / `None` / `Ok` / `Err` is prelude sugar only when a single in-scope enum owns that case. Two enums that share a case name make a bare use `E0201` — write `Status::Ok` next to `Result::Ok(1)`.
 
 ### Empty parentheses mean unit
 
@@ -102,9 +105,10 @@ match scrutinee {
 
 | Pattern | Meaning | Example |
 |---------|---------|---------|
-| **Wildcard** | matches anything, discards the value | `_` or `default` |
+| **Catch-all** | matches any remaining case | `default` (whole arm only) |
+| **Nested wildcard** | discards one payload slot | `Result::Err(_)`, `Some(_)` |
 | **Binding** | matches anything, binds the value to a name | `v` |
-| **Constructor** | matches a specific variant and binds its payload | `Option::Some(v)` |
+| **Constructor** | matches a specific variant and binds its payload | `Option::Some(v)`, `Status::Ok` |
 
 Constructor patterns mirror constructor syntax. A unit variant matches by name:
 
@@ -192,7 +196,7 @@ The compiler requires every `match` on an enum to cover **all variants**. If you
 Non-exhaustive match: variants not covered: `Some`
 ```
 
-Cover every variant, use a wildcard arm to catch the rest, or combine both:
+Cover every variant, or close the rest with a **`default`** arm. A whole-arm `_ =>` is illegal (`E0216`). Nested `_` in a constructor is still fine (`Result::Err(_)`). `default` and a whole-arm `_` together is also illegal.
 
 ```coil
 match o {
@@ -200,10 +204,10 @@ match o {
     Option::Some(v) => v,
 }
 
-// or, with a wildcard for the second variant:
+// or, with default for the remaining cases:
 match o {
     Option::None => 0,
-    _ => 1,
+    default => 1,
 }
 ```
 
@@ -371,28 +375,99 @@ Each arm uses the pattern shape that matches its variant: no payload for `Empty`
 
 ---
 
+## Scalar-backed enums
+
+Payload enums are heap-tagged sums. A **scalar-backed** enum is a nominal type whose runtime word is a primitive literal. From `examples/scalar_enum.hy`:
+
+```coil
+use io::{stdout};
+use io::sync::{write_all};
+use string::{format, to_bytes};
+
+#[repr(int)]
+#[derive(Show, Eq, Ord, Hash)]
+enum Status {
+    Ok = 200,
+    NotFound = 404,
+}
+
+fn label(Status s) -> string {
+    return match s {
+        Status::Ok => "ok",
+        default => "other",
+    };
+}
+
+fn main() {
+    let s = Status::Ok;
+    write_all(stdout(), to_bytes(format("%s %i %v\n", label(s), s, s)));
+}
+```
+
+**Expected output:** `ok 200 200`
+
+| Rule | What the compiler does |
+|------|------------------------|
+| Constructor | `Status::Ok` — type `Status`, not prelude `Result::Ok` |
+| `=` literal | Required on every scalar case. No auto-increment |
+| `#[repr(int\|string\|float\|bool)]` | Pins the backing. Omit it only when every case has `=` and the literals share one type |
+| Coerce | In expression position the value **is** the backing: `let n: int = Status::Ok`, `Status::Ok + 1`, pass `Status` to an `int` parameter |
+| Reverse | None. Do not write `200 as Status`. Matching `200` against a `Status` scrutinee is a type error |
+| `.value` | Does not exist |
+| `Show` | Prints the backing (`200`), not `Status::Ok`. `%i` and `%v` both print `200` here |
+| `Eq` / `Hash` / `Ord` | On the backing word (`Rank::Low < Rank::High` when `Low = 1` and `High = 10`) |
+| `match` | Cases (`Status::Ok`) plus `default`. Exhaustiveness still applies |
+
+The same program can hold `Status::Ok` and `Result::Ok(1)`. Nested `_` still discards a payload:
+
+```coil
+let r = Result::Ok(1);
+match r {
+    Result::Ok(v) => v,
+    Result::Err(_) => 0,
+}
+```
+
+`#[repr(string)]`, `#[repr(float)]`, and `#[repr(bool)]` work the same way (`Mode::Fast = "fast"`, `Ratio::Half = 0.5`, `Switch::On = true`). See `tests/positive/scalar_enums.hy` in coil-lang.
+
+---
+
 ## Quick reference
 
 ```coil
-// Declaration
+// Payload declaration
 enum E {
     Unit,                    // no payload
     Tuple(int, string),      // positional payloads
     Record { x: int, y: int }, // named fields
 }
 
-// Construction
+// Scalar-backed
+#[repr(int)]
+#[derive(Show, Eq, Ord, Hash)]
+enum Status {
+    Ok = 200,
+    NotFound = 404,
+}
+
+// Construction — Enum::Variant
 E::Unit
-E::Unit()
 E::Tuple(1, "hi")
 E::Record { x: 1, y: 2 }
+Status::Ok
+let n: int = Status::Ok;     // coerce to backing
 
 // Matching
 match value {
     E::Unit => ...,
     E::Tuple(a, b) => ...,
     E::Record { x, y } => ...,
-    _ => ...,                // wildcard
+    default => ...,          // catch-all (not whole-arm _)
+}
+
+match r {
+    Result::Err(_) => ...,   // nested _ is legal
+    Result::Ok(v) => ...,
 }
 ```
 
@@ -401,4 +476,5 @@ match value {
 ## What's next
 
 - [Records and Fields](/docs/manual/tutorial/04-records-and-fields) — field access (`p.x`), chained access (`o.x.v`), nested record patterns, and the diagnostics that guard record-shaped variants.
+- [Types](/docs/references/types#scalar-backed-enums) — scalar coerce, `Show` as the backing word, and payload vs scalar runtime.
 - [Aggregates](/docs/manual/tutorial/05-aggregates) — tuples, arrays, and anonymous dicts (`{ foo: 42 }`), which look similar to record variants but are a separate feature.

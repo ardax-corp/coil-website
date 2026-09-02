@@ -557,6 +557,38 @@ fn main() {
 
 ---
 
+### `examples/scalar_enum.hy`
+
+**Demonstrates:** Scalar-backed `#[repr(int)]` enum, `Status::Ok = 200`, implicit coerce to `int`, `Show` of the backing word, and `default` match.
+
+```coil
+#[repr(int)]
+#[derive(Show, Eq, Ord, Hash)]
+enum Status {
+    Ok = 200,
+    NotFound = 404,
+}
+
+fn label(Status s) -> string {
+    return match s {
+        Status::Ok => "ok",
+        default => "other",
+    };
+}
+
+fn main() {
+    let s = Status::Ok;
+    write_all(stdout(), to_bytes(format("%s %i %v\n", label(s), s, s)));
+}
+```
+
+| | |
+|---|---|
+| **Run** | `cargo run -- examples/scalar_enum.hy` |
+| **Output** | `ok 200 200` |
+
+---
+
 ### `examples/assert.hy`
 
 **Demonstrates:** `prelude::test::assert` returning `Result<(), string>`, with `?` propagation and matched error messages.
@@ -2086,6 +2118,7 @@ See [`examples/projects/README.md`](https://github.com/ardax-corp/coil-lang/blob
 | `gc.hy` | Basics | `Hello` |
 | `option.hy` | Enums | `42` |
 | `result.hy` | Enums | `420-1` |
+| `scalar_enum.hy` | Enums | `ok 200 200` |
 | `tree.hy` | Enums | `6` |
 | `record.hy` | Enums / records | `169512` |
 | `mixed.hy` | Enums | `025122` |

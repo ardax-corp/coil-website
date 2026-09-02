@@ -49,7 +49,7 @@ Parse → typecheck (HM) → stack IL codegen + lower/fuse-select → versioned 
 | User-defined `attr` decorators | Supported (`attr` decl + `#[name(...)]` on `fn`, methods, class constructors) |
 | Let destructuring (`let (a, b) = …`, `let { x, y } = …`) | Supported (tuple / record; no enum ctor patterns in `let`) |
 | `break` / `continue` | Supported |
-| Enums, `match`, record variants | Supported |
+| Enums, `match`, record variants, scalar `#[repr]` | Supported (`Enum::Variant`; catch-all is `default =>`) |
 | Built-in `Option` / `Result`, `raise`, `?`, `??`, `?.` | Supported (desugar to match/return) |
 | Tuples, fixed arrays (`[T; N]` / `len`), `Vec<T>`, dicts (anonymous records) | Supported |
 | Type aliases (`type Name = T;`, lexically scoped) | Supported |

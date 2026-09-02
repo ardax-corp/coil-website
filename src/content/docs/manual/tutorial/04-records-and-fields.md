@@ -7,7 +7,7 @@ description: "Record-shaped enum variants attach named fields to a variant inste
 
 Record-shaped enum variants attach **named fields** to a variant instead of positional tuple slots. You can construct them with `{ name: value }` syntax, destructure them in `match` patterns, and read individual fields with dot notation (`p.x`).
 
-This chapter assumes you have read [Enums and Pattern Matching](/docs/manual/tutorial/03-enums-and-match). For unit and tuple variants, wildcards, and exhaustiveness, refer back to that chapter.
+This chapter assumes you have read [Enums and Pattern Matching](/docs/manual/tutorial/03-enums-and-match). For unit and tuple variants, nested `_`, `default` catch-alls, and exhaustiveness, refer back to that chapter.
 
 ---
 
@@ -334,4 +334,4 @@ E::V { inner: Other::O { v }, label } => v
 ## What's next
 
 - [Aggregates](/docs/manual/tutorial/05-aggregates) — tuples `(a, b)`, arrays `[1, 2, 3]`, and anonymous dicts `{ key: value }`.
-- [Enums and Pattern Matching](/docs/manual/tutorial/03-enums-and-match) — unit and tuple variants, wildcards, exhaustiveness, and inner-pattern dispatch.
+- [Enums and Pattern Matching](/docs/manual/tutorial/03-enums-and-match) — unit and tuple variants, nested `_`, `default` catch-alls, exhaustiveness, and inner-pattern dispatch.

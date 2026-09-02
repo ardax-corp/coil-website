@@ -332,8 +332,8 @@ The language includes:
 - **Functions** with typed parameters and return types
 - **`let` bindings** and reassignment (`x = expr;`)
 - **Control flow:** `if` / `else`, `while` loops
-- **Enums** with unit, tuple, and record-shaped variants
-- **`match`** with constructors, wildcards, and nested record patterns
+- **Enums** with unit, tuple, and record-shaped variants, plus scalar-backed `#[repr(int|string|float|bool)]` cases
+- **`match`** with `Enum::Variant` constructors, a `default` catch-all, nested `_` in payloads, and nested record patterns
 - **Tuples** `(a, b)`, **fixed arrays** `[T; N]`, **`Vec<T>`**, **dicts** `{ key: value }`
 - **Type aliases** `type Point = (int, int);`
 - **Modules** via `use foo::bar;` and `mod foo;` (multi-file projects; see [Modules](/docs/references/modules))
@@ -356,10 +356,11 @@ The language includes:
 | 1 | `print_literal.hy` | stdout via `io`, `main` |
 | 2 | `let_test.hy` | `let`, reassignment |
 | 3 | `fizbuz.hy` | `if`, modulo, multiple prints |
-| 4 | `option.hy` | enums, `match` |
-| 5 | `record.hy` | record variants, field access |
-| 6 | `dict.hy` | anonymous records |
-| 7 | `aliases.hy` | type aliases, tuples |
-| 8 | `strlen.hy` or `ffi_sum.hy` | FFI (after installing libffi) |
+| 4 | `option.hy` | payload enums, `match` |
+| 5 | `scalar_enum.hy` | `#[repr(int)]`, coerce, `Show` as backing |
+| 6 | `record.hy` | record variants, field access |
+| 7 | `dict.hy` | anonymous records |
+| 8 | `aliases.hy` | type aliases, tuples |
+| 9 | `strlen.hy` or `ffi_sum.hy` | FFI (after installing libffi) |
 
 Happy scripting.
