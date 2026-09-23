@@ -104,6 +104,9 @@ let a = matrix([[1, 2], [3, 4]]);
 let b = matrix([[5, 6], [7, 8]]);
 a * b;             // matmul (Matrix)
 a + a;             // element-wise
+a == b;            // byte mask, 1 where cells match
+a & b;             // bitwise and (int or byte cells)
+intersect(a, b);   // byte mask, 1 where both cells are non-zero
 ```
 
 See `examples/vec_tuple.hy`, `examples/vec_array.hy`,
