@@ -29,6 +29,25 @@ description: "use gc::{root, weak, upgrade, collect, heapbytes}; — explicit GC
 - **`heap_bytes`** reports VM-managed heap accounting only — not process RSS (native libs, stacks, Rust allocators sit outside it).
 - **`collect`** roots the operand stack and suspended coroutines the same way automatic GC does.
 - **Class `fn drop()`** runs after mark on unmarked instances with a registered finalizer, then a re-mark from VM roots, then weaks are cleared and sweep runs. Drop runs at most once (including explicit `obj.drop()`). Nested `collect` during drop is deferred. A panic in drop aborts that finalizer and continues the queue. After `main` returns, remaining finalizers run before the IO reactor shuts down (and again from `Machine` drop if anything is still pending).
+- **Enum `fn drop()`.** An inherent `impl E { fn drop() { … } }` also works on enums (not on scalar-backed `#[repr(…)]` enums, E0126). Each constructed **payload** variant (`E::Open(fd)`, `E::Rect { w, h }`) is its own heap value and is finalized once when it becomes unreachable — including one that is constructed and immediately discarded. **Unit** variants (`E::Closed`) are shared constants and never run drop automatically; calling `e.drop()` on one just runs the body. Inside `drop`, `match self` sees the variant being collected.
+
+  ```hy
+  static let last_closed: int = -1;
+
+  enum Conn {
+      Open(int),
+      Closed,
+  }
+
+  impl Conn {
+      fn drop() {
+          last_closed = match self {
+              Conn::Open(fd) => fd,
+              Conn::Closed => -1,
+          };
+      }
+  }
+  ```
 - **Named locals are heap instances ([COI-84](https://linear.app/ardax/issue/COI-84)).** `new Class(args).field` may skip the box (no identity); `let p = new Class(args)` always `InitTyped`s. Classes with `fn drop()` always allocate, including consumed temps.
 - **Resurrection is defined, not an API ([COI-79](https://linear.app/ardax/issue/COI-79)).** Storing `self` (or a field that aliases it) into a static, a still-reachable object, or a `Root` during `fn drop()` keeps the instance alive after the sweep — the post-drop re-mark sees that store. Drop still will not run again: the instance’s `finalized` bit stays set. Prefer `root` / `Weak` when you need an intentional lifetime pin; do not rely on drop-time stores.
 
