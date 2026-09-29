@@ -87,7 +87,7 @@ Multiple attributes stack (e.g. `#[derive(Show)] #[derive(Eq)]`). Unknown attrib
 | Integers | Decimal (`42`, `-1`) |
 | Floats | Decimal with fraction (`1.0`, `3.14`) — parsed before postfix `.field` |
 | Strings | `"..."` — escapes: `\\` `\"` `\n` `\r` `\t` `\0` `\e` `\xHH` `\u{HEX}` |
-| Comments | `//` to end of line (not `///`) |
+| Comments | `//` to end of line (not `///`), or `/* … */` (may span lines and nest). Comments may appear between any two tokens: inside class / enum bodies, lists, records, call arguments, match arms, or after code on the same line |
 | Doc comments | `///` lines immediately before a declaration or function parameter (attached as docs) |
 | Whitespace | Insignificant except as token separator |
 
@@ -425,7 +425,6 @@ statement ::= while_stmt
             | defer_stmt
             | expr_stmt
             | return_stmt
-            | comment
 ```
 
 | Statement | Syntax |
