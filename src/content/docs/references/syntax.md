@@ -627,7 +627,23 @@ arm ::= pattern '=>' (block_expr | expr)
 block_expr ::= '{' (expr ';'?)* '}'
 ```
 
-Arms are comma-separated inside `match { ... }`. Close exhaustiveness with `default =>`, not a whole-arm `_`. Nested `_` is a payload wildcard only.
+Arms are comma-separated inside `match { ... }` (a trailing comma after the last arm is allowed; `coil fmt` always writes one). A `match` needs at least one arm. Close exhaustiveness with `default =>`, not a whole-arm `_`. Nested `_` is a payload wildcard only.
+
+A `match` at the start of a statement ends at its closing `}`, like `if`, so it
+needs no `;` (one is still accepted, and `coil fmt` removes it). A `.` or `?`
+right after the `}` continues an expression instead
+(`match x { … }.to_string();`).
+
+```coil
+match dir {
+    Dir::Left => {
+        turn(-1);
+    },
+    Dir::Right => {
+        turn(1);
+    },
+}
+```
 
 Brace bodies (`{ … }`) are **expression blocks**, not dict literals — so
 `self.method()` and other non-`name: value` forms work inside them.
