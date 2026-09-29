@@ -556,6 +556,7 @@ Compound assignment is right-associative. Prefix/postfix `++`/`--` bind at unary
 ```
 pattern ::= '_' | 'default'
           | IDENT
+          | INTEGER
           | IDENT '::' IDENT pattern_payload?
 pattern_payload ::= unit | tuple_pattern | record_pattern
 tuple_pattern   ::= '(' pattern (',' pattern)* ')'
@@ -568,6 +569,18 @@ Field names in a record literal, constructor, pattern, or enum variant field lis
 `default` is the **only** match catch-all. It must appear as a whole arm (`default => …`). A whole-arm `_ =>` is illegal (`E0216`). Nested `_` stays legal inside constructor, tuple, and record patterns (`Result::Err(_)`, `Option::Some(_)`) and in `let` destructuring. Two `default` arms in one `match` is `E0215`. Combining `default` with a whole-arm `_` is also illegal (the `_` is still `E0216`).
 
 Constructor patterns use `Enum::Variant`, same as expressions.
+
+Integer literal patterns match an `int` scrutinee by value. Literal arms can
+never cover every `int`, so the match needs a `default` or binding arm
+(`E0209` otherwise):
+
+```coil
+let kind = match status {
+    200 => "ok",
+    404 => "missing",
+    default => "other",
+};
+```
 
 ```coil
 match x {
