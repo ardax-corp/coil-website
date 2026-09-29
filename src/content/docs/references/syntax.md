@@ -451,6 +451,8 @@ statement ::= while_stmt
 
 `static let` / `static const` are top-level declarations only; initializers run in the program prologue before `main`.
 
+A parameter, `let`, pattern or loop binding, or `use` capture with the same name as a static shadows it within its scope: reads and writes there go to the local, and the static is unchanged.
+
 ### Empty index (`arr[]`) — removed
 
 `arr[] = value` (append assignment) is **no longer supported** (`E0107`).
