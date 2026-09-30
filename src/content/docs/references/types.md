@@ -736,12 +736,10 @@ class Cell {
 |-------|---------------------|----------|
 | `Show` | `show` | Payload enum: `match` + `format` / string lits (qualified case names). Scalar enum: the backing word (`Status::Ok` shows as `200`). Class: field walk via `.field` |
 | `Eq` | `eq`, `ne` | Payload: tag + payload `==`. Scalar: backing-word `==`. `ne` is `!(a == b)` |
-| `Ord` | `lt`, `le`, `gt`, `ge` | Payload: lexicographic on declaration order. Scalar: order of the backing word |
-| `Default` | `default` | First enum variant / zero field values for classes |
+| `Ord` | `lt`, `le`, `gt`, `ge` | Payload: lexicographic on declaration order. Scalar: order of the backing word (a `#[repr(string)]` enum orders by declaration: strings have no ordering) |
+| `Default` | `static fn default` | Class: each field takes its type's default (`0`, `0.0`, `false`, `""`, otherwise `Ty::default()`); enum: first variant with defaulted payloads. Call it as `Ty::default()` |
 | `Hash` | `hash` | Payload: tag + recursive `field.hash()`. Scalar: hash of the backing word |
 | `String` | `to_string` | Payload: `format` with `%v` per field. Scalar: same as showing the backing |
-| `Serialize` | `serialize` | `Vec<byte>` wire: tag byte + payload field bytes in order (enum) or fields only (class). **MVP:** each payload field is cast through `byte` (`as_byte` / `as_int`); values outside `0..=255` and non-byte types silently corrupt — use only small integer / `byte` fields until a real encoding exists |
-| `Deserialize` | `deserialize` | Inverse of `Serialize` from `Vec<byte>`; invalid tag → `panic` |
 | `Send` | _(marker)_ | Empty instance (thread spawn still uses structural sendability) |
 | `Sensitive` | _(marker)_ | Empty instance (redaction hooks deferred) |
 
@@ -754,7 +752,7 @@ compiler-generated instance whose body returns the type name string. Explicit
 Rules:
 
 - Placement: immediately before the `enum` / `class` keyword (after any `///` doc comment).
-- Whitelist only: `Show`, `Eq`, `Ord`, `Default`, `Hash`, `String`, `Serialize`, `Deserialize`, `Send`, `Sensitive`. Unknown / arithmetic traits (`Num`, …) error.
+- Built-in derives: `Show`, `Eq`, `Ord`, `Default`, `Hash`, `String`, `Send`, `Sensitive`. Unknown / arithmetic traits (`Num`, …) error; user derives come from `derive` macros.
 - Generics (`#[derive(Show)] enum Box<T> { … }`) are rejected for now — write an explicit `impl`.
 - Combining `#[derive(Show)]` with a hand-written `impl Show for T` hits the usual overlap diagnostic.
 - Empty `#[derive()]` with no traits is a parse error.
@@ -786,6 +784,55 @@ impl Measurable<int> {
 Instance methods compile to ordinary functions with mangled names
 (`Class__Type__method`). Generic call sites discharge the bound at
 typecheck time and pass the matching dictionary at runtime (above).
+
+### Static trait methods
+
+A trait method with no `Self`-typed parameter is declared `static fn`, the
+same spelling as an inherent static. Its `Self` type usually appears only in
+the return type (a constructor, a decoder, `Default::default`). It is called
+on its owner, never on a value:
+
+```coil
+class Val { pub i: int, }
+class Point { pub x: int, }
+
+trait FromVal<T> {
+    static fn from_val(Val v) -> T {}
+}
+
+impl FromVal for Point {
+    pub static fn from_val(Val v) -> Point { return new Point(v.i); }
+}
+
+impl FromVal for int {
+    pub static fn from_val(Val v) -> int { return v.i * 2; }
+}
+
+fn decode<T: FromVal>(Val v) -> T {
+    return T::from_val(v);
+}
+
+let p = Point::from_val(new Val(4));     // concrete owner: class, enum or primitive
+let n: int = decode(new Val(4));         // T chosen by the annotation
+```
+
+- The owner is a concrete type with an instance (`Point::from_val`,
+  `int::from_val`, `Dir::from_val`) or a type parameter in scope whose bound
+  declares the method (`T::from_val`).
+- A type parameter that appears only in a call's result is chosen by the
+  expected type: `let x: T = f()`, `return f()`, `f()?` in a `Result` fn, or
+  an argument whose parameter type is known. With no expectation and more
+  than one instance the call is ambiguous; annotate the binding.
+- Static-ness must match the declaration: a `static fn` in the trait is
+  implemented as `pub static fn`, and an instance method cannot be called as
+  `Owner::m(..)`.
+- A default body may call sibling statics bare (`from_val(v)`), since the
+  trait's own bound is active there. Outside a trait body there is no bare
+  spelling for a static trait method.
+- `#[derive(Default)]` generates `static fn default()`, so `Config::default()`
+  and `T::default()` under `T: Default` work like any other static.
+
+See `examples/static_trait_method.hy`.
 
 ### Instance coherence
 
