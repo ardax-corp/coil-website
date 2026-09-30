@@ -38,44 +38,42 @@ literal     ::= string | int | float | 'true' | 'false'
 Examples:
 
 ```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
+use my_macros::{add_after};
+
 #[derive(Show, Eq, Ord)]
 enum Color { Red, Blue }
 
-#[test]
-fn add_works() {
-    assert(1 + 1 == 2)?;
+#[max_depth(64)]
+fn walk(int n) -> int {
+    if n == 0 { return 0; }
+    return walk(n - 1);
 }
 
-#[ffi(lib = "c", name = "strlen")]
-fn strlen(string s) -> int;
-
-attr log<T>(fn(...args) -> T target, string message, ...args) -> T {
-    write_all(stdout(), to_bytes(format("%s", message)));
-    return target(...args);
-}
-
-#[log(message = "enter")]
-fn do_work(int x) -> int { return x; }
-
-#[log(message = "Point ctor")]
-class Point { x: int, y: int }
+// An attribute macro from `my_macros`: its output replaces the function.
+#[add_after(by = 10)]
+fn triple(int x) -> int { return x * 3; }
 ```
 
 | Attribute | Target | Semantics |
 |-----------|--------|-----------|
-| `#[derive(Trait, …)]` | `enum` / `class` | Synthesizes structural trait instances (`Show`, `Eq`, `Ord`, `Hash`, …). Without derive, non-generic **payload** types still get a default `Show`/`String` that returns the type name string. Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
+| `#[derive(Trait, …)]` | `enum` / `class` | Runs each derive (built-in `Show`, `Eq`, `Ord`, `Hash`, `String`, `Default`, `Send`, `Sensitive`, or a user `derive` imported with `use`) and adds its output after the type. Without derive, non-generic **payload** types still get a default `Show`/`String` that returns the type name string. Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
 | `#[repr(int)]` / `#[repr(string)]` / `#[repr(float)]` / `#[repr(bool)]` | `enum` | Scalar-backed enum: each case is `Name = lit` of that primitive. May be omitted when every case has `=` and the literals share one type. See [Types — Scalar-backed enums](/docs/references/types#scalar-backed-enums). |
-| `#[test]` / `#[test("desc")]` | `fn` with body | Registers a `coil test` harness case (Result mode) |
-| `#[ffi(lib = "…", name = "…", variadic = true)]` | signature-only `fn …;` | Desugars to compile-time `extern` lowering |
 | `#[max_depth(N)]` | recursive `fn` | Required when call-frame depth cannot be proven (dynamic args, mutual recursion, non-measure shapes). Optional when the compiler already proves a bound (e.g. `fib(10)`). |
-| User `attr` names | `fn`, methods, `class` | Expands to a wrapper that receives the decoratee callable, attribute extras, and forwarded call arguments (`...args`); class attrs wrap the constructor |
+| Attribute macro `#[name(…)]` | `fn`, methods, `class`, `enum` | Runs the `attr name(…)` macro imported with `use`; its output replaces the item. See [Macros](/docs/references/macros#attribute-macros). |
 
-User-defined attributes must end with a bare tuple-rest parameter `...args` and call `target(...args)` to forward runtime arguments. Stacking order is Python-style: the first listed attribute is outermost. User attrs cannot be applied to FFI bindings.
+Several attribute macros on one item apply outermost first. `#[test]` and `#[ffi]` are gone: tests are `test("desc") { … }` ([test harness](/docs/references/test-harness)) and foreign functions are declared in `extern "lib" { fn …; }` ([FFI](/docs/references/ffi)). Unknown attribute names are rejected at compile time.
 
-Multiple attributes stack (e.g. `#[derive(Show)] #[derive(Eq)]`). Unknown attribute names are rejected at compile time.
+### Macro declarations and calls
+
+```
+derive_decl   ::= 'derive' IDENT arg_list '->' type ('attrs' '(' IDENT (',' IDENT)* ')')? block
+attr_decl     ::= 'attr' IDENT arg_list '->' type block
+macro_decl    ::= 'macro' IDENT arg_list '->' type block
+macro_call    ::= IDENT '!(' (expr (',' expr)*)? ')'      // no space between `!` and `(`
+quote_expr    ::= 'quote' ('items' | 'expr' | 'stmts' | 'type') '{' template '}'
+```
+
+`derive`, `attrs`, `macro` and `quote` are contextual: they are ordinary identifiers elsewhere (`use macro::{…}` names the model module). A `macro_call` is an expression; written as a statement (`name!(…);`) its output is statements, or declarations at the top level. See [Macros](/docs/references/macros).
 
 ---
 
@@ -173,10 +171,6 @@ Examples:
 fn triple(int a, int b, int c) -> int { return a + b + c; }
 triple(...(1, 2, 3));          // tuple spread
 triple(...[10, 20, 30]);       // array spread
-
-attr wrap<T>(fn(...args) -> T target, ...args) -> T {
-    return target(...args);
-}
 ```
 
 ```coil
