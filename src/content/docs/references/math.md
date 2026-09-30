@@ -62,6 +62,9 @@ let bits = pow(2, 10);                              // 1024
 |----|---------|
 | `*` | **Matmul** (via `Mul`, not element-wise) |
 | `+` / `-` | Element-wise zip |
+| `==` `!=` `<` `<=` `>` `>=` | Element-wise compare. Result is a `Matrix` of `byte`: `1` where the test holds, `0` otherwise. A scalar of the cell type broadcasts (`m == 1`). An `int` literal broadcasts onto `byte` cells. |
+| `&` `\|` `^` `<<` `>>` `~` | Element-wise bitwise ops on `int` or `byte` cells (not `float`). A scalar broadcasts. `<<` / `>>` use the low 6 bits of the shift count. `byte` results stay in `0..=255`. |
+| `intersect(a, b)` / `diff(a, b)` | Presence masks. A cell is present when it is not `0` (`NaN` counts as present). `intersect` is `1` where both are present. `diff` is `1` where the left cell is present and the right cell is `0`. Result is a `Matrix` of `byte`. Same shape, no scalar broadcast. |
 | `/`, `%`, `**` | **Rejected** — `Matrix` is not `Num` |
 
 ```coil
@@ -73,9 +76,12 @@ let a = matrix([[1, 2], [3, 4]]);
 let b = matrix([[5, 6], [7, 8]]);
 let c = a * b;   // matmul → Matrix
 let d = a + a;   // element-wise
+let eq = a == b; // Matrix of byte, 1 where cells match
+let both = intersect(a, b);
 ```
 
-See `examples/vec_dot.hy`, `examples/vec_matmul.hy`, and `examples/matrix_mul.hy`.
+See `examples/vec_dot.hy`, `examples/vec_matmul.hy`, `examples/matrix_mul.hy`,
+and `examples/matrix_mask.hy`.
 
 Packed kernels (`packed_dot` / `packed_matmul` / matrix zip) run as HostInvoke
 natives and use the workspace `coil-simd` crate (stable `std::arch`, runtime

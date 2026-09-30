@@ -56,14 +56,16 @@ Forms **not** in the Pratt table but still tight-binding:
 
 | Operator | Types | Result | VM op (int / float) |
 |----------|-------|--------|---------------------|
-| `+` | `int` / `float` (both same), or `string` + `string` | same | `ADD` / `ADDF`; strings lower through `FORMAT "%s%s"` |
-| `-` | `int` / `float` | same | `SUB` / `SUBF` |
-| `*` | `int` / `float` | same | `MUL` / `MULF` |
-| `/` | `int` / `float` | same | `DIV` / `DIVF` |
-| `%` | `int` / `float` | same | `MOD` / `MODF` |
-| `**` | `int` / `float` | same | `Pow` / `PowF` |
+| `+` | `int` / `float` / `byte` (both same), `string` + `string`, or a type with an `Add` instance | same | `ADD` / `ADDF`; strings lower through `FORMAT "%s%s"`; an instance is a `CALL` |
+| `-` | `int` / `float` / `byte`, or a type with a `Sub` instance | same | `SUB` / `SUBF` |
+| `*` | `int` / `float` / `byte`, or a type with a `Mul` instance | same | `MUL` / `MULF` |
+| `/` | `int` / `float` / `byte`, or a type with a `Div` instance | same | `DIV` / `DIVF` |
+| `%` | `int` / `float` / `byte` | same | `MOD` / `MODF` |
+| `**` | `int` / `float` / `byte` | same | `Pow` / `PowF` |
 
-Mixed `int` and `float` operands → **type error** at compile time.
+Mixed `int` and `float` operands → **type error** at compile time. Any other
+operand type is a type error too (`"a" - "b"`, `true * false`, a class with no
+`Sub` instance): the VM never operates on a non-numeric word.
 
 When the factor is a **compile-time power of two** (`2`, `4`, `8`, …), `int` /
 `byte` multiplication lowers to a left shift (`SHL` / `<<`) instead of `MUL`.
@@ -104,6 +106,9 @@ let a = matrix([[1, 2], [3, 4]]);
 let b = matrix([[5, 6], [7, 8]]);
 a * b;             // matmul (Matrix)
 a + a;             // element-wise
+a == b;            // byte mask, 1 where cells match
+a & b;             // bitwise and (int or byte cells)
+intersect(a, b);   // byte mask, 1 where both cells are non-zero
 ```
 
 See `examples/vec_tuple.hy`, `examples/vec_array.hy`,
@@ -123,7 +128,8 @@ Mixing `string` with a non-string operand is a compile-time type error.
 
 ## Bitwise
 
-Operands are inferred together (typically `int`):
+Operands are inferred together and must be `int` or `byte` (`float` and
+`bool` are type errors; `&&` / `||` are the boolean connectives):
 
 | Operator | Meaning |
 |----------|---------|
@@ -161,7 +167,10 @@ Short-circuit behavior follows VM evaluation order (both operands evaluated eage
 | Operator | Operands | Result |
 |----------|----------|--------|
 | `==`, `!=` | Same type | `bool` |
-| `<`, `<=`, `>`, `>=` | Same type (`int` or `float`) | `bool` |
+| `<`, `<=`, `>`, `>=` | Same type: `int` / `float` / `byte`, or a type with an `Lt` / `Le` / `Gt` / `Ge` instance (`#[derive(Ord)]`) | `bool` |
+
+Ordering any other type (`bool`, `string`, a class without an `Ord` instance) is
+a type error.
 
 Float and int comparisons use separate opcode families (`LE` vs `LEF`, etc.) selected at codegen from inferred types.
 
