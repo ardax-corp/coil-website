@@ -28,12 +28,20 @@ cargo run -- examples/fib.hy
 
 ## Comments
 
-Line comments start with `//` and run to the end of the line:
+Line comments start with `//` and run to the end of the line. Block comments
+start with `/*` and end with `*/`; they can span lines and nest, so you can
+comment out code that already contains one:
 
 ```coil
 // This is a comment.
 let x = 5; // inline comment
+let y = /* inline block */ 6;
+/* A longer note
+   /* nested */ still inside the outer comment. */
 ```
+
+A comment can go anywhere whitespace can: between fields, list items, call
+arguments or match arms, not only on its own statement line.
 
 Documentation comments use `///` and must sit immediately above a declaration
 (`fn`, `class`, field, `trait`, `enum`, …). Function parameters may also have
