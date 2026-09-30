@@ -854,8 +854,33 @@ new Box("x").describe();        // Describe<Box<string>>
 
 `Box<int>` / `Box<Point>` in a head stay concrete instances, and a generic
 instance overlaps with them (an error), as two concrete instances would.
-Bounds on the instance's parameters (`impl Show for Box<T: Show>`) and
-`#[derive]` on generic types are not available yet.
+
+The head's parameters can carry bounds, written inline as for inherent
+`impl Store<T: Eq>`. The bounds are the instance's *context*: the instance
+applies to `Box<X>` only when `X` has the bounded trait, and inside its
+methods the parameter's trait methods resolve through the bound:
+
+```coil
+impl Describe for Box<T: Describe> {
+    pub fn describe(Box<T> b) -> string {
+        return "Box(" + b.item.describe() + ")";
+    }
+}
+
+new Box(new Box(3)).describe();     // Describe<Box<Box<int>>> ← Describe<Box<int>> ← Describe<int>
+
+fn wrap<T: Describe>(T x) -> string {
+    return new Box(x).describe();   // context Describe<T> from wrap's bound
+}
+```
+
+- A use whose context has no instance is a compile error that names both:
+  ``No instance for `Describe<Point>` (needed by `Describe<Box<Point>>`)``.
+  In a generic function, the type parameter needs the bound.
+- Recursive instances (`impl Describe for Tree<T: Describe>` calling
+  `describe` on a subtree) and multi-parameter heads
+  (`Pair<A: Describe, B: Describe>`) work the same way.
+- `#[derive]` on generic types is not available yet.
 
 ### Instance coherence
 
