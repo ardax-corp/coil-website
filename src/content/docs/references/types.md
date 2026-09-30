@@ -753,7 +753,12 @@ Rules:
 
 - Placement: immediately before the `enum` / `class` keyword (after any `///` doc comment).
 - Built-in derives: `Show`, `Eq`, `Ord`, `Default`, `Hash`, `String`, `Send`, `Sensitive`. Unknown / arithmetic traits (`Num`, …) error; user derives come from `derive` macros.
-- Generics (`#[derive(Show)] enum Box<T> { … }`) are rejected for now — write an explicit `impl`.
+- Generic types derive bounded instances: `#[derive(Show, Eq)] class Box<T>`
+  expands to `impl Show for Box<T: Show>` and `impl Eq for Box<T: Eq>`, so the
+  instance applies to `Box<X>` whenever `X` has the trait. `Ord` bounds by
+  `Ord + Eq`, `String` by `Show`, `Default` by `Default` (the primitives have
+  built-in `Default` instances, so `let b: Box<int> = Box::default();` works).
+  Generic types get no type-name `Show` / `String` default.
 - Combining `#[derive(Show)]` with a hand-written `impl Show for T` hits the usual overlap diagnostic.
 - Empty `#[derive()]` with no traits is a parse error.
 
@@ -880,7 +885,8 @@ fn wrap<T: Describe>(T x) -> string {
 - Recursive instances (`impl Describe for Tree<T: Describe>` calling
   `describe` on a subtree) and multi-parameter heads
   (`Pair<A: Describe, B: Describe>`) work the same way.
-- `#[derive]` on generic types is not available yet.
+- `#[derive]` on a generic type produces exactly this bounded form (see
+  Trait derive above).
 
 ### Instance coherence
 
