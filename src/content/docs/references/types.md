@@ -833,6 +833,29 @@ let n: int = decode(new Val(4));         // T chosen by the annotation
   and `T::default()` under `T: Default` work like any other static.
 
 See `examples/static_trait_method.hy`.
+### Instances for generic types
+
+A trait can be implemented for a generic class or enum. The head's bare
+uppercase letters are the instance's type parameters, the same rule inherent
+`impl Cell<T>` uses, and the instance applies to every instantiation:
+
+```coil
+class Box<T> {
+    pub item: T,
+}
+
+impl Describe for Box<T> {
+    pub fn describe(Box<T> b) -> string { return "Box"; }
+}
+
+new Box(3).describe();          // Describe<Box<int>>
+new Box("x").describe();        // Describe<Box<string>>
+```
+
+`Box<int>` / `Box<Point>` in a head stay concrete instances, and a generic
+instance overlaps with them (an error), as two concrete instances would.
+Bounds on the instance's parameters (`impl Show for Box<T: Show>`) and
+`#[derive]` on generic types are not available yet.
 
 ### Instance coherence
 
