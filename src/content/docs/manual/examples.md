@@ -775,31 +775,6 @@ enum Outer {
 
 ---
 
-### `examples/attr_ffi.hy`
-
-**Demonstrates:** an `extern "c"` block for a compile-time libc binding. (`#[ffi]` attribute sugar is not supported; `extern` blocks are the only compile-time FFI form.)
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-extern "c" {
-    fn strlen(string s) -> int;
-}
-
-fn main() {
-    let n = strlen("hello");
-    write_all(stdout(), to_bytes(format("%i", n)));
-}
-```
-
-| | |
-|---|---|
-| **Run** | `cargo run -- examples/attr_ffi.hy` |
-| **Output** | `5` |
-| **Requires** | Production **denies** `lib = "c"` |
-
----
 
 ### `examples/spread.hy`
 
@@ -1537,51 +1512,51 @@ fn sadge() {
 
 Calling C from coil. Requires **libffi**.
 
-### `examples/strlen.hy`
+### `examples/ffi_extern.hy`
 
 **Demonstrates:** Compile-time `extern` block — no manual `dload`/`declare` in source. The compiler emits library load and symbol registration bytecode (unwraps `Result`, panics on failure).
 
 ```coil
-use io::{stdout};
-use io::sync::{write_all};
+use io::stdout;
+use io::sync::write_all;
 use string::{format, to_bytes};
-extern "c" {
-    fn strlen(string s) -> int;
+
+extern "sum" {
+    fn sum(int a, int b) -> int;
 }
 
 fn main() {
-    let n = strlen("hello");
-    write_all(stdout(), to_bytes(format("%i", n)));
+    write_all(stdout(), to_bytes(format("%i", sum(40, 2))));
 }
 ```
 
 | | |
 |---|---|
-| **Run** | `cargo run -- examples/strlen.hy` |
-| **Output** | `5` |
-| **Requires** | Production **denies** `extern "c"`. Cargo tests grant `c` for this fixture. |
+| **Run** | `cargo run -- --root ../coil-stdlib/src --allow-dload sum examples/ffi_extern.hy` |
+| **Output** | `42` |
+| **Requires** | `examples/libsum.so` built from `examples/sum.c` (see `ffi_sum.hy`); the libc aliases (`extern "c"`) are always denied |
 
 ---
 
-### `examples/ffi_printf.hy`
+### `examples/ffi_varargs.hy`
 
-**Demonstrates:** C-style varargs — bare `...` on an `extern` declaration (`printf`-style). Not language rest `T... xs`.
+**Demonstrates:** C-style varargs — bare `...` on an `extern` declaration. Not language rest `T... xs`.
 
 ```coil
-extern "c" {
-    fn printf(string fmt, ...) -> int;
+extern "sum" {
+    fn sum_n(int n, ...) -> int;
 }
 
 fn main() {
-    printf("hello %lld", 42);
+    write_all(stdout(), to_bytes(format("%i", sum_n(3, 10, 20, 30))));
 }
 ```
 
 | | |
 |---|---|
-| **Run** | `cargo run -- examples/ffi_printf.hy` |
-| **Output** | `hello 42` |
-| **Requires** | Production **denies** `extern "c"` |
+| **Run** | `cargo run -- --root ../coil-stdlib/src --allow-dload sum examples/ffi_varargs.hy` |
+| **Output** | `60` |
+| **Requires** | `examples/libsum.so` (`sum_n` in `examples/sum.c`) |
 
 ---
 
@@ -2172,8 +2147,8 @@ See [`examples/projects/README.md`](https://github.com/ardax-corp/coil-lang/blob
 | `src/foo/sadge.hy` | Modules | (support file) |
 | `src/foo.hy` | Modules | (support file) |
 | `src/math.hy` | Modules | (support file) |
-| `strlen.hy` | FFI | `5` |
-| `ffi_printf.hy` | FFI | `hello 42` |
+| `ffi_extern.hy` | FFI | `42` |
+| `ffi_varargs.hy` | FFI | `60` |
 | `ffi_sum.hy` | FFI | `42` |
 | `ffi_struct_ret.hy` | FFI | `34` |
 | `ffi_callback_ret.hy` | FFI | `1` |

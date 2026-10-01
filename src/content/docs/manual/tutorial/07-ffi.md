@@ -24,11 +24,12 @@ FFI examples require **libffi** linked at build time:
 | Debian / Ubuntu | `libffi-dev` |
 | Fedora | `libffi-devel` |
 
-Build the workspace, then run FFI examples:
+Build the workspace and the examples' C library (`examples/sum.c`), then run an FFI example. Every library stem needs `--allow-dload STEM`; the repo's `coil.toml` marks `sum` as trusted so it needs no lock hash:
 
 ```bash
 cargo build --workspace
-cargo run -- examples/strlen.hy
+cc -shared -fPIC -o examples/libsum.so examples/sum.c     # macOS: cc -dynamiclib -o examples/libsum.dylib examples/sum.c
+cargo run -- --root ../coil-stdlib/src --allow-dload sum examples/ffi_extern.hy
 ```
 
 ---
@@ -37,27 +38,27 @@ cargo run -- examples/strlen.hy
 
 An `extern` block names a shared library and lists function signatures. Calls to those functions look like ordinary coil calls.
 
-### Example: `strlen` from libc
+### Example: `sum` from a C library
 
-From `examples/strlen.hy`:
+From `examples/ffi_extern.hy`:
 
 ```coil
-use io::{stdout};
-use io::sync::{write_all};
+use io::stdout;
+use io::sync::write_all;
 use string::{format, to_bytes};
-extern "c" {
-    fn strlen(string s) -> int;
+
+extern "sum" {
+    fn sum(int a, int b) -> int;
 }
 
 fn main() {
-    let n = strlen("hello");
-    write_all(stdout(), to_bytes(format("%i", n)));
+    write_all(stdout(), to_bytes(format("%i", sum(40, 2))));
 }
 ```
 
-**Expected output:** `5`
+**Expected output:** `42`
 
-`extern "c"` is a libc alias. Production `dload` **denies** `c` (and the other libc aliases); the compiler-emitted unwrap panics with a deny message. Language-repo `examples/strlen.hy` is the same syntax; the cargo test harness grants `c` for that fixture only.
+The block's string is a library stem, resolved like `dload("sum")` (`[ffi] search_paths`, then the platform filename `libsum.so` / `libsum.dylib` / `sum.dll`) and gated the same way. The libc aliases (`extern "c"`, `dload("c")`) are always denied, even with `--allow-dload c`.
 
 Compile-time FFI is `extern "lib" { fn …; }` only. `#[ffi]` is not accepted. Runtime loading stays `use ffi::{dload, declare, invoke}`.
 
@@ -67,16 +68,16 @@ Compile-time FFI is `extern "lib" { fn …; }` only. `#[ffi]` is not accepted. R
 
 Bare trailing `...` on an extern declaration is C-style varargs (not language rest `T... xs`). The CIF is rebuilt per call; the variadic tail uses default argument promotions.
 
-From `examples/ffi_printf.hy`:
+From `examples/ffi_varargs.hy` (`int64_t sum_n(int64_t n, ...)` in `examples/sum.c`):
 
 ```coil
-extern "c" {
-    fn printf(string fmt, ...) -> int;
+extern "sum" {
+    fn sum_n(int n, ...) -> int;
 }
 
 fn main() {
-    // Language `int` → libffi i64; use a 64-bit conversion (`%lld`), not `%i`.
-    printf("hello %lld", 42);   // → hello 42
+    // coil `int` is 64-bit: it matches the C side's `int64_t` `va_arg`.
+    write_all(stdout(), to_bytes(format("%i", sum_n(3, 10, 20, 30))));   // → 60
 }
 ```
 
@@ -103,17 +104,17 @@ extern_arg_list ::= /* fixed `T name` args, optional trailing bare `...` */
 
 | Part | Meaning |
 |------|---------|
-| `"c"` | Libc alias — **denied** by the `dload` gate (any other stem still needs allow plus hash or `trusted`) |
-| `fn strlen(string s) -> int;` | Signature only — no body, trailing `;` required |
-| `fn printf(string fmt, ...) -> int;` | C varargs — bare `...`, not `T... name` |
-| `strlen("hello")` | Ordinary call site; compiler wires FFI behind the scenes |
+| `"sum"` | Library stem, resolved and gated like `dload("sum")`; the libc aliases (`"c"`) are always **denied** |
+| `fn sum(int a, int b) -> int;` | Signature only — no body, trailing `;` required |
+| `fn sum_n(int n, ...) -> int;` | C varargs — bare `...`, not `T... name` |
+| `sum(40, 2)` | Ordinary call site; compiler wires FFI behind the scenes |
 
 ### What the compiler emits
 
 For each `extern` function the compiler roughly:
 
 1. Calls `dload(...)` once and stores the library handle (`Result` unwrapped — panic on `Err`).
-2. Calls `declare(lib, "strlen", (string), int)` and stores the function id (same unwrap).
+2. Calls `declare(lib, "sum", (int, int), int)` and stores the function id (same unwrap).
 3. At each call site, pushes arguments and executes `FfiInvoke` (unwraps `Result` again).
 
 You do not write those steps by hand when using `extern` blocks.
@@ -388,7 +389,7 @@ This produces `HostInvoke` bytecode from `Compiler::register()`. See [Built-ins 
 
 ## Exercises
 
-1. Stems (`time`, `crypto`, `tls`, `regex`, and others) need `[ffi] allow` plus a lock hash or `trusted` — see [Project config — `[ffi]`](/docs/references/project-config#ffi). Language-repo `examples/strlen.hy` uses `extern "c"`, which production **denies**.
+1. Stems (`time`, `crypto`, `tls`, `regex`, and others) need `[ffi] allow` plus a lock hash or `trusted` — see [Project config — `[ffi]`](/docs/references/project-config#ffi). The libc aliases (`extern "c"`, `dload("c")`) are always **denied**.
 2. Build the platform `libsum` artifact from `examples/sum.c` and run `examples/ffi_sum.hy` only with `[ffi] allow = ["sum"]` and a matching lock hash or `trusted` (an absolute path is not a bypass).
 3. Add a C function `int triple(int x) { return x * 3; }`, export it from the same library, and call it via `declare`/`invoke` (unwrap the `Result`s).
 4. Try an incorrect signature (e.g. declare `sum` with one `int` argument) and observe `Result::Err`.
