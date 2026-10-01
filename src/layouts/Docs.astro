@@ -12,15 +12,19 @@ import {
 } from "../lib/nav";
 
 type Props = {
-  id: string;
+  /** Site path of this page, e.g. "/docs/references/types". */
+  href: string;
   title: string;
   description: string;
   headings: MarkdownHeading[];
   groups: NavGroup[];
+  /** Upstream file for pages synced from another repository. */
+  source?: string;
 };
 
-const { id, title, description, headings, groups } = Astro.props;
-const here = locate(groups, id);
+const { href, title, description, headings, groups, source } = Astro.props;
+const here = locate(groups, href);
+const sourceRepo = source?.match(/github\.com\/[^/]+\/([^/]+)\/blob\/[0-9a-f]+\/(.+)$/);
 const track: Track = here?.group.track ?? "reference";
 const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 const tutorial = groups.find((g) => g.key === "tutorial");
@@ -28,11 +32,18 @@ const tutorial = groups.find((g) => g.key === "tutorial");
 const tracks: { key: Track; label: string }[] = [
   { key: "learn", label: "Learn" },
   { key: "reference", label: "Reference" },
+  { key: "packages", label: "Packages" },
 ];
+
+const pagerTitle = (item: NavLink) => {
+  const g = groups.find((g) => g.items.includes(item));
+  return g?.track === "packages" && g.items[0] === item ? g.title : item.label;
+};
 
 const pagerLabel = (item: NavLink) => {
   const g = groups.find((g) => g.items.includes(item));
   if (g?.key === "tutorial") return `Chapter ${g.items.indexOf(item) + 1}`;
+  if (g?.track === "packages") return g.items[0] === item ? "Package" : g.title;
   return g?.title ?? "";
 };
 ---
@@ -62,15 +73,14 @@ const pagerLabel = (item: NavLink) => {
             <div class="track" id={`track-${t.key}`} role="tabpanel" hidden={t.key !== track}>
               {groups
                 .filter((g) => g.track === t.key)
-                .map((g) => (
-                  <section class="nav-group">
-                    <h2>{g.title}</h2>
+                .map((g) => {
+                  const links = (
                     <ul>
                       {g.items.map((item, i) => (
                         <li>
                           <a
                             href={linkHref(item)}
-                            aria-current={item.id === id ? "page" : undefined}
+                            aria-current={!isExternal(item) && linkHref(item) === href ? "page" : undefined}
                             class:list={[{ external: isExternal(item) }]}
                           >
                             {g.key === "tutorial" && <span class="num">{String(i + 1).padStart(2, "0")}</span>}
@@ -80,8 +90,20 @@ const pagerLabel = (item: NavLink) => {
                         </li>
                       ))}
                     </ul>
-                  </section>
-                ))}
+                  );
+                  // Packages are many small groups: collapse all but the current one.
+                  return g.track === "packages" ? (
+                    <details class="nav-group collapsible" open={g === here?.group}>
+                      <summary>{g.title}</summary>
+                      {links}
+                    </details>
+                  ) : (
+                    <section class="nav-group">
+                      <h2>{g.title}</h2>
+                      {links}
+                    </section>
+                  );
+                })}
             </div>
           ))
         }
@@ -137,12 +159,26 @@ const pagerLabel = (item: NavLink) => {
       </article>
 
       {
+        sourceRepo && (
+          <p class="source">
+            Synced from{" "}
+            <a href={source}>
+              <code>
+                {sourceRepo[1]}/{sourceRepo[2]}
+              </code>
+            </a>
+            . Edit it there; changes reach this site on the next package sync.
+          </p>
+        )
+      }
+
+      {
         (here?.prev || here?.next) && (
           <nav class="pager" aria-label="Pagination">
             {here.prev ? (
               <a class="pager-link prev" href={linkHref(here.prev)}>
                 <span class="pager-dir">← Previous · {pagerLabel(here.prev)}</span>
-                <span class="pager-title">{here.prev.label}</span>
+                <span class="pager-title">{pagerTitle(here.prev)}</span>
               </a>
             ) : (
               <span />
@@ -150,7 +186,7 @@ const pagerLabel = (item: NavLink) => {
             {here.next && (
               <a class="pager-link next" href={linkHref(here.next)}>
                 <span class="pager-dir">Next · {pagerLabel(here.next)} →</span>
-                <span class="pager-title">{here.next.label}</span>
+                <span class="pager-title">{pagerTitle(here.next)}</span>
                 {here.next.hint && <span class="pager-hint" set:html={inlineCode(here.next.hint)} />}
               </a>
             )}
@@ -275,7 +311,7 @@ const pagerLabel = (item: NavLink) => {
     border: 1px solid var(--border);
     border-radius: 999px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     margin-bottom: 1.5rem;
     padding: 3px;
   }
@@ -310,6 +346,54 @@ const pagerLabel = (item: NavLink) => {
     letter-spacing: 0.05em;
     margin: 0 0 0.5rem 0.65rem;
     text-transform: uppercase;
+  }
+
+  .collapsible + .collapsible {
+    margin-top: 0.15rem;
+  }
+
+  .collapsible summary {
+    align-items: center;
+    border-radius: var(--radius-sm);
+    color: var(--fg-soft);
+    cursor: pointer;
+    display: flex;
+    font-size: 0.9rem;
+    font-weight: 500;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0.36rem 0.65rem;
+    transition: background 0.12s, color 0.12s;
+  }
+
+  .collapsible summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .collapsible summary::before {
+    border-bottom: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
+    color: var(--faint);
+    content: "";
+    height: 0.4rem;
+    transform: rotate(-45deg);
+    transition: transform 0.15s;
+    width: 0.4rem;
+  }
+
+  .collapsible[open] summary::before {
+    transform: rotate(45deg);
+  }
+
+  .collapsible summary:hover {
+    background: var(--surface);
+    color: var(--fg);
+  }
+
+  .collapsible ul {
+    border-left: 1px solid var(--border);
+    margin: 0.15rem 0 0.4rem 0.95rem;
+    padding-left: 0.35rem;
   }
 
   .nav-group ul {
@@ -451,6 +535,27 @@ const pagerLabel = (item: NavLink) => {
 
   .chapter-track a.current {
     background: var(--accent);
+  }
+
+  .source {
+    border-top: 1px dashed var(--border);
+    color: var(--faint);
+    font-size: 0.85rem;
+    margin-top: 3rem;
+    max-width: var(--measure);
+    padding-top: 1rem;
+  }
+
+  .source a {
+    color: var(--muted);
+  }
+
+  .source a:hover {
+    color: var(--accent);
+  }
+
+  .source code {
+    font-size: 0.92em;
   }
 
   /* ---------------------------------------------------------------- pager */

@@ -1,10 +1,9 @@
-// Build-time search index for the ⌘K palette: every doc page and blog post,
-// plus their h2/h3 headings so readers can jump straight to a section.
+// Build-time search index for the ⌘K palette: every doc page, package page
+// and blog post, plus h2/h3 headings so readers can jump straight to a section.
 
 import type { APIRoute } from "astro";
 import { getCollection, render } from "astro:content";
-import { docHref, locate, plainTitle, resolveGroups } from "../lib/nav";
-import { packages } from "../lib/packages";
+import { allGroups, docHref, locate, packageHref, plainTitle } from "../lib/nav";
 
 export type SearchEntry = {
   /** Title */
@@ -19,16 +18,24 @@ export type SearchEntry = {
 
 export const GET: APIRoute = async () => {
   const docs = await getCollection("docs");
-  const groups = resolveGroups(docs);
+  const ecosystem = await getCollection("ecosystem");
+  const groups = allGroups(docs, ecosystem);
   const entries: SearchEntry[] = [];
 
-  for (const doc of docs) {
-    const { headings } = await render(doc);
-    const where = locate(groups, doc.id);
+  const pages = [
+    ...docs.map((d) => ({ entry: d, href: docHref(d.id), fallback: "Docs" })),
+    ...ecosystem.map((e) => ({ entry: e, href: packageHref(e.id), fallback: "Packages" })),
+  ];
+  for (const { entry, href, fallback } of pages) {
+    const { headings } = await render(entry);
+    const where = locate(groups, href);
+    const label = where?.item.label ?? plainTitle(entry.data.title);
+    const isPackage = where?.group.track === "packages";
     entries.push({
-      t: where?.item.label ?? plainTitle(doc.data.title),
-      u: docHref(doc.id),
-      s: where?.group.title ?? "Docs",
+      // Package pages are named by package ("json — Install & use"), not "Overview".
+      t: isPackage ? `${where!.group.title} — ${label}` : label,
+      u: href,
+      s: isPackage ? "Packages" : (where?.group.title ?? fallback),
       h: headings
         .filter((h) => h.depth === 2 || h.depth === 3)
         .map((h) => [h.text, h.slug]),
@@ -37,10 +44,6 @@ export const GET: APIRoute = async () => {
 
   for (const post of await getCollection("blog")) {
     entries.push({ t: post.data.title, u: `/blog/${post.id}`, s: "Blog", h: [] });
-  }
-
-  for (const p of packages) {
-    if (!p.docs) entries.push({ t: `${p.name} — ${p.summary}`, u: p.repo, s: "Packages", h: [] });
   }
 
   return new Response(JSON.stringify(entries), {

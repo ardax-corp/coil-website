@@ -6,12 +6,12 @@
 import type { CollectionEntry } from "astro:content";
 import { packages } from "./packages";
 
-export type Track = "learn" | "reference";
+export type Track = "learn" | "reference" | "packages";
 
 export type NavLink = {
   /** Doc collection id, e.g. "manual/tutorial/01-basics". */
   id?: string;
-  /** External URL (used instead of id). */
+  /** Site path or external URL (used instead of id). */
   href?: string;
   label: string;
   /** One-line summary shown on hub pages and pager cards. */
@@ -29,10 +29,10 @@ export type NavGroup = {
 export const REPO = "https://github.com/ardax-corp/coil-lang";
 export const RELEASES = `${REPO}/releases`;
 export const NIGHTLY = `${REPO}/actions/workflows/release-binaries.yml`;
-export const STDLIB = "https://github.com/ardax-corp/coil-stdlib/blob/main/docs/README.md";
+export const STDLIB = "/packages/stdlib";
 export const SHOWCASE = `${REPO}/blob/main/examples/projects/README.md`;
 export const INTERNALS = `${REPO}/blob/main/docs/internals/README.md`;
-export const SPOOL = "https://github.com/ardax-corp/spool";
+export const SPOOL = "/packages/spool";
 
 export const groups: NavGroup[] = [
   {
@@ -140,11 +140,13 @@ export const groups: NavGroup[] = [
     track: "reference",
     blurb: "Libraries that live outside the compiler.",
     items: [
-      // Packages with a reference page link here; the rest link to their repository.
-      ...packages.map((p) =>
-        p.docs ? { id: p.docs.replace(/^\/docs\//, ""), label: p.name, hint: p.summary } : { href: p.repo, label: p.name, hint: p.summary },
-      ),
+      // Packages with a reference page in the language docs; the full
+      // package docs live in the Packages track.
+      ...packages
+        .filter((p) => p.docs)
+        .map((p) => ({ id: p.docs!.replace(/^\/docs\//, ""), label: p.name, hint: p.summary })),
       { id: "references/not-builtins", label: "What is not built in", hint: "Where the compiler stops and userland starts." },
+      { href: "/packages", label: "All packages", hint: "Every package, with its full documentation." },
     ],
   },
 ];
@@ -159,7 +161,7 @@ export function linkHref(item: NavLink): string {
 }
 
 export function isExternal(item: NavLink): boolean {
-  return !item.id;
+  return !item.id && /^https?:/.test(item.href ?? "");
 }
 
 /** Strip markdown (backticks, links) from a frontmatter title. */
@@ -227,12 +229,18 @@ export type Located = {
   chapters?: number;
 };
 
-export function locate(all: NavGroup[], id: string): Located | undefined {
-  const group = all.find((g) => g.items.some((i) => i.id === id));
+/** Find the page at `href` (a site path) and its neighbours within its track. */
+export function locate(all: NavGroup[], href: string): Located | undefined {
+  const at = (i: NavLink) => linkHref(i) === href;
+  // A page can be linked from several tracks (coil-stdlib is also under
+  // Learn → Keep going); it belongs to the track its URL lives in.
+  const home: Track | undefined = href.startsWith("/packages/") ? "packages" : undefined;
+  const matches = all.filter((g) => g.items.some(at));
+  const group = matches.find((g) => !home || g.track === home) ?? matches[0];
   if (!group) return undefined;
-  const item = group.items.find((i) => i.id === id)!;
-  const sequence = all.filter((g) => g.track === group.track).flatMap((g) => g.items.filter((i) => i.id));
-  const pos = sequence.findIndex((i) => i.id === id);
+  const item = group.items.find(at)!;
+  const sequence = all.filter((g) => g.track === group.track).flatMap((g) => g.items.filter((i) => !isExternal(i)));
+  const pos = sequence.findIndex(at);
   const located: Located = {
     group,
     item,
@@ -244,4 +252,80 @@ export function locate(all: NavGroup[], id: string): Located | undefined {
     located.chapters = group.items.length;
   }
   return located;
+}
+
+// --------------------------------------------------------------- packages
+
+/** Display names for packages that are not in src/lib/packages.ts. */
+const TOOLING: Record<string, { title: string; blurb: string }> = {
+  spool: { title: "spool", blurb: "The package manager: commands, manifest and lockfile." },
+  stdlib: { title: "coil-stdlib", blurb: "The userland standard library." },
+  greet: { title: "greet (example)", blurb: "A minimal package consumed via spool." },
+};
+
+const PAGE_LABELS: Record<string, string> = {
+  index: "Overview",
+  guide: "Guide",
+  consume: "Install & use",
+};
+
+/** "json/consume" → "/packages/json/consume"; "json" (its README) → "/packages/json". */
+export function packageHref(id: string): string {
+  return `/packages/${id.replace(/\/index$/, "")}`;
+}
+
+function splitId(id: string): [string, string] {
+  const [pkg, page = "index"] = id.split("/");
+  return [pkg, page];
+}
+
+/**
+ * One sidebar group per package, in the Packages track. Pages are ordered:
+ * overview, hand-written pages by `order`, then the order the package's guide
+ * (or README) links to them, then alphabetically.
+ */
+export function packageGroups(entries: CollectionEntry<"ecosystem">[]): NavGroup[] {
+  const byPkg = new Map<string, CollectionEntry<"ecosystem">[]>();
+  for (const e of entries) {
+    const [pkg] = splitId(e.id);
+    byPkg.set(pkg, [...(byPkg.get(pkg) ?? []), e]);
+  }
+  const known = ["spool", "stdlib", ...packages.map((p) => p.name), "greet"];
+  const order = [...known.filter((k) => byPkg.has(k)), ...[...byPkg.keys()].filter((k) => !known.includes(k)).sort()];
+
+  return order.map((pkg) => {
+    const pages = byPkg.get(pkg)!;
+    const index = pages.find((p) => splitId(p.id)[1] === "index");
+    const guide = pages.find((p) => splitId(p.id)[1] === "guide");
+    const linkOrder = `${guide?.body ?? ""}\n${index?.body ?? ""}`;
+    const pos = (e: CollectionEntry<"ecosystem">) => {
+      const at = linkOrder.indexOf(`](${packageHref(e.id)})`);
+      return at < 0 ? Number.MAX_SAFE_INTEGER : at;
+    };
+    const rank = (e: CollectionEntry<"ecosystem">) => {
+      const page = splitId(e.id)[1];
+      if (page === "index") return -2;
+      if (page === "guide") return -1;
+      return e.data.order ?? 1000;
+    };
+    pages.sort((a, b) => rank(a) - rank(b) || pos(a) - pos(b) || a.id.localeCompare(b.id));
+
+    const meta = packages.find((p) => p.name === pkg);
+    return {
+      key: `pkg-${pkg}`,
+      title: TOOLING[pkg]?.title ?? pkg,
+      track: "packages" as const,
+      blurb: TOOLING[pkg]?.blurb ?? meta?.summary ?? "",
+      items: pages.map((e) => ({
+        href: packageHref(e.id),
+        label: PAGE_LABELS[splitId(e.id)[1]] ?? plainTitle(e.data.title),
+        hint: e.data.description,
+      })),
+    };
+  });
+}
+
+/** Every docs group: learn, reference and packages tracks. */
+export function allGroups(docs: CollectionEntry<"docs">[], ecosystem: CollectionEntry<"ecosystem">[]): NavGroup[] {
+  return [...resolveGroups(docs), ...packageGroups(ecosystem)];
 }
