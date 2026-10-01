@@ -353,8 +353,7 @@ Class `static` fields require an initializer. `static` and `const` field modifie
 
 ```coil
 let xs = readonly [1, 2, 3];
-let p = new readonly Point(1, 2);
-// sugar: readonly new Point(1, 2)
+let p = readonly new Point(1, 2);
 ```
 
 | Operation | `readonly T` handle | Inside `impl` via `self` |
