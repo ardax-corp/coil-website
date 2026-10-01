@@ -4,6 +4,7 @@
 // "More" so nothing silently disappears from the sidebar.
 
 import type { CollectionEntry } from "astro:content";
+import { packages } from "./packages";
 
 export type Track = "learn" | "reference";
 
@@ -139,10 +140,10 @@ export const groups: NavGroup[] = [
     track: "reference",
     blurb: "Libraries that live outside the compiler.",
     items: [
-      { id: "references/regex", label: "regex", hint: "PCRE2 via coil-regex." },
-      { id: "references/tls", label: "tls", hint: "rustls via coil-tls." },
-      { id: "references/crypto", label: "crypto", hint: "Hashes and AEAD via coil-crypto." },
-      { id: "references/time", label: "time", hint: "Calendar and Instant via coil-time." },
+      // Packages with a reference page link here; the rest link to their repository.
+      ...packages.map((p) =>
+        p.docs ? { id: p.docs.replace(/^\/docs\//, ""), label: p.name, hint: p.summary } : { href: p.repo, label: p.name, hint: p.summary },
+      ),
       { id: "references/not-builtins", label: "What is not built in", hint: "Where the compiler stops and userland starts." },
     ],
   },

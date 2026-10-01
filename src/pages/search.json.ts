@@ -4,6 +4,7 @@
 import type { APIRoute } from "astro";
 import { getCollection, render } from "astro:content";
 import { docHref, locate, plainTitle, resolveGroups } from "../lib/nav";
+import { packages } from "../lib/packages";
 
 export type SearchEntry = {
   /** Title */
@@ -36,6 +37,10 @@ export const GET: APIRoute = async () => {
 
   for (const post of await getCollection("blog")) {
     entries.push({ t: post.data.title, u: `/blog/${post.id}`, s: "Blog", h: [] });
+  }
+
+  for (const p of packages) {
+    if (!p.docs) entries.push({ t: `${p.name} — ${p.summary}`, u: p.repo, s: "Packages", h: [] });
   }
 
   return new Response(JSON.stringify(entries), {
