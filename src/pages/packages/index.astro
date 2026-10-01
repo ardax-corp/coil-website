@@ -1,7 +1,7 @@
 ---
-import Base from "../layouts/Base.astro";
-import { SPOOL, STDLIB } from "../lib/nav";
-import { categories, demo, packages } from "../lib/packages";
+import Base from "../../layouts/Base.astro";
+import { SPOOL, STDLIB } from "../../lib/nav";
+import { categories, demo, packages } from "../../lib/packages";
 ---
 
 <Base title="Packages" description={`Userland Coil packages: ${packages.map((p) => p.name).join(", ")}, plus coil-stdlib and the spool dependency manager.`} section="packages">
@@ -20,12 +20,12 @@ import { categories, demo, packages } from "../lib/packages";
     <div class="foundation">
       <a class="card found" href={STDLIB}>
         <span class="eyebrow">Foundation</span>
-        <h2>coil-stdlib <span class="arrow">↗</span></h2>
+        <h2>coil-stdlib <span class="arrow">→</span></h2>
         <p>The userland standard library: collections, text and bytes helpers, path, encoding, and the blocking IO adapters such as <code>io::sync::write_all</code>.</p>
       </a>
       <a class="card found found-spool" href={SPOOL}>
         <span class="eyebrow">Tooling</span>
-        <h2>spool <span class="arrow">↗</span></h2>
+        <h2>spool <span class="arrow">→</span></h2>
         <p>A git-based dependency manager for Coil libraries. It reads <code>[package]</code> and <code>[dependencies]</code> from <code>coil.toml</code>, then fetches and links them.</p>
       </a>
     </div>
@@ -48,7 +48,8 @@ import { categories, demo, packages } from "../lib/packages";
                 <p class="pkg-detail">{p.detail}</p>
                 <code class="pkg-use">{p.use}</code>
                 <div class="pkg-links">
-                  {p.docs && <a href={p.docs}>Reference →</a>}
+                  <a class="primary" href={`/packages/${p.name}`}>Docs →</a>
+                  {p.docs && <a href={p.docs}>Language reference</a>}
                   <a href={p.repo}>Repository ↗</a>
                 </div>
               </li>
@@ -58,10 +59,10 @@ import { categories, demo, packages } from "../lib/packages";
       ))
     }
 
-    <a class="card demo" href={demo.repo}>
+    <a class="card demo" href={`/packages/${demo.name}`}>
       <div>
         <span class="eyebrow">Example package</span>
-        <h2><code>{demo.name}</code> <span class="arrow">↗</span></h2>
+        <h2><code>{demo.name}</code> <span class="arrow">→</span></h2>
         <p>{demo.detail}</p>
       </div>
       <code class="pkg-use">{demo.use}</code>
@@ -236,7 +237,8 @@ import { categories, demo, packages } from "../lib/packages";
     text-decoration: none;
   }
 
-  .pkg-links a:hover {
+  .pkg-links a:hover,
+  .pkg-links a.primary {
     color: var(--accent);
   }
 

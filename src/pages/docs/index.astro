@@ -1,12 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import { INTERNALS, SHOWCASE, STDLIB, inlineCode, linkHref, resolveGroups } from "../../lib/nav";
+import { INTERNALS, SHOWCASE, STDLIB, allGroups, inlineCode, linkHref } from "../../lib/nav";
 
-const groups = resolveGroups(await getCollection("docs"));
+const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"));
 const tutorial = groups.find((g) => g.key === "tutorial")!;
 const start = groups.find((g) => g.key === "start")!;
 const refGroups = groups.filter((g) => g.track === "reference");
+const pkgGroups = groups.filter((g) => g.track === "packages");
 const refCount = refGroups.reduce((n, g) => n + g.items.length, 0);
 
 const beyond = [
@@ -70,6 +71,21 @@ const beyond = [
       </p>
       <span class="path-cta">Open the reference index <span class="arrow">→</span></span>
     </a>
+
+    <a class="card path path-pkg" href="/packages">
+      <div class="path-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m21 8-9-5-9 5 9 5 9-5Z"></path><path d="M3 8v8l9 5 9-5V8"></path><path d="M12 13v8"></path>
+        </svg>
+      </div>
+      <span class="eyebrow">Packages</span>
+      <h2>The ecosystem</h2>
+      <p>
+        Docs for spool, coil-stdlib and every library — JSON, TOML, HTTP, TLS and more — in the same place as the
+        language.
+      </p>
+      <span class="path-cta">Browse packages <span class="arrow">→</span></span>
+    </a>
   </section>
 
   <section class="wrap block" id="learn">
@@ -124,6 +140,38 @@ const beyond = [
         refGroups.map((g) => (
           <section class="card ref-group">
             <h3>{g.title}</h3>
+            <p>{g.blurb}</p>
+            <ul>
+              {g.items.map((item) => (
+                <li>
+                  <a href={linkHref(item)}>{item.label}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap block" id="packages">
+    <header class="block-head">
+      <div>
+        <span class="eyebrow">Packages</span>
+        <h2>Package docs</h2>
+      </div>
+      <p>Synced from each package's repository, alongside the manifest and lockfile reference for spool.</p>
+    </header>
+
+    <div class="ref-grid pkg-grid">
+      {
+        pkgGroups.map((g) => (
+          <section class="card ref-group">
+            <h3>
+              <a class="group-link" href={linkHref(g.items[0])}>
+                {g.title}
+              </a>
+            </h3>
             <p>{g.blurb}</p>
             <ul>
               {g.items.map((item) => (
@@ -220,7 +268,7 @@ const beyond = [
   .paths {
     display: grid;
     gap: 1.25rem;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     margin-top: 3rem;
   }
 
@@ -266,6 +314,24 @@ const beyond = [
 
   .path-ref .eyebrow {
     color: var(--patina);
+  }
+
+  .path-pkg .path-icon {
+    background: var(--surface-2);
+    color: var(--fg-soft);
+  }
+
+  .group-link {
+    text-decoration: none;
+  }
+
+  .group-link:hover {
+    color: var(--accent);
+  }
+
+  .pkg-grid .ref-group a:not(.group-link):hover {
+    border-color: var(--accent);
+    color: var(--accent);
   }
 
   .path h2 {
@@ -492,6 +558,12 @@ const beyond = [
 
   .beyond-item .arrow {
     color: var(--faint);
+  }
+
+  @media (max-width: 1080px) {
+    .paths {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (max-width: 960px) {

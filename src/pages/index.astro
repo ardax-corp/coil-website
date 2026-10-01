@@ -306,7 +306,7 @@ const commands = [
       <div class="pkgs">
         {
           packages.filter((p) => p.featured).map((p) => (
-            <a class="card pkg" href={p.docs ?? p.repo}>
+            <a class="card pkg" href={`/packages/${p.name}`}>
               <code class="pkg-name">{p.name}</code>
               <p>{p.summary}</p>
             </a>
