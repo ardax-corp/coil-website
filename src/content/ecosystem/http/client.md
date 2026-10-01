@@ -1,0 +1,58 @@
+---
+title: "Client API"
+description: "let c = Client::new(); c.get(\"http://example.com/\")?; c.post(\"http://example.com/\", bodybytes)?; c.nopool(); // Connection: close, no reuse c.close(); // drain the pool (close…"
+source: "https://github.com/ardax-corp/coil-http/blob/0a973dbd2c9883f103bf8909a553dd9664452fce/docs/client.md"
+---
+# Client API
+
+## Client
+
+```coil
+use http::client::Client;
+
+let c = Client::new();
+c.get("http://example.com/")?;
+c.post("http://example.com/", body_bytes)?;
+c.no_pool();  // Connection: close, no reuse
+c.close();    // drain the pool (close idle sockets)
+```
+
+`Client::new()` enables connection pooling with `Connection: keep-alive`. Responses are framed by `Content-Length` or chunked transfer encoding so the connection can be reused. Call `no_pool()` for one-shot requests (matches legacy `Connection: close` behavior).
+
+`h2_get`, `h2_post`, and `h2_send` speak HTTP/2 on a session stored on this `Client`. Cleartext (`http://`) sends the connection preface (prior knowledge). `https://` offers ALPN `h2,http/1.1` and uses HTTP/2 only when the selected protocol is `h2`; any other selection, including empty, completes the same request as HTTP/1.1 on that connection. Repeated HTTP/2 calls to the same origin reuse that connection and open new stream ids. They do not use the HTTP/1.1 pool. `close()` drains the HTTP/1.1 pool and the HTTP/2 session. Response header fields are available from `header_get`. Trailing header fields from an HTTP/2 response are available from `trailer_get`.
+
+`fn drop()` on `Client` (and on `HttpConn` / `ConnPool` / `Server`) runs at GC time, not at last use. Prefer `c.close()` / `close_conn` for deterministic shutdown; drop is a backstop if a client or pool becomes unreachable.
+
+## Request builder
+
+```coil
+use http::request::Request;
+
+let req = Request::new();
+req.method("PUT");
+req.url("http://example.com/x");
+req.header("X-Trace", "abc");
+req.body(body);
+c.send(req)?;
+```
+
+## Response
+
+```coil
+use http::response::{Response, parse_response, header_get};
+
+let r = Response::ok();
+r.status(201);
+r.header("Content-Type", "text/plain");
+r.body(to_bytes("hi"));
+```
+
+Parsed responses expose `status`, `body`, and `header_get(r, "Name")`.
+
+## Errors
+
+`HttpError`: `BadUrl`, `BadResponse`, `UnsupportedScheme`, `Io`, `NotSupported`.
+
+WebSocket URLs (`ws://`, `wss://`) use `http::ws::ws_connect`, not `Client::get`. See [ws.md](/packages/http/ws).
+
+HTTPS uses verified TLS (`webpki` roots via [coil-tls](https://github.com/ardax-corp/coil-tls)). Local dev certs need `tls::client::enable` with a `ClientOpts` (`verify: false` and/or `ca_pem`).
