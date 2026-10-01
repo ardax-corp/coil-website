@@ -1,0 +1,17 @@
+---
+// Highlights a snippet with the same grammar and themes as markdown code blocks.
+import { Code } from "astro:components";
+import coilGrammar from "../lib/coil.tmLanguage.json";
+import { coilDark, coilLight } from "../lib/shiki-themes";
+
+type Props = { code: string; lang?: string; class?: string };
+const { code, lang = "coil", class: className } = Astro.props;
+---
+
+<Code
+  code={code.replace(/^\n/, "").replace(/\s+$/, "")}
+  lang={(lang === "coil" ? coilGrammar : lang) as any}
+  themes={{ light: coilLight as any, dark: coilDark as any }}
+  defaultColor={false}
+  class={className}
+/>
