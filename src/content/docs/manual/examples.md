@@ -260,7 +260,7 @@ fn main() {
 
 ### `examples/for_break.hy`
 
-**Demonstrates:** C-style `for` with `continue` and `break` (sum `0+1+2+4+5+6` = `18`).
+**Demonstrates:** `while` with `continue` and `break` (sum `0+1+2+4+5+6` = `18`).
 
 ```coil
 use io::{stdout};
@@ -268,10 +268,12 @@ use io::sync::{write_all};
 use string::{format, to_bytes};
 fn main() {
     let sum = 0;
-    for (let i = 0; i < 10; i = i + 1) {
-        if i == 3 { continue; }
+    let i = 0;
+    while i < 10 {
+        if i == 3 { i = i + 1; continue; }
         if i == 7 { break; }
         sum = sum + i;
+        i = i + 1;
     }
     write_all(stdout(), to_bytes(format("%i", sum)));
 }

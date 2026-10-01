@@ -437,10 +437,9 @@ statement ::= while_stmt
 | `return` | `return [expr] ';'` (`return;` returns unit) |
 | `yield` | `yield expr ';'` or `yield from expr ';'` |
 | `while` | `while expr block` |
-| `for` (C-style) | `for '(' init ';' cond ';' step ')' block` |
-| `for` (iterator) | `for IDENT in expr block` — via prelude `IntoIterator` / `Iterator` (arrays, homogeneous tuples/dicts, coroutines, or user `impl`s; see [Built-ins](/docs/references/iterator)) |
+| `for` | `for IDENT in expr block` — via prelude `IntoIterator` / `Iterator` (arrays, homogeneous tuples/dicts, coroutines, or user `impl`s; see [Built-ins](/docs/references/iterator)). C-style `for (init; cond; step)` is a parse error. |
 | `break` | `break ';'` (innermost loop) |
-| `continue` | `continue ';'` (jumps to `for` step / `while` condition / next for-in iteration) |
+| `continue` | `continue ';'` (jumps to the `while` condition / next for-in iteration) |
 | `if` | `if expr block ('else' (block \| if_stmt))?` |
 | Block | `'{' statement* '}'` |
 

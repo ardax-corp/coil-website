@@ -21,7 +21,7 @@ All reserved words in the coil parser. Keywords cannot be used as identifiers.
 | `if` | Statement | Conditional | [Syntax — Statements](/docs/references/syntax#statements) |
 | `else` | Statement | Alternative branch | [Syntax — Statements](/docs/references/syntax#statements) |
 | `while` | Statement | Loop while condition true | [Syntax — Statements](/docs/references/syntax#statements) |
-| `for` | Statement | C-style `for (…)` or iterator `for x in expr` | [Syntax — Statements](/docs/references/syntax#statements) |
+| `for` | Statement | Iterator `for x in expr` | [Syntax — Statements](/docs/references/syntax#statements) |
 | `in` | Statement | For-in separator (`for x in expr` via `IntoIterator`) | [Built-ins — Iterator](/docs/references/iterator) |
 | `break` | Statement | Exit innermost loop | [Syntax — Statements](/docs/references/syntax#statements) |
 | `continue` | Statement | Next iteration of innermost loop | [Syntax — Statements](/docs/references/syntax#statements) |

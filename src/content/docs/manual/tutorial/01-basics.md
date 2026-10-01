@@ -282,18 +282,24 @@ Use `break;` to leave the nearest loop and `continue;` to jump to the next itera
 
 ### `for` loops
 
-C-style `for` loops combine an optional initializer, a required boolean condition, an optional step expression, and a block body:
+There is no C-style `for (init; cond; step)`. Counted loops use `while`. Iteration uses `for x in expr` (prelude `IntoIterator` / `Iterator`):
 
 ```coil
 let sum = 0;
-for (let i = 0; i < 10; i = i + 1) {
-    if i == 3 { continue; }
+let i = 0;
+while i < 10 {
+    if i == 3 { i = i + 1; continue; }
     if i == 7 { break; }
     sum = sum + i;
+    i = i + 1;
+}
+
+for x in [1, 2, 3] {
+    sum = sum + x;
 }
 ```
 
-For this example, `sum` becomes `18` (`0 + 1 + 2 + 4 + 5 + 6`).
+For the `while` example, `sum` becomes `18` (`0 + 1 + 2 + 4 + 5 + 6`).
 
 ---
 
