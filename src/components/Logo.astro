@@ -1,0 +1,41 @@
+---
+import { COIL_PATH } from "../lib/logo";
+
+type Props = { size?: number; wordmark?: boolean };
+const { size = 28, wordmark = true } = Astro.props;
+---
+
+<span class="logo">
+  <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true">
+    <rect width="32" height="32" rx="8" class="logo-bg"></rect>
+    <path
+      d={COIL_PATH}
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="logo-wire"></path>
+  </svg>
+  {wordmark && <span class="logo-word">coil</span>}
+</span>
+
+<style>
+  .logo {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.55rem;
+  }
+  .logo-bg {
+    fill: #18150f;
+  }
+  .logo-wire {
+    color: #eb8a52;
+  }
+  .logo-word {
+    color: var(--fg);
+    font-size: 1.2rem;
+    font-weight: 650;
+    letter-spacing: -0.04em;
+  }
+</style>
