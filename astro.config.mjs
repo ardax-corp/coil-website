@@ -11,6 +11,21 @@ function walk(node, fn, parent) {
   }
 }
 
+// Honours explicit heading ids written as `## Title {#id}` (used by the synced
+// docs). Must run before rehypeHeadingIds, which keeps an existing id.
+function rehypeExplicitHeadingIds() {
+  return (tree) => {
+    walk(tree, (node) => {
+      if (node.type !== "element" || !/^h[1-6]$/.test(node.tagName)) return;
+      const last = node.children.at(-1);
+      const m = last?.type === "text" && last.value.match(/\s*\{#([\w-]+)\}\s*$/);
+      if (!m) return;
+      last.value = last.value.slice(0, m.index);
+      node.properties = { ...node.properties, id: m[1] };
+    });
+  };
+}
+
 // Appends a "#" permalink to h2–h4 so sections can be linked directly.
 function rehypeHeadingAnchors() {
   return (tree) => {
@@ -52,6 +67,6 @@ export default defineConfig({
       themes: { light: coilLight, dark: coilDark },
       defaultColor: false,
     },
-    rehypePlugins: [rehypeHeadingIds, rehypeHeadingAnchors, rehypeTableWrap],
+    rehypePlugins: [rehypeExplicitHeadingIds, rehypeHeadingIds, rehypeHeadingAnchors, rehypeTableWrap],
   },
 });
