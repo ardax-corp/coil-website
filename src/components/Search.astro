@@ -1,0 +1,306 @@
+---
+// Command-palette search over /search.json. Opened by any [data-search-open]
+// element, "/" or Ctrl/⌘+K.
+---
+
+<dialog class="search" aria-label="Search documentation">
+  <div class="search-box">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path>
+    </svg>
+    <input
+      type="search"
+      placeholder="Search docs, chapters, sections…"
+      autocomplete="off"
+      spellcheck="false"
+      aria-controls="search-results"
+    />
+    <kbd>esc</kbd>
+  </div>
+  <ul id="search-results" class="search-results" role="listbox"></ul>
+  <div class="search-foot">
+    <span><kbd>↑</kbd> <kbd>↓</kbd> navigate</span>
+    <span><kbd>↵</kbd> open</span>
+  </div>
+</dialog>
+
+<script>
+  type Entry = { t: string; u: string; s: string; h: [string, string][] };
+  type Hit = { title: string; url: string; section: string; parent?: string; score: number };
+
+  const dialog = document.querySelector<HTMLDialogElement>("dialog.search")!;
+  const input = dialog.querySelector("input")!;
+  const list = dialog.querySelector<HTMLUListElement>(".search-results")!;
+  let index: Entry[] | null = null;
+  let hits: Hit[] = [];
+  let active = 0;
+
+  async function load() {
+    if (index) return;
+    const res = await fetch("/search.json");
+    index = (await res.json()) as Entry[];
+  }
+
+  function scoreText(text: string, terms: string[]): number {
+    const lower = text.toLowerCase();
+    let score = 0;
+    for (const term of terms) {
+      const at = lower.indexOf(term);
+      if (at < 0) return 0;
+      score += at === 0 ? 3 : /[\s:`(_-]/.test(lower[at - 1] ?? "") ? 2 : 1;
+    }
+    return score + (lower === terms.join(" ") ? 5 : 0);
+  }
+
+  function search(q: string): Hit[] {
+    const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+    if (!index || terms.length === 0) return [];
+    const out: Hit[] = [];
+    for (const e of index) {
+      const s = scoreText(`${e.t} ${e.s}`, terms);
+      if (s) out.push({ title: e.t, url: e.u, section: e.s, score: s * 3 });
+      for (const [text, slug] of e.h) {
+        const hs = scoreText(text, terms);
+        if (hs) out.push({ title: text, url: `${e.u}#${slug}`, section: e.s, parent: e.t, score: hs * 2 });
+      }
+    }
+    return out.sort((a, b) => b.score - a.score || a.title.length - b.title.length).slice(0, 14);
+  }
+
+  function escape(s: string) {
+    return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+  }
+
+  function renderDefault() {
+    list.innerHTML = `
+      <li class="search-hint">Try <button type="button">match</button> <button type="button">coroutine</button> <button type="button">Result</button> <button type="button">coil.toml</button></li>`;
+    list.querySelectorAll<HTMLButtonElement>(".search-hint button").forEach((b) =>
+      b.addEventListener("click", () => {
+        input.value = b.textContent ?? "";
+        update();
+        input.focus();
+      }),
+    );
+  }
+
+  function render() {
+    if (!input.value.trim()) return renderDefault();
+    if (hits.length === 0) {
+      list.innerHTML = `<li class="search-empty">No results for “${escape(input.value)}”</li>`;
+      return;
+    }
+    list.innerHTML = hits
+      .map(
+        (h, i) => `
+      <li role="option" aria-selected="${i === active}">
+        <a href="${escape(h.url)}" data-i="${i}">
+          <span class="search-kind">${h.parent ? "#" : "¶"}</span>
+          <span class="search-text">
+            <span class="search-title">${escape(h.title)}</span>
+            <span class="search-where">${escape(h.section)}${h.parent ? ` › ${escape(h.parent)}` : ""}</span>
+          </span>
+        </a>
+      </li>`,
+      )
+      .join("");
+    list.querySelector('[aria-selected="true"]')?.scrollIntoView({ block: "nearest" });
+  }
+
+  function update() {
+    hits = search(input.value);
+    active = 0;
+    render();
+  }
+
+  async function open() {
+    if (dialog.open) return;
+    dialog.showModal();
+    input.select();
+    renderDefault();
+    await load();
+    if (input.value) update();
+  }
+
+  document.querySelectorAll("[data-search-open]").forEach((el) => el.addEventListener("click", open));
+
+  document.addEventListener("keydown", (e) => {
+    const typing = (e.target as HTMLElement).closest("input, textarea, [contenteditable]");
+    if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || (e.key === "/" && !typing)) {
+      e.preventDefault();
+      open();
+    }
+  });
+
+  input.addEventListener("input", update);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (!hits.length) return;
+      active = (active + (e.key === "ArrowDown" ? 1 : -1) + hits.length) % hits.length;
+      render();
+    } else if (e.key === "Enter" && hits[active]) {
+      e.preventDefault();
+      dialog.close();
+      location.href = hits[active].url;
+    }
+  });
+
+  // Close when clicking the backdrop, and when following a same-page anchor.
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+    if ((e.target as HTMLElement).closest("a")) dialog.close();
+  });
+</script>
+
+<style>
+  .search {
+    background: var(--bg-elev);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    color: var(--fg);
+    margin: 12vh auto auto;
+    max-height: min(32rem, 76vh);
+    padding: 0;
+    width: min(40rem, calc(100vw - 2rem));
+  }
+
+  .search[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search::backdrop {
+    backdrop-filter: blur(3px);
+    background: rgb(16 14 11 / 0.45);
+  }
+
+  .search-box {
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.9rem 1.1rem;
+  }
+
+  .search-box input {
+    background: none;
+    border: 0;
+    color: var(--fg);
+    flex: 1;
+    font: inherit;
+    font-size: 1.05rem;
+    min-width: 0;
+    outline: none;
+  }
+
+  .search-box input::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  .search-results {
+    flex: 1;
+    list-style: none;
+    margin: 0;
+    overflow-y: auto;
+    padding: 0.5rem;
+  }
+
+  .search-results :global(a) {
+    align-items: center;
+    border-radius: var(--radius);
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.6rem 0.75rem;
+    text-decoration: none;
+  }
+
+  .search-results :global([aria-selected="true"] a),
+  .search-results :global(a:hover) {
+    background: var(--accent-soft);
+  }
+
+  .search-results :global(.search-kind) {
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--faint);
+    display: flex;
+    flex: none;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    height: 1.9rem;
+    justify-content: center;
+    width: 1.9rem;
+  }
+
+  .search-results :global([aria-selected="true"] .search-kind) {
+    color: var(--accent);
+  }
+
+  .search-results :global(.search-text) {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .search-results :global(.search-title) {
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .search-results :global(.search-where) {
+    color: var(--muted);
+    font-size: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .search-results :global(.search-empty),
+  .search-results :global(.search-hint) {
+    color: var(--muted);
+    font-size: 0.92rem;
+    padding: 1.5rem 0.75rem;
+    text-align: center;
+  }
+
+  .search-results :global(.search-hint button) {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--fg-soft);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    margin: 0.2rem;
+    padding: 0.2rem 0.65rem;
+  }
+
+  .search-results :global(.search-hint button:hover) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .search-foot {
+    border-top: 1px solid var(--border);
+    color: var(--faint);
+    display: flex;
+    font-size: 0.75rem;
+    gap: 1.25rem;
+    padding: 0.6rem 1.1rem;
+  }
+
+  @media (max-width: 640px) {
+    .search {
+      margin-top: 1rem;
+    }
+    .search-foot {
+      display: none;
+    }
+  }
+</style>
