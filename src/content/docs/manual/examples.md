@@ -258,7 +258,7 @@ fn main() {
 
 ---
 
-### `examples/for_break.hy`
+### `examples/loop_break.hy`
 
 **Demonstrates:** `while` with `continue` and `break` (sum `0+1+2+4+5+6` = `18`).
 
@@ -281,7 +281,7 @@ fn main() {
 
 | | |
 |---|---|
-| **Run** | `cargo run -- examples/for_break.hy` |
+| **Run** | `cargo run -- examples/loop_break.hy` |
 | **Output** | `18` |
 
 ---
@@ -426,29 +426,6 @@ fuse into `*Jmpf`, so it lowers to a single `JMPT`. Codegen anchor for
 
 ---
 
-### `examples/bench.hy`
-
-**Demonstrates:** Minimal `let` + arithmetic smoke test (not a performance benchmark).
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn main() {
-    let a = 5;
-    let b = 7;
-    let c = a + b;
-    write_all(stdout(), to_bytes(format("%i\n", c)));
-}
-```
-
-| | |
-|---|---|
-| **Run** | `cargo run -- examples/bench.hy` |
-| **Output** | `12` followed by a newline |
-
----
-
 ### `examples/call_test.hy`
 
 **Demonstrates:** Calling a function for side effect; expression statement discards the return value.
@@ -471,30 +448,6 @@ fn main() {
 |---|---|
 | **Run** | `cargo run -- examples/call_test.hy` |
 | **Output** | `done` |
-
----
-
-### `examples/gc.hy`
-
-**Demonstrates:** String parameter passing and stdout text writes (also exercises heap allocation / GC paths when many strings are allocated).
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn sadge(string n) {
-    write_all(stdout(), to_bytes(format("%s", n)));
-}
-
-fn main() {
-    sadge("Hello");
-}
-```
-
-| | |
-|---|---|
-| **Run** | `cargo run -- examples/gc.hy` |
-| **Output** | `Hello` |
 
 ---
 
@@ -863,7 +816,7 @@ enum Shape {
 | | |
 |---|---|
 | **Run** | `cargo run -- examples/mixed.hy` |
-| **Output** | `025122` (areas: 0, 25, 12, 2) |
+| **Output** | the areas `0`, `25`, `12`, `2`, one per line |
 
 ---
 
@@ -2106,7 +2059,7 @@ See [`examples/projects/README.md`](https://github.com/ardax-corp/coil-lang/blob
 | `named_args.hy` | Basics | `Ada36Grace40` |
 | `variadic.hy` | Basics | `60Hi!?` |
 | `const.hy` | Basics | `42hi` |
-| `for_break.hy` | Basics | `18` |
+| `loop_break.hy` | Basics | `18` |
 | `fizbuz.hy` | Basics | `FIZBUZFIZFIZBUZFIZFIZBUZ` |
 | `fib.hy` | Basics | `55` |
 | `perf/mandelbrot.hy` | Perf | `625885` |
@@ -2116,15 +2069,13 @@ See [`examples/projects/README.md`](https://github.com/ardax-corp/coil-lang/blob
 | `perf/binary_trees.hy` | Perf | `135854` |
 | `perf/bool_guard.hy` | Perf | `45` |
 | `inline_wrapped_call.hy` | Codegen | `13` |
-| `bench.hy` | Basics | `12\n` |
 | `call_test.hy` | Basics | `done` |
-| `gc.hy` | Basics | `Hello` |
 | `option.hy` | Enums | `42` |
 | `result.hy` | Enums | `420-1` |
 | `scalar_enum.hy` | Enums | `ok 200 200` |
 | `tree.hy` | Enums | `6` |
 | `record.hy` | Enums / records | `169512` |
-| `mixed.hy` | Enums | `025122` |
+| `mixed.hy` | Enums | `0\n25\n12\n2\n` |
 | `nested_records.hy` | Enums | `99` |
 | `chained.hy` | Enums / fields | `427` |
 | `io_bytes.hy` | IO | `25532` |
