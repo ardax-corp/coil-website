@@ -567,6 +567,22 @@ let kind = match status {
 };
 ```
 
+Literals and constructors nested in a payload are tested as well:
+`Option::Some(200)` matches only `Some(200)`, and a value it does not match
+tries the next arm. Exhaustiveness and reachability look at payloads too: an
+arm that earlier arms already cover is `E0210`, and a match whose arms leave
+some payload uncovered (`Option::Some(200)` and `Option::None` alone) is
+`E0209`:
+
+```coil
+let text = match reply {
+    Option::Some(200) => "ok",
+    Option::Some(404) => "missing",
+    Option::Some(_) => "other",
+    Option::None => "no reply",
+};
+```
+
 ```coil
 match x {
     Option::None => 0,
