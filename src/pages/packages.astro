@@ -1,42 +1,195 @@
 ---
 import Base from "../layouts/Base.astro";
-
-const packages = [
-  {
-    name: "regex",
-    href: "https://github.com/ardax-corp/coil-regex",
-    note: "Userland PCRE2 regex for Coil.",
-  },
-  {
-    name: "tls",
-    href: "https://github.com/ardax-corp/coil-tls",
-    note: "Userland TLS for Coil.",
-  },
-  {
-    name: "crypto",
-    href: "https://github.com/ardax-corp/coil-crypto",
-    note: "Userland cryptography for Coil.",
-  },
-  {
-    name: "time",
-    href: "https://github.com/ardax-corp/coil-time",
-    note: "Userland calendar and monotonic time for Coil.",
-  },
-];
+import { SPOOL, STDLIB } from "../lib/nav";
+import { packages } from "../lib/packages";
 ---
 
-<Base title="Packages" description="Coil packages: regex, tls, crypto, and time.">
-  <h1 class="page-title">Packages</h1>
-  <ul class="list">
-    {
-      packages.map((pkg) => (
-        <li>
-          <h2>
-            <a href={pkg.href}>{pkg.name}</a>
-          </h2>
-          <p class="muted">{pkg.note}</p>
-        </li>
-      ))
-    }
-  </ul>
+<Base title="Packages" description="Userland Coil packages: regex, tls, crypto and time, plus coil-stdlib and the spool dependency manager." section="packages">
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Packages</span>
+      <h1>Small core, userland packages.</h1>
+      <p>
+        The compiler keeps its built-ins to virtual modules for IO, threads, env, FFI and math. Everything else is an
+        ordinary Coil package with an optional native library, added to your project through <code>coil.toml</code>.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="foundation">
+      <a class="card found" href={STDLIB}>
+        <span class="eyebrow">Foundation</span>
+        <h2>coil-stdlib <span class="arrow">↗</span></h2>
+        <p>The userland standard library: collections, text and bytes helpers, path, encoding, and the blocking IO adapters such as <code>io::sync::write_all</code>.</p>
+      </a>
+      <a class="card found found-spool" href={SPOOL}>
+        <span class="eyebrow">Tooling</span>
+        <h2>spool <span class="arrow">↗</span></h2>
+        <p>A git-based dependency manager for Coil libraries. It reads <code>[package]</code> and <code>[dependencies]</code> from <code>coil.toml</code>, then fetches and links them.</p>
+      </a>
+    </div>
+
+    <h2 class="list-title">Libraries</h2>
+    <ul class="pkg-list">
+      {
+        packages.map((p) => (
+          <li class="card pkg">
+            <div class="pkg-main">
+              <code class="pkg-name">{p.name}</code>
+              <p class="pkg-summary">{p.summary}</p>
+              <p class="pkg-detail">{p.detail}</p>
+            </div>
+            <div class="pkg-links">
+              <a class="btn btn-ghost" href={p.docs}>Reference</a>
+              <a class="btn btn-ghost" href={p.repo}>
+                Repository <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="aside">
+      Not sure whether something is a builtin? See <a href="/docs/references/not-builtins">What is not built in</a> and
+      the <a href="/docs/references/project-config"><code>coil.toml</code> reference</a> for wiring packages into a project.
+    </p>
+  </section>
 </Base>
+
+<style>
+  .page-hero {
+    background: var(--glow);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+    padding: 4.5rem 0 3.5rem;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(2.1rem, 5vw, 3.2rem);
+    font-weight: 650;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+    margin: 0.9rem 0 1rem;
+  }
+
+  .page-hero p {
+    color: var(--muted);
+    font-size: 1.1rem;
+    margin: 0;
+    max-width: 42rem;
+  }
+
+  code {
+    font-size: 0.88em;
+  }
+
+  .foundation {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .found {
+    padding: 1.75rem;
+  }
+
+  .found-spool .eyebrow {
+    color: var(--patina);
+  }
+
+  .found h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0.4rem 0 0.5rem;
+  }
+
+  .found p {
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .arrow {
+    color: var(--faint);
+    font-size: 0.9em;
+  }
+
+  .list-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin: 3rem 0 1rem;
+    text-transform: uppercase;
+  }
+
+  .pkg-list {
+    display: grid;
+    gap: 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .pkg {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    justify-content: space-between;
+    padding: 1.4rem 1.6rem;
+  }
+
+  .pkg-main {
+    flex: 1;
+    min-width: 16rem;
+  }
+
+  .pkg-name {
+    color: var(--accent);
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .pkg-summary {
+    font-weight: 500;
+    margin: 0.3rem 0 0.2rem;
+  }
+
+  .pkg-detail {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin: 0;
+    max-width: 38rem;
+  }
+
+  .pkg-links {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .pkg-links .btn {
+    font-size: 0.85rem;
+    padding: 0.55rem 0.95rem;
+  }
+
+  .aside {
+    color: var(--muted);
+    font-size: 0.93rem;
+    margin-top: 2rem;
+  }
+
+  .aside a {
+    color: var(--accent);
+  }
+
+  @media (max-width: 720px) {
+    .foundation {
+      grid-template-columns: 1fr;
+    }
+    .page-hero {
+      padding: 3rem 0 2.5rem;
+    }
+  }
+</style>
