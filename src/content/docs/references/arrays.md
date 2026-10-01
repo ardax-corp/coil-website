@@ -42,7 +42,7 @@ array local into another copies slots without boxing (forward per-element
 `[T; 0]` stays a single empty heap array. Params/returns of `[T; N]` still pass
 one heap pointer at the call boundary today.
 
-`len(a)` folds to `N` when the length is static. Element-wise zip / LA helpers
+`x.len()` is the canonical length. Free `len(x)` is prelude sugar that desugars to that method; structural array/tuple/string `.len()` still lowers to `ArrayLen`. Element-wise zip / LA helpers
 still require fixed lengths.
 
 ## `Vec<T>` — growable heap vector
@@ -68,7 +68,7 @@ match v.pop() {
 | `Vec::from(arr)` | Copy a fixed `[T; N]` into a `Vec` |
 | `v.push(x)` | Append |
 | `v.pop()` | `Option<T>` |
-| `v.insert(i, x)` | Insert at index (clamped to `len`) |
+| `v.insert(i, x)` | Insert at index (panics if `i` is out of range) |
 | `v.remove(i)` | `Option<T>` |
 | `v.clear()` | Drop all elements |
 | `v.reserve(n)` | Ensure capacity for `len + n` |
@@ -86,14 +86,13 @@ IO buffers (`to_bytes`, `read`/`write`) use `Vec<byte>`.
 
 ## Out-of-range index
 
-Runtime `a[i]` / `v[i]` does not panic. A negative or too-large index, or a
-non-array target, yields the integer `-1`. A write `v[i] = x` with a bad index
-is a no-op; the expression still produces `x`. Literal OOB on `[T; N]` and
+Runtime `a[i]` / `v[i]` **panics** on a negative or too-large index, or a
+non-array target. A write `v[i] = x` with a bad index also panics. The
+expression type stays `T` (not `Result`). Literal OOB on `[T; N]` and
 tuples is a compile error.
 
-`Index` / `StoreIndex` keep that in-VM check for unproven sites. Proven counted-loop
-reads/writes rewrite to unchecked opcodes (archive minor 12). Prefer
-`i < len(a)` in loops.
+Proven counted-loop reads/writes rewrite to unchecked / pin opcodes
+(archive minor 12–13). Prefer `i < a.len()` in loops.
 
 ---
 

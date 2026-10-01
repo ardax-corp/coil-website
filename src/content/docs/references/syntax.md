@@ -183,7 +183,7 @@ fn add(int a, int b) -> int { return a + b; }
 fn add<T: Num>(T a, T b) -> T { return a + b; }
 fn apply_cast<A, B>(A x) -> B where Convert<A, B> { return cast(x); }
 fn greet() { write_all(stdout(), to_bytes("hi")); }
-fn sum(int... xs) -> int { return len(xs); }
+fn sum(int... xs) -> int { return xs.len(); }
 sum(1, 2, 3);   // xs == [1, 2, 3]
 sum();          // xs == []
 

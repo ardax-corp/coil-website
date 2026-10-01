@@ -268,7 +268,7 @@ Statics: `Vec::new`, `Vec::with_capacity`, `Vec::from`. Methods: `push`, `pop`,
 | Tuple | OOB literal → diagnostic | — |
 | Non-aggregate | Error | — |
 
-Proven counted-loop `Index` / `StoreIndex` rewrite to unchecked opcodes ([#192](https://github.com/ardax-corp/coil-lang/pull/192); original [COI-85](https://linear.app/ardax/issue/COI-85) "Index stays checked" decision is superseded). Dynamic indices stay checked. Prefer `i < len(a)` in loops (`LEQ`/`GEQ` are not proofs). Details: [Arrays and Vec](/docs/references/arrays#out-of-range-index).
+Proven counted-loop `Index` / `StoreIndex` rewrite to unchecked opcodes ([#192](https://github.com/ardax-corp/coil-lang/pull/192); original [COI-85](https://linear.app/ardax/issue/COI-85) "Index stays checked" decision is superseded). Dynamic indices stay checked and **panic** on OOB (archive major 4). Prefer `i < a.len()` in loops (`LEQ`/`GEQ` are not proofs). Details: [Arrays and Vec](/docs/references/arrays#out-of-range-index).
 
 ---
 
