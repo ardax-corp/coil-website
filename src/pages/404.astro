@@ -1,0 +1,41 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Not found" description="This page does not exist.">
+  <section class="wrap nf">
+    <span class="eyebrow">404 · open circuit</span>
+    <h1>Nothing is connected here.</h1>
+    <p>The page may have moved when the docs were reorganised. Try searching, or start from one of these:</p>
+    <div class="cta">
+      <button class="btn btn-primary" type="button" data-search-open>Search the docs</button>
+      <a class="btn btn-ghost" href="/docs">Documentation</a>
+      <a class="btn btn-ghost" href="/">Home</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    padding-bottom: 4rem;
+    padding-top: 7rem;
+    text-align: center;
+  }
+  h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 650;
+    letter-spacing: -0.045em;
+    margin: 1rem 0 0.75rem;
+  }
+  p {
+    color: var(--muted);
+    margin: 0 auto 2rem;
+    max-width: 30rem;
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+</style>
