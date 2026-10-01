@@ -11,12 +11,17 @@ Associativity:
 
 | Class | Operators | Associativity |
 |-------|-----------|---------------|
-| Additive `+` `-` | Term level | **Left** |
-| Most other binary | | **Right** |
-| Coalesce `??` | Between `\|\|` and assignment | **Right** |
-| Assignment `=` | | **Right** |
+| Binary arithmetic, shift, bitwise, comparison, equality | `*` `/` `%` `+` `-` `<<` `>>` `&` `^` `\|` `<` `<=` `>` `>=` `==` `!=` | **Left** (`a - b - c` is `(a - b) - c`, `1 << 2 << 3` is 32) |
+| Exponentiation `**` | | **Right** (`2 ** 3 ** 2` is 512) |
+| Logical `&&` `\|\|` | | Right (same result either way) |
+| Range `..` `..=` | | Non-associative |
+| Coalesce `??` | | **Right** |
+| Assignment `=` `+=` … | | **Right** |
 | Postfix `++` `--` `.` `?.` `[]` `?` | | N/A (postfix) |
-| Prefix `-` `+` `~` | | N/A (prefix) |
+| Prefix `-` `+` `~` `!` | | N/A (prefix) |
+
+Shift and bitwise operators follow Rust: `1 << 2 | 1` is `(1 << 2) | 1`,
+`x & 1 << n` is `x & (1 << n)`, and `a ^ b == c` is `(a ^ b) == c`.
 
 ---
 
@@ -26,19 +31,20 @@ Associativity:
 |------------|-------------------|-------|
 | **Primary (postfix)** | `expr++`, `expr--`, `expr.field`, `expr?.field`, `expr[index]`, `expr?` | Tightest — postfix on atoms |
 | **Call (postfix)** | `f(args)` | Function / method call |
-| **Cast (postfix)** | `expr as T` | Binds tighter than `*` / `+` and assignment (`c = m as byte` → RHS cast) |
-| **Prefix unary** | `-expr`, `+expr`, `~expr` | Numeric negation, no-op plus, bitwise NOT |
+| **Prefix unary** | `-expr`, `+expr`, `~expr`, `!expr` | Numeric negation, no-op plus, bitwise NOT, logical NOT |
+| **Cast (postfix)** | `expr as T` | Below unary (`-1 as byte` is `(-1) as byte`), above `**` / `*` / `+` and assignment (`c = m as byte` → RHS cast) |
 | **Exponentiation** | `**` | Right-associative |
-| **Multiplicative** | `*`, `/`, `%` | Right-associative |
-| **Additive** | `+`, `-` | **Left**-associative; operands must unify to same type |
-| **Bit shift** | `<<`, `>>` | |
-| **Bitwise AND** | `&` | |
-| **Bitwise XOR** | `^` | Bitwise, not logical |
-| **Bitwise OR** | `\|` | |
+| **Multiplicative** | `*`, `/`, `%` | Left-associative |
+| **Additive** | `+`, `-` | Left-associative; operands must unify to same type |
+| **Bit shift** | `<<`, `>>` | Left-associative |
+| **Bitwise AND** | `&` | Left-associative |
+| **Bitwise XOR** | `^` | Left-associative; bitwise, not logical |
+| **Bitwise OR** | `\|` | Left-associative |
+| **Comparison** | `<`, `<=`, `>`, `>=` | Left-associative; operands same type → `bool` |
+| **Range** | `..`, `..=` | Non-associative; bounds unify to `T: Ord` → lazy `Range<T>` / `RangeInclusive<T>`; numeric `.to_vec()` |
+| **Equality** | `==`, `!=` | Left-associative; operands same type → `bool` |
 | **Logical AND** | `&&` | Both operands `bool` → `bool` |
 | **Logical OR** | `\|\|` | Both operands `bool` → `bool` |
-| **Comparison** | `==`, `!=`, `<`, `<=`, `>`, `>=` | Operands same type → `bool` |
-| **Range** | `..`, `..=` | Non-associative; bounds unify to `T: Ord` → lazy `Range<T>` / `RangeInclusive<T>`; numeric `.to_vec()` |
 | **Coalesce** | `??` | Right-associative; Option / Result only (see below) |
 | **Assignment** | `=`, `+=`, `-=`, … | Lowest — right-associative |
 
