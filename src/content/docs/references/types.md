@@ -69,7 +69,7 @@ User code always sees `Option<T>` / `Result<T, E>`. Codegen picks one of three r
 
 Cross a niche ↔ boxed boundary with `OptionNicheToHeap` / `HeapOptionToNiche`. `Vec::pop` / `Vec::remove` use allocation-free `HostInvokeNiche` when the item type is heap-only; other host results stay on `HostInvoke` and convert at the boundary.
 
-Do not match on raw `0` vs pointer in user code — `match` / `?` / `??` are the API. See [limitations](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md).
+Do not match on raw `0` vs pointer in user code — `match` / `?` / `??` are the API. Free `fn f<T>(T) -> Option<T>` is still `E0127` (shared generic bodies box `T`); put that return on an inherent method. See [limitations](https://github. See [limitations](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md).
 
 ---
 
