@@ -608,15 +608,14 @@ One calling convention, two ways to name the callee. **`CALL`** packs arity and 
 | Situation | Bytecode |
 |-----------|----------|
 | Direct call to a function or instance method with a known entry | `CALL` |
-| Ground trait method / UFCS (`x.m()` / `m(x)`) with a resolved instance | `CALL` to that instance method. A trailing dictionary is still passed (default / sibling ABI). Primitive `Num`/`Eq`/`Ord` operators further lower to opcodes (`ADD`, `EQ`, …); structural `len` may become `ArrayLen`. |
+| Ground trait method / UFCS (`x.m()` / `m(x)`) with a resolved instance | `CALL` to that instance method (`Show`, `Length`, `Hash`, user traits, inherent methods). Primitive `Num`/`Eq`/`Ord` operators further lower to opcodes (`ADD`, `EQ`, …); structural `.len()` may become `ArrayLen`. |
 | Ground call to a generic whose bounds are only `Num`/`Add`/…/`Ord`/`Lt`/…/`Eq` | **Monomorphize** into a specialized clone (unboxed `ADD`, etc.). No dictionary at the call site. |
 | Same, with named args and/or rest packs (`T...`) | Same monomorphization — args are reordered/packed to match formals before keying |
-| Ground or open call with **user** trait bounds, or builtin `Show` / `Length` | **Dictionary passing** — `CALL` the shared generic body with trailing dict tuples |
-| Open type params inside a generic body (any bound) | `LOAD __dictN`; `Index`; `CallIndirect` |
+| Open type params inside a generic body (any bound) | Dictionary passing — `CALL` the shared generic body with trailing dict tuples; method slots use `Index` + `CallIndirect` |
 | Existential (`Show x`) | Unpack the dict from the value; `CallIndirect` |
 | Escaped generic fn value (`let f = id;`) | `MakePolyFn` / `MakePolyFnCapture` + `CallIndirect` |
 
-**Decision ([COI-78](https://linear.app/ardax/issue/COI-78)):** keep this split. Ground user-trait methods already share the static-entry `CALL` path with ground builtin methods. Extending generic-function monomorphization to user traits would recompile bodies that still carry dictionary `bound_method_call` hints, can leave open `Ty::Var` at call sites (`Show` / `Length`), and would not remove the dictionary ABI that default and sibling methods need. Caps, escaped `PolyFn`, and nested open bounds would still use dictionaries. There is no opcode to fuse a user method into, unlike `Num` → `ADD`.
+**Decision ([COI-78](https://linear.app/ardax/issue/COI-78)):** dictionaries are for generic bodies, not for ground user traits. Ground Show/Length/Hash/user-trait methods with a static entry emit `CALL`. Operators on ground numeric/eq/ord types still lower to opcodes. Caps, escaped `PolyFn`, and nested open bounds still use dictionaries.
 
 ### Dictionary passing
 
@@ -1076,7 +1075,7 @@ Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`. Use
 | Classes | Nominal `Ty::Con`; ctor args / fields / methods supported — no inheritance or virtual dispatch |
 | FFI | Broad scalar/Ptr/struct/callback tags via `ffi::types` / `extern struct` — see [FFI tutorial](/docs/manual/tutorial/07-ffi) |
 | Generics | Generic functions/enums/aliases/classes, `T: Class` bounds, multi-param `where` constraints, `forall` annotations, user `trait`/`impl`, superclasses, orphan/coherence checks, associated types, and GATs are supported |
-| Trait runtime | **Decided ([COI-78](https://linear.app/ardax/issue/COI-78)):** ground instance methods use `CALL`; generic user-trait / `Show` / `Length` bounds keep dictionaries. Only ground `Num`/`Ord`/`Eq` (and operator supertraits) monomorphize to opcodes. See [Call-site dispatch](#call-site-dispatch). |
+| Trait runtime | **Decided ([COI-78](https://linear.app/ardax/issue/COI-78)):** ground instance methods use `CALL`; dictionaries stay in generic bodies. Only ground `Num`/`Ord`/`Eq` (and operator supertraits) monomorphize to opcodes. See [Call-site dispatch](#call-site-dispatch). |
 | Option / Result ABI | **Decided ([COI-92](https://linear.app/ardax/issue/COI-92)):** pointer niche, two-slot call return, or boxed enum — see [Option / Result runtime ABI](#option--result-runtime-abi). |
 | Enum runtime | **Decided ([COI-94](https://linear.app/ardax/issue/COI-94)):** heap objects; DCE may skip discarded or unary-unpack constructors only — see [Runtime representation](#runtime-representation). |
 | Existentials | Bare class names are existential value types only for unary `* -> Constraint` classes; multi-param bare existentials and constructor-kinded bare existentials are rejected |
