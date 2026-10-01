@@ -714,7 +714,7 @@ comparisons still use hardwired opcodes. String concatenation
 
 ### Trait derive
 
-Non-generic `enum` and `class` declarations may include `#[derive(...)]`
+`enum` and `class` declarations may include `#[derive(...)]`
 attributes that synthesize structural instances of builtin traits:
 
 ```coil
@@ -750,7 +750,7 @@ compiler-generated instance whose body returns the type name string. Explicit
 Rules:
 
 - Placement: immediately before the `enum` / `class` keyword (after any `///` doc comment).
-- Built-in derives: `Show`, `Eq`, `Ord`, `Default`, `Hash`, `String`, `Send`, `Sensitive`. Unknown / arithmetic traits (`Num`, …) error; user derives come from `derive` macros.
+- Built-in derives: `Show`, `Eq`, `Ord`, `Default`, `Hash`, `String`, `Send`, `Sensitive`. Unknown / arithmetic traits (`Num`, …) error; user derives come from `derive` macros ([Macros](/docs/references/macros)).
 - Generic types derive bounded instances: `#[derive(Show, Eq)] class Box<T>`
   expands to `impl Show for Box<T: Show>` and `impl Eq for Box<T: Eq>`, so the
   instance applies to `Box<X>` whenever `X` has the trait. `Ord` bounds by
@@ -1080,7 +1080,7 @@ Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`. Use
 | Existentials | Bare class names are existential value types only for unary `* -> Constraint` classes; multi-param bare existentials and constructor-kinded bare existentials are rejected |
 | Higher-kinded types | Constructor kinds such as `F: * -> *`, `F: * -> * -> *`, and `F: (* -> *) -> *` are supported; kind variables / kind polymorphism are not supported |
 | Associated types | Nullary associated types and generic associated type projections are supported; associated-type equality constraints in `where` clauses are not syntax |
-| Typeclass deriving | `#[derive(Show, Eq, Ord, Hash)]` on non-generic payload or scalar `enum` / `class` (see [Trait derive](#trait-derive)); user traits and generics need an explicit `impl` |
+| Typeclass deriving | `#[derive(Show, Eq, Ord, Hash)]` on payload or scalar `enum` / `class`, generic ones included (see [Trait derive](#trait-derive)); user traits need an explicit `impl` or a user `derive` macro |
 | Effect system | No linear/ownership types |
 | Callback returns | Opaque `Ptr` address; re-invoke requires host/`declare` of the pointed-to symbol (no automatic trampoline) |
 | Inner match patterns | Same outer tag with different inner tags — supported (Phase 18A); complex nested cases may still need careful arm ordering |

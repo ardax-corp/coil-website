@@ -18,6 +18,7 @@ Compiler builtins live in **virtual modules** (not `.hy` files). Every file gets
 | [Operators](/docs/references/operators) | Arithmetic, comparison, logical, field access |
 | [Keywords](/docs/references/keywords) | Reserved words and constructs |
 | [Modules](/docs/references/modules) | Namespace rules, `use` resolution |
+| [Macros](/docs/references/macros) | Derives, attribute macros, `name!(…)` macros, `quote` |
 | [Project config](/docs/references/project-config) | `coil.toml` manifest format |
 | [Error codes](/docs/references/error-codes) | Stable `E####` diagnostic codes |
 
