@@ -128,7 +128,7 @@ coil package examples/fib.hy -o ./fib-app
 coil package examples/fib.hy -o ./fib-app --runner /path/to/coil-embed
 
 # With FFI: verify required shared libraries exist on this machine before shipping
-coil package examples/strlen.hy -o ./strlen-app --check-native
+coil package examples/ffi_extern.hy -o ./ffi-app --allow-dload sum --check-native
 
 # Apps with userland natives ([[ffi.native]]): package embeds a lock; fetch before run
 # spool download ./my-app
@@ -219,7 +219,7 @@ cargo --version
 
 ### libffi (optional, for FFI examples)
 
-Examples that call C code (`examples/strlen.hy`, `examples/ffi_sum.hy`) require **libffi** at link time.
+Examples that call C code (`examples/ffi_extern.hy`, `examples/ffi_sum.hy`) require **libffi** at link time.
 
 | Platform | Package |
 |----------|---------|
@@ -360,6 +360,6 @@ The language includes:
 | 6 | `record.hy` | record variants, field access |
 | 7 | `dict.hy` | anonymous records |
 | 8 | `aliases.hy` | type aliases, tuples |
-| 9 | `strlen.hy` or `ffi_sum.hy` | FFI (after installing libffi) |
+| 9 | `ffi_extern.hy` or `ffi_sum.hy` | FFI (after installing libffi) |
 
 Happy scripting.

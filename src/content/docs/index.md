@@ -141,7 +141,7 @@ For FFI examples you also need **libffi** (e.g. `libffi-dev` on Debian/Ubuntu, `
 | Dicts / anonymous records | `examples/dict.hy` |
 | Generics & traits | `examples/generics.hy`, `examples/hkt_bifunctor.hy`, `examples/gat_pointer.hy`, `examples/existential_show.hy` |
 | Modules | `examples/modules.hy` (see [examples.md](/docs/manual/examples) for setup) |
-| FFI | `examples/strlen.hy`, `examples/ffi_sum.hy`, `examples/ffi_printf.hy` |
+| FFI | `examples/ffi_extern.hy`, `examples/ffi_sum.hy`, `examples/ffi_varargs.hy` |
 | IO streams | `examples/io_bytes.hy`, `examples/io_file.hy`, `examples/io_eof.hy`, `examples/io_udp.hy` |
 | Coroutines | `examples/coro.hy`, `examples/coro_gen.hy`, `examples/coro_send.hy`, `examples/for_in_coro.hy` |
 | Full catalog | [examples.md](/docs/manual/examples) |
