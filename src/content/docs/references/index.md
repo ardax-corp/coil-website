@@ -37,7 +37,7 @@ Compiler builtins live in **virtual modules** (not `.hy` files). Every file gets
 | [io::fs](/docs/references/io-fs) | Virtual module | Path / metadata helpers |
 | [Iterator](/docs/references/iterator) | Prelude traits | `for x in` protocol |
 | [assert](/docs/references/assert) | Prelude test | `assert(cond[, msg]) → Result` |
-| [test harness](/docs/references/test-harness) | CLI | `test("…")` / `#[test]` |
+| [test harness](/docs/references/test-harness) | CLI | `test("…") { … }` only |
 | [panic](/docs/references/panic) | Keyword | Abort with a message |
 | [casts](/docs/references/casts) | Expression | `expr as T` |
 | [env](/docs/references/env) | Virtual module | Args, env vars, `exec` |

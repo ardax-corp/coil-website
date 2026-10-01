@@ -777,14 +777,15 @@ enum Outer {
 
 ### `examples/attr_ffi.hy`
 
-**Demonstrates:** `#[ffi(lib = "c")]` attribute sugar for a single libc binding (equivalent to an `extern` block entry).
+**Demonstrates:** an `extern "c"` block for a compile-time libc binding. (`#[ffi]` attribute sugar is not supported; `extern` blocks are the only compile-time FFI form.)
 
 ```coil
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
-#[ffi(lib = "c")]
-fn strlen(string s) -> int;
+extern "c" {
+    fn strlen(string s) -> int;
+}
 
 fn main() {
     let n = strlen("hello");

@@ -44,13 +44,9 @@ use string::{format, to_bytes};
 #[derive(Show, Eq, Ord)]
 enum Color { Red, Blue }
 
-#[test]
-fn add_works() {
+test("add works") {
     assert(1 + 1 == 2)?;
 }
-
-#[ffi(lib = "c", name = "strlen")]
-fn strlen(string s) -> int;
 
 attr log<T>(fn(...args) -> T target, string message, ...args) -> T {
     write_all(stdout(), to_bytes(format("%s", message)));
@@ -68,14 +64,14 @@ class Point { x: int, y: int }
 |-----------|--------|-----------|
 | `#[derive(Trait, …)]` | `enum` / `class` | Synthesizes structural trait instances (`Show`, `Eq`, `Ord`, `Hash`, …). Without derive, non-generic **payload** types still get a default `Show`/`String` that returns the type name string. Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
 | `#[repr(int)]` / `#[repr(string)]` / `#[repr(float)]` / `#[repr(bool)]` | `enum` | Scalar-backed enum: each case is `Name = lit` of that primitive. May be omitted when every case has `=` and the literals share one type. See [Types — Scalar-backed enums](/docs/references/types#scalar-backed-enums). |
-| `#[test]` / `#[test("desc")]` | `fn` with body | Registers a `coil test` harness case (Result mode) |
-| `#[ffi(lib = "…", name = "…", variadic = true)]` | signature-only `fn …;` | Desugars to compile-time `extern` lowering |
 | `#[max_depth(N)]` | recursive `fn` | Required when call-frame depth cannot be proven (dynamic args, mutual recursion, non-measure shapes). Optional when the compiler already proves a bound (e.g. `fib(10)`). |
 | User `attr` names | `fn`, methods, `class` | Expands to a wrapper that receives the decoratee callable, attribute extras, and forwarded call arguments (`...args`); class attrs wrap the constructor |
 
 User-defined attributes must end with a bare tuple-rest parameter `...args` and call `target(...args)` to forward runtime arguments. Stacking order is Python-style: the first listed attribute is outermost. User attrs cannot be applied to FFI bindings.
 
 Multiple attributes stack (e.g. `#[derive(Show)] #[derive(Eq)]`). Unknown attribute names are rejected at compile time.
+
+`#[test]` and `#[ffi]` are rejected with an error. Write test cases as top-level [`test("desc") { … }`](/docs/references/test-harness) blocks, and compile-time C bindings as `extern "lib" { fn …; }` blocks ([FFI](/docs/references/ffi)).
 
 ---
 
@@ -191,9 +187,10 @@ fn sum(int... xs) -> int { return len(xs); }
 sum(1, 2, 3);   // xs == [1, 2, 3]
 sum();          // xs == []
 
-// Signature-only FFI declaration (requires #[ffi(...)]):
-#[ffi(lib = "c")]
-fn strlen(string s) -> int;
+// Compile-time FFI is `extern "lib" { fn …; }` only (not a signature-only `fn`).
+extern "c" {
+    fn strlen(string s) -> int;
+}
 ```
 
 ### Traits and impl
@@ -345,12 +342,7 @@ extern "c" {
 
 `extern "c"` is a libc alias and is **denied** by the `dload` gate. See [FFI tutorial](/docs/manual/tutorial/07-ffi) and [Project config — `[ffi]`](/docs/references/project-config#ffi).
 
-Equivalent attribute form for a single function:
-
-```coil
-#[ffi(lib = "c")]
-fn strlen(string s) -> int;
-```
+Signature-only `fn foo() -> T;` outside `extern` is a parse error. Runtime loading stays `use ffi::{dload, declare, invoke}`.
 
 ### Classes and impl
 
