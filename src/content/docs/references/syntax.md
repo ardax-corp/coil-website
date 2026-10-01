@@ -201,7 +201,7 @@ trait_item ::= assoc_type_decl | method_sig
 assoc_type_decl ::= 'type' IDENT type_param_list? ';'
 method_sig     ::= 'fn' IDENT arg_list ('->' type_annotation)? (';' | block)
 impl_decl      ::= 'impl' IDENT type_arg_list? 'for' type '{' impl_item* '}'
-                 | 'impl' IDENT type_arg_list '{' impl_item* '}'   // legacy
+                 | 'impl' IDENT type_arg_list '{' impl_item* '}'   // inherent methods on a type
 impl_item      ::= assoc_type_def | method_decl
 assoc_type_def ::= 'type' IDENT type_param_list? '=' type ';'
 type_arg_list  ::= '<' type (',' type)* '>'
@@ -240,11 +240,6 @@ impl Pointer for Option {
 }
 
 impl Measurable for int {
-    fn size(int x) -> int { return x; }
-}
-
-// Legacy angle-bracket form (still accepted):
-impl Measurable<int> {
     fn size(int x) -> int { return x; }
 }
 ```

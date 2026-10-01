@@ -1256,7 +1256,7 @@ fn main() {
 ### `examples/generic_print.hy`
 
 **Demonstrates:** Format `%v` via the `Show` trait — builtin instances for
-primitives, a user `impl Show<Point>`, and `string::format("%v", ...)`.
+primitives, a user `impl Show for Point`, and `string::format("%v", ...)`.
 
 | | |
 |---|---|

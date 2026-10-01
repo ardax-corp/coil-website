@@ -626,7 +626,7 @@ Constrained calls that are not monomorphized append one dictionary per trait con
 (`trait Ordered<T: Equal>`), those bounds are stored as *superclasses*.
 The runtime dictionary for the subclass is flattened: subclass methods first,
 then each superclass’s methods in declaration order (transitively). An
-`impl Ordered<int>` therefore requires an existing `Equal<int>` instance — its
+`impl Ordered for int` therefore requires an existing `Equal<int>` instance — its
 methods fill the trailing dict slots.
 
 ```coil
@@ -767,9 +767,7 @@ See `examples/derive_show_eq.hy`, `examples/derive_hash.hy`, and `examples/typeo
 ### User-defined traits (sketch)
 
 Declare a trait and provide instances for concrete types. Prefer the
-`impl Trait for Type` form; the legacy `impl Trait<Type>` form is still accepted.
-For multi-parameter traits, `impl Trait<A, B> for T` prepends `T` as the first
-type argument (Self slot), so it is equivalent to `impl Trait<T, A, B>`.
+`impl Trait for Type` is the only typeclass instance form. Inherent `impl Foo<T>` still takes type parameters on the type. For multi-parameter traits, `impl Trait<A, B> for T` prepends `T` as the first type argument (Self slot), so it is equivalent to `impl Trait<T, A, B>`.
 
 ```coil
 trait Measurable<T> {
@@ -777,11 +775,6 @@ trait Measurable<T> {
 }
 
 impl Measurable for int {
-    fn size(int x) -> int { return x; }
-}
-
-// Legacy form (still OK):
-impl Measurable<int> {
     fn size(int x) -> int { return x; }
 }
 ```
@@ -1071,7 +1064,7 @@ fn main() {
 }
 ```
 
-Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`. User types can `impl Show<MyType>`. See `examples/generic_print.hy`.
+Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`. User types can `impl Show for MyType`. See `examples/generic_print.hy`.
 
 ---
 
