@@ -87,6 +87,7 @@ export const groups: NavGroup[] = [
       { id: "references/operators", label: "Operators", hint: "Precedence table and operand rules." },
       { id: "references/keywords", label: "Keywords", hint: "Every reserved word and where it is used." },
       { id: "references/modules", label: "Modules", hint: "`use` resolution and namespace rules." },
+      { id: "references/macros", label: "Macros", hint: "Derives, attribute macros, `name!(…)` macros, `quote`." },
       { id: "references/project-config", label: "coil.toml", hint: "Project manifest: roots, entry, package metadata." },
       { id: "references/error-codes", label: "Error codes", hint: "Stable `E####` diagnostics." },
     ],
