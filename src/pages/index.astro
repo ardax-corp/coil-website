@@ -305,15 +305,15 @@ const commands = [
       </header>
       <div class="pkgs">
         {
-          packages.map((p) => (
-            <a class="card pkg" href={p.docs}>
+          packages.filter((p) => p.featured).map((p) => (
+            <a class="card pkg" href={p.docs ?? p.repo}>
               <code class="pkg-name">{p.name}</code>
               <p>{p.summary}</p>
             </a>
           ))
         }
         <a class="card pkg pkg-all" href="/packages">
-          <span>All packages</span>
+          <span>All {packages.length} packages</span>
           <span class="arrow">→</span>
         </a>
       </div>

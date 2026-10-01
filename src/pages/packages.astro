@@ -1,10 +1,10 @@
 ---
 import Base from "../layouts/Base.astro";
 import { SPOOL, STDLIB } from "../lib/nav";
-import { packages } from "../lib/packages";
+import { categories, demo, packages } from "../lib/packages";
 ---
 
-<Base title="Packages" description="Userland Coil packages: regex, tls, crypto and time, plus coil-stdlib and the spool dependency manager." section="packages">
+<Base title="Packages" description={`Userland Coil packages: ${packages.map((p) => p.name).join(", ")}, plus coil-stdlib and the spool dependency manager.`} section="packages">
   <section class="page-hero">
     <div class="wrap">
       <span class="eyebrow">Packages</span>
@@ -30,26 +30,42 @@ import { packages } from "../lib/packages";
       </a>
     </div>
 
-    <h2 class="list-title">Libraries</h2>
-    <ul class="pkg-list">
-      {
-        packages.map((p) => (
-          <li class="card pkg">
-            <div class="pkg-main">
-              <code class="pkg-name">{p.name}</code>
-              <p class="pkg-summary">{p.summary}</p>
-              <p class="pkg-detail">{p.detail}</p>
-            </div>
-            <div class="pkg-links">
-              <a class="btn btn-ghost" href={p.docs}>Reference</a>
-              <a class="btn btn-ghost" href={p.repo}>
-                Repository <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-          </li>
-        ))
-      }
-    </ul>
+    {
+      categories.map((cat) => (
+        <section class="category">
+          <header class="cat-head">
+            <h2>{cat.title}</h2>
+            <p>{cat.blurb}</p>
+          </header>
+          <ul class="pkg-list">
+            {cat.packages.map((p) => (
+              <li class="card pkg">
+                <div class="pkg-top">
+                  <code class="pkg-name">{p.name}</code>
+                  <span class:list={["badge", { native: p.native }]}>{p.native ? "native library" : "pure Coil"}</span>
+                </div>
+                <p class="pkg-summary">{p.summary}</p>
+                <p class="pkg-detail">{p.detail}</p>
+                <code class="pkg-use">{p.use}</code>
+                <div class="pkg-links">
+                  {p.docs && <a href={p.docs}>Reference →</a>}
+                  <a href={p.repo}>Repository ↗</a>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+
+    <a class="card demo" href={demo.repo}>
+      <div>
+        <span class="eyebrow">Example package</span>
+        <h2><code>{demo.name}</code> <span class="arrow">↗</span></h2>
+        <p>{demo.detail}</p>
+      </div>
+      <code class="pkg-use">{demo.use}</code>
+    </a>
 
     <p class="aside">
       Not sure whether something is a builtin? See <a href="/docs/references/not-builtins">What is not built in</a> and
@@ -116,34 +132,50 @@ import { packages } from "../lib/packages";
     font-size: 0.9em;
   }
 
-  .list-title {
-    font-size: 0.8rem;
+  .category {
+    margin-top: 3.5rem;
+  }
+
+  .cat-head {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .cat-head h2 {
+    font-size: 1.25rem;
     font-weight: 600;
-    letter-spacing: 0.05em;
-    margin: 3rem 0 1rem;
-    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .cat-head p {
+    color: var(--muted);
+    margin: 0;
   }
 
   .pkg-list {
     display: grid;
-    gap: 0.75rem;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
   .pkg {
-    align-items: center;
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem 2rem;
-    justify-content: space-between;
-    padding: 1.4rem 1.6rem;
+    flex-direction: column;
+    padding: 1.4rem;
   }
 
-  .pkg-main {
-    flex: 1;
-    min-width: 16rem;
+  .pkg-top {
+    align-items: center;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: space-between;
   }
 
   .pkg-name {
@@ -152,26 +184,84 @@ import { packages } from "../lib/packages";
     font-weight: 600;
   }
 
-  .pkg-summary {
+  .badge {
+    background: var(--patina-soft);
+    border-radius: 999px;
+    color: var(--patina);
+    font-size: 0.72rem;
     font-weight: 500;
-    margin: 0.3rem 0 0.2rem;
+    padding: 0.15rem 0.6rem;
+    white-space: nowrap;
+  }
+
+  .badge.native {
+    background: var(--surface-2);
+    color: var(--muted);
+  }
+
+  .pkg-summary {
+    font-weight: 600;
+    margin: 0.6rem 0 0.25rem;
   }
 
   .pkg-detail {
     color: var(--muted);
-    font-size: 0.92rem;
-    margin: 0;
-    max-width: 38rem;
+    font-size: 0.9rem;
+    margin: 0 0 1rem;
+  }
+
+  .pkg-use {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: var(--radius-sm);
+    color: var(--fg-soft);
+    display: block;
+    font-size: 0.74rem;
+    margin-top: auto;
+    overflow-x: auto;
+    padding: 0.5rem 0.65rem;
+    white-space: nowrap;
   }
 
   .pkg-links {
     display: flex;
-    gap: 0.5rem;
+    gap: 1.25rem;
+    margin-top: 0.9rem;
   }
 
-  .pkg-links .btn {
-    font-size: 0.85rem;
-    padding: 0.55rem 0.95rem;
+  .pkg-links a {
+    color: var(--fg-soft);
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .pkg-links a:hover {
+    color: var(--accent);
+  }
+
+  .demo {
+    align-items: center;
+    display: grid;
+    gap: 1rem 2.5rem;
+    grid-template-columns: 1fr auto;
+    margin-top: 3.5rem;
+    padding: 1.6rem 1.75rem;
+  }
+
+  .demo h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0.4rem 0 0.35rem;
+  }
+
+  .demo p {
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .demo .pkg-use {
+    margin: 0;
   }
 
   .aside {
@@ -184,7 +274,17 @@ import { packages } from "../lib/packages";
     color: var(--accent);
   }
 
+  @media (max-width: 1000px) {
+    .pkg-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
   @media (max-width: 720px) {
+    .pkg-list,
+    .demo {
+      grid-template-columns: minmax(0, 1fr);
+    }
     .foundation {
       grid-template-columns: 1fr;
     }
