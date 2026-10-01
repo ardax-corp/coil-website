@@ -260,7 +260,7 @@ fn main() {
 
 ### `examples/for_break.hy`
 
-**Demonstrates:** C-style `for` with `continue` and `break` (sum `0+1+2+4+5+6` = `18`).
+**Demonstrates:** `while` with `continue` and `break` (sum `0+1+2+4+5+6` = `18`).
 
 ```coil
 use io::{stdout};
@@ -268,10 +268,12 @@ use io::sync::{write_all};
 use string::{format, to_bytes};
 fn main() {
     let sum = 0;
-    for (let i = 0; i < 10; i = i + 1) {
-        if i == 3 { continue; }
+    let i = 0;
+    while i < 10 {
+        if i == 3 { i = i + 1; continue; }
         if i == 7 { break; }
         sum = sum + i;
+        i = i + 1;
     }
     write_all(stdout(), to_bytes(format("%i", sum)));
 }
@@ -775,14 +777,15 @@ enum Outer {
 
 ### `examples/attr_ffi.hy`
 
-**Demonstrates:** `#[ffi(lib = "c")]` attribute sugar for a single libc binding (equivalent to an `extern` block entry).
+**Demonstrates:** an `extern "c"` block for a compile-time libc binding. (`#[ffi]` attribute sugar is not supported; `extern` blocks are the only compile-time FFI form.)
 
 ```coil
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
-#[ffi(lib = "c")]
-fn strlen(string s) -> int;
+extern "c" {
+    fn strlen(string s) -> int;
+}
 
 fn main() {
     let n = strlen("hello");
@@ -1253,7 +1256,7 @@ fn main() {
 ### `examples/generic_print.hy`
 
 **Demonstrates:** Format `%v` via the `Show` trait — builtin instances for
-primitives, a user `impl Show<Point>`, and `string::format("%v", ...)`.
+primitives, a user `impl Show for Point`, and `string::format("%v", ...)`.
 
 | | |
 |---|---|

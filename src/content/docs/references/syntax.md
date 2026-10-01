@@ -61,7 +61,7 @@ fn triple(int x) -> int { return x * 3; }
 | `#[max_depth(N)]` | recursive `fn` | Required when call-frame depth cannot be proven (dynamic args, mutual recursion, non-measure shapes). Optional when the compiler already proves a bound (e.g. `fib(10)`). |
 | Attribute macro `#[name(…)]` | `fn`, methods, `class`, `enum` | Runs the `attr name(…)` macro imported with `use`; its output replaces the item. See [Macros](/docs/references/macros#attribute-macros). |
 
-Several attribute macros on one item apply outermost first. `#[test]` and `#[ffi]` are gone: tests are `test("desc") { … }` ([test harness](/docs/references/test-harness)) and foreign functions are declared in `extern "lib" { fn …; }` ([FFI](/docs/references/ffi)). Unknown attribute names are rejected at compile time.
+Several attribute macros on one item apply outermost first. Unknown attribute names are rejected at compile time.
 
 ### Macro declarations and calls
 
@@ -74,6 +74,8 @@ quote_expr    ::= 'quote' ('items' | 'expr' | 'stmts' | 'type') '{' template '}'
 ```
 
 `derive`, `attrs`, `macro` and `quote` are contextual: they are ordinary identifiers elsewhere (`use macro::{…}` names the model module). A `macro_call` is an expression; written as a statement (`name!(…);`) its output is statements, or declarations at the top level. See [Macros](/docs/references/macros).
+
+`#[test]` and `#[ffi]` are rejected with an error. Write test cases as top-level [`test("desc") { … }`](/docs/references/test-harness) blocks, and compile-time C bindings as `extern "lib" { fn …; }` blocks ([FFI](/docs/references/ffi)).
 
 ---
 
@@ -181,13 +183,14 @@ fn add(int a, int b) -> int { return a + b; }
 fn add<T: Num>(T a, T b) -> T { return a + b; }
 fn apply_cast<A, B>(A x) -> B where Convert<A, B> { return cast(x); }
 fn greet() { write_all(stdout(), to_bytes("hi")); }
-fn sum(int... xs) -> int { return len(xs); }
+fn sum(int... xs) -> int { return xs.len(); }
 sum(1, 2, 3);   // xs == [1, 2, 3]
 sum();          // xs == []
 
-// Signature-only FFI declaration (requires #[ffi(...)]):
-#[ffi(lib = "c")]
-fn strlen(string s) -> int;
+// Compile-time FFI is `extern "lib" { fn …; }` only (not a signature-only `fn`).
+extern "c" {
+    fn strlen(string s) -> int;
+}
 ```
 
 ### Traits and impl
@@ -198,7 +201,7 @@ trait_item ::= assoc_type_decl | method_sig
 assoc_type_decl ::= 'type' IDENT type_param_list? ';'
 method_sig     ::= 'fn' IDENT arg_list ('->' type_annotation)? (';' | block)
 impl_decl      ::= 'impl' IDENT type_arg_list? 'for' type '{' impl_item* '}'
-                 | 'impl' IDENT type_arg_list '{' impl_item* '}'   // legacy
+                 | 'impl' IDENT type_arg_list '{' impl_item* '}'   // inherent methods on a type
 impl_item      ::= assoc_type_def | method_decl
 assoc_type_def ::= 'type' IDENT type_param_list? '=' type ';'
 type_arg_list  ::= '<' type (',' type)* '>'
@@ -237,11 +240,6 @@ impl Pointer for Option {
 }
 
 impl Measurable for int {
-    fn size(int x) -> int { return x; }
-}
-
-// Legacy angle-bracket form (still accepted):
-impl Measurable<int> {
     fn size(int x) -> int { return x; }
 }
 ```
@@ -339,12 +337,7 @@ extern "c" {
 
 `extern "c"` is a libc alias and is **denied** by the `dload` gate. See [FFI tutorial](/docs/manual/tutorial/07-ffi) and [Project config — `[ffi]`](/docs/references/project-config#ffi).
 
-Equivalent attribute form for a single function:
-
-```coil
-#[ffi(lib = "c")]
-fn strlen(string s) -> int;
-```
+Signature-only `fn foo() -> T;` outside `extern` is a parse error. Runtime loading stays `use ffi::{dload, declare, invoke}`.
 
 ### Classes and impl
 
@@ -431,10 +424,9 @@ statement ::= while_stmt
 | `return` | `return [expr] ';'` (`return;` returns unit) |
 | `yield` | `yield expr ';'` or `yield from expr ';'` |
 | `while` | `while expr block` |
-| `for` (C-style) | `for '(' init ';' cond ';' step ')' block` |
-| `for` (iterator) | `for IDENT in expr block` — via prelude `IntoIterator` / `Iterator` (arrays, homogeneous tuples/dicts, coroutines, or user `impl`s; see [Built-ins](/docs/references/iterator)) |
+| `for` | `for IDENT in expr block` — via prelude `IntoIterator` / `Iterator` (arrays, homogeneous tuples/dicts, coroutines, or user `impl`s; see [Built-ins](/docs/references/iterator)). C-style `for (init; cond; step)` is a parse error. |
 | `break` | `break ';'` (innermost loop) |
-| `continue` | `continue ';'` (jumps to `for` step / `while` condition / next for-in iteration) |
+| `continue` | `continue ';'` (jumps to the `while` condition / next for-in iteration) |
 | `if` | `if expr block ('else' (block \| if_stmt))?` |
 | Block | `'{' statement* '}'` |
 
@@ -597,7 +589,7 @@ match r {
 }
 ```
 
-`match` copies the scrutinee (fields included). Nested `match` on the same value is allowed; outer pattern bindings stay in scope unless an inner pattern shadows them. See [Enums and Match](/docs/manual/tutorial/03-enums-and-match#match-does-not-consume-the-scrutinee). Pattern matching is spelled `match` only; `case` is not an alias ([limitations.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md) COI-74).
+`match` copies the scrutinee (fields included). Nested `match` on the same value is allowed; outer pattern bindings stay in scope unless an inner pattern shadows them. See [Enums and Match](/docs/manual/tutorial/03-enums-and-match#match-does-not-consume-the-scrutinee). Pattern matching is spelled `match` only; `case` is not an alias ([limitations.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md)).
 
 ---
 

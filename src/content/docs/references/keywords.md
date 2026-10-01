@@ -21,7 +21,7 @@ All reserved words in the coil parser. Keywords cannot be used as identifiers.
 | `if` | Statement | Conditional | [Syntax — Statements](/docs/references/syntax#statements) |
 | `else` | Statement | Alternative branch | [Syntax — Statements](/docs/references/syntax#statements) |
 | `while` | Statement | Loop while condition true | [Syntax — Statements](/docs/references/syntax#statements) |
-| `for` | Statement | C-style `for (…)` or iterator `for x in expr` | [Syntax — Statements](/docs/references/syntax#statements) |
+| `for` | Statement | Iterator `for x in expr` | [Syntax — Statements](/docs/references/syntax#statements) |
 | `in` | Statement | For-in separator (`for x in expr` via `IntoIterator`) | [Built-ins — Iterator](/docs/references/iterator) |
 | `break` | Statement | Exit innermost loop | [Syntax — Statements](/docs/references/syntax#statements) |
 | `continue` | Statement | Next iteration of innermost loop | [Syntax — Statements](/docs/references/syntax#statements) |
@@ -61,7 +61,7 @@ All reserved words in the coil parser. Keywords cannot be used as identifiers.
 fn | enum | type | trait | use | mod | extern | class | impl | defer | async | where | attr
 ```
 
-`attr` declares an attribute macro. `derive`, `attrs`, `macro` and `quote` are contextual words for the other macro forms, not reserved: see [Macros](/docs/references/macros). Attributes (`#[derive(...)]`, `#[repr(...)]`, `#[max_depth(N)]`, attribute macros `#[name(...)]`) are not keywords — see [Syntax — Attributes](/docs/references/syntax#attributes).
+`attr` declares an attribute macro. `derive`, `attrs`, `macro` and `quote` are contextual words for the other macro forms, not reserved: see [Macros](/docs/references/macros). Attributes (`#[derive(...)]`, `#[repr(...)]`, `#[max_depth(N)]`, attribute macros `#[name(...)]`) are not keywords — see [Syntax — Attributes](/docs/references/syntax#attributes). `#[test]` and `#[ffi]` are rejected.
 
 Registered in the top-level `declaration()` parser before generic statements so keywords like `enum` are not misparsed as `let`.
 
@@ -115,9 +115,9 @@ These tokens are **not** in the parser keyword set. Using them as identifiers ma
 |------|-------|
 | `struct` | FFI `extern struct` only; otherwise use `class` or record dicts |
 
-`import` is not a keyword and will not be added. Module binding is `use` only ([limitations.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md) COI-73).
+`import` is not a keyword and will not be added. Module binding is `use` only ([limitations.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md)).
 
-`case` is not a keyword and will not be added. Pattern matching is `match` only ([limitations.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md) COI-74).
+`case` is not a keyword and will not be added. Pattern matching is `match` only ([limitations.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md)).
 
 ---
 

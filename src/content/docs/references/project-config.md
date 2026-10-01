@@ -235,7 +235,7 @@ Declares library dependencies for **`spool`**. Each key is the short package nam
 
 | Form | Keys | Description |
 |------|------|-------------|
-| Git | `git` (string URL). Optional `version`, optional `rev`. Optional `trusted` (bool, default `false`). | `{ git = "…" }` is valid. `version` is optional schema, not a resolved tag. `rev` is stored only. The pin is `coil.lock` (`rev` + `content_hash`) until COI-219. |
+| Git | `git` (string URL). Optional `version`, optional `rev`. Optional `trusted` (bool, default `false`). | `{ git = "…" }` is valid. `version` is optional schema, not a resolved tag. `rev` is stored only. The pin is `coil.lock` (`rev` + `content_hash`) for now; git tag resolution is not implemented yet. |
 | Path | `path` (string). Optional `trusted` (bool, default `false`). | Local checkout relative to the project root. |
 
 Optional **`trusted`** is per dep row. Omitted / `false` is the default. `true` skips native `sha256` for that dependency's `dload` stem, and only when the stem is also on `[ffi] allow`. It is **not** git `content_hash`, not hooks, not engine, and never `dload("c")`. The compiler honors the flag at the `dload` gate (it is not parser-only). Trusted without allow is `LibraryDenied`. `crypto` / `tls` / `regex` / `time` use the same skip.
@@ -259,7 +259,7 @@ http = { git = "https://github.com/coil-lang/http.git", rev = "abc123" }
 http = { git = "https://github.com/coil-lang/http.git", version = "^0.2", rev = "abc123" }
 ```
 
-**Compiler role:** parse and store the schema so manifests with deps still compile. Optional `version` and `rev` are stored as parsed fields only — the compiler does not resolve tags, fetch git, or write a lockfile. Git tag resolution is COI-219; until then `coil.lock` (`rev` + `content_hash`) remains the pin. **`spool`** (`install` / `add` / `update`) resolves deps, writes that lock, and maintains a project-local managed root (e.g. `.spool/deps/<name>`) that should appear in `[module].roots`. The compiler reads `coil.lock` `[[package.native]] sha256` rows for `dload` stems (see [`[ffi]`](#ffi)). It does **not** auto-inject `[module].roots`.
+**Compiler role:** parse and store the schema so manifests with deps still compile. Optional `version` and `rev` are stored as parsed fields only — the compiler does not resolve tags, fetch git, or write a lockfile. Git tag resolution is not implemented yet; until then `coil.lock` (`rev` + `content_hash`) remains the pin. **`spool`** (`install` / `add` / `update`) resolves deps, writes that lock, and maintains a project-local managed root (e.g. `.spool/deps/<name>`) that should appear in `[module].roots`. The compiler reads `coil.lock` `[[package.native]] sha256` rows for `dload` stems (see [`[ffi]`](#ffi)). It does **not** auto-inject `[module].roots`.
 
 When a managed root is on disk:
 

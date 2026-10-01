@@ -1,26 +1,30 @@
 ---
 import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-import Base from "../../layouts/Base.astro";
+import Docs from "../../layouts/Docs.astro";
+import { allGroups, docHref, plainTitle } from "../../lib/nav";
 
 export async function getStaticPaths() {
   const docs = await getCollection("docs");
-  return docs.flatMap((doc) => {
-    if (doc.id === "index") {
-      return [];
-    }
-    const slug = doc.id.replace(/\/index$/, "");
-    return [{ params: { slug }, props: { doc } }];
-  });
+  return docs.map((doc) => ({
+    // docHref maps the docs root (index.md) to /docs/overview; /docs is the hub.
+    params: { slug: docHref(doc.id).replace(/^\/docs\//, "") },
+    props: { doc },
+  }));
 }
 
 type Props = { doc: CollectionEntry<"docs"> };
 const { doc } = Astro.props;
-const { Content } = await render(doc);
+const { Content, headings } = await render(doc);
+const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"));
 ---
 
-<Base title={doc.data.title} description={doc.data.description}>
-  <article class="post">
-    <Content />
-  </article>
-</Base>
+<Docs
+  href={docHref(doc.id)}
+  title={plainTitle(doc.data.title)}
+  description={doc.data.description}
+  headings={headings}
+  groups={groups}
+>
+  <Content />
+</Docs>

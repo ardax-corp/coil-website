@@ -1,36 +1,1018 @@
 ---
+import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
+import CodeSample from "../components/CodeSample.astro";
+import { COIL_PATH } from "../lib/logo";
+import { NIGHTLY, RELEASES, SPOOL, STDLIB, inlineCode, linkHref, groups } from "../lib/nav";
+import { packages } from "../lib/packages";
+
+const tutorial = groups.find((g) => g.key === "tutorial")!;
+const refGroups = groups.filter((g) => g.track === "reference");
+
+const posts = (await getCollection("blog")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 2);
+const dateFmt = new Intl.DateTimeFormat("en", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+
+const hero = `
+use io::{stdout};
+use io::sync::{write_all};
+use string::{format, to_bytes};
+
+enum Shape {
+    Circle(int),
+    Rect { width: int, height: int },
+}
+
+fn area(Shape s) -> int {
+    return match s {
+        Shape::Circle(r) => 3 * r * r,
+        Shape::Rect { width, height } => width * height,
+    };
+}
+
+fn main() {
+    let shapes = [
+        Shape::Circle(3),
+        Shape::Rect { width: 3, height: 4 },
+    ];
+    for s in shapes {
+        write_all(stdout(), to_bytes(format("%i\\n", area(s))));
+    }
+}
+`;
+
+const features = [
+  {
+    title: "Types, inferred",
+    text: "Hindley–Milner inference checks the whole program before it runs. Annotate where it helps the reader, not the compiler.",
+    href: "/docs/manual/tutorial/02-types-and-variables",
+    code: `let nums = [1, 2, 3];       // [int; 3]
+let pair = (42, "hello");   // (int, string)
+let buf: Vec<int> = Vec::new();`,
+  },
+  {
+    title: "Data you can match on",
+    text: "Enums with unit, tuple and record cases, scalar-backed variants, and exhaustive pattern matching.",
+    href: "/docs/manual/tutorial/03-enums-and-match",
+    code: `match s {
+    Shape::Circle(r) => r * r,
+    Shape::Rect { width, height } => width * height,
+}`,
+  },
+  {
+    title: "Errors are values",
+    text: "Built-in Option and Result, with raise, ? , ?? and ?. desugaring to ordinary matches — no exceptions.",
+    href: "/docs/manual/tutorial/09-error-handling",
+    code: `fn port(string s) -> Result<int, string> {
+    if s == "" { raise "empty"; }
+    return Result::Ok(8080);
+}
+let p = port(s) ?? 80;`,
+  },
+  {
+    title: "Coroutines built in",
+    text: "Stackful coroutines with async fn, yield and resume — and they plug straight into for-in loops.",
+    href: "/docs/manual/tutorial/08-coroutines",
+    code: `async fn countdown(int n) {
+    let i = n;
+    while i > 0 { yield i; i = i - 1; }
+}
+for n in countdown(3) { … }`,
+  },
+  {
+    title: "Reach native code",
+    text: "Declare C functions in an extern block and call them directly, or load libraries at runtime through libffi.",
+    href: "/docs/manual/tutorial/07-ffi",
+    code: `extern "c" {
+    fn strlen(string s) -> int;
+}
+let n = strlen("hello");`,
+  },
+  {
+    title: "Real programs",
+    text: "Non-blocking files, TCP and UDP streams, OS threads with channels, and a multi-file module system.",
+    href: "/docs/manual/tutorial/10-io-streams",
+    code: `use io::{stdout, open};
+use thread::{spawn, join, channel};
+use env::{args, var};`,
+  },
+];
+
+const pipeline = [
+  { step: "Parse", detail: "Pratt parser → AST", file: ".hy" },
+  { step: "Typecheck", detail: "Hindley–Milner inference" },
+  { step: "Codegen", detail: "Stack IL, lowered & fused" },
+  { step: "Archive", detail: "Versioned bytecode", file: ".hyc" },
+  { step: "Run", detail: "Thin VM executes main" },
+];
+
+const commands = [
+  ["coil app.hy", "Compile (cached) and run"],
+  ["coil test", "Run test blocks under ./tests"],
+  ["coil fmt src/", "Format sources in place"],
+  ["coil package app.hy", "Build a single executable"],
+  ["coil lsp", "Language server for your editor"],
+];
 ---
 
 <Base
   title="Coil"
-  description="A small, statically typed scripting language."
-  ogImage="/og-home.png"
+  description="A small, statically typed scripting language with Hindley–Milner inference, pattern matching, coroutines and FFI — compiled to bytecode for a thin VM."
+  section="home"
 >
-  <h1 class="hero">A small, statically typed scripting language.</h1>
+  <!-- ------------------------------------------------------------ hero -->
+  <section class="hero">
+    <svg class="hero-wire" viewBox="0 0 32 32" preserveAspectRatio="none" aria-hidden="true">
+      <path d={COIL_PATH} fill="none" stroke="currentColor" stroke-width="0.35" stroke-linecap="round"></path>
+    </svg>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <a class="status" href={RELEASES}>
+          <span class="dot"></span> Pre-release · download the latest build <span aria-hidden="true">→</span>
+        </a>
+        <h1>A small, statically&nbsp;typed scripting&nbsp;language.</h1>
+        <p class="lede">
+          Coil gives you real type inference, algebraic data types and pattern matching, coroutines and FFI —
+          compiled to compact bytecode and run on a thin, embeddable VM.
+        </p>
+        <div class="cta">
+          <a class="btn btn-primary" href="/docs/manual/getting-started">Get started <span class="arrow">→</span></a>
+          <a class="btn btn-ghost" href="/docs">Read the docs</a>
+        </div>
+        <dl class="facts">
+          <div><dt>Source</dt><dd><code>.hy</code></dd></div>
+          <div><dt>Bytecode</dt><dd><code>.hyc</code></dd></div>
+          <div><dt>CLI</dt><dd><code>coil</code></dd></div>
+          <div><dt>Packages</dt><dd><code>spool</code></dd></div>
+        </dl>
+      </div>
 
-  <div class="stack">
-    <p>
-      Download Coil.
-      <a href="https://github.com/ardax-corp/coil-lang/releases"
-        >GitHub Releases</a
-      >, or the latest
-      <a href="https://github.com/ardax-corp/coil-lang/actions">release-binaries</a>
-      build. There is no versioned release yet.
-    </p>
-    <p>
-      Coil uses Hindley–Milner inference. Source files use <code>.hy</code>.
-      Compiled archives are <code>.hyc</code>.
-    </p>
-    <p>The <code>coil</code> CLI is the command for the language.</p>
-    <p>
-      <a href="https://github.com/ardax-corp/spool">spool</a> is a git-based
-      library dependency manager for Coil.
-    </p>
-  </div>
+      <div class="window" data-plain-code aria-label="Example Coil program">
+        <div class="window-bar">
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="window-title">shapes.hy</span>
+        </div>
+        <CodeSample code={hero} class="window-code" />
+        <div class="window-term">
+          <div><span class="prompt">$</span> coil shapes.hy</div>
+          <div class="out">27</div>
+          <div class="out">12</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <pre><code>.hy      source
-.hyc     compiled archive
-coil     CLI
-spool    library dependencies</code></pre>
+  <!-- -------------------------------------------------------- features -->
+  <section class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <span class="eyebrow">The language</span>
+        <h2>More structure than a script. Less ceremony than a systems language.</h2>
+        <p>Every feature below links to the tutorial chapter that teaches it.</p>
+      </header>
+
+      <div class="features">
+        {
+          features.map((f) => (
+            <a class="card feature" href={f.href} data-plain-code>
+              <h3>{f.title}</h3>
+              <p>{f.text}</p>
+              <CodeSample code={f.code} class="feature-code" />
+              <span class="feature-more">
+                Learn more <span class="arrow">→</span>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------------- pipeline -->
+  <section class="section pipeline-section">
+    <div class="wrap">
+      <header class="section-head">
+        <span class="eyebrow">How it runs</span>
+        <h2>From source to bytecode, once.</h2>
+        <p>
+          The CLI caches the compiled archive and reuses it until sources, version or entry point change — so
+          the second run starts straight on the VM.
+        </p>
+      </header>
+
+      <ol class="pipeline">
+        {
+          pipeline.map((p, i) => (
+            <li>
+              <span class="pipe-num">{String(i + 1).padStart(2, "0")}</span>
+              <span class="pipe-step">{p.step}</span>
+              <span class="pipe-detail">{p.detail}</span>
+              {p.file && <code class="pipe-file">{p.file}</code>}
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="cli">
+        <div class="cli-copy">
+          <h3>One command for the whole loop</h3>
+          <p>
+            Build, test, format, package and serve the language server from the same <code>coil</code> binary.
+            Dependencies are fetched by <a href={SPOOL}>spool</a>.
+          </p>
+          <a class="text-link" href="/docs/manual/getting-started">Install and run your first program →</a>
+        </div>
+        <ul class="cli-list">
+          {
+            commands.map(([cmd, what]) => (
+              <li>
+                <code>
+                  <span class="prompt">$</span> {cmd}
+                </code>
+                <span>{what}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------------ docs -->
+  <section class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <span class="eyebrow">Documentation</span>
+        <h2>Two ways in.</h2>
+        <p>Follow the tutorial from the first line of code, or jump straight to the reference when you need an exact answer.</p>
+      </header>
+
+      <div class="ways">
+        <div class="card way">
+          <div class="way-head">
+            <span class="eyebrow">Learn</span>
+            <h3>The tutorial</h3>
+            <p>Eleven chapters, in order. Each one ends where the next begins.</p>
+          </div>
+          <ol class="way-chapters">
+            {
+              tutorial.items.map((c, i) => (
+                <li>
+                  <a href={linkHref(c)}>
+                    <span class="n">{String(i + 1).padStart(2, "0")}</span>
+                    {c.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+          <a class="btn btn-primary" href="/docs/manual/getting-started">Start the tutorial <span class="arrow">→</span></a>
+        </div>
+
+        <div class="card way way-ref">
+          <div class="way-head">
+            <span class="eyebrow">Reference</span>
+            <h3>The reference</h3>
+            <p>Grammar, types and every module, organised for lookup.</p>
+          </div>
+          <ul class="way-groups">
+            {
+              refGroups.map((g) => (
+                <li>
+                  <a href={linkHref(g.items[0])}>
+                    <span class="g-title">{g.title}</span>
+                    <span class="g-items" set:html={inlineCode(g.items.slice(0, 4).map((i) => i.label).join(" · "))} />
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+          <a class="btn btn-ghost" href="/docs/references">Browse the reference <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------- ecosystem -->
+  <section class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <span class="eyebrow">Ecosystem</span>
+        <h2>Small core, userland packages.</h2>
+        <p>
+          The compiler ships the essentials as virtual modules. Everything else lives in ordinary Coil packages —
+          starting with <a class="text-link" href={STDLIB}>coil-stdlib</a>.
+        </p>
+      </header>
+      <div class="pkgs">
+        {
+          packages.filter((p) => p.featured).map((p) => (
+            <a class="card pkg" href={`/packages/${p.name}`}>
+              <code class="pkg-name">{p.name}</code>
+              <p>{p.summary}</p>
+            </a>
+          ))
+        }
+        <a class="card pkg pkg-all" href="/packages">
+          <span>All {packages.length} packages</span>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------------ blog -->
+  {
+    posts.length > 0 && (
+      <section class="section">
+        <div class="wrap">
+          <header class="section-head row">
+            <div>
+              <span class="eyebrow">From the blog</span>
+              <h2>Notes from the work.</h2>
+            </div>
+            <a class="text-link" href="/blog">
+              All posts →
+            </a>
+          </header>
+          <div class="posts">
+            {posts.map((post) => (
+              <a class="card post-card" href={`/blog/${post.id}`}>
+                <time datetime={post.data.date.toISOString()}>{dateFmt.format(post.data.date)}</time>
+                <h3>{post.data.title}</h3>
+                <p>{post.data.description}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- ------------------------------------------------------------- end -->
+  <section class="wrap">
+    <div class="closing">
+      <h2>Write your first <code>.hy</code> file.</h2>
+      <p>
+        Grab the toolkit from <a href={RELEASES}>GitHub Releases</a> — or, until the first tagged release, the latest
+        <a href={NIGHTLY}>release-binaries</a> build.
+      </p>
+      <div class="cta">
+        <a class="btn btn-primary" href="/docs/manual/getting-started">Get started <span class="arrow">→</span></a>
+        <a class="btn btn-ghost" href="/docs/manual/examples">Browse examples</a>
+      </div>
+    </div>
+  </section>
 </Base>
+
+<style>
+  /* --------------------------------------------------------------- hero */
+
+  .hero {
+    background: var(--glow);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    padding: 5rem 0 5.5rem;
+    position: relative;
+  }
+
+  .hero-wire {
+    color: var(--accent);
+    height: 140%;
+    left: -10%;
+    opacity: 0.07;
+    pointer-events: none;
+    position: absolute;
+    top: -20%;
+    width: 120%;
+  }
+
+  .hero-grid {
+    align-items: center;
+    display: grid;
+    gap: 4rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    position: relative;
+  }
+
+  .status {
+    align-items: center;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+    color: var(--muted);
+    display: inline-flex;
+    font-size: 0.84rem;
+    gap: 0.55rem;
+    padding: 0.35rem 0.85rem 0.35rem 0.7rem;
+    text-decoration: none;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .status:hover {
+    border-color: var(--accent);
+    color: var(--fg);
+  }
+
+  .dot {
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px var(--accent-soft);
+    height: 7px;
+    width: 7px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 5.6vw, 4.1rem);
+    font-weight: 650;
+    letter-spacing: -0.05em;
+    line-height: 1.02;
+    margin: 1.5rem 0 1.4rem;
+  }
+
+  .lede {
+    color: var(--muted);
+    font-size: 1.18rem;
+    line-height: 1.6;
+    margin: 0 0 2.2rem;
+    max-width: 34rem;
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .arrow {
+    display: inline-block;
+    transition: transform 0.15s;
+  }
+
+  a:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    margin: 2.75rem 0 0;
+  }
+
+  .facts div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .facts dt {
+    color: var(--faint);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .facts dd {
+    margin: 0;
+  }
+
+  .facts code {
+    color: var(--fg);
+    font-size: 0.95rem;
+  }
+
+  /* Code window */
+  .window {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .window-bar {
+    align-items: center;
+    border-bottom: 1px solid var(--code-border);
+    display: flex;
+    gap: 1rem;
+    padding: 0.7rem 1rem;
+  }
+
+  .dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .dots i {
+    background: var(--border-strong);
+    border-radius: 50%;
+    height: 10px;
+    width: 10px;
+  }
+
+  .window-title {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+
+  .window :global(pre.window-code) {
+    border: 0;
+    border-radius: 0;
+    font-size: 0.82rem;
+    margin: 0;
+    padding: 1.1rem 1.25rem;
+  }
+
+  .window-term {
+    background: color-mix(in srgb, var(--code-bg) 60%, var(--surface-2));
+    border-top: 1px solid var(--code-border);
+    color: var(--fg-soft);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.6;
+    padding: 0.75rem 1.25rem;
+  }
+
+  .prompt {
+    color: var(--accent);
+    user-select: none;
+  }
+
+  .window-term .out {
+    color: var(--muted);
+  }
+
+  /* ----------------------------------------------------------- features */
+
+  .features {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .feature {
+    min-width: 0;
+    display: flex !important;
+    flex-direction: column;
+    padding: 1.4rem 1.25rem;
+  }
+
+  .feature h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin: 0 0 0.45rem;
+  }
+
+  .feature p {
+    color: var(--muted);
+    font-size: 0.93rem;
+    margin: 0 0 1.25rem;
+  }
+
+  .feature :global(pre.feature-code) {
+    font-size: 0.74rem;
+    margin: auto 0 1rem;
+    padding: 0.85rem 0.9rem;
+  }
+
+  .feature-more {
+    color: var(--muted);
+    font-size: 0.86rem;
+    font-weight: 500;
+  }
+
+  .feature:hover .feature-more {
+    color: var(--accent);
+  }
+
+  /* ----------------------------------------------------------- pipeline */
+
+  .pipeline-section {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+  }
+
+  .pipeline {
+    counter-reset: step;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  .pipeline::before {
+    background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 12px);
+    content: "";
+    height: 2px;
+    left: 0.6rem;
+    opacity: 0.45;
+    position: absolute;
+    right: 10%;
+    top: 0.6rem;
+  }
+
+  .pipeline li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-right: 1rem;
+    position: relative;
+  }
+
+  .pipe-num {
+    align-items: center;
+    background: var(--bg-elev);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    color: var(--accent);
+    display: flex;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 600;
+    height: 1.35rem;
+    justify-content: center;
+    margin-bottom: 0.9rem;
+    position: relative;
+    width: 1.35rem;
+  }
+
+  .pipe-step {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .pipe-detail {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .pipe-file {
+    background: var(--accent-soft);
+    border-radius: 5px;
+    color: var(--accent);
+    font-size: 0.78rem;
+    margin-top: 0.4rem;
+    padding: 0.1rem 0.45rem;
+    width: fit-content;
+  }
+
+  .cli {
+    align-items: center;
+    display: grid;
+    gap: 3rem;
+    grid-template-columns: 1fr 1.2fr;
+    margin-top: 4rem;
+  }
+
+  .cli h3 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.6rem;
+  }
+
+  .cli p {
+    color: var(--muted);
+    margin: 0 0 1.1rem;
+  }
+
+  .cli p a {
+    color: var(--fg);
+  }
+
+  .cli-list {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: var(--radius-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+  }
+
+  .cli-list li {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    justify-content: space-between;
+    padding: 0.55rem 1.25rem;
+  }
+
+  .cli-list li + li {
+    border-top: 1px dashed var(--code-border);
+  }
+
+  .cli-list code {
+    color: var(--fg);
+    font-size: 0.85rem;
+  }
+
+  .cli-list span:not(.prompt) {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .text-link {
+    color: var(--accent);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .text-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /* --------------------------------------------------------------- ways */
+
+  .ways {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .way {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+  }
+
+  .way .btn {
+    align-self: flex-start;
+    margin-top: auto;
+  }
+
+  .way-head h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin: 0.4rem 0 0.4rem;
+  }
+
+  .way-head p {
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+  }
+
+  .way-ref .eyebrow {
+    color: var(--patina);
+  }
+
+  .way-chapters {
+    columns: 2;
+    column-gap: 1.5rem;
+    list-style: none;
+    margin: 0 0 2rem;
+    padding: 0;
+  }
+
+  .way-chapters a {
+    border-radius: var(--radius-sm);
+    color: var(--fg-soft);
+    display: flex;
+    font-size: 0.93rem;
+    gap: 0.6rem;
+    padding: 0.35rem 0.5rem;
+    margin-left: -0.5rem;
+    text-decoration: none;
+  }
+
+  .way-chapters a:hover {
+    background: var(--surface);
+    color: var(--accent);
+  }
+
+  .way-chapters .n {
+    color: var(--faint);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    padding-top: 0.15rem;
+  }
+
+  .way-groups {
+    list-style: none;
+    margin: 0 0 2rem;
+    padding: 0;
+  }
+
+  .way-groups li + li {
+    border-top: 1px solid var(--border);
+  }
+
+  .way-groups a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.65rem 0;
+    text-decoration: none;
+  }
+
+  .g-title {
+    font-weight: 600;
+  }
+
+  .way-groups a:hover .g-title {
+    color: var(--patina);
+  }
+
+  .g-items {
+    color: var(--muted);
+    font-size: 0.86rem;
+  }
+
+  .g-items :global(code) {
+    font-size: 0.92em;
+  }
+
+  /* --------------------------------------------------------- ecosystem */
+
+  .pkgs {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .pkg {
+    padding: 1.25rem 1.3rem;
+  }
+
+  .pkg-name {
+    color: var(--fg);
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .pkg:hover .pkg-name {
+    color: var(--accent);
+  }
+
+  .pkg p {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin: 0.35rem 0 0;
+  }
+
+  .pkg-all {
+    align-items: center;
+    background: var(--surface) !important;
+    display: flex !important;
+    font-weight: 500;
+    justify-content: space-between;
+  }
+
+  /* --------------------------------------------------------------- blog */
+
+  .section-head.row {
+    align-items: end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    max-width: none;
+  }
+
+  .posts {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .post-card {
+    padding: 1.6rem;
+  }
+
+  .post-card time {
+    color: var(--faint);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+
+  .post-card h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0.4rem 0 0.4rem;
+  }
+
+  .post-card:hover h3 {
+    color: var(--accent);
+  }
+
+  .post-card p {
+    color: var(--muted);
+    font-size: 0.93rem;
+    margin: 0;
+  }
+
+  /* ------------------------------------------------------------ closing */
+
+  .closing {
+    background: var(--glow), var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .closing h2 {
+    font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    margin: 0 0 0.75rem;
+  }
+
+  .closing h2 code {
+    color: var(--accent);
+    font-size: 0.92em;
+  }
+
+  .closing p {
+    color: var(--muted);
+    margin: 0 auto 2rem;
+    max-width: 34rem;
+  }
+
+  .closing p a {
+    color: var(--fg);
+  }
+
+  .closing .cta {
+    justify-content: center;
+  }
+
+  /* -------------------------------------------------------- responsive */
+
+  @media (max-width: 1080px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+    .features {
+      grid-template-columns: 1fr 1fr;
+    }
+    .pkgs {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .pipeline {
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+    }
+    .pipeline::before {
+      bottom: 1rem;
+      height: auto;
+      left: 0.6rem;
+      right: auto;
+      top: 0.6rem;
+      width: 2px;
+      background: repeating-linear-gradient(180deg, var(--accent) 0 6px, transparent 6px 12px);
+    }
+    .pipeline li {
+      display: grid;
+      grid-template-columns: 1.35rem 1fr;
+      column-gap: 1rem;
+    }
+    .pipe-num {
+      grid-row: span 3;
+      margin: 0;
+    }
+    .cli,
+    .ways,
+    .posts {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      padding: 3rem 0 3.5rem;
+    }
+    .features {
+      grid-template-columns: 1fr;
+    }
+    .pkgs {
+      grid-template-columns: 1fr 1fr;
+    }
+    .way {
+      padding: 1.5rem;
+    }
+    .way-chapters {
+      columns: 1;
+    }
+    .closing {
+      padding: 3rem 1.25rem;
+    }
+    .section {
+      padding: 3.5rem 0;
+    }
+  }
+</style>

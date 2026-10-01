@@ -154,13 +154,13 @@ Indexing uses the same `arr[i]` syntax as tuples (also works on `Vec`).
   ```
 
 **`Vec<T>`:** no compile-time out-of-bounds check on variable indices. At
-runtime an out-of-range read yields `-1` and an out-of-range write is a no-op
-(same as `[T; N]` with a variable index). See [Arrays and Vec](/docs/references/arrays#out-of-range-index).
+runtime an out-of-range read or write **panics** (same as `[T; N]` with a
+variable index). See [Arrays and Vec](/docs/references/arrays#out-of-range-index).
 
 ### Growing collections with `Vec` and `len`
 
 `arr[] = value` append is **removed** — use `Vec` methods instead.
-`len(v)` returns the current length (`v.len()` also works on `Vec`).
+`x.len()` is canonical; `len(v)` is prelude sugar for the same method.
 
 ```coil
 use io::{stdout};

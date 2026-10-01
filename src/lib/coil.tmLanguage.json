@@ -1,0 +1,199 @@
+{
+  "name": "coil",
+  "scopeName": "source.coil",
+  "aliases": ["hy"],
+  "patterns": [{ "include": "#code" }],
+  "repository": {
+    "code": {
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#attributes" },
+        { "include": "#strings" },
+        { "include": "#numbers" },
+        { "include": "#declarations" },
+        { "include": "#keywords" },
+        { "include": "#types" },
+        { "include": "#paths" },
+        { "include": "#calls" },
+        { "include": "#operators" },
+        { "include": "#punctuation" }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.documentation.coil",
+          "match": "///.*$"
+        },
+        {
+          "name": "comment.line.double-slash.coil",
+          "match": "//.*$"
+        },
+        { "include": "#block-comment" }
+      ]
+    },
+    "block-comment": {
+      "name": "comment.block.coil",
+      "begin": "/\\*",
+      "end": "\\*/",
+      "patterns": [{ "include": "#block-comment" }]
+    },
+    "attributes": {
+      "name": "meta.attribute.coil",
+      "begin": "#\\[",
+      "end": "\\]",
+      "beginCaptures": { "0": { "name": "punctuation.definition.attribute.coil" } },
+      "endCaptures": { "0": { "name": "punctuation.definition.attribute.coil" } },
+      "patterns": [
+        {
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b",
+          "name": "entity.name.function.attribute.coil"
+        },
+        { "include": "#strings" },
+        { "include": "#numbers" }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.coil",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        { "name": "constant.character.escape.coil", "match": "\\\\." },
+        {
+          "name": "constant.other.placeholder.coil",
+          "match": "%[-+ 0#]*[0-9]*(?:\\.[0-9]+)?[a-zA-Z%]"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.coil",
+          "match": "\\b0x[0-9A-Fa-f_]+\\b"
+        },
+        {
+          "name": "constant.numeric.binary.coil",
+          "match": "\\b0b[01_]+\\b"
+        },
+        {
+          "name": "constant.numeric.float.coil",
+          "match": "\\b[0-9][0-9_]*\\.[0-9][0-9_]*(?:[eE][+-]?[0-9]+)?\\b"
+        },
+        {
+          "name": "constant.numeric.integer.coil",
+          "match": "\\b[0-9][0-9_]*\\b"
+        }
+      ]
+    },
+    "declarations": {
+      "patterns": [
+        {
+          "match": "\\b(fn)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "storage.type.function.coil" },
+            "2": { "name": "entity.name.function.coil" }
+          }
+        },
+        {
+          "match": "\\b(enum|class|trait|type|attr)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "storage.type.coil" },
+            "2": { "name": "entity.name.type.coil" }
+          }
+        },
+        {
+          "match": "\\b(mod)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "storage.type.module.coil" },
+            "2": { "name": "entity.name.namespace.coil" }
+          }
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.coil",
+          "match": "\\b(if|else|while|for|in|break|continue|return|raise|panic|match|yield|from|resume|with|defer|default)\\b"
+        },
+        {
+          "name": "storage.type.coil",
+          "match": "\\b(fn|let|const|static|enum|class|trait|type|impl|extern|async|attr|struct)\\b"
+        },
+        {
+          "name": "storage.modifier.coil",
+          "match": "\\b(pub|readonly|where)\\b"
+        },
+        {
+          "name": "keyword.other.coil",
+          "match": "\\b(use|mod|as|new|typeof|test)\\b"
+        },
+        {
+          "name": "constant.language.coil",
+          "match": "\\b(true|false|self)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "support.type.primitive.coil",
+          "match": "\\b(int|float|string|bool|byte|coroutine)\\b"
+        }
+      ]
+    },
+    "paths": {
+      "patterns": [
+        {
+          "match": "\\b([A-Za-z_][A-Za-z0-9_]*)(::)",
+          "captures": {
+            "1": { "name": "entity.name.namespace.coil" },
+            "2": { "name": "punctuation.separator.namespace.coil" }
+          }
+        }
+      ]
+    },
+    "calls": {
+      "patterns": [
+        {
+          "match": "\\b([a-z_][A-Za-z0-9_]*)\\s*(?=\\()",
+          "captures": { "1": { "name": "entity.name.function.call.coil" } }
+        },
+        {
+          "match": "\\b([A-Z][A-Za-z0-9_]*)\\b",
+          "captures": { "1": { "name": "entity.name.type.coil" } }
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arrow.coil",
+          "match": "=>|->"
+        },
+        {
+          "name": "keyword.operator.range.coil",
+          "match": "\\.\\.\\.|\\.\\.=|\\.\\."
+        },
+        {
+          "name": "keyword.operator.question.coil",
+          "match": "\\?\\?|\\?\\.|\\?"
+        },
+        {
+          "name": "keyword.operator.comparison.coil",
+          "match": "==|!=|<=|>=|&&|\\|\\|"
+        },
+        {
+          "name": "keyword.operator.coil",
+          "match": "[-+*/%=!<>&|^~]"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        { "name": "punctuation.separator.coil", "match": "[,;:]" },
+        { "name": "punctuation.accessor.coil", "match": "\\." }
+      ]
+    }
+  }
+}

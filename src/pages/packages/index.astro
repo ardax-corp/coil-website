@@ -1,0 +1,297 @@
+---
+import Base from "../../layouts/Base.astro";
+import { SPOOL, STDLIB } from "../../lib/nav";
+import { categories, demo, packages } from "../../lib/packages";
+---
+
+<Base title="Packages" description={`Userland Coil packages: ${packages.map((p) => p.name).join(", ")}, plus coil-stdlib and the spool dependency manager.`} section="packages">
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Packages</span>
+      <h1>Small core, userland packages.</h1>
+      <p>
+        The compiler keeps its built-ins to virtual modules for IO, threads, env, FFI and math. Everything else is an
+        ordinary Coil package with an optional native library, added to your project through <code>coil.toml</code>.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="foundation">
+      <a class="card found" href={STDLIB}>
+        <span class="eyebrow">Foundation</span>
+        <h2>coil-stdlib <span class="arrow">→</span></h2>
+        <p>The userland standard library: collections, text and bytes helpers, path, encoding, and the blocking IO adapters such as <code>io::sync::write_all</code>.</p>
+      </a>
+      <a class="card found found-spool" href={SPOOL}>
+        <span class="eyebrow">Tooling</span>
+        <h2>spool <span class="arrow">→</span></h2>
+        <p>A git-based dependency manager for Coil libraries. It reads <code>[package]</code> and <code>[dependencies]</code> from <code>coil.toml</code>, then fetches and links them.</p>
+      </a>
+    </div>
+
+    {
+      categories.map((cat) => (
+        <section class="category">
+          <header class="cat-head">
+            <h2>{cat.title}</h2>
+            <p>{cat.blurb}</p>
+          </header>
+          <ul class="pkg-list">
+            {cat.packages.map((p) => (
+              <li class="card pkg">
+                <div class="pkg-top">
+                  <code class="pkg-name">{p.name}</code>
+                  <span class:list={["badge", { native: p.native }]}>{p.native ? "native library" : "pure Coil"}</span>
+                </div>
+                <p class="pkg-summary">{p.summary}</p>
+                <p class="pkg-detail">{p.detail}</p>
+                <code class="pkg-use">{p.use}</code>
+                <div class="pkg-links">
+                  <a class="primary" href={`/packages/${p.name}`}>Docs →</a>
+                  {p.docs && <a href={p.docs}>Language reference</a>}
+                  <a href={p.repo}>Repository ↗</a>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+
+    <a class="card demo" href={`/packages/${demo.name}`}>
+      <div>
+        <span class="eyebrow">Example package</span>
+        <h2><code>{demo.name}</code> <span class="arrow">→</span></h2>
+        <p>{demo.detail}</p>
+      </div>
+      <code class="pkg-use">{demo.use}</code>
+    </a>
+
+    <p class="aside">
+      Not sure whether something is a builtin? See <a href="/docs/references/not-builtins">What is not built in</a> and
+      the <a href="/docs/references/project-config"><code>coil.toml</code> reference</a> for wiring packages into a project.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .page-hero {
+    background: var(--glow);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+    padding: 4.5rem 0 3.5rem;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(2.1rem, 5vw, 3.2rem);
+    font-weight: 650;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+    margin: 0.9rem 0 1rem;
+  }
+
+  .page-hero p {
+    color: var(--muted);
+    font-size: 1.1rem;
+    margin: 0;
+    max-width: 42rem;
+  }
+
+  code {
+    font-size: 0.88em;
+  }
+
+  .foundation {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .found {
+    padding: 1.75rem;
+  }
+
+  .found-spool .eyebrow {
+    color: var(--patina);
+  }
+
+  .found h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0.4rem 0 0.5rem;
+  }
+
+  .found p {
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .arrow {
+    color: var(--faint);
+    font-size: 0.9em;
+  }
+
+  .category {
+    margin-top: 3.5rem;
+  }
+
+  .cat-head {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .cat-head h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .cat-head p {
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .pkg-list {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .pkg {
+    display: flex;
+    flex-direction: column;
+    padding: 1.4rem;
+  }
+
+  .pkg-top {
+    align-items: center;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: space-between;
+  }
+
+  .pkg-name {
+    color: var(--accent);
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .badge {
+    background: var(--patina-soft);
+    border-radius: 999px;
+    color: var(--patina);
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.15rem 0.6rem;
+    white-space: nowrap;
+  }
+
+  .badge.native {
+    background: var(--surface-2);
+    color: var(--muted);
+  }
+
+  .pkg-summary {
+    font-weight: 600;
+    margin: 0.6rem 0 0.25rem;
+  }
+
+  .pkg-detail {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0 0 1rem;
+  }
+
+  .pkg-use {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: var(--radius-sm);
+    color: var(--fg-soft);
+    display: block;
+    font-size: 0.74rem;
+    margin-top: auto;
+    overflow-x: auto;
+    padding: 0.5rem 0.65rem;
+    white-space: nowrap;
+  }
+
+  .pkg-links {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 0.9rem;
+  }
+
+  .pkg-links a {
+    color: var(--fg-soft);
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .pkg-links a:hover,
+  .pkg-links a.primary {
+    color: var(--accent);
+  }
+
+  .demo {
+    align-items: center;
+    display: grid;
+    gap: 1rem 2.5rem;
+    grid-template-columns: 1fr auto;
+    margin-top: 3.5rem;
+    padding: 1.6rem 1.75rem;
+  }
+
+  .demo h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0.4rem 0 0.35rem;
+  }
+
+  .demo p {
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .demo .pkg-use {
+    margin: 0;
+  }
+
+  .aside {
+    color: var(--muted);
+    font-size: 0.93rem;
+    margin-top: 2rem;
+  }
+
+  .aside a {
+    color: var(--accent);
+  }
+
+  @media (max-width: 1000px) {
+    .pkg-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .pkg-list,
+    .demo {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .foundation {
+      grid-template-columns: 1fr;
+    }
+    .page-hero {
+      padding: 3rem 0 2.5rem;
+    }
+  }
+</style>

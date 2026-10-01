@@ -59,7 +59,7 @@ Payload types are inferred at use sites (`Option::Some(1)` → `Option` of `int`
 
 ### Option / Result runtime ABI
 
-User code always sees `Option<T>` / `Result<T, E>`. Codegen picks one of three representations; conversions happen at the boundary. **Decision ([COI-92](https://linear.app/ardax/issue/COI-92)):** keep this matrix — unifying would either box every ground `Option<string>` or invent a niche for `int` / nested / FFI payloads.
+User code always sees `Option<T>` / `Result<T, E>`. Codegen picks one of three representations; conversions happen at the boundary. **Decision:** keep this matrix — unifying would either box every ground `Option<string>` or invent a niche for `int` / nested / FFI payloads.
 
 | Shape | Representation | When |
 |-------|----------------|------|
@@ -69,7 +69,7 @@ User code always sees `Option<T>` / `Result<T, E>`. Codegen picks one of three r
 
 Cross a niche ↔ boxed boundary with `OptionNicheToHeap` / `HeapOptionToNiche`. `Vec::pop` / `Vec::remove` use allocation-free `HostInvokeNiche` when the item type is heap-only; other host results stay on `HostInvoke` and convert at the boundary.
 
-Do not match on raw `0` vs pointer in user code — `match` / `?` / `??` are the API. See [limitations](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md).
+Do not match on raw `0` vs pointer in user code — `match` / `?` / `??` are the API. Free `fn f<T>(T) -> Option<T>` is still `E0127` (shared generic bodies box `T`); put that return on an inherent method. See [limitations](https://github. See [limitations](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md).
 
 ---
 
@@ -109,7 +109,7 @@ Ty::Sum {
 
 ### Runtime representation
 
-User code always sees constructors and `match`. **Payload** enums (unit, tuple, or record variants) are heap objects (`MakeEnum`). Codegen may skip that allocation only for a discarded constructor (`MakeEnum; POP`) or a unary variant immediately consumed by `Unpack` / `LoadField(0)`. Wider payloads, values that escape, and control-flow joins stay heap-backed — a DCE ceiling, not a second enum ABI ([COI-94](https://linear.app/ardax/issue/COI-94)). Named-local class unboxing is a different rule ([COI-84](https://linear.app/ardax/issue/COI-84)). Builtin `Option` / `Result` have their own niche / pair / boxed matrix ([Option / Result runtime ABI](#option--result-runtime-abi)).
+User code always sees constructors and `match`. **Payload** enums (unit, tuple, or record variants) are heap objects (`MakeEnum`). Codegen may skip that allocation only for a discarded constructor (`MakeEnum; POP`) or a unary variant immediately consumed by `Unpack` / `LoadField(0)`. Wider payloads, values that escape, and control-flow joins stay heap-backed — a DCE ceiling, not a second enum ABI. Named-local class unboxing is a different rule. Builtin `Option` / `Result` have their own niche / pair / boxed matrix ([Option / Result runtime ABI](#option--result-runtime-abi)).
 
 **Scalar-backed** enums ([below](#scalar-backed-enums)) are not heap `MakeEnum` values. Each case is the backing word (`int`, `string`, `float`, or `bool`) while the static type stays the enum name.
 
@@ -268,7 +268,7 @@ Statics: `Vec::new`, `Vec::with_capacity`, `Vec::from`. Methods: `push`, `pop`,
 | Tuple | OOB literal → diagnostic | — |
 | Non-aggregate | Error | — |
 
-Proven counted-loop `Index` / `StoreIndex` rewrite to unchecked opcodes ([#192](https://github.com/ardax-corp/coil-lang/pull/192); original [COI-85](https://linear.app/ardax/issue/COI-85) "Index stays checked" decision is superseded). Dynamic indices stay checked. Prefer `i < len(a)` in loops (`LEQ`/`GEQ` are not proofs). Details: [Arrays and Vec](/docs/references/arrays#out-of-range-index).
+Proven counted-loop `Index` / `StoreIndex` rewrite to unchecked opcodes ([#192](https://github.com/ardax-corp/coil-lang/pull/192)). Dynamic indices stay checked and **panic** on OOB (archive major 4). Prefer `i < a.len()` in loops (`LEQ`/`GEQ` are not proofs). Details: [Arrays and Vec](/docs/references/arrays#out-of-range-index).
 
 ---
 
@@ -353,8 +353,7 @@ Class `static` fields require an initializer. `static` and `const` field modifie
 
 ```coil
 let xs = readonly [1, 2, 3];
-let p = new readonly Point(1, 2);
-// sugar: readonly new Point(1, 2)
+let p = readonly new Point(1, 2);
 ```
 
 | Operation | `readonly T` handle | Inside `impl` via `self` |
@@ -367,7 +366,7 @@ Type pretty-print: `readonly T`. Arrays and dicts have no method exception — e
 
 ---
 
-Inherent `fn drop()` on a class is a GC-time finalizer (`unit` return, implicit `self` by value). See [`gc`](/docs/references/gc). Named locals are always heap-allocated (`InitTyped`); only a consumed `new Class(args).field` may skip the box, and never when the class has `fn drop()` ([COI-84](https://linear.app/ardax/issue/COI-84)).
+Inherent `fn drop()` on a class is a GC-time finalizer (`unit` return, implicit `self` by value). See [`gc`](/docs/references/gc). Named locals are always heap-allocated (`InitTyped`); only a consumed `new Class(args).field` may skip the box, and never when the class has `fn drop()`.
 
 ## Class `const` fields
 
@@ -608,15 +607,14 @@ One calling convention, two ways to name the callee. **`CALL`** packs arity and 
 | Situation | Bytecode |
 |-----------|----------|
 | Direct call to a function or instance method with a known entry | `CALL` |
-| Ground trait method / UFCS (`x.m()` / `m(x)`) with a resolved instance | `CALL` to that instance method. A trailing dictionary is still passed (default / sibling ABI). Primitive `Num`/`Eq`/`Ord` operators further lower to opcodes (`ADD`, `EQ`, …); structural `len` may become `ArrayLen`. |
+| Ground trait method / UFCS (`x.m()` / `m(x)`) with a resolved instance | `CALL` to that instance method (`Show`, `Length`, `Hash`, user traits, inherent methods). Primitive `Num`/`Eq`/`Ord` operators further lower to opcodes (`ADD`, `EQ`, …); structural `.len()` may become `ArrayLen`. |
 | Ground call to a generic whose bounds are only `Num`/`Add`/…/`Ord`/`Lt`/…/`Eq` | **Monomorphize** into a specialized clone (unboxed `ADD`, etc.). No dictionary at the call site. |
 | Same, with named args and/or rest packs (`T...`) | Same monomorphization — args are reordered/packed to match formals before keying |
-| Ground or open call with **user** trait bounds, or builtin `Show` / `Length` | **Dictionary passing** — `CALL` the shared generic body with trailing dict tuples |
-| Open type params inside a generic body (any bound) | `LOAD __dictN`; `Index`; `CallIndirect` |
+| Open type params inside a generic body (any bound) | Dictionary passing — `CALL` the shared generic body with trailing dict tuples; method slots use `Index` + `CallIndirect` |
 | Existential (`Show x`) | Unpack the dict from the value; `CallIndirect` |
 | Escaped generic fn value (`let f = id;`) | `MakePolyFn` / `MakePolyFnCapture` + `CallIndirect` |
 
-**Decision ([COI-78](https://linear.app/ardax/issue/COI-78)):** keep this split. Ground user-trait methods already share the static-entry `CALL` path with ground builtin methods. Extending generic-function monomorphization to user traits would recompile bodies that still carry dictionary `bound_method_call` hints, can leave open `Ty::Var` at call sites (`Show` / `Length`), and would not remove the dictionary ABI that default and sibling methods need. Caps, escaped `PolyFn`, and nested open bounds would still use dictionaries. There is no opcode to fuse a user method into, unlike `Num` → `ADD`.
+**Decision:** dictionaries are for generic bodies, not for ground user traits. Ground Show/Length/Hash/user-trait methods with a static entry emit `CALL`. Operators on ground numeric/eq/ord types still lower to opcodes. Caps, escaped `PolyFn`, and nested open bounds still use dictionaries.
 
 ### Dictionary passing
 
@@ -626,7 +624,7 @@ Constrained calls that are not monomorphized append one dictionary per trait con
 (`trait Ordered<T: Equal>`), those bounds are stored as *superclasses*.
 The runtime dictionary for the subclass is flattened: subclass methods first,
 then each superclass’s methods in declaration order (transitively). An
-`impl Ordered<int>` therefore requires an existing `Equal<int>` instance — its
+`impl Ordered for int` therefore requires an existing `Equal<int>` instance — its
 methods fill the trailing dict slots.
 
 ```coil
@@ -753,7 +751,12 @@ Rules:
 
 - Placement: immediately before the `enum` / `class` keyword (after any `///` doc comment).
 - Built-in derives: `Show`, `Eq`, `Ord`, `Default`, `Hash`, `String`, `Send`, `Sensitive`. Unknown / arithmetic traits (`Num`, …) error; user derives come from `derive` macros ([Macros](/docs/references/macros)).
-- Generic types get bounded instances: `#[derive(Show)] class Box<T>` expands to `impl Show for Box<T: Show>`, so `Box<X>` is `Show` whenever `X` is. `Ord` bounds by `Ord + Eq`, `String` by `Show`, and `Default` fills a `T` field with `T::default()`. Generic types get no type-name `Show` / `String` default.
+- Generic types derive bounded instances: `#[derive(Show, Eq)] class Box<T>`
+  expands to `impl Show for Box<T: Show>` and `impl Eq for Box<T: Eq>`, so the
+  instance applies to `Box<X>` whenever `X` has the trait. `Ord` bounds by
+  `Ord + Eq`, `String` by `Show`, `Default` by `Default` (the primitives have
+  built-in `Default` instances, so `let b: Box<int> = Box::default();` works).
+  Generic types get no type-name `Show` / `String` default.
 - Combining `#[derive(Show)]` with a hand-written `impl Show for T` hits the usual overlap diagnostic.
 - Empty `#[derive()]` with no traits is a parse error.
 
@@ -762,9 +765,7 @@ See `examples/derive_show_eq.hy`, `examples/derive_hash.hy`, and `examples/typeo
 ### User-defined traits (sketch)
 
 Declare a trait and provide instances for concrete types. Prefer the
-`impl Trait for Type` form; the legacy `impl Trait<Type>` form is still accepted.
-For multi-parameter traits, `impl Trait<A, B> for T` prepends `T` as the first
-type argument (Self slot), so it is equivalent to `impl Trait<T, A, B>`.
+`impl Trait for Type` is the only typeclass instance form. Inherent `impl Foo<T>` still takes type parameters on the type. For multi-parameter traits, `impl Trait<A, B> for T` prepends `T` as the first type argument (Self slot), so it is equivalent to `impl Trait<T, A, B>`.
 
 ```coil
 trait Measurable<T> {
@@ -772,11 +773,6 @@ trait Measurable<T> {
 }
 
 impl Measurable for int {
-    fn size(int x) -> int { return x; }
-}
-
-// Legacy form (still OK):
-impl Measurable<int> {
     fn size(int x) -> int { return x; }
 }
 ```
@@ -854,9 +850,34 @@ new Box("x").describe();        // Describe<Box<string>>
 
 `Box<int>` / `Box<Point>` in a head stay concrete instances, and a generic
 instance overlaps with them (an error), as two concrete instances would.
-Bounds on the instance's parameters are written in the head
-(`impl Show for Box<T: Show>`), and `#[derive]` on a generic type expands to
-such a bounded instance (see [Trait derive](#trait-derive)).
+
+The head's parameters can carry bounds, written inline as for inherent
+`impl Store<T: Eq>`. The bounds are the instance's *context*: the instance
+applies to `Box<X>` only when `X` has the bounded trait, and inside its
+methods the parameter's trait methods resolve through the bound:
+
+```coil
+impl Describe for Box<T: Describe> {
+    pub fn describe(Box<T> b) -> string {
+        return "Box(" + b.item.describe() + ")";
+    }
+}
+
+new Box(new Box(3)).describe();     // Describe<Box<Box<int>>> ← Describe<Box<int>> ← Describe<int>
+
+fn wrap<T: Describe>(T x) -> string {
+    return new Box(x).describe();   // context Describe<T> from wrap's bound
+}
+```
+
+- A use whose context has no instance is a compile error that names both:
+  ``No instance for `Describe<Point>` (needed by `Describe<Box<Point>>`)``.
+  In a generic function, the type parameter needs the bound.
+- Recursive instances (`impl Describe for Tree<T: Describe>` calling
+  `describe` on a subtree) and multi-parameter heads
+  (`Pair<A: Describe, B: Describe>`) work the same way.
+- `#[derive]` on a generic type produces exactly this bounded form (see
+  Trait derive above).
 
 ### Instance coherence
 
@@ -1041,7 +1062,7 @@ fn main() {
 }
 ```
 
-Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`. User types can `impl Show<MyType>`. See `examples/generic_print.hy`.
+Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`. User types can `impl Show for MyType`. See `examples/generic_print.hy`.
 
 ---
 
@@ -1053,9 +1074,9 @@ Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`. Use
 | Classes | Nominal `Ty::Con`; ctor args / fields / methods supported — no inheritance or virtual dispatch |
 | FFI | Broad scalar/Ptr/struct/callback tags via `ffi::types` / `extern struct` — see [FFI tutorial](/docs/manual/tutorial/07-ffi) |
 | Generics | Generic functions/enums/aliases/classes, `T: Class` bounds, multi-param `where` constraints, `forall` annotations, user `trait`/`impl`, superclasses, orphan/coherence checks, associated types, and GATs are supported |
-| Trait runtime | **Decided ([COI-78](https://linear.app/ardax/issue/COI-78)):** ground instance methods use `CALL`; generic user-trait / `Show` / `Length` bounds keep dictionaries. Only ground `Num`/`Ord`/`Eq` (and operator supertraits) monomorphize to opcodes. See [Call-site dispatch](#call-site-dispatch). |
-| Option / Result ABI | **Decided ([COI-92](https://linear.app/ardax/issue/COI-92)):** pointer niche, two-slot call return, or boxed enum — see [Option / Result runtime ABI](#option--result-runtime-abi). |
-| Enum runtime | **Decided ([COI-94](https://linear.app/ardax/issue/COI-94)):** heap objects; DCE may skip discarded or unary-unpack constructors only — see [Runtime representation](#runtime-representation). |
+| Trait runtime | **Decided:** ground instance methods use `CALL`; dictionaries stay in generic bodies. Only ground `Num`/`Ord`/`Eq` (and operator supertraits) monomorphize to opcodes. See [Call-site dispatch](#call-site-dispatch). |
+| Option / Result ABI | **Decided:** pointer niche, two-slot call return, or boxed enum — see [Option / Result runtime ABI](#option--result-runtime-abi). |
+| Enum runtime | **Decided:** heap objects; DCE may skip discarded or unary-unpack constructors only — see [Runtime representation](#runtime-representation). |
 | Existentials | Bare class names are existential value types only for unary `* -> Constraint` classes; multi-param bare existentials and constructor-kinded bare existentials are rejected |
 | Higher-kinded types | Constructor kinds such as `F: * -> *`, `F: * -> * -> *`, and `F: (* -> *) -> *` are supported; kind variables / kind polymorphism are not supported |
 | Associated types | Nullary associated types and generic associated type projections are supported; associated-type equality constraints in `where` clauses are not syntax |

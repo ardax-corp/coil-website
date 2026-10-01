@@ -1,17 +1,595 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
+import { INTERNALS, SHOWCASE, STDLIB, allGroups, inlineCode, linkHref } from "../../lib/nav";
 
-const docs = await getCollection("docs");
-const index = docs.find((doc) => doc.id === "index");
-if (!index) {
-  throw new Error("Missing src/content/docs/index.md");
-}
-const { Content } = await render(index);
+const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"));
+const tutorial = groups.find((g) => g.key === "tutorial")!;
+const start = groups.find((g) => g.key === "start")!;
+const refGroups = groups.filter((g) => g.track === "reference");
+const pkgGroups = groups.filter((g) => g.track === "packages");
+const refCount = refGroups.reduce((n, g) => n + g.items.length, 0);
+
+const beyond = [
+  { href: "/docs/manual/examples", title: "Examples catalog", text: "Every runnable demo in the repository, with expected output." },
+  { href: SHOWCASE, title: "Showcase projects", text: "A todo board, a text adventure and a TCP echo server, with tests." },
+  { href: STDLIB, title: "coil-stdlib", text: "The userland standard library: collections, text, bytes, IO adapters." },
+  { href: INTERNALS, title: "Internals", text: "Pipeline, opcodes, debug info and the grammar — for contributors." },
+];
 ---
 
-<Base title={index.data.title} description={index.data.description}>
-  <article class="post">
-    <Content />
-  </article>
+<Base
+  title="Documentation"
+  description="Learn Coil with an eleven-chapter tutorial, then look up syntax, types and built-in modules in the reference."
+  section="docs"
+>
+  <section class="hub-hero">
+    <div class="wrap">
+      <span class="eyebrow">Documentation</span>
+      <h1>Learn Coil, then look things up.</h1>
+      <p>
+        Two halves: a <strong>tutorial</strong> that builds the language up one chapter at a time, and a
+        <strong>reference</strong> to come back to for exact rules and APIs.
+      </p>
+      <button class="hub-search" type="button" data-search-open>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path>
+        </svg>
+        <span>Search pages and sections…</span>
+        <kbd>/</kbd>
+      </button>
+    </div>
+  </section>
+
+  <section class="wrap paths">
+    <a class="card path path-learn" href="/docs/manual/getting-started">
+      <div class="path-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 6.5 12 2l10 4.5-10 4.5L2 6.5Z"></path><path d="M6 8.8V15c0 1.6 2.7 3 6 3s6-1.4 6-3V8.8"></path>
+        </svg>
+      </div>
+      <span class="eyebrow">Learn</span>
+      <h2>The tutorial</h2>
+      <p>
+        Start from installation and a first program, then work through {tutorial.items.length} chapters — types,
+        pattern matching, modules, FFI, coroutines, error handling, IO and threads.
+      </p>
+      <span class="path-cta">Start with Getting started <span class="arrow">→</span></span>
+    </a>
+
+    <a class="card path path-ref" href="/docs/references">
+      <div class="path-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5v-17Z"></path><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M9 7h7M9 11h5"></path>
+        </svg>
+      </div>
+      <span class="eyebrow">Reference</span>
+      <h2>The reference</h2>
+      <p>
+        {refCount} pages of precise lookup: grammar, the type system, operators, keywords, error codes, the prelude and
+        every virtual module.
+      </p>
+      <span class="path-cta">Open the reference index <span class="arrow">→</span></span>
+    </a>
+
+    <a class="card path path-pkg" href="/packages">
+      <div class="path-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m21 8-9-5-9 5 9 5 9-5Z"></path><path d="M3 8v8l9 5 9-5V8"></path><path d="M12 13v8"></path>
+        </svg>
+      </div>
+      <span class="eyebrow">Packages</span>
+      <h2>The ecosystem</h2>
+      <p>
+        Docs for spool, coil-stdlib and every library — JSON, TOML, HTTP, TLS and more — in the same place as the
+        language.
+      </p>
+      <span class="path-cta">Browse packages <span class="arrow">→</span></span>
+    </a>
+  </section>
+
+  <section class="wrap block" id="learn">
+    <header class="block-head">
+      <div>
+        <span class="eyebrow">Learn</span>
+        <h2>A guided path, in order</h2>
+      </div>
+      <p>Each chapter builds on the one before. Read them in sequence the first time.</p>
+    </header>
+
+    <div class="start-row">
+      {
+        start.items.map((item, i) => (
+          <a class="card start" href={linkHref(item)}>
+            <span class="step">{i === 0 ? "Orientation" : "Install & first run"}</span>
+            <h3>{item.label}</h3>
+            {item.hint && <p set:html={inlineCode(item.hint)} />}
+          </a>
+        ))
+      }
+    </div>
+
+    <ol class="chapters">
+      {
+        tutorial.items.map((item, i) => (
+          <li>
+            <a class="chapter" href={linkHref(item)}>
+              <span class="chapter-num">{String(i + 1).padStart(2, "0")}</span>
+              <span class="chapter-body">
+                <span class="chapter-title">{item.label}</span>
+                {item.hint && <span class="chapter-hint" set:html={inlineCode(item.hint)} />}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="wrap block" id="reference">
+    <header class="block-head">
+      <div>
+        <span class="eyebrow">Reference</span>
+        <h2>Look it up</h2>
+      </div>
+      <p>Organised by what you are looking for — not the order you learn it.</p>
+    </header>
+
+    <div class="ref-grid">
+      {
+        refGroups.map((g) => (
+          <section class="card ref-group">
+            <h3>{g.title}</h3>
+            <p>{g.blurb}</p>
+            <ul>
+              {g.items.map((item) => (
+                <li>
+                  <a href={linkHref(item)}>{item.label}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap block" id="packages">
+    <header class="block-head">
+      <div>
+        <span class="eyebrow">Packages</span>
+        <h2>Package docs</h2>
+      </div>
+      <p>Synced from each package's repository, alongside the manifest and lockfile reference for spool.</p>
+    </header>
+
+    <div class="ref-grid pkg-grid">
+      {
+        pkgGroups.map((g) => (
+          <section class="card ref-group">
+            <h3>
+              <a class="group-link" href={linkHref(g.items[0])}>
+                {g.title}
+              </a>
+            </h3>
+            <p>{g.blurb}</p>
+            <ul>
+              {g.items.map((item) => (
+                <li>
+                  <a href={linkHref(item)}>{item.label}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap block">
+    <header class="block-head">
+      <div>
+        <span class="eyebrow">Beyond the docs</span>
+        <h2>Read real code</h2>
+      </div>
+    </header>
+    <div class="beyond">
+      {
+        beyond.map((b) => (
+          <a class="card beyond-item" href={b.href}>
+            <h3>
+              {b.title} <span class="arrow">{b.href.startsWith("/") ? "→" : "↗"}</span>
+            </h3>
+            <p>{b.text}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
 </Base>
+
+<style>
+  .hub-hero {
+    background: var(--glow);
+    border-bottom: 1px solid var(--border);
+    padding: 4.5rem 0 3.5rem;
+  }
+
+  .hub-hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 650;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+    margin: 0.9rem 0 1rem;
+    max-width: 18ch;
+  }
+
+  .hub-hero p {
+    color: var(--muted);
+    font-size: 1.15rem;
+    margin: 0 0 2rem;
+    max-width: 40rem;
+  }
+
+  .hub-hero strong {
+    color: var(--fg);
+    font-weight: 600;
+  }
+
+  .hub-search {
+    align-items: center;
+    background: var(--bg-elev);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    color: var(--muted);
+    cursor: text;
+    display: flex;
+    font: inherit;
+    font-size: 1rem;
+    gap: 0.75rem;
+    max-width: 34rem;
+    padding: 0.95rem 1.1rem;
+    transition: border-color 0.15s;
+    width: 100%;
+  }
+
+  .hub-search:hover {
+    border-color: var(--accent);
+  }
+
+  .hub-search span {
+    flex: 1;
+    text-align: left;
+  }
+
+  /* -------------------------------------------------------------- paths */
+
+  .paths {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 3rem;
+  }
+
+  .path {
+    overflow: hidden;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .path::after {
+    background: var(--glow);
+    content: "";
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    transition: opacity 0.2s;
+  }
+
+  .path:hover::after {
+    opacity: 1;
+  }
+
+  .path-icon {
+    align-items: center;
+    border-radius: 12px;
+    display: flex;
+    height: 2.75rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    width: 2.75rem;
+  }
+
+  .path-learn .path-icon {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .path-ref .path-icon {
+    background: var(--patina-soft);
+    color: var(--patina);
+  }
+
+  .path-ref .eyebrow {
+    color: var(--patina);
+  }
+
+  .path-pkg .path-icon {
+    background: var(--surface-2);
+    color: var(--fg-soft);
+  }
+
+  .group-link {
+    text-decoration: none;
+  }
+
+  .group-link:hover {
+    color: var(--accent);
+  }
+
+  .pkg-grid .ref-group a:not(.group-link):hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .path h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin: 0.4rem 0 0.6rem;
+  }
+
+  .path p {
+    color: var(--muted);
+    margin: 0 0 1.75rem;
+    max-width: 30rem;
+  }
+
+  .path-cta {
+    color: var(--fg);
+    font-weight: 500;
+  }
+
+  .path:hover .path-cta {
+    color: var(--accent);
+  }
+
+  .path-ref:hover .path-cta {
+    color: var(--patina);
+  }
+
+  .path-ref:hover {
+    border-color: color-mix(in srgb, var(--patina) 55%, var(--border)) !important;
+  }
+
+  .arrow {
+    display: inline-block;
+    transition: transform 0.15s;
+  }
+
+  a:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  /* -------------------------------------------------------------- blocks */
+
+  .block {
+    margin-top: 5rem;
+  }
+
+  .block-head {
+    align-items: end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 3rem;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+  }
+
+  .block-head h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin: 0.5rem 0 0;
+  }
+
+  .block-head p {
+    color: var(--muted);
+    margin: 0;
+    max-width: 26rem;
+  }
+
+  .start-row {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 1rem;
+  }
+
+  .start {
+    padding: 1.25rem 1.4rem;
+  }
+
+  .step {
+    color: var(--faint);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .start h3,
+  .beyond-item h3,
+  .ref-group h3 {
+    font-size: 1.08rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0.25rem 0 0.35rem;
+  }
+
+  .start p,
+  .beyond-item p,
+  .ref-group > p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin: 0;
+  }
+
+  .chapters {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .chapters li {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .chapters li:nth-child(odd) {
+    border-right: 1px solid var(--border);
+  }
+
+  .chapters li:last-child,
+  .chapters li:nth-last-child(2):nth-child(odd) {
+    border-bottom: 0;
+  }
+
+  .chapter {
+    align-items: baseline;
+    background: var(--bg-elev);
+    display: flex;
+    gap: 1rem;
+    height: 100%;
+    padding: 1.1rem 1.4rem;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .chapter:hover {
+    background: var(--surface);
+  }
+
+  .chapter-num {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .chapter-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .chapter-title {
+    font-weight: 600;
+  }
+
+  .chapter:hover .chapter-title {
+    color: var(--accent);
+  }
+
+  .chapter-hint {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .chapter-hint :global(code),
+  .start :global(code) {
+    background: var(--surface);
+    border-radius: 4px;
+    font-size: 0.85em;
+    padding: 0.05em 0.3em;
+  }
+
+  /* ----------------------------------------------------------- reference */
+
+  .ref-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  }
+
+  .ref-group {
+    padding: 1.4rem;
+  }
+
+  .ref-group ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+  }
+
+  .ref-group a {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--fg-soft);
+    display: inline-block;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.7rem;
+    text-decoration: none;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .ref-group a:hover {
+    border-color: var(--patina);
+    color: var(--patina);
+  }
+
+  .beyond {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .beyond-item {
+    padding: 1.3rem 1.4rem;
+  }
+
+  .beyond-item .arrow {
+    color: var(--faint);
+  }
+
+  @media (max-width: 1080px) {
+    .paths {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .beyond {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .paths,
+    .start-row,
+    .chapters,
+    .beyond {
+      grid-template-columns: 1fr;
+    }
+    .chapters li:nth-child(odd) {
+      border-right: 0;
+    }
+    .chapters li:nth-last-child(2):nth-child(odd) {
+      border-bottom: 1px solid var(--border);
+    }
+    .path {
+      padding: 1.5rem;
+    }
+    .hub-hero {
+      padding: 3rem 0 2.5rem;
+    }
+  }
+</style>

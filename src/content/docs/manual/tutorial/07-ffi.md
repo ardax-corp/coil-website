@@ -59,24 +59,7 @@ fn main() {
 
 `extern "c"` is a libc alias. Production `dload` **denies** `c` (and the other libc aliases); the compiler-emitted unwrap panics with a deny message. Language-repo `examples/strlen.hy` is the same syntax; the cargo test harness grants `c` for that fixture only.
 
-### Attribute sugar: `#[ffi]`
-
-A single libc function can be declared without an `extern` block:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-#[ffi(lib = "c")]
-fn strlen(string s) -> int;
-
-fn main() {
-    let n = strlen("hello");
-    write_all(stdout(), to_bytes(format("%i", n)));
-}
-```
-
-Optional `name = "symbol"` overrides the C symbol when it differs from the coil identifier; optional `variadic = true` marks C varargs. See `examples/attr_ffi.hy`. `lib = "c"` is still a libc alias and is denied in production.
+Compile-time FFI is `extern "lib" { fn …; }` only. `#[ffi]` is not accepted. Runtime loading stays `use ffi::{dload, declare, invoke}`.
 
 ---
 

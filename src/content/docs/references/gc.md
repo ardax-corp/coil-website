@@ -48,8 +48,8 @@ description: "use gc::{root, weak, upgrade, collect, heapbytes}; — explicit GC
       }
   }
   ```
-- **Named locals are heap instances ([COI-84](https://linear.app/ardax/issue/COI-84)).** `new Class(args).field` may skip the box (no identity); `let p = new Class(args)` always `InitTyped`s. Classes with `fn drop()` always allocate, including consumed temps.
-- **Resurrection is defined, not an API ([COI-79](https://linear.app/ardax/issue/COI-79)).** Storing `self` (or a field that aliases it) into a static, a still-reachable object, or a `Root` during `fn drop()` keeps the instance alive after the sweep — the post-drop re-mark sees that store. Drop still will not run again: the instance’s `finalized` bit stays set. Prefer `root` / `Weak` when you need an intentional lifetime pin; do not rely on drop-time stores.
+- **Named locals are heap instances.** `new Class(args).field` may skip the box (no identity); `let p = new Class(args)` always `InitTyped`s. Classes with `fn drop()` always allocate, including consumed temps.
+- **Resurrection is defined, not an API.** Storing `self` (or a field that aliases it) into a static, a still-reachable object, or a `Root` during `fn drop()` keeps the instance alive after the sweep — the post-drop re-mark sees that store. Drop still will not run again: the instance’s `finalized` bit stays set. Prefer `root` / `Weak` when you need an intentional lifetime pin; do not rely on drop-time stores.
 
 Typical FFI pattern: `root` a Coil buffer/callback before handing its address to C; hold `Weak` entries in Coil-side registries so maps do not extend lifetimes. Use `fn drop()` to close the native handle when the wrapper becomes unreachable.
 
