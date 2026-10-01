@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "sync:packages": "node scripts/sync-packages.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
