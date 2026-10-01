@@ -28,7 +28,7 @@ use my_macros::{FieldNames, add_after, check};
 - A module cannot use its own macros: put them in a separate module.
 - Derives and function-style macros have their own namespaces, so a trait and its derive can share a name (`Summary`).
 - Importing the same macro name from two modules is an error.
-- A macro's output may use its provider's own items and other macros without the using module importing them. Generated code names provider items by their module path.
+- A macro's output may use its provider's own items and other macros without the using module importing them. Generated code names provider items by their module path, including a provider's trait in an `impl` head (`impl my_macros::Summary for Point`). Only macro output may write a qualified `impl` head: in hand-written source it is an error, and you write `use my_macros::{Summary};` and `impl Summary for Point` instead.
 
 ## Derives
 
@@ -69,7 +69,7 @@ class Config {
 - A derive takes exactly one `TypeDecl` and returns `Code`: the items to add after the type.
 - `attrs(h, …)` lists the field / variant attributes the derive owns (`#[names(...)]` above). An attribute that no derive on the type owns is an error.
 - A derive that writes `impl Show for T` (or `String`) replaces the compiler's default type-name `Show`.
-- Derives on generic types are refused.
+- On a generic type, `t.self_type()` writes the type for signatures (`Box<T>`) and `t.impl_head("Show")` an instance head with every parameter bounded (`Box<T: Show>`), so `impl Show for ${t.impl_head("Show")}` applies to `Box<X>` whenever `X` is `Show`. The built-in derives work on generic types this way.
 
 ## Attribute macros
 
@@ -203,9 +203,9 @@ Where the call is decides what the output must be:
 
 | Type | Members |
 |------|---------|
-| `TypeDecl` | `name: Ident`, `kind` (`"class"` / `"enum"`), `generics`, `fields()`, `variants()`, `attrs`, `repr` (scalar backing or `""`), `module`, `docs`, `source`, `is_class()`, `is_enum()`, `has_attr(name)`, `attr_str(attr, key, fallback)` |
+| `TypeDecl` | `name: Ident`, `kind` (`"class"` / `"enum"`), `generics`, `fields()`, `variants()`, `attrs`, `repr` (scalar backing or `""`), `module`, `docs`, `source`, `is_class()`, `is_enum()`, `self_type()` (`Name` / `Name<T, …>`), `impl_head(bound)` (`Name` / `Name<T: bound, …>`), `has_attr(name)`, `attr_str(attr, key, fallback)` |
 | `Field` | `name: Ident`, `ty: TypeRef`, `is_pub`, `attrs`, `docs`, `has_attr`, `attr_str` |
-| `Variant` | `name`, `shape` (`"unit"` / `"tuple"` / `"record"`), `tuple: Vec<TypeRef>`, `fields: Vec<Field>`, `value` (discriminant as written), `arity()`, `is_unit()`, `is_tuple()`, `is_record()` |
+| `Variant` | `name`, `shape` (`"unit"` / `"tuple"` / `"record"`), `tuple: Vec<TypeRef>`, `fields: Vec<Field>`, `value` (discriminant as written), `attrs`, `docs`, `arity()`, `is_unit()`, `is_tuple()`, `is_record()`, `has_attr`, `attr_str` |
 | `FnDecl` | `name`, `params: Vec<Param>`, `ret`, `type_params`, `attrs`, `owner` (class of an `impl` method), `is_pub`, `is_static`, `is_coro`, `source`, `body_source()`, `signature(name)`, `with_name(name)`, `call(name)`, `arg_names()` |
 | `Expr` | a `name!(…)` argument: `str()` (source text as written), `src()` (the text, parenthesized unless it is a single term), `kind()` (`"literal"`, `"ident"`, `"path"`, `"call"` or `"other"`), `is_literal()`, `is_ident()` |
 | `TypeRef` | `str()`, `head()`, `args()` |

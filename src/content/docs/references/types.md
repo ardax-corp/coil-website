@@ -716,7 +716,7 @@ comparisons still use hardwired opcodes. String concatenation
 
 ### Trait derive
 
-Non-generic `enum` and `class` declarations may include `#[derive(...)]`
+`enum` and `class` declarations may include `#[derive(...)]`
 attributes that synthesize structural instances of builtin traits:
 
 ```coil
@@ -753,7 +753,7 @@ Rules:
 
 - Placement: immediately before the `enum` / `class` keyword (after any `///` doc comment).
 - Built-in derives: `Show`, `Eq`, `Ord`, `Default`, `Hash`, `String`, `Send`, `Sensitive`. Unknown / arithmetic traits (`Num`, …) error; user derives come from `derive` macros ([Macros](/docs/references/macros)).
-- Generics (`#[derive(Show)] enum Box<T> { … }`) are rejected for now — write an explicit `impl`.
+- Generic types get bounded instances: `#[derive(Show)] class Box<T>` expands to `impl Show for Box<T: Show>`, so `Box<X>` is `Show` whenever `X` is. `Ord` bounds by `Ord + Eq`, `String` by `Show`, and `Default` fills a `T` field with `T::default()`. Generic types get no type-name `Show` / `String` default.
 - Combining `#[derive(Show)]` with a hand-written `impl Show for T` hits the usual overlap diagnostic.
 - Empty `#[derive()]` with no traits is a parse error.
 
@@ -854,8 +854,9 @@ new Box("x").describe();        // Describe<Box<string>>
 
 `Box<int>` / `Box<Point>` in a head stay concrete instances, and a generic
 instance overlaps with them (an error), as two concrete instances would.
-Bounds on the instance's parameters (`impl Show for Box<T: Show>`) and
-`#[derive]` on generic types are not available yet.
+Bounds on the instance's parameters are written in the head
+(`impl Show for Box<T: Show>`), and `#[derive]` on a generic type expands to
+such a bounded instance (see [Trait derive](#trait-derive)).
 
 ### Instance coherence
 
@@ -1058,7 +1059,7 @@ Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`. Use
 | Existentials | Bare class names are existential value types only for unary `* -> Constraint` classes; multi-param bare existentials and constructor-kinded bare existentials are rejected |
 | Higher-kinded types | Constructor kinds such as `F: * -> *`, `F: * -> * -> *`, and `F: (* -> *) -> *` are supported; kind variables / kind polymorphism are not supported |
 | Associated types | Nullary associated types and generic associated type projections are supported; associated-type equality constraints in `where` clauses are not syntax |
-| Typeclass deriving | `#[derive(Show, Eq, Ord, Hash)]` on non-generic payload or scalar `enum` / `class` (see [Trait derive](#trait-derive)); user traits and generics need an explicit `impl` |
+| Typeclass deriving | `#[derive(Show, Eq, Ord, Hash)]` on payload or scalar `enum` / `class`, generic ones included (see [Trait derive](#trait-derive)); user traits need an explicit `impl` or a user `derive` macro |
 | Effect system | No linear/ownership types |
 | Callback returns | Opaque `Ptr` address; re-invoke requires host/`declare` of the pointed-to symbol (no automatic trampoline) |
 | Inner match patterns | Same outer tag with different inner tags — supported (Phase 18A); complex nested cases may still need careful arm ordering |
