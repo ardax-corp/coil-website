@@ -115,9 +115,9 @@ These tokens are **not** in the parser keyword set. Using them as identifiers ma
 |------|-------|
 | `struct` | FFI `extern struct` only; otherwise use `class` or record dicts |
 
-`import` is not a keyword and will not be added. Module binding is `use` only ([limitations.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md) COI-73).
+`import` is not a keyword and will not be added. Module binding is `use` only ([limitations.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md)).
 
-`case` is not a keyword and will not be added. Pattern matching is `match` only ([limitations.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md) COI-74).
+`case` is not a keyword and will not be added. Pattern matching is `match` only ([limitations.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md)).
 
 ---
 

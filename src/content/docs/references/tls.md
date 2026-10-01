@@ -5,7 +5,7 @@ description: "TLS is userland in coil-tls, not a compiler builtin. rustls lives 
 
 # TLS ([coil-tls](https://github.com/ardax-corp/coil-tls))
 
-TLS is **userland** in [coil-tls](https://github.com/ardax-corp/coil-tls), not a compiler builtin. rustls lives in that package's native cdylib (`libtls`), loaded with `dload("tls")`. Enable is `dload` + generic `Stream.attach` / `Stream.park` (no TLS-named `StreamKind`, no `io::__tls` HostInvoke). `use tls` / `use io::net::tls` without the package on `[module].roots` is a module-not-found error (COI-210).
+TLS is **userland** in [coil-tls](https://github.com/ardax-corp/coil-tls), not a compiler builtin. rustls lives in that package's native cdylib (`libtls`), loaded with `dload("tls")`. Enable is `dload` + generic `Stream.attach` / `Stream.park` (no TLS-named `StreamKind`, no `io::__tls` HostInvoke). `use tls` / `use io::net::tls` without the package on `[module].roots` is a module-not-found error.
 
 ## Sibling checkout
 
