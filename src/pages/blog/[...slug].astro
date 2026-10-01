@@ -3,26 +3,122 @@ import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  return posts.map((post) => ({
+  const posts = (await getCollection("blog")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return posts.map((post, i) => ({
     params: { slug: post.id },
-    props: { post },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
   }));
 }
 
-const { post } = Astro.props;
+const { post, newer, older } = Astro.props;
 const { Content } = await render(post);
 const formatter = new Intl.DateTimeFormat("en", {
   year: "numeric",
-  month: "short",
+  month: "long",
   day: "numeric",
   timeZone: "UTC",
 });
 ---
 
-<Base title={post.data.title} description={post.data.description}>
-  <article class="post">
-    <p class="meta">{formatter.format(post.data.date)}</p>
-    <Content />
-  </article>
+<Base title={post.data.title} description={post.data.description} section="blog">
+  <div class="wrap post-wrap">
+    <a class="back" href="/blog">← All posts</a>
+    <p class="meta">
+      <time datetime={post.data.date.toISOString()}>{formatter.format(post.data.date)}</time>
+    </p>
+    <article class="prose">
+      <Content />
+    </article>
+
+    {
+      (newer || older) && (
+        <nav class="more" aria-label="More posts">
+          {older ? (
+            <a href={`/blog/${older.id}`}>
+              <span>← Older</span>
+              {older.data.title}
+            </a>
+          ) : (
+            <span />
+          )}
+          {newer && (
+            <a class="newer" href={`/blog/${newer.id}`}>
+              <span>Newer →</span>
+              {newer.data.title}
+            </a>
+          )}
+        </nav>
+      )
+    }
+  </div>
 </Base>
+
+<style>
+  .post-wrap {
+    max-width: calc(var(--measure) + 2 * var(--gutter));
+    padding-bottom: 2rem;
+    padding-top: 3rem;
+  }
+
+  .back {
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+
+  .back:hover {
+    color: var(--accent);
+  }
+
+  .meta {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .more {
+    border-top: 1px solid var(--border);
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 4rem;
+    padding-top: 2rem;
+  }
+
+  .more a {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    gap: 0.25rem;
+    padding: 1rem 1.2rem;
+    text-decoration: none;
+    transition: border-color 0.15s;
+  }
+
+  .more a:hover {
+    border-color: var(--accent);
+  }
+
+  .more a span {
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+
+  .more .newer {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  @media (max-width: 560px) {
+    .more {
+      grid-template-columns: 1fr;
+    }
+    .more .newer {
+      grid-column: 1;
+    }
+  }
+</style>

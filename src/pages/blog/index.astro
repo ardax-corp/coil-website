@@ -2,9 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 
-const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
+const posts = (await getCollection("blog")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const formatter = new Intl.DateTimeFormat("en", {
   year: "numeric",
@@ -14,18 +12,126 @@ const formatter = new Intl.DateTimeFormat("en", {
 });
 ---
 
-<Base title="Blog" description="Writing about Coil.">
-  <h1 class="page-title">Blog</h1>
-  <ul class="list">
-    {
-      posts.map((post) => (
-        <li>
-          <h2>
-            <a href={`/blog/${post.id}`}>{post.data.title}</a>
-          </h2>
-          <p class="muted">{formatter.format(post.data.date)}</p>
-        </li>
-      ))
-    }
-  </ul>
+<Base title="Blog" description="Writing about Coil: language design, VM work and how things got here." section="blog">
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Blog</span>
+      <h1>Notes from the work.</h1>
+      <p>Language design, VM performance, and how Coil got here.</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <ul class="posts">
+      {
+        posts.map((post) => (
+          <li>
+            <a href={`/blog/${post.id}`}>
+              <time datetime={post.data.date.toISOString()}>{formatter.format(post.data.date)}</time>
+              <div>
+                <h2>{post.data.title}</h2>
+                <p>{post.data.description}</p>
+              </div>
+              <span class="arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
 </Base>
+
+<style>
+  .page-hero {
+    background: var(--glow);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+    padding: 4.5rem 0 3.5rem;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(2.1rem, 5vw, 3.2rem);
+    font-weight: 650;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+    margin: 0.9rem 0 0.8rem;
+  }
+
+  .page-hero p {
+    color: var(--muted);
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .posts {
+    list-style: none;
+    margin: 0;
+    max-width: 52rem;
+    padding: 0;
+  }
+
+  .posts li + li {
+    border-top: 1px solid var(--border);
+  }
+
+  .posts a {
+    align-items: baseline;
+    border-radius: var(--radius);
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 7.5rem 1fr auto;
+    margin: 0 -1rem;
+    padding: 1.6rem 1rem;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .posts a:hover {
+    background: var(--surface);
+  }
+
+  time {
+    color: var(--faint);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.35rem;
+  }
+
+  a:hover h2 {
+    color: var(--accent);
+  }
+
+  p {
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .arrow {
+    color: var(--faint);
+    transition: transform 0.15s, color 0.15s;
+  }
+
+  a:hover .arrow {
+    color: var(--accent);
+    transform: translateX(3px);
+  }
+
+  @media (max-width: 640px) {
+    .posts a {
+      gap: 0.4rem;
+      grid-template-columns: 1fr;
+    }
+    .arrow {
+      display: none;
+    }
+    .page-hero {
+      padding: 3rem 0 2.5rem;
+    }
+  }
+</style>
