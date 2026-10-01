@@ -146,7 +146,7 @@ Layout under `./tests`:
 | Path | Meaning |
 |------|---------|
 | `tests/**/*.hy` (except below) | Must compile; each `test("…")` case must return `Ok` |
-| `tests/compile_fail/**/*.hy` | Must **fail** to compile (negative syntax / type tests) |
+| `tests/compile_fail/**/*.hy` | Must **fail** to compile with an error code the file's header declares: `// Expected: E0209 — why` (negative syntax / type tests) |
 | `tests/positive/`, `tests/negative_runtime/` | Organized positive and soft-failure runtime suites |
 
 A test file can declare multiple cases without `fn main`:
