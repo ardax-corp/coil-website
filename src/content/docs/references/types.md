@@ -30,6 +30,8 @@ Integer literals coerce to `byte` when the expected type is `byte` (returns, ann
 
 `byte` implements `Show` and `Eq`; it is not in `Num` / `Add` yet.
 
+The builtin error enums (`IoError`, `ThreadError`, `EnvError`, ffi `ErrorKind`) implement `Show`: `%v` prints the variant name (`NotFound`).
+
 Strings support `+` / `+=` with other strings. `string::format(...)` returns `string` and validates literal format specifiers (`%i` accepts `byte`).
 
 Opaque **`Stream`** (`Ty::Con("Stream")`) is the handle type for the virtual [`io`](/docs/references/io) module — not constructible in userland.
