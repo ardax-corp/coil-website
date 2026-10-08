@@ -51,6 +51,8 @@ All reserved words in the coil parser. Keywords cannot be used as identifiers.
 | `resume` | Expression | Continue coroutine handle | [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines) |
 | `with` | Resume modifier | Send value on resume (`resume h with v`) | [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines) |
 | `where` | Declaration | Constraint clause on generic functions | [Types — Generics](/docs/references/types#generics-and-traits) |
+| `pure` | Declaration (before `fn`) | Promises the function has no effects. Only a keyword directly before `fn` | [Effects](/docs/references/effects) |
+| `uses` | Declaration (after the signature) | `uses {read, write}`: the effects a function may have. Only a keyword in that position | [Effects](/docs/references/effects) |
 | `trait` | Declaration | User-defined trait | [Types — Generics](/docs/references/types#generics-and-traits) |
 
 ---

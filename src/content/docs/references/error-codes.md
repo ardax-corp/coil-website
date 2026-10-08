@@ -61,6 +61,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0216` | `UnderscoreMatchArm` | Whole-arm `_ =>` — catch-all is `default` only. Nested `_` (`Err(_)`, `Some(_)`) is allowed |
 | `E0300`–`E0301` | Format family | Specifier / arity mismatch |
 | `E0400`–`E0405` | Aggregate / FFI family | Index OOB, array element mismatch, `declare`/`invoke` arity, … |
+| `E0413` | `EffectMismatch` | A function's effects exceed its `pure fn` / `uses {…}`, or its trait method's. The message names the call chain; see [Effects](/docs/references/effects) |
 | `E0800`–`E0801` | Codegen family | Unknown expression / codegen error |
 | `E0900` | `IoError` | I/O failure |
 | `E0901` | `ArchiveVersionMismatch` | Stale `.hyc` archive |

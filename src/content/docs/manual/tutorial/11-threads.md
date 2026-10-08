@@ -56,12 +56,14 @@ compiler decided, run `coil dissect --effects file.hy`. It lists each
 function's effects with the reason, and says why a loop stayed sequential:
 
 ```
-step: write, suspend: calls `write_all` (write, suspend)
+step: uses {write, suspend}: calls `write_all` (write, suspend)
 sq: pure
 ;; loop over `i` in `main` not parallelized: `step` calls `write_all` (write, suspend)
 ```
 
 Hovering a function in the editor (`coil lsp`) shows the same effects line.
+Writing `pure fn` makes the compiler check that a function stays pure; see
+[Effects](/docs/references/effects).
 
 ## Channels
 

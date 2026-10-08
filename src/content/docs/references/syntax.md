@@ -73,7 +73,7 @@ macro_call    ::= IDENT '!(' (expr (',' expr)*)? ')'      // no space between `!
 quote_expr    ::= 'quote' ('items' | 'expr' | 'stmts' | 'type') '{' template '}'
 ```
 
-`derive`, `attrs`, `macro` and `quote` are contextual: they are ordinary identifiers elsewhere (`use macro::{…}` names the model module). A `macro_call` is an expression; written as a statement (`name!(…);`) its output is statements, or declarations at the top level. See [Macros](/docs/references/macros).
+`pure` (directly before `fn`) and `uses` (after a function's signature) are contextual too; see [Effects](/docs/references/effects). `derive`, `attrs`, `macro` and `quote` are contextual: they are ordinary identifiers elsewhere (`use macro::{…}` names the model module). A `macro_call` is an expression; written as a statement (`name!(…);`) its output is statements, or declarations at the top level. See [Macros](/docs/references/macros).
 
 `#[test]` and `#[ffi]` are rejected with an error. Write test cases as top-level [`test("desc") { … }`](/docs/references/test-harness) blocks, and compile-time C bindings as `extern "lib" { fn …; }` blocks ([FFI](/docs/references/ffi)).
 
@@ -124,14 +124,16 @@ declaration ::= class_decl
 ### Functions
 
 ```
-function_decl ::= attr_list? 'gen'? 'fn' IDENT type_param_list? arg_list
-                  ('->' type_annotation)? where_clause? (block | ';')
+function_decl ::= attr_list? 'gen'? 'static'? 'pure'? 'fn' IDENT type_param_list? arg_list
+                  ('->' type_annotation)? where_clause? uses_clause? (block | ';')
 type_param_list ::= '<' type_param (',' type_param)* '>'
 type_param      ::= IDENT (':' (kind | class_bound ('+' class_bound)*))?
 kind            ::= '*' | 'Constraint' | kind '->' kind | '(' kind ')'
 class_bound     ::= IDENT
 where_clause    ::= 'where' where_constraint (',' where_constraint)*
 where_constraint ::= IDENT '<' type_annotation (',' type_annotation)* '>'
+uses_clause     ::= 'uses' '{' (effect (',' effect)*)? '}'   // not with 'pure'
+effect          ::= 'read' | 'write' | 'net' | 'env' | 'exec' | 'ffi' | 'thread' | 'suspend' | 'mutate'
 arg_list      ::= '(' (arg (',' arg)*)? ')'
 arg           ::= type_annotation '...'? IDENT   // `T... name` → `Vec<T>`; bare `... name` → tuple pack
 ```
