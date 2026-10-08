@@ -1804,7 +1804,7 @@ Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/recei
 
 ### `examples/block_on_io.hy`
 
-**Demonstrates:** prelude `block_on(coro)` — discards yields, returns completion value.
+**Demonstrates:** prelude `block_on(coro)` (deprecated, `E0129`) — discards yields, returns completion value.
 
 | | |
 |---|---|
@@ -1815,11 +1815,22 @@ Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/recei
 
 ### `examples/io_wait_ready.hy`
 
-**Demonstrates:** cooperative `wait_readable` / `wait_writable` + `wait_ready` multiplexing two coroutines without per-op `block_on`.
+**Demonstrates:** legacy manual multiplexing with `wait_ready` (deprecated, `E0129`). New code uses tasks: see `examples/task_files.hy`.
 
 | | |
 |---|---|
 | **Run** | `cargo run -- examples/io_wait_ready.hy` |
+| **Output** | `ok` |
+
+---
+
+### `examples/task_files.hy`
+
+**Demonstrates:** `task::scope` reading two files as concurrent tasks; each IO wait suspends only its task. See [Tutorial 12 — Tasks](/docs/manual/tutorial/12-tasks).
+
+| | |
+|---|---|
+| **Run** | `cargo run -- examples/task_files.hy` |
 | **Output** | `ok` |
 
 ---

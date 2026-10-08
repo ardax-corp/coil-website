@@ -53,6 +53,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0126` | `InvalidDrop` | Invalid `fn drop(self)` (not an inherent class or enum method, on a scalar-backed enum, static, extra args, duplicate, or non-unit return) |
 | `E0127` | `UnsupportedGenericOptionReturn` | Free generic `fn f<T>(…) -> Option<U>` where `U` mentions a type parameter. Put the return on an inherent method. |
 | `E0128` | `PrivateMember` | Private field or inherent method used outside the type's `impl` |
+| `E0129` | `Deprecated` | Warning: call to a deprecated function (`block_on`, `io::drive`, `io::wait_ready`). The help names the replacement |
 | `E0200`–`E0216` | Enum / match family | Duplicate enum, ambiguous / duplicate constructor, unknown variant, non-exhaustive match, scalar `#[repr]`, `default` catch-all, … |
 | `E0213` | `InvalidEnumRepr` | Invalid scalar enum (`#[repr]` / `=`): mixed backing, missing `=`, or `=` mixed with a payload |
 | `E0214` | `DuplicateEnumDiscriminant` | Two scalar cases share the same backing value |
