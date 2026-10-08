@@ -75,11 +75,11 @@ See `examples/io_text.hy`.
 | `open(path, mode)` | `→ Result<Stream, IoError>` | Modes: `"r"`, `"w"`, `"a"`, `"rw"` |
 | `close(s)` | `→ Result<(), IoError>` | Idempotent close on GC drop too |
 | `read` / `write` | L0 | Never busy-spin; `WouldBlock` when not ready |
-| `await_readable` / `await_writable` | async await | Top-level parks; inside a coro yields + registers for batch poll |
+| `wait_readable` / `wait_writable` | wait for readiness | Top-level parks; inside a coro yields + registers for batch poll |
 | `drive` | `() -> int` | Poll registered async waiters once; returns newly-ready count |
 | `wait_ready` | `() -> int` | Block until ≥1 registered waiter is ready (multiplex) |
 | `block_on` | prelude | Drive an `gen fn` handle to completion (see [IO reactor](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/io-reactor.md)) |
-| `io::sync::{write_all,read_exact,read_to_end}` | [coil-stdlib](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/io.md) | Blocking adapters over L0 + `await_*` |
+| `io::sync::{write_all,read_exact,read_to_end}` | [coil-stdlib](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/io.md) | Blocking adapters over L0 + `wait_readable` / `wait_writable` |
 | `io::net::tcp::{connect,listen,accept,…}` | TCP | `connect` / `connect_timeout` / `listen` / `accept`, plus address / shutdown helpers |
 | `io::net::udp::{bind,send_to,recv_from,…}` | UDP | Datagram sockets; see below |
 
@@ -113,7 +113,7 @@ you need peer addresses:
 | `connect(host, port)` | `→ Result<Stream, IoError>` | Connected peer; then `read` / `write` work |
 | `send_to(s, buf, host, port)` | `→ Result<int, IoError>` | Non-blocking `sendto` |
 | `recv_from(s, buf)` | `→ Result<(int, string, int), IoError>` | `(nbytes, peer_host, peer_port)` |
-| `io::sync::recv_from_wait(s, buf)` | same | Userland: `recv_from` + `await_readable` |
+| `io::sync::recv_from_wait(s, buf)` | same | Userland: `recv_from` + `wait_readable` |
 
 ```coil
 use io::{close, stdout};
@@ -145,7 +145,7 @@ See `examples/io_udp.hy`.
 | `connect_timeout(host, port, ms)` | same | Connect deadline; `ms <= 0` waits forever |
 | `listen(host, port)` | `→ Result<Stream, IoError>` | Listening socket |
 | `accept(s)` | `→ Result<Stream, IoError>` | Non-blocking; `WouldBlock` if empty |
-| `io::sync::accept_wait(s)` | same | Userland: `accept` + `await_readable` |
+| `io::sync::accept_wait(s)` | same | Userland: `accept` + `wait_readable` |
 | `peer_addr(s)` / `local_addr(s)` | `→ Result<(string, int), IoError>` | Connected peer / local socket address |
 | `set_nodelay(s, enabled)` | `→ Result<(), IoError>` | Toggle `TCP_NODELAY` on TCP streams (attached packages share the fd) |
 | `shutdown(s, how)` | `→ Result<(), IoError>` | Half-close: `0` read, `1` write, `2` both |

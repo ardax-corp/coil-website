@@ -19,7 +19,7 @@ use io::sync::{write_all, read_to_end};   // optional blocking adapters (coil-st
 | `Read` / `Write` | Typeclasses | `impl` for `Stream`; methods = free functions |
 | `stdin` / `stdout` / `stderr` | `() -> Stream` | Dup'd fds |
 | `open` / `close` / `read` / `write` / `write_from` | L0 | Never busy-spin; `read` → `Result<Option<int>, IoError>` (`None` = EOF); `write_from(s, buf, offset)` writes `buf[offset..]` without allocating a suffix array |
-| `await_readable` / `await_writable` | Async await | Top-level parks VM; inside a coro registers + yields (batch via `wait_ready`) |
+| `wait_readable` / `wait_writable` (old names `await_readable` / `await_writable` still work) | Wait for readiness | Top-level parks VM; inside a coro registers + yields (batch via `wait_ready`) |
 | `drive` | `() -> int` | Poll async waiters once (non-blocking) |
 | `wait_ready` | `() -> int` | Block until ≥1 registered waiter is ready |
 | `block_on` | Prelude | `block_on(coro) -> Y` — auto-imported; drives `gen fn` to completion |

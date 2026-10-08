@@ -1815,7 +1815,7 @@ Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/recei
 
 ### `examples/io_wait_ready.hy`
 
-**Demonstrates:** cooperative `await_*` + `wait_ready` multiplexing two coroutines without per-op `block_on`.
+**Demonstrates:** cooperative `wait_readable` / `wait_writable` + `wait_ready` multiplexing two coroutines without per-op `block_on`.
 
 | | |
 |---|---|
