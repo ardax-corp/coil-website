@@ -144,11 +144,12 @@ fn main() {
 
 Output: `01` (from `examples/coro_yield_from.hy`).
 
-## `block_on` (drive to completion)
+## `block_on` (deprecated)
 
 Prelude `block_on(coro)` resumes until `done(coro)`, returning the **completion**
-value and discarding intermediate yields. Use it as the sync boundary for
-async IO work (see [IO reactor](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/io-reactor.md)):
+value and discarding intermediate yields. It is deprecated (warning `E0129`):
+generators are for producing values, and concurrent work runs as
+[tasks](/docs/manual/tutorial/12-tasks). It still works:
 
 ```coil
 use io::{stdout};
