@@ -49,6 +49,20 @@ nullary clones that always fork; `COIL_PAR_THRESHOLD` (default 20) is a
 compile-time cutoff for those specializations (see
 [internals: auto-par](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/auto-par.md)).
 
+Only pure functions are split this way. A function that passes a pure lambda
+to `map` or `filter` is still pure; one that writes a field of a shared
+object, reads or writes a `static let`, or does IO is not. To see what the
+compiler decided, run `coil dissect --effects file.hy`. It lists each
+function's effects with the reason, and says why a loop stayed sequential:
+
+```
+step: write, suspend: calls `write_all` (write, suspend)
+sq: pure
+;; loop over `i` in `main` not parallelized: `step` calls `write_all` (write, suspend)
+```
+
+Hovering a function in the editor (`coil lsp`) shows the same effects line.
+
 ## Channels
 
 `channel()` returns `(Sender, Receiver)` as a two-tuple. `send` / `recv` move values between threads; `close` drops the sender side.

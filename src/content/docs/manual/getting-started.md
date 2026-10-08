@@ -84,7 +84,7 @@ The default CLI invocation compiles `examples/fib.hy` to bytecode, serializes it
 | `coil package <file.hy> [-o path]` | Build a **single executable** for this OS/arch (embeds `.hyc` into `coil-embed` by default); always requires an explicit `.hy` path (does not read `[entry].file`). Embeds a native lock when `[[ffi.native]]` matches `dload` stems. |
 | `coil natives dump [exe] [--tsv]` | Print the native lock (JSON or fetch TSV) from a packaged exe, or from project `[[ffi.native]]` when `exe` is omitted |
 | `coil test [path] [--fail-fast]` | Compile and run every `.hy` under `[path]` (default `./tests`) |
-| `coil dissect <file.hy> [--fn pat] [--il] [--ast]` | Re-execs `coil-dissect`: in-memory compile and dump filtered bytecode (optional pre-opt IL / entry AST); never writes `out.hyc` |
+| `coil dissect <file.hy> [--fn pat] [--il] [--ast] [--effects]` | Re-execs `coil-dissect`: in-memory compile and dump filtered bytecode (optional pre-opt IL / entry AST / each function's effects and why auto-par left a loop sequential); never writes `out.hyc` |
 | `coil debug <file.hy> [-x script] [--batch]` | Re-execs `coil-debug`: GDB-style debugger (REPL; optional script / batch mode); never writes `out.hyc` |
 | `coil fmt [--check] <file.hy\|dir>...` | Re-execs `coil-fmt`: pretty-print `.hy` sources (in place; `--check` exits non-zero if changes needed). Preserves `//` and `///` docs. |
 | `coil lsp` | Re-execs `coil-lsp`: start the Coil language server over stdin/stdout. |
