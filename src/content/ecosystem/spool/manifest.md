@@ -110,6 +110,23 @@ Paths must be relative to the project root, without `..` segments. Unknown keys 
 
 ---
 
+## `[permissions]`
+
+What the project's programs and tests may do on the host. spool passes each
+key that is `true` to `coil` as a flag (`read = true` becomes `--allow-read`)
+on every `coil` command it runs (`run`, `test`, `build`, `package`, `lsp`). Keys: `read`, `write`, `net`, `env`,
+`exec`, `exit`, `attach`, and `all` for everything. Left out means denied.
+
+```toml
+[permissions]
+read = true
+write = true
+```
+
+See [Permissions](/docs/references/permissions).
+
+---
+
 ## `[[ffi.native]]`
 
 Native libraries a project loads with `dload`. `spool download` (or `spool install --with-natives`) reads them through `coil natives dump` and fetches each direct library into `~/.coil/natives` (override with `COIL_NATIVES_DIR`). The table itself is compiler schema — see [Project configuration](/docs/references/project-config).
