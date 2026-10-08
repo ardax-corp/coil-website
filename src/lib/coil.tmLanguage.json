@@ -125,6 +125,10 @@
           "match": "\\b(pub|readonly|where)\\b"
         },
         {
+          "name": "storage.modifier.coil",
+          "match": "\\bpure(?=\\s+fn\\b)|\\buses(?=\\s*\\{)"
+        },
+        {
           "name": "keyword.other.coil",
           "match": "\\b(use|mod|as|new|typeof|test)\\b"
         },
