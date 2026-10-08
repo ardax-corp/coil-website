@@ -62,6 +62,7 @@ export const groups: NavGroup[] = [
       { id: "manual/tutorial/09-error-handling", label: "Error handling", hint: "`Option`, `Result`, `raise`, `?`, `??`, `?.`." },
       { id: "manual/tutorial/10-io-streams", label: "IO streams", hint: "Bytes, streams, files, TCP and UDP." },
       { id: "manual/tutorial/11-threads", label: "OS threads", hint: "`spawn`, `join`, channels and mutexes." },
+      { id: "manual/tutorial/12-tasks", label: "Tasks", hint: "`task::scope`, `spawn`, `join`: concurrent IO on one VM." },
     ],
   },
   {

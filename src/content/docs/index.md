@@ -94,6 +94,7 @@ Docs are split into three trees:
 | [09 — Error handling](/docs/manual/tutorial/09-error-handling) | Built-in Option/Result, `raise`, `?`, `??`, `?.` |
 | [10 — IO streams](/docs/manual/tutorial/10-io-streams) | `byte` / `Vec<byte>`, `Stream`, files, sync adapters, TCP |
 | [11 — OS threads](/docs/manual/tutorial/11-threads) | `use thread::{spawn, join, …}`, channels, mutexes |
+| [12 — Tasks](/docs/manual/tutorial/12-tasks) | `use task::{scope, Scope}`, `spawn`, `join`, concurrent IO |
 | [Examples catalog](/docs/manual/examples) | Runnable demos in `examples/` (see catalog for expected output) |
 | [Showcase projects](https://github.com/ardax-corp/coil-lang/blob/main/examples/projects/README.md) | Multi-file apps + co-located tests |
 | [Userland stdlib](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/README.md) | coil-stdlib: consume, modules, IO adapters |
