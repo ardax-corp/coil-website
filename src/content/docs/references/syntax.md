@@ -388,7 +388,8 @@ defer_stmt ::= 'defer' ['use' '(' ident (',' ident)* ','? ')'] block
 ```
 
 Runs when the enclosing function exits via `return` or fall-through (LIFO
-order for multiple defers). `panic` aborts without running registered defers.
+order for multiple defers). A `panic` or a task cancel also runs the defers of
+every function it leaves (those whose `defer` statement was reached).
 Functions that contain a `defer` are not eligible for self tail-call
 optimization (cleanup must run before leaving the frame). Outer locals must
 be listed in the optional `use (…)` capture list (same explicit-capture rule

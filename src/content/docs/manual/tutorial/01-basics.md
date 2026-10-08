@@ -341,7 +341,7 @@ fn example() {
 }
 ```
 
-A `defer` block runs when the **enclosing function** exits — via `return` / `return;` or by falling off the end of a **unit** body (codegen still runs deferred cleanup). It does **not** run if the VM aborts via `panic`, and defers scheduled before a non-terminating `while true` loop never run on function exit (`E0123` warning). Multiple `defer` statements in one function run in **last-in, first-out (LIFO)** order: the defer written last runs first. Functions with a `defer` are not self-tail-call optimized so cleanup always runs.
+A `defer` block runs when the **enclosing function** exits — via `return` / `return;` or by falling off the end of a **unit** body (codegen still runs deferred cleanup). A `panic` runs it too, as the panic leaves the function. Defers scheduled before a non-terminating `while true` loop never run on function exit (`E0123` warning). Multiple `defer` statements in one function run in **last-in, first-out (LIFO)** order: the defer written last runs first. Functions with a `defer` are not self-tail-call optimized so cleanup always runs.
 
 Outer locals are **not** visible inside a defer unless you list them in an explicit `use (…)` capture list (same rule as lambdas):
 

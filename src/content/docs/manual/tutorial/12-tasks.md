@@ -111,14 +111,47 @@ fn main() {
 
 ## Panics
 
-A panic inside a child task does not end the program. It **fails the scope**:
-the scope's other children are dropped, `join` on the panicked task returns
-`Err(TaskError::Panicked(message))`, and `scope` returns
-`Err(TaskError::Panicked(message))`. A panic outside any task still ends the
-program as usual.
+A panic inside a child task does not end the program. Its `defer` blocks
+run, then it **fails the scope**: the scope's other children are cancelled,
+`join` on the panicked task returns `Err(TaskError::Panicked(message))`, and
+`scope` returns `Err(TaskError::Panicked(message))` once the other children
+have stopped. A panic outside any task still ends the program, after running
+the `defer` blocks of the functions it leaves.
 
-Dropped tasks stop at their current suspension point. Their `defer`
-blocks do not run yet; unwinding is planned.
+## Cancellation
+
+`t.cancel()` stops a task. The task stops at its next suspension point (at
+once, if it is waiting now), runs its `defer` blocks, and `join` returns
+`Err(TaskError::Cancelled)`. A `defer` may still do IO while its task stops.
+
+```coil
+use task::{scope, Scope, timeout, shield};
+
+let r = scope(fn (Scope s) {
+    let worker = s.spawn(fn () {
+        defer {
+            // runs when the task is cancelled, too
+        }
+        task::sleep(60000);
+        0
+    });
+    worker.cancel();
+    worker.join()
+});
+
+// Give up on slow work: Err(TaskError::TimedOut) after 100 ms.
+let answer = timeout(100, fn () => slow_lookup());
+
+// A cancel waits until the shielded section has finished.
+shield(fn () {
+    write_record();
+});
+```
+
+`task::timeout(ms, body)` runs `body` as a task and cancels it at the
+deadline. Inside `task::shield(body)` a cancel waits: the task stops once the
+shielded section returns. Cancelling a task also cancels the tasks it
+started, and they stop first.
 
 ## Sleep and yield
 
