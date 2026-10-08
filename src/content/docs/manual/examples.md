@@ -1723,7 +1723,7 @@ fn main() {
 
 ## Coroutines
 
-Stackful coroutines via `async fn`, `yield`, and `resume`. Phase 2 adds send/receive and `yield from`. See [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines).
+Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/receive and `yield from`. See [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines).
 
 ### `examples/coro.hy`
 
@@ -1782,7 +1782,7 @@ Stackful coroutines via `async fn`, `yield`, and `resume`. Phase 2 adds send/rec
 
 ### `examples/coro_interleave.hy`
 
-**Demonstrates:** Two independent handles from the same parameterized `async fn`, resumed in arbitrary order, with `resume` used inline inside `string::format`.
+**Demonstrates:** Two independent handles from the same parameterized `gen fn`, resumed in arbitrary order, with `resume` used inline inside `string::format`.
 
 | | |
 |---|---|

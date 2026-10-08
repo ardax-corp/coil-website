@@ -58,7 +58,7 @@ export const groups: NavGroup[] = [
       { id: "manual/tutorial/05-aggregates", label: "Aggregates", hint: "Tuples, `[T; N]`, `Vec<T>`, dicts and type aliases." },
       { id: "manual/tutorial/06-modules", label: "Modules", hint: "`use`, `mod` and the `coil.toml` manifest." },
       { id: "manual/tutorial/07-ffi", label: "Foreign functions", hint: "`extern` blocks and dynamic loading with libffi." },
-      { id: "manual/tutorial/08-coroutines", label: "Coroutines", hint: "`async fn`, `yield`, `resume`, `yield from`." },
+      { id: "manual/tutorial/08-coroutines", label: "Coroutines", hint: "`gen fn`, `yield`, `resume`, `yield from`." },
       { id: "manual/tutorial/09-error-handling", label: "Error handling", hint: "`Option`, `Result`, `raise`, `?`, `??`, `?.`." },
       { id: "manual/tutorial/10-io-streams", label: "IO streams", hint: "Bytes, streams, files, TCP and UDP." },
       { id: "manual/tutorial/11-threads", label: "OS threads", hint: "`spawn`, `join`, channels and mutexes." },

@@ -15,7 +15,7 @@ use io::sync::{write_all, read_to_end};
 use io::file::{read_text, write_text};
 ```
 
-Prefer `async fn` + prelude `block_on` when structuring concurrent IO.
+Prefer `gen fn` + prelude `block_on` when structuring concurrent IO.
 Tutorial: [IO streams](/docs/manual/tutorial/10-io-streams).
 
 ## `io::sync`

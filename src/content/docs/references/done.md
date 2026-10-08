@@ -15,7 +15,7 @@ done(handle_expr)
 
 | Argument | Type | Description |
 |----------|------|-------------|
-| `handle_expr` | `coroutine<Y, S>` | Handle from calling an `async fn` |
+| `handle_expr` | `coroutine<Y, S>` | Handle from calling an `gen fn` |
 
 ### Returns
 

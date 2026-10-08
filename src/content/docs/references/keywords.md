@@ -45,7 +45,7 @@ All reserved words in the coil parser. Keywords cannot be used as identifiers.
 | `true` | Literal | Boolean true | [Types — Primitives](/docs/references/types#primitive-types) |
 | `false` | Literal | Boolean false | [Types — Primitives](/docs/references/types#primitive-types) |
 | `dload` / `declare` / `invoke` | Ordinary names | FFI callables from virtual `ffi` (not keywords) | [Built-ins — FFI](/docs/references/ffi) |
-| `async` | Declaration | Coroutine function (`coroutine<Y>` / `coroutine<Y, S>`) | [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines) |
+| `gen` | Declaration (before `fn`) | Generator function (`coroutine<Y>` / `coroutine<Y, S>`). `gen` is only a keyword directly before `fn`; `async fn` is accepted as the old spelling and `coil fmt` rewrites it | [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines) |
 | `yield` | Expression / stmt | Suspend coroutine; optional receive binding | [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines) |
 | `yield from` | Expression / stmt | Delegate to sub-coroutine | [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines) |
 | `resume` | Expression | Continue coroutine handle | [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines) |
@@ -58,7 +58,7 @@ All reserved words in the coil parser. Keywords cannot be used as identifiers.
 ## Declaration keywords
 
 ```
-fn | enum | type | trait | use | mod | extern | class | impl | defer | async | where | attr
+fn | enum | type | trait | use | mod | extern | class | impl | defer | gen | where | attr
 ```
 
 `attr` declares an attribute macro. `derive`, `attrs`, `macro` and `quote` are contextual words for the other macro forms, not reserved: see [Macros](/docs/references/macros). Attributes (`#[derive(...)]`, `#[repr(...)]`, `#[max_depth(N)]`, attribute macros `#[name(...)]`) are not keywords — see [Syntax — Attributes](/docs/references/syntax#attributes). `#[test]` and `#[ffi]` are rejected.

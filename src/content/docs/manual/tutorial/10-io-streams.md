@@ -78,7 +78,7 @@ See `examples/io_text.hy`.
 | `await_readable` / `await_writable` | async await | Top-level parks; inside a coro yields + registers for batch poll |
 | `drive` | `() -> int` | Poll registered async waiters once; returns newly-ready count |
 | `wait_ready` | `() -> int` | Block until ≥1 registered waiter is ready (multiplex) |
-| `block_on` | prelude | Drive an `async fn` handle to completion (see [IO reactor](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/io-reactor.md)) |
+| `block_on` | prelude | Drive an `gen fn` handle to completion (see [IO reactor](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/io-reactor.md)) |
 | `io::sync::{write_all,read_exact,read_to_end}` | [coil-stdlib](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/io.md) | Blocking adapters over L0 + `await_*` |
 | `io::net::tcp::{connect,listen,accept,…}` | TCP | `connect` / `connect_timeout` / `listen` / `accept`, plus address / shutdown helpers |
 | `io::net::udp::{bind,send_to,recv_from,…}` | UDP | Datagram sockets; see below |

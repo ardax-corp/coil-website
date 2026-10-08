@@ -38,7 +38,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0109` | `ConstantRedeclaration` | Constant redeclaration |
 | `E0110` | `UnknownType` | Unknown type name |
 | `E0111` | `ReturnMismatch` | Return type mismatch |
-| `E0112` | `YieldOutsideAsync` | `yield` outside `async fn` |
+| `E0112` | `YieldOutsideAsync` | `yield` outside `gen fn` |
 | `E0113` | `ResumeTypeMismatch` | Resume / send type mismatch |
 | `E0114` | `InvalidTry` | `?` on non-Option/non-Result, or outside a function |
 | `E0115` | `InvalidCoalesce` | `??` on non-Option/non-Result |

@@ -118,7 +118,7 @@
         },
         {
           "name": "storage.type.coil",
-          "match": "\\b(fn|let|const|static|enum|class|trait|type|impl|extern|async|attr|struct)\\b"
+          "match": "\\b(fn|let|const|static|enum|class|trait|type|impl|extern|gen|async|attr|struct)\\b"
         },
         {
           "name": "storage.modifier.coil",
