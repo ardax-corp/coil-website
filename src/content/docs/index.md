@@ -59,7 +59,7 @@ Parse → typecheck (HM) → stack IL codegen + lower/fuse-select → versioned 
 | FFI (`extern` blocks, `dload`/`declare`/`invoke`, C varargs `...`, struct/callback returns) | Supported (requires libffi) |
 | IO streams (`use io::{…};`, `Vec<byte>`, files, sync adapters, TCP, UDP) | Supported (non-blocking L0) |
 | Classes (`class` / `impl` / `new`, fields, methods) | Supported |
-| Coroutines (`async`, `yield`, `resume`, `yield from`, `done`) | Supported |
+| Coroutines (`gen fn`, `yield`, `resume`, `yield from`, `done`) | Supported |
 | `for x in` (Iterator / IntoIterator) | Supported (arrays, homogeneous tuples/dicts, ranges, coroutines, user `impl`s) |
 | Ranges (`a..b` / `a..=b`) | Supported — lazy `Range<T: Ord>`; `for` / `.to_vec()` step `int`/`byte`/`float`; non-numeric `Ord` is a type error ([syntax](/docs/references/syntax#ranges-lazy)) |
 | String concat via `+` | Supported (`string + string` → `string`) |
@@ -90,7 +90,7 @@ Docs are split into three trees:
 | [05 — Aggregates](/docs/manual/tutorial/05-aggregates) | Tuples, `[T; N]`, `Vec<T>`, dicts, type aliases |
 | [06 — Modules](/docs/manual/tutorial/06-modules) | `use`, `mod`, `coil.toml` |
 | [07 — FFI](/docs/manual/tutorial/07-ffi) | `extern` blocks and dynamic loading |
-| [08 — Coroutines](/docs/manual/tutorial/08-coroutines) | `async fn`, resume, send/receive, `yield from`, `for x in` |
+| [08 — Coroutines](/docs/manual/tutorial/08-coroutines) | `gen fn`, resume, send/receive, `yield from`, `for x in` |
 | [09 — Error handling](/docs/manual/tutorial/09-error-handling) | Built-in Option/Result, `raise`, `?`, `??`, `?.` |
 | [10 — IO streams](/docs/manual/tutorial/10-io-streams) | `byte` / `Vec<byte>`, `Stream`, files, sync adapters, TCP |
 | [11 — OS threads](/docs/manual/tutorial/11-threads) | `use thread::{spawn, join, …}`, channels, mutexes |

@@ -15,18 +15,18 @@ use io::sync::{write_all, read_to_end};
 use io::file::{read_text, write_text};
 ```
 
-Prefer `async fn` + prelude `block_on` when structuring concurrent IO.
+Prefer `gen fn` + prelude `block_on` when structuring concurrent IO.
 Tutorial: [IO streams](/docs/manual/tutorial/10-io-streams).
 
 ## `io::sync`
 
-Blocking helpers over L0 + `await_*` (`src/io/sync.hy`), not host natives.
+Blocking helpers over L0 + `wait_readable` / `wait_writable` (`src/io/sync.hy`), not host natives.
 
 | Function | Notes |
 |----------|-------|
 | `write_all` / `read_exact` / `read_to_end` | Park on `WouldBlock`; `write_all` uses `io::write_from` |
-| `accept_wait` | `accept` + `await_readable` |
-| `recv_from_wait` | `recv_from` + `await_readable` |
+| `accept_wait` | `accept` + `wait_readable` |
+| `recv_from_wait` | `recv_from` + `wait_readable` |
 | `print` / `println` / `eprintln` | UTF-8 stdout/stderr helpers |
 | `read_line` | Until LF (strips CR); `None` on EOF with no bytes |
 

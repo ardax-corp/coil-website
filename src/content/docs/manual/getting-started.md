@@ -338,7 +338,7 @@ The language includes:
 - **Modules** via `use foo::bar;` and `mod foo;` (multi-file projects; see [Modules](/docs/references/modules))
 - **FFI** via `extern "lib" { ... }` or runtime `dload` / `declare` / `invoke`
 - **Classes** (partial — see `examples/classes.hy`)
-- **Coroutines** — `async fn`, `yield`, `resume`, `resume h with v`, `let x = yield e`, `yield from` (see [tutorial/08-coroutines.md](/docs/manual/tutorial/08-coroutines))
+- **Coroutines** — `gen fn`, `yield`, `resume`, `resume h with v`, `let x = yield e`, `yield from` (see [tutorial/08-coroutines.md](/docs/manual/tutorial/08-coroutines))
 - **String helpers** — `string::format(...)` and UTF-8 byte conversions via `string::{from_bytes, to_bytes}`
 
 ## Next steps

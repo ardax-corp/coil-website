@@ -477,7 +477,7 @@ Static(N) ~ Static(M)    ✓ (element types must unify; N and M need not match f
 
 ## Coroutine types (`coroutine<Y, S>`)
 
-`async fn` bodies return a handle typed as `coroutine<Y, S>`:
+`gen fn` bodies return a handle typed as `coroutine<Y, S>`:
 
 | Parameter | Meaning |
 |-----------|---------|
@@ -487,12 +487,12 @@ Static(N) ~ Static(M)    ✓ (element types must unify; N and M need not match f
 When no binding-yield or send sites exist, `S` defaults to `unit` and diagnostics print `coroutine<Y>`.
 
 ```coil
-async fn counter() -> coroutine<int> {
+gen fn counter() -> coroutine<int> {
     yield 0;
     yield 1;
 }
 
-async fn ping() -> coroutine<string, string> {
+gen fn ping() -> coroutine<string, string> {
     let msg = yield "ready";
     yield msg;
 }
@@ -503,12 +503,12 @@ Resume expression type: if `h : coroutine<Y, S>`, then `resume h` has type `Y`, 
 `resume` has a single static result type (`Y`) covering BOTH the value
 yielded by each `yield expr;` AND the value produced when the body
 completes (`return expr;`, or falling off the end). A `return expr;`
-inside an `async fn` therefore unifies `expr`'s type against the SAME
+inside a `gen fn` therefore unifies `expr`'s type against the SAME
 `Y` as every `yield` in that body — not `unit` — so the returned value
 is not discarded:
 
 ```coil
-async fn counter() {
+gen fn counter() {
     yield 1;
     yield 2;
     return 42; // completion value, type unifies with the `yield`s above
@@ -1086,7 +1086,7 @@ Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`. Use
 | Effect system | No linear/ownership types |
 | Callback returns | Opaque `Ptr` address; re-invoke requires host/`declare` of the pointed-to symbol (no automatic trampoline) |
 | Inner match patterns | Same outer tag with different inner tags — supported (Phase 18A); complex nested cases may still need careful arm ordering |
-| `async fn` `-> T` annotation | When present, `T` is unified with the coroutine yield/return type `Y` (same slot as `yield` / `return` / `resume`). A mismatch is a type error. |
+| `gen fn` `-> T` annotation | When present, `T` is unified with the coroutine yield/return type `Y` (same slot as `yield` / `return` / `resume`). A mismatch is a type error. |
 
 ---
 

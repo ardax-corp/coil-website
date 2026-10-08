@@ -70,9 +70,9 @@ let p = port(s) ?? 80;`,
   },
   {
     title: "Coroutines built in",
-    text: "Stackful coroutines with async fn, yield and resume — and they plug straight into for-in loops.",
+    text: "Stackful coroutines with gen fn, yield and resume — and they plug straight into for-in loops.",
     href: "/docs/manual/tutorial/08-coroutines",
-    code: `async fn countdown(int n) {
+    code: `gen fn countdown(int n) {
     let i = n;
     while i > 0 { yield i; i = i - 1; }
 }

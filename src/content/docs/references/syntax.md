@@ -124,7 +124,7 @@ declaration ::= class_decl
 ### Functions
 
 ```
-function_decl ::= attr_list? 'async'? 'fn' IDENT type_param_list? arg_list
+function_decl ::= attr_list? 'gen'? 'fn' IDENT type_param_list? arg_list
                   ('->' type_annotation)? where_clause? (block | ';')
 type_param_list ::= '<' type_param (',' type_param)* '>'
 type_param      ::= IDENT (':' (kind | class_bound ('+' class_bound)*))?
@@ -495,7 +495,7 @@ Primitive casts use postfix `expr as T` (`int` / `float` / `byte` / `bool`). `fl
 ### Coroutines
 
 ```
-async_fn     ::= 'async' function_decl
+gen_fn       ::= 'gen' function_decl      // 'async' is accepted as the old spelling
 resume_expr  ::= 'resume' expr ('with' expr)?
 yield_expr   ::= 'yield' ('from' expr | expr)
 binding_yield ::= 'let' IDENT '=' yield_expr
@@ -507,7 +507,7 @@ Examples:
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
-async fn ping() {
+gen fn ping() {
     let msg = yield "ready";
     write_all(stdout(), to_bytes(format("%s", msg)));
 }

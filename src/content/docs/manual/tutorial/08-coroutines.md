@@ -1,21 +1,21 @@
 ---
 title: 08 — Coroutines
-description: coil supports stackful coroutines via async fn, yield, resume, and (Phase 2) bidirectional send/receive and yield from delegation.
+description: coil supports stackful coroutines via gen fn, yield, resume, and (Phase 2) bidirectional send/receive and yield from delegation.
 ---
 
 # 08 — Coroutines
 
-coil supports **stackful coroutines** via `async fn`, `yield`, `resume`, and (Phase 2) bidirectional send/receive and `yield from` delegation.
+coil supports **stackful coroutines** via `gen fn`, `yield`, `resume`, and (Phase 2) bidirectional send/receive and `yield from` delegation.
 
 ## Creating a coroutine
 
-An `async fn` returns a **handle** with type `coroutine<Y>` when it only yields values out, or `coroutine<Y, S>` when it also receives values on resume (`S` defaults to `unit` when unused).
+An `gen fn` returns a **handle** with type `coroutine<Y>` when it only yields values out, or `coroutine<Y, S>` when it also receives values on resume (`S` defaults to `unit` when unused).
 
 ```coil
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
-async fn counter() {
+gen fn counter() {
     yield 0;
     yield 1;
     yield 2;
@@ -28,7 +28,7 @@ fn main() {
 }
 ```
 
-Calling an async function emits `MakeCoro` — it allocates a suspended coroutine object and pushes a handle. Nothing runs until you `resume`.
+Calling a gen function emits `MakeCoro` — it allocates a suspended coroutine object and pushes a handle. Nothing runs until you `resume`.
 
 ## Resuming
 
@@ -38,7 +38,7 @@ Calling an async function emits `MakeCoro` — it allocates a suspended coroutin
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
-async fn two_step() {
+gen fn two_step() {
     yield 10;
     yield 20;
     return 30; // completion value — same type as the yields above
@@ -102,7 +102,7 @@ Example (`examples/coro_send.hy`):
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
-async fn ping() {
+gen fn ping() {
     let msg = yield "ready";
     write_all(stdout(), to_bytes(format("%s", msg)));
 }
@@ -124,12 +124,12 @@ Delegate to another coroutine; values and sends propagate through the delegate c
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
-async fn inner() {
+gen fn inner() {
     yield 0;
     yield 1;
 }
 
-async fn outer() {
+gen fn outer() {
     yield from inner();
 }
 
@@ -155,7 +155,7 @@ use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
 
-async fn greet() -> int {
+gen fn greet() -> int {
     yield 1;
     return 2;
 }
@@ -168,13 +168,13 @@ fn main() {
 
 ## Interleaving
 
-Two handles are independent — resuming one does not advance the other, even when both handles come from the same (possibly parameterized) `async fn`:
+Two handles are independent — resuming one does not advance the other, even when both handles come from the same (possibly parameterized) `gen fn`:
 
 ```coil
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
-async fn counter(int base) {
+gen fn counter(int base) {
     yield base;
     yield base + 1;
     yield base + 2;
@@ -206,7 +206,7 @@ Coroutines participate: the loop resumes until `done`, binding each
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
-async fn counter() {
+gen fn counter() {
     yield 0;
     yield 1;
     yield 2;

@@ -19,10 +19,10 @@ use io::sync::{write_all, read_to_end};   // optional blocking adapters (coil-st
 | `Read` / `Write` | Typeclasses | `impl` for `Stream`; methods = free functions |
 | `stdin` / `stdout` / `stderr` | `() -> Stream` | Dup'd fds |
 | `open` / `close` / `read` / `write` / `write_from` | L0 | Never busy-spin; `read` → `Result<Option<int>, IoError>` (`None` = EOF); `write_from(s, buf, offset)` writes `buf[offset..]` without allocating a suffix array |
-| `await_readable` / `await_writable` | Async await | Top-level parks VM; inside a coro registers + yields (batch via `wait_ready`) |
+| `wait_readable` / `wait_writable` (old names `await_readable` / `await_writable` still work) | Wait for readiness | Top-level parks VM; inside a coro registers + yields (batch via `wait_ready`) |
 | `drive` | `() -> int` | Poll async waiters once (non-blocking) |
 | `wait_ready` | `() -> int` | Block until ≥1 registered waiter is ready |
-| `block_on` | Prelude | `block_on(coro) -> Y` — auto-imported; drives `async fn` to completion |
+| `block_on` | Prelude | `block_on(coro) -> Y` — auto-imported; drives `gen fn` to completion |
 | `from_bytes` / `to_bytes` | Text aliases | UTF-8 `Vec<byte> ↔ string` (`from_bytes` → `Result<string, IoError>`); also exported by [`string`](/docs/references/string) |
 | `attach` / `park` | Package IO | `s.attach(ptr, read, write, shutdown, free)` installs a C vtable on this Stream in place; later `s.read()` / `s.write()` / Drop go through those hooks. `s.park()` waits on the fd via `reactor_wait_fd_no_help` (no help-steal). Function pointers are `int` (from `dload`). There is no public `s.fd` field; FFI `Int` args marshal Stream → fd at the call boundary. |
 | `io::net::tcp::{connect,connect_timeout,listen,accept}` | TCP | Nested module — `use io::net::tcp::{connect, listen, …};`; timeout `ms <= 0` waits forever |
@@ -43,7 +43,7 @@ use io::sync::{write_all};
 use string::{format, to_bytes};
 ```
 
-Prefer `async fn` + prelude `block_on` when structuring concurrent IO.
+Prefer `gen fn` + prelude `block_on` when structuring concurrent IO.
 
 `connect` / `connect_timeout` try **every** DNS result under one absolute
 deadline. `listen` / UDP `bind` still use the first resolved address — prefer
