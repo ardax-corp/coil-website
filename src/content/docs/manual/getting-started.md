@@ -80,6 +80,7 @@ The default CLI invocation compiles `examples/fib.hy` to bytecode, serializes it
 | `coil compile [<file.hy>] [-o path]` | Compile only; default output is `out.hyc`; omit the file to use `[entry].file` |
 | `coil -V` / `coil --version` | Print `coil 0.1.0` on stdout. These flags win over other args. |
 | `coil -O0` … `-O3` / `-Os` / `-Og` | Optimization preset (`none`/`basic`/`standard`/`aggressive`/`size`/`debug`); default `-O2` |
+| `coil --allow-read` … / `-A` | Grant host access: `--allow-read`, `--allow-write`, `--allow-net`, `--allow-env`, `--allow-exec`, `--allow-exit`, `--allow-attach`, or `-A` for all. Default is none; the compiler names the flag a program needs. See [Permissions](/docs/references/permissions) |
 | `coil run <file.hyc>` | Execute a previously compiled archive |
 | `coil package <file.hy> [-o path]` | Build a **single executable** for this OS/arch (embeds `.hyc` into `coil-embed` by default); always requires an explicit `.hy` path (does not read `[entry].file`). Embeds a native lock when `[[ffi.native]]` matches `dload` stems. |
 | `coil natives dump [exe] [--tsv]` | Print the native lock (JSON or fetch TSV) from a packaged exe, or from project `[[ffi.native]]` when `exe` is omitted |

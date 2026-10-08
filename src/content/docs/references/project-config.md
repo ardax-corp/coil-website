@@ -37,7 +37,7 @@ If `coil.toml` is absent, the compiler uses built-in defaults (see [Default beha
 
 The parser accepts a minimal TOML-like subset:
 
-- Section headers: `[module]`, `[entry]`, `[env]`, `[ffi]`, `[[ffi.native]]`, `[package]`, `[dependencies]`, `[scripts]`
+- Section headers: `[module]`, `[entry]`, `[permissions]` (spool), `[ffi]`, `[[ffi.native]]`, `[package]`, `[dependencies]`, `[scripts]`
 - Key-value lines: `key = value`
 - String values: double-quoted (`"./src"`)
 - Array values: `["a", "b"]`
@@ -102,17 +102,29 @@ coil
 coil compile
 ```
 
-### `[env]`
+### `[permissions]` {#permissions}
 
-| Key | Type | Required | Description |
-|-----|------|----------|-------------|
-| `allow_exec` | bool | No (defaults to `false`) | When `true`, `env::exec` may spawn subprocesses at runtime (the compiler still warns at compile time) |
+Read by [spool](/ecosystem/spool/manifest), not by `coil`: spool turns each key
+that is `true` into the matching `coil` flag on every compile, run and test.
+`coil` itself takes grants only as flags. See [Permissions](/docs/references/permissions).
 
-Example:
+| Key | Type | Flag |
+|-----|------|------|
+| `read` | bool | `--allow-read` |
+| `write` | bool | `--allow-write` |
+| `net` | bool | `--allow-net` |
+| `env` | bool | `--allow-env` |
+| `exec` | bool | `--allow-exec` |
+| `exit` | bool | `--allow-exit` |
+| `attach` | bool | `--allow-attach` |
+| `all` | bool | `--allow-all` |
+
+Every key defaults to `false`.
 
 ```toml
-[env]
-allow_exec = true   # opt-in: enable env::exec for trusted scripts
+[permissions]
+read = true
+net = true
 ```
 
 ### `[ffi]` {#ffi}
@@ -304,6 +316,11 @@ roots = ["./src", "./vendor", "../coil-stdlib/src"]
 # http = { git = "https://github.com/coil-lang/http.git", rev = "abc123" }
 # local_http = { path = "../local-http" }
 # crypto = { git = "https://github.com/ardax-corp/coil-crypto.git", trusted = true }
+
+# [permissions]
+# read = true
+# write = true
+# net = true
 
 # [scripts]
 # pre_install = "./scripts/pre-install.sh"
