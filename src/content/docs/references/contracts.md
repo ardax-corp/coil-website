@@ -143,6 +143,31 @@ as the public method that called them puts it right. Static methods and
 `drop` are not checked. A failed check names the method, or
 `new Account` for construction.
 
+## Trait methods
+
+A trait method's clauses hold for every implementation of it:
+
+```coil
+trait Area<T> {
+    fn area(T x) -> int
+        requires x > 0, "positive"
+        ensures result >= 0
+    {}
+}
+
+impl Area for int {
+    pub fn area(int n) -> int ensures result < 100 {
+        return n * n;
+    }
+}
+```
+
+Each impl checks the trait's clauses (here `area(0)` fails
+`requires x > 0`, blaming the caller), plus any `ensures` of its own. An impl
+may promise more with `ensures`, but it cannot add a `requires`: code
+written against the trait could not know about it. Adding one is a compile
+error. A failed trait clause is reported at the impl method.
+
 ## Rules
 
 - Each clause must be a `bool`, except `decreases`, which is an `int`.
@@ -178,8 +203,7 @@ in are not checked for effects either.
 
 ## Coming next
 
-Contracts on trait methods are planned next. After them come tests
-generated from contracts and a static checker.
+Next come tests generated from contracts and a static checker.
 
 ## Related
 
