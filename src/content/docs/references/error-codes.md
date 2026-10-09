@@ -63,7 +63,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0400`–`E0405` | Aggregate / FFI family | Index OOB, array element mismatch, `declare`/`invoke` arity, … |
 | `E0406`–`E0408` | `HostExecDenied` / `HostExitDenied` / `HostAttachDenied` | `env::exec`, `env::exit` or `Stream.attach` reached without `--allow-exec` / `--allow-exit` / `--allow-attach`; see [Permissions](/docs/references/permissions) |
 | `E0409`–`E0411` | `dload` / FFI-exec family | `dload` of a stem without `--allow-dload`, a non-literal `dload` path, or an FFI process-exec symbol without `--allow-ffi-exec` |
-| `E0413` | `EffectMismatch` | A function's effects exceed its `pure fn` / `uses {…}`, or its trait method's. The message names the call chain; see [Effects](/docs/references/effects) |
+| `E0413` | `EffectMismatch` | A function's effects exceed its `pure fn` / `uses {…}`, or its trait method's, or a contract clause has an effect. The message names the call chain; see [Effects](/docs/references/effects) and [Contracts](/docs/references/contracts) |
 | `E0414` | `HostCapDenied` | A host call `main` or a test reaches needs read, write, net or env and the build did not grant it. The message names the flag and the call chain; see [Permissions](/docs/references/permissions) |
 | `E0800`–`E0801` | Codegen family | Unknown expression / codegen error |
 | `E0900` | `IoError` | I/O failure |

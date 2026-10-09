@@ -53,6 +53,10 @@ All reserved words in the coil parser. Keywords cannot be used as identifiers.
 | `where` | Declaration | Constraint clause on generic functions | [Types — Generics](/docs/references/types#generics-and-traits) |
 | `pure` | Declaration (before `fn`) | Promises the function has no effects. Only a keyword directly before `fn` | [Effects](/docs/references/effects) |
 | `uses` | Declaration (after the signature) | `uses {read, write}`: the effects a function may have. Only a keyword in that position | [Effects](/docs/references/effects) |
+| `requires` | Declaration (after the signature) | Precondition checked on entry. Only a keyword in that position | [Contracts](/docs/references/contracts) |
+| `ensures` | Declaration (after the signature) | Postcondition checked on return; `result` is the returned value. Only a keyword in that position | [Contracts](/docs/references/contracts) |
+| `invariant` | Class or loop header | Condition that holds for every instance, or every time a loop tests its condition. Only a keyword in that position | [Contracts](/docs/references/contracts) |
+| `decreases` | `while` header | Non-negative `int` that every iteration lowers. Only a keyword in that position | [Contracts](/docs/references/contracts) |
 | `trait` | Declaration | User-defined trait | [Types — Generics](/docs/references/types#generics-and-traits) |
 
 ---
