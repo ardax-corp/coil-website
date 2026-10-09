@@ -283,7 +283,7 @@ is a no-op. Literal OOB on `[T; N]` and tuples is a compile error. See
 
 | Operator | Name | Operand | Result |
 |----------|------|---------|--------|
-| `-` | Negate | numeric | numeric |
+| `-` | Negate | numeric, or a type parameter bounded by `Neg` (`Num` implies it) | same |
 | `+` | Positive | numeric | numeric (no-op) |
 | `~` | Bitwise NOT | `int` | `int` (flip bits) |
 | `!` | Logical NOT | `bool` or `int` | `bool` |

@@ -693,7 +693,8 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 | `Sub` | Subtraction | `-` → `sub` |
 | `Mul` | Multiplication | `*` → `mul` |
 | `Div` | Division | `/` → `div` |
-| `Num` | Convenience bundle | Supertrait of `Add` + `Sub` + `Mul` + `Div` (no own methods) |
+| `Neg` | Negation | unary `-` → `neg` (on a type parameter; `int` / `float` only) |
+| `Num` | Convenience bundle | Supertrait of `Add` + `Sub` + `Mul` + `Div` + `Neg` (no own methods) |
 | `Lt` | Less-than | `<` → `lt` |
 | `Le` | Less-or-equal | `<=` → `le` |
 | `Gt` | Greater-than | `>` → `gt` |
