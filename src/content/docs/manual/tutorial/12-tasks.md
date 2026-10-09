@@ -62,6 +62,9 @@ runs. Suspension points are:
 - `task::sleep(ms)` and `clock::sleep_ms(ms)`
 - `t.join()` on an unfinished task, and the end of a `scope`
 - `task::yield_now()`
+- `send` on a full or `recv` on an empty [`task::channel`](#channels)
+- a wait on an OS thread: `thread::recv`, `thread::join`, `thread::with_lock`
+  or `thread::lock` on a held mutex, and [`task::blocking`](#cpu-work-on-a-thread)
 
 There is no preemption: a loop that never reaches one of these keeps the
 thread. Ordinary functions that do IO need no changes to run inside a task,
@@ -152,6 +155,66 @@ shield(fn () {
 deadline. Inside `task::shield(body)` a cancel waits: the task stops once the
 shielded section returns. Cancelling a task also cancels the tasks it
 started, and they stop first.
+
+## Channels
+
+`task::channel(capacity)` makes a bounded queue between tasks. `send` waits
+while it is full, `recv` while it is empty; only the waiting task stops.
+Values are shared, not copied: tasks use one heap.
+
+```coil
+use task::{scope, Scope, Channel};
+
+let ch: Channel<int> = task::channel(8);
+let r = scope(fn (Scope s) use (ch) {
+    s.spawn(fn () use (ch) {
+        for i in 0..3 {
+            let _ = ch.send(i);
+        }
+        ch.close();
+        0
+    });
+    let total = 0;
+    let done = false;
+    while !done {
+        match ch.recv() {
+            Result::Ok(v) => {
+                total = total + v;
+            },
+            Result::Err(_) => {
+                done = true; // closed and empty
+            },
+        }
+    }
+    total
+});
+```
+
+After `close`, `send` returns `Err(ChannelError::Closed)` and `recv` returns
+the values still queued, then `Err(ChannelError::Closed)`. `try_send` and
+`try_recv` never wait: they return `Err(ChannelError::Full)` or
+`Err(ChannelError::Empty)` instead. A `recv` that no task could ever satisfy
+panics with `task deadlock`.
+
+## CPU work on a thread
+
+`task::blocking(f)` runs `f` on a CPU worker thread and returns its result as
+`Result<T, ThreadError>`. Only the calling task waits; the other tasks keep
+running. `task::blocking_with(f, arg)` passes one argument. The
+[thread rules](/docs/manual/tutorial/11-threads) apply: what `f` captures and
+receives is copied to the thread, so it must be sendable.
+
+```coil
+fn checksum(string path) -> int {
+    // ... long CPU loop ...
+}
+
+let sum = task::blocking_with(checksum, "big.bin");
+```
+
+The `thread` waits themselves are task-aware too: inside a scope,
+`thread::recv`, `thread::join` and `thread::with_lock` suspend only the task
+that waits, so a task can talk to OS threads without stopping the others.
 
 ## Sleep and yield
 

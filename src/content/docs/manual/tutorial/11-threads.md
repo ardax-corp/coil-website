@@ -19,7 +19,7 @@ All primitives return `prelude::Result<…, thread::Error>`. Use `?` in result-m
 
 ## Spawning and joining
 
-`spawn(f)` runs nullary function `f` on a new thread. `spawn(f, arg)` passes one argument (the function must be `fn (A) -> R`).
+`spawn(f)` runs nullary function `f` on a new thread. `spawn(f, arg)` passes one argument (the function must be `fn (A) -> R`). A closure's `use` captures are copied to the thread like the argument, so they must be sendable too.
 
 ```coil
 use thread::{join, spawn};
