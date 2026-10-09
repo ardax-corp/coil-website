@@ -90,7 +90,7 @@ export const groups: NavGroup[] = [
       { id: "references/modules", label: "Modules", hint: "`use` resolution and namespace rules." },
       { id: "references/macros", label: "Macros", hint: "Derives, attribute macros, `name!(…)` macros, `quote`." },
       { id: "references/effects", label: "Effects", hint: "`pure fn`, `uses {…}` and inferred effects." },
-      { id: "references/contracts", label: "Contracts", hint: "`requires`, `ensures` and `--contracts` levels." },
+      { id: "references/contracts", label: "Contracts", hint: "`requires`, `ensures`, invariants and `--contracts` levels." },
       { id: "references/permissions", label: "Permissions", hint: "`--allow-read`, `--allow-net` and the reachability check." },
       { id: "references/project-config", label: "coil.toml", hint: "Project manifest: roots, entry, package metadata." },
       { id: "references/error-codes", label: "Error codes", hint: "Stable `E####` diagnostics." },

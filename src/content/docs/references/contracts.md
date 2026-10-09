@@ -1,6 +1,6 @@
 ---
-title: "Contracts: `requires` and `ensures`"
-description: "Preconditions and postconditions on functions and methods, checked at run time. A failed `requires` blames the caller; a failed `ensures` blames the function."
+title: "Contracts: `requires`, `ensures` and invariants"
+description: "Preconditions, postconditions, class and loop invariants and loop variants, checked at run time. A failed `requires` blames the caller; everything else blames the code that broke it."
 ---
 
 # Contracts
@@ -78,17 +78,82 @@ impl Counter {
 `coil fmt` puts each clause on its own line, one level in, and the body
 brace on the line after.
 
+## `old(e)`
+
+Inside `ensures`, `old(e)` is the value `e` had when the function was
+entered:
+
+```coil
+impl Account {
+    pub fn deposit(int amount)
+        requires amount > 0
+        ensures self.balance == old(self.balance) + amount
+    {
+        self.balance = self.balance + amount;
+    }
+}
+```
+
+Each `old(e)` is evaluated once, right after the `requires` checks.
+
+## Loop invariants and `decreases`
+
+A `while` or `for` loop takes clauses between its header and its body:
+
+```coil
+fn sum_to(int n) -> int {
+    let i = 0;
+    let s = 0;
+    while i < n
+        invariant i <= n
+        decreases n - i
+    {
+        s = s + i;
+        i = i + 1;
+    }
+    return s;
+}
+```
+
+- `invariant` holds every time the loop's condition is tested: before the
+  first iteration, after each one (`continue` included), and, for a `for`
+  loop, after the last item. A `break` leaves without a check.
+- `decreases` (on `while` only) is an `int` that must stay non-negative and
+  get smaller on every iteration. That proves the loop ends. A failure says
+  `(went negative)` or `(did not decrease)`.
+
+Loop clauses see the variables around the loop, not a `for` loop's own
+binding.
+
+## Class invariants
+
+A class can state what is true of every instance:
+
+```coil
+class Account
+    invariant self.balance >= 0, "no overdraft"
+{
+    balance: int,
+}
+```
+
+The invariant is checked after `new Account(…)` and whenever a `pub` method
+returns. Private methods may break it in the middle of an update, as long
+as the public method that called them puts it right. Static methods and
+`drop` are not checked. A failed check names the method, or
+`new Account` for construction.
+
 ## Rules
 
-- Each clause must be a `bool`.
+- Each clause must be a `bool`, except `decreases`, which is an `int`.
 - A clause must have no effects: no IO, no writes, no mutation of shared
   state, no suspending. Calling a `pure fn` is fine. Breaking this is
   `E0413`.
 - A failed clause panics. The message is
   `contract violated: <requires|ensures> <clause> ("<message>") in <function>`.
 - **Blame.** A failed `requires` is the caller's fault, so the message ends
-  with `called from file:line:col` at the call. A failed `ensures` is the
-  function's fault and is reported at the clause.
+  with `called from file:line:col` at the call. Every other clause is the
+  fault of the code it describes and is reported at the clause.
 
 ## Checking levels
 
@@ -97,7 +162,7 @@ brace on the line after.
 
 | Level | Checks | Default for |
 |-------|--------|-------------|
-| `all` | `requires` and `ensures` | `coil test`, `-O0`, `-O1`, `-Og` |
+| `all` | every clause | `coil test`, `-O0`, `-O1`, `-Og` |
 | `requires` | `requires` only | `-O2` and above (the default build) |
 | `off` | nothing | |
 
@@ -113,9 +178,8 @@ in are not checked for effects either.
 
 ## Coming next
 
-Class and loop `invariant`, loop `decreases`, `old(e)` in `ensures`, and
-contracts on trait methods are planned, followed by tests generated from
-contracts and a static checker.
+Contracts on trait methods are planned next. After them come tests
+generated from contracts and a static checker.
 
 ## Related
 
