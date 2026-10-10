@@ -693,8 +693,17 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 | `Sub` | Subtraction | `-` → `sub` |
 | `Mul` | Multiplication | `*` → `mul` |
 | `Div` | Division | `/` → `div` |
-| `Neg` | Negation | unary `-` → `neg` (on a type parameter; `int` / `float` only) |
-| `Num` | Convenience bundle | Supertrait of `Add` + `Sub` + `Mul` + `Div` + `Neg` (no own methods) |
+| `Neg` | Negation | unary `-` → `neg` (`int` / `float`) |
+| `Rem` | Remainder | `%` → `rem` (`int` / `float`) |
+| `Pow` | Exponentiation | `**` → `pow` (`int` / `float`) |
+| `Num` | Convenience bundle | Supertrait of `Add` + `Sub` + `Mul` + `Div` + `Neg` + `Rem` + `Pow` (no own methods) |
+| `Shl` | Shift left | `<<` → `shl` (`int` / `byte`) |
+| `Shr` | Shift right | `>>` → `shr` (`int` / `byte`) |
+| `BitAnd` | Bitwise AND | `&` → `bitand` (`int` / `byte`) |
+| `BitOr` | Bitwise OR | `\|` → `bitor` (`int` / `byte`) |
+| `BitXor` | Bitwise XOR | `^` → `bitxor` (`int` / `byte`) |
+| `BitNot` | Bitwise NOT | unary `~` → `bitnot` (`int`) |
+| `Integral` | Convenience bundle | Supertrait of `Num` + `Shl` + `Shr` + `BitAnd` + `BitOr` + `BitXor` + `BitNot` (`int`; `float` is `Num` but not `Integral`) |
 | `Lt` | Less-than | `<` → `lt` |
 | `Le` | Less-or-equal | `<=` → `le` |
 | `Gt` | Greater-than | `>` → `gt` |
@@ -711,7 +720,8 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 `where Into<A, B>` helpers also work. See `examples/into.hy`.
 
 On open/generic operands, operators require the matching op trait (or the
-`Num` / `Ord` convenience supertrait). Concrete `int`/`float` arithmetic and
+`Num` / `Integral` / `Ord` convenience supertrait). A hand-written
+`impl Num for X` needs every superclass instance, `Rem` and `Pow` included. Concrete `int`/`float` arithmetic and
 comparisons still use hardwired opcodes. String concatenation
 (`string + string`) is a separate path and is **not** covered by `Num`/`Add`.
 

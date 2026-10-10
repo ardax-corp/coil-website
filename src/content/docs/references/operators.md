@@ -66,8 +66,8 @@ Forms **not** in the Pratt table but still tight-binding:
 | `-` | `int` / `float` / `byte`, or a type with a `Sub` instance | same | `SUB` / `SUBF` |
 | `*` | `int` / `float` / `byte`, or a type with a `Mul` instance | same | `MUL` / `MULF` |
 | `/` | `int` / `float` / `byte`, or a type with a `Div` instance | same | `DIV` / `DIVF` |
-| `%` | `int` / `float` / `byte` | same | `MOD` / `MODF` |
-| `**` | `int` / `float` / `byte` | same | `Pow` / `PowF` |
+| `%` | `int` / `float` / `byte`, or a type with a `Rem` instance | same | `MOD` / `MODF` |
+| `**` | `int` / `float` / `byte`, or a type with a `Pow` instance | same | `Pow` / `PowF` |
 
 Mixed `int` and `float` operands → **type error** at compile time. Any other
 operand type is a type error too (`"a" - "b"`, `true * false`, a class with no
@@ -134,17 +134,27 @@ Mixing `string` with a non-string operand is a compile-time type error.
 
 ## Bitwise
 
-Operands are inferred together and must be `int` or `byte` (`float` and
-`bool` are type errors; `&&` / `||` are the boolean connectives):
+Operands are inferred together and must be `int` or `byte`, or a type with
+the operator's trait instance (`float` and `bool` are type errors; `&&` / `||`
+are the boolean connectives):
 
-| Operator | Meaning |
-|----------|---------|
-| `&` | Bitwise AND |
-| `\|` | Bitwise OR |
-| `^` | Bitwise XOR |
-| `<<` | Shift left |
-| `>>` | Shift right |
-| `~` | Bitwise NOT (prefix) |
+| Operator | Meaning | Trait |
+|----------|---------|-------|
+| `&` | Bitwise AND | `BitAnd` |
+| `\|` | Bitwise OR | `BitOr` |
+| `^` | Bitwise XOR | `BitXor` |
+| `<<` | Shift left | `Shl` |
+| `>>` | Shift right | `Shr` |
+| `~` | Bitwise NOT (prefix) | `BitNot` (`int` only) |
+
+On a type parameter these need the trait bound, or `Integral`, which implies
+`Num` and all six:
+
+```coil
+fn low_bits<T: Integral>(T x, T mask) -> T {
+    return x & mask;
+}
+```
 
 ---
 
@@ -283,9 +293,9 @@ is a no-op. Literal OOB on `[T; N]` and tuples is a compile error. See
 
 | Operator | Name | Operand | Result |
 |----------|------|---------|--------|
-| `-` | Negate | numeric, or a type parameter bounded by `Neg` (`Num` implies it) | same |
+| `-` | Negate | numeric, a type parameter bounded by `Neg` (`Num` implies it), or a type with a `Neg` instance | same |
 | `+` | Positive | numeric | numeric (no-op) |
-| `~` | Bitwise NOT | `int` | `int` (flip bits) |
+| `~` | Bitwise NOT | `int`, a type parameter bounded by `BitNot` (`Integral` implies it), or a type with a `BitNot` instance | same (flip bits) |
 | `!` | Logical NOT | `bool` or `int` | `bool` |
 
 For `!` on integers, zero is false and any non-zero value is true (`!0` → `true`, `!42` → `false`).
