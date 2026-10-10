@@ -7,7 +7,7 @@ description: "The coil.toml file at a project's root tells spool where to find m
 
 The **`coil.toml`** file at a project's root tells the compiler, through spool, where to find module files and optionally which file is the entry point. It may also declare **`[package]`** / **`[dependencies]`** / **`[scripts]`** metadata for the **`spool`** library dependency manager. Spool owns fetch, link, lifecycle scripts, include-hooks, and engine-range checks.
 
-**`coil` reads neither `coil.toml` nor `coil.lock`.** [spool](/ecosystem/spool) reads them and passes flags to every `coil` command it runs: `[module] roots` → `--root`, `[entry] file` → the entry argument, `[permissions]` → `--allow-*`, `[ffi] allow` → `--allow-dload`, `[ffi] search_paths` → `--ffi-search-path`, lock `sha256` pins → `--dload-pin`, `trusted = true` → `--dload-trusted`, and `[[ffi.native]]` → `--ffi-native`. With spool the manifest below keeps working. Running `coil` directly, pass those flags yourself.
+**`coil` reads neither `coil.toml` nor `coil.lock`.** [spool](/packages/spool) reads them and passes flags to every `coil` command it runs: `[module] roots` → `--root`, `[entry] file` → the entry argument, `[permissions]` → `--allow-*`, `[ffi] allow` → `--allow-dload`, `[ffi] search_paths` → `--ffi-search-path`, lock `sha256` pins → `--dload-pin`, `trusted = true` → `--dload-trusted`, and `[[ffi.native]]` → `--ffi-native`. With spool the manifest below keeps working. Running `coil` directly, pass those flags yourself.
 
 ### `spool` vs `coil package`
 

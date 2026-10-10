@@ -35,7 +35,7 @@ my-project/
         └── sadge.hy   # module file
 ```
 
-The **`coil.toml`** manifest declares where the compiler searches for module files and optionally sets the entry point. If no manifest exists, the compiler defaults to a single search root: `src/`.
+The **`coil.toml`** manifest declares where the compiler searches for module files and optionally sets the entry point. `coil` does not read it: [spool](/packages/spool) passes `[module].roots` as `--root` flags. Run `coil` directly and you pass `--root DIR` yourself; with no `--root`, the compiler defaults to a single search root: `src/`.
 
 See [Project configuration reference](/docs/references/project-config) for the full format.
 

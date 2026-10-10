@@ -98,7 +98,7 @@ Given a concrete import `use a::b::c;`:
 1. Split the path into segments. All segments except the last form the **directory path**; the last segment is the **item name**.
    - Path: `["a", "b"]`
    - Item name: `"c"`
-2. For each search root in `[module].roots` (from `coil.toml`, in declaration order):
+2. For each search root (`--root DIR`, in order; spool passes `[module].roots` from `coil.toml`):
    - **One-item-per-file:** `<project_root>/<root>/a/b/c.hy`
    - If the file exists, **stop** — this is the resolved module file.
 3. If no one-item-per-file candidate exists, try the **module-file** fallback for each root:
@@ -161,8 +161,9 @@ roots = ["./src", "./.spool/deps"]
 
 `use greet::hello;` then resolves under `.spool/deps/greet/hello.hy` with the same
 algorithm as any other root — first match wins; local `./src` still shadows
-deps. The compiler reads `coil.lock` `[[package.native]] sha256` for
-`dload` stems; it does **not** auto-inject `[module].roots`.
+deps. The compiler reads neither `coil.toml` nor `coil.lock`: spool passes the
+roots as `--root` and the lock's `[[package.native]] sha256` pins as
+`--dload-pin` for `dload` stems. Nothing auto-injects `[module].roots`.
 See [Project configuration](/docs/references/project-config) for `[package]` / `[dependencies]` / `[ffi]`
 schema and the **`spool` vs `coil package`** naming distinction (`coil package`
 builds an embedded executable; it is not the library dependency manager).
@@ -304,11 +305,11 @@ The pipeline runs in two passes:
 
 ## Interaction with `coil.toml`
 
-Module resolution depends on `[module].roots` from the project manifest. See [Project configuration](/docs/references/project-config) for manifest format and default behavior.
+Module resolution depends on the `--root` search roots. `coil` does not read `coil.toml`; spool passes its `[module].roots` as `--root` flags. See [Project configuration](/docs/references/project-config) for manifest format and default behavior.
 
-Without a manifest, the compiler uses a single default root: `src/`.
+Without `--root`, the compiler uses a single default root: `src/`.
 
-`[package]` and `[dependencies]` are accepted by the parser for **`spool`**, but they do not change discovery by themselves — only paths listed in `roots` are searched. Put `./.spool/deps` (or equivalent) in `roots` after `spool install` so dependency packages participate in `use` resolution.
+`[package]` and `[dependencies]` are for **`spool`**, but they do not change discovery by themselves — only paths listed in `roots` are searched. Put `./.spool/deps` (or equivalent) in `roots` after `spool install` so dependency packages participate in `use` resolution.
 
 ---
 

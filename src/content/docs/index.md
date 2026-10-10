@@ -54,7 +54,7 @@ Parse → typecheck (HM) → stack IL codegen + lower/fuse-select → versioned 
 | Tuples, fixed arrays (`[T; N]` / `len`), `Vec<T>`, dicts (anonymous records) | Supported |
 | Type aliases (`type Name = T;`, lexically scoped) | Supported |
 | Generics and traits | Supported: generic functions/enums/aliases/classes, higher-kinded type parameters, associated types/GATs, existentials, coherence checks |
-| Modules / namespaces (`use`, `mod`) | Supported (multi-file CLI via `coil.toml`) |
+| Modules / namespaces (`use`, `mod`) | Supported (multi-file CLI via `--root`; spool reads `coil.toml`) |
 | Field access (`p.x`, chained `p.x.y`) | Supported |
 | FFI (`extern` blocks, `dload`/`declare`/`invoke`, C varargs `...`, struct/callback returns) | Supported (requires libffi) |
 | IO streams (`use io::{…};`, `Vec<byte>`, files, sync adapters, TCP, UDP) | Supported (non-blocking L0) |
@@ -115,8 +115,7 @@ coil/
 │   ├── manual/      # End-user guide + tutorials
 │   ├── references/  # Language + per-API lookup
 │   └── internals/   # Pipeline, VM notes, grammar
-├── src/main.rs      # CLI: default build+run, compile, run, test
-└── coil.toml.example  # Example project manifest
+└── src/main.rs      # CLI: default build+run, compile, run, test
 ```
 
 ## Running
