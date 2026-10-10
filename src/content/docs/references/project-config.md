@@ -104,7 +104,7 @@ spool build
 
 ### `[permissions]` {#permissions}
 
-Read by [spool](/ecosystem/spool/manifest), not by `coil`: spool turns each key
+Read by [spool](/packages/spool/manifest), not by `coil`: spool turns each key
 that is `true` into the matching `coil` flag on every compile, run and test.
 `coil` itself takes grants only as flags. See [Permissions](/docs/references/permissions).
 
