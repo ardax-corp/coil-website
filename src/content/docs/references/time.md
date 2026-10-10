@@ -23,7 +23,12 @@ allow = ["time"]
 time = { path = "../coil-time", trusted = true }
 ```
 
-`dload("time")` needs `[ffi] allow` plus `trusted = true` on the coil-time dep (or a matching `[[package.native]] sha256`). `search_paths` locates `libtime`; it is not a grant.
+`dload("time")` needs `[ffi] allow` plus `trusted = true` on the coil-time dep (or a matching `[[package.native]] sha256` in `coil.lock`). `search_paths` locates `libtime`; it is not a grant. Spool turns the manifest above into flags for `coil`; without spool, pass them yourself:
+
+```bash
+coil --root ../coil-time/src --ffi-search-path ../coil-time/native \
+  --allow-dload time --dload-trusted time app.hy
+```
 
 Build the native library from that package root (`make`), then:
 

@@ -24,12 +24,13 @@ FFI examples require **libffi** linked at build time:
 | Debian / Ubuntu | `libffi-dev` |
 | Fedora | `libffi-devel` |
 
-Build the workspace and the examples' C library (`examples/sum.c`), then run an FFI example. Every library stem needs `--allow-dload STEM`; the repo's `coil.toml` marks `sum` as trusted so it needs no lock hash:
+Build the workspace and the examples' C library (`examples/sum.c`), then run an FFI example. Every library stem needs `--allow-dload STEM` plus `--dload-trusted STEM` (or `--dload-pin STEM=SHA256` with the library's hash). `coil` reads no `coil.toml` or `coil.lock`; in a spool project spool passes these flags from `[ffi] allow`, the lock pins and `trusted` deps:
 
 ```bash
 cargo build --workspace
 cc -shared -fPIC -o examples/libsum.so examples/sum.c     # macOS: cc -dynamiclib -o examples/libsum.dylib examples/sum.c
-cargo run -- --root ../coil-stdlib/src --allow-dload sum examples/ffi_extern.hy
+cargo run -- --root ../coil-stdlib/src --allow-dload sum --dload-trusted sum \
+  --ffi-search-path examples examples/ffi_extern.hy
 ```
 
 ---
@@ -58,7 +59,7 @@ fn main() {
 
 **Expected output:** `42`
 
-The block's string is a library stem, resolved like `dload("sum")` (`[ffi] search_paths`, then the platform filename `libsum.so` / `libsum.dylib` / `sum.dll`) and gated the same way. The libc aliases (`extern "c"`, `dload("c")`) are always denied, even with `--allow-dload c`.
+The block's string is a library stem, resolved like `dload("sum")` (`--ffi-search-path` dirs, then the platform filename `libsum.so` / `libsum.dylib` / `sum.dll`) and gated the same way. The libc aliases (`extern "c"`, `dload("c")`) are always denied, even with `--allow-dload c`.
 
 Compile-time FFI is `extern "lib" { fn …; }` only. `#[ffi]` is not accepted. Runtime loading stays `use ffi::{dload, declare, invoke}`.
 
@@ -81,7 +82,7 @@ fn main() {
 }
 ```
 
-Userland mirror — optional 5th `bool` on `declare`. Production **denies** `dload("c")`; every other stem needs `[ffi] allow` plus a lock hash or `trusted`.
+Userland mirror — optional 5th `bool` on `declare`. Production **denies** `dload("c")`; every other stem needs `--allow-dload` plus `--dload-pin` or `--dload-trusted`.
 
 ```coil
 use ffi::{dload, declare, invoke};
@@ -196,7 +197,7 @@ fn main() {
 }
 ```
 
-`dload("sum")` resolves to `libsum.so` / `libsum.dylib` / `sum.dll` via `platform_lib_names` and `[ffi] search_paths` in `coil.toml`. Production also requires `[ffi] allow = ["sum"]` and a matching `[[package.native]] sha256` in `coil.lock` (or `trusted = true` on that dep). Search paths locate the file; they are not a grant. An absolute path is not a bypass. Tag constructors (`Int`, `Ptr`, …) come from `ffi::types` — you do not declare them in source.
+`dload("sum")` resolves to `libsum.so` / `libsum.dylib` / `sum.dll` via `platform_lib_names` and `--ffi-search-path` (spool passes `[ffi] search_paths`). It also requires `--allow-dload sum` and `--dload-pin sum=SHA256` or `--dload-trusted sum`; spool passes those from `[ffi] allow = ["sum"]` and a matching `[[package.native]] sha256` in `coil.lock` (or `trusted = true` on that dep). Run it with `cargo run -- --allow-dload sum --dload-trusted sum --ffi-search-path examples examples/ffi_sum.hy`. Search paths locate the file; they are not a grant. An absolute path is not a bypass. Tag constructors (`Int`, `Ptr`, …) come from `ffi::types` — you do not declare them in source.
 
 **Expected output:** `42`
 
@@ -276,7 +277,7 @@ Runtime tag mapping:
 
 1. Write C functions with C linkage and stable symbol names.
 2. Compile as a shared library for your platform (see table below).
-3. Place the artifact where `[ffi] search_paths` can find it. Every stem still needs `allow` plus a lock hash or `trusted`; a full path does not skip the gate.
+3. Place the artifact where `--ffi-search-path` (or spool's `[ffi] search_paths`) can find it. Every stem still needs `--allow-dload` plus `--dload-pin` or `--dload-trusted`; a full path does not skip the gate.
 
 | Platform | Command |
 |----------|---------|
@@ -288,12 +289,12 @@ Runtime tag mapping:
 
 | Approach | Example | Notes |
 |----------|---------|-------|
-| Basename | `dload("tls")` / `dload("sum")` | Resolves via `platform_lib_names` + `[ffi] search_paths`. Needs `[ffi] allow` **and** a matching lock `sha256` or `trusted = true` on that dep. `time` / `crypto` / `tls` / `regex` are not exempt. |
+| Basename | `dload("tls")` / `dload("sum")` | Resolves via `platform_lib_names` + `--ffi-search-path`. Needs `--allow-dload` **and** `--dload-pin STEM=SHA256` or `--dload-trusted STEM` (spool: `[ffi] allow` plus a lock `sha256` or `trusted = true`). `time` / `crypto` / `tls` / `regex` are not exempt. |
 | Libc alias | `extern "c"` / `dload("c")` | **Denied** |
 | Full path | `dload("/abs/path/libsum.so")` | Filename stem is still gated; not a bypass |
 | Relative path | `dload("./vendor/libfoo.so")` | Same stem gate; cwd / `base_dir` still matter for locating |
 
-The `extern` block string and the `dload` path use the same resolver (`base_dir`, `[ffi] search_paths`) and the same gate. See [Project config — `[ffi]`](/docs/references/project-config#ffi).
+The `extern` block string and the `dload` path use the same resolver (`base_dir`, `--ffi-search-path`) and the same gate. See [Project config — `[ffi]`](/docs/references/project-config#ffi).
 
 ### C function guidelines
 
@@ -360,7 +361,7 @@ This produces `HostInvoke` bytecode from `Compiler::register()`. See [Built-ins 
 | Risk | Guidance |
 |------|----------|
 | **Memory safety** | FFI bypasses the typechecker at the C boundary. Buggy C code can corrupt the VM process. |
-| **Load gate** | Stems with `[ffi] allow` plus a lock hash or `trusted` may open. Loaded code still runs with the host process privileges. Host-registered Rust closures (`HostInvoke`) are an embedder API, not this gate. |
+| **Load gate** | Stems with `--allow-dload` plus a pin or `--dload-trusted` may open. Loaded code still runs with the host process privileges. Host-registered Rust closures (`HostInvoke`) are an embedder API, not this gate. |
 | **Symbol collisions** | `dlsym` resolves by name; duplicate weak symbols can bind unexpectedly. |
 | **Platform ABI** | libffi maps to the platform C ABI. Struct padding and calling conventions must match your C compiler. Prefer `int32`/`int64` field widths that match the C layout. |
 | **String lifetimes** | Do not let C retain script string pointers; do not return dangling `char *` from C. |
@@ -383,14 +384,14 @@ This produces `HostInvoke` bytecode from `Compiler::register()`. See [Built-ins 
 |--------------------|--------------------------------------|
 | Library and API are fixed at compile time | You need runtime plugin loading |
 | You want ordinary call syntax | You build tooling or REPL-style scripts |
-| Examples: `dload("tls")` / `dload("crypto")` with allow plus trusted or a pin | Examples: any stem listed in `[ffi] allow` with a matching lock hash or `trusted` |
+| Examples: `dload("tls")` / `dload("crypto")` with allow plus trusted or a pin | Examples: any stem passed to `--allow-dload` with a matching pin or `--dload-trusted` |
 
 ---
 
 ## Exercises
 
-1. Stems (`time`, `crypto`, `tls`, `regex`, and others) need `[ffi] allow` plus a lock hash or `trusted` — see [Project config — `[ffi]`](/docs/references/project-config#ffi). The libc aliases (`extern "c"`, `dload("c")`) are always **denied**.
-2. Build the platform `libsum` artifact from `examples/sum.c` and run `examples/ffi_sum.hy` only with `[ffi] allow = ["sum"]` and a matching lock hash or `trusted` (an absolute path is not a bypass).
+1. Stems (`time`, `crypto`, `tls`, `regex`, and others) need `--allow-dload` plus `--dload-pin` or `--dload-trusted` (spool: `[ffi] allow` plus a lock hash or `trusted`) — see [Project config — `[ffi]`](/docs/references/project-config#ffi). The libc aliases (`extern "c"`, `dload("c")`) are always **denied**.
+2. Build the platform `libsum` artifact from `examples/sum.c` and run `examples/ffi_sum.hy` only with `--allow-dload sum` and `--dload-pin sum=SHA256` (from `sha256sum examples/libsum.so`) or `--dload-trusted sum` (an absolute path is not a bypass).
 3. Add a C function `int triple(int x) { return x * 3; }`, export it from the same library, and call it via `declare`/`invoke` (unwrap the `Result`s).
 4. Try an incorrect signature (e.g. declare `sum` with one `int` argument) and observe `Result::Err`.
 

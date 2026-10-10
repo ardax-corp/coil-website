@@ -23,7 +23,12 @@ allow = ["tls"]
 tls = { path = "../coil-tls", trusted = true }
 ```
 
-`dload("tls")` needs `[ffi] allow` plus `trusted = true` on the coil-tls dep (or a matching `[[package.native]] sha256`). `search_paths` locates `libtls`; it is not a grant.
+`dload("tls")` needs `[ffi] allow` plus `trusted = true` on the coil-tls dep (or a matching `[[package.native]] sha256` in `coil.lock`). `search_paths` locates `libtls`; it is not a grant. Spool turns the manifest above into flags for `coil`; without spool, pass them yourself:
+
+```bash
+coil --root ../coil-tls/src --ffi-search-path ../coil-tls/native \
+  --allow-dload tls --dload-trusted tls app.hy
+```
 
 Build the native library in that repo, then:
 

@@ -21,7 +21,7 @@ search_paths = ["./.spool/deps/regex/native"]
 allow = ["regex"]
 ```
 
-`dload` of stem `regex` needs `[ffi] allow` plus `trusted = true` (or a matching lock `sha256`). `search_paths` only locates the native.
+`dload` of stem `regex` needs `[ffi] allow` plus `trusted = true` (or a matching lock `sha256`). `search_paths` only locates the native. Spool passes these to `coil` as `--allow-dload regex`, `--dload-trusted regex` (or `--dload-pin regex=SHA256`) and `--ffi-search-path`; `coil` reads neither `coil.toml` nor `coil.lock`.
 
 Run `spool install`, then:
 
@@ -47,7 +47,12 @@ allow = ["regex"]
 regex = { path = "../coil-regex", trusted = true }
 ```
 
-Same gate: allow plus trusted (or a lock hash). Build the native library: `make -C ../coil-regex/native`.
+Same gate: allow plus trusted (or a lock hash). Build the native library: `make -C ../coil-regex/native`. Spool turns the manifest above into flags for `coil`; without spool, pass them yourself:
+
+```bash
+coil --root ../coil-regex/src --ffi-search-path ../coil-regex/native \
+  --allow-dload regex --dload-trusted regex app.hy
+```
 
 See [consume.md](https://github.com/ardax-corp/coil-regex/blob/main/docs/consume.md) for flags, `RegexError`, and `fn drop()` lifecycle.
 

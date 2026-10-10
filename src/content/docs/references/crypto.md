@@ -23,7 +23,12 @@ allow = ["crypto"]
 crypto = { path = "../coil-crypto", trusted = true }
 ```
 
-`dload("crypto")` needs `[ffi] allow` plus `trusted = true` on the coil-crypto dep (or a matching `[[package.native]] sha256`). `search_paths` locates the package native; it does not grant the load.
+`dload("crypto")` needs `[ffi] allow` plus `trusted = true` on the coil-crypto dep (or a matching `[[package.native]] sha256` in `coil.lock`). `search_paths` locates the package native; it does not grant the load. Spool turns the manifest above into flags for `coil`; without spool, pass them yourself:
+
+```bash
+coil --root ../coil-crypto/src --ffi-search-path ../coil-crypto/native \
+  --allow-dload crypto --dload-trusted crypto app.hy
+```
 
 Then:
 

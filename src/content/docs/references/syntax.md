@@ -99,7 +99,7 @@ quote_expr    ::= 'quote' ('items' | 'expr' | 'stmts' | 'type') '{' template '}'
 program ::= declaration*
 ```
 
-Every runnable program needs `fn main() { ... }` (or an entry file declared in `coil.toml`).
+Every runnable program needs `fn main() { ... }` (spool can take the entry file from `[entry]` in `coil.toml`).
 
 ---
 
@@ -682,7 +682,7 @@ A dict arm still works when the body is a real record literal (`{ x: 1 }`).
 
 ## Multi-file projects
 
-With `coil.toml`, the pipeline discovers dependencies via `use` / `mod` and compiles each file with a namespace prefix. The **entry file** uses the empty namespace. See [Modules reference](/docs/references/modules).
+The pipeline discovers dependencies via `use` / `mod` under the `--root` search roots (spool passes `coil.toml` `[module].roots`) and compiles each file with a namespace prefix. The **entry file** uses the empty namespace. See [Modules reference](/docs/references/modules).
 
 ---
 

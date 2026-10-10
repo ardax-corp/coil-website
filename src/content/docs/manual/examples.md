@@ -13,7 +13,7 @@ cargo run -- examples/<file>.hy
 
 Delete `out.hyc` after editing source to force recompilation.
 
-> **Note:** The CLI uses multi-file discovery (`Pipeline::compile_src_from_file`) when a `coil.toml` is present, so `use` / `mod` examples such as `modules.hy` work from `cargo run`. FFI examples need **libffi** and sometimes a built shared library (`libsum.so` / `libsum.dylib` / `sum.dll`).
+> **Note:** The CLI uses multi-file discovery (`Pipeline::compile_src_from_file`) over its `--root` search roots, so `use` / `mod` examples such as `modules.hy` work from `cargo run` with `--root examples/src`. `coil` reads no `coil.toml` or `coil.lock`; the workspace `coil.toml` is for spool, which turns it into flags. FFI examples need **libffi** and sometimes a built shared library (`libsum.so` / `libsum.dylib` / `sum.dll`).
 
 ---
 
@@ -1404,7 +1404,7 @@ fn main() {
 | **Companion** | `examples/src/foo/sadge.hy` — defines `fn sadge()` printing `420` as hex |
 | **Expected output** | `1a4` (newline) then `45` — i.e. `1a4\n45` |
 
-**Setup:** Workspace `coil.toml` includes `./examples/src` in `[module].roots`, so `cargo run -- examples/modules.hy` resolves the import.
+**Setup:** `cargo run -- --root ../coil-stdlib/src --root examples/src examples/modules.hy` resolves the import (the workspace `coil.toml` lists the same roots for spool).
 
 ---
 
@@ -1485,7 +1485,7 @@ fn main() {
 
 | | |
 |---|---|
-| **Run** | `cargo run -- --root ../coil-stdlib/src --allow-dload sum examples/ffi_extern.hy` |
+| **Run** | `cargo run -- --root ../coil-stdlib/src --allow-dload sum --dload-trusted sum --ffi-search-path examples examples/ffi_extern.hy` |
 | **Output** | `42` |
 | **Requires** | `examples/libsum.so` built from `examples/sum.c` (see `ffi_sum.hy`); the libc aliases (`extern "c"`) are always denied |
 
@@ -1507,7 +1507,7 @@ fn main() {
 
 | | |
 |---|---|
-| **Run** | `cargo run -- --root ../coil-stdlib/src --allow-dload sum examples/ffi_varargs.hy` |
+| **Run** | `cargo run -- --root ../coil-stdlib/src --allow-dload sum --dload-trusted sum --ffi-search-path examples examples/ffi_varargs.hy` |
 | **Output** | `60` |
 | **Requires** | `examples/libsum.so` (`sum_n` in `examples/sum.c`) |
 
@@ -1543,10 +1543,10 @@ fn main() {
 
 | | |
 |---|---|
-| **Run** | Build the shared library first, then run |
+| **Run** | Build the shared library first, then `cargo run -- --allow-dload sum --dload-trusted sum --ffi-search-path examples examples/ffi_sum.hy` |
 | **Build helper** | Linux: `cc -shared -fPIC -o examples/libsum.so examples/sum.c`; macOS: `-dynamiclib` → `libsum.dylib`; Windows: `clang -shared` → `sum.dll` |
 | **Output** | `42` |
-| **Note** | Every stem needs `[ffi] allow` plus a matching lock `sha256` or `trusted`. `search_paths` locates `libsum.so` / `libsum.dylib` / `sum.dll`; an absolute path is not a bypass. |
+| **Note** | Every stem needs `--allow-dload STEM` plus `--dload-pin STEM=SHA256` or `--dload-trusted STEM` (spool passes them from `[ffi] allow`, the `coil.lock` pins and `trusted` deps). `--ffi-search-path` locates `libsum.so` / `libsum.dylib` / `sum.dll`; an absolute path is not a bypass. |
 
 ---
 
@@ -1573,7 +1573,7 @@ int sum(int a, int b) { return a + b; }
 
 | | |
 |---|---|
-| **Run** | Build the platform `libsum` artifact, then `cargo run -- examples/ffi_struct_ret.hy` |
+| **Run** | Build the platform `libsum` artifact, then `cargo run -- --allow-dload sum --dload-trusted sum --ffi-search-path examples examples/ffi_struct_ret.hy` |
 | **Output** | `34` |
 
 ---
@@ -1584,7 +1584,7 @@ int sum(int a, int b) { return a + b; }
 
 | | |
 |---|---|
-| **Run** | Build the platform `libsum` artifact, then `cargo run -- examples/ffi_callback_ret.hy` |
+| **Run** | Build the platform `libsum` artifact, then `cargo run -- --allow-dload sum --dload-trusted sum --ffi-search-path examples examples/ffi_callback_ret.hy` |
 | **Output** | `1` |
 
 ---
