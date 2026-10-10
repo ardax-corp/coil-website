@@ -34,7 +34,8 @@ $ coil --allow-read load.hy
 
 Read, write, net and env report `E0414`. `dload` is separate: each library
 needs `--allow-dload STEM` (see [FFI](/docs/references/ffi)), and `-A` does
-not grant it.
+not grant it. At run time the stem also needs `--dload-pin STEM=SHA256` or
+`--dload-trusted STEM`, or the load is denied.
 
 `io::open` needs what its mode needs when the mode is a string literal:
 `"r"` needs read; `"w"`, `"a"` and `"x"` need write; a mode with `+` needs
@@ -63,6 +64,10 @@ runs, whatever the flags.
 Flags are read when the program is compiled. `coil run out.hyc` and packaged
 executables run what was compiled and do not take the flags again. Grants are
 not recorded in the archive and `coil` does not read them from `coil.toml`.
+The `dload` pins and trusted stems are the exception: they are checked when
+the library loads, so `coil run out.hyc` takes `--dload-pin` /
+`--dload-trusted`; a packaged executable uses the hashes in its embedded
+native lock.
 
 ## In a spool project
 
@@ -78,7 +83,9 @@ net = true
 # all = true   # everything, like -A
 ```
 
-A key left out is denied. See [Project configuration](/docs/references/project-config#permissions).
+A key left out is denied. spool also passes `[ffi] allow`, the `coil.lock`
+native pins and `trusted` deps as `--allow-dload`, `--dload-pin` and
+`--dload-trusted`. See [Project configuration](/docs/references/project-config#permissions).
 
 ## Related
 
