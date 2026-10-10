@@ -26,7 +26,7 @@ Put the extracted `coil` binary on your `PATH`.
 
 ### Regular expressions ([coil-regex](https://github.com/ardax-corp/coil-regex))
 
-Regex is a **userland** package (not a virtual module). Clone [coil-regex](https://github.com/ardax-corp/coil-regex) separately or add via spool; see [regex reference](/docs/references/regex). Tests and examples live in that repo (`coil test` after `make -C native`).
+Regex is a **userland** package (not a virtual module). Clone [coil-regex](https://github.com/ardax-corp/coil-regex) separately or add via spool; see [regex reference](/docs/references/regex). It binds the system libpcre2-8 directly; tests and examples live in that repo (`make test`).
 
 ### Time ([coil-time](https://github.com/ardax-corp/coil-time))
 
@@ -133,9 +133,9 @@ coil package examples/fib.hy -o ./fib-app --runner /path/to/coil-embed
 coil package examples/ffi_extern.hy -o ./ffi-app --allow-dload sum --check-native
 
 # Apps with userland natives: package embeds a lock (names + hashes, no URLs)
-coil package app.hy -o ./my-app --allow-dload regex \
-  --ffi-native name=regex,version=0.3.0,path=native
-# The app finds libregex in the natives cache (~/.coil/natives), beside
+coil package app.hy -o ./my-app --allow-dload crypto \
+  --ffi-native name=crypto,version=0.1.0,path=native
+# The app finds libcrypto in the natives cache (~/.coil/natives), beside
 # ./my-app, or in ./lib; putting it there is up to you.
 ./my-app
 
