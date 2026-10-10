@@ -44,7 +44,7 @@ Spool's parser accepts a minimal TOML-like subset:
 - String values: double-quoted (`"./src"`)
 - Array values: `["a", "b"]`
 - Inline tables: `{ git = "…" }` (used under `[dependencies]`; optional `version` / `rev` / `trusted`)
-- Array-of-tables: `[[ffi.native]]` (one or more native artifact rows for packaging / `spool download`)
+- Array-of-tables: `[[ffi.native]]` (one or more native artifact rows for packaging)
 - Comments: `#` to end of line
 - Blank lines are ignored
 
