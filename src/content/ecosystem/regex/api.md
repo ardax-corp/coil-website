@@ -1,7 +1,7 @@
 ---
 title: "API"
 description: "Module: use regex::{…}; (package name regex from coil.toml)."
-source: "https://github.com/ardax-corp/coil-regex/blob/aab76a13000a001f6889056d4ba271af3e1e9e62/docs/api.md"
+source: "https://github.com/ardax-corp/coil-regex/blob/bff02b7f82ecbf0c304f99daef5b0349a63faf99/docs/api.md"
 ---
 # API
 
@@ -12,12 +12,14 @@ Module: `use regex::{…};` (package name `regex` from `coil.toml`).
 ```coil
 enum RegexError { Compile, Runtime, NoMatch, Utf8 }
 
-class Regex { handle: int }
+class Regex { pcre2: Pcre2, code: int, match_data: int, count: int }
 ```
 
-Handles are opaque native pointers cast to `int`. They are **not** thread-sendable; use one `Regex` per thread.
+`code` and `match_data` are PCRE2 pointers cast to `int`. A `Regex` keeps its last match, so it is **not** thread-sendable; use one `Regex` per thread.
 
-`Regex` runs `coil_regex_free` from inherent `fn drop()` at GC / teardown.
+`Regex` frees both from inherent `fn drop()` at GC / teardown.
+
+Spans start where the match began (`pcre2_get_startchar`) and run for the length of group 0. A pattern using `\K` therefore reports the span from before the `\K`.
 
 ## Flags
 

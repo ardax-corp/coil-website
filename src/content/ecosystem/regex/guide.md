@@ -1,38 +1,31 @@
 ---
 title: "coil-regex"
-description: "PCRE2-backed regular expressions for coil via extern \"regex\" and userland src/regex.hy."
-source: "https://github.com/ardax-corp/coil-regex/blob/aab76a13000a001f6889056d4ba271af3e1e9e62/docs/README.md"
+description: "PCRE2-backed regular expressions for coil. src/regex.hy binds libpcre2-8 directly with extern; there is no C shim."
+source: "https://github.com/ardax-corp/coil-regex/blob/bff02b7f82ecbf0c304f99daef5b0349a63faf99/docs/README.md"
 ---
 # coil-regex
 
-PCRE2-backed regular expressions for coil via `extern "regex"` and userland `src/regex.hy`.
+PCRE2-backed regular expressions for coil. `src/regex.hy` binds libpcre2-8 directly with `extern`; there is no C shim.
 
 ## Package layout
 
 | Path | Role |
 |------|------|
 | `src/regex.hy` | `Regex` class, `RegexError`, free functions |
-| `native/regex.c` | C ABI over libpcre2-8 → `libregex.so` |
 | `tests/regex.hy` | `coil test` suite |
 | `examples/regex_demo.hy` | End-to-end demo |
-
-## Build native
-
-```bash
-make -C native
-```
-
-Produces `native/libregex.so` (`.dylib` / `.dll` on other platforms).
 
 ## Test
 
 From this directory (with `coil` on `PATH` or via `cargo run --bin coil` from coil-lang):
 
 ```bash
-coil test
+make test
 ```
+
+`make test` finds libpcre2-8 with `pkg-config` (override with `PCRE2_LIBDIR=…`) and passes its SHA-256 to `--dload-pin pcre2-8=…`.
 
 ## See also
 
 - [api.md](/packages/regex/api) — function reference
-- [consume.md](/packages/regex/consume). Sibling checkout, `{ git }`, `coil.lock` `rev` + `content_hash`, `[ffi] search_paths`
+- [consume.md](/packages/regex/consume). Sibling checkout, `{ git }`, `coil.lock` `rev` + `content_hash`, dload flags

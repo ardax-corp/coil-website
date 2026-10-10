@@ -173,11 +173,11 @@ See [FFI](/docs/references/ffi) for `dload` errors and consume.
 
 ### `[[ffi.native]]` {#ffi-native}
 
-Rows that declare **direct** shared libraries for `coil package`. Spool passes each row as `--ffi-native name=…,version=…,path=…[,package=…][,requires=a;b][,requires-hint=…]` to `coil package` and `coil natives dump` (write `\,` for a comma inside a value). Transitive linker deps (e.g. `libpcre2`) stay on the OS — list them under `requires` for error hints only. This is separate from the `dload` allow/hash gate above.
+Rows that declare **direct** shared libraries for `coil package`. Spool passes each row as `--ffi-native name=…,version=…,path=…[,package=…][,requires=a;b][,requires-hint=…]` to `coil package` and `coil natives dump` (write `\,` for a comma inside a value). Transitive linker deps (e.g. a system `libssl`) stay on the OS — list them under `requires` for error hints only. This is separate from the `dload` allow/hash gate above.
 
 | Key | Type | Required | Description |
 |-----|------|----------|-------------|
-| `name` | string | Yes | `dload` stem (`regex` → `libregex.so` / `libregex.dylib` / `regex.dll`) |
+| `name` | string | Yes | `dload` stem (`crypto` → `libcrypto.so` / `libcrypto.dylib` / `crypto.dll`) |
 | `package` | string | No | Cache key (defaults to `name`) |
 | `version` | string | Yes | Version string used in the natives cache path |
 | `path` | string | Yes | Directory (relative to project root) containing the local platform library (hashed at package time) |
@@ -186,22 +186,20 @@ Rows that declare **direct** shared libraries for `coil package`. Spool passes e
 
 ```toml
 [ffi]
-search_paths = ["./.spool/deps/regex/native"]
-allow = ["regex"]
+search_paths = ["./.spool/deps/crypto/native"]
+allow = ["crypto"]
 
 [[ffi.native]]
-name = "regex"
-version = "0.3.0"
-path = ".spool/deps/regex/native"
-requires = ["libpcre2-8.so.0"]
-requires_hint = "Arch: pacman -S pcre2; Debian: apt install libpcre2-8-0"
+name = "crypto"
+version = "0.1.0"
+path = ".spool/deps/crypto/native"
 ```
 
 The same row without spool:
 
 ```bash
-coil package app.hy -o app --allow-dload regex \
-  --ffi-native 'name=regex,version=0.3.0,path=.spool/deps/regex/native,requires=libpcre2-8.so.0'
+coil package app.hy -o app --allow-dload crypto \
+  --ffi-native 'name=crypto,version=0.1.0,path=.spool/deps/crypto/native'
 ```
 
 The embedded lock holds names, versions and hashes, not URLs. A packaged app looks for each library under `~/.coil/natives/cache/<package>/<version>/<sha16>/` (override with `COIL_NATIVES_DIR`), beside the executable, and in `lib/` next to it. It starts either way; a library found nowhere fails at its `dload`. Getting the files there is up to you. Inspect a lock with `coil natives dump [exe] [--tsv]` (TSV columns: package, version, filename, sha256, size).
