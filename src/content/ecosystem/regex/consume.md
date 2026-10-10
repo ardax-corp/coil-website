@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-regex"
 description: "Package name is regex. Put this package's src/ on [module] roots and use regex::{…} resolves here. extern \"libpcre2-8.so.0\" in src/regex.hy loads the system libpcre2-8 (dload…"
-source: "https://github.com/ardax-corp/coil-regex/blob/bff02b7f82ecbf0c304f99daef5b0349a63faf99/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-regex/blob/b2677282fc8dae77cf205d52f0fa3929e2f688ea/docs/consume.md"
 ---
 # Consuming coil-regex
 

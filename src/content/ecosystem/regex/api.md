@@ -1,7 +1,7 @@
 ---
 title: "API"
 description: "Module: use regex::{…}; (package name regex from coil.toml)."
-source: "https://github.com/ardax-corp/coil-regex/blob/bff02b7f82ecbf0c304f99daef5b0349a63faf99/docs/api.md"
+source: "https://github.com/ardax-corp/coil-regex/blob/b2677282fc8dae77cf205d52f0fa3929e2f688ea/docs/api.md"
 ---
 # API
 
@@ -70,6 +70,6 @@ All return `Result<_, RegexError>` unless noted.
 
 `find_all` on no matches returns `Ok([])`, not `NoMatch`.
 
-## C ABI (FFI)
+## PCRE2 binding (FFI)
 
-Declared in `extern "regex" { … }` inside `regex.hy`. Do not call `pcre2_*` from coil source.
+`regex.hy` binds libpcre2-8 directly: an `extern "libpcre2-8.so.0" { … }` block for plain calls, and a private `Pcre2` class (`declare` / `invoke`) for the calls that write through out-parameters. The unsuffixed `pcre2_*` wrappers are package-internal. Use `Regex` and the free functions from coil source.
