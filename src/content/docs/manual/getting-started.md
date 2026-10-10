@@ -76,14 +76,15 @@ The default CLI invocation compiles `examples/fib.hy` to bytecode, serializes it
 
 | Invocation | Meaning |
 |------------|---------|
-| `coil [<file.hy>]` | Compile to `out.hyc` (cached) and run; omit the file to use `[entry].file` from `coil.toml` |
-| `coil compile [<file.hy>] [-o path]` | Compile only; default output is `out.hyc`; omit the file to use `[entry].file` |
+| `coil <file.hy>` | Compile to `out.hyc` (cached) and run. `coil` reads no `coil.toml`; `spool run` supplies `[entry].file` |
+| `coil compile <file.hy> [-o path]` | Compile only; default output is `out.hyc` |
 | `coil -V` / `coil --version` | Print `coil 0.1.0` on stdout. These flags win over other args. |
 | `coil -O0` … `-O3` / `-Os` / `-Og` | Optimization preset (`none`/`basic`/`standard`/`aggressive`/`size`/`debug`); default `-O2` |
 | `coil --allow-read` … / `-A` | Grant host access: `--allow-read`, `--allow-write`, `--allow-net`, `--allow-env`, `--allow-exec`, `--allow-exit`, `--allow-attach`, or `-A` for all. Default is none; the compiler names the flag a program needs. See [Permissions](/docs/references/permissions) |
+| `coil --allow-dload STEM` + `--dload-pin STEM=SHA256` / `--dload-trusted STEM` | Allow a `dload` stem, then pin its library hash or trust it; both are needed. spool passes them from `coil.toml` / `coil.lock`. See [FFI](/docs/references/ffi) |
 | `coil run <file.hyc>` | Execute a previously compiled archive |
-| `coil package <file.hy> [-o path]` | Build a **single executable** for this OS/arch (embeds `.hyc` into `coil-embed` by default); always requires an explicit `.hy` path (does not read `[entry].file`). Embeds a native lock when `[[ffi.native]]` matches `dload` stems. |
-| `coil natives dump [exe] [--tsv]` | Print the native lock (JSON or fetch TSV) from a packaged exe, or from project `[[ffi.native]]` when `exe` is omitted |
+| `coil package <file.hy> [-o path]` | Build a **single executable** for this OS/arch (embeds `.hyc` into `coil-embed` by default); always requires an explicit `.hy` path. Embeds a native lock for each `--ffi-native name=…,version=…,path=…` that matches a `dload` stem (spool passes one per `[[ffi.native]]`). |
+| `coil natives dump [exe] [--tsv]` | Print the native lock (JSON or TSV: package, version, filename, sha256, size) from a packaged exe, or from the `--ffi-native` rows when `exe` is omitted |
 | `coil test [path] [--fail-fast]` | Compile and run every `.hy` under `[path]` (default `./tests`) |
 | `coil dissect <file.hy> [--fn pat] [--il] [--ast] [--effects]` | Re-execs `coil-dissect`: in-memory compile and dump filtered bytecode (optional pre-opt IL / entry AST / each function's effects and why auto-par left a loop sequential); never writes `out.hyc` |
 | `coil debug <file.hy> [-x script] [--batch]` | Re-execs `coil-debug`: GDB-style debugger (REPL; optional script / batch mode); never writes `out.hyc` |
@@ -131,10 +132,12 @@ coil package examples/fib.hy -o ./fib-app --runner /path/to/coil-embed
 # With FFI: verify required shared libraries exist on this machine before shipping
 coil package examples/ffi_extern.hy -o ./ffi-app --allow-dload sum --check-native
 
-# Apps with userland natives ([[ffi.native]]): package embeds a lock; fetch before run
-# spool download ./my-app
-# ./my-app
-# Project prep in one step: spool install --with-natives
+# Apps with userland natives: package embeds a lock (names + hashes, no URLs)
+coil package app.hy -o ./my-app --allow-dload regex \
+  --ffi-native name=regex,version=0.3.0,path=native
+# The app finds libregex in the natives cache (~/.coil/natives), beside
+# ./my-app, or in ./lib; putting it there is up to you.
+./my-app
 
 # Project tests (default root ./tests)
 coil test
@@ -274,8 +277,7 @@ coil/
 │   ├── manual/            # Getting started, tutorials, examples catalog (you are here)
 │   ├── references/        # Language + per-API lookup
 │   └── internals/         # Pipeline, VM notes, grammar
-├── src/main.rs            # `cargo run` entry point
-└── coil.toml.example      # Sample project manifest for modules
+└── src/main.rs            # `cargo run` entry point
 ```
 
 ### Crate responsibilities
@@ -347,7 +349,7 @@ The language includes:
 1. **Tutorial** — start with [01 — Basics](/docs/manual/tutorial/01-basics) for a guided tour of syntax and types.
 2. **Examples** — browse the full catalog in [examples.md](/docs/manual/examples); each entry includes the run command and expected output.
 3. **References** — keep [syntax](/docs/references/syntax) and [types](/docs/references/types) open while you code.
-4. **Modules** — copy `coil.toml.example` to `coil.toml` when you split code across files; see [project config](/docs/references/project-config).
+4. **Modules** — pass `--root DIR` (or let spool read `coil.toml`) when you split code across files; see [project config](/docs/references/project-config).
 
 ### Suggested learning path
 
