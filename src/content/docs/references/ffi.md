@@ -8,11 +8,11 @@ description: "Runtime FFI callables are exports of the virtual ffi module. They 
 Runtime FFI callables are exports of the virtual `ffi` module. They are **not** keywords and are **not** in scope until you import them:
 
 ```coil
-use ffi::{dload, declare, invoke};
-use ffi::types::{Int, String, Ptr};
+use ffi::{dload, declare, invoke, read_ints};
+use ffi::types::{Int, String, Ptr, Bytes};
 ```
 
-Or import individually: `use ffi::dload;`, `use ffi::declare;`, `use ffi::invoke;`.
+Or import individually: `use ffi::dload;`, `use ffi::declare;`, `use ffi::invoke;`, `use ffi::read_ints;`.
 
 ### `dload`
 
@@ -87,6 +87,7 @@ declare(lib, "h", (ffi::types::Ptr,), Int); // qualified path needs no import
 | `float` / `Float` | 64-bit float |
 | `string` / `String` | C string |
 | `void` / `Void` | No return value only |
+| `Bytes` | `uint8_t *` buffer from a `Vec<byte>`; the callee's writes are copied back into the array. Argument only (a tuple is passed read-only) |
 | `Ptr` / `Callback` / … | See [FFI tutorial](/docs/manual/tutorial/07-ffi) |
 
 `void` cannot appear as an argument type. There is no global bare `FFIType` name — import `ffi::types` (or use the qualified `ffi::types::Int` path).
@@ -124,6 +125,29 @@ let n = match invoke(lib, sum_id, (40, 2)) {
     Result::Err(e) => panic e.message,
 };
 write_all(stdout(), to_bytes(format("%i", n)));
+```
+
+### `read_ints`
+
+Copy `int64_t` words out of native memory, for C APIs that return a pointer to an array (PCRE2's `pcre2_get_ovector_pointer`, for example).
+
+```coil
+read_ints(lib, ptr, count)
+```
+
+| Argument | Type | Description |
+|----------|------|-------------|
+| `lib` | `int` | Handle from a successful `dload`; ties the read to a loaded library |
+| `ptr` | `int` | Native address, usually a `Ptr` / `int` result from `invoke` or `extern` |
+| `count` | `int` | Number of 64-bit words to read, `0` to `1048576` |
+
+Returns `Result<Vec<int>, Error>`. A `lib` that is not a library handle is `ErrorKind::InvalidHandle`; a null `ptr` or out-of-range `count` is `ErrorKind::Unsupported`. coil cannot check the pointer itself, so `ptr` must point at `count` readable words.
+
+```coil
+use ffi::{read_ints};
+
+// Offsets of every group in the last match: 2 words per group.
+let ovector = read_ints(lib, pcre2_get_ovector_pointer_8(match_data), rc * 2)?;
 ```
 
 ### `Error` / `ErrorKind`
