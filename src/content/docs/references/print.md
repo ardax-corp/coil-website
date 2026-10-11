@@ -56,7 +56,7 @@ The typechecker validates specifiers against arguments when the format string is
 
 ---
 
-`FORMAT` still builds formatted strings for `string::format`. Stdout writes are ordinary `io::write_all(stdout(), bytes)` calls.
+`FORMAT` still builds formatted strings for `string::format`. Stdout writes are ordinary `write_all(stdout(), bytes)` calls (`io::sync::write_all` from coil-stdlib).
 
 ## Related
 
