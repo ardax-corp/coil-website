@@ -21,7 +21,8 @@ a[1] = 9;                   // element assign only
 | Rule | Behavior |
 |------|----------|
 | Literal `[e, …]` | Infers `[T; N]` with `N =` element count |
-| Annotation `[T]` | **Error** — use `[T; N]` or `Vec<T>` |
+| Literal where `Vec<T>` is expected | Builds the `Vec` (`let v: Vec<int> = [1, 2]`, `sum([1, 2])`) |
+| Annotation `[T]` | **Error** (`E0119`), in params and returns too — use `[T; N]` or `Vec<T>` |
 | Empty `[]` | Only under `Vec<T>` or `[T; 0]` |
 | Growth | **Forbidden** — no `arr[] =`; use `Vec` |
 

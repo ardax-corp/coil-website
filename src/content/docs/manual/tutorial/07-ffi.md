@@ -131,7 +131,7 @@ In runtime `declare`, import tag constructors from the virtual `ffi::types` modu
 | `string` / `String` | `const char *` |
 | `void` / `Void` | Return-only |
 | `bool`, `int8`…`uint64`, `ptr` | Sized integers, bool, raw pointer |
-| `[int]` / `(int, float)` | Lowered to `Ptr` (array/tuple buffer) |
+| `Vec<T>` / `[T; N]` / `(int, float)` | Lowered to `Ptr` (array/tuple buffer) |
 | `Bytes` (`declare` only) | `uint8_t *` buffer from a `Vec<byte>`, copied back after the call |
 | `Callback` | C function pointer → coil function |
 | `extern struct Point { x: int32, y: int32 };` | Pass-by-value C struct |
@@ -257,7 +257,7 @@ The third argument to `declare` and the fourth (return) must be FFI type tags. A
 |------|---------|
 | In-scope `ffi::types` tag | `Int`, `Ptr`, `Callback` (after `use ffi::types::{Int, Ptr, …};`) |
 | Qualified virtual path | `ffi::types::Int` |
-| Bare primitive / aggregate name | `int`, `void`, `[int]`, `(int, float)` |
+| Bare primitive / aggregate name | `int`, `void`, `Vec<byte>`, `[int; 4]`, `(int, float)` |
 
 Do **not** invent a userland `enum FFIType` — tags are compiler-virtual under `ffi::types`.
 
