@@ -86,7 +86,7 @@ trait Eq<T> { /* your trait */ }   // now allowed
 
 Without the `as` rebind, `trait Eq` / `enum Option` is a conflict diagnostic.
 
-The implicit prelude (`prelude`, `prelude::ops`, `prelude::test`, `prelude::math`) is compiler-owned and not configurable via `coil.toml`. Extra disk search paths belong in `[module].roots`.
+The implicit prelude (`prelude`, `prelude::ops`, `prelude::test`, `prelude::math`) is compiler-owned and not configurable. Extra disk search paths are `--root DIR` flags (spool passes `[module].roots`).
 
 ---
 
@@ -98,7 +98,7 @@ Given a concrete import `use a::b::c;`:
 1. Split the path into segments. All segments except the last form the **directory path**; the last segment is the **item name**.
    - Path: `["a", "b"]`
    - Item name: `"c"`
-2. For each search root (`--root DIR`, in order; spool passes `[module].roots` from `coil.toml`):
+2. For each search root (`src` under the current directory first, then each `--root DIR` in order; spool passes `[module].roots` from `coil.toml` as `--root`):
    - **One-item-per-file:** `<project_root>/<root>/a/b/c.hy`
    - If the file exists, **stop** — this is the resolved module file.
 3. If no one-item-per-file candidate exists, try the **module-file** fallback for each root:
@@ -141,8 +141,8 @@ With multiple roots `["./src", "./vendor"]`, the compiler checks `./src/...` fir
 ### Userland stdlib
 
 [coil-stdlib](https://github.com/ardax-corp/coil-stdlib) (same org as the language
-and [spool](https://github.com/ardax-corp/spool)) is a separate package. Workspace
-roots look for `./.deps/coil-stdlib/src` or `../coil-stdlib/src`.
+and [spool](https://github.com/ardax-corp/spool)) is a separate package. Point a
+`--root` at `./.deps/coil-stdlib/src` or `../coil-stdlib/src`.
 
 How to consume it in other projects, module catalog, HTTP, and IO adapters:
 [coil-stdlib docs](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/README.md).
@@ -193,7 +193,7 @@ If a file is outside all search roots, the namespace falls back to the file's ba
 
 ### Entry file
 
-The file passed to the compiler (or declared in `[entry].file`) uses the **empty namespace** (`""`). Top-level items in the entry file have unprefixed FQNs.
+The file passed to the compiler (positional or `--entry FILE`; spool may take it from `[entry].file`) uses the **empty namespace** (`""`). Top-level items in the entry file have unprefixed FQNs.
 
 ### Fully qualified names (FQN)
 
@@ -298,7 +298,6 @@ The pipeline runs in two passes:
 - Drain the worklist in **LIFO** order (dependencies compile before consumers).
 - Each file compiles with its computed namespace.
 - `use` statements in the consumer file resolve local names to FQNs via the alias map.
-- Glob imports expand against the compiled function registry.
 - Multi-file programs share **one constant pool** for the whole link (`?` / match / other pool-backed immediates). The pool is cleared only on a fresh compile (prologue-only bytecode), not between modules.
 
 ---
@@ -307,7 +306,7 @@ The pipeline runs in two passes:
 
 Module resolution depends on the `--root` search roots. `coil` does not read `coil.toml`; spool passes its `[module].roots` as `--root` flags. See [Project configuration](/docs/references/project-config) for manifest format and default behavior.
 
-Without `--root`, the compiler uses a single default root: `src/`.
+Without `--root`, the compiler uses a single default root: `src/` under the current directory. With `--root`, `src/` is still searched first.
 
 `[package]` and `[dependencies]` are for **`spool`**, but they do not change discovery by themselves — only paths listed in `roots` are searched. Put `./.spool/deps` (or equivalent) in `roots` after `spool install` so dependency packages participate in `use` resolution.
 

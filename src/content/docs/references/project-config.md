@@ -225,7 +225,7 @@ coil = ">=0.1.0"
 include = "./hooks/include.sh"
 ```
 
-The compiler stores these fields but does **not** use them for module discovery. **`spool`** owns dependency semantics, include-hook execution, and engine-range checks.
+`coil` never reads these fields. **`spool`** owns dependency semantics, include-hook execution, and engine-range checks.
 
 ### `[scripts]`
 
@@ -246,7 +246,7 @@ pre_update = "./scripts/pre-update.sh"
 post_update = "./scripts/post-update.sh"
 ```
 
-**Current-project vs include-hooks:** `[scripts]` fire only for the current project (`spool install` / `update` / `add` that materializes this project's deps). `[package].include` is the dependency's hook and runs in the consumer when that package is linked. They do not double-fire: a dependency's `[scripts]` are ignored during a consumer install; the consumer's `include` is ignored because it is not being consumed. The compiler stores both; spool owns running them.
+**Current-project vs include-hooks:** `[scripts]` fire only for the current project (`spool install` / `update` / `add` that materializes this project's deps). `[package].include` is the dependency's hook and runs in the consumer when that package is linked. They do not double-fire: a dependency's `[scripts]` are ignored during a consumer install; the consumer's `include` is ignored because it is not being consumed. Spool owns running both; `coil` never reads them.
 
 Keep scripts out of `coil package` (executable embed).
 
@@ -437,7 +437,7 @@ When `coil` gets no flags (no spool, or no `coil.toml`):
 
 | Setting | Default |
 |---------|---------|
-| `[module].roots` / `--root` | `["src"]` |
+| `[module].roots` / `--root` | `["src"]` — `coil` always searches `src` under the current directory first; each `--root DIR` adds a root after it |
 | `[entry].file` | None — use CLI argument |
 | `[ffi].search_paths` / `--ffi-search-path` | `[]` |
 | `[ffi].allow` / `--allow-dload` | `[]` — every stem is `LibraryDenied` until listed |
