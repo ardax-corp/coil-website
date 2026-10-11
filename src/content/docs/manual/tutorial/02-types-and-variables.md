@@ -85,7 +85,7 @@ coil provides five primitive type names used in everyday programs:
 
 | Type     | Literal examples   | Notes                                      |
 |----------|--------------------|--------------------------------------------|
-| `int`    | `0`, `-42`, `100`  | Signed integer                             |
+| `int`    | `0`, `-42`, `100`  | Signed 64-bit integer; `+ - * / % **` panic with `integer overflow` instead of wrapping (wrapping / checked / saturating helpers live in coil-stdlib's `arith`) |
 | `float`  | `1.0`, `3.14`      | IEEE-style floating point                  |
 | `byte`   | `0`…`255` (as `int` literal with annotation) | `0..=255`; used for IO buffers (`Vec<byte>`) |
 | `string` | `"hello"`          | Immutable string data                      |
@@ -109,9 +109,9 @@ For ordinary coil functions, omit the return type instead of writing `-> void`.
 
 ---
 
-## Type inference (Hindley–Milner)
+## Type inference
 
-coil uses a **Hindley–Milner** (Algorithm W) typechecker. You do not need to annotate every name — the compiler deduces types by analyzing how values flow through your program.
+coil uses a constraint-based typechecker. Generics are explicit (`fn f<T>`, `class C<T>`); `let` bindings are not generalized. You do not need to annotate every name — the compiler deduces types by analyzing how values flow through your program.
 
 ### What inference handles well
 
@@ -138,7 +138,7 @@ fn main() {
 
 **Return paths** — every `return expr;` in a function must agree with the declared return type (or with other return paths when inference fills in the return type).
 
-**Polymorphism at `let`** — when the right-hand side is polymorphic (e.g. a generic helper), inference picks the most general type consistent with how the binding is *used* later in the same scope.
+**Generic calls** — calling a generic function (`fn id<T>(T x) -> T`) instantiates `T` from the arguments at each call site. A `let` binding itself is monomorphic: it gets one type, fixed by its initializer and later uses.
 
 ### When to annotate anyway
 
@@ -301,31 +301,36 @@ coil supports class declarations and `impl` blocks for methods. From `examples/c
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
-class Foo {
-    name: String,
+class Point {
+    pub x: int,
+    pub y: int,
 }
 
-impl Foo {
-    fn sadge() -> int {
-        return 42;
+impl Point {
+    pub fn sum() -> int {
+        return self.x + self.y;
+    }
+
+    pub fn set_x(int n) {
+        self.x = n;
     }
 }
 
 fn main() {
-    let x = new Foo();
-    write_all(stdout(), to_bytes(format("%i", (2 * 2 + 3))));
+    let p = new Point(1, 3);
+    write_all(stdout(), to_bytes(format("%i", p.sum())));   // 4
+    p.set_x(5);
+    write_all(stdout(), to_bytes(format("%i", p.x)));       // 5
 }
 ```
 
 Key points today:
 
-- **`class Name { field: Type, ... }`** declares fields.
-- **`impl Name { fn method(...) -> Ret { ... } }`** attaches methods.
-- **`new Foo()`** allocates an instance on the heap.
+- **`class Name { field: Type, ... }`** declares fields. Fields and methods are private to the class unless marked `pub`.
+- **`impl Name { fn method(...) -> Ret { ... } }`** attaches methods; `self` is the receiver.
+- **`new Point(1, 3)`** allocates an instance on the heap, taking one argument per field in declaration order.
 
-Field access and mutation on classes are still limited compared to record-shaped enums and dict literals. Prefer enums with record payloads or `{ key: value }` records for data-oriented code until the classes tutorial is expanded.
-
-**Coming soon:** dedicated coverage of classes, `impl`, and instance field access — see `examples/classes.hy` for the current syntax snapshot.
+See `examples/classes.hy`, `examples/static_ctor.hy` and [Types](/docs/references/types) for static members, generic classes and traits.
 
 ---
 
@@ -395,7 +400,7 @@ If you change `clamp` to return `"100"` (string), the checker reports a `Type mi
 
 4. Declare `type UserId = int;` and write `fn fetch(UserId id) -> int` that returns `id * 2`. Call it from `main`.
 
-5. Read `examples/classes.hy` and explain (in comments or a note) which operations are type-checked but not yet fully supported at run time.
+5. Remove `pub` from `Point::sum` in `examples/classes.hy` and read the diagnostic the call in `main` now produces.
 
 ---
 

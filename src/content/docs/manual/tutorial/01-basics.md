@@ -21,7 +21,7 @@ fn main() {
 Run a file from the project root:
 
 ```bash
-cargo run -- examples/fib.hy
+cargo run -- --root ../coil-stdlib/src examples/fib.hy
 ```
 
 ---
@@ -83,7 +83,7 @@ coil has four primitive literal forms.
 
 | Kind   | Examples              | Notes                                      |
 |--------|-----------------------|--------------------------------------------|
-| `int`  | `0`, `42`, `-7`       | Signed integers                            |
+| `int`  | `0`, `42`, `-7`       | Signed 64-bit integers; arithmetic that overflows panics |
 | `float`| `1.0`, `3.14`, `-0.5` | Must contain a decimal point (`1.0`, not `1`) |
 | `string` | `"hello"`, `"FIZ"`, `"say \"hi\""`  | Double-quoted; escapes: `\\` `\"` `\n` `\r` `\t` `\0` `\e` `\xHH` `\u{HEX}` |
 | `bool` | `true`, `false`       | Boolean literals                           |
@@ -234,7 +234,7 @@ fn fib(int n) -> int {
 }
 ```
 
-If execution reaches the end of a function body without hitting `return`, the function returns a default value (typically `0` for numeric contexts). Prefer explicit `return` when the result matters.
+A function with a non-unit return type must `return` on every path; falling off the end is a compile error (`E0111`). Unit functions may fall off the end.
 
 ---
 
@@ -404,7 +404,7 @@ The compiler **type-checks** every specifier against its argument. A mismatch is
 | `%z`      | `bool`        | Boolean (`true` / `false`)           |
 | `%%`      | (none)        | Literal percent sign                 |
 
-Example mixing integers from `examples/const.hy`:
+Example mixing integers with a helper call:
 
 ```coil
 use io::{stdout};
@@ -415,10 +415,12 @@ fn sum(int a, int b) -> int {
 }
 
 fn main() {
-    write_all(stdout(), to_bytes(format("%u", 2 + 2 + sum(2 + 2))));
+    write_all(stdout(), to_bytes(format("%u", 2 + 2 + sum(2, 2))));
     write_all(stdout(), to_bytes(format("%u", 2 + 2 + 2 + 2)));
 }
 ```
+
+Output: `88`.
 
 Common type errors:
 
@@ -454,7 +456,7 @@ use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
 return fib(n - 1) + fib(n - 2);
-write_all(stdout(), to_bytes(format("%u", 2 + 2 + sum(2 + 2))));
+write_all(stdout(), to_bytes(format("%u", 2 + 2 + sum(2, 2))));
 ```
 
 ---
@@ -464,14 +466,15 @@ write_all(stdout(), to_bytes(format("%u", 2 + 2 + sum(2 + 2))));
 coil uses a Pratt parser with familiar C-like precedence. From highest to lowest (approximate):
 
 1. Postfix: field access (`.field`), function call `()`
-2. Prefix: `-`, `+`, `~`
-3. Multiplicative: `*`, `/`, `%`, `**`
-4. Additive: `+`, `-`
-5. Shifts: `<<`, `>>`
-6. Bitwise: `&`, `^`, `|`
-7. Comparisons: `==`, `!=`, `<`, `<=`, `>`, `>=`
-8. Logical: `&&`, `||`
-9. Assignment: `=`
+2. Prefix: `-`, `+`, `~`, `!`
+3. Exponentiation: `**` (right-associative)
+4. Multiplicative: `*`, `/`, `%`
+5. Additive: `+`, `-`
+6. Shifts: `<<`, `>>`
+7. Bitwise: `&`, `^`, `|`
+8. Comparisons: `==`, `!=`, `<`, `<=`, `>`, `>=`
+9. Logical: `&&`, `||`
+10. Assignment: `=`
 
 When in doubt, parenthesise:
 
@@ -509,7 +512,7 @@ fn main() {
 }
 ```
 
-Running this prints `55` (the 10th Fibonacci number). Notice:
+Running this prints `55` (the 10th Fibonacci number; `examples/fib.hy` itself computes `fib(32)` = `2178309`). Notice:
 
 - Base case via early `return`.
 - Recursive calls in an expression (`fib(n - 1) + fib(n - 2)`).
@@ -535,7 +538,7 @@ fn main() {
 
 Output: `51020`.
 
-### Step 3 — Calls and arithmetic (`examples/call_test.hy`, `examples/const.hy`)
+### Step 3 — Calls and arithmetic (`examples/call_test.hy`)
 
 Combine function calls with expression statements and `%u` formatting:
 
@@ -564,7 +567,7 @@ fn sum(int a, int b) -> int {
 }
 
 fn main() {
-    write_all(stdout(), to_bytes(format("%u", 2 + 2 + sum(2 + 2))));
+    write_all(stdout(), to_bytes(format("%u", 2 + 2 + sum(2, 2))));
     write_all(stdout(), to_bytes(format("%u", 2 + 2 + 2 + 2)));
 }
 ```
