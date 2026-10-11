@@ -128,7 +128,7 @@ write_all(stdout(), to_bytes(format("%i", none?.v ?? 0)));     // None → 0
 
 `assert(cond)` / `assert(cond, msg)` (from `prelude::test`, auto-imported) returns `Result<(), string>` — use `?` or `match` like any other Result. It does not abort.
 
-`panic msg` aborts immediately with `panic: <msg>` (CLI exit code 1). Prefer `assert` when failure should be recoverable.
+`panic msg` aborts immediately with `panic: <msg> at <file>:<line>:<col>` (CLI exit code 1); `defer` blocks still run as it unwinds. Prefer `assert` when failure should be recoverable.
 
 See [Built-ins — assert / panic](/docs/references/assert) and `examples/assert.hy` / `examples/panic.hy`.
 

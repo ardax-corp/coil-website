@@ -15,6 +15,8 @@ use io::sync::{write_all, read_to_end};
 
 Buffers use the **`byte`** primitive and **`Vec<byte>`** vectors.
 
+Opening files and sockets is a host capability: a program that can reach `open` or a socket call compiles only with the matching grant (`--allow-read`, `--allow-write`, `--allow-net`, or `-A`); the compiler names the missing flag. Stdio needs none. See [Permissions](/docs/references/permissions).
+
 ---
 
 ## `byte` and `Vec<byte>`
