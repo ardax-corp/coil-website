@@ -78,6 +78,11 @@ function rewriteLink(url, { pkg, repo, sha, file }) {
       if (doc) return `/docs/${doc[1].replace(/\/README$/, "").replace(/\/index$/, "")}${frag}`;
       return url;
     }
+    if (gh[1] === "coil-website") {
+      const doc = gh[2].match(/^src\/content\/docs\/(.+)\.md$/);
+      if (doc) return `/docs/${doc[1].replace(/\/index$/, "")}${frag}`;
+      return url;
+    }
     const other = repoToPkg[gh[1]];
     const slug = other && pageSlug(gh[2]);
     return slug ? pageHref(other, slug) + frag : url;
