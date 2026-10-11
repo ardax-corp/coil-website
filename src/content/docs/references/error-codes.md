@@ -51,7 +51,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0124` | `WildcardImport` | `use path::*` is banned (virtual and userland) — list names explicitly; prelude is auto-injected |
 | `E0125` | `ExpressionNestingTooDeep` | A single expression recursed past the compiler's internal depth limit during typecheck or codegen (not the compiled program's own call stack, which the VM grows at run time) |
 | `E0126` | `InvalidDrop` | Invalid `fn drop(self)` (not an inherent class or enum method, on a scalar-backed enum, static, extra args, duplicate, or non-unit return) |
-| `E0127` | `UnsupportedGenericOptionReturn` | Free generic `fn f<T>(…) -> Option<U>` where `U` mentions a type parameter. Put the return on an inherent method. |
+| `E0127` | `UnsupportedGenericFnValue` | A generic `fn` taken as a value (`let f = head;`) when a type parameter is nested in its signature (`Vec<T>`, `Option<T>`, tuples, classes). Not supported yet ([#916](https://github.com/ardax-corp/coil-lang/issues/916)): call it directly or wrap it in a lambda at a concrete type |
 | `E0128` | `PrivateMember` | Private field or inherent method used outside the type's `impl` |
 | `E0129` | `Deprecated` | Warning: call to a deprecated function (`block_on`, `io::drive`, `io::wait_ready`). The help names the replacement |
 | `E0130` | `ByteWrap` | Warning: `byte` `+ - * ** <<` or unary `-`, whose result wraps modulo 256. Convert to `int` first (`x as int`) for exact arithmetic |
