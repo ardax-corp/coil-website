@@ -15,7 +15,7 @@ coil uses **Hindley–Milner (Algorithm W)** type inference with optional annota
 |------|---------------------|-------|
 | `int` | `Ty::Con("int")` | 64-bit signed integer at runtime; `+ - * / % **` and unary `-` panic on overflow (and `/ %` on division by zero) in every build — see [Operators](/docs/references/operators#arithmetic) |
 | `float` | `Ty::Con("float")` | IEEE double |
-| `byte` | `Ty::Con("byte")` | Integer in `0..=255`; same immediate `Value` shape as `int` |
+| `byte` | `Ty::Con("byte")` | Integer in `0..=255`; same immediate `Value` shape as `int`; `+ - * ** <<` and unary `-` wrap modulo 256 (warning `E0130`) — see [Operators](/docs/references/operators#arithmetic) |
 | `string` | `Ty::Con("string")` | Heap-allocated UTF-8 string |
 | `bool` | `Ty::Con("bool")` | `true` / `false` |
 | `void` / `unit` | `Ty::Con("unit")` | Used for statements with no value; FFI `void` return |

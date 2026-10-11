@@ -83,6 +83,12 @@ IEEE behaviour (`inf`, `NaN`). Checked, wrapping, saturating and overflowing
 arithmetic are userland traits in coil-stdlib's `arith` module (`Checked`,
 `Wrapping`, `Saturating`, `Overflowing`).
 
+`byte` arithmetic wraps modulo 256 instead: `+`, `-`, `*`, `**`, `<<`, unary
+`-` and their compound forms keep the low 8 bits of the result, so a `byte`
+is always in `0..=255` (`200 + 100` is `44`, `0 - 1` is `255`). Each of these
+operators on a `byte` warns `E0130`; convert to `int` first (`x as int`) when
+you want the exact result. `/` and `%` by zero still panic.
+
 When the factor is a **compile-time power of two** (`2`, `4`, `8`, …), `byte`
 multiplication lowers to a left shift (`SHL` / `<<`) instead of `MUL`. `int`
 `*` stays a `MUL` (a shift would not trap on overflow); trait/`Mul` dictionary

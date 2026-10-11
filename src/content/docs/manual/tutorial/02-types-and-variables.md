@@ -87,7 +87,7 @@ coil provides five primitive type names used in everyday programs:
 |----------|--------------------|--------------------------------------------|
 | `int`    | `0`, `-42`, `100`  | Signed 64-bit integer; `+ - * / % **` panic with `integer overflow` instead of wrapping (wrapping / checked / saturating helpers live in coil-stdlib's `arith`) |
 | `float`  | `1.0`, `3.14`      | IEEE-style floating point                  |
-| `byte`   | `0`…`255` (as `int` literal with annotation) | `0..=255`; used for IO buffers (`Vec<byte>`) |
+| `byte`   | `0`…`255` (as `int` literal with annotation) | `0..=255`, arithmetic wraps modulo 256; used for IO buffers (`Vec<byte>`) |
 | `string` | `"hello"`          | Immutable string data                      |
 | `bool`   | `true`, `false`    | Boolean                                    |
 | `void`   | (no literal)       | **FFI only** — marks functions that return nothing to C/host code |
