@@ -695,8 +695,8 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 | `Rem` | Remainder | `%` → `rem` (`int` / `float`) |
 | `Pow` | Exponentiation | `**` → `pow` (`int` / `float`) |
 | `Num` | Convenience bundle | Supertrait of `Add` + `Sub` + `Mul` + `Div` + `Neg` + `Rem` + `Pow` (no own methods) |
-| `Shl` | Shift left | `<<` → `shl` (`int` / `byte`) |
-| `Shr` | Shift right | `>>` → `shr` (`int` / `byte`) |
+| `Shl` | Shift left | `<<` → `shl(T, int) -> T` (`int` / `byte`; the count is an `int`) |
+| `Shr` | Shift right | `>>` → `shr(T, int) -> T` (`int` / `byte`; the count is an `int`) |
 | `BitAnd` | Bitwise AND | `&` → `bitand` (`int` / `byte`) |
 | `BitOr` | Bitwise OR | `\|` → `bitor` (`int` / `byte`) |
 | `BitXor` | Bitwise XOR | `^` → `bitxor` (`int` / `byte`) |
