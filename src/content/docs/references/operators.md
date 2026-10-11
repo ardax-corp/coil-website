@@ -106,7 +106,9 @@ Homogeneous numeric tuples and arrays support the same operators
 | aggregate | scalar `T` (or reverse) | broadcast |
 
 `T` must be numeric (`int` / `float` / `byte`, or a `Num`-bounded type
-parameter). Dynamic-length `[T]` is not a vector type (use fixed `[T; N]`).
+parameter). A `Vec<T>` supports unary `-` and scalar broadcast (`k * v`),
+returning a new `Vec<T>`; zipping two Vecs is a type error (lengths are not
+known), so use fixed `[T; N]` for that.
 `*` and `**` are element-wise (not dot product / matrix power). Unary `-`
 negates each element. Compound assign (`+=`, `**=`, …) follows the same
 rules with the LHS shape fixed.

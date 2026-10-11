@@ -26,7 +26,7 @@ Integer literals coerce to `byte` when the expected type is `byte` (returns, ann
 
 **Single-byte string literals** also coerce to `byte` in those same expected-type positions (and in `b == "/"`-style comparisons): the literal’s UTF-8 encoding must be exactly one byte after escapes (`"/"`, `"\n"`, `"\""`). Multi-byte characters (e.g. `"é"`) and non-literal `string` values do not coerce to `byte`.
 
-**String literals** also coerce to `Vec<byte>` / `[byte; N]` (UTF-8 bytes) under an expected byte-buffer type, via `"…" as Vec<byte>`, and as `Vec<byte>` call arguments (e.g. `write_all(stdout(), "hi")`). For `[byte; N]` the decoded length must be exactly `N`. Non-literal strings may use `s as [byte]` (lowers to `to_bytes`); use `to_bytes(s)` for `Vec<byte>` (`s as Vec<byte>` is a compile-time error). Fixed `[byte; N]` still needs a literal.
+**String literals** also coerce to `Vec<byte>` / `[byte; N]` (UTF-8 bytes) under an expected byte-buffer type, via `"…" as Vec<byte>`, and as `Vec<byte>` call arguments (e.g. `write_all(stdout(), "hi")`). For `[byte; N]` the decoded length must be exactly `N`. An annotated `let b: Vec<byte> = "hi";` works too. Non-literal strings use `to_bytes(s)`, which returns `Vec<byte>` (`s as Vec<byte>` is a compile-time error, and `[byte]` does not exist). Fixed `[byte; N]` still needs a literal.
 
 `byte` implements `Show`, `Eq` and the binary bitwise traits (`Shl`, `Shr`, `BitAnd`, `BitOr`, `BitXor`); it is not in `Num` / `Add`, `BitNot` or `Integral` yet.
 
@@ -222,13 +222,15 @@ broadcast / unary `-`). See [Operators](/docs/references/operators).
 
 Homogeneous **fixed-length** arrays. Length `N` is part of the type and is
 inferred from literals when possible; otherwise write it explicitly.
-Annotation `[T]` (no length) is a type error (`E0119`) — use `[T; N]` or
-growable [`Vec<T>`](/docs/references/arrays).
+Annotation `[T]` (no length) is a type error (`E0119`) in every position (lets,
+parameters, returns, casts) — use `[T; N]` or growable
+[`Vec<T>`](/docs/references/arrays). An array literal builds a `Vec<T>` wherever
+one is expected, so `fn sum(Vec<int> v)` takes `sum([1, 2, 3])`.
 
 | Annotation | `ArrayLength` | Example |
 |------------|---------------|---------|
 | `[T; N]` | `Static(N)` | Literal `[1, 2, 3]` infers `[int; 3]` |
-| `[T]` | — | **Rejected** — use `[T; N]` or `Vec<T>` |
+| `[T]` | — | **Rejected** (`E0119`) — use `[T; N]` or `Vec<T>` |
 
 ```coil
 let xs = [1, 2, 3];           // [int; 3]
@@ -1107,7 +1109,6 @@ Diagnostic messages render types roughly as:
 |----------|---------|
 | `int` | `` `int` `` |
 | `(int, string)` | `` `(int, string)` `` |
-| `[int]` | `` `[int]` `` |
 | `[int; 5]` | `` `[int; 5]` `` |
 | `{ x: int, y: int }` | `` `{ x: int, y: int } `` |
 | `Option` sum | `` `Option` `` with variant detail in specialized errors |
