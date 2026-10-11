@@ -1,11 +1,11 @@
 ---
 title: "Tutorial: Modules"
-description: As programs grow, a single file becomes hard to navigate. coil supports multi-file projects with a module system based on use imports, mod forward declarations, and a coil.toml…
+description: As programs grow, a single file becomes hard to navigate. coil supports multi-file projects with a module system based on use imports, mod forward declarations, and --root search roots…
 ---
 
 # Tutorial: Modules
 
-As programs grow, a single file becomes hard to navigate. coil supports **multi-file projects** with a module system based on `use` imports, `mod` forward declarations, and a `coil.toml` project manifest.
+As programs grow, a single file becomes hard to navigate. coil supports **multi-file projects** with a module system based on `use` imports, `mod` forward declarations, and `--root` search roots (which [spool](/packages/spool) builds from a `coil.toml` project manifest).
 
 ---
 
@@ -28,14 +28,14 @@ Multi-file projects typically look like this:
 
 ```
 my-project/
-├── coil.toml          # project manifest (optional)
+├── coil.toml          # spool project manifest (optional)
 └── src/
     ├── main.hy        # entry point
     └── foo/
         └── sadge.hy   # module file
 ```
 
-The **`coil.toml`** manifest declares where the compiler searches for module files and optionally sets the entry point. `coil` does not read it: [spool](/packages/spool) passes `[module].roots` as `--root` flags. Run `coil` directly and you pass `--root DIR` yourself; with no `--root`, the compiler defaults to a single search root: `src/`.
+The **`coil.toml`** manifest declares the module search roots and optionally the entry point for spool. `coil` does not read it: [spool](/packages/spool) passes `[module].roots` as `--root` flags. Run `coil` directly and you pass `--root DIR` yourself; with no `--root`, the compiler defaults to a single search root: `src/`.
 
 See [Project configuration reference](/docs/references/project-config) for the full format.
 
@@ -202,7 +202,7 @@ fn main() {
 }
 ```
 
-What happens when you run `cargo run -- examples/modules.hy`:
+What happens when you run `cargo run -- --root ../coil-stdlib/src --root examples/src examples/modules.hy`:
 
 1. The pipeline treats `modules.hy` as the entry file (namespace `""`).
 2. Parsing finds `use foo::sadge;` and enqueues `src/foo/sadge.hy`.
@@ -260,6 +260,6 @@ For complete syntax rules, path resolution details, and edge cases, see the [Mod
 
 ## See also
 
-- [Project configuration reference](/docs/references/project-config) — full `coil.toml` format
+- [Project configuration reference](/docs/references/project-config) — full `coil.toml` format (read by spool)
 - [Examples catalog](/docs/manual/examples) — `modules.hy` setup notes
 - [FFI](/docs/manual/tutorial/07-ffi) — next chapter for C interop

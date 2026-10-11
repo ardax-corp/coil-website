@@ -156,7 +156,9 @@ use ffi::types::{Int};
 **C source** (`examples/sum.c`):
 
 ```c
-int sum(int a, int b) {
+#include <stdint.h>
+
+int64_t sum(int64_t a, int64_t b) {
     return a + b;
 }
 ```
@@ -198,7 +200,7 @@ fn main() {
 }
 ```
 
-`dload("sum")` resolves to `libsum.so` / `libsum.dylib` / `sum.dll` via `platform_lib_names` and `--ffi-search-path` (spool passes `[ffi] search_paths`). It also requires `--allow-dload sum` and `--dload-pin sum=SHA256` or `--dload-trusted sum`; spool passes those from `[ffi] allow = ["sum"]` and a matching `[[package.native]] sha256` in `coil.lock` (or `trusted = true` on that dep). Run it with `cargo run -- --allow-dload sum --dload-trusted sum --ffi-search-path examples examples/ffi_sum.hy`. Search paths locate the file; they are not a grant. An absolute path is not a bypass. Tag constructors (`Int`, `Ptr`, …) come from `ffi::types` — you do not declare them in source.
+`dload("sum")` resolves to `libsum.so` / `libsum.dylib` / `sum.dll` via `platform_lib_names` and `--ffi-search-path` (spool passes `[ffi] search_paths`). It also requires `--allow-dload sum` and `--dload-pin sum=SHA256` or `--dload-trusted sum`; spool passes those from `[ffi] allow = ["sum"]` and a matching `[[package.native]] sha256` in `coil.lock` (or `trusted = true` on that dep). Run it with `cargo run -- --root ../coil-stdlib/src --allow-dload sum --dload-trusted sum --ffi-search-path examples examples/ffi_sum.hy`. Search paths locate the file; they are not a grant. An absolute path is not a bypass. Tag constructors (`Int`, `Ptr`, …) come from `ffi::types` — you do not declare them in source.
 
 **Expected output:** `42`
 
@@ -374,7 +376,7 @@ This produces `HostInvoke` bytecode from `Compiler::register()`. See [Built-ins 
 | Failed `dload` | `Result::Err(Error)` — match `e.kind` (`LibraryNotFound` vs `Other` for `LibraryDenied`); never `-1` |
 | Failed `declare` | `Result::Err` (missing symbol, libffi error) |
 | `extern` failure | Compiler unwraps Results and panics with a clear message |
-| No automatic `out.hyc` invalidation for new `.so` | Rebuild C libraries separately; bytecode does not embed shared-library contents |
+| Shared libraries are not embedded | Rebuild C libraries separately; bytecode (and a `.hyc` archive) does not embed shared-library contents |
 | Archive version | FFI opcode / tag layout is part of the packed archive `major.minor`; archives with a newer minor or different major are rejected |
 
 ---
@@ -402,4 +404,4 @@ This produces `HostInvoke` bytecode from `Compiler::register()`. See [Built-ins 
 
 - [Built-ins reference](/docs/references) — virtual module and FFI builtin details
 - [Types reference](/docs/references/types) — what can and cannot cross the FFI boundary
-- [Getting Started](/docs/manual/getting-started) — build and cache (`out.hyc`) workflow
+- [Getting Started](/docs/manual/getting-started) — build and CLI workflow
