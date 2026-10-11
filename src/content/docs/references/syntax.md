@@ -58,7 +58,7 @@ fn triple(int x) -> int { return x * 3; }
 |-----------|--------|-----------|
 | `#[derive(Trait, …)]` | `enum` / `class` | Runs each derive (built-in `Show`, `Eq`, `Ord`, `Hash`, `String`, `Default`, `Send`, `Sensitive`, or a user `derive` imported with `use`) and adds its output after the type. Without derive, non-generic **payload** types still get a default `Show`/`String` that returns the type name string. Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
 | `#[repr(int)]` / `#[repr(string)]` / `#[repr(float)]` / `#[repr(bool)]` | `enum` | Scalar-backed enum: each case is `Name = lit` of that primitive. May be omitted when every case has `=` and the literals share one type. See [Types — Scalar-backed enums](/docs/references/types#scalar-backed-enums). |
-| `#[max_depth(N)]` | recursive `fn` | Required when call-frame depth cannot be proven (dynamic args, mutual recursion, non-measure shapes). Optional when the compiler already proves a bound (e.g. `fib(10)`). |
+| `#[max_depth(N)]` | recursive `fn` | Optional hint: presizes the VM stack for `N` simultaneous frames when the compiler cannot prove a depth (dynamic args, mutual recursion). The stack grows at run time either way, so a wrong `N` only costs a regrow. `N` must be a positive integer. |
 | Attribute macro `#[name(…)]` | `fn`, methods, `class`, `enum` | Runs the `attr name(…)` macro imported with `use`; its output replaces the item. See [Macros](/docs/references/macros#attribute-macros). |
 
 Several attribute macros on one item apply outermost first. Unknown attribute names are rejected at compile time.
@@ -83,7 +83,7 @@ quote_expr    ::= 'quote' ('items' | 'expr' | 'stmts' | 'type') '{' template '}'
 
 | Element | Rules |
 |---------|-------|
-| Identifiers | ASCII letters, digits, underscore; must not be a [keyword](/docs/references/keywords) |
+| Identifiers | ASCII letters, digits, underscore; should not be a [keyword](/docs/references/keywords) (the parser does not reject most of them yet) |
 | Integers | Decimal (`42`, `-1`) |
 | Floats | Decimal with fraction (`1.0`, `3.14`) — parsed before postfix `.field` |
 | Strings | `"..."` — escapes: `\\` `\"` `\n` `\r` `\t` `\0` `\e` `\xHH` `\u{HEX}` |
@@ -125,7 +125,7 @@ declaration ::= class_decl
 
 ```
 function_decl ::= attr_list? 'gen'? 'static'? 'pure'? 'fn' IDENT type_param_list? arg_list
-                  ('->' type_annotation)? where_clause? uses_clause? (block | ';')
+                  ('->' type_annotation)? where_clause? uses_clause? contract_clause* (block | ';')
 type_param_list ::= '<' type_param (',' type_param)* '>'
 type_param      ::= IDENT (':' (kind | class_bound ('+' class_bound)*))?
 kind            ::= '*' | 'Constraint' | kind '->' kind | '(' kind ')'
@@ -134,6 +134,7 @@ where_clause    ::= 'where' where_constraint (',' where_constraint)*
 where_constraint ::= IDENT '<' type_annotation (',' type_annotation)* '>'
 uses_clause     ::= 'uses' '{' (effect (',' effect)*)? '}'   // not with 'pure'
 effect          ::= 'read' | 'write' | 'net' | 'env' | 'exec' | 'ffi' | 'thread' | 'suspend' | 'mutate'
+contract_clause ::= ('requires' | 'ensures') expr (',' STRING)?   // see Contracts
 arg_list      ::= '(' (arg (',' arg)*)? ')'
 arg           ::= type_annotation '...'? IDENT   // `T... name` → `Vec<T>`; bare `... name` → tuple pack
 ```
@@ -218,7 +219,7 @@ The type after `for` is prepended as the first type argument (Self slot):
 Example:
 
 ```coil
-// Builtin arithmetic: Add / Sub / Mul / Div (Num implies all four).
+// Builtin arithmetic: Add / Sub / Mul / Div / Neg / Rem / Pow (Num implies all seven).
 // Builtin ordering: Lt / Le / Gt / Ge (Ord implies all four).
 
 trait Collect<C> {
@@ -426,7 +427,7 @@ statement ::= while_stmt
 | Expression | `expr ';'` |
 | `return` | `return [expr] ';'` (`return;` returns unit) |
 | `yield` | `yield expr ';'` or `yield from expr ';'` |
-| `while` | `while expr block` |
+| `while` | `while expr loop_clause* block` — `loop_clause` is `invariant expr` or `decreases expr` ([Contracts](/docs/references/contracts)); a `for` takes `invariant` the same way |
 | `for` | `for IDENT in expr block` — via prelude `IntoIterator` / `Iterator` (arrays, homogeneous tuples/dicts, coroutines, or user `impl`s; see [Built-ins](/docs/references/iterator)). C-style `for (init; cond; step)` is a parse error. |
 | `break` | `break ';'` (innermost loop) |
 | `continue` | `continue ';'` (jumps to the `while` condition / next for-in iteration) |

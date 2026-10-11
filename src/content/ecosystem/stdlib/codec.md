@@ -1,7 +1,7 @@
 ---
 title: "JSON (coil-json)"
 description: "JSON parse/stringify is not in this package. It lives in coil-json (use json::{Json, JsonValue, JsonError};)."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/09f2720e1efbd80a69b50a4d41487d7542cf52b0/docs/codec.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/025245d29473d7d259d47c02dbc05ccea1109bb1/docs/codec.md"
 ---
 # JSON (coil-json)
 
@@ -16,40 +16,20 @@ Walkthrough: [coil-json consume.md](/packages/json/consume).
 
 ## Depend
 
-There is no public `spool` CLI. Do not `spool add json`. Until
-, use a sibling root or a
-`{ git }` dep plus a `coil.lock` pin (`rev` + `content_hash`).
+With [spool](https://github.com/ardax-corp/spool):
 
-Sibling checkout:
-
-```toml
-[module]
-roots = ["./src", "../coil-json/src", "../coil-stdlib/src"]
+```bash
+spool add json --git https://github.com/ardax-corp/coil-json.git --rev <commit SHA>
 ```
 
-Git dep (`version` is optional schema, not a tag):
+spool records the dependency in `coil.toml`, pins it in `coil.lock`, and
+passes the `--root` flags to `coil`. The compiler reads neither file.
 
-```toml
-[dependencies]
-json = { git = "https://github.com/ardax-corp/coil-json.git" }
+Without spool, use a sibling checkout and pass the roots yourself:
 
-[module]
-roots = ["./src", "./.spool/deps/json/src", "../coil-stdlib/src"]
+```bash
+coil --root ../coil-json/src --root ../coil-stdlib/src main.hy
 ```
-
-```
-# spool lockfile v1
-[[package]]
-name = 'json'
-git = 'https://github.com/ardax-corp/coil-json.git'
-rev = '<commit SHA>'
-content_hash = '<tree SHA>'
-```
-
-`rev` is the commit. `content_hash` is that commit's git tree
-(`git rev-parse 'HEAD^{tree}'`). The compiler does not read `coil.lock`
-and does not inject roots. Native `[ffi] search_paths` are documented in
-the consume walkthrough.
 
 ## Call
 

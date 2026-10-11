@@ -24,7 +24,7 @@ test("reads the config") {
 }
 ```
 
-This applies only to the test body itself. Helper functions and lambdas keep their own declared `Result` / `Option` types. A user type without `#[derive(Show)]` or an `impl Show` shows as its type name, so derive `Show` to get the variant in the message.
+(A case that reaches `open` needs `coil test --allow-read`, like any program; see [Permissions](/docs/references/permissions).) This applies only to the test body itself. Helper functions and lambdas keep their own declared `Result` / `Option` types. A user type without `#[derive(Show)]` or an `impl Show` shows as its type name, so derive `Show` to get the variant in the message.
 
 Do **not** also define `fn main` in a file that uses `test(...)` cases — the compiler injects a virtual `main` for standalone runs. The `coil test` CLI runs each case in an isolated VM (so a `panic` in one case does not skip later cases) and prints `> Test " " failed` on failure. Pass `--fail-fast` to stop after the first failed case.
 

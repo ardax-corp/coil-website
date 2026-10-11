@@ -1,7 +1,7 @@
 ---
 title: "Consume coil-stdlib"
 description: "Unprefixed imports (use ascii, use path::{Path}) need this package's src/ as a module root — not the parent .spool/deps folder. spool links .spool/deps/stdlib at src/."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/09f2720e1efbd80a69b50a4d41487d7542cf52b0/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/025245d29473d7d259d47c02dbc05ccea1109bb1/docs/consume.md"
 ---
 # Consume coil-stdlib
 
@@ -44,7 +44,7 @@ not follow `[module] roots` or path deps for discovery). Do not pass
 
 [coil-lang](https://github.com/ardax-corp/coil-lang) does not vendor this tree.
 Clone it as a sibling (`../coil-stdlib`) or under `coil-lang/.deps/coil-stdlib`.
-Workspace `coil.toml` already lists those roots.
+Its workspace `coil.toml` lists those roots for spool; with plain `coil`, pass `--root ../coil-stdlib/src`.
 
-Manifest schema: [coil.toml project config](/docs/references/project-config).
+Manifest schema (read by spool, not by `coil`): [project config](/docs/references/project-config).
 `spool` vs `coil package`: [spool README](https://github.com/ardax-corp/spool).

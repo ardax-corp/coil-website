@@ -59,8 +59,8 @@ The compiler reports `E0413` with the call chain that needs the missing
 effect, and suggests the declaration that would hold:
 
 ```
-Error: [E0413] `load` is declared `pure` but needs read: load → parse_file → open needs read
-Help: declare `uses {read}`
+Error: [E0413] `load` is declared `pure` but needs read, write: load → parse_file → open needs read, write
+Help: declare `uses {read, write}`
 ```
 
 ## Functions passed as arguments

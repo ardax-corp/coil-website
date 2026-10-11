@@ -1,7 +1,7 @@
 ---
 title: "coil-regex"
 description: "Userland PCRE2 regex for coil. Replaces the former virtual use regex::{…} module with an FFI package and Regex class with fn drop()."
-source: "https://github.com/ardax-corp/coil-regex/blob/b2677282fc8dae77cf205d52f0fa3929e2f688ea/README.md"
+source: "https://github.com/ardax-corp/coil-regex/blob/c29ad87add86fbaff766300be17bb35a9a529a63/README.md"
 ---
 # coil-regex
 
@@ -35,4 +35,4 @@ coil --allow-dload pcre2-8 --dload-pin pcre2-8=<sha256> --ffi-search-path <libdi
 
 ## License
 
-MIT — see [LICENSE](https://github.com/ardax-corp/coil-regex/tree/b2677282fc8dae77cf205d52f0fa3929e2f688ea/LICENSE).
+MIT — see [LICENSE](https://github.com/ardax-corp/coil-regex/tree/c29ad87add86fbaff766300be17bb35a9a529a63/LICENSE).

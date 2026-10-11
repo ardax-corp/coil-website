@@ -6,7 +6,7 @@ order: 2
 
 # Manifest and lockfile
 
-spool reads your project's **`coil.toml`** and writes **`coil.lock`** next to it. The compiler reads the same `coil.toml` (see [Project configuration](/docs/references/project-config)); this page covers the parts spool uses and how it interprets them.
+spool reads your project's **`coil.toml`** and writes **`coil.lock`** next to it. `coil` reads neither: spool turns them into flags (`--root`, `--allow-*`, `--dload-pin`, …) on every `coil` command it runs (see [Project configuration](/docs/references/project-config)). This page covers the parts spool uses and how it interprets them.
 
 ```toml
 [package]
@@ -18,7 +18,7 @@ http  = { git = "https://github.com/ardax-corp/coil-http.git", version = "^0.1" 
 local = { path = "../my-lib" }
 
 [module]
-roots = ["./src", "./.spool/deps"]  # spool adds ./.spool/deps for you
+roots = ["./src"]                 # spool also passes .spool/deps and the stdlib
 
 [scripts]                         # optional, off unless --enable-scripts
 post_install = "./scripts/post-install.sh"
@@ -34,7 +34,7 @@ post_install = "./scripts/post-install.sh"
 | `coil` | Optional [engine range](#engine-range): the Coil toolchain versions this package supports. |
 | `include` | Optional [include hook](/packages/spool#include-hooks), relative to the package's own checkout. Runs in projects that depend on it. |
 
-`version` and other keys are compiler schema; spool does not read them.
+spool does not read `version`.
 
 ### Engine range
 
@@ -52,18 +52,19 @@ Each entry is an inline table keyed by the name you `use` it under. Values must 
 
 | Form | Keys | Notes |
 |------|------|-------|
-| Git | `git` + `version` | `git` is any URL host `git` can clone (HTTPS, SSH, private remotes via your credentials). `version` is a [version requirement](#version-requirements) matched against the repository's tags. |
-| Path | `path` | A local checkout, relative to the project root. No `version`. Not written to the lockfile. |
+| Git | `git` + `version` or `rev` | `git` is any URL host `git` can clone (HTTPS, SSH, private remotes via your credentials). `version` is a [version requirement](#version-requirements) matched against the repository's tags. `rev` pins a branch, tag or commit instead; `update` moves a branch pin. |
+| Path | `path` | A local checkout, relative to the project root. No `version` or `rev`. Not written to the lockfile. |
+
+Either form may add `trusted = true` (a bool): that dependency's `dload` stems skip the sha256 pin (spool passes `--dload-trusted STEM`). The stem still needs `[ffi] allow`.
 
 spool rejects a dependency that:
 
 - combines `git` and `path` — `git and path cannot be combined`
-- is a git dependency without `version` — `git dependency missing version`
-- sets `version` on a path dependency — `path dependency cannot set version`
+- is a git dependency without `version` or `rev` — `git dependency <name> needs version or rev`
+- sets `version` or `rev` on a path dependency — `path dependency cannot set version or rev`
 - uses any other key — `unknown dependency key <key>`
+- sets `trusted` to a non-bool — `dependency <name> key trusted must be a bool`
 - repeats a name — `duplicate dependency <name>`
-
-> The compiler's manifest schema also accepts `rev` and a boolean `trusted` on a dependency (see [Project configuration — dependencies](/docs/references/project-config)). spool currently rejects both, so a manifest using them can be compiled but not installed with spool.
 
 `spool add` edits this table for you and keeps the file's comments:
 
@@ -72,11 +73,11 @@ spool add http --git https://github.com/ardax-corp/coil-http.git --version '^0.1
 spool add local --path ../my-lib
 ```
 
-Without `--version`, `add` records `*`.
+Without `--version` or `--rev`, `add` records `*`. `spool remove <name>` drops the entry again.
 
 ### Version requirements
 
-A requirement is a single comparator. Tags may carry a leading `v` (`v0.1.0`).
+A requirement is a comparator, or several joined by commas (`">=1.2, <2"`). Tags may carry a leading `v` (`v0.1.0`). Prerelease tags are never picked by a range.
 
 | Requirement | Matches |
 |-------------|---------|
@@ -84,16 +85,21 @@ A requirement is a single comparator. Tags may carry a leading `v` (`v0.1.0`).
 | `^1.2.3` | `>=1.2.3` with the same major (`1.x.y`) |
 | `^0.2.3` | `>=0.2.3` with the same minor (`0.2.x`) |
 | `^0.0.3` | Exactly `0.0.3` |
+| `~1.2.3` | `>=1.2.3` with the same major and minor (`1.2.x`) |
 | `>=1.2.0`, `>1.2.0`, `<=1.2.0`, `<1.2.0` | The comparison |
 | `=1.2.0` or `1.2.0` | Exactly that version — a bare version is **not** a caret range |
 
-The highest matching tag wins; with none, spool reports `no tag matches requirement <req>`. When several dependencies need the same package, spool picks the highest tag that satisfies all of their requirements; if there is none it stops with `diamond conflict for <name>`.
+The highest matching tag wins; with none, spool reports `no tag matches requirement <req>`. When several dependencies need the same package, spool picks the highest tag that satisfies all of their requirements; if there is none it stops with the requesters named:
+
+```text
+diamond conflict for base: hello requires @dev, mid requires ^1
+```
 
 ---
 
 ## `[module].roots`
 
-The compiler finds packages through `[module].roots`. spool links every dependency under `.spool/deps/<name>` and makes sure `./.spool/deps` is in `roots`, adding it when missing. A dependency's link points at its `src/` directory when it has one, so `use greet::hello` resolves to `hello.hy` in the package.
+spool passes each `[module].roots` entry (default `./src`) to `coil` as `--root`. It links every dependency under `.spool/deps/<name>` (to the package's `src/`) plus `.spool/deps/<name>.hy` when that file exists, and passes `--root .spool/deps` once dependencies are linked, plus the stdlib unless a root already is one. `use greet::hello` resolves through the directory link; `use toml::{Toml}` through the file link. spool never edits `coil.toml`.
 
 ---
 
@@ -114,7 +120,7 @@ Paths must be relative to the project root, without `..` segments. Unknown keys 
 
 What the project's programs and tests may do on the host. spool passes each
 key that is `true` to `coil` as a flag (`read = true` becomes `--allow-read`)
-on every `coil` command it runs (`run`, `test`, `build`, `package`, `lsp`). Keys: `read`, `write`, `net`, `env`,
+on every `coil` command it runs (`build`, `run`, `check`, `test`, `debug`, `lsp`, …). Keys: `read`, `write`, `net`, `env`,
 `exec`, `exit`, `attach`, and `all` for everything. Left out means denied.
 
 ```toml
@@ -129,7 +135,7 @@ See [Permissions](/docs/references/permissions).
 
 ## `[[ffi.native]]`
 
-Native libraries a project loads with `dload`. `spool download` (or `spool install --with-natives`) reads them through `coil natives dump` and fetches each direct library into `~/.coil/natives` (override with `COIL_NATIVES_DIR`). The table itself is compiler schema — see [Project configuration](/docs/references/project-config).
+Native libraries a project loads with `dload`. `spool download` (or `spool install --with-natives`) reads them through `coil natives dump` and fetches each direct library with a `url` into `~/.coil/natives` (override with `COIL_NATIVES_DIR`). spool passes each row to `coil package` and `coil natives dump` as `--ffi-native name=…,version=…,path=…`. Keys: `name`, `version`, `path` (required), `package`, `url`, `requires`, `requires_hint`.
 
 ---
 
@@ -169,7 +175,10 @@ One row per git dependency, direct or transitive, sorted by name. Path dependenc
 | `tag` | no | The tag the requirement resolved to |
 | `rev` | yes | Commit checked out |
 | `content_hash` | yes | Hash of the checkout's tree; `install` verifies it after fetching |
+| `ref` | no | The manifest `rev` (branch, tag or commit) a rev-pinned dependency asked for |
 | `hook_path`, `hook_hash` | no | Pinned [include hook](/packages/spool#include-hooks) path and `git hash-object` hash, recorded on the first opted-in run |
+
+A `[[package.native]]` block under a package may pin its native library: `sha256` (with `stem` / `lib`) becomes `--dload-pin STEM=SHA256`. spool keeps these blocks when it rewrites the lock.
 
 ### `[hooks]`
 
@@ -187,4 +196,4 @@ Any other key or line is rejected as `corrupt coil.lock`.
 
 - [spool commands](/packages/spool/commands)
 - [spool overview](/packages/spool) — hooks, scripts, cache, private git
-- [Project configuration (`coil.toml`)](/docs/references/project-config) — the compiler's side of the manifest
+- [Project configuration (`coil.toml`)](/docs/references/project-config) — the flags each key becomes

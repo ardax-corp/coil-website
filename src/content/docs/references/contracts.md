@@ -201,9 +201,26 @@ in are not checked for effects either.
   written), and `contract_clauses()`. See [Macros](/docs/references/macros).
 - Editor hover shows a function's contracts.
 
-## Coming next
+## Generated tests
 
-Next come tests generated from contracts and a static checker.
+`coil test` turns contracts into test cases. Each function or `pub static`
+method in a file without `fn main` that has a `requires` or `ensures`, no type
+parameters, and only parameters with an `Arbitrary` instance (the primitives,
+`Vec` / `Option` of them, `#[derive(Arbitrary)]` types) gets a
+`contract: name` case. The case calls it with random arguments that satisfy
+its `requires` (`--contract-runs N`, default 100), and a failed `ensures` or
+any other panic fails the case with the arguments that caused it. A function
+with effects besides `read` and `mutate` gets no case.
+
+## `coil verify`
+
+`coil verify FILE` proves clauses with an SMT solver instead of testing them
+(`z3` on `PATH`, or `--solver PATH`). Each clause is reported as `proved`,
+`FAILED` with a counterexample, or `unknown`; the exit status is 1 when a
+clause has a counterexample (or, with `--strict`, is not proved). Index
+bounds into a `Vec` or string are goals too. It writes `FILE.proof`
+(`--no-proof` skips it), and later builds of the unchanged file drop the
+proved `ensures` and invariant checks.
 
 ## Related
 

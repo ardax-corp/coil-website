@@ -13,7 +13,7 @@ coil uses **Hindley–Milner (Algorithm W)** type inference with optional annota
 
 | Name | `Ty` representation | Notes |
 |------|---------------------|-------|
-| `int` | `Ty::Con("int")` | 64-bit signed integer at runtime |
+| `int` | `Ty::Con("int")` | 64-bit signed integer at runtime; `+ - * / % **` and unary `-` panic on overflow (and `/ %` on division by zero) in every build — see [Operators](/docs/references/operators#arithmetic) |
 | `float` | `Ty::Con("float")` | IEEE double |
 | `byte` | `Ty::Con("byte")` | Integer in `0..=255`; same immediate `Value` shape as `int` |
 | `string` | `Ty::Con("string")` | Heap-allocated UTF-8 string |
@@ -28,7 +28,7 @@ Integer literals coerce to `byte` when the expected type is `byte` (returns, ann
 
 **String literals** also coerce to `Vec<byte>` / `[byte; N]` (UTF-8 bytes) under an expected byte-buffer type, via `"…" as Vec<byte>`, and as `Vec<byte>` call arguments (e.g. `write_all(stdout(), "hi")`). For `[byte; N]` the decoded length must be exactly `N`. Non-literal strings may use `s as [byte]` (lowers to `to_bytes`); use `to_bytes(s)` for `Vec<byte>` (`s as Vec<byte>` is a compile-time error). Fixed `[byte; N]` still needs a literal.
 
-`byte` implements `Show` and `Eq`; it is not in `Num` / `Add` yet.
+`byte` implements `Show`, `Eq` and the binary bitwise traits (`Shl`, `Shr`, `BitAnd`, `BitOr`, `BitXor`); it is not in `Num` / `Add`, `BitNot` or `Integral` yet.
 
 The builtin error enums (`IoError`, `ThreadError`, `EnvError`, ffi `ErrorKind`) implement `Show`: `%v` prints the variant name (`NotFound`).
 
@@ -71,7 +71,7 @@ User code always sees `Option<T>` / `Result<T, E>`. Codegen picks one of three r
 
 Cross a niche ↔ boxed boundary with `OptionNicheToHeap` / `HeapOptionToNiche`. `Vec::pop` / `Vec::remove` use allocation-free `HostInvokeNiche` when the item type is heap-only; other host results stay on `HostInvoke` and convert at the boundary.
 
-Do not match on raw `0` vs pointer in user code — `match` / `?` / `??` are the API. Free `fn f<T>(T) -> Option<T>` is still `E0127` (shared generic bodies box `T`); put that return on an inherent method. See [limitations](https://github. See [limitations](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md).
+Do not match on raw `0` vs pointer in user code — `match` / `?` / `??` are the API. Free `fn f<T>(T) -> Option<T>` is still `E0127` (shared generic bodies box `T`); put that return on an inherent method. See [limitations](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md).
 
 ---
 
@@ -265,8 +265,8 @@ Statics: `Vec::new`, `Vec::with_capacity`, `Vec::from`. Methods: `push`, `pop`,
 
 | Target | Compile-time index | Runtime index |
 |--------|-------------------|---------------|
-| Fixed array `[T; N]` | OOB literal → diagnostic | Allowed (no static check); OOB load yields `-1`, OOB store is a no-op |
-| `Vec<T>` | N/A | Allowed (no OOB diagnostic); same `-1` / no-op VM contract |
+| Fixed array `[T; N]` | OOB literal → diagnostic | Allowed (no static check); OOB load or store **panics** (`index out of bounds`) |
+| `Vec<T>` | N/A | Allowed (no OOB diagnostic); OOB load or store **panics** |
 | Tuple | OOB literal → diagnostic | — |
 | Non-aggregate | Error | — |
 
@@ -519,15 +519,13 @@ fn main() {
     resume h; // 1
     resume h; // 2
     resume h; // 42 (the `return` value)
-    resume h; // 0  (Done — see below, NOT 42 again)
+    resume h; // panics: resumed after completion (see below)
 }
 ```
 
-Resuming an already-`Done` coroutine always yields `Value::default()`
-(`0`/equivalent), never the coroutine's last `return` value — there is
-no error-handling protocol yet to signal "resumed after completion",
-so a fixed sentinel keeps the behavior well-defined instead of leaking
-a stale value.
+Resuming an already-`Done` coroutine panics with `resumed after
+completion`. Check [`done(h)`](/docs/references/done) first when a loop may
+outrun the body.
 
 ---
 

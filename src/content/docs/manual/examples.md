@@ -8,10 +8,10 @@ description: "Every runnable (or intentionally non-runnable) program under examp
 Every runnable (or intentionally non-runnable) program under `examples/`. Run from the **repository root** unless noted otherwise:
 
 ```bash
-cargo run -- examples/<file>.hy
+cargo run -- --root ../coil-stdlib/src examples/<file>.hy
 ```
 
-Delete `out.hyc` after editing source to force recompilation.
+The examples import the userland stdlib (`io::sync`, `string`, …), so every run needs `--root` pointing at a [coil-stdlib](https://github.com/ardax-corp/coil-stdlib) checkout (here a sibling `../coil-stdlib`). The **Run** rows below omit it for brevity. The default run compiles in memory, so there is no `out.hyc` to delete after editing source.
 
 > **Note:** The CLI uses multi-file discovery (`Pipeline::compile_src_from_file`) over its `--root` search roots, so `use` / `mod` examples such as `modules.hy` work from `cargo run` with `--root examples/src`. `coil` reads no `coil.toml` or `coil.lock`; the workspace `coil.toml` is for spool, which turns it into flags. FFI examples need **libffi** and sometimes a built shared library (`libsum.so` / `libsum.dylib` / `sum.dll`).
 
@@ -333,14 +333,14 @@ fn fib(int n) -> int {
 }
 
 fn main() {
-    write_all(stdout(), to_bytes(format("%i", fib(10))));
+    write_all(stdout(), to_bytes(format("%i", fib(32))));
 }
 ```
 
 | | |
 |---|---|
 | **Run** | `cargo run -- examples/fib.hy` |
-| **Output** | `55` |
+| **Output** | `2178309` |
 
 Cross-language CPU baselines (mandelbrot / tak / nsieve / binary trees / fib)
 live under `examples/perf/` with matching `benchmarks/*.{lua,js}` ports. For
@@ -557,12 +557,12 @@ fn main() {
 
 ### `examples/panic.hy`
 
-**Demonstrates:** `panic "…"` abort (writes `panic: boom`, process exits 1).
+**Demonstrates:** `panic "…"` abort (writes `panic: boom at <file>:<line>:<col>`, process exits 1).
 
 | | |
 |---|---|
 | **Run** | `cargo run -- examples/panic.hy` |
-| **Output** | `panic: boom` (stderr/stdout; non-zero exit) |
+| **Output** | `panic: boom at examples/panic.hy:7:4` (non-zero exit) |
 
 ---
 
@@ -846,7 +846,7 @@ Virtual `io` module (`use io::{open, stdout, …};`), `byte` / `Vec<byte>` buffe
 
 | | |
 |---|---|
-| **Run** | `cargo run -- examples/io_file.hy` |
+| **Run** | `cargo run -- --allow-read --allow-write examples/io_file.hy` |
 | **Output** | `2` |
 
 ### `examples/io_eof.hy`
@@ -855,7 +855,7 @@ Virtual `io` module (`use io::{open, stdout, …};`), `byte` / `Vec<byte>` buffe
 
 | | |
 |---|---|
-| **Run** | `cargo run -- examples/io_eof.hy` |
+| **Run** | `cargo run -- --allow-read --allow-write examples/io_eof.hy` |
 | **Output** | `eof` |
 
 ### `examples/io_text.hy`
@@ -873,7 +873,7 @@ Virtual `io` module (`use io::{open, stdout, …};`), `byte` / `Vec<byte>` buffe
 
 | | |
 |---|---|
-| **Run** | `cargo run -- examples/io_udp.hy` |
+| **Run** | `cargo run -- --allow-net examples/io_udp.hy` |
 | **Output** | `2` |
 
 ### `examples/io_nested_host.hy`
@@ -883,7 +883,7 @@ stream (not the outer native id) on the stack for `MakeTuple`.
 
 | | |
 |---|---|
-| **Run** | `cargo run -- examples/io_nested_host.hy` |
+| **Run** | `cargo run -- --allow-read --allow-write examples/io_nested_host.hy` |
 | **Output** | `3` |
 
 ### `examples/io_nested_write.hy`
@@ -894,7 +894,7 @@ into `MakeTuple`.
 
 | | |
 |---|---|
-| **Run** | `cargo run -- examples/io_nested_write.hy` |
+| **Run** | `cargo run -- --allow-read --allow-write examples/io_nested_write.hy` |
 | **Output** | `2` |
 
 See [Tutorial 10 — IO streams](/docs/manual/tutorial/10-io-streams).
@@ -1014,14 +1014,14 @@ fn main() {
 
 ### `examples/nested_aggregates.hy`
 
-**Demonstrates:** Nested aggregates — `type Row = (string, int); type Table = [Row; 2];` with `for` and let-destructure.
+**Demonstrates:** Nested aggregates — `type Row = (string, int); type Table = Vec<Row>;` with `for` and let-destructure.
 
 ```coil
 type Row = (string, int);
-type Table = [Row; 2];
+type Table = Vec<Row>;
 
 fn main() {
-    let people: Table = [("alice", 30), ("bob", 25)];
+    let people: Table = Vec::from([("alice", 30), ("bob", 25)]);
     // …
 }
 ```
@@ -1606,16 +1606,16 @@ use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
 class Point {
-    x: int,
-    y: int,
+    pub x: int,
+    pub y: int,
 }
 
 impl Point {
-    fn sum() -> int {
+    pub fn sum() -> int {
         return self.x + self.y;
     }
 
-    fn set_x(int n) {
+    pub fn set_x(int n) {
         self.x = n;
     }
 }
@@ -1644,8 +1644,8 @@ use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
 class Point {
-    x: int,
-    y: int,
+    pub x: int,
+    pub y: int,
 }
 
 impl Point {
@@ -1653,7 +1653,7 @@ impl Point {
         return new Point(x, y);
     }
 
-    fn sum() -> int {
+    pub fn sum() -> int {
         return self.x + self.y;
     }
 }
@@ -1699,11 +1699,11 @@ use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
 class Cell<T> {
-    value: T
+    pub value: T
 }
 
 impl Cell<T> {
-    fn get() -> T {
+    pub fn get() -> T {
         return self.value;
     }
 }
@@ -1731,7 +1731,7 @@ Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/recei
 
 | | |
 |---|---|
-| **Run** | `rm -f out.hyc && cargo run -- examples/coro.hy` |
+| **Run** | `cargo run -- examples/coro.hy` |
 | **Output** | Suspended/resumed trace (see source) |
 
 ---
@@ -1819,7 +1819,7 @@ Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/recei
 
 | | |
 |---|---|
-| **Run** | `cargo run -- examples/io_wait_ready.hy` |
+| **Run** | `cargo run -- --allow-read examples/io_wait_ready.hy` |
 | **Output** | `ok` |
 
 ---
@@ -1830,7 +1830,7 @@ Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/recei
 
 | | |
 |---|---|
-| **Run** | `cargo run -- examples/task_files.hy` |
+| **Run** | `cargo run -- --allow-read --allow-write examples/task_files.hy` |
 | **Output** | `ok` |
 
 ---
@@ -1936,7 +1936,7 @@ with `.to_vec()` (`tests/positive/range_to_vec.hy`).
 | | |
 |---|---|
 | **Run** | `cargo run -- examples/range.hy` |
-| **Output** | `01234012356` |
+| **Output** | `012340123561.02.03.0` |
 
 ---
 
@@ -2047,7 +2047,7 @@ See [`examples/projects/README.md`](https://github.com/ardax-corp/coil-lang/blob
 | `const.hy` | Basics | `42hi` |
 | `loop_break.hy` | Basics | `18` |
 | `fizbuz.hy` | Basics | `FIZBUZFIZFIZBUZFIZFIZBUZ` |
-| `fib.hy` | Basics | `55` |
+| `fib.hy` | Basics | `2178309` |
 | `perf/mandelbrot.hy` | Perf | `625885` |
 | `perf/tak.hy` | Perf | `7` |
 | `perf/fib.hy` | Perf | `2178309` |

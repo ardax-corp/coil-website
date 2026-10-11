@@ -1,7 +1,7 @@
 ---
 title: "coil-time"
 description: "Userland calendar and monotonic time for coil. Process clocks (wallnanos, mononanos, sleepms) are HostInvoke via virtual clock. This package is calendar, Instant snapshots, and…"
-source: "https://github.com/ardax-corp/coil-time/blob/7b0a5b5d42277a6130347d799742a5f1f84d475c/README.md"
+source: "https://github.com/ardax-corp/coil-time/blob/e9ba42d2a026e36144d31e7fe5f2fe7fe4e1f089/README.md"
 ---
 # coil-time
 
@@ -36,10 +36,8 @@ cargo build -p coil
 make test COIL=../coil-lang/target/debug/coil
 ```
 
-Consume from a sibling checkout or a `coil.lock` pin (`rev` + `content_hash`). See [docs/consume.md](/packages/time/consume).
-
-Spool will own Coil-to-Coil deps once it exists. Until then there is no `spool add` and this repo has no tags. `{ git }` is the parseable git dep. `version` is optional schema, not a tag.
+Consume with `spool add time --git https://github.com/ardax-corp/coil-time.git --rev <commit SHA>` (no tags yet), or a sibling checkout plus `--root ../coil-time/src`. See [docs/consume.md](/packages/time/consume).
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-time/tree/7b0a5b5d42277a6130347d799742a5f1f84d475c/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-time/tree/e9ba42d2a026e36144d31e7fe5f2fe7fe4e1f089/LICENSE).

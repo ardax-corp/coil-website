@@ -1,7 +1,7 @@
 ---
 title: "coil-json"
 description: "Userland JSON for coil. Package name is json, so use json::{Json, JsonValue, JsonError} resolves here."
-source: "https://github.com/ardax-corp/coil-json/blob/90a8780eea653646fb7901bcbae8ee4028aeac9e/README.md"
+source: "https://github.com/ardax-corp/coil-json/blob/d58e6728df4a77a73a076288379fde2b0da76b51/README.md"
 ---
 # coil-json
 
@@ -31,6 +31,17 @@ let v2 = c.decode_str("// cfg\n{ \"a\": 1, }")?;
 | `decode` / `encode` | `Vec<byte>` |
 | `decode_str` / `encode_str` | UTF-8 string helpers |
 
+Reading a decoded value:
+
+| Method | Role |
+|--------|------|
+| `is_null()` … `is_object()` | type checks |
+| `get(key)` | object member (first match) or `None` |
+| `at(i)` | array element or `None` |
+| `keys()` | object member names in order |
+| `as_str()` / `as_int()` / `as_float()` / `as_bool()` | the value when it has that type, else `None` |
+| `array_len()` / `object_len()` | child counts |
+
 `JsonValue` is a class (not an enum). Coil named modules do not unify recursive `Vec<JsonValue>` (`JsonValue` vs `json::JsonValue`), and `FFIType` already owns `Bool`/`Int`/`Float`/`String`. The tree is an arena of primitive vecs; a `JsonValue` is a `(store, idx)` handle.
 
 Object representation: ordered children. Each object member is a child node whose `keys[child]` is the member name. Duplicates are kept in encounter order. Not a HashMap.
@@ -42,19 +53,16 @@ Numbers: a token with no `.` / `e` / `E` that fits in i64 is an int; otherwise f
 | Path | Role |
 |------|------|
 | `src/json.hy` | `Json`, `JsonValue`, `JsonError`, Coil-side parser/stringify |
-| `coil.toml` | `[package] name = "json"` so `use json::{…}` resolves |
+| `coil.toml` | spool manifest (`[package] name = "json"`); coil does not read it |
 
 ## Consume
 
-Sibling checkout, or a git dep plus `coil.lock` pin. Call `Json::strict()` from [docs/consume.md](/packages/json/consume).
-
-```toml
-[dependencies]
-json = { git = "https://github.com/ardax-corp/coil-json.git" }
+```bash
+spool add json --git https://github.com/ardax-corp/coil-json.git --rev <commit SHA>
 ```
 
-`{ git }` is the parseable form. `version` is optional schema, not a tag. The pin is `coil.lock` `rev` + `content_hash`. coil-stdlib is a sibling `[module] roots` entry, not a spool dependency of this package.
+No tags yet, so pin a commit. Without spool, pass `--root ../coil-json/src` to `coil`. Call `Json::strict()` from [docs/consume.md](/packages/json/consume).
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-json/tree/90a8780eea653646fb7901bcbae8ee4028aeac9e/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-json/tree/d58e6728df4a77a73a076288379fde2b0da76b51/LICENSE).

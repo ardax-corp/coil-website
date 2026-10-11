@@ -38,12 +38,15 @@ The examples live in the [coil-lang](https://github.com/ardax-corp/coil-lang) re
 
 ```bash
 git clone git@github.com:ardax-corp/coil-lang.git
+git clone git@github.com:ardax-corp/coil-stdlib.git
 cd coil-lang
 ```
 
-The canonical starter example computes the 10th Fibonacci number recursively
-(fast enough for debug builds). Fair cross-language CPU baselines live under
-`examples/perf/` (`./scripts/poop_baseline.sh`):
+The examples import modules such as `io::sync` and `string` from the userland stdlib ([coil-stdlib](https://github.com/ardax-corp/coil-stdlib)). The toolkit does not bundle it and `coil` reads no manifest, so pass its `src/` with `--root` (in a project, spool adds that root for you).
+
+The canonical starter example computes the 32nd Fibonacci number recursively.
+Fair cross-language CPU baselines live under `examples/perf/`
+(`./scripts/poop_baseline.sh`):
 
 ```coil
 use io::{stdout};
@@ -58,25 +61,25 @@ fn fib(int n) -> int {
 }
 
 fn main() {
-    write_all(stdout(), to_bytes(format("%i", fib(10))));
+    write_all(stdout(), to_bytes(format("%i", fib(32))));
 }
 ```
 
 Run it (toolkit `coil` on your `PATH`):
 
 ```bash
-coil examples/fib.hy
+coil --root ../coil-stdlib/src examples/fib.hy
 ```
 
-**Expected output:** `55`
+**Expected output:** `2178309`
 
-The default CLI invocation compiles `examples/fib.hy` to bytecode, serializes it into `out.hyc` in the current directory (if needed), then loads and executes it on the VM.
+The default CLI invocation compiles `examples/fib.hy` to bytecode in memory and executes it on the VM. It does not read or write `out.hyc`; `coil compile` writes an archive.
 
 ### CLI commands
 
 | Invocation | Meaning |
 |------------|---------|
-| `coil <file.hy>` | Compile to `out.hyc` (cached) and run. `coil` reads no `coil.toml`; `spool run` supplies `[entry].file` |
+| `coil <file.hy>` | Compile in memory and run (no `out.hyc`). `coil` reads no `coil.toml`; `spool run` supplies `[entry].file` |
 | `coil compile <file.hy> [-o path]` | Compile only; default output is `out.hyc` |
 | `coil -V` / `coil --version` | Print `coil 0.1.0` on stdout. These flags win over other args. |
 | `coil -O0` … `-O3` / `-Os` / `-Og` | Optimization preset (`none`/`basic`/`standard`/`aggressive`/`size`/`debug`); default `-O2` |
@@ -85,7 +88,9 @@ The default CLI invocation compiles `examples/fib.hy` to bytecode, serializes it
 | `coil run <file.hyc>` | Execute a previously compiled archive |
 | `coil package <file.hy> [-o path]` | Build a **single executable** for this OS/arch (embeds `.hyc` into `coil-embed` by default); always requires an explicit `.hy` path. Embeds a native lock for each `--ffi-native name=…,version=…,path=…` that matches a `dload` stem (spool passes one per `[[ffi.native]]`). |
 | `coil natives dump [exe] [--tsv]` | Print the native lock (JSON or TSV: package, version, filename, sha256, size) from a packaged exe, or from the `--ffi-native` rows when `exe` is omitted |
-| `coil test [path] [--fail-fast]` | Compile and run every `.hy` under `[path]` (default `./tests`) |
+| `coil test [path] [--fail-fast]` | Compile and run every `.hy` under `[path]` (default `./tests`); re-execs `coil-test` (`coil test --help` lists `--seed`, `-j`, `--coverage`, …) |
+| `coil mutate [flags]` | Mutation testing: which small source edits no test notices (re-execs `coil-test mutate`) |
+| `coil verify <file.hy>` | Prove `requires` / `ensures` contracts with an SMT solver (re-execs `coil-verify`). See [Contracts](/docs/references/contracts) |
 | `coil dissect <file.hy> [--fn pat] [--il] [--ast] [--effects]` | Re-execs `coil-dissect`: in-memory compile and dump filtered bytecode (optional pre-opt IL / entry AST / each function's effects and why auto-par left a loop sequential); never writes `out.hyc` |
 | `coil debug <file.hy> [-x script] [--batch]` | Re-execs `coil-debug`: GDB-style debugger (REPL; optional script / batch mode); never writes `out.hyc` |
 | `coil fmt [--check] <file.hy\|dir>...` | Re-execs `coil-fmt`: pretty-print `.hy` sources (in place; `--check` exits non-zero if changes needed). Preserves `//` and `///` docs. |
@@ -101,7 +106,7 @@ Sibling binaries (install next to `coil`):
 | `coil-lsp` | LSP server (`coil lsp` dispatches here) |
 | `coil-embed` | VM-only runner template for `coil package` (no compiler) |
 
-Examples:
+Examples (each command that compiles source also needs `--root ../coil-stdlib/src`, left out here for brevity):
 
 ```bash
 # Compile only, custom archive path
@@ -170,29 +175,20 @@ Each `test("…") { … }` body runs in Result mode. A failed `assert`/`?` or a 
 **Production builds** (`cargo run -- file.hy`, `coil compile`) **omit** harness declarations by default — `test("…")` blocks are stripped before codegen so they are not shipped in `out.hyc`. Use `--include-tests` to embed them (useful when you want to run the harness against a pre-built archive on another machine):
 
 ```bash
-coil --include-tests compile myapp.hy -o myapp.hyc
+coil compile --include-tests myapp.hy -o myapp.hyc
 coil test ./tests          # always includes harness tests
 ```
 
 ### Recompiling after changes
 
-The default (`BuildAndRun`) path caches `out.hyc`. After editing a `.hy` file, delete the archive to pick up changes, or rely on automatic invalidation:
-
-```bash
-rm -f out.hyc
-coil examples/fib.hy
-```
-
-The CLI recompiles automatically when the archive is missing, corrupt, incompatible with this runtime (different major, or archive minor newer than the runtime), **older than any source file recorded in the archive** (entry *and* imported modules), or was built for a **different entry** than the one you are running (the shared `out.hyc` path is not per-file). The dedicated `compile` command always recompiles; `run` never recompiles (it rejects an incompatible archive and asks you to rebuild from source).
-
-If worker/`use` modules change and prints or behavior look “stuck” or intermittent across runs, stale `out.hyc` is a common false lead — `join` always waits for the worker to finish.
+The default `coil <file.hy>` run compiles from source every time, so edits are picked up without any cache to clear. Only `coil compile` writes an archive (`out.hyc` unless `-o`), and `coil run` never recompiles: it rejects an archive incompatible with this runtime (different major, or archive minor newer than the runtime) and warns when sources recorded in the archive are newer than it. A default run also warns when an `out.hyc` built from the same entry is older than its sources, since that archive is not used.
 
 ## A simpler hello-world
 
 For a minimal smoke test:
 
 ```bash
-coil examples/print_literal.hy
+coil --root ../coil-stdlib/src examples/print_literal.hy
 ```
 
 Source:
@@ -255,7 +251,7 @@ For optimized binaries:
 cargo build --release --workspace
 ```
 
-A successful build produces the `coil` binary (via `src/main.rs`) plus the `parser`, `compiler`, `machine`, and `common` crates as libraries. From that checkout, `cargo run -- examples/fib.hy` is the same as `coil examples/fib.hy` once the built `coil` is on your `PATH`.
+A successful build produces the `coil` binary (via `src/main.rs`) plus the `parser`, `compiler`, `machine`, and `common` crates as libraries. From that checkout, `cargo run -- --root ../coil-stdlib/src examples/fib.hy` is the same as `coil --root ../coil-stdlib/src examples/fib.hy` once the built `coil` is on your `PATH`.
 
 ## Project layout
 
@@ -264,19 +260,21 @@ coil/
 ├── common/              # Opcodes, values, diagnostics, archive envelope
 ├── parser/              # Lexer + Pratt parser → AST
 ├── compiler/
-│   ├── src/typechecking/  # Hindley–Milner inference
+│   ├── src/typechecking/  # Type inference and checks
+│   ├── src/hir/           # Typed HIR, inliner and optimization passes
+│   ├── src/codegen/       # HIR → stack IL lowering
+│   ├── src/il/            # Stack IL, fuse-select lowerer
+│   ├── src/mir/           # SSA tiers for numeric bodies
 │   ├── src/pipeline.rs    # Compile driver, multi-file discovery
-│   ├── src/il/            # Stack IL, opts, fuse-select lowerer
 │   └── tests/             # Golden pipeline and diagnostic tests
 ├── machine/
 │   ├── src/vm.rs          # Bytecode interpreter
 │   ├── src/memory/        # Stack, heap, GC
 │   └── src/ffi/           # libffi dynamic calls + host natives
+├── coil-args/, coil-cli/  # Shared CLI flags and helpers
+├── coil-debug/, coil-dissect/, coil-fmt/, coil-lsp/, coil-test/, coil-verify/, coil-embed/
 ├── examples/              # Runnable .hy programs (catalog in examples.md)
-├── docs/
-│   ├── manual/            # Getting started, tutorials, examples catalog (you are here)
-│   ├── references/        # Language + per-API lookup
-│   └── internals/         # Pipeline, VM notes, grammar
+├── docs/internals/        # Pipeline, VM notes, grammar (user docs live on this site)
 └── src/main.rs            # `cargo run` entry point
 ```
 
@@ -285,33 +283,33 @@ coil/
 | Crate | Role |
 |-------|------|
 | `parser` | Turn `.hy` text into an AST (`Expression`, `Pattern`, declarations) |
-| `compiler` | Typecheck, emit stack IL, lower/fuse to bytecode, write `.hyc` archives |
+| `compiler` | Typecheck, build and optimize HIR, lower to stack IL / MIR, fuse to bytecode, write `.hyc` archives |
 | `machine` | Execute bytecode; manage stack, heap, and automatic GC |
 | `common` | Shared `Instruction` opcodes, `Value` representation, `ArchivedProgram` |
 
 ## Compilation model
 
-coil uses **AST → stack IL (symbolic labels) → lower/fuse → bytecode**. There is no separate register-IR stage in the current tree.
+coil uses **AST → typed HIR (optimizations) → stack IL (symbolic labels) → MIR tiers / lower/fuse → bytecode**.
 
 ```
-┌─────────────┐    ┌──────────────┐    ┌─────────────┐    ┌──────────┐
-│  .hy source │ →  │ Parser (AST) │ →  │ HM checker  │ →  │ Stack IL │
-└─────────────┘    └──────────────┘    └─────────────┘    └────┬─────┘
-                                                                │
-                    ┌──────────────┐    ┌─────────────┐         ▼
-                    │ VM execute   │ ←  │  out.hyc    │ ←  Lower/fuse
-                    └──────────────┘    │  (rkyv)     │
+┌─────────────┐    ┌──────────────┐    ┌─────────────┐    ┌──────────┐    ┌──────────┐
+│  .hy source │ →  │ Parser (AST) │ →  │ Typechecker │ →  │   HIR    │ →  │ Stack IL │
+└─────────────┘    └──────────────┘    └─────────────┘    └──────────┘    └────┬─────┘
+                                                                                │
+                    ┌──────────────┐    ┌─────────────┐                         ▼
+                    │ VM execute   │ ←  │  bytecode   │ ←  MIR tiers / lower/fuse
+                    └──────────────┘    │ (or .hyc)   │
                                         └─────────────┘
 ```
 
 ### Stages in detail
 
 1. **Parse** — `parser::Pratt` builds an AST. Syntax errors are reported with spans.
-2. **Typecheck** — `compiler::typechecking::Checker` runs Algorithm W, producing a type for every expression and collecting diagnostics (unknown identifiers, unify errors, non-exhaustive `match`, and so on).
-3. **Codegen (IL)** — walks the AST into a stack IL (`compiler/src/il`) with symbolic jump labels. A compile-time **`ConstEnv`** folds scalar `const` values, constant `if`/`while` conditions, and small constant-bound loops (unroll ≤ 8 trips). Direct tail-recursive `return f(...)` emits **`TailCall`**; tiny callees may be inlined at call sites.
-4. **Lower** — after link, `finalize_bytecode` runs IL opts then fuse-select (`BinSlotImm`, `CmpJmpf`, …), assigns PCs once, and emits `Vec<Byte>`. Label binds act as fusion barriers.
-5. **Archive** — bytecode, constant pool, and string table are wrapped in `ArchivedProgram { version, bytecode, constants, strings }` and serialized with rkyv. `version` is packed `major.minor`. A runtime loads an archive when majors match and the archive minor is ≤ the runtime minor.
-6. **Run** — `Machine::run_raw` deserializes and dispatches opcodes. Heap allocations trigger periodic mark-and-sweep GC.
+2. **Typecheck** — `compiler::typechecking` runs constraint-based inference (generics are explicit; `let` bindings are monomorphic), producing a type for every expression and collecting diagnostics (unknown identifiers, unify errors, non-exhaustive `match`, effect and capability checks, and so on).
+3. **HIR and codegen (IL)** — `hir::build` turns the AST and checker facts into a typed, desugared HIR (`coil dissect --hir`). Inlining and the optimization passes (constant folding, CSE, LICM, bounds proofs, unrolling of short counted loops, scalar replacement) run there. `codegen` then lowers each body to a stack IL (`compiler/src/il`) with symbolic jump labels. Direct tail-recursive `return f(...)` emits **`TailCall`**.
+4. **Lower** — after link, `finalize_bytecode` tree-shakes unused bodies, lifts eligible numeric bodies to MIR (dense opcodes), then runs fuse-select (`BinSlotImm`, `CmpJmpf`, …), assigns PCs once, and emits `Vec<Byte>`. No optimization pass runs on the stack IL itself. Label binds act as fusion barriers.
+5. **Archive** — `coil compile` wraps bytecode, constant pool, and string table in `ArchivedProgram { version, bytecode, constants, strings }` and serialized with rkyv. `version` is packed `major.minor`. A runtime loads an archive when majors match and the archive minor is ≤ the runtime minor.
+6. **Run** — the VM runs the in-memory bytecode (default `coil <file.hy>`) or a loaded `.hyc` (`coil run`) and dispatches opcodes. Heap allocations trigger periodic mark-and-sweep GC.
 
 ### Entry point convention
 
@@ -324,23 +322,23 @@ Every program must define `fn main()`. The compiler emits a short prologue (`CAL
 | `.hy` | Coil source (`.hy` = **henry**, the SI unit of inductance) |
 | `.hyc` | Compiled bytecode archive (rkyv-serialized `ArchivedProgram`) |
 
-The default CLI writes `out.hyc` in the working directory. Treat archives as **ABI-versioned** — rejected when the major differs or the archive minor is newer than the runtime. Older archives on a newer minor runtime of the same major still load.
+`coil compile` writes `out.hyc` in the working directory unless `-o` is given. Treat archives as **ABI-versioned** — rejected when the major differs or the archive minor is newer than the runtime. Older archives on a newer minor runtime of the same major still load.
 
 ## What you can write today
 
 The language includes:
 
-- **Primitives:** `int`, `float`, `string`, `bool`
+- **Primitives:** `int` (64-bit; overflow panics), `float`, `string`, `bool`, `byte`
 - **Functions** with typed parameters and return types
 - **`let` bindings** and reassignment (`x = expr;`)
-- **Control flow:** `if` / `else`, `while` loops
+- **Control flow:** `if` / `else`, `while` loops, `for x in` iteration, `break` / `continue`, `defer`
 - **Enums** with unit, tuple, and record-shaped variants, plus scalar-backed `#[repr(int|string|float|bool)]` cases
 - **`match`** with `Enum::Variant` constructors, a `default` catch-all, nested `_` in payloads, and nested record patterns
 - **Tuples** `(a, b)`, **fixed arrays** `[T; N]`, **`Vec<T>`**, **dicts** `{ key: value }`
 - **Type aliases** `type Point = (int, int);`
 - **Modules** via `use foo::bar;` and `mod foo;` (multi-file projects; see [Modules](/docs/references/modules))
 - **FFI** via `extern "lib" { ... }` or runtime `dload` / `declare` / `invoke`
-- **Classes** (partial — see `examples/classes.hy`)
+- **Classes** (`class` / `impl` / `new`, `pub` members, statics, generic classes — see `examples/classes.hy`)
 - **Coroutines** — `gen fn`, `yield`, `resume`, `resume h with v`, `let x = yield e`, `yield from` (see [tutorial/08-coroutines.md](/docs/manual/tutorial/08-coroutines))
 - **String helpers** — `string::format(...)` and UTF-8 byte conversions via `string::{from_bytes, to_bytes}`
 

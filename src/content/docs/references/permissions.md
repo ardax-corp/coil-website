@@ -12,8 +12,8 @@ be covered, or the build fails with the flag to add.
 
 ```
 $ coil load.hy
-error[E0414]: `io::open` requires `--allow-read`: reached from `main` → `load`
-  help: pass `--allow-read` (or `-A` for everything); in a spool project add read to `[permissions]` in coil.toml
+Error: [E0414] `io::open` requires `--allow-read`: reached from `main` → `load`
+Help: pass `--allow-read` (or `-A` for everything)
 
 $ coil --allow-read load.hy
 ```
@@ -24,7 +24,7 @@ $ coil --allow-read load.hy
 |------|--------|-------|
 | `--allow-read` | Read files and inspect the file system | `io::open` for reading, `io::fs::exists` / `is_file` / `is_dir` / `is_symlink` / `metadata` / `read_link` / `list_dir` / `realpath`, `io::fs::copy` |
 | `--allow-write` | Create, change and remove files | `io::open` for writing, `io::fs::create_dir` / `create_dir_all` / `remove_file` / `remove_dir` / `remove_dir_all` / `rename` / `symlink`, `io::fs::copy` |
-| `--allow-net` | Open sockets | `io::net::tcp::connect` / `connect_timeout` / `listen`, `udp_bind` / `udp_connect` / `udp_send_to` |
+| `--allow-net` | Open sockets | `io::net::tcp::connect` / `connect_timeout` / `listen`, `io::net::udp::bind` / `connect` / `send_to` |
 | `--allow-env` | Environment variables and the working directory | `env::var` / `set_var` / `remove_var` / `set_cwd` |
 | `--allow-exec` | Run other programs | `env::exec` (error `E0406`) |
 | `--allow-exit` | End the process early | `env::exit` (error `E0407`) |

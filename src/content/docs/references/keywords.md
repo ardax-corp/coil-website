@@ -1,11 +1,11 @@
 ---
 title: Keywords reference
-description: All reserved words in the coil parser. Keywords cannot be used as identifiers.
+description: All keywords in the coil parser and where each one is recognized.
 ---
 
 # Keywords reference
 
-All reserved words in the coil parser. Keywords cannot be used as identifiers.
+All keywords in the coil parser. Keywords are recognized by position: the identifier parser does not reject them, so `let match = 1;` (or `let fn = 1;`) still compiles today. Do not rely on that. In expression position `true`, `false` and `typeof` always parse as the keyword, so a variable with one of those names cannot be read.
 
 ---
 
@@ -89,7 +89,7 @@ Appear inside `{ ... }` blocks via `statement()`.
 match | new | true | false | yield | resume | done | raise | panic | typeof
 ```
 
-Parsed as **atoms** before the generic `ident()` rule so they are never treated as variable names.
+Tried as **atoms** before the generic `ident()` rule. When the keyword form does not parse (`match + 1`), the word falls through to `ident()` and is read as a variable name; `true`, `false` and `typeof` never fall through.
 
 ---
 

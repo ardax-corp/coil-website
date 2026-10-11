@@ -56,8 +56,8 @@ Compiler builtins live in **virtual modules** (not `.hy` files). Every file gets
 | [coil-crypto](https://github.com/ardax-corp/coil-crypto) | Userland | hashes / AEAD — see [crypto](/docs/references/crypto) |
 | [coil-time](https://github.com/ardax-corp/coil-time) | Userland | calendar / Instant — see [time](/docs/references/time) |
 
-Do not document coil-stdlib APIs here; they live in that repo. Workspace
-`[module].roots` look for `./.deps/coil-stdlib/src` or `../coil-stdlib/src`.
+Do not document coil-stdlib APIs here; they live in that repo. Point a
+`--root` (spool: `[module].roots`) at `./.deps/coil-stdlib/src` or `../coil-stdlib/src`.
 
 ## Related
 

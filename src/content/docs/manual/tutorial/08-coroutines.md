@@ -9,7 +9,7 @@ coil supports **stackful coroutines** via `gen fn`, `yield`, `resume`, and (Phas
 
 ## Creating a coroutine
 
-An `gen fn` returns a **handle** with type `coroutine<Y>` when it only yields values out, or `coroutine<Y, S>` when it also receives values on resume (`S` defaults to `unit` when unused).
+A `gen fn` returns a **handle** with type `coroutine<Y>` when it only yields values out, or `coroutine<Y, S>` when it also receives values on resume (`S` defaults to `unit` when unused).
 
 ```coil
 use io::{stdout};
@@ -55,7 +55,7 @@ fn main() {
 }
 ```
 
-Resuming an already-**done** coroutine always returns `0` (`Value::default()`) — never the coroutine's last `return` value. There's no dedicated “resumed after completion” error channel on the handle itself, so this fixed sentinel avoids leaking a stale value. For ordinary fallible functions, use built-in [`Result` / `raise` / `?`](/docs/manual/tutorial/09-error-handling).
+Resuming an already-**done** coroutine panics with `resumed after completion`. Check `done(h)` first when a handle may have finished. For ordinary fallible functions, use built-in [`Result` / `raise` / `?`](/docs/manual/tutorial/09-error-handling).
 
 Use `done(h)` to ask whether a handle has completed (returns `bool`):
 
@@ -224,19 +224,6 @@ fn main() {
 See `examples/for_in_coro.hy`. The same `for x in` form also iterates
 arrays, homogeneous tuples/dicts, and user `impl IntoIterator` types
 (see `examples/for_in_array.hy`, `for_in_dict.hy`, `for_in_custom.hy`).
-
-## Recompiling
-
-Coroutines and iterators added VM opcodes; delete stale archives after
-upgrading:
-
-```bash
-rm -f out.hyc
-cargo run -- examples/coro_send.hy
-```
-
-Bump the archive **minor** for additive bytecode changes, or the **major** for incompatible layout (see
-`common/src/archive.rs`).
 
 ## Related
 

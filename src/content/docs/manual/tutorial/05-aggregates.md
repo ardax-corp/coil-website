@@ -295,10 +295,9 @@ use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
 type Row = (string, int);
-type Table = [Row; 2];
 
 fn main() {
-    let people: Table = [("alice", 30), ("bob", 25)];
+    let people: [Row; 2] = [("alice", 30), ("bob", 25)];
     for row in people {
         let (name, age) = row;
         write_all(stdout(), to_bytes(format("%s:%i", name, age)));
@@ -322,13 +321,13 @@ You can nest the other way too: tuples of arrays, arrays of dicts, dicts whose f
 | `examples/vec.hy` | Fixed `[T; N]` stack locals + `Vec` methods |
 | `examples/dict.hy` | Dict literals and field access |
 | `examples/aliases.hy` | Type aliases with tuples |
-| `examples/nested_aggregates.hy` | `[Row; N]` tables with aliases |
+| `examples/nested_aggregates.hy` | `Vec<Row>` tables with aliases |
 | `examples/record.hy` | Enum record variants (contrast with dicts) |
 
 Run any example from the project root:
 
 ```bash
-cargo run -- examples/dict.hy
+cargo run -- --root ../coil-stdlib/src examples/dict.hy
 ```
 
 ---

@@ -122,8 +122,6 @@ fn main() {
 
 Always `join(t)` (or `detach(t)`) when you care about the worker's return value. `join` **blocks until the worker function returns** — it is not a no-op. If `main` returns without an explicit `join`, the runtime still waits for undetached workers so a blocked `recv` is not killed by process exit — but you should still `join` to observe errors and results.
 
-If prints from a worker appear only sometimes across runs while you are editing sources (especially imported modules) or switching entry files, delete `out.hyc` and re-run: the CLI caches bytecode in a single shared archive, and a stale cache can look like flaky threading.
-
 `try_send` / `try_recv` are non-blocking variants when you need them.
 
 Channels are **unbounded** today: `try_send` always enqueues (same as `send`) and only fails with `Disconnected` if the sender is closed. `try_recv` returns `WouldBlock` when the queue is empty and the channel is still open.

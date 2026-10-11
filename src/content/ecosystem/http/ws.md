@@ -1,7 +1,7 @@
 ---
 title: "WebSocket (RFC 6455)"
 description: "WebSocket runs on top of HTTP/1.1 in this package: an upgrade handshake, then framed messages on the same TCP (or TLS) stream. It is not a separate transport and does not…"
-source: "https://github.com/ardax-corp/coil-http/blob/0a973dbd2c9883f103bf8909a553dd9664452fce/docs/ws.md"
+source: "https://github.com/ardax-corp/coil-http/blob/90d971fba1a589d8131ab83104c28236d4a59354/docs/ws.md"
 ---
 # WebSocket (RFC 6455)
 
@@ -60,7 +60,7 @@ Unit tests cover SHA-1 vectors, the RFC accept-key example, and frame encode/dec
 Full TCP echo is `examples/ws_loopback.hy`. **`coil test` cannot `thread::spawn`**; run:
 
 ```bash
-coil examples/ws_loopback.hy
+coil <flags> examples/ws_loopback.hy   # same roots and grants as `coil test` in the README Test section
 ```
 
 CI greps that example for `ok`.

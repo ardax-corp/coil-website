@@ -73,9 +73,20 @@ Mixed `int` and `float` operands → **type error** at compile time. Any other
 operand type is a type error too (`"a" - "b"`, `true * false`, a class with no
 `Sub` instance): the VM never operates on a non-numeric word.
 
-When the factor is a **compile-time power of two** (`2`, `4`, `8`, …), `int` /
-`byte` multiplication lowers to a left shift (`SHL` / `<<`) instead of `MUL`.
-Trait/`Mul` dictionary dispatch and float `*` are never rewritten this way.
+`int` arithmetic is exact or it panics, in every build (debug and release):
+`+`, `-`, `*`, unary `-`, `++` / `--` and compound forms panic with
+`integer overflow` when the result does not fit; `/` and `%` by zero panic with
+`division by zero` (`MIN / -1` is an overflow); `**` panics on overflow or a
+negative exponent. Shifts and bitwise operators never trap (an `int` shift
+uses the count mod 64, so `1 << 64` is `1` and `>>` is arithmetic), and floats keep
+IEEE behaviour (`inf`, `NaN`). Checked, wrapping, saturating and overflowing
+arithmetic are userland traits in coil-stdlib's `arith` module (`Checked`,
+`Wrapping`, `Saturating`, `Overflowing`).
+
+When the factor is a **compile-time power of two** (`2`, `4`, `8`, …), `byte`
+multiplication lowers to a left shift (`SHL` / `<<`) instead of `MUL`. `int`
+`*` stays a `MUL` (a shift would not trap on overflow); trait/`Mul` dictionary
+dispatch and float `*` are never rewritten either.
 
 ### Aggregate (vector) arithmetic
 
@@ -165,7 +176,7 @@ fn low_bits<T: Integral>(T x, T mask) -> T {
 | `&&` | `bool`, `bool` | `bool` |
 | `\|\|` | `bool`, `bool` | `bool` |
 
-Short-circuit behavior follows VM evaluation order (both operands evaluated eagerly in current codegen).
+`&&` and `||` short-circuit: the right operand runs only when the left does not decide the result. The compiler evaluates the right operand eagerly (one `AND` / `OR` opcode) only when it is a side-effect-free, non-trapping expression, where the difference cannot be observed.
 
 | Operator | VM opcode |
 |----------|-----------|
@@ -207,7 +218,7 @@ identifier += expr    // and other compound forms
 |------|--------|
 | LHS | Identifier, dict field (`d.x`), or array index (`arr[i]`) |
 | Compound | `+=`, `-=`, `*=`, `/=`, `%=`, `**=`, `<<=`, `>>=`, `&=`, `\|=`, `^=` |
-| Type | RHS must unify with the assigned slot (bitwise compound ops require `int`) |
+| Type | RHS must unify with the assigned slot (bitwise compound ops require `int` or `byte`, or a type with the operator's trait) |
 | Undeclared | Error — use `let` first |
 | Value | Assignment and compound-assignment expressions evaluate to the assigned value |
 
@@ -283,8 +294,8 @@ a = b ?? c        // a = (b ?? c)
 Empty index `arr[]` (append assignment) is **removed** — use `vec.push(v)` on a
 `Vec<T>` (`E0107`). See [Arrays and Vec](/docs/references/arrays).
 
-Runtime out-of-range `arr[i]` yields `-1` (no panic); out-of-range `arr[i] = x`
-is a no-op. Literal OOB on `[T; N]` and tuples is a compile error. See
+Runtime out-of-range `arr[i]` and `arr[i] = x` **panic** (`index out of
+bounds`). Literal OOB on `[T; N]` and tuples is a compile error. See
 [Out-of-range index](/docs/references/arrays#out-of-range-index).
 
 ---
