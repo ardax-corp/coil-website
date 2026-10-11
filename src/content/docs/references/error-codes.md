@@ -49,7 +49,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0120`–`E0122` | Overload family | Wrong arity / duplicate / ambiguous overload |
 | `E0123` | `DeferNeverRuns` | `defer` never runs on function exit (warning) |
 | `E0124` | `WildcardImport` | `use path::*` is banned (virtual and userland) — list names explicitly; prelude is auto-injected |
-| `E0125` | `ExpressionNestingTooDeep` | A single expression recursed past the compiler's internal depth limit during typecheck or codegen (not the compiled program's own call stack — see `UnboundedRecursion`) |
+| `E0125` | `ExpressionNestingTooDeep` | A single expression recursed past the compiler's internal depth limit during typecheck or codegen (not the compiled program's own call stack, which the VM grows at run time) |
 | `E0126` | `InvalidDrop` | Invalid `fn drop(self)` (not an inherent class or enum method, on a scalar-backed enum, static, extra args, duplicate, or non-unit return) |
 | `E0127` | `UnsupportedGenericOptionReturn` | Free generic `fn f<T>(…) -> Option<U>` where `U` mentions a type parameter. Put the return on an inherent method. |
 | `E0128` | `PrivateMember` | Private field or inherent method used outside the type's `impl` |
@@ -62,10 +62,14 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0300`–`E0301` | Format family | Specifier / arity mismatch |
 | `E0400`–`E0405` | Aggregate / FFI family | Index OOB, array element mismatch, `declare`/`invoke` arity, … |
 | `E0406`–`E0408` | `HostExecDenied` / `HostExitDenied` / `HostAttachDenied` | `env::exec`, `env::exit` or `Stream.attach` reached without `--allow-exec` / `--allow-exit` / `--allow-attach`; see [Permissions](/docs/references/permissions) |
-| `E0409`–`E0411` | `dload` / FFI-exec family | `dload` of a stem without `--allow-dload`, a non-literal `dload` path, or an FFI process-exec symbol without `--allow-ffi-exec` |
+| `E0409`–`E0411` | `HostFfiExecDenied` / `HostDloadDenied` / `HostDloadNonConst` | An FFI process-exec symbol without `--allow-ffi-exec`, `dload` of a stem without `--allow-dload` (or a libc alias), or a non-literal `dload` path |
+| `E0412` | `FixedArrayGrow` | Length-changing method (`push` / `insert` / …) on a fixed `[T; N]` |
 | `E0413` | `EffectMismatch` | A function's effects exceed its `pure fn` / `uses {…}`, or its trait method's, or a contract clause has an effect. The message names the call chain; see [Effects](/docs/references/effects) and [Contracts](/docs/references/contracts) |
 | `E0414` | `HostCapDenied` | A host call `main` or a test reaches needs read, write, net or env and the build did not grant it. The message names the flag and the call chain; see [Permissions](/docs/references/permissions) |
 | `E0800`–`E0801` | Codegen family | Unknown expression / codegen error |
+| `E0802`–`E0803` | `UnboundedRecursion` / `StackDepthExceeded` | Retired: no longer emitted (the VM grows its stack and checks depth at run time) |
+| `E0804` | `MonomorphizeCap` | The per-function or total monomorphization cap was hit; extra specializations were not emitted |
+| `E0805` | `ParLockHint` | Auto-parallelization refused a loop because of a shared escape; the hint suggests locking that resource |
 | `E0900` | `IoError` | I/O failure |
 | `E0901` | `ArchiveVersionMismatch` | Stale `.hyc` archive |
 | `E0902` | `InvalidCliFlags` | Conflicting or unknown CLI flags |
