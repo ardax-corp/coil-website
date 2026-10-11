@@ -5,7 +5,7 @@ description: A small typed scripting language with more structure than a typical
 
 # coil
 
-**coil** is a statically typed scripting language with Hindley–Milner type inference. Programs are compiled to bytecode and executed on a custom virtual machine. Source files use the `.hy` extension (short for **henry**, the SI unit of inductance — the measure of a coil); compiled archives are stored as `.hyc` files.
+**coil** is a statically typed scripting language with type inference. Programs are compiled to bytecode and executed on a custom virtual machine. Source files use the `.hy` extension (short for **henry**, the SI unit of inductance — the measure of a coil); compiled archives are stored as `.hyc` files.
 
 For developers who want a small typed scripting language with more structure than a typical script, and a bytecode runtime they can keep thin.
 
@@ -24,17 +24,17 @@ fn main() {
 }
 ```
 
-With `coil` on your `PATH`, from a clone of the repository:
+With `coil` on your `PATH`, from a clone of the repository with [coil-stdlib](https://github.com/ardax-corp/coil-stdlib) cloned beside it:
 
 ```bash
-coil examples/print_literal.hy
+coil --root ../coil-stdlib/src examples/print_literal.hy
 ```
 
 Expected output: `hello`
 
 ## How programs run
 
-Parse → typecheck (HM) → stack IL codegen + lower/fuse-select → versioned `.hyc` archive (packed `major.minor`) → VM executes `main`. Cached `out.hyc` is reused until sources/version/entry change; delete it to force a rebuild. Full stage notes: [Internals — Pipeline](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/pipeline.md).
+Parse → typecheck → typed HIR (inlining, optimization passes) → stack IL + MIR tiers / lower/fuse-select → bytecode → VM executes `main`. `coil <file.hy>` compiles in memory on every run; `coil compile` writes a versioned `.hyc` archive (packed `major.minor`) that `coil run` executes. Full stage notes: [Internals — Pipeline](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/pipeline.md).
 
 ## Language at a glance
 
@@ -61,6 +61,10 @@ Parse → typecheck (HM) → stack IL codegen + lower/fuse-select → versioned 
 | Classes (`class` / `impl` / `new`, fields, methods) | Supported |
 | Coroutines (`gen fn`, `yield`, `resume`, `yield from`, `done`) | Supported |
 | `for x in` (Iterator / IntoIterator) | Supported (arrays, homogeneous tuples/dicts, ranges, coroutines, user `impl`s) |
+| Integer arithmetic | `+ - * / % **` and unary `-` on `int` panic on overflow in every build; `float` is IEEE. Wrapping / checked / saturating helpers are the userland `arith` module |
+| Effects and capabilities (`pure fn`, `uses {…}`, `--allow-*`) | Supported ([effects](/docs/references/effects), [permissions](/docs/references/permissions)) |
+| Contracts (`requires`, `ensures`, `invariant`, `decreases`) | Supported; `coil verify` proves them with an SMT solver ([contracts](/docs/references/contracts)) |
+| Tasks (`task::scope`, `spawn`, `join`, channels) and OS threads | Supported ([tasks](/docs/manual/tutorial/12-tasks), [threads](/docs/manual/tutorial/11-threads)) |
 | Ranges (`a..b` / `a..=b`) | Supported — lazy `Range<T: Ord>`; `for` / `.to_vec()` step `int`/`byte`/`float`; non-numeric `Ord` is a type error ([syntax](/docs/references/syntax#ranges-lazy)) |
 | String concat via `+` | Supported (`string + string` → `string`) |
 | `string::format(...)` | Supported compiler intrinsic (returns `string`; literal specifiers are checked) |
@@ -73,7 +77,7 @@ Docs are split into three trees:
 
 | Tree | Audience | Start here |
 |------|----------|------------|
-| [Manual](/docs/manual/getting-started) | Learners | Getting started, tutorials 01–11, examples catalog |
+| [Manual](/docs/manual/getting-started) | Learners | Getting started, tutorials 01–12, examples catalog |
 | [References](/docs/references) | Lookup | Syntax, types, keywords, per-API builtin pages |
 | [Internals](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/README.md) | Contributors / embedders | Pipeline, debug info, opcodes, grammar |
 
@@ -82,7 +86,7 @@ Docs are split into three trees:
 
 | Chapter | Topic |
 |---------|-------|
-| [Getting Started](/docs/manual/getting-started) | Build, first run, cache |
+| [Getting Started](/docs/manual/getting-started) | Install, first run, CLI |
 | [01 — Basics](/docs/manual/tutorial/01-basics) | Syntax, functions, `let`, control flow |
 | [02 — Types & Variables](/docs/manual/tutorial/02-types-and-variables) | Primitives, inference, annotations |
 | [03 — Enums & Match](/docs/manual/tutorial/03-enums-and-match) | Sum types and pattern matching |
@@ -107,14 +111,12 @@ Classes (`class`, `impl`, `new`) — see [02 — Types & Variables](/docs/manual
 coil/
 ├── common/          # Shared types: opcodes, values, archive format
 ├── parser/          # Pratt parser and AST
-├── compiler/        # HM typechecker, stack IL codegen, pipeline
+├── compiler/        # Typechecker, HIR optimizations, stack IL / MIR lowering, pipeline
 ├── machine/         # VM, heap/GC, FFI (libffi)
+├── coil-*/          # CLI helpers: test, fmt, lsp, debug, dissect, verify, embed
 ├── examples/        # Runnable .hy demos (see manual/examples.md)
 │   └── projects/    # Showcase multi-file apps + co-located tests
-├── docs/
-│   ├── manual/      # End-user guide + tutorials
-│   ├── references/  # Language + per-API lookup
-│   └── internals/   # Pipeline, VM notes, grammar
+├── docs/internals/  # Pipeline, VM notes, grammar (user docs live on this site)
 └── src/main.rs      # CLI: default build+run, compile, run, test
 ```
 
@@ -122,7 +124,7 @@ coil/
 
 | Command | Role |
 |---------|------|
-| *(no subcommand)* `<file.hy>` | Compile → `out.hyc` (cached) → run |
+| *(no subcommand)* `<file.hy>` | Compile in memory → run (no `out.hyc`) |
 | `compile <file.hy> [-o path]` | Compile entry file to a `.hyc` archive |
 | `run <file.hyc>` | Execute a compiled archive |
 | `package <file.hy> [-o path] [--check-native]` | Single executable (embeds `.hyc` into `coil-embed` by default) |
