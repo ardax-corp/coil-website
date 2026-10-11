@@ -41,7 +41,7 @@ Notes:
 - Requires libffi-enabled build.
 - The `dload` gate runs before the process opens the file. See [Project config — `[ffi]`](/docs/references/project-config#ffi).
 - Every stem (including `time`, `crypto`, `tls`, `regex`) needs `--allow-dload STEM` **and** either `--dload-pin STEM=SHA256` **or** `--dload-trusted STEM`. No first-party exemption. In a spool project these come from `[ffi] allow`, the `coil.lock` `[[package.native]] sha256` pins and `trusted = true` on a dep row; `coil` itself reads neither file.
-- No allow is `LibraryDenied` (userland `ErrorKind::Other`). Allow plus `trusted` (or a matching pin) with a missing file is `ErrorKind::LibraryNotFound`.
+- A literal stem without `--allow-dload` is a compile error (`E0410`); a non-literal `dload` path is `E0411`. At run time, an allowed stem with neither pin nor trusted is `LibraryDenied` (userland `ErrorKind::Other`). Allow plus `trusted` (or a matching pin) with a missing file is `ErrorKind::LibraryNotFound`.
 - `--ffi-search-path DIR` (`[ffi] search_paths` under spool) locates files (`dload("sum")` → `libsum.so` / `libsum.dylib` / `sum.dll` via `platform_lib_names`). It is not a grant.
 - `dload("c")` / `extern "c"` stay **deny** (libc aliases). An absolute path is not a bypass — the gate uses the filename stem.
 - Same resolver as the string in `extern "..." { ... }` blocks (`extern` does **not** require `use ffi::{…};`; it unwraps Results and panics on `e.message`).
@@ -108,7 +108,7 @@ invoke(lib, fn_id, (args...))
 | `fn_id` | `int` | Id from a successful `declare` |
 | `(args...)` | Tuple of values | Must match declared arity (or `>=` fixed prefix when `declare` was variadic) |
 
-        Returns `Result<T, Error>` where `T` is the type recorded from the matching `declare(..., ret)` (`unit` for `void`). The compiler refines `T` when the fn-id expression is:
+Returns `Result<T, Error>` where `T` is the type recorded from the matching `declare(..., ret)` (`unit` for `void`). The compiler refines `T` when the fn-id expression is:
 
 - a `let id = declare(...)?` binding (or a local copied from one, e.g. `let id = api.fn_id`);
 - a class field that was assigned `self.fn_id = declare(...)?` in an `impl` initializer;
