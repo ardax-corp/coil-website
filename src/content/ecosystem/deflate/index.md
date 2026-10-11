@@ -1,7 +1,7 @@
 ---
 title: "coil-deflate"
 description: "Userland RFC 1951 DEFLATE for coil. Package name is deflate, so use deflate::{compress, decompress, Deflate, DeflateError} resolves here."
-source: "https://github.com/ardax-corp/coil-deflate/blob/07f945931f89bd97281513b50f7cbfb35111c872/README.md"
+source: "https://github.com/ardax-corp/coil-deflate/blob/3203ae99eac844aa0acded5ab506cd38510b1ff5/README.md"
 ---
 # coil-deflate
 
@@ -31,19 +31,16 @@ let out = decompress(raw)?;
 | Path | Role |
 |------|------|
 | `src/deflate.hy` | `Deflate`, `DeflateError`, compress/inflate |
-| `coil.toml` | `[package] name = "deflate"` so `use deflate::{…}` resolves |
+| `coil.toml` | spool manifest (`[package] name = "deflate"`); coil does not read it |
 
 ## Consume
 
-Sibling checkout, or a git dep plus `coil.lock` pin. See [docs/consume.md](/packages/deflate/consume).
-
-```toml
-[dependencies]
-deflate = { git = "https://github.com/ardax-corp/coil-deflate.git" }
+```bash
+spool add deflate --git https://github.com/ardax-corp/coil-deflate.git --rev <commit SHA>
 ```
 
-`{ git }` is the parseable form. `version` is optional schema, not a tag. The pin is `coil.lock` `rev` + `content_hash`. The compiler does not follow path deps; put `../coil-deflate/src` on `[module] roots`.
+No tags yet, so pin a commit. Without spool, pass `--root ../coil-deflate/src` to `coil`. See [docs/consume.md](/packages/deflate/consume).
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-deflate/tree/07f945931f89bd97281513b50f7cbfb35111c872/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-deflate/tree/3203ae99eac844aa0acded5ab506cd38510b1ff5/LICENSE).

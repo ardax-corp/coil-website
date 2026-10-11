@@ -1,7 +1,7 @@
 ---
 title: "Server API"
 description: "class MyHandler {}"
-source: "https://github.com/ardax-corp/coil-http/blob/0a973dbd2c9883f103bf8909a553dd9664452fce/docs/server.md"
+source: "https://github.com/ardax-corp/coil-http/blob/90d971fba1a589d8131ab83104c28236d4a59354/docs/server.md"
 ---
 # Server API
 

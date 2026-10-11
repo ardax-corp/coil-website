@@ -1,7 +1,7 @@
 ---
 title: "coil-http documentation"
 description: "Userland HTTP/1.1 client and server for Coil programs."
-source: "https://github.com/ardax-corp/coil-http/blob/0a973dbd2c9883f103bf8909a553dd9664452fce/docs/README.md"
+source: "https://github.com/ardax-corp/coil-http/blob/90d971fba1a589d8131ab83104c28236d4a59354/docs/README.md"
 ---
 # coil-http documentation
 
@@ -9,7 +9,7 @@ Userland HTTP/1.1 client and server for Coil programs.
 
 | Doc | Topic |
 |-----|-------|
-| [consume.md](/packages/http/consume) | Add to `coil.toml` roots |
+| [consume.md](/packages/http/consume) | Roots, grants, and spool |
 | [client.md](/packages/http/client) | `Client`, `Request`, pooling |
 | [server.md](/packages/http/server) | `Server`, `HttpHandler` |
 | [limitations.md](/packages/http/limitations) | v1 scope and compiler notes |
@@ -19,5 +19,5 @@ Userland HTTP/1.1 client and server for Coil programs.
 
 ## Requirements
 
-- [coil-tls](https://github.com/ardax-corp/coil-tls) on `[module].roots` and `libtls` on `[ffi] search_paths` for `https://`
+- [coil-tls](https://github.com/ardax-corp/coil-tls) on `--root` and `libtls` on `--ffi-search-path` for `https://`
 - `thread` module for loopback / concurrent server examples

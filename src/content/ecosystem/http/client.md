@@ -1,7 +1,7 @@
 ---
 title: "Client API"
 description: "let c = Client::new(); c.get(\"http://example.com/\")?; c.post(\"http://example.com/\", bodybytes)?; c.nopool(); // Connection: close, no reuse c.close(); // drain the pool (close…"
-source: "https://github.com/ardax-corp/coil-http/blob/0a973dbd2c9883f103bf8909a553dd9664452fce/docs/client.md"
+source: "https://github.com/ardax-corp/coil-http/blob/90d971fba1a589d8131ab83104c28236d4a59354/docs/client.md"
 ---
 # Client API
 

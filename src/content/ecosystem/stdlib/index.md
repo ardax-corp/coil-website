@@ -1,7 +1,7 @@
 ---
 title: "coil-stdlib"
 description: "Userland standard library for Coil. Compiler virtual modules cover systems primitives (io, string, thread, …); this package layers .hy helpers on top."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/09f2720e1efbd80a69b50a4d41487d7542cf52b0/README.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/025245d29473d7d259d47c02dbc05ccea1109bb1/README.md"
 ---
 # coil-stdlib
 
@@ -45,5 +45,5 @@ Needs a Coil toolchain on `PATH` (or `COIL`) and a
 root only — no `libtime` dload):
 
 ```bash
-coil test --root .ci/coil-time/src
+coil test --allow-read --allow-write --allow-net --root .ci/coil-time/src
 ```

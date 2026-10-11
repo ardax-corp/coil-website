@@ -1,7 +1,7 @@
 ---
 title: "Module catalog"
 description: "use path:: is banned (E0124). List names explicitly."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/09f2720e1efbd80a69b50a4d41487d7542cf52b0/docs/modules.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/025245d29473d7d259d47c02dbc05ccea1109bb1/docs/modules.md"
 ---
 # Module catalog
 
@@ -25,6 +25,7 @@ package (`use json::{Json, JsonValue, JsonError};`). There is no in-tree
 
 | Module | Import | Role |
 |--------|--------|------|
+| `arith` | `use arith::{INT_MAX, INT_MIN, Checked, Wrapping, …};` | Explicit int overflow: `checked_*` (`Option`), `wrapping_*` (mod 2^64), `saturating_*`, `overflowing_*` (`(int, bool)`); plain `+ - *` panic on overflow |
 | `ascii` | `use ascii::{is_digit, is_alnum, …};` | ASCII classify / digit / case helpers |
 | `conv` | `use conv::{parse_int, int_to_hex, …};` | `int_to_dec` / `parse_int` / `parse_float` / radix parse |
 | `bytes` | `use bytes::{slice, concat, to_hex, …};` | `[byte]` helpers; `Bytes` wrapper; hex encode/decode |
@@ -67,4 +68,4 @@ package (`use json::{Json, JsonValue, JsonError};`). There is no in-tree
   with 63 usable bits per word (Coil `int` is signed 64-bit; sign bit unused).
 
 What the **compiler** does *not* provide as builtins:
-[coil-lang not-builtins](/docs/references/not-builtins).
+[not-builtins](/docs/references/not-builtins).

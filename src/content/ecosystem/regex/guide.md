@@ -1,7 +1,7 @@
 ---
 title: "coil-regex"
 description: "PCRE2-backed regular expressions for coil. src/regex.hy binds libpcre2-8 directly with extern; there is no C shim."
-source: "https://github.com/ardax-corp/coil-regex/blob/b2677282fc8dae77cf205d52f0fa3929e2f688ea/docs/README.md"
+source: "https://github.com/ardax-corp/coil-regex/blob/c29ad87add86fbaff766300be17bb35a9a529a63/docs/README.md"
 ---
 # coil-regex
 
@@ -28,4 +28,4 @@ make test
 ## See also
 
 - [api.md](/packages/regex/api) — function reference
-- [consume.md](/packages/regex/consume). Sibling checkout, `{ git }`, `coil.lock` `rev` + `content_hash`, dload flags
+- [consume.md](/packages/regex/consume). Sibling checkout, `spool add`, dload flags

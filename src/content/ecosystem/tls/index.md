@@ -1,7 +1,7 @@
 ---
 title: "coil-tls"
 description: "Userland TLS for coil. rustls lives in a Rust cdylib (libtls.so / .dylib / .dll) loaded with dload(\"tls\"), not in the interpreter."
-source: "https://github.com/ardax-corp/coil-tls/blob/07a2aaca083152644ad09d51d8489bb6be0b4425/README.md"
+source: "https://github.com/ardax-corp/coil-tls/blob/e97b8e5ab9ed9a644e95a9ebade538c0795d7b1c/README.md"
 ---
 # coil-tls
 
@@ -31,18 +31,11 @@ Needs [coil-lang #204](https://github.com/ardax-corp/coil-lang/pull/204) (`Strea
 cargo test --manifest-path native/Cargo.toml
 cargo build --release --manifest-path native/Cargo.toml
 # copy native/target/release/libtls.so (or .dylib / tls.dll) to native/
-# so [ffi] search_paths = ["./native"] resolves dload("tls")
+# so --ffi-search-path ./native resolves dload("tls")
 ```
 
-Consume from a sibling checkout, or a git dep plus `coil.lock` pin. See [docs/consume.md](/packages/tls/consume).
-
-```toml
-[dependencies]
-tls = { git = "https://github.com/ardax-corp/coil-tls.git" }
-```
-
-`{ git }` is the parseable form. `version` is optional schema, not a tag. The pin is `coil.lock` `rev` + `content_hash`. Spool will own Coil-to-Coil deps once it exists. There is no `spool add` yet. Native libs stay on `[ffi] search_paths` for now.
+Consume with `spool add tls --git https://github.com/ardax-corp/coil-tls.git --rev <commit SHA>` (no tags yet), or a sibling checkout plus `--root`, `--ffi-search-path`, `--allow-dload tls`, `--dload-trusted tls` (or `--dload-pin`) and `--allow-attach`. spool does not build `libtls`. See [docs/consume.md](/packages/tls/consume).
 
 ## License
 
-MIT — see [LICENSE](https://github.com/ardax-corp/coil-tls/tree/07a2aaca083152644ad09d51d8489bb6be0b4425/LICENSE).
+MIT — see [LICENSE](https://github.com/ardax-corp/coil-tls/tree/e97b8e5ab9ed9a644e95a9ebade538c0795d7b1c/LICENSE).
