@@ -151,9 +151,11 @@ Mixing `string` with a non-string operand is a compile-time type error.
 
 ## Bitwise
 
-Operands are inferred together and must be `int` or `byte`, or a type with
-the operator's trait instance (`float` and `bool` are type errors; `&&` / `||`
-are the boolean connectives):
+The operands of `&`, `|` and `^` are inferred together and must be `int` or
+`byte`, or a type with the operator's trait instance (`float` and `bool` are
+type errors; `&&` / `||` are the boolean connectives). In a shift, `x << n` /
+`x >> n`, the count `n` is always an `int`, whatever the type of `x`, and the
+result has the type of `x` (`(7 as byte) << 6` is a `byte`):
 
 | Operator | Meaning | Trait |
 |----------|---------|-------|
@@ -171,7 +173,14 @@ On a type parameter these need the trait bound, or `Integral`, which implies
 fn low_bits<T: Integral>(T x, T mask) -> T {
     return x & mask;
 }
+
+fn rotate_in<T: Shl>(T x, int n) -> T {
+    return x << n;
+}
 ```
+
+A user type's `Shl` / `Shr` instance takes the count as an `int` too:
+`pub fn shl(Flags a, int n) -> Flags`.
 
 ---
 
@@ -224,7 +233,7 @@ identifier += expr    // and other compound forms
 |------|--------|
 | LHS | Identifier, dict field (`d.x`), or array index (`arr[i]`) |
 | Compound | `+=`, `-=`, `*=`, `/=`, `%=`, `**=`, `<<=`, `>>=`, `&=`, `\|=`, `^=` |
-| Type | RHS must unify with the assigned slot (bitwise compound ops require `int` or `byte`, or a type with the operator's trait) |
+| Type | `x op= y` checks like `x = x op y`: the RHS must unify with the assigned slot, except the `int` count of `<<=` / `>>=`; bitwise compound ops require `int` or `byte`, or a type with the operator's trait |
 | Undeclared | Error — use `let` first |
 | Value | Assignment and compound-assignment expressions evaluate to the assigned value |
 
