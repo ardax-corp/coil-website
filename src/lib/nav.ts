@@ -63,6 +63,7 @@ export const groups: NavGroup[] = [
       { id: "manual/tutorial/10-io-streams", label: "IO streams", hint: "Bytes, streams, files, TCP and UDP." },
       { id: "manual/tutorial/11-threads", label: "OS threads", hint: "`spawn`, `join`, channels and mutexes." },
       { id: "manual/tutorial/12-tasks", label: "Tasks", hint: "`task::scope`, `spawn`, `join`: concurrent IO on one VM." },
+      { id: "manual/tutorial/13-macros", label: "Macros", hint: "`name!(…)`, `#[attr(…)]` and `#[derive(…)]`: code that writes code." },
     ],
   },
   {
