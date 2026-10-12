@@ -13,6 +13,8 @@ A macro is ordinary coil that runs **at compile time** and returns code. There a
 | Attribute macro | `attr name(FnDecl f, …) -> Code { … }` or `attr name(TypeDecl t, …) -> Code { … }` | `#[name(…)]` on a function, method, `class` or `enum` | replaces the item |
 | Function-style macro | `macro name(Expr a, …) -> Code { … }` | `name!(…)` in an expression, a statement or at the top level | replaces the call |
 
+For a step-by-step introduction with one worked example per kind, see [Tutorial 13 — Macros](/docs/manual/tutorial/13-macros).
+
 The compiler runs macros after parsing and before typechecking. It parses the returned code and typechecks it like hand-written code, so a type error in generated code is reported at the macro's use site.
 
 The built-in derives (`Show`, `Eq`, `Ord`, `Hash`, `String`, `Default`, `Send`, `Sensitive`) are derive macros too; they need no `use`. See [Types](/docs/references/types).
