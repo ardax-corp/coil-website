@@ -180,6 +180,14 @@ Where the call is decides what the output must be:
 | anywhere else | one expression | the call |
 
 - Every parameter is an `Expr`, except that a last `Vec<Expr>` takes the remaining arguments (possibly none). The number of arguments is checked at the call.
+- A macro can be declared several times with different numbers of parameters, like overloaded functions. The call's argument count picks one, so a trailing argument can be optional:
+
+  ```coil
+  macro ensure(Expr cond) -> Code { … }            // ensure!(x > 0)
+  macro ensure(Expr cond, Expr msg) -> Code { … }  // ensure!(x > 0, "x must be positive")
+  ```
+
+  No two declarations may accept the same number of arguments: two with the same count, two with a `Vec<Expr>` rest, or one whose count reaches another's fixed parameters before its rest are an error (`E0121`).
 - Each argument must parse as an ordinary expression. Named arguments (`e: 1`) and `...` spreads are not macro arguments.
 - `!` must come directly before `(`. `a != b` and `!x` are unaffected.
 - A macro call in another macro's arguments is part of that argument's text. It expands in the output, as does any macro call the output contains (`square!(square!(3))` is 81).
