@@ -88,6 +88,7 @@ declare(lib, "h", (ffi::types::Ptr,), Int); // qualified path needs no import
 | `string` / `String` | C string |
 | `void` / `Void` | No return value only |
 | `Bytes` | `uint8_t *` buffer from a `Vec<byte>`; the callee's writes are copied back into the array. Argument only (a tuple is passed read-only) |
+| `ConstBytes` | Read-only `const uint8_t *` from a `string` or `Vec<byte>`, with no NUL terminator (pass the length separately). A string is lent in place with no copy; a `Vec<byte>` is copied in once and never copied back. Argument only |
 | `Ptr` / `Callback` / … | See [FFI tutorial](/docs/manual/tutorial/07-ffi) |
 
 `void` cannot appear as an argument type. There is no global bare `FFIType` name — import `ffi::types` (or use the qualified `ffi::types::Int` path).
