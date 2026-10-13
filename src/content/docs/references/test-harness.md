@@ -1,15 +1,17 @@
 ---
 title: "`test(\"…\") { … }` (harness cases)"
-description: "Top-level declaration used by coil test. The name must be a string literal. The body is typechecked in Result mode (Result<(), string>), so assert(...)? and raise work as in a…"
+description: "Top-level declaration used by coil test. The name must be a string literal. The body is typechecked in Result mode (Result<(), string>), so assert!(...) and raise work as in a…"
 ---
 
 # `test("…") { … }` (harness cases)
 
-Top-level declaration used by `coil test`. The name must be a **string literal**. The body is typechecked in Result mode (`Result<(), string>`), so `assert(...)?` and `raise` work as in a result-mode function.
+Top-level declaration used by `coil test`. The name must be a **string literal**. The body is typechecked in Result mode (`Result<(), string>`), so `assert!(...)` (from `use tests::assert;`) and `raise` work as in a result-mode function.
 
 ```coil
+use tests::assert;
+
 test("addition works") {
-    assert(1 + 1 == 2)?;
+    assert!(1 + 1 == 2);
 }
 ```
 

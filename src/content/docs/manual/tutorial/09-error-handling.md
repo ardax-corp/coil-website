@@ -124,13 +124,13 @@ write_all(stdout(), to_bytes(format("%i", none?.v ?? 0)));     // None → 0
 
 ---
 
-## `assert` and `panic`
+## `assert!` and `panic`
 
-`assert(cond)` / `assert(cond, msg)` (from `prelude::test`, auto-imported) returns `Result<(), string>` — use `?` or `match` like any other Result. It does not abort.
+`assert!(cond)` / `assert!(cond, msg)` (from the stdlib, `use tests::assert;`) raises an `Err` from the enclosing function when `cond` is false, like `raise`. It does not abort.
 
-`panic msg` aborts immediately with `panic: <msg> at <file>:<line>:<col>` (CLI exit code 1); `defer` blocks still run as it unwinds. Prefer `assert` when failure should be recoverable.
+`panic msg` aborts immediately with `panic: <msg> at <file>:<line>:<col>` (CLI exit code 1); `defer` blocks still run as it unwinds. Prefer `assert!` when failure should be recoverable.
 
-See [Built-ins — assert / panic](/docs/references/assert) and `examples/assert.hy` / `examples/panic.hy`.
+See [assert!](/docs/references/assert) and `examples/assert.hy` / `examples/panic.hy`.
 
 ---
 
@@ -146,6 +146,6 @@ See `examples/raise_try.hy` (output `10,neg`), `examples/coalesce.hy` (`bar,hi,7
 |----------|----------|
 | [Operators](/docs/references/operators) | Precedence for `?`, `?.`, `??` |
 | [Types](/docs/references/types) | Built-in Option / Result |
-| [Built-ins](/docs/references) | Compiler-provided enums, `assert`, `panic` |
+| [Built-ins](/docs/references) | Compiler-provided enums, `panic`; stdlib `assert!` |
 | [Keywords](/docs/references/keywords) | `raise`, `panic` |
 | [Error codes](/docs/references/error-codes) | E0114–E0117 |
