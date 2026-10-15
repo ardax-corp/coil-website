@@ -77,8 +77,11 @@ match v.pop() {
 | `v[i]` / `v[i] = x` | Index get/set (see [Out-of-range index](#out-of-range-index)) |
 | `(0..n).to_vec()` | Collect a numeric `Range` / `RangeInclusive` into `Vec<T>` |
 
-Rest parameters `T... xs` pack into `Vec<T>`. Spread accepts both `[T; N]` and
-`Vec<T>`.
+Rest parameters `T... xs` pack into `Vec<T>`. Spread accepts `[T; N]` anywhere
+in the arguments. A `Vec<T>` spread must be the last argument and fill a
+`T... xs` rest parameter: `f(...v)` passes `v` itself as the pack, which is how
+a rest pack is forwarded. A `Vec` has no static length, so spreading one into
+fixed parameters is error E0119.
 
 Numeric ranges (`int` / `byte` / `float`) expose inherent `.to_vec()` — same
 step and empty-decreasing rule as `for`. See [Ranges](/docs/references/syntax#ranges-lazy).
