@@ -55,6 +55,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0128` | `PrivateMember` | Private field or inherent method used outside the type's `impl` |
 | `E0129` | `Deprecated` | Warning: call to a deprecated function (`block_on`, `io::drive`, `io::wait_ready`). The help names the replacement |
 | `E0130` | `ByteWrap` | Warning: `byte` `+ - * ** <<` or unary `-`, whose result wraps modulo 256. Convert to `int` first (`x as int`) for exact arithmetic |
+| `E0131` | `ShiftCountOutOfRange` | A constant shift count (`x << 64`, `x >> -1`, or the compound `<<=` / `>>=`) outside `0..=63`. A run-time count out of range panics with `shift count out of range` |
 | `E0200`–`E0216` | Enum / match family | Duplicate enum, ambiguous / duplicate constructor, unknown variant, non-exhaustive match, scalar `#[repr]`, `default` catch-all, … |
 | `E0213` | `InvalidEnumRepr` | Invalid scalar enum (`#[repr]` / `=`): mixed backing, missing `=`, or `=` mixed with a payload |
 | `E0214` | `DuplicateEnumDiscriminant` | Two scalar cases share the same backing value |

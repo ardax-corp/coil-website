@@ -77,9 +77,11 @@ operand type is a type error too (`"a" - "b"`, `true * false`, a class with no
 `+`, `-`, `*`, unary `-`, `++` / `--` and compound forms panic with
 `integer overflow` when the result does not fit; `/` and `%` by zero panic with
 `division by zero` (`MIN / -1` is an overflow); `**` panics on overflow or a
-negative exponent. Shifts and bitwise operators never trap (an `int` shift
-uses the count mod 64, so `1 << 64` is `1` and `>>` is arithmetic), and floats keep
-IEEE behaviour (`inf`, `NaN`). Checked, wrapping, saturating and overflowing
+negative exponent. A shift count must be in `0..=63`: `x << n` and `x >> n`
+panic with `shift count out of range` otherwise, and a constant count outside
+that range is a compile error (`E0131`). Within range a shift does not trap
+(bits shifted out are dropped, and `>>` is arithmetic), bitwise operators never
+trap, and floats keep IEEE behaviour (`inf`, `NaN`). Checked, wrapping, saturating and overflowing
 arithmetic are userland traits in coil-stdlib's `arith` module (`Checked`,
 `Wrapping`, `Saturating`, `Overflowing`).
 
