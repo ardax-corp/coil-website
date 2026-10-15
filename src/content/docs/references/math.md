@@ -63,7 +63,7 @@ let bits = pow(2, 10);                              // 1024
 | `*` | **Matmul** (via `Mul`, not element-wise) |
 | `+` / `-` | Element-wise zip |
 | `==` `!=` `<` `<=` `>` `>=` | Element-wise compare. Result is a `Matrix` of `byte`: `1` where the test holds, `0` otherwise. A scalar of the cell type broadcasts (`m == 1`). An `int` literal broadcasts onto `byte` cells. |
-| `&` `\|` `^` `<<` `>>` `~` | Element-wise bitwise ops on `int` or `byte` cells (not `float`). A scalar broadcasts. `<<` / `>>` use the low 6 bits of the shift count. `byte` results stay in `0..=255`. |
+| `&` `\|` `^` `<<` `>>` `~` | Element-wise bitwise ops on `int` or `byte` cells (not `float`). A scalar broadcasts. A `<<` / `>>` count outside `0..=63` panics with `shift count out of range`. `byte` results stay in `0..=255`. |
 | `intersect(a, b)` / `diff(a, b)` | Presence masks. A cell is present when it is not `0` (`NaN` counts as present). `intersect` is `1` where both are present. `diff` is `1` where the left cell is present and the right cell is `0`. Result is a `Matrix` of `byte`. Same shape, no scalar broadcast. |
 | `/`, `%`, `**` | **Rejected** — `Matrix` is not `Num` |
 
