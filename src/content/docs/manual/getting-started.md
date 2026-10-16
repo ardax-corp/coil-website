@@ -88,7 +88,7 @@ The default CLI invocation compiles `examples/fib.hy` to bytecode in memory and 
 | `coil run <file.hyc>` | Execute a previously compiled archive |
 | `coil package <file.hy> [-o path]` | Build a **single executable** for this OS/arch (embeds `.hyc` into `coil-embed` by default); always requires an explicit `.hy` path. Embeds a native lock for each `--ffi-native name=…,version=…,path=…` that matches a `dload` stem (spool passes one per `[[ffi.native]]`). |
 | `coil natives dump [exe] [--tsv]` | Print the native lock (JSON or TSV: package, version, filename, sha256, size) from a packaged exe, or from the `--ffi-native` rows when `exe` is omitted |
-| `coil test [path] [--fail-fast]` | Compile and run every `.hy` under `[path]` (default `./tests`); re-execs `coil-test` (`coil test --help` lists `--seed`, `-j`, `--coverage`, …) |
+| `coil test [path] [--fail-fast]` | Compile and run every `.hy` under `[path]` (default `./tests`); re-execs `coil-test` (`coil test --help` lists `--seed`, `-j`, `--coverage`, `--no-doc-tests`, …); also runs the code examples in `///` docs |
 | `coil mutate [flags]` | Mutation testing: which small source edits no test notices (re-execs `coil-test mutate`) |
 | `coil verify <file.hy>` | Prove `requires` / `ensures` contracts with an SMT solver (re-execs `coil-verify`). See [Contracts](/docs/references/contracts) |
 | `coil dissect <file.hy> [--fn pat] [--il] [--ast] [--effects]` | Re-execs `coil-dissect`: in-memory compile and dump filtered bytecode (optional pre-opt IL / entry AST / each function's effects and why auto-par left a loop sequential); never writes `out.hyc` |
@@ -157,6 +157,7 @@ Layout under `./tests`:
 | `tests/**/*.hy` (except below) | Must compile; each `test("…")` case must return `Ok` |
 | `tests/compile_fail/**/*.hy` | Must **fail** to compile with an error code the file's header declares: `// Expected: E0209 — why` (negative syntax / type tests) |
 | `tests/positive/`, `tests/negative_runtime/` | Organized positive and soft-failure runtime suites |
+| `///` code examples in test files and the project sources they import | Run as doc-tests (`doc: module::item (file:line)`); see [Doc-tests](/docs/references/test-harness#doc-tests). `--no-doc-tests` skips them |
 
 A test file can declare multiple cases without `fn main`:
 
