@@ -84,6 +84,10 @@ fn add(int a, int b) -> int { return a + b; }
 // add : int -> int -> int
 ```
 
+Write a function type either way, in any type position: `int -> int -> int`
+or `fn(int a, int b) -> int` (names optional: `fn(int, int) -> int`). See
+[Syntax — Type annotations](/docs/references/syntax#type-annotations).
+
 ---
 
 ## Sum types / enums (`Ty::Sum`)

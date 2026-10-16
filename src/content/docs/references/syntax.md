@@ -620,10 +620,15 @@ match r {
 
 ## Type annotations
 
-Used in function signatures, `let`, enum payloads, and type aliases:
+Used in function parameters and returns, class fields, `let`, generic
+arguments, enum payloads, and type aliases. Every position takes the same
+grammar, function types included:
 
 ```
-type_annotation ::= array_type | tuple_type | type_projection | type_app | IDENT
+type_annotation ::= (fn_type | type_atom) ('->' type_annotation)?   // `->` is right-associative
+fn_type         ::= 'fn' '(' (fn_type_param (',' fn_type_param)*)? ')' '->' type_annotation
+fn_type_param   ::= arg | type_annotation   // names optional: `fn(int x) -> int` or `fn(int) -> int`
+type_atom       ::= array_type | tuple_type | '(' type_annotation ')' | type_projection | type_app | IDENT
 array_type      ::= '[' type ';' INT ']'
 tuple_type      ::= '(' type (',' type)+ ')'
 type_app        ::= IDENT '<' type (',' type)* '>'
@@ -636,8 +641,29 @@ type_projection ::= IDENT '::' IDENT type_arg_list?
 | `[int; 5]` | Fixed-length array (length 5); `N` inferred from literals when possible |
 | `Vec<int>` | Growable heap vector |
 | `(int, string)` | Tuple type (comma required) |
+| `int -> int` | Function type (arrow spelling); `int -> int -> int` takes two `int`s |
+| `fn(int x) -> int` / `fn(int) -> int` | The same function type, signature spelling; parameter names are optional and only document |
+| `(int -> int) -> int` | Parentheses group a type: a function taking a function |
 | `C::Elem` | Associated type projection |
 | `P::Ref<A>` | Generic associated type projection with type arguments |
+
+Both function spellings mean the same type and work anywhere a type is written:
+
+```coil
+type IntFn = fn(int x) -> int;
+
+class Handler {
+    pub op: fn(int) -> int,
+}
+
+fn apply(fn(int) -> int f, int v) -> int { return f(v); }
+fn apply2(int -> int f, int v) -> int { return f(v); }
+
+fn main() {
+    let g: IntFn = fn (int x) => x + 1;
+    let fs: Vec<fn(int) -> int> = [g];
+}
+```
 
 Bare `[int]` (no `; N`) is a type error (`E0119`) — use `[int; N]` or `Vec<int>`.
 Primitive names are case-insensitive in the typechecker (`String` ≡ `string`).
