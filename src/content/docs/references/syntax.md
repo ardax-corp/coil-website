@@ -439,7 +439,7 @@ statement ::= while_stmt
 
 ### `let` desugaring
 
-`let x: int = 5;` produces a variable declaration fragment followed by initializer expression. Type-only `let x: int;` is allowed.
+`let x: int = 5;` produces a variable declaration fragment followed by initializer expression. Type-only `let x: int;` is allowed. A scalar (`int`, `float`, `bool`, `byte`) starts at zero. Any other type (`string`, a class, `Vec<T>`, a tuple) must be assigned on every path before it is read, or compilation fails with `E0132`; an assignment inside a loop body does not count after the loop, and a closure capturing the local reads it when the closure is made.
 
 `static let` / `static const` are top-level declarations only; initializers run in the program prologue before `main`.
 
