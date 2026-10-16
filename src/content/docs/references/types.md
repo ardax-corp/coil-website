@@ -652,8 +652,11 @@ fn main() {
 }
 ```
 
-This applies in function parameters, `let` annotations, and return annotations:
-`Show x`, `let x: Show = 42;`, and `-> Show`.
+This applies in function parameters, `let` annotations, return annotations,
+class fields, and `Vec` element types: `Show x`, `let x: Show = 42;`, `-> Show`,
+`class Tagged { pub what: Show }`, and `Vec<Show>`. A value packs wherever one of
+these types asks for it (`new Tagged(new Pt(1))`, `xs.push(3)`), and each field
+or element keeps its own instance.
 
 `T: Show` is still universal: one function body works for every caller-chosen
 `T` that satisfies the bound. A bare `Show` value is existential: the concrete
