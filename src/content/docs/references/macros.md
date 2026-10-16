@@ -30,7 +30,7 @@ use my_macros::{FieldNames, add_after, check};
 - A module cannot use its own macros: put them in a separate module.
 - Derives and function-style macros have their own namespaces, so a trait and its derive can share a name (`Summary`).
 - Importing the same macro name from two modules is an error.
-- A macro's output may use its provider's own items and other macros without the using module importing them. Generated code names provider items by their module path, including a provider's trait in an `impl` head (`impl my_macros::Summary for Point`). Only macro output may write a qualified `impl` head: in hand-written source it is an error, and you write `use my_macros::{Summary};` and `impl Summary for Point` instead.
+- A macro's output may use its provider's own items and other macros without the using module importing them. It may also call the macros its provider imports: with `use fn_macros::{square};` in the provider, output that writes `square!(…)` expands where it lands. A macro that neither the using module nor the provider declares or imports is an error that names the provider. Generated code names provider items by their module path, including a provider's trait in an `impl` head (`impl my_macros::Summary for Point`). Only macro output may write a qualified `impl` head: in hand-written source it is an error, and you write `use my_macros::{Summary};` and `impl Summary for Point` instead.
 
 ## Derives
 
