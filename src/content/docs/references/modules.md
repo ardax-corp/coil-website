@@ -81,10 +81,11 @@ Short prelude names are bound in scope so `Option::Some` and `T: Eq` work withou
 ```coil
 use prelude::ops::Eq as PreludeEq; // frees short `Eq`
 trait Eq<T> { /* your trait */ }   // now allowed
-// Builtin still reachable as `prelude::ops::Eq` or `PreludeEq`
 ```
 
 Without the `as` rebind, `trait Eq` / `enum Option` is a conflict diagnostic.
+
+The alias names the builtin: while no trait of your module takes the short name, `T: PreludeEq` (or `where PreludeEq<T>`) is the builtin `Eq` bound. Once your module declares its own `trait Eq`, that trait replaces the builtin in the module, and `PreludeEq` can no longer be used as a bound (`E0119`); `==` on concrete types still works.
 
 The implicit prelude (`prelude`, `prelude::ops`, `prelude::test`, `prelude::math`) is compiler-owned and not configurable. Extra disk search paths are `--root DIR` flags (spool passes `[module].roots`).
 
