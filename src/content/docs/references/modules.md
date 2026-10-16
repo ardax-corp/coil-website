@@ -280,6 +280,15 @@ use math::add as plus;    // local: plus   → FQN math::add
 
 Aliases are **per-file**. They do not propagate to other modules.
 
+A local name can be bound by only one import per file. Importing two different items under the same name is an error (E0133), whether they come from one `use` or two:
+
+```coil
+use math::{add, mul as add};   // error: `add` is imported twice
+use math::{add, mul as times}; // ok
+```
+
+Importing the same item twice under the same name is allowed.
+
 ---
 
 ## Discovery and compilation order
@@ -321,6 +330,7 @@ Common errors:
 |-----------|----------------------|
 | File not found | Module not found for `use a::b::c` |
 | Unknown identifier after import | Cannot find function `x` in this scope |
+| Two imports bind one local name | `x` is imported twice: as `a::x` and as `b::y` (E0133) |
 | Function name mismatch | Call fails at link time if FQN not in registry |
 
 The typechecker validates that aliased names exist in the environment. The codegen maps local names to FQNs; a missing target surfaces when the call is emitted.
