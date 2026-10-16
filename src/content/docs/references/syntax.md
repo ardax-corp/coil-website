@@ -167,8 +167,9 @@ first argument's type, and a runtime `xs[i]` needs all elements to share a
 type. An error in the body is reported for the pack that causes it, and a
 body that is never called is never checked. A function whose calls keep
 growing the pack (`fn grow(... xs) { grow(1, ...xs); }`) stops with an
-error. Such a function can only be called from its own module for now
-(coil-lang#1386).
+error. Another module can import and call it too: each argument list it
+uses gets a copy made in the declaring module, and copies are shared
+between importers.
 
 ```coil
 fn first(... xs) { return xs[0]; }
