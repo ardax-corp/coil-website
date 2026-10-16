@@ -552,6 +552,7 @@ pattern ::= '_' | 'default'
           | IDENT
           | INTEGER
           | IDENT '::' IDENT pattern_payload?
+          | IDENT (tuple_pattern | record_pattern)   /* bare case: Some(v) */
 pattern_payload ::= unit | tuple_pattern | record_pattern
 tuple_pattern   ::= '(' pattern (',' pattern)* ')'
 record_pattern  ::= '{' field_pattern (',' field_pattern)* '}'
@@ -562,7 +563,7 @@ Field names in a record literal, constructor, pattern, or enum variant field lis
 
 `default` is the **only** match catch-all. It must appear as a whole arm (`default => …`). A whole-arm `_ =>` is illegal (`E0216`). Nested `_` stays legal inside constructor, tuple, and record patterns (`Result::Err(_)`, `Option::Some(_)`) and in `let` destructuring. Two `default` arms in one `match` is `E0215`. Combining `default` with a whole-arm `_` is also illegal (the `_` is still `E0216`).
 
-Constructor patterns use `Enum::Variant`, same as expressions.
+Constructor patterns use `Enum::Variant`, same as expressions. A bare case name works too (`Some(v)`, `Ok(n)`, `Rect { w, h }`, `None`): it names the scrutinee's enum when that enum declares the case, otherwise the one enum in scope that declares it. A name two enums declare, with a scrutinee that picks neither, is ambiguous (`E0201`); a bare `Name(..)` that no enum declares is `E0211`. A bare name with no payload is a unit case only when it starts with an uppercase letter and an enum declares it; any other name (`x`, `other`, a record field shorthand) is a binding.
 
 Integer literal patterns match an `int` scrutinee by value. Literal arms can
 never cover every `int`, so the match needs a `default` or binding arm
