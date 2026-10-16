@@ -154,7 +154,9 @@ Arity overloads (same name, different arities / rest ranges), **type overloads**
 
 
 Call sites may use named arguments (`name: expr`) after any positional
-prefix. Rest parameters are positional-only and pack trailing values
+prefix. Arguments are evaluated in the order they are written, whatever
+the parameter order: `f(b: g(), a: h())` runs `g` before `h`. The same holds
+for named constructor arguments (`new P(y: …, x: …)`). Rest parameters are positional-only and pack trailing values
 into one vector (`T... xs` → `Vec<T>`) or tuple (`... xs` → `(T1, …, Tn)`).
 Call-site spread forwards packed values as separate arguments:
 
