@@ -85,7 +85,7 @@ trait Eq<T> { /* your trait */ }   // now allowed
 
 Without the `as` rebind, `trait Eq` / `enum Option` is a conflict diagnostic.
 
-The alias names the builtin: while no trait of your module takes the short name, `T: PreludeEq` (or `where PreludeEq<T>`) is the builtin `Eq` bound. Once your module declares its own `trait Eq`, that trait replaces the builtin in the module, and `PreludeEq` can no longer be used as a bound (`E0119`); `==` on concrete types still works.
+The alias names the builtin: `T: PreludeEq` (or `where PreludeEq<T>`) is the builtin `Eq` bound. Your module may then declare its own `trait Eq`; both stay usable side by side. In that module the short name `Eq` (bounds, `where` clauses, `impl Eq for …`) is your trait, `PreludeEq` is still the builtin, and `==` keeps using the builtin. A type with only the builtin `Eq` does not satisfy a bound on your trait.
 
 The implicit prelude (`prelude`, `prelude::ops`, `prelude::test`, `prelude::math`) is compiler-owned and not configurable. Extra disk search paths are `--root DIR` flags (spool passes `[module].roots`).
 
