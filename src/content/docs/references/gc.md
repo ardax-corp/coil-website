@@ -63,7 +63,7 @@ fn ephemeral_weak() {
     let r = root([1, 2, 3]);
     let w = weak(get(r));
     let dropped = unroot(r);
-    dropped = [];
+    dropped = Option::None;
     return w;
 }
 
