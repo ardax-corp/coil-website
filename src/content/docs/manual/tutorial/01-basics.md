@@ -219,6 +219,45 @@ fn main() {
 
 The call `add(3, 4)` is an **expression statement** — its return value is computed and then dropped.
 
+### Partial application
+
+A call that gives only the first few arguments does not run the function. It makes a function value that holds the given arguments and takes the rest:
+
+```coil
+fn add3(int a, int b, int c) -> int {
+    return a * 100 + b * 10 + c;
+}
+
+fn main() {
+    let f = add3(1);    // int -> int -> int
+    let g = add3(4, 5); // int -> int
+    let x = f(2, 3);    // 123
+    let y = g(6);       // 456
+}
+```
+
+Methods work the same way. The receiver is held along with the given arguments:
+
+```coil
+class Counter {
+    pub v: int,
+}
+
+impl Counter {
+    pub fn plus(int a, int b) -> int {
+        return self.v + a + b;
+    }
+}
+
+fn main() {
+    let c = new Counter(10);
+    let add_to_c = c.plus(1); // int -> int
+    let z = add_to_c(2);      // 13
+}
+```
+
+The arguments, and the receiver, are evaluated when the partial call is made, not when the resulting function is called. A partial call has a function type, so using it where the result is expected is a type error (`let r: int = add3(1);` reports `E0102`).
+
 ---
 
 ## Return statements
