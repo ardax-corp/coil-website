@@ -167,7 +167,7 @@ call_arg    ::= expr | '...' expr
 |---------------------|-----------|
 | Tuple `(T1, …, Tn)` | Each element becomes one argument |
 | Fixed array `[T; N]` | Each element becomes one argument |
-| `Vec<T>` | Each element becomes one argument |
+| `Vec<T>` | Only as the last argument to a `T... xs` rest parameter: the `Vec` itself is the rest pack. Into fixed parameters it is error E0119 |
 | Other | Compile error |
 
 Examples:
@@ -176,6 +176,9 @@ Examples:
 fn triple(int a, int b, int c) -> int { return a + b + c; }
 triple(...(1, 2, 3));          // tuple spread
 triple(...[10, 20, 30]);       // array spread
+
+fn total(int... xs) -> int { /* ... */ }
+fn forward(int... xs) -> int { return total(...xs); } // Vec spread into a rest
 ```
 
 ```coil
