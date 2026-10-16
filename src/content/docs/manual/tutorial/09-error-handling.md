@@ -58,7 +58,7 @@ fn explicit_ok() -> Result<int, string> {
 }
 ```
 
-One error type **`E` per function**. Mixing `raise "s"` with `raise 1` (or `?` on Results with different `E`) is a type error — there are no `string | int` unions.
+One error type **`E` per function**. Mixing `raise "s"` with `raise 1` (or `?` on Results with different `E`) is a type error (`E0102`) — there are no `string | int` unions.
 
 Annotating `-> int` (or any non-`Result` type) while using `raise` / Result-`?` is also a type error.
 

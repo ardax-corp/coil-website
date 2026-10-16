@@ -12,8 +12,8 @@ description: "use gc::{root, weak, upgrade, collect, heapbytes}; — explicit GC
 | `Root<T>` | opaque type ctor | Strong pin; keeps `T` alive while the handle is reachable |
 | `Weak<T>` | opaque type ctor | Non-rooting handle; does not keep `T` alive |
 | `root` | `T -> Root<T>` | Allocate a pin around a value |
-| `get` | `Root<T> -> T` | Read the pinned value; pin remains valid |
-| `unroot` | `Root<T> -> T` | Take the value and clear the pin |
+| `get` | `Root<T> -> Option<T>` | Read the pinned value; pin remains valid. `None` after `unroot` |
+| `unroot` | `Root<T> -> Option<T>` | Take the value and clear the pin. `None` if already cleared |
 | `weak` | `T -> Weak<T>` | Allocate a non-rooting handle |
 | `upgrade` | `Weak<T> -> Option<T>` | `Some` while the referent is live; `None` after collection |
 | `heap_bytes` | `() -> int` | Managed heap size in bytes (`Heap::size`) |

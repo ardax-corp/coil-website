@@ -20,6 +20,9 @@ Use tasks for concurrent **IO** (many sockets, files, timers). For parallel
 `scope(body)` gives `body` a `Scope`. `s.spawn(f)` starts `f` as a child task
 and returns its handle. The scope returns only once `body` returned **and**
 every child finished, so no task outlives the scope that started it.
+Spawning into the scope works only while `body` runs: once `body` has
+returned, a child's `s.spawn(…)` panics with `spawn on a task scope that has
+ended`.
 
 ```coil
 use io::{stdout};
