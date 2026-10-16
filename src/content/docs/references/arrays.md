@@ -41,7 +41,9 @@ array local into another copies slots without boxing (forward per-element
 `STORE`, so values never pile into the destination slot range).
 
 `[T; 0]` stays a single empty heap array. Params/returns of `[T; N]` still pass
-one heap pointer at the call boundary today.
+one heap pointer at the call boundary today, so a parameter aliases the
+caller's array: a callee's `a[0] = 0` is seen by the caller. Copy into a local
+first (`let b = a;`) when the callee must not change the caller's array.
 
 `x.len()` is the canonical length. Free `len(x)` is prelude sugar that desugars to that method; structural array/tuple/string `.len()` still lowers to `ArrayLen`. Element-wise zip / LA helpers
 still require fixed lengths.

@@ -38,8 +38,8 @@ not grant it. At run time the stem also needs `--dload-pin STEM=SHA256` or
 `--dload-trusted STEM`, or the load is denied.
 
 `io::open` needs what its mode needs when the mode is a string literal:
-`"r"` needs read; `"w"`, `"a"` and `"x"` need write; a mode with `+` needs
-both. A mode computed at run time needs both.
+`"r"` needs read; `"w"` and `"a"` need write; `"rw"` needs both. A mode
+computed at run time needs both. Any other mode is `Err(IoError::InvalidInput)`.
 
 Stream IO on something already open (`read_to_end`, `write_all`, a socket's
 `send`) needs no flag: the grant is checked where the file or socket is

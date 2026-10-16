@@ -211,7 +211,7 @@ fn pair(int a, string b) -> (int, string) { return (a, b); }
 
 Annotation: `(T1, T2, ...)`. Literal syntax requires a comma: `(1,)` is a 1-tuple; `(1)` is a parenthesized expression.
 
-Tuples have structural `Show` support for `%v` when every element is showable. The printed form is `(a, b)` (and `(a,)` for a 1-tuple).
+Tuples have structural `Show` support for `%v` when every element is showable. This is `%v` only: a tuple does not satisfy a `T: Show` bound (`E0119 No instance for Show<(int, int)>`). The printed form is `(a, b)` (and `(a,)` for a 1-tuple).
 
 Homogeneous numeric tuples also support **element-wise arithmetic** (zip /
 broadcast / unary `-`). See [Operators](/docs/references/operators).
@@ -288,7 +288,7 @@ let n = d.x;              // field access
 - Two record literals with the same field names and compatible field types unify structurally.
 - Field access on records uses string-keyed `GetField`; enum record variants use index-based `LoadField`.
 - Duplicate field names in one literal → parse error (`E0208`); typecheck repeats the check if parse is bypassed.
-- Anonymous records have structural `Show` support for `%v` when every field is showable. Fields print in canonical name order as `{ a: 1, b: 2 }`.
+- Anonymous records have structural `Show` support for `%v` when every field is showable (`%v` only, as for tuples: not a `T: Show` bound). Fields print in canonical name order as `{ a: 1, b: 2 }`.
 
 Structural `Show` covers tuples and anonymous records automatically. Non-generic
 enums and classes receive a **default** `Show`/`String` that returns the type name

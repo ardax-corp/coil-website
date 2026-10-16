@@ -31,7 +31,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0102` | `TypeMismatch` | Type mismatch |
 | `E0103` | `InfiniteType` | Infinite type (occurs check) |
 | `E0104` | `NotAFunction` | Value is not callable |
-| `E0105` | `TooManyArguments` | Too many arguments |
+| `E0105` | `TooManyArguments` | Too many arguments in a call that uses named arguments. A positional call with too many arguments reports `E0119` |
 | `E0106` | `UndeclaredAssignment` | Assignment to undeclared variable |
 | `E0107` | `InvalidAssignment` | Invalid assignment target (includes removed `arr[] =` append — use `Vec::push`) |
 | `E0108` | `VariableRedeclaration` | Variable redeclaration |
@@ -39,11 +39,11 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0110` | `UnknownType` | Unknown type name |
 | `E0111` | `ReturnMismatch` | Return type mismatch |
 | `E0112` | `YieldOutsideAsync` | `yield` outside `gen fn` |
-| `E0113` | `ResumeTypeMismatch` | Resume / send type mismatch |
+| `E0113` | `ResumeTypeMismatch` | Reserved; not emitted today. A `resume h with v` whose `v` does not match the send type reports `E0102` |
 | `E0114` | `InvalidTry` | `?` on non-Option/non-Result, or outside a function |
 | `E0115` | `InvalidCoalesce` | `??` on non-Option/non-Result |
 | `E0116` | `InvalidOptionalAccess` | `?.` on non-Option (e.g. Result) |
-| `E0117` | `ConflictingErrorType` | Mixed Option/Result modes or conflicting `E` in one function |
+| `E0117` | `ConflictingErrorType` | Mixed Option/Result modes in one function. A conflicting `E` (`raise "s"` then `raise 1`, or `?` on a `Result` with another `E`) reports `E0102` |
 | `E0118` | `UnreachableCode` | Code after a diverging statement (warning) |
 | `E0119` | `GenericTypeError` | Other type error (includes rejected dynamic `[T]` — use `[T; N]` or `Vec<T>`) |
 | `E0120`–`E0122` | Overload family | Wrong arity / duplicate / ambiguous overload |
