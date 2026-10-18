@@ -606,6 +606,21 @@ class, `T: c` is rejected as an unsatisfied abstract constraint.
 | `fn f<F: * -> * -> *, Bifunctor, A, B>(F<A, B> x)` | Explicit kind plus a class bound on one parameter |
 | `fn f<c: * -> Constraint, T: c>(T x)` | Constraint-kind parameter and abstract bound |
 
+### Type parameters are rigid
+
+Inside its own body, a type parameter stands for any type the caller picks.
+The checker never solves it to something narrower, so each of these is error
+`E0119` (``Type parameter `T` is used as …``), reported at the function:
+
+- Using it as a concrete type: `idx < xs[0]` with `idx: int` and `xs: Vec<T>`.
+- Using it as a different type parameter: `fn g<T, U>(T a, U b) -> T { return b; }`.
+  This covers a method's own parameter against its `impl`'s or trait's
+  parameter too.
+
+The same parameter on both sides is fine, and so is calling another generic
+function: its parameters are fresh at each call, so `second(a, b)` inside
+`fn swap<T, U>(T a, U b)` picks `U` for that call alone.
+
 ### Call-site dispatch
 
 One calling convention, two ways to name the callee. **`CALL`** packs arity and a static bytecode offset. **`CallIndirect`** pops the target from the stack (`CodePtr`, dictionary `Index`, or a `PolyFn` local). Dictionaries are the ABI for open bounds; they are not a second dispatch model.
