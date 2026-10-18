@@ -949,8 +949,23 @@ impl Collect<Option<int>> {
   `Owner::Assoc<T, U>` are allowed in type annotations. When the
   owner is a type parameter with an active class bound that declares the
   assoc type (`fn take_head<C: Collect>(C xs) -> C::Elem`), the projection
-  is an open type variable that is pinned when a ground instance is
-  discharged at the call site (`take_head(Option::Some(42))` → `int`).
+  is pinned when a ground instance is discharged at the call site
+  (`take_head(Option::Some(42))` → `int`), separately for each owner.
+- **Projections are rigid in a generic body.** Like a type parameter,
+  `C::Elem` there stands for whatever type the instance picks, so it equals
+  only itself: a trait call on a `C` (`head(xs)`) returns `C::Elem`, and
+  using it as `string`, as another type parameter, or as `D::Elem` is an
+  error.
+
+```coil
+fn take_head<C: Collect>(C xs) -> C::Elem {
+    return head(xs);       // ok: `head` on a `C` returns `C::Elem`
+}
+
+fn bad<C: Collect>(C xs) -> C::Elem {
+    return "s";            // error: `C::Elem` is used as `string`
+}
+```
 - **GAT arguments are kind-checked.** `type Ref<F: * -> *>;` requires applied
   projections such as `P::Ref<Option>` to pass a constructor-kinded argument,
   while `P::Ref<int>` is rejected.
