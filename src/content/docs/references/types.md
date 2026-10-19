@@ -731,11 +731,12 @@ Rules:
 - Runtime representation reuses existing tuple bytecode: `(boxed_value,
   dictionary_tuple)`. No separate opcode is needed.
 
-Bound methods support both equivalent forms:
+Bound methods support three equivalent forms:
 
 ```coil
-x.describe_val(); // method sugar
-describe_val(x);  // bare / UFCS form
+x.describe_val();          // method sugar
+describe_val(x);           // bare / UFCS form
+Describe::describe_val(x); // trait-qualified form
 ```
 
 Default methods occupy normal dictionary slots. Every implementation method
@@ -859,6 +860,42 @@ Instance methods compile to ordinary functions with mangled names
 (`Class__Type__method`). Generic call sites discharge the bound at
 typecheck time and pass the matching dictionary at runtime (above).
 
+### Trait-qualified calls
+
+`Trait::method(args)` resolves exactly like the bare call `method(args)`, but
+only that trait's method is a candidate. Use it when two traits, or a trait
+and a free function, share a method name:
+
+```coil
+trait Area<T> { fn size(T s) -> int; }
+trait Volume<T> { fn size(T s) -> int; }
+
+class Sq { pub w: int, }
+impl Area for Sq { pub fn size(Sq s) -> int { return s.w * s.w; } }
+impl Volume for Sq { pub fn size(Sq s) -> int { return s.w * s.w * s.w; } }
+
+fn both<T: Area + Volume>(T x) -> int {
+    return Area::size(x) * 1000 + Volume::size(x); // bare size(x) is ambiguous here
+}
+
+let s = new Sq(3);
+let a = Area::size(s);   // 9
+let v = Volume::size(s); // 27
+```
+
+- It works under a bound (dictionary dispatch), at a concrete type, in a
+  trait's default body, and on a trait-object value.
+- Receiverless methods take their instance from the expected type, as the bare
+  form does: `let z: Sq = Zero::zero();`, `let p: Point = FromVal::from_val(v);`.
+- A trait from another module is named as you import it (`use shapes::Area;`
+  then `Area::size(x)`), or with its module path (`shapes::Area::size(x)`).
+- `Type::assoc_fn`, `Enum::Variant` and `T::method` keep their meaning: the
+  owner is read as a trait only when it names no type.
+- It compiles to the same call as the bare form, so it has no runtime cost.
+- Errors: an unknown owner is `E0202`, and a method the trait does not declare
+  is `E0101`. No matching instance, or several with nothing to choose between
+  them, is `E0119`. A type parameter without the trait's bound is also `E0119`.
+
 ### Static trait methods
 
 A trait method with no `Self`-typed parameter is declared `static fn`, the
@@ -901,8 +938,8 @@ let n: int = decode(new Val(4));         // T chosen by the annotation
   implemented as `pub static fn`, and an instance method cannot be called as
   `Owner::m(..)`.
 - A default body may call sibling statics bare (`from_val(v)`), since the
-  trait's own bound is active there. Outside a trait body there is no bare
-  spelling for a static trait method.
+  trait's own bound is active there. Outside a trait body, name the trait
+  instead: `FromVal::from_val(v)` (see trait-qualified calls above).
 - `#[derive(Default)]` generates `static fn default()`, so `Config::default()`
   and `T::default()` under `T: Default` work like any other static.
 
