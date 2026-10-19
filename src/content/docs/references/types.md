@@ -255,7 +255,10 @@ Empty `[]` needs an annotation: `Vec<T>` or `[T; 0]`. There is **no**
 `value.len()` returns length as `int` for arrays, `Vec`, strings, tuples, and
 records (structural); for other types it requires a `Length` instance
 (`impl Length for T { fn len(T x) -> int { … } }`). Fixed-size cases fold at
-compile time.
+compile time. Ground arrays, `Vec`s, tuples and records also meet a
+`T: Length` bound, as strings do: `fn size<T: Length>(T x) -> int { return
+x.len(); }` accepts `Vec::from([1, 2])`, `[1, 2]`, `(1, "a")` and `{ x: 1 }`,
+its `len` reading the same structural length.
 
 Fixed arrays have structural `Show`, `Eq` and `Hash` instances when their
 element type has one: `show([1, 2])` / `format("%v", [1, 2])` print
@@ -744,7 +747,7 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 | `Eq` | Equality | `==`, `!=` (`unit` too: `()` equals `()`, also under a `T: Eq` bound); structural for ground tuples and fixed arrays of `Eq` elements |
 | `Hash` | Hashing | `hash(T) -> int`; structural for ground tuples and fixed arrays of `Hash` elements (combined as a derived `Hash` combines fields) |
 | `Show` | Display | `show(T) -> string`; used by format `%v`; structural for tuples (bounded type-parameter elements included), fixed arrays, anonymous records, `Option` and `Result` |
-| `Length` | Size query | `fn len(T) -> int`; called as `x.len()` on custom types (arrays/`Vec`/tuples/records/strings are structural) |
+| `Length` | Size query | `fn len(T) -> int`; called as `x.len()` on custom types (arrays/`Vec`/tuples/records/strings are structural and meet a `T: Length` bound) |
 | `Into` | Conversion | `into(Self) -> T` via `impl Into<T> for Self` (no builtin instances) |
 
 `Into` is multi-parameter: `impl Into<T> for S` stores instance args
