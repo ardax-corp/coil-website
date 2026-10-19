@@ -9,8 +9,9 @@ coil exposes non-blocking file, stdio, and TCP IO through the virtual
 **`io`** module. Import it explicitly (like `ffi`):
 
 ```coil
-use io::{stdout, open, close, from_bytes};
+use io::{stdout, open, close};
 use io::sync::{write_all, read_to_end};
+use string::{from_bytes};
 ```
 
 Buffers use the **`byte`** primitive and **`Vec<byte>`** vectors.
@@ -43,15 +44,17 @@ fn main() {
 
 ### Text helpers
 
+The text helpers live in the virtual **`string`** module (`use string::{from_bytes, to_bytes};`).
+
 | Function | Signature | Notes |
 |----------|-----------|--------|
 | `from_bytes` | `Vec<byte> → Result<string, IoError>` | UTF-8 decode; invalid sequences → `InvalidInput` |
 | `to_bytes` | `string → Vec<byte>` | UTF-8 encode (always succeeds) |
 
 ```coil
-use io::{stdout, from_bytes};
+use io::{stdout};
 use io::sync::{write_all};
-use string::{format, to_bytes};
+use string::{format, from_bytes, to_bytes};
 
 fn main() {
     let hello = Vec::from([104 as byte, 101 as byte, 108 as byte, 108 as byte, 111 as byte]);

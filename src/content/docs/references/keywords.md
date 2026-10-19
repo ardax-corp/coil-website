@@ -45,7 +45,7 @@ All keywords in the coil parser. Keywords are recognized by position: the identi
 | `true` | Literal | Boolean true | [Types — Primitives](/docs/references/types#primitive-types) |
 | `false` | Literal | Boolean false | [Types — Primitives](/docs/references/types#primitive-types) |
 | `dload` / `declare` / `invoke` | Ordinary names | FFI callables from virtual `ffi` (not keywords) | [Built-ins — FFI](/docs/references/ffi) |
-| `gen` | Declaration (before `fn`) | Generator function (`coroutine<Y>` / `coroutine<Y, S>`). `gen` is only a keyword directly before `fn`; `async fn` is accepted as the old spelling and `coil fmt` rewrites it | [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines) |
+| `gen` | Declaration (before `fn`) | Generator function (`coroutine<Y>` / `coroutine<Y, S>`). `gen` is only a keyword directly before `fn`. The old spelling `async fn` was removed and is a parse error that names `gen fn` | [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines) |
 | `yield` | Expression / stmt | Suspend coroutine; optional receive binding | [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines) |
 | `yield from` | Expression / stmt | Delegate to sub-coroutine | [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines) |
 | `resume` | Expression | Continue coroutine handle | [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines) |
