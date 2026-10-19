@@ -122,7 +122,7 @@ write_all(stdout(), to_bytes(format("%i", none?.v ?? 0)));     // None → 0
 
 `?.` on `Result` or a non-Option is a type error (E0116). Use `?` then `.`, or `match`.
 
-`?.` is one token. With a space or line break between them, `?` and `.` are two operators: `r? .len()` (or `r?` then `.len()` on the next line) is `(r?).len()`, a `?` on `r` followed by an ordinary method call, while `o?.len` is optional access.
+`?.` is one token. With a space or line break between them, `?` and `.` are two operators: `r? .len()` (or `r?` then `.len()` on the next line) is `(r?).len()`, a `?` on `r` followed by an ordinary method call, while `o?.len` is optional access. `coil fmt` prints the first form as `(r?).len()` so the two never look alike.
 
 ---
 
