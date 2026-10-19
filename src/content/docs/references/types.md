@@ -389,10 +389,24 @@ Class `static` fields require an initializer. `static` and `const` field modifie
 
 `readonly` seals a value against mutation through this reference. The seal is **deep**: whatever you read through a readonly value (a field, an element, a loop variable) is readonly too. Methods may still mutate via `self`.
 
+`readonly T` is a type, written anywhere a type is written. `readonly e` views any expression read-only:
+
 ```coil
 let xs = readonly [1, 2, 3];
 let p = readonly new Point(1, new Inner(2));
+let q = readonly r;                        // any expression
+
+fn total(readonly Point p) -> int { … }    // parameter: the body only reads `p`
+fn origin() -> readonly Point { … }        // return: callers cannot mutate it
+let v: readonly Point = p;                 // typed `let`
+class Holder { pub p: readonly Point, }    // field: `h.p.x = 1` is an error even for a mutable `h`
+let ps: Vec<readonly Point> = [];          // a mutable Vec of read-only elements
+fn sum(readonly Vec<Point> ps) -> int { … }
+let a: readonly Area = p;                  // a read-only trait object
+let f: readonly Point -> int = total;      // `(readonly Point) -> int`
 ```
+
+`readonly` qualifies one type atom, so `readonly Point -> int` is `(readonly Point) -> int`; write `readonly (A -> B)` to qualify a function type (which has no mutable interior, so it is just `A -> B`). Types with no mutable interior are unchanged: `readonly int` is `int`, `readonly string` is `string`. A tuple is readonly element-wise: `readonly (Point, int)` is `(readonly Point, int)`.
 
 | Operation | `readonly T` handle | Inside `impl` via `self` |
 |-----------|-------------------|---------------------------|
@@ -402,18 +416,30 @@ let p = readonly new Point(1, new Inner(2));
 | `let i = p.inner; i.n = …;` | Error: `i` is readonly | — |
 | Rebind variable | Allowed (`let a = readonly [1]; a = readonly [2];`) | — |
 
-A readonly value converts to a readonly type only, never back. Each of these is an error (E0107), because the new name could mutate the value:
+A plain value converts to a readonly type: `total(p)` accepts both a `Point` and a `readonly Point`. A readonly value converts to a readonly type only, never back. Each of these is an error (E0107), because the new name could mutate the value:
 
 ```coil
 fn poke(Point p) { p.x = 99; }
 poke(p);                 // a plain `Point` parameter
 let q: Point = p;        // a typed `let`
+let a: Area = p;         // a plain trait object
 new Holder(p);           // a plain `Point` field
 holder.p = p;            // assignment to a plain `Point` place
 fn mk() -> Point { return readonly new Point(1, new Inner(2)); }   // a plain return type
 ```
 
-Generic parameters keep the qualifier, so `id(p)` with `fn id<T>(T v) -> T` returns a readonly value, and `[p]` is a `Vec<readonly Point>`. A `Vec<readonly Point>` cannot be passed where a `Vec<Point>` is expected.
+Generic parameters keep the qualifier, so `id(p)` with `fn id<T>(T v) -> T` returns a readonly value, and `[p]` is a `Vec<readonly Point>`.
+
+Generic arguments of a mutable container are **invariant**:
+
+| From | To | OK? | Why |
+|------|----|-----|-----|
+| `Vec<Point>` | `readonly Vec<Point>` | yes | top-level conversion |
+| `Vec<Point>` | `Vec<readonly Point>` | no (E0107) | the new name could `push` a readonly `Point` that the old name then mutates |
+| `Vec<readonly Point>` | `Vec<Point>` | no (E0107) | drops `readonly` |
+| `readonly Vec<Point>` | `readonly Vec<readonly Point>` | yes | the same type |
+
+A function that only reads a Vec should take `readonly Vec<Point>`: it accepts both kinds. `push`, `pop`, `insert`, `remove`, `clear` and `reserve` through a `readonly Vec<T>` are errors.
 
 `readonly` costs nothing at runtime: a program compiles to the same bytecode with or without it.
 

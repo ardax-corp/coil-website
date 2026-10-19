@@ -281,7 +281,29 @@ let xs = readonly [1, 2, 3];
 let p = readonly new Point(1, 2);
 ```
 
-Rebinding the variable is allowed; writing through an external handle (`p.x = …`, `xs[i] = …`) is rejected. The seal is deep: fields, elements and loop variables read from a readonly value are readonly too, and a readonly value cannot be passed, stored or returned where a plain (non-readonly) type is expected. See `examples/readonly_seal.hy` and [Types — Readonly](/docs/references/types#readonly-types).
+Rebinding the variable is allowed; writing through an external handle (`p.x = …`, `xs[i] = …`) is rejected. The seal is deep: fields, elements and loop variables read from a readonly value are readonly too, and a readonly value cannot be passed, stored or returned where a plain (non-readonly) type is expected.
+
+`readonly T` is also a type, so a function that only reads says so, and accepts both kinds of value:
+
+```coil
+fn total(readonly Point p) -> int {
+    return p.x + p.y;   // `p.x = 0;` would not compile
+}
+
+let a = new Point(1, 2);
+let b = readonly new Point(3, 4);
+let sum = total(a) + total(b);
+let c: readonly Point = a;   // `readonly e` works on any expression too: `readonly a`
+```
+
+`const` and `readonly` are independent: `const` locks the **name**, `readonly` locks the **value**.
+
+|  | mutable value | `readonly` value |
+|---|---|---|
+| `let` | `let p = new Point(1, 2);` | `let p: readonly Point = …;` / `let p = readonly new Point(1, 2);` |
+| `const` | `const p = new Point(1, 2);` (warns: the value is still mutable) | `const p = readonly new Point(1, 2);` fully frozen, no warning |
+
+See `examples/readonly_seal.hy` and [Types — Readonly](/docs/references/types#readonly-types).
 
 **Reading** a variable emits a load from that slot. The typechecker ensures you only assign types compatible with the binding's declared or inferred type.
 

@@ -17,7 +17,7 @@ All keywords in the coil parser. Keywords are recognized by position: the identi
 | `let` | Statement | Mutable local binding | [Syntax — Statements](/docs/references/syntax#statements) |
 | `const` | Statement | Immutable local binding (shallow: heap interiors may still mutate) | [Syntax — Statements](/docs/references/syntax#statements) |
 | `static` | Declaration | Module or class singleton slot | [Types — Statics](/docs/references/types#static-slots) |
-| `readonly` | Expression | Seal value against external mutation | [Types — Readonly](/docs/references/types#readonly-types) |
+| `readonly` | Expression, type | Read-only view of a value (`readonly e`, `readonly T`) | [Types — Readonly](/docs/references/types#readonly-types) |
 | `if` | Statement | Conditional | [Syntax — Statements](/docs/references/syntax#statements) |
 | `else` | Statement | Alternative branch | [Syntax — Statements](/docs/references/syntax#statements) |
 | `while` | Statement | Loop while condition true | [Syntax — Statements](/docs/references/syntax#statements) |
