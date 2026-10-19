@@ -275,9 +275,10 @@ impl Measurable for int {
 
 Generic functions use `type_param_list` on `fn` (see above). Bounds use `+`
 between trait names (`T: Num + Eq` or `T: Add`). Multi-parameter traits use a trailing
-`where Trait<T1, T2>` clause. A single-parameter bound on the function's own
-parameter is written `T: Num`; `where Num<T>` there is an error. A method can
-still bound its impl's parameter with `where Num<T>`.
+`where Trait<T1, T2>` clause; a unary `where Num<T>` is an error. A
+single-parameter bound is written on the parameter: `fn f<T: Num>`, or, for
+methods that need a bound on an impl's parameter, a separate bounded impl
+block `impl Cell<T: Num> { … }` next to the unbounded `impl Cell<T>`.
 Higher-kinded parameters use explicit kind annotations (`F: * -> *`,
 `F: * -> * -> *`, or `F: (* -> *) -> *`); a bound whose trait parameter is
 constructor-kinded (for example `F: Container`) also implies that kind. A

@@ -568,10 +568,18 @@ impl Convert<int> for int { fn cast(int x) -> int { return x; } }
 fn apply_cast<A, B>(A x) -> B where Convert<A, B> { return cast(x); }
 ```
 
-Single-parameter traits bound a function's own parameter inline (`T: Num`);
-`where Num<T>` on such a parameter is an error that suggests `T: Num`. A method
-may use the unary `where Num<T>` for a parameter of its enclosing `impl`, which
-it cannot rebind.
+`where` is for multi-parameter traits only. A single-parameter bound goes on
+the parameter it bounds: `fn f<T: Num>` for a function's own parameter, and a
+separate bounded impl block for methods that need a bound on an impl's
+parameter:
+
+```coil
+class Cell<T> { pub v: T, }
+impl Cell<T> { pub fn get() -> T { return self.v; } }
+impl Cell<T: Num> { pub fn doubled() -> T { return self.v + self.v; } }
+```
+
+A unary `where Num<T>` is an error whose fix-it names the matching form.
 
 ### Kinds
 
