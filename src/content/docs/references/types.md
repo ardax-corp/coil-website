@@ -187,7 +187,7 @@ let mode: string = Mode::Fast;    // "fast"
 | Expression coerce | Implicit to the backing wherever that primitive is expected: `let n: int = Status::Ok`, `Status::Ok + 1`, pass `Status` to an `int` parameter, `format("%i", s)` |
 | Reverse coerce | None. Write `Status::Ok`, not `200 as Status`. Matching a raw `200` against a `Status` scrutinee is a type error |
 | `.value` | Does not exist. Conversion is the implicit coerce above |
-| `Show` / `String` | Prints the backing (`Status::Ok` shows as `200`, same as showing that `int`). Not the qualified name |
+| `Show` | Prints the backing (`Status::Ok` shows as `200`, same as showing that `int`). Not the qualified name |
 | `Eq` / `Hash` / `Ord` | Compare, hash, and order the backing word (`Ord` follows the numeric/string order, not declaration order) |
 | `Default` | First case, same as payload enums |
 | `match` | Constructor cases (`Status::Ok`) plus a `default` catch-all. Payload enums stay the same |
@@ -304,7 +304,7 @@ let n = d.x;              // field access
 - Anonymous records have structural `Show` support when every field is showable: `%v`, `show(r)` / `r.show()` and a `T: Show` bound all accept a ground record, through a monomorphic clone or a shared generic body's dictionary. Fields print in canonical name order as `{ a: 1, b: 2 }`, the same text `%v` prints.
 
 Structural `Show` covers tuples, fixed arrays, anonymous records, `Option` and `Result` automatically. Non-generic
-enums and classes receive a **default** `Show`/`String` that returns the type name
+enums and classes receive a **default** `Show` that returns the type name
 as a string (same display as `typeof self` for non-generic types)
 (the type's fully-qualified name). Prefer `#[derive(Show)]` for structural field
 formatting (see [Trait derive](#trait-derive)), or write an explicit `impl Show for T`.
@@ -782,12 +782,11 @@ class Cell {
 | `Ord` | `lt`, `le`, `gt`, `ge` | Payload: lexicographic on declaration order. Scalar: order of the backing word (a `#[repr(string)]` enum orders by declaration: strings have no ordering) |
 | `Default` | `static fn default` | Class: each field takes its type's default (`0`, `0.0`, `false`, `""`, otherwise `Ty::default()`); enum: first variant with defaulted payloads. Call it as `Ty::default()` |
 | `Hash` | `hash` | Payload: tag + recursive `field.hash()`. Scalar: hash of the backing word |
-| `String` | `to_string` | Payload: `format` with `%v` per field. Scalar: same as showing the backing |
 | `Send` | _(marker)_ | Empty instance (thread spawn still uses structural sendability) |
 | `Sensitive` | _(marker)_ | Empty instance (redaction hooks deferred) |
 
 **Default display (no derive):** every non-generic `enum` / `class` that lacks
-`#[derive(Show)]` / `#[derive(String)]` and has no explicit `impl` gets a
+`#[derive(Show)]` and has no explicit `impl Show` gets a
 compiler-generated instance whose body returns the type name string. Explicit
 `impl` and structural `#[derive(Show)]` take precedence (overlap with a manual
 `impl` is still an error if both exist).
@@ -795,15 +794,21 @@ compiler-generated instance whose body returns the type name string. Explicit
 Rules:
 
 - Placement: immediately before the `enum` / `class` keyword (after any `///` doc comment).
-- Built-in derives: `Show`, `Eq`, `Ord`, `Default`, `Hash`, `String`, `Send`, `Sensitive`. Unknown / arithmetic traits (`Num`, …) error; user derives come from `derive` macros ([Macros](/docs/references/macros)).
+- Built-in derives: `Show`, `Eq`, `Ord`, `Default`, `Hash`, `Send`, `Sensitive`. Unknown / arithmetic traits (`Num`, …) error; user derives come from `derive` macros ([Macros](/docs/references/macros)).
 - Generic types derive bounded instances: `#[derive(Show, Eq)] class Box<T>`
   expands to `impl Show for Box<T: Show>` and `impl Eq for Box<T: Eq>`, so the
   instance applies to `Box<X>` whenever `X` has the trait. `Ord` bounds by
-  `Ord + Eq`, `String` by `Show`, `Default` by `Default` (the primitives have
+  `Ord + Eq`, `Default` by `Default` (the primitives have
   built-in `Default` instances, so `let b: Box<int> = Box::default();` works).
-  Generic types get no type-name `Show` / `String` default.
+  Generic types get no type-name `Show` default.
 - Combining `#[derive(Show)]` with a hand-written `impl Show for T` hits the usual overlap diagnostic.
 - Empty `#[derive()]` with no traits is a parse error.
+- `Show` is the one display trait. The former `String` trait (`to_string`, a
+  copy of `Show`) is gone: `#[derive(String)]` and `impl String for T` are
+  `E0119`, and a `.to_string()` with no method of that name is `E0101` /
+  `E0104`; each points at `Show` / `show()`. Call `x.show()` or
+  `format("%v", x)` instead. A class's own `fn to_string()` method is
+  unaffected.
 
 See `examples/derive_show_eq.hy`, `examples/derive_hash.hy`, and `examples/typeof_len.hy`.
 
