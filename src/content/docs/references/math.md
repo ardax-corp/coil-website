@@ -22,8 +22,9 @@ These functions accept and return `float` values:
 For powers and remainders use the operators: `a ** b` (on `float`, IEEE
 `powf`; on `int`, an overflow or a negative exponent traps) and `a % b` (on
 `float`, C `fmod`: the sign follows `a`). `prelude::math::pow` and
-`prelude::math::rem` were removed; importing or calling them is an error that
-names the operator.
+`prelude::math::rem` were removed; importing them is an error that names the
+operator. A bare `rem(a, b)` or `pow(a, b)` is the `Rem` / `Pow` operator
+trait's method, the same as `a % b` / `a ** b`.
 
 When you need a function value, `use num::{pow};` gives:
 
