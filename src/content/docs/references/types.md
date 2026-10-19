@@ -215,7 +215,9 @@ fn pair(int a, string b) -> (int, string) { return (a, b); }
 
 Annotation: `(T1, T2, ...)`. Literal syntax requires a comma: `(1,)` is a 1-tuple; `(1)` is a parenthesized expression.
 
-Tuples have structural `Show` support when every element is showable, `()` elements included: `%v`, `show(t)` / `t.show()` and a `T: Show` bound all accept a ground tuple (`show(((), 1))` is `"((), 1)"`), through a monomorphic clone or a shared generic body's dictionary. A tuple with an element of an open type parameter (`show((x, 1))` inside `fn f<T: Show>(T x)`) has no instance yet. The printed form is `(a, b)` (and `(a,)` for a 1-tuple).
+Tuples have structural `Show` support when every element is showable, `()` elements included: `%v`, `show(t)` / `t.show()` and a `T: Show` bound all accept a ground tuple (`show(((), 1))` is `"((), 1)"`), through a monomorphic clone or a shared generic body's dictionary. A tuple with an element of a bounded type parameter is showable too: inside `fn f<T: Show>(T x)`, `show((x, ()))`, `(x, 1).show()` and passing `(1, x)` on to another `Show` bound all work, each element shown through its own type's `Show` (the instance for tuples of that arity, with one `Show` dictionary per element). The printed form is `(a, b)` (and `(a,)` for a 1-tuple), the same text `%v` prints.
+
+Ground tuples also have structural `Eq` and `Hash` instances when every element has one: `t.eq(u)` / `t.ne(u)` compare as `==` / `!=` do, and `t.hash()` combines the element hashes left to right as a derived `Hash` combines fields (a `()` element hashes as `0`). So a tuple meets a `T: Eq` or `T: Hash` bound and can key a `HashMap<(int, int), V>`.
 
 Homogeneous numeric tuples also support **element-wise arithmetic** (zip /
 broadcast / unary `-`). See [Operators](/docs/references/operators).
@@ -253,6 +255,13 @@ Empty `[]` needs an annotation: `Vec<T>` or `[T; 0]`. There is **no**
 dicts (structural); for other types it requires a `Length` instance
 (`impl Length for T { fn len(T x) -> int { … } }`). Fixed-size cases fold at
 compile time.
+
+Fixed arrays have structural `Show`, `Eq` and `Hash` instances when their
+element type has one: `show([1, 2])` / `format("%v", [1, 2])` print
+`[1, 2]`, `a.eq(b)` / `a.ne(b)` compare as `==` / `!=` do, and `a.hash()`
+combines the element hashes as a derived `Hash` combines fields. They meet
+`T: Show`, `T: Eq` and `T: Hash` bounds. An array of values with no `Show`
+(functions, say) is still refused by `%v` (`E0300`).
 
 ### `Vec<T>` — growable vectors
 
@@ -292,9 +301,9 @@ let n = d.x;              // field access
 - Two record literals with the same field names and compatible field types unify structurally.
 - Field access on records uses string-keyed `GetField`; enum record variants use index-based `LoadField`.
 - Duplicate field names in one literal → parse error (`E0208`); typecheck repeats the check if parse is bypassed.
-- Anonymous records have structural `Show` support for `%v` when every field is showable (`%v` only: unlike tuples, not `show(r)` or a `T: Show` bound). Fields print in canonical name order as `{ a: 1, b: 2 }`.
+- Anonymous records have structural `Show` support when every field is showable: `%v`, `show(r)` / `r.show()` and a `T: Show` bound all accept a ground record, through a monomorphic clone or a shared generic body's dictionary. Fields print in canonical name order as `{ a: 1, b: 2 }`, the same text `%v` prints.
 
-Structural `Show` covers tuples and anonymous records automatically. Non-generic
+Structural `Show` covers tuples, fixed arrays, anonymous records, `Option` and `Result` automatically. Non-generic
 enums and classes receive a **default** `Show`/`String` that returns the type name
 as a string (same display as `typeof self` for non-generic types)
 (the type's fully-qualified name). Prefer `#[derive(Show)]` for structural field
@@ -731,8 +740,9 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 | `Gt` | Greater-than | `>` → `gt` |
 | `Ge` | Greater-or-equal | `>=` → `ge` |
 | `Ord` | Convenience bundle | Supertrait of `Lt` + `Le` + `Gt` + `Ge` (no own methods) |
-| `Eq` | Equality | `==`, `!=` (`unit` too: `()` equals `()`, also under a `T: Eq` bound) |
-| `Show` | Display | `show(T) -> string`; used by format `%v` |
+| `Eq` | Equality | `==`, `!=` (`unit` too: `()` equals `()`, also under a `T: Eq` bound); structural for ground tuples and fixed arrays of `Eq` elements |
+| `Hash` | Hashing | `hash(T) -> int`; structural for ground tuples and fixed arrays of `Hash` elements (combined as a derived `Hash` combines fields) |
+| `Show` | Display | `show(T) -> string`; used by format `%v`; structural for tuples (bounded type-parameter elements included), fixed arrays, anonymous records, `Option` and `Result` |
 | `Length` | Size query | `len(T) -> int`; used by `len(x)` for custom types (arrays/tuples/dicts/strings are structural) |
 | `Into` | Conversion | `into(Self) -> T` via `impl Into<T> for Self` (no builtin instances) |
 
@@ -1112,7 +1122,7 @@ fn main() {
 }
 ```
 
-Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`. User types can `impl Show for MyType`. See `examples/generic_print.hy`.
+Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`, plus the structural ones: tuples, fixed arrays and anonymous records of shown types, and `Option` / `Result` over shown types (`Some(1)`, `None`, `Ok(2)`, `Err(bad)`, the payload as `%v` shows it). `show(x)`, `x.show()` and `format("%v", x)` agree for all of them. User types can `impl Show for MyType`. See `examples/generic_print.hy`.
 
 ---
 
