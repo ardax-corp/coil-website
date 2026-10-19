@@ -523,7 +523,7 @@ Primitive casts use postfix `expr as T` (`int` / `float` / `byte` / `bool`). `fl
 ### Coroutines
 
 ```
-gen_fn       ::= 'gen' function_decl      // 'async' is accepted as the old spelling
+gen_fn       ::= 'gen' function_decl
 resume_expr  ::= 'resume' expr ('with' expr)?
 yield_expr   ::= 'yield' ('from' expr | expr)
 binding_yield ::= 'let' IDENT '=' yield_expr
