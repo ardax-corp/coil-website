@@ -152,6 +152,8 @@ type_fn_sig ::= 'fn' '(' '...' IDENT ')' '->' type_annotation
 
 Arity overloads (same name, different arities / rest ranges), **type overloads** (same arity, distinct parameter types — e.g. `show(int)` / `show(float)`), first-class monomorphic functions (`let f = add`), positional and named partial application, and explicit-capture lambdas (`fn (T x) use (y) => …`) are supported. See `examples/overload.hy`, `examples/type_overload.hy`, `fn_value.hy`, and `lambda.hy`.
 
+A lambda may sit inside a generic function: it is compiled at each instantiation's types, so it can capture values of a type parameter, take or return `T` (or a tuple, `Option` or `Result` of it), call other generic functions, nest inside another lambda, and be returned (`fn maker<T>(T x) -> (unit -> T) { return fn () use (x) => x; }`). A lambda that itself uses its function's trait bound (`%v` through `T: Show`, `<` through `T: Ord`) is not compiled yet (E0801); do that work outside the lambda.
+
 
 Call sites may use named arguments (`name: expr`) after any positional
 prefix. Arguments are evaluated in the order they are written, whatever
