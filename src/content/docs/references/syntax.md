@@ -162,7 +162,7 @@ into one vector (`T... xs` → `Vec<T>`) or tuple (`... xs` → `(T1, …, Tn)`)
 A bare `... xs` takes the shape of each call: `count(1, 2)`, `count(1, "a")`
 and `count()` pack `(int, int)`, `(int, string)` and `()`. The function is
 checked and compiled once per distinct pack, like a template, so its body
-uses `xs` as that tuple: `len(xs)` is the pack's length, `xs[0]` has the
+uses `xs` as that tuple: `xs.len()` is the pack's length, `xs[0]` has the
 first argument's type, and a runtime `xs[i]` needs all elements to share a
 type. An error in the body is reported for the pack that causes it, and a
 body that is never called is never checked. A function whose calls keep

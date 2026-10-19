@@ -251,8 +251,8 @@ a non-growable heap array.
 Empty `[]` needs an annotation: `Vec<T>` or `[T; 0]`. There is **no**
 `arr[] =` append — use `Vec::push` (rejected append is `E0107`).
 
-`len(value)` returns length as `int` for arrays, `Vec`, strings, tuples, and
-dicts (structural); for other types it requires a `Length` instance
+`value.len()` returns length as `int` for arrays, `Vec`, strings, tuples, and
+records (structural); for other types it requires a `Length` instance
 (`impl Length for T { fn len(T x) -> int { … } }`). Fixed-size cases fold at
 compile time.
 
@@ -743,7 +743,7 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 | `Eq` | Equality | `==`, `!=` (`unit` too: `()` equals `()`, also under a `T: Eq` bound); structural for ground tuples and fixed arrays of `Eq` elements |
 | `Hash` | Hashing | `hash(T) -> int`; structural for ground tuples and fixed arrays of `Hash` elements (combined as a derived `Hash` combines fields) |
 | `Show` | Display | `show(T) -> string`; used by format `%v`; structural for tuples (bounded type-parameter elements included), fixed arrays, anonymous records, `Option` and `Result` |
-| `Length` | Size query | `len(T) -> int`; used by `len(x)` for custom types (arrays/tuples/dicts/strings are structural) |
+| `Length` | Size query | `fn len(T) -> int`; called as `x.len()` on custom types (arrays/`Vec`/tuples/records/strings are structural) |
 | `Into` | Conversion | `into(Self) -> T` via `impl Into<T> for Self` (no builtin instances) |
 
 `Into` is multi-parameter: `impl Into<T> for S` stores instance args
