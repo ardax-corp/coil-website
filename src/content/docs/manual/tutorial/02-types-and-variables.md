@@ -257,7 +257,7 @@ const VERSION = "1.0";
 // VERSION = "2.0";   // error: cannot assign to const binding
 ```
 
-`const` is **shallow**: if the initializer is heap-mutable (`Vec<T>`, a class instance, or a dict), the compiler emits a warning that interior mutation (fields, indices) still succeeds. Scalars, strings, tuples, and enums without interior paths do not warn.
+`const` is **shallow**: if the initializer is heap-mutable (`Vec<T>`, a class instance, or a dict), the compiler emits a warning that interior mutation (fields, indices) still succeeds. Scalars, strings, tuples, and enums without interior paths do not warn, and neither does a `readonly` value (`const p = readonly new Point(1, 2);`), which is sealed all the way down.
 
 ### Module `static` slots
 
@@ -281,7 +281,7 @@ let xs = readonly [1, 2, 3];
 let p = readonly new Point(1, 2);
 ```
 
-Rebinding the variable is allowed; writing through an external handle (`p.x = …`, `xs[i] = …`) is rejected. See `examples/readonly_seal.hy` and [Types — Readonly](/docs/references/types#readonly-types).
+Rebinding the variable is allowed; writing through an external handle (`p.x = …`, `xs[i] = …`) is rejected. The seal is deep: fields, elements and loop variables read from a readonly value are readonly too, and a readonly value cannot be passed, stored or returned where a plain (non-readonly) type is expected. See `examples/readonly_seal.hy` and [Types — Readonly](/docs/references/types#readonly-types).
 
 **Reading** a variable emits a load from that slot. The typechecker ensures you only assign types compatible with the binding's declared or inferred type.
 
