@@ -23,7 +23,7 @@ fn save(string path, string text) uses {write, suspend} {
 `pure fn` promises no effects at all. `uses {…}` lists the effects a function
 may have; `uses {}` means the same as `pure`. A function can have one or the
 other, not both. The clause comes after `where`, when there is one:
-`fn name<T>(…) -> R where Trait<T> uses {…} { … }`.
+`fn name<A, B>(…) -> R where Trait<A, B> uses {…} { … }`.
 
 ## The effects
 
