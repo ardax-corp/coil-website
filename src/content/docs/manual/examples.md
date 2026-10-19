@@ -1348,7 +1348,7 @@ trait Pointer<P: * -> *> {
     fn deref<T>(P<T> ptr) -> Ref<T>;
 }
 
-impl Pointer<Option> {
+impl Pointer for Option {
     type Ref<T> = T;
     fn deref<T>(Option<T> ptr) -> T { /* ... */ }
 }
@@ -1804,7 +1804,7 @@ Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/recei
 
 ### `examples/block_on_io.hy`
 
-**Demonstrates:** prelude `block_on(coro)` (deprecated, `E0129`) — discards yields, returns completion value.
+**Demonstrates:** `task::block_on(coro)` (`use task::block_on;`) — discards yields, returns completion value.
 
 | | |
 |---|---|

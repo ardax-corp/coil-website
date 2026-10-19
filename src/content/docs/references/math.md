@@ -1,11 +1,11 @@
 ---
 title: "Math (`sin` / `sqrt` / linear algebra)"
-description: "Auto-imported from virtual prelude::math (via injectpreludescope — no source use needed), except pow, which lives in userland num so int/float overloads share one name."
+description: "Auto-imported from virtual prelude::math (via inject_prelude_scope — no source use needed). Powers and remainders are the ** and % operators; num::pow is the function form."
 ---
 
 # Math (`sin` / `sqrt` / linear algebra)
 
-Auto-imported from virtual `prelude::math` (via `inject_prelude_scope` — no source `use` needed), except **`pow`**, which lives in userland `num` so int/float overloads share one name.
+Auto-imported from virtual `prelude::math` (via `inject_prelude_scope` — no source `use` needed). Powers and remainders are the `**` and `%` operators, not functions here.
 
 ## Scalar float math
 
@@ -19,14 +19,19 @@ These functions accept and return `float` values:
 | `exp` | `float -> float` | `e` raised to the argument |
 | `ln` | `float -> float` | Natural logarithm |
 
-`pow` is **not** auto-imported. Use `use num::{pow};` for:
+For powers and remainders use the operators: `a ** b` (on `float`, IEEE
+`powf`; on `int`, an overflow or a negative exponent traps) and `a % b` (on
+`float`, C `fmod`: the sign follows `a`). `prelude::math::pow` and
+`prelude::math::rem` were removed; importing them is an error that names the
+operator. A bare `rem(a, b)` or `pow(a, b)` is the `Rem` / `Pow` operator
+trait's method, the same as `a % b` / `a ** b`.
+
+When you need a function value, `use num::{pow};` gives:
 
 | Overload | Meaning |
 |----------|---------|
-| `pow(float, float) -> float` | IEEE `powf` via virtual `prelude::math::pow` |
-| `pow(int, int) -> int` | Iterative integer power (`exp >= 0`) |
-
-Explicit `use prelude::math::{pow};` still binds the float-only host native when you need it without `num`.
+| `pow(float, float) -> float` | `a ** b` |
+| `pow(int, int) -> int` | Iterative integer power; `exp < 0` returns `0` (unlike `**`, which traps) |
 
 They use Rust `f64` operations through `HostInvoke` and preserve IEEE-754
 behavior: for example, `sqrt(-1.0)` and `ln(-1.0)` produce NaN,
@@ -34,11 +39,10 @@ behavior: for example, `sqrt(-1.0)` and `ln(-1.0)` produce NaN,
 They do not clamp exceptional inputs to `0.0`.
 
 ```coil
-use num::{pow};
-
-let radius = sqrt(pow(3.0, 2.0) + pow(4.0, 2.0)); // 5.0
-let wave = sin(3.141592653589793 / 2.0);            // 1.0
-let bits = pow(2, 10);                              // 1024
+let radius = sqrt(3.0 ** 2.0 + 4.0 ** 2.0); // 5.0
+let wave = sin(3.141592653589793 / 2.0);     // 1.0
+let bits = 2 ** 10;                          // 1024
+let frac = 7.5 % 2.0;                        // 1.5
 ```
 
 ## Linear algebra

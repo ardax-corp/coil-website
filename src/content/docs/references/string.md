@@ -35,7 +35,7 @@ use string::{format, to_bytes};
 write_all(stdout(), to_bytes(format("%i", 42)));
 ```
 
-`io::{from_bytes, to_bytes}` remain aliases for compatibility.
+The old `io::{from_bytes, to_bytes}` aliases were removed; importing them from `io` is an error that names `string::`.
 
 ## Related
 
