@@ -121,7 +121,7 @@ none. `$(parts)&&*` splices a `Vec<Code>` with `&&` between the elements:
 ```coil
 /// `all!(a, b, …)`: true when every argument is (`true` for none).
 macro all(Vec<Expr> conds) -> Code {
-    if len(conds) == 0 {
+    if conds.len() == 0 {
         return raw("true");
     }
     let parts: Vec<Code> = Vec::new();
@@ -397,7 +397,7 @@ class User {
 fn main() {
     let u = new User(1, "ada", true);
     let cols = User::columns();
-    write_all(stdout(), to_bytes(format("%s %s %i\n", u.describe(), cols[1], len(cols))));
+    write_all(stdout(), to_bytes(format("%s %s %i\n", u.describe(), cols[1], cols.len())));
 }
 ```
 
@@ -572,7 +572,7 @@ Some rules of thumb:
 2. Add an `int times` argument to `#[trace]` and repeat the call that many
    times, returning the last result.
 3. Write `#[derive(FieldCount)]` that adds `static fn field_count() -> int`.
-   `len(t.fields())` counts the fields and `lit_int` turns an `int` into
+   `t.fields().len()` counts the fields and `lit_int` turns an `int` into
    code.
 4. Extend `Columns` to leave out fields marked `#[column(skip = true)]`.
    `f.attr_str("column", "skip", "false")` reads the flag as text.

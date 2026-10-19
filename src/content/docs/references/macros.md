@@ -129,7 +129,7 @@ macro check(Expr cond) -> Code {
 
 /// `sum!(a, b, …)`: the sum of every argument.
 macro sum(Vec<Expr> xs) -> Code {
-    if len(xs) == 0 {
+    if xs.len() == 0 {
         return raw("0");
     }
     let parts: Vec<Code> = Vec::new();

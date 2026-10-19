@@ -45,7 +45,7 @@ one heap pointer at the call boundary today, so a parameter aliases the
 caller's array: a callee's `a[0] = 0` is seen by the caller. Copy into a local
 first (`let b = a;`) when the callee must not change the caller's array.
 
-`x.len()` is the canonical length. Free `len(x)` is prelude sugar that desugars to that method; structural array/tuple/string `.len()` still lowers to `ArrayLen`. Element-wise zip / LA helpers
+`x.len()` is the one length spelling (the free `len(x)` was removed; calling it is `E0101`). Structural array / `Vec` / tuple / string `.len()` lowers to `ArrayLen`, or a constant for a fixed size. Element-wise zip / LA helpers
 still require fixed lengths.
 
 ## `Vec<T>` — growable heap vector
