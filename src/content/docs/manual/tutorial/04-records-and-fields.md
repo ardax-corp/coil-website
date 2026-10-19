@@ -213,6 +213,16 @@ fn main() {
 
 `o.x` reads the `x` field (an `Inner` value), and `.v` reads the `v` field from that inner record. Each dot in the chain resolves against the **type of the receiver to its left**, not the outermost enum.
 
+A space or line break may come before any `.`, whatever the receiver: an identifier, a call, a field, a string or number literal, or a postfix `?`. A long chain can put each `.member` on its own line (this is how `coil fmt` breaks chains that are too wide):
+
+```coil
+let n = "abcdefghijklmnopqrstuvwxyz"
+    .len()
+    .show();
+```
+
+The `.` must be followed by a name, so `1.5` stays a float and `a .. b` stays a range; `1 .5` is an error.
+
 ---
 
 ## Record variants vs. anonymous dicts
