@@ -255,10 +255,14 @@ Empty `[]` needs an annotation: `Vec<T>` or `[T; 0]`. There is **no**
 `value.len()` returns length as `int` for arrays, `Vec`, strings, tuples, and
 records (structural); for other types it requires a `Length` instance
 (`impl Length for T { fn len(T x) -> int { … } }`). Fixed-size cases fold at
-compile time. Ground arrays, `Vec`s, tuples and records also meet a
+compile time. Arrays, `Vec`s, tuples and records also meet a
 `T: Length` bound, as strings do: `fn size<T: Length>(T x) -> int { return
 x.len(); }` accepts `Vec::from([1, 2])`, `[1, 2]`, `(1, "a")` and `{ x: 1 }`,
-its `len` reading the same structural length.
+its `len` reading the same structural length. So do ones built from a
+generic function's own type parameters: `fn n<E>(Vec<E> v) -> int { return
+size(v); }` and `size((a, b))` inside `fn f<A, B>(A a, B b)` compile, as
+does any generic value a generic instance serves (`Box<E>` under
+`impl Sz for Box<T>`).
 
 Fixed arrays have structural `Show`, `Eq` and `Hash` instances when their
 element type has one: `show([1, 2])` / `format("%v", [1, 2])` print
