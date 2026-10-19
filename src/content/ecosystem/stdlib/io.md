@@ -16,7 +16,7 @@ use io::file::{read_text, write_text};
 ```
 
 Structure concurrent IO with `task::scope` / `spawn` (IO inside a task parks it).
-`block_on` is deprecated (`E0129`).
+For a one-off generator, `task::block_on` resumes it to completion.
 Tutorials: [IO streams](/docs/manual/tutorial/10-io-streams), [Tasks](/docs/manual/tutorial/12-tasks).
 
 ## `io::sync`
