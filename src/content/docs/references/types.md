@@ -84,6 +84,13 @@ fn add(int a, int b) -> int { return a + b; }
 // add : int -> int -> int
 ```
 
+So a value of that type can be called with both arguments at once or one at
+a time, whichever way it was written: `f(1, 2)` and `f(1)(2)` are the same
+call on a two-parameter function and on one that takes `a` and returns a
+function of `b`. Given fewer arguments than a function declares, a call is a
+partial application; given more, it applies the declared ones and calls the
+function they return with the rest.
+
 Write a function type either way, in any type position: `int -> int -> int`
 or `fn(int a, int b) -> int` (names optional: `fn(int, int) -> int`). A
 function taking no arguments is `fn() -> int`, the same type as `unit -> int`. See

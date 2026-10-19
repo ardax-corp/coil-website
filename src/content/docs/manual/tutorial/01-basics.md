@@ -258,6 +258,21 @@ fn main() {
 
 The arguments, and the receiver, are evaluated when the partial call is made, not when the resulting function is called. A partial call has a function type, so using it where the result is expected is a type error (`let r: int = add3(1);` reports `E0102`).
 
+The other way round works too: a function that returns a function can be given all the arguments at once. The call applies the arguments the function declares, then calls the function it returns with the rest:
+
+```coil
+fn adder(int a) -> int -> int {
+    return fn (int b) use (a) => a * 10 + b;
+}
+
+fn main() {
+    let x = adder(1)(2); // 12
+    let y = adder(1, 2); // 12, the same call
+}
+```
+
+The same holds for function values. A value of type `int -> int -> int` may be a two-parameter closure (`fn (int a, int b) => …`) or a curried one (`fn (int a) => fn (int b) use (a) => …`), and either one can be called as `f(1, 2)` or as `f(1)(2)`.
+
 ---
 
 ## Return statements
