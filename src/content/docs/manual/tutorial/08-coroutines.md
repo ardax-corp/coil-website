@@ -225,8 +225,9 @@ fn main() {
 ```
 
 See `examples/for_in_coro.hy`. The same `for x in` form also iterates
-arrays, homogeneous tuples/dicts, and user `impl IntoIterator` types
-(see `examples/for_in_array.hy`, `for_in_dict.hy`, `for_in_custom.hy`).
+arrays, homogeneous tuples, ranges and user `impl IntoIterator` types
+(see `examples/for_in_array.hy`, `for_in_custom.hy`). Records are not
+iterable.
 
 ## Related
 

@@ -1962,17 +1962,6 @@ with `.to_vec()` (`tests/positive/range_to_vec.hy`).
 
 ---
 
-### `examples/for_in_dict.hy`
-
-**Demonstrates:** homogeneous dict for-in as `(string, V)` pairs (`p[1]` prints values).
-
-| | |
-|---|---|
-| **Run** | `cargo run -- examples/for_in_dict.hy` |
-| **Output** | `12` |
-
----
-
 ### `examples/for_in_custom.hy`
 
 **Demonstrates:** user `impl IntoIterator` + `impl Iterator` on a class.

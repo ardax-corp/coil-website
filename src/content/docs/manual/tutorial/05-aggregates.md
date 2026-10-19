@@ -1,11 +1,11 @@
 ---
 title: "Tutorial: Aggregates"
-description: "coil gives you four ways to group data: tuples, arrays, dicts (anonymous records), and enum record variants. This chapter covers the first three plus type aliases, which make…"
+description: "coil gives you four ways to group data: tuples, arrays, records, and enum record variants. This chapter covers the first three plus type aliases, which make…"
 ---
 
 # Tutorial: Aggregates
 
-coil gives you four ways to group data: **tuples**, **arrays**, **dicts** (anonymous records), and **enum record variants**. This chapter covers the first three plus **type aliases**, which make complex aggregate types easier to read.
+coil gives you four ways to group data: **tuples**, **arrays**, **records**, and **enum record variants**. This chapter covers the first three plus **type aliases**, which make complex aggregate types easier to read.
 
 ---
 
@@ -181,9 +181,9 @@ See [Arrays and Vec](/docs/references/arrays) and `examples/vec.hy`.
 
 ---
 
-## Dicts (anonymous records)
+## Records
 
-A **dict** (anonymous record) is written with curly braces and named fields:
+A **record** is written with curly braces and named fields:
 
 ```coil
 use io::{stdout};
@@ -196,7 +196,7 @@ write_all(stdout(), to_bytes(format("%i", d.bar)));   // 100
 
 ### Structural typing
 
-Dicts are **structurally typed**. Two literals with the same field names and compatible types are the same type, even if they were written in different places:
+Records are **structurally typed**. Two literals with the same field names and compatible types are the same type, even if they were written in different places:
 
 ```coil
 let a = { x: 1, y: 2 };
@@ -205,6 +205,10 @@ let b = { y: 3, x: 4 };   // field order does not matter
 ```
 
 There is no separate type name to declare — the shape `{ foo: int, bar: int }` *is* the type.
+
+A record is a fixed set of named fields. At run time it is an object with one slot per field (the fields sorted by name), so reading or writing `d.foo` costs what a class field does. Records are shared by reference: after `let b = a;`, `b.x = 5` changes `a.x` too. `d.len()` is the number of fields.
+
+Records are **not iterable**: `for x in d` is a compile error (`E0119`). When you need keys you add, remove or loop over, use `collections::map::HashMap` from the stdlib.
 
 ### Field access
 
@@ -224,9 +228,9 @@ Duplicate field names in one literal are rejected at parse time (`E0208`):
 let bad = { foo: 1, foo: 2 };   // error: Duplicate field `foo`
 ```
 
-### Dicts vs enum record variants
+### Records vs enum record variants
 
-Enum variants can also use record-shaped payloads (`Point { x: int, y: int }`), and field access (`p.x`) works on those too. The difference is that enum records belong to a **sum type** with multiple variants and require pattern matching for full dispatch. Dicts are standalone structural values with no variant tag. See the comparison table below.
+Enum variants can also use record-shaped payloads (`Point { x: int, y: int }`), and field access (`p.x`) works on those too. The difference is that enum records belong to a **sum type** with multiple variants and require pattern matching for full dispatch. Records are standalone structural values with no variant tag. See the comparison table below.
 
 ---
 
@@ -267,21 +271,21 @@ See `examples/aliases.hy` for a complete runnable example.
 
 ## Choosing the right aggregate
 
-| Feature | Tuple `(a, b)` | Array `[T; N]` / `Vec<T>` | Dict `{ k: v }` | Enum record variant |
+| Feature | Tuple `(a, b)` | Array `[T; N]` / `Vec<T>` | Record `{ k: v }` | Enum record variant |
 |---------|----------------|--------------------------|-----------------|---------------------|
 | Element types | Heterogeneous | Homogeneous | Named fields, any types per field | Named fields, fixed by enum declaration |
 | Size | Fixed at compile time | Fixed (`[T; N]`) or runtime (`Vec`) | Fixed by literal | Fixed by variant declaration |
 | Access | Index `t[i]` | Index `arr[i]` / `v[i]` | Field `d.foo` | Field `p.x` or pattern match |
 | Type identity | Structural `(int, string)` | Structural `[int; 3]` / nominal `Vec<int>` | Structural `{ foo: int }` | Nominal — tied to enum name |
 | Variants | None | None | None | Multiple variants (sum type) |
-| Typical use | Return multiple values | Fixed buffers / growable collections | Ad-hoc structs, config maps | Domain types with tagged variants |
+| Typical use | Return multiple values | Fixed buffers / growable collections | Ad-hoc structs | Domain types with tagged variants |
 
 **Rule of thumb:**
 
 - Use a **tuple** when you need a small, fixed bundle of different types (coordinates, `(value, error)` pairs).
 - Use an **array** `[T; N]` when all elements share one type and the length is known.
 - Use a **`Vec<T>`** when the collection must grow or the length is only known at runtime.
-- Use a **dict** when you want named fields without declaring an enum.
+- Use a **record** when you want named fields without declaring an enum or class. Use a `HashMap` for keys that vary at run time.
 - Use an **enum record variant** when the value is part of a larger sum type with distinct cases (`Some` / `None`, `Ok` / `Err`).
 
 ---
@@ -309,7 +313,7 @@ For a growable table, use `type Table = Vec<Row>;` and `Vec::from([...])`.
 
 See `examples/nested_aggregates.hy` for a complete runnable program (aliases + `for` + let-destructure).
 
-You can nest the other way too: tuples of arrays, arrays of dicts, dicts whose fields are tuples, and so on. Prefer a named `type` alias when the nested shape appears more than once.
+You can nest the other way too: tuples of arrays, arrays of records, records whose fields are tuples, and so on. Prefer a named `type` alias when the nested shape appears more than once.
 
 ---
 
@@ -319,10 +323,10 @@ You can nest the other way too: tuples of arrays, arrays of dicts, dicts whose f
 |------|--------------|
 | `examples/array_grow.hy` | `Vec::from` + `push` / `len` (growable buffers) |
 | `examples/vec.hy` | Fixed `[T; N]` stack locals + `Vec` methods |
-| `examples/dict.hy` | Dict literals and field access |
+| `examples/dict.hy` | Record literals and field access |
 | `examples/aliases.hy` | Type aliases with tuples |
 | `examples/nested_aggregates.hy` | `Vec<Row>` tables with aliases |
-| `examples/record.hy` | Enum record variants (contrast with dicts) |
+| `examples/record.hy` | Enum record variants (contrast with records) |
 
 Run any example from the project root:
 
@@ -334,6 +338,6 @@ cargo run -- --root ../coil-stdlib/src examples/dict.hy
 
 ## See also
 
-- [Records and Fields](/docs/manual/tutorial/04-records-and-fields) — enum record variants vs anonymous dicts
+- [Records and Fields](/docs/manual/tutorial/04-records-and-fields) — enum record variants vs records
 - [Types and Variables](/docs/manual/tutorial/02-types-and-variables) — type annotations and inference
 - [Types reference](/docs/references/types) — complete type system reference

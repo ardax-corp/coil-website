@@ -304,7 +304,7 @@ Proven counted-loop `Index` / `StoreIndex` rewrite to unchecked opcodes ([#192](
 
 ---
 
-## Records / dicts (`Ty::Record`)
+## Records (`Ty::Record`)
 
 Anonymous structurally typed records:
 
@@ -314,7 +314,9 @@ let n = d.x;              // field access
 ```
 
 - Two record literals with the same field names and compatible field types unify structurally.
-- Field access on records uses string-keyed `GetField`; enum record variants use index-based `LoadField`.
+- A record is a heap object with one slot per field, like a class instance: its slots are the fields sorted by name, so `{ y: 9, x: 8 }` and `{ x: 8, y: 9 }` have the same layout. Field reads and writes are slot loads and stores (`LoadField` / `SetField`), not keyed lookups. Records are shared by reference: `let b = a; b.x = 5;` changes `a.x` too.
+- `r.len()` is the number of fields, a compile-time constant.
+- A record is not iterable: its fields are a fixed set of names, so `for x in r` is an error (`E0119`). For keys you add, remove or iterate, use `collections::map::HashMap` from the stdlib.
 - Duplicate field names in one literal → parse error (`E0208`); typecheck repeats the check if parse is bypassed.
 - Anonymous records have structural `Show` support when every field is showable: `%v`, `show(r)` / `r.show()` and a `T: Show` bound all accept a ground record, through a monomorphic clone or a shared generic body's dictionary. Fields print in canonical name order as `{ a: 1, b: 2 }`, the same text `%v` prints.
 
@@ -394,7 +396,7 @@ let p = readonly new Point(1, 2);
 | `p.field = …` / `xs[i] = …` | Error | Allowed for class fields |
 | Rebind variable | Allowed (`let a = readonly [1]; a = readonly [2];`) | — |
 
-Type pretty-print: `readonly T`. Arrays and dicts have no method exception — external `StoreIndex` / field writes are rejected.
+Type pretty-print: `readonly T`. Arrays and records have no method exception — external `StoreIndex` / field writes are rejected.
 
 ---
 
@@ -411,7 +413,7 @@ class Point {
 
 Const fields may be set only in `new` (constructor). Any later `p.x = …` or `self.x = …` is a type error — stricter than `readonly`, which allows method bodies to mutate via `self`.
 
-Local `const` bindings are shallow: the compiler warns when the initializer type is heap-mutable (`Vec<T>`, class instances, dicts) because interior mutation through fields or indexed writes still succeeds. Fixed `[T; N]` locals are multi-slot and warn when the array element type is itself heap-mutable.
+Local `const` bindings are shallow: the compiler warns when the initializer type is heap-mutable (`Vec<T>`, class instances, records) because interior mutation through fields or indexed writes still succeeds. Fixed `[T; N]` locals are multi-slot and warn when the array element type is itself heap-mutable.
 
 ---
 
