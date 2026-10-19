@@ -85,7 +85,8 @@ fn add(int a, int b) -> int { return a + b; }
 ```
 
 Write a function type either way, in any type position: `int -> int -> int`
-or `fn(int a, int b) -> int` (names optional: `fn(int, int) -> int`). See
+or `fn(int a, int b) -> int` (names optional: `fn(int, int) -> int`). A
+function taking no arguments is `fn() -> int`, the same type as `unit -> int`. See
 [Syntax — Type annotations](/docs/references/syntax#type-annotations).
 
 ---

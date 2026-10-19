@@ -663,6 +663,7 @@ type_projection ::= IDENT '::' IDENT type_arg_list?
 | `(int, string)` | Tuple type (comma required) |
 | `int -> int` | Function type (arrow spelling); `int -> int -> int` takes two `int`s |
 | `fn(int x) -> int` / `fn(int) -> int` | The same function type, signature spelling; parameter names are optional and only document |
+| `fn() -> int` | A function taking no arguments; the same type as `unit -> int` |
 | `(int -> int) -> int` | Parentheses group a type: a function taking a function |
 | `C::Elem` | Associated type projection |
 | `P::Ref<A>` | Generic associated type projection with type arguments |
