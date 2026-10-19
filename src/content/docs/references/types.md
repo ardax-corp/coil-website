@@ -558,8 +558,10 @@ impl Convert<int> for int { fn cast(int x) -> int { return x; } }
 fn apply_cast<A, B>(A x) -> B where Convert<A, B> { return cast(x); }
 ```
 
-Binder bounds (`T: Num`) remain the short form for unary classes; they desugar to
-the same constraint shape as `where Num<T>`.
+Single-parameter traits bound a function's own parameter inline (`T: Num`);
+`where Num<T>` on such a parameter is an error that suggests `T: Num`. A method
+may use the unary `where Num<T>` for a parameter of its enclosing `impl`, which
+it cannot rebind.
 
 ### Kinds
 
@@ -598,7 +600,7 @@ class, `T: c` is rejected as an unsatisfied abstract constraint.
 | `fn id<T>(T x) -> T` | Unconstrained type parameter `T` |
 | `fn add<T: Num>(T a, T b) -> T` | `T` must satisfy the `Num` bound |
 | `fn both<T: Num + Eq>(T x) -> T` | Multiple bounds (`+`) |
-| `fn f<A, B>(A x) -> B where Convert<A, B>` | Multi-param (or unary) `where` constraint |
+| `fn f<A, B>(A x) -> B where Convert<A, B>` | Multi-param `where` constraint |
 | `fn print_any(Show x)` | Bare unary trait name as an existential value type |
 | `trait Container<F: * -> *>` | Unary type-constructor parameter |
 | `trait Bifunctor<F: * -> * -> *>` | Binary type-constructor parameter |
