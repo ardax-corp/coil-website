@@ -381,18 +381,35 @@ Class `static` fields require an initializer. `static` and `const` field modifie
 
 ## Readonly types
 
-`readonly` seals a value against **external** mutation. Methods may still mutate via `self`.
+`readonly` seals a value against mutation through this reference. The seal is **deep**: whatever you read through a readonly value (a field, an element, a loop variable) is readonly too. Methods may still mutate via `self`.
 
 ```coil
 let xs = readonly [1, 2, 3];
-let p = readonly new Point(1, 2);
+let p = readonly new Point(1, new Inner(2));
 ```
 
 | Operation | `readonly T` handle | Inside `impl` via `self` |
 |-----------|-------------------|---------------------------|
-| Read fields / index | Allowed | Allowed |
-| `p.field = …` / `xs[i] = …` | Error | Allowed for class fields |
+| Read fields / index / iterate | Allowed; the result is readonly | Allowed |
+| `p.x = …` / `xs[i] = …` | Error | Allowed for class fields |
+| `p.inner.n = …`, `xs[0].n = …`, `for x in xs { x.n = …; }` | Error | — |
+| `let i = p.inner; i.n = …;` | Error: `i` is readonly | — |
 | Rebind variable | Allowed (`let a = readonly [1]; a = readonly [2];`) | — |
+
+A readonly value converts to a readonly type only, never back. Each of these is an error (E0107), because the new name could mutate the value:
+
+```coil
+fn poke(Point p) { p.x = 99; }
+poke(p);                 // a plain `Point` parameter
+let q: Point = p;        // a typed `let`
+new Holder(p);           // a plain `Point` field
+holder.p = p;            // assignment to a plain `Point` place
+fn mk() -> Point { return readonly new Point(1, new Inner(2)); }   // a plain return type
+```
+
+Generic parameters keep the qualifier, so `id(p)` with `fn id<T>(T v) -> T` returns a readonly value, and `[p]` is a `Vec<readonly Point>`. A `Vec<readonly Point>` cannot be passed where a `Vec<Point>` is expected.
+
+`readonly` costs nothing at runtime: a program compiles to the same bytecode with or without it.
 
 Type pretty-print: `readonly T`. Arrays and dicts have no method exception — external `StoreIndex` / field writes are rejected.
 
