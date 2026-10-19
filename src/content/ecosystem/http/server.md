@@ -14,7 +14,7 @@ use http::response::Response;
 
 class MyHandler {}
 
-impl HttpHandler<MyHandler> {
+impl HttpHandler for MyHandler {
     fn handle(MyHandler self, IncomingRequest req) -> Response {
         let r = Response::ok();
         r.header("Content-Type", "text/plain");

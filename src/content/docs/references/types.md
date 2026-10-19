@@ -554,7 +554,7 @@ Multi-parameter traits use a trailing `where` clause:
 
 ```coil
 trait Convert<A, B> { fn cast(A x) -> B; }
-impl Convert<int, int> { fn cast(int x) -> int { return x; } }
+impl Convert<int> for int { fn cast(int x) -> int { return x; } }
 fn apply_cast<A, B>(A x) -> B where Convert<A, B> { return cast(x); }
 ```
 
@@ -650,7 +650,7 @@ methods fill the trailing dict slots.
 
 ```coil
 trait Describable<T> { fn describe_val(T x) -> int; }
-impl Describable<int> { fn describe_val(int x) -> int { return x + 1; } }
+impl Describable for int { fn describe_val(int x) -> int { return x + 1; } }
 fn show<T: Describable>(T x) -> int { return x.describe_val(); }
 // show(42) → CALL arity = 2 (value + Describable dict)
 ```
@@ -800,7 +800,7 @@ See `examples/derive_show_eq.hy`, `examples/derive_hash.hy`, and `examples/typeo
 ### User-defined traits (sketch)
 
 Declare a trait and provide instances for concrete types. Prefer the
-`impl Trait for Type` is the only typeclass instance form. Inherent `impl Foo<T>` still takes type parameters on the type. For multi-parameter traits, `impl Trait<A, B> for T` prepends `T` as the first type argument (Self slot), so it is equivalent to `impl Trait<T, A, B>`.
+`impl Trait for Type` is the only typeclass instance form. Inherent `impl Foo<T>` still takes type parameters on the type. For multi-parameter traits, `impl Trait<A, B> for T` prepends `T` as the first type argument (Self slot), so it provides the constraint `Trait<T, A, B>`. `impl Trait<Type> { … }` is an error that suggests `impl Trait for Type`.
 
 ```coil
 trait Measurable<T> {
@@ -991,7 +991,7 @@ trait Pointer<P: * -> *> {
     fn deref<T>(P<T> ptr) -> Ref<T>;
 }
 
-impl Pointer<Option> {
+impl Pointer for Option {
     type Ref<T> = T;
     fn deref<T>(Option<T> ptr) -> T { /* ... */ }
 }
@@ -1013,8 +1013,8 @@ Unary trait parameter bounds declare superclasses:
 trait Equal<T> { fn eq_val(T a, T b) -> bool; }
 trait Ordered<T: Equal> { fn lt_val(T a, T b) -> bool; }
 
-impl Equal<int> { fn eq_val(int a, int b) -> bool { return a == b; } }
-impl Ordered<int> { fn lt_val(int a, int b) -> bool { return a < b; } }
+impl Equal for int { fn eq_val(int a, int b) -> bool { return a == b; } }
+impl Ordered for int { fn lt_val(int a, int b) -> bool { return a < b; } }
 
 // Implied Equal: no need to write `T: Ordered + Equal`
 fn cmp_eq<T: Ordered>(T a, T b) -> bool {
