@@ -56,7 +56,7 @@ fn triple(int x) -> int { return x * 3; }
 
 | Attribute | Target | Semantics |
 |-----------|--------|-----------|
-| `#[derive(Trait, …)]` | `enum` / `class` | Runs each derive (built-in `Show`, `Eq`, `Ord`, `Hash`, `String`, `Default`, `Send`, `Sensitive`, or a user `derive` imported with `use`) and adds its output after the type. Without derive, non-generic **payload** types still get a default `Show`/`String` that returns the type name string. Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
+| `#[derive(Trait, …)]` | `enum` / `class` | Runs each derive (built-in `Show`, `Eq`, `Ord`, `Hash`, `Default`, `Send`, `Sensitive`, or a user `derive` imported with `use`) and adds its output after the type. Without derive, non-generic **payload** types still get a default `Show` that returns the type name string. Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
 | `#[repr(int)]` / `#[repr(string)]` / `#[repr(float)]` / `#[repr(bool)]` | `enum` | Scalar-backed enum: each case is `Name = lit` of that primitive. May be omitted when every case has `=` and the literals share one type. See [Types — Scalar-backed enums](/docs/references/types#scalar-backed-enums). |
 | `#[max_depth(N)]` | recursive `fn` | Optional hint: presizes the VM stack for `N` simultaneous frames when the compiler cannot prove a depth (dynamic args, mutual recursion). The stack grows at run time either way, so a wrong `N` only costs a regrow. `N` must be a positive integer. |
 | Attribute macro `#[name(…)]` | `fn`, methods, `class`, `enum` | Runs the `attr name(…)` macro imported with `use`; its output replaces the item. See [Macros](/docs/references/macros#attribute-macros). |
@@ -152,6 +152,8 @@ type_fn_sig ::= 'fn' '(' '...' IDENT ')' '->' type_annotation
 
 Arity overloads (same name, different arities / rest ranges), **type overloads** (same arity, distinct parameter types — e.g. `show(int)` / `show(float)`), first-class monomorphic functions (`let f = add`), positional and named partial application, and explicit-capture lambdas (`fn (T x) use (y) => …`) are supported. See `examples/overload.hy`, `examples/type_overload.hy`, `fn_value.hy`, and `lambda.hy`.
 
+A lambda may sit inside a generic function: it is compiled at each instantiation's types, so it can capture values of a type parameter, take or return `T` (or a tuple, `Option` or `Result` of it), call other generic functions, nest inside another lambda, and be returned to a caller that passes it on to a function-typed parameter (`fn maker<T>(T x) -> (unit -> T) { return fn () use (x) => x; }`; calling the result through a `let`, `let g = maker(3); g()`, is not compiled yet). A lambda that itself uses its function's trait bound (`%v` through `T: Show`, `<` through `T: Ord`) is not compiled yet (E0801); do that work outside the lambda.
+
 
 Call sites may use named arguments (`name: expr`) after any positional
 prefix. Arguments are evaluated in the order they are written, whatever
@@ -162,7 +164,7 @@ into one vector (`T... xs` → `Vec<T>`) or tuple (`... xs` → `(T1, …, Tn)`)
 A bare `... xs` takes the shape of each call: `count(1, 2)`, `count(1, "a")`
 and `count()` pack `(int, int)`, `(int, string)` and `()`. The function is
 checked and compiled once per distinct pack, like a template, so its body
-uses `xs` as that tuple: `len(xs)` is the pack's length, `xs[0]` has the
+uses `xs` as that tuple: `xs.len()` is the pack's length, `xs[0]` has the
 first argument's type, and a runtime `xs[i]` needs all elements to share a
 type. An error in the body is reported for the pack that causes it, and a
 body that is never called is never checked. A function whose calls keep
@@ -525,7 +527,7 @@ Primitive casts use postfix `expr as T` (`int` / `float` / `byte` / `bool`). `fl
 ### Coroutines
 
 ```
-gen_fn       ::= 'gen' function_decl      // 'async' is accepted as the old spelling
+gen_fn       ::= 'gen' function_decl
 resume_expr  ::= 'resume' expr ('with' expr)?
 yield_expr   ::= 'yield' ('from' expr | expr)
 binding_yield ::= 'let' IDENT '=' yield_expr
@@ -665,6 +667,7 @@ type_projection ::= IDENT '::' IDENT type_arg_list?
 | `(int, string)` | Tuple type (comma required) |
 | `int -> int` | Function type (arrow spelling); `int -> int -> int` takes two `int`s |
 | `fn(int x) -> int` / `fn(int) -> int` | The same function type, signature spelling; parameter names are optional and only document |
+| `fn() -> int` | A function taking no arguments; the same type as `unit -> int` |
 | `(int -> int) -> int` | Parentheses group a type: a function taking a function |
 | `C::Elem` | Associated type projection |
 | `P::Ref<A>` | Generic associated type projection with type arguments |
@@ -704,7 +707,7 @@ Arms are comma-separated inside `match { ... }` (a trailing comma after the last
 A `match` at the start of a statement ends at its closing `}`, like `if`, so it
 needs no `;` (one is still accepted, and `coil fmt` removes it). A `.` or `?`
 right after the `}` continues an expression instead
-(`match x { … }.to_string();`).
+(`match x { … }.show();`).
 
 ```coil
 match dir {

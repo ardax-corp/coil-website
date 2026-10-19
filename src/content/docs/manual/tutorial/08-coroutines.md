@@ -144,17 +144,20 @@ fn main() {
 
 Output: `01` (from `examples/coro_yield_from.hy`).
 
-## `block_on` (deprecated)
+## `task::block_on`
 
-Prelude `block_on(coro)` resumes until `done(coro)`, returning the **completion**
-value and discarding intermediate yields. It is deprecated (warning `E0129`):
-generators are for producing values, and concurrent work runs as
-[tasks](/docs/manual/tutorial/12-tasks). It still works:
+`task::block_on(coro)` resumes until `done(coro)`, returning the **completion**
+value and discarding intermediate yields. It is plain library code in the
+`task` module (a `resume` loop), not a prelude builtin, so it needs
+`use task::block_on;`; a bare `block_on` is `E0101` and the help names the
+import. Generators are for producing values, and concurrent work runs as
+[tasks](/docs/manual/tutorial/12-tasks):
 
 ```coil
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
+use task::block_on;
 
 gen fn greet() -> int {
     yield 1;

@@ -17,7 +17,7 @@ For a step-by-step introduction with one worked example per kind, see [Tutorial 
 
 The compiler runs macros after parsing and before typechecking. It parses the returned code and typechecks it like hand-written code, so a type error in generated code is reported at the macro's use site.
 
-The built-in derives (`Show`, `Eq`, `Ord`, `Hash`, `String`, `Default`, `Send`, `Sensitive`) are derive macros too; they need no `use`. See [Types](/docs/references/types).
+The built-in derives (`Show`, `Eq`, `Ord`, `Hash`, `Default`, `Send`, `Sensitive`) are derive macros too; they need no `use`. See [Types](/docs/references/types).
 
 ## Providers and imports
 
@@ -70,7 +70,7 @@ class Config {
 
 - A derive takes exactly one `TypeDecl` and returns `Code`: the items to add after the type.
 - `attrs(h, …)` lists the field / variant attributes the derive owns (`#[names(...)]` above). An attribute that no derive on the type owns is an error.
-- A derive that writes `impl Show for T` (or `String`) replaces the compiler's default type-name `Show`.
+- A derive that writes `impl Show for T` replaces the compiler's default type-name `Show`.
 - On a generic type, `t.self_type()` writes the type for signatures (`Box<T>`) and `t.impl_head("Show")` an instance head with every parameter bounded (`Box<T: Show>`), so `impl Show for ${t.impl_head("Show")}` applies to `Box<X>` whenever `X` is `Show`. The built-in derives work on generic types this way.
 
 ## Attribute macros
@@ -129,7 +129,7 @@ macro check(Expr cond) -> Code {
 
 /// `sum!(a, b, …)`: the sum of every argument.
 macro sum(Vec<Expr> xs) -> Code {
-    if len(xs) == 0 {
+    if xs.len() == 0 {
         return raw("0");
     }
     let parts: Vec<Code> = Vec::new();

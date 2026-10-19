@@ -160,7 +160,7 @@ variable index). See [Arrays and Vec](/docs/references/arrays#out-of-range-index
 ### Growing collections with `Vec` and `len`
 
 `arr[] = value` append is **removed** — use `Vec` methods instead.
-`x.len()` is canonical; `len(v)` is prelude sugar for the same method.
+A length is the method `x.len()` (there is no free `len(x)`).
 
 ```coil
 use io::{stdout};
@@ -170,7 +170,7 @@ fn main() {
     let a = Vec::from([1, 2]);
     a.push(3);
     a.push(4);
-    write_all(stdout(), to_bytes(format("%i", len(a)))); // 4
+    write_all(stdout(), to_bytes(format("%i", a.len()))); // 4
     write_all(stdout(), to_bytes(format("%i", a[3])));  // 4
 }
 ```

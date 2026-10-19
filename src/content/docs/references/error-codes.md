@@ -53,7 +53,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0126` | `InvalidDrop` | Invalid `fn drop(self)` (not an inherent class or enum method, on a scalar-backed enum, static, extra args, duplicate, or non-unit return) |
 | `E0127` | `UnsupportedGenericFnValue` | A generic `fn` with a type parameter nested in its signature (`Vec<T>`, `Option<T>`, tuples, classes) used as a value where no specialized copy can stand in for it, such as copying it on (`let g = wrap; let k = g;`). A `let` binding only called (`let g = wrap; g(2.5)`) or passing it to a parameter of a concrete function type works. Otherwise call it directly or wrap it in a lambda at a concrete type |
 | `E0128` | `PrivateMember` | Private field or inherent method used outside the type's `impl` |
-| `E0129` | `Deprecated` | Warning: call to a deprecated function (`block_on`, `io::drive`, `io::wait_ready`). The help names the replacement |
+| `E0129` | `Deprecated` | Warning: call to a deprecated function (`io::drive`, `io::wait_ready`). The help names the replacement |
 | `E0130` | `ByteWrap` | Warning: `byte` `+ - * ** <<` or unary `-`, whose result wraps modulo 256. Convert to `int` first (`x as int`) for exact arithmetic |
 | `E0131` | `ShiftCountOutOfRange` | A constant shift count (`x << 64`, `x >> -1`, or the compound `<<=` / `>>=`) outside `0..=63`. A run-time count out of range panics with `shift count out of range` |
 | `E0132` | `UnassignedLocal` | A type-only `let x: T;` of a non-scalar type read where it may not have been assigned yet (one branch only, only inside a loop body, or captured before the assignment) |

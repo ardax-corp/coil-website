@@ -9,8 +9,9 @@ coil exposes non-blocking file, stdio, and TCP IO through the virtual
 **`io`** module. Import it explicitly (like `ffi`):
 
 ```coil
-use io::{stdout, open, close, from_bytes};
+use io::{stdout, open, close};
 use io::sync::{write_all, read_to_end};
+use string::{from_bytes};
 ```
 
 Buffers use the **`byte`** primitive and **`Vec<byte>`** vectors.
@@ -34,7 +35,7 @@ fn main() {
     let b: byte = 255;
     let arr = Vec::from([1 as byte, 2 as byte, 3 as byte]);
     write_all(stdout(), to_bytes(format("%i", b)));
-    write_all(stdout(), to_bytes(format("%i", len(arr))));
+    write_all(stdout(), to_bytes(format("%i", arr.len())));
 }
 ```
 
@@ -43,15 +44,17 @@ fn main() {
 
 ### Text helpers
 
+The text helpers live in the virtual **`string`** module (`use string::{from_bytes, to_bytes};`).
+
 | Function | Signature | Notes |
 |----------|-----------|--------|
 | `from_bytes` | `Vec<byte> → Result<string, IoError>` | UTF-8 decode; invalid sequences → `InvalidInput` |
 | `to_bytes` | `string → Vec<byte>` | UTF-8 encode (always succeeds) |
 
 ```coil
-use io::{stdout, from_bytes};
+use io::{stdout};
 use io::sync::{write_all};
-use string::{format, to_bytes};
+use string::{format, from_bytes, to_bytes};
 
 fn main() {
     let hello = Vec::from([104 as byte, 101 as byte, 108 as byte, 108 as byte, 111 as byte]);
@@ -80,7 +83,7 @@ See `examples/io_text.hy`.
 | `wait_readable` / `wait_writable` | wait for readiness | Top-level parks; inside a coro yields + registers for batch poll |
 | `drive` | `() -> int` | **Deprecated** (`E0129`); use [tasks](/docs/manual/tutorial/12-tasks) |
 | `wait_ready` | `() -> int` | **Deprecated** (`E0129`); use [tasks](/docs/manual/tutorial/12-tasks) |
-| `block_on` | prelude | **Deprecated** (`E0129`). Resume a `gen fn` handle to completion |
+| `block_on` | `task` | `task::block_on`: resume a `gen fn` handle to completion. Prefer [tasks](/docs/manual/tutorial/12-tasks) |
 | `io::sync::{write_all,read_exact,read_to_end}` | [coil-stdlib](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/io.md) | Blocking adapters over L0 + `wait_readable` / `wait_writable` |
 | `io::net::tcp::{connect,listen,accept,…}` | TCP | `connect` / `connect_timeout` / `listen` / `accept`, plus address / shutdown helpers |
 | `io::net::udp::{bind,send_to,recv_from,…}` | UDP | Datagram sockets; see below |
@@ -174,7 +177,7 @@ fn main() {
     let s = open(path, "r")?;
     let buf = read_to_end(s)?;
     close(s)?;
-    write_all(stdout(), to_bytes(format("%i", len(buf))));
+    write_all(stdout(), to_bytes(format("%i", buf.len())));
 }
 ```
 

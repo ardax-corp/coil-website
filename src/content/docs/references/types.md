@@ -85,7 +85,8 @@ fn add(int a, int b) -> int { return a + b; }
 ```
 
 Write a function type either way, in any type position: `int -> int -> int`
-or `fn(int a, int b) -> int` (names optional: `fn(int, int) -> int`). See
+or `fn(int a, int b) -> int` (names optional: `fn(int, int) -> int`). A
+function taking no arguments is `fn() -> int`, the same type as `unit -> int`. See
 [Syntax — Type annotations](/docs/references/syntax#type-annotations).
 
 ---
@@ -187,7 +188,7 @@ let mode: string = Mode::Fast;    // "fast"
 | Expression coerce | Implicit to the backing wherever that primitive is expected: `let n: int = Status::Ok`, `Status::Ok + 1`, pass `Status` to an `int` parameter, `format("%i", s)` |
 | Reverse coerce | None. Write `Status::Ok`, not `200 as Status`. Matching a raw `200` against a `Status` scrutinee is a type error |
 | `.value` | Does not exist. Conversion is the implicit coerce above |
-| `Show` / `String` | Prints the backing (`Status::Ok` shows as `200`, same as showing that `int`). Not the qualified name |
+| `Show` | Prints the backing (`Status::Ok` shows as `200`, same as showing that `int`). Not the qualified name |
 | `Eq` / `Hash` / `Ord` | Compare, hash, and order the backing word (`Ord` follows the numeric/string order, not declaration order) |
 | `Default` | First case, same as payload enums |
 | `match` | Constructor cases (`Status::Ok`) plus a `default` catch-all. Payload enums stay the same |
@@ -215,7 +216,9 @@ fn pair(int a, string b) -> (int, string) { return (a, b); }
 
 Annotation: `(T1, T2, ...)`. Literal syntax requires a comma: `(1,)` is a 1-tuple; `(1)` is a parenthesized expression.
 
-Tuples have structural `Show` support when every element is showable, `()` elements included: `%v`, `show(t)` / `t.show()` and a `T: Show` bound all accept a ground tuple (`show(((), 1))` is `"((), 1)"`), through a monomorphic clone or a shared generic body's dictionary. A tuple with an element of an open type parameter (`show((x, 1))` inside `fn f<T: Show>(T x)`) has no instance yet. The printed form is `(a, b)` (and `(a,)` for a 1-tuple).
+Tuples have structural `Show` support when every element is showable, `()` elements included: `%v`, `show(t)` / `t.show()` and a `T: Show` bound all accept a ground tuple (`show(((), 1))` is `"((), 1)"`), through a monomorphic clone or a shared generic body's dictionary. A tuple with an element of a bounded type parameter is showable too: inside `fn f<T: Show>(T x)`, `show((x, ()))`, `(x, 1).show()` and passing `(1, x)` on to another `Show` bound all work, each element shown through its own type's `Show` (the instance for tuples of that arity, with one `Show` dictionary per element). The printed form is `(a, b)` (and `(a,)` for a 1-tuple), the same text `%v` prints.
+
+Ground tuples also have structural `Eq` and `Hash` instances when every element has one: `t.eq(u)` / `t.ne(u)` compare as `==` / `!=` do, and `t.hash()` combines the element hashes left to right as a derived `Hash` combines fields (a `()` element hashes as `0`). So a tuple meets a `T: Eq` or `T: Hash` bound and can key a `HashMap<(int, int), V>`.
 
 Homogeneous numeric tuples also support **element-wise arithmetic** (zip /
 broadcast / unary `-`). See [Operators](/docs/references/operators).
@@ -249,10 +252,17 @@ a non-growable heap array.
 Empty `[]` needs an annotation: `Vec<T>` or `[T; 0]`. There is **no**
 `arr[] =` append — use `Vec::push` (rejected append is `E0107`).
 
-`len(value)` returns length as `int` for arrays, `Vec`, strings, tuples, and
-dicts (structural); for other types it requires a `Length` instance
+`value.len()` returns length as `int` for arrays, `Vec`, strings, tuples, and
+records (structural); for other types it requires a `Length` instance
 (`impl Length for T { fn len(T x) -> int { … } }`). Fixed-size cases fold at
 compile time.
+
+Fixed arrays have structural `Show`, `Eq` and `Hash` instances when their
+element type has one: `show([1, 2])` / `format("%v", [1, 2])` print
+`[1, 2]`, `a.eq(b)` / `a.ne(b)` compare as `==` / `!=` do, and `a.hash()`
+combines the element hashes as a derived `Hash` combines fields. They meet
+`T: Show`, `T: Eq` and `T: Hash` bounds. An array of values with no `Show`
+(functions, say) is still refused by `%v` (`E0300`).
 
 ### `Vec<T>` — growable vectors
 
@@ -292,10 +302,10 @@ let n = d.x;              // field access
 - Two record literals with the same field names and compatible field types unify structurally.
 - Field access on records uses string-keyed `GetField`; enum record variants use index-based `LoadField`.
 - Duplicate field names in one literal → parse error (`E0208`); typecheck repeats the check if parse is bypassed.
-- Anonymous records have structural `Show` support for `%v` when every field is showable (`%v` only: unlike tuples, not `show(r)` or a `T: Show` bound). Fields print in canonical name order as `{ a: 1, b: 2 }`.
+- Anonymous records have structural `Show` support when every field is showable: `%v`, `show(r)` / `r.show()` and a `T: Show` bound all accept a ground record, through a monomorphic clone or a shared generic body's dictionary. Fields print in canonical name order as `{ a: 1, b: 2 }`, the same text `%v` prints.
 
-Structural `Show` covers tuples and anonymous records automatically. Non-generic
-enums and classes receive a **default** `Show`/`String` that returns the type name
+Structural `Show` covers tuples, fixed arrays, anonymous records, `Option` and `Result` automatically. Non-generic
+enums and classes receive a **default** `Show` that returns the type name
 as a string (same display as `typeof self` for non-generic types)
 (the type's fully-qualified name). Prefer `#[derive(Show)]` for structural field
 formatting (see [Trait derive](#trait-derive)), or write an explicit `impl Show for T`.
@@ -733,9 +743,10 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 | `Gt` | Greater-than | `>` → `gt` |
 | `Ge` | Greater-or-equal | `>=` → `ge` |
 | `Ord` | Convenience bundle | Supertrait of `Lt` + `Le` + `Gt` + `Ge` (no own methods) |
-| `Eq` | Equality | `==`, `!=` (`unit` too: `()` equals `()`, also under a `T: Eq` bound) |
-| `Show` | Display | `show(T) -> string`; used by format `%v` |
-| `Length` | Size query | `len(T) -> int`; used by `len(x)` for custom types (arrays/tuples/dicts/strings are structural) |
+| `Eq` | Equality | `==`, `!=` (`unit` too: `()` equals `()`, also under a `T: Eq` bound); structural for ground tuples and fixed arrays of `Eq` elements |
+| `Hash` | Hashing | `hash(T) -> int`; structural for ground tuples and fixed arrays of `Hash` elements (combined as a derived `Hash` combines fields) |
+| `Show` | Display | `show(T) -> string`; used by format `%v`; structural for tuples (bounded type-parameter elements included), fixed arrays, anonymous records, `Option` and `Result` |
+| `Length` | Size query | `fn len(T) -> int`; called as `x.len()` on custom types (arrays/`Vec`/tuples/records/strings are structural) |
 | `Into` | Conversion | `into(Self) -> T` via `impl Into<T> for Self` (no builtin instances) |
 
 `Into` is multi-parameter: `impl Into<T> for S` stores instance args
@@ -774,12 +785,11 @@ class Cell {
 | `Ord` | `lt`, `le`, `gt`, `ge` | Payload: lexicographic on declaration order. Scalar: order of the backing word (a `#[repr(string)]` enum orders by declaration: strings have no ordering) |
 | `Default` | `static fn default` | Class: each field takes its type's default (`0`, `0.0`, `false`, `""`, otherwise `Ty::default()`); enum: first variant with defaulted payloads. Call it as `Ty::default()` |
 | `Hash` | `hash` | Payload: tag + recursive `field.hash()`. Scalar: hash of the backing word |
-| `String` | `to_string` | Payload: `format` with `%v` per field. Scalar: same as showing the backing |
 | `Send` | _(marker)_ | Empty instance (thread spawn still uses structural sendability) |
 | `Sensitive` | _(marker)_ | Empty instance (redaction hooks deferred) |
 
 **Default display (no derive):** every non-generic `enum` / `class` that lacks
-`#[derive(Show)]` / `#[derive(String)]` and has no explicit `impl` gets a
+`#[derive(Show)]` and has no explicit `impl Show` gets a
 compiler-generated instance whose body returns the type name string. Explicit
 `impl` and structural `#[derive(Show)]` take precedence (overlap with a manual
 `impl` is still an error if both exist).
@@ -787,15 +797,21 @@ compiler-generated instance whose body returns the type name string. Explicit
 Rules:
 
 - Placement: immediately before the `enum` / `class` keyword (after any `///` doc comment).
-- Built-in derives: `Show`, `Eq`, `Ord`, `Default`, `Hash`, `String`, `Send`, `Sensitive`. Unknown / arithmetic traits (`Num`, …) error; user derives come from `derive` macros ([Macros](/docs/references/macros)).
+- Built-in derives: `Show`, `Eq`, `Ord`, `Default`, `Hash`, `Send`, `Sensitive`. Unknown / arithmetic traits (`Num`, …) error; user derives come from `derive` macros ([Macros](/docs/references/macros)).
 - Generic types derive bounded instances: `#[derive(Show, Eq)] class Box<T>`
   expands to `impl Show for Box<T: Show>` and `impl Eq for Box<T: Eq>`, so the
   instance applies to `Box<X>` whenever `X` has the trait. `Ord` bounds by
-  `Ord + Eq`, `String` by `Show`, `Default` by `Default` (the primitives have
+  `Ord + Eq`, `Default` by `Default` (the primitives have
   built-in `Default` instances, so `let b: Box<int> = Box::default();` works).
-  Generic types get no type-name `Show` / `String` default.
+  Generic types get no type-name `Show` default.
 - Combining `#[derive(Show)]` with a hand-written `impl Show for T` hits the usual overlap diagnostic.
 - Empty `#[derive()]` with no traits is a parse error.
+- `Show` is the one display trait. The former `String` trait (`to_string`, a
+  copy of `Show`) is gone: `#[derive(String)]` and `impl String for T` are
+  `E0119`, and a `.to_string()` with no method of that name is `E0101` /
+  `E0104`; each points at `Show` / `show()`. Call `x.show()` or
+  `format("%v", x)` instead. A class's own `fn to_string()` method is
+  unaffected.
 
 See `examples/derive_show_eq.hy`, `examples/derive_hash.hy`, and `examples/typeof_len.hy`.
 
@@ -1114,7 +1130,7 @@ fn main() {
 }
 ```
 
-Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`. User types can `impl Show for MyType`. See `examples/generic_print.hy`.
+Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`, plus the structural ones: tuples, fixed arrays and anonymous records of shown types, and `Option` / `Result` over shown types (`Some(1)`, `None`, `Ok(2)`, `Err(bad)`, the payload as `%v` shows it). `show(x)`, `x.show()` and `format("%v", x)` agree for all of them. User types can `impl Show for MyType`. See `examples/generic_print.hy`.
 
 ---
 

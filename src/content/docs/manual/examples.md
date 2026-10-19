@@ -917,7 +917,7 @@ fn main() {
     let a = Vec::from([1, 2]);
     a.push(3);
     a.push(4);
-    write_all(stdout(), to_bytes(format("%i", len(a))));
+    write_all(stdout(), to_bytes(format("%i", a.len())));
     write_all(stdout(), to_bytes(format("%i", a[0])));
     write_all(stdout(), to_bytes(format("%i", a[3])));
 }
@@ -1804,7 +1804,7 @@ Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/recei
 
 ### `examples/block_on_io.hy`
 
-**Demonstrates:** prelude `block_on(coro)` (deprecated, `E0129`) — discards yields, returns completion value.
+**Demonstrates:** `task::block_on(coro)` (`use task::block_on;`) — discards yields, returns completion value.
 
 | | |
 |---|---|
