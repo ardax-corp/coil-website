@@ -89,7 +89,10 @@ a time, whichever way it was written: `f(1, 2)` and `f(1)(2)` are the same
 call on a two-parameter function and on one that takes `a` and returns a
 function of `b`. Given fewer arguments than a function declares, a call is a
 partial application; given more, it applies the declared ones and calls the
-function they return with the rest.
+function they return with the rest. That holds for a named function too,
+imported or generic (`use m::adder; adder(1, 2)`, `id(add, 1, 2)`), except a
+curried generic function held as a polymorphic value (`let f = konst;
+f(1, 2)`), which is refused with `E0127`: call it by name instead.
 
 Write a function type either way, in any type position: `int -> int -> int`
 or `fn(int a, int b) -> int` (names optional: `fn(int, int) -> int`). A
