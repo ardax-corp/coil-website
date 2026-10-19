@@ -233,5 +233,6 @@ Outside a scope, `sleep` sleeps the thread and `yield_now` does nothing.
 ## Replacing `block_on`, `drive` and `wait_ready`
 
 Earlier versions multiplexed IO by resuming generators by hand and calling
-`io::wait_ready()`. Those functions, and `block_on`, are deprecated (warning
-`E0129`). Write the work as plain functions and run each one as a task.
+`io::wait_ready()`. Those two are deprecated (warning `E0129`); `block_on`
+is no longer a prelude builtin but the library function `task::block_on`
+(`use task::block_on;`). Write the work as plain functions and run each one as a task.

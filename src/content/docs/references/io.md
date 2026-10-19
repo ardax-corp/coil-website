@@ -22,7 +22,7 @@ use io::sync::{write_all, read_to_end};   // optional blocking adapters (coil-st
 | `wait_readable` / `wait_writable` (old names `await_readable` / `await_writable` still work) | Wait for readiness | Inside a [task](/docs/manual/tutorial/12-tasks): suspends that task while others run. Otherwise parks the VM, inside a generator too |
 | `drive` | `() -> int` | **Deprecated** (`E0129`); use [tasks](/docs/manual/tutorial/12-tasks) |
 | `wait_ready` | `() -> int` | **Deprecated** (`E0129`); use [tasks](/docs/manual/tutorial/12-tasks) |
-| `block_on` | Prelude | **Deprecated** (`E0129`). `block_on(coro) -> Y` resumes a `gen fn` to completion |
+| `block_on` | `task` | `task::block_on(coro) -> Y` resumes a `gen fn` to completion (`use task::block_on;`) |
 | `from_bytes` / `to_bytes` | Text aliases | UTF-8 `Vec<byte> ↔ string` (`from_bytes` → `Result<string, IoError>`); also exported by [`string`](/docs/references/string) |
 | `attach` / `park` | Package IO | `s.attach(ptr, read, write, shutdown, free)` installs a C vtable on this Stream in place; later `s.read()` / `s.write()` / Drop go through those hooks. `s.park()` waits on the fd via `reactor_wait_fd_no_help` (no help-steal). Function pointers are `int` (from `dload`). There is no public `s.fd` field; FFI `Int` args marshal Stream → fd at the call boundary. |
 | `io::net::tcp::{connect,connect_timeout,listen,accept}` | TCP | Nested module — `use io::net::tcp::{connect, listen, …};`; timeout `ms <= 0` waits forever |
