@@ -215,7 +215,7 @@ fn pair(int a, string b) -> (int, string) { return (a, b); }
 
 Annotation: `(T1, T2, ...)`. Literal syntax requires a comma: `(1,)` is a 1-tuple; `(1)` is a parenthesized expression.
 
-Tuples have structural `Show` support for `%v` when every element is showable. This is `%v` only: a tuple does not satisfy a `T: Show` bound (`E0119 No instance for Show<(int, int)>`). The printed form is `(a, b)` (and `(a,)` for a 1-tuple).
+Tuples have structural `Show` support when every element is showable, `()` elements included: `%v`, `show(t)` / `t.show()` and a `T: Show` bound all accept a ground tuple (`show(((), 1))` is `"((), 1)"`), through a monomorphic clone or a shared generic body's dictionary. A tuple with an element of an open type parameter (`show((x, 1))` inside `fn f<T: Show>(T x)`) has no instance yet. The printed form is `(a, b)` (and `(a,)` for a 1-tuple).
 
 Homogeneous numeric tuples also support **element-wise arithmetic** (zip /
 broadcast / unary `-`). See [Operators](/docs/references/operators).
@@ -292,7 +292,7 @@ let n = d.x;              // field access
 - Two record literals with the same field names and compatible field types unify structurally.
 - Field access on records uses string-keyed `GetField`; enum record variants use index-based `LoadField`.
 - Duplicate field names in one literal → parse error (`E0208`); typecheck repeats the check if parse is bypassed.
-- Anonymous records have structural `Show` support for `%v` when every field is showable (`%v` only, as for tuples: not a `T: Show` bound). Fields print in canonical name order as `{ a: 1, b: 2 }`.
+- Anonymous records have structural `Show` support for `%v` when every field is showable (`%v` only: unlike tuples, not `show(r)` or a `T: Show` bound). Fields print in canonical name order as `{ a: 1, b: 2 }`.
 
 Structural `Show` covers tuples and anonymous records automatically. Non-generic
 enums and classes receive a **default** `Show`/`String` that returns the type name
@@ -731,7 +731,7 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 | `Gt` | Greater-than | `>` → `gt` |
 | `Ge` | Greater-or-equal | `>=` → `ge` |
 | `Ord` | Convenience bundle | Supertrait of `Lt` + `Le` + `Gt` + `Ge` (no own methods) |
-| `Eq` | Equality | `==`, `!=` |
+| `Eq` | Equality | `==`, `!=` (`unit` too: `()` equals `()`, also under a `T: Eq` bound) |
 | `Show` | Display | `show(T) -> string`; used by format `%v` |
 | `Length` | Size query | `len(T) -> int`; used by `len(x)` for custom types (arrays/tuples/dicts/strings are structural) |
 | `Into` | Conversion | `into(Self) -> T` via `impl Into<T> for Self` (no builtin instances) |
