@@ -85,6 +85,21 @@ trait Eq<T> { /* your trait */ }   // now allowed
 
 Without the `as` rebind, `trait Eq` / `enum Option` is a conflict diagnostic.
 
+Prelude functions (`sin`, `sqrt`, `diff`, …) need no rebind. A same-named
+`fn` in the file, or an explicit import of one (`use trig::sin;`), takes the
+short name; to keep the builtin too, import it under another name
+(`use prelude::math::sin as psin;`). Only the names you import are shadowed: after `use trig::sin;`, a bare `cos`
+is still the prelude `cos`.
+
+```coil
+use trig::sin;   // trig.hy defines `fn sin(float x) -> float`
+
+fn main() {
+    let a = sin(0.0);   // trig::sin
+    let b = cos(0.0);   // prelude cos
+}
+```
+
 The alias names the builtin: `T: PreludeEq` (or `where PreludeEq<T>`) is the builtin `Eq` bound. Your module may then declare its own `trait Eq`; both stay usable side by side. In that module the short name `Eq` (bounds, `where` clauses, `impl Eq for …`) is your trait, `PreludeEq` is still the builtin, and `==` keeps using the builtin. A type with only the builtin `Eq` does not satisfy a bound on your trait.
 
 The implicit prelude (`prelude`, `prelude::ops`, `prelude::test`, `prelude::math`) is compiler-owned and not configurable. Extra disk search paths are `--root DIR` flags (spool passes `[module].roots`).
