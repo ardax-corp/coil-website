@@ -182,7 +182,7 @@ Rows that declare **direct** shared libraries for `coil package`. Spool passes e
 | `version` | string | Yes | Version string used in the natives cache path |
 | `path` | string | Yes | Directory (relative to project root) containing the local platform library (hashed at package time) |
 | `url` | string | No | https URL `spool download` fetches the library from (spool only, not passed to coil) |
-| `sha256` | string | No | 64 hex digits; `spool download` fetches a library that is not in `path` yet only when the row has it, and checks the download against it (spool only, not passed to coil) |
+| `sha256` | string | No | 64 hex digits; `spool download` checks a library it fetches because it is not in `path` yet against it (without it the fetch is unchecked, with a warning) (spool only, not passed to coil) |
 | `requires` | array of strings | No | Sonames expected from the OS (never downloaded) |
 | `requires_hint` | string | No | Install hint when a `requires` soname is missing |
 
@@ -204,7 +204,7 @@ coil package app.hy -o app --allow-dload crypto \
   --ffi-native 'name=crypto,version=0.1.0,path=.spool/deps/crypto/native'
 ```
 
-The embedded lock holds names, versions and hashes, not URLs. A packaged app looks for each library under `~/.coil/natives/cache/<package>/<version>/<sha16>/` (override with `COIL_NATIVES_DIR`), beside the executable, and in `lib/` next to it. It starts either way; a library found nowhere fails at its `dload`. Getting the files there is up to you. Inspect a lock with `coil natives dump [exe] [--tsv]` (TSV columns: package, version, filename, sha256, size). Without `exe`, `dump` hashes each `--ffi-native` row's local file; a row whose file is not there yet is listed as missing instead of failing (JSON `"missing": true` with an empty `sha256`; TSV empty sha256 and size columns and a sixth column `missing`), so a downloader such as `spool download` can fetch it (spool does so only against the row's `sha256`). `coil package` still needs every file.
+The embedded lock holds names, versions and hashes, not URLs. A packaged app looks for each library under `~/.coil/natives/cache/<package>/<version>/<sha16>/` (override with `COIL_NATIVES_DIR`), beside the executable, and in `lib/` next to it. It starts either way; a library found nowhere fails at its `dload`. Getting the files there is up to you. Inspect a lock with `coil natives dump [exe] [--tsv]` (TSV columns: package, version, filename, sha256, size). Without `exe`, `dump` hashes each `--ffi-native` row's local file; a row whose file is not there yet is listed as missing instead of failing (JSON `"missing": true` with an empty `sha256`; TSV empty sha256 and size columns and a sixth column `missing`), so a downloader such as `spool download` can fetch it (spool checks it against the row's `sha256` when the row has one). `coil package` still needs every file.
 
 ### `[package]`
 

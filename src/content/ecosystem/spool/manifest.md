@@ -163,7 +163,7 @@ See [Permissions](/docs/references/permissions).
 
 Native libraries a project loads with `dload`. `spool download` (or `spool install --with-natives`) reads them through `coil natives dump` and fetches each direct library with a `url` into `~/.coil/natives` (override with `COIL_NATIVES_DIR`). spool passes each row to `coil package` and `coil natives dump` as `--ffi-native name=…,version=…,path=…`. Keys: `name`, `version`, `path` (required), `package`, `url`, `sha256`, `requires`, `requires_hint`.
 
-`url` and `sha256` are for `spool download` only; coil never sees them. `sha256` (64 hex digits, any case) is what lets `spool download` fetch a library that is not in `path` yet: coil has no file to hash, so spool checks the download against the row's `sha256` before it moves it into `path`, and skips a row without one rather than fetch it unhashed. A library already in `path` is hashed by coil and does not need it.
+`url` and `sha256` are for `spool download` only; coil never sees them. `sha256` (64 hex digits, any case; anything else is an error) checks a library `spool download` fetches because it is not in `path` yet: coil has no file to hash, so spool checks the download against the row's `sha256` before it moves it into `path`. Without one the library is fetched over https unchecked, with a warning, and pinned when `coil package` hashes it. A library already in `path` is hashed by coil and does not need it.
 
 ```toml
 [[ffi.native]]

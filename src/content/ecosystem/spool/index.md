@@ -62,7 +62,7 @@ downloaded; transitive sonames (`requires`) must come from the OS.
 # After coil package ./hello (embeds a native lock):
 ./spool download ./hello
 
-# Project mode (reads [[ffi.native]] from coil.toml; a lib not there yet is fetched to its `path` only if its row has a sha256):
+# Project mode (reads [[ffi.native]] from coil.toml; a lib not there yet is fetched to its `path`, checked against the row's sha256 if it has one):
 ./spool download
 
 # Install source deps and natives in one step:
