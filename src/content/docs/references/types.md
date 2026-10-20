@@ -516,6 +516,7 @@ impl Point {
 | `==` / `!=` | structural over the fields, as if it derived `Eq` |
 | `hash` | structural, as if it derived `Hash`, when every field type hashes as written (primitives, tuples, type parameters, this module's hashing types). With a `Vec`, array, map or another module's type in a field, write `impl Hash` yourself |
 | `fn drop()` | not allowed (`E0126`): instances have no identity to finalise |
+| `gc::weak(p)` | not allowed (`E0119`): a weak handle would observe the instance's identity and when it is collected |
 
 A written `#[derive(Eq)]` / `impl Eq` (or `Hash`) takes the place of the implied one. Generic readonly classes work the same way: in `readonly class Pair<A, B>`, `pair.a` is read-only even when `A` is a mutable class.
 
