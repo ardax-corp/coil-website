@@ -19,6 +19,42 @@ Unlike `raise`, `panic` is not recoverable with `?` / `match`. Prefer `assert` +
 
 See `examples/panic.hy`.
 
+## Locations and backtraces
+
+A panic names the source line it came from, and a runtime error (an
+out-of-bounds index, a finished coroutine resumed, …) also prints the call stack. Set
+`COIL_BACKTRACE=1` to get the call stack for an explicit `panic` too:
+
+```text
+panic: boom: x too large at panic.hy:3:8
+  in inner at panic.hy:3:8
+  in outer at panic.hy:9:11
+  in main at panic.hy:14:12
+```
+
+How much of this a program can print depends on the debug info it was
+compiled with (`-g0`, `-g1` or `-g2` on `coil`, `coil compile`, `coil package`
+and `coil test`):
+
+| Level | Keeps | A panic prints |
+|-------|-------|----------------|
+| `-g2` | function names, lines, byte spans | the output above; `coil debug` and `coil test --coverage` need this level |
+| `-g1` | function names, lines | the same output, from a smaller archive |
+| `-g0` | nothing | the message and bare frames |
+
+At `-g0` the same panic prints:
+
+```text
+panic: boom: x too large
+  in <unknown>
+  ... repeated 2 more times
+```
+
+`coil`, `coil compile` and `coil test` default to `-g2`; `-Os` and
+`coil package` default to `-g1`. `--strip-debug` is the same as `-g0`. The
+level never changes what the program does, only what a panic can report.
+`defer` blocks still run when a panic unwinds at every level.
+
 ---
 
 ## Related

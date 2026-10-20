@@ -89,7 +89,13 @@ a time, whichever way it was written: `f(1, 2)` and `f(1)(2)` are the same
 call on a two-parameter function and on one that takes `a` and returns a
 function of `b`. Given fewer arguments than a function declares, a call is a
 partial application; given more, it applies the declared ones and calls the
-function they return with the rest.
+function they return with the rest. That holds for a named function too,
+imported or generic (`use m::adder; adder(1, 2)`, `id(add, 1, 2)`), and for
+a curried generic function held as a value (`let f = konst; f(1, 2)`, or
+`konst` passed to an `int -> int -> int` parameter). Only a generic function
+whose result is a type parameter, held as a value and given more arguments
+than it declares (`let f = id; f(add, 1, 2)`), is refused with `E0127`: call
+it by name instead.
 
 Write a function type either way, in any type position: `int -> int -> int`
 or `fn(int a, int b) -> int` (names optional: `fn(int, int) -> int`). A
@@ -383,18 +389,35 @@ Class `static` fields require an initializer. `static` and `const` field modifie
 
 ## Readonly types
 
-`readonly` seals a value against **external** mutation. Methods may still mutate via `self`.
+`readonly` seals a value against mutation through this reference. The seal is **deep**: whatever you read through a readonly value (a field, an element, a loop variable) is readonly too. Methods may still mutate via `self`.
 
 ```coil
 let xs = readonly [1, 2, 3];
-let p = readonly new Point(1, 2);
+let p = readonly new Point(1, new Inner(2));
 ```
 
 | Operation | `readonly T` handle | Inside `impl` via `self` |
 |-----------|-------------------|---------------------------|
-| Read fields / index | Allowed | Allowed |
-| `p.field = …` / `xs[i] = …` | Error | Allowed for class fields |
+| Read fields / index / iterate | Allowed; the result is readonly | Allowed |
+| `p.x = …` / `xs[i] = …` | Error | Allowed for class fields |
+| `p.inner.n = …`, `xs[0].n = …`, `for x in xs { x.n = …; }` | Error | — |
+| `let i = p.inner; i.n = …;` | Error: `i` is readonly | — |
 | Rebind variable | Allowed (`let a = readonly [1]; a = readonly [2];`) | — |
+
+A readonly value converts to a readonly type only, never back. Each of these is an error (E0107), because the new name could mutate the value:
+
+```coil
+fn poke(Point p) { p.x = 99; }
+poke(p);                 // a plain `Point` parameter
+let q: Point = p;        // a typed `let`
+new Holder(p);           // a plain `Point` field
+holder.p = p;            // assignment to a plain `Point` place
+fn mk() -> Point { return readonly new Point(1, new Inner(2)); }   // a plain return type
+```
+
+Generic parameters keep the qualifier, so `id(p)` with `fn id<T>(T v) -> T` returns a readonly value, and `[p]` is a `Vec<readonly Point>`. A `Vec<readonly Point>` cannot be passed where a `Vec<Point>` is expected.
+
+`readonly` costs nothing at runtime: a program compiles to the same bytecode with or without it.
 
 Type pretty-print: `readonly T`. Arrays and records have no method exception — external `StoreIndex` / field writes are rejected.
 
@@ -730,11 +753,12 @@ Rules:
 - Runtime representation reuses existing tuple bytecode: `(boxed_value,
   dictionary_tuple)`. No separate opcode is needed.
 
-Bound methods support both equivalent forms:
+Bound methods support three equivalent forms:
 
 ```coil
-x.describe_val(); // method sugar
-describe_val(x);  // bare / UFCS form
+x.describe_val();          // method sugar
+describe_val(x);           // bare / UFCS form
+Describe::describe_val(x); // trait-qualified form
 ```
 
 Default methods occupy normal dictionary slots. Every implementation method
@@ -858,6 +882,42 @@ Instance methods compile to ordinary functions with mangled names
 (`Class__Type__method`). Generic call sites discharge the bound at
 typecheck time and pass the matching dictionary at runtime (above).
 
+### Trait-qualified calls
+
+`Trait::method(args)` resolves exactly like the bare call `method(args)`, but
+only that trait's method is a candidate. Use it when two traits, or a trait
+and a free function, share a method name:
+
+```coil
+trait Area<T> { fn size(T s) -> int; }
+trait Volume<T> { fn size(T s) -> int; }
+
+class Sq { pub w: int, }
+impl Area for Sq { pub fn size(Sq s) -> int { return s.w * s.w; } }
+impl Volume for Sq { pub fn size(Sq s) -> int { return s.w * s.w * s.w; } }
+
+fn both<T: Area + Volume>(T x) -> int {
+    return Area::size(x) * 1000 + Volume::size(x); // bare size(x) is ambiguous here
+}
+
+let s = new Sq(3);
+let a = Area::size(s);   // 9
+let v = Volume::size(s); // 27
+```
+
+- It works under a bound (dictionary dispatch), at a concrete type, in a
+  trait's default body, and on a trait-object value.
+- Receiverless methods take their instance from the expected type, as the bare
+  form does: `let z: Sq = Zero::zero();`, `let p: Point = FromVal::from_val(v);`.
+- A trait from another module is named as you import it (`use shapes::Area;`
+  then `Area::size(x)`), or with its module path (`shapes::Area::size(x)`).
+- `Type::assoc_fn`, `Enum::Variant` and `T::method` keep their meaning: the
+  owner is read as a trait only when it names no type.
+- It compiles to the same call as the bare form, so it has no runtime cost.
+- Errors: an unknown owner is `E0202`, and a method the trait does not declare
+  is `E0101`. No matching instance, or several with nothing to choose between
+  them, is `E0119`. A type parameter without the trait's bound is also `E0119`.
+
 ### Static trait methods
 
 A trait method with no `Self`-typed parameter is declared `static fn`, the
@@ -900,8 +960,8 @@ let n: int = decode(new Val(4));         // T chosen by the annotation
   implemented as `pub static fn`, and an instance method cannot be called as
   `Owner::m(..)`.
 - A default body may call sibling statics bare (`from_val(v)`), since the
-  trait's own bound is active there. Outside a trait body there is no bare
-  spelling for a static trait method.
+  trait's own bound is active there. Outside a trait body, name the trait
+  instead: `FromVal::from_val(v)` (see trait-qualified calls above).
 - `#[derive(Default)]` generates `static fn default()`, so `Config::default()`
   and `T::default()` under `T: Default` work like any other static.
 
