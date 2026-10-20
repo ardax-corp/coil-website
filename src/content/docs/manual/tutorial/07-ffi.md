@@ -132,8 +132,8 @@ In runtime `declare`, import tag constructors from the virtual `ffi::types` modu
 | `void` / `Void` | Return-only |
 | `bool`, `int8`…`uint64`, `ptr` | Sized integers, bool, raw pointer |
 | `Vec<T>` / `[T; N]` / `(int, float)` | Lowered to `Ptr` (array/tuple buffer) |
-| `Bytes` (`declare` only) | `uint8_t *` buffer from a `Vec<byte>`, copied back after the call |
-| `ConstBytes` (`declare` only) | Read-only `const uint8_t *` from a `string` (lent in place, no copy) or `Vec<byte>` (copied in, never back); no NUL, so pass the length |
+| `Bytes` (`declare` only) | `uint8_t *` buffer from a `Vec<byte>`; the callee's writes land in the array (lent in place, or copied in and back when a callback could run) |
+| `ConstBytes` (`declare` only) | Read-only `const uint8_t *` from a `string` (lent in place, no copy) or `Vec<byte>` (lent in place, or copied in when a callback could run; never copied back); no NUL, so pass the length |
 | `Callback` | C function pointer → coil function |
 | `extern struct Point { x: int32, y: int32 };` | Pass-by-value C struct |
 
