@@ -18,7 +18,7 @@ http  = { git = "https://github.com/ardax-corp/coil-http.git", version = "^0.1" 
 local = { path = "../my-lib" }
 
 [module]
-roots = ["./src"]                 # spool also passes .spool/deps and the stdlib
+roots = ["./src"]                 # spool also passes .spool/deps, the stdlib and each dependency's src/
 
 [scripts]                         # optional, off unless --enable-scripts
 post_install = "./scripts/post-install.sh"
@@ -99,7 +99,9 @@ diamond conflict for base: hello requires @dev, mid requires ^1
 
 ## `[module].roots`
 
-spool passes each `[module].roots` entry (default `./src`) to `coil` as `--root`. It links every dependency under `.spool/deps/<name>` (to the package's `src/`) plus `.spool/deps/<name>.hy` when that file exists, and passes `--root .spool/deps` once dependencies are linked, plus the stdlib unless a root already is one. `use greet::hello` resolves through the directory link; `use toml::{Toml}` through the file link. spool never edits `coil.toml`.
+spool passes each `[module].roots` entry (default `./src`) to `coil` as `--root`. It links every dependency under `.spool/deps/<name>` (to the package's `src/`) plus `.spool/deps/<name>.hy` when that file exists, and passes `--root .spool/deps` once dependencies are linked, then the stdlib unless a root already is one, then each dependency's `src/`. `use toml::{Toml}` resolves through the file link and `use greet::hello` through the directory link. The `src/` roots resolve a package's own modules the way it does in its own repo: `use tls::client` (`src/tls/client.hy`), `use http::url`, and second top-level modules such as coil-sdl's `use simd`. They come after the stdlib, so a dependency never shadows a stdlib module.
+
+Do not add `.spool/deps/<name>` to `[module].roots` for this; an existing entry like that still works but is no longer needed. spool never edits `coil.toml`.
 
 ---
 

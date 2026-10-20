@@ -66,7 +66,7 @@ cd spool
 
 `test`, `coverage`, `infect`, `fmt`, `debug`, `dissect` and `lsp` wrap the matching `coil` subcommands and forward every flag unchanged. `spool coil ARGS` runs plain `coil ARGS` from the project root with no flags added.
 
-Commands that compile run `install` first when dependencies are declared but `.spool/deps` does not exist yet. Each `coil` invocation gets `--root` for every `[module].roots` entry, `.spool/deps` and the stdlib, plus the grants and `dload` pins from the manifest and lockfile; see [Compile flags](/packages/spool#compile-flags).
+Commands that compile run `install` first when dependencies are declared but `.spool/deps` does not exist yet. Each `coil` invocation gets `--root` for every `[module].roots` entry, `.spool/deps`, the stdlib and each dependency's `src/`, plus the grants and `dload` pins from the manifest and lockfile; see [Compile flags](/packages/spool#compile-flags).
 
 ## `spool add`
 
