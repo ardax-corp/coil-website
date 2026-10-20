@@ -322,6 +322,7 @@ let n = d.x;              // field access
 - Two record literals with the same field names and compatible field types unify structurally.
 - A record is a heap object with one slot per field, like a class instance: its slots are the fields sorted by name, so `{ y: 9, x: 8 }` and `{ x: 8, y: 9 }` have the same layout. Field reads and writes are slot loads and stores (`LoadField` / `SetField`), not keyed lookups. Records are shared by reference: `let b = a; b.x = 5;` changes `a.x` too.
 - `r.len()` is the number of fields, a compile-time constant.
+- `==` / `!=` compare records field by field, as tuples compare element-wise: `{ a: 1, s: "x" } == { s: "x", a: 1 }` holds, and so do records nested in each other or inside arrays, tuples, `Option`s and enums. A `float` field compares by IEEE 754. Records have no `Eq` or `Hash` instance yet, so a `T: Eq` bound (and a `HashMap` key) does not accept one.
 - A record is not iterable: its fields are a fixed set of names, so `for x in r` is an error (`E0119`). For keys you add, remove or iterate, use `collections::map::HashMap` from the stdlib.
 - Duplicate field names in one literal → parse error (`E0208`); typecheck repeats the check if parse is bypassed.
 - Anonymous records have structural `Show` support when every field is showable: `%v`, `show(r)` / `r.show()` and a `T: Show` bound all accept a ground record, through a monomorphic clone or a shared generic body's dictionary. Fields print in canonical name order as `{ a: 1, b: 2 }`, the same text `%v` prints.
