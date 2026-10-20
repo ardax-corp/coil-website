@@ -222,10 +222,16 @@ A user type's `Shl` / `Shr` instance takes the count as an `int` too:
 | Operator | Operands | Result |
 |----------|----------|--------|
 | `==`, `!=` | Same type | `bool` |
-| `<`, `<=`, `>`, `>=` | Same type: `int` / `float` / `byte`, or a type with an `Lt` / `Le` / `Gt` / `Ge` instance (`#[derive(Ord)]`) | `bool` |
+| `<`, `<=`, `>`, `>=` | Same type: `int` / `float` / `byte` / `string`, or a type with an `Lt` / `Le` / `Gt` / `Ge` instance (`#[derive(Ord)]`) | `bool` |
 
-Ordering any other type (`bool`, `string`, a class without an `Ord` instance) is
-a type error.
+Strings order by their UTF-8 bytes, compared left to right, and a prefix sorts
+first: `"B" < "a"`, `"10" < "9"`, `"ab" < "abc"`, `"z" < "é"`. There is no
+locale or case folding. `string` is `Ord`, so generic code bounded by `Ord`
+(`collections::sort`, `num::min`, a `#[derive(Ord)]` field) takes strings. A
+`string` is not a range bound (`"a".."c"` is `E0119`).
+
+Ordering any other type (`bool`, a class without an `Ord` instance) is a type
+error.
 
 Float and int comparisons use separate opcode families (`LE` vs `LEF`, etc.) selected at codegen from inferred types.
 
