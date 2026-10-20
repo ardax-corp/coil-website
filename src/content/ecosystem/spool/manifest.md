@@ -163,6 +163,28 @@ See [Permissions](/docs/references/permissions).
 
 Native libraries a project loads with `dload`. `spool download` (or `spool install --with-natives`) reads them through `coil natives dump` and fetches each direct library with a `url` into `~/.coil/natives` (override with `COIL_NATIVES_DIR`). spool passes each row to `coil package` and `coil natives dump` as `--ffi-native name=…,version=…,path=…`. Keys: `name`, `version`, `path` (required), `package`, `url`, `requires`, `requires_hint`.
 
+### Dependency natives
+
+A library that ships a native names it in its own `coil.toml`, relative to its own checkout. coil-tls:
+
+```toml
+[ffi]
+search_paths = ["./native"]
+
+[[ffi.native]]
+name = "tls"
+version = "0.1.0"
+path = "./native"
+```
+
+spool resolves these against the dependency's checkout (the directory behind `.spool/deps/<name>`), never against the consumer:
+
+- Each dependency's `[ffi] search_paths` becomes `--ffi-search-path`, after the project's own. Only directories that exist inside the checkout count: absolute and `..` paths are dropped, and so is a consumer-layout path such as coil-http's `./.spool/deps/tls/native`.
+- `spool build` / `run` pass each dependency's `[[ffi.native]]` rows to `coil package`, for every stem the project does not declare itself. The library comes from the first search directory that holds it (the file `spool test` loads, so a sibling build in the project's own `search_paths` still wins), else from the row's `path`.
+- After packaging, `spool build` copies each pinned library into `~/.coil/natives/cache/`, where the executable looks first.
+
+These paths only locate files; loading still needs `[ffi] allow` and a pin or `trusted = true`. spool does not build natives: build one in the dependency's checkout (`make -C "$(dirname "$(readlink -f .spool/deps/tls)")/native" artifact` for coil-tls), or point the project's own `search_paths` at a build elsewhere.
+
 ---
 
 ## `coil.lock`
