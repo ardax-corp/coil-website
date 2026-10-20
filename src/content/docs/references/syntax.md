@@ -478,12 +478,15 @@ Use `vec.push(value)` on a `Vec<T>`. See [Arrays and Vec](/docs/references/array
 
 ### `readonly` expressions
 
-Prefix `readonly` on array literals or `new` seals the value against external mutation:
+Prefix `readonly` on any expression views its value read-only. It binds like unary `-`, so `readonly p.inner` is `readonly (p.inner)`:
 
 ```coil
 let xs = readonly [1, 2, 3];
 let p = readonly new Point(1, 2);
+let i = readonly q.inner;
 ```
+
+In a type, `readonly T` is written anywhere a type is: `fn f(readonly Point p) -> readonly Vec<int>`, `let v: Vec<readonly Point> = …;`. See [Types — Readonly](/docs/references/types#readonly-types).
 
 ---
 
