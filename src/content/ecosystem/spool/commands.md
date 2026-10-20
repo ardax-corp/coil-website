@@ -62,7 +62,7 @@ cd spool
 
 `spool new <name>` scaffolds `coil.toml`, `src/`, `tests/` and `.gitignore` (and runs `git init` unless `--no-git`); `init` does the same in the current directory. `--lib` makes a library whose entry module is `src/<name>.hy`.
 
-`build` runs `coil package` on `[entry].file` (default `src/main.hy`) into `target/<name>`. `run` builds, then runs `target/<name>` with the arguments after `--` and returns its exit code. `check` compiles without packaging. `clean` removes `target/` (`--all`: also `.spool/`).
+`build` runs `coil package` on `[entry].file` (default `src/main.hy`) into `target/<name>`, with an `--ffi-native` row for each native library the project or a dependency declares, then copies the libraries the executable pins into the natives cache so it runs from any directory (see [Dependency natives](/packages/spool/manifest#dependency-natives)). `run` builds, then runs `target/<name>` with the arguments after `--` and returns its exit code. `check` compiles without packaging. `clean` removes `target/` (`--all`: also `.spool/`).
 
 `test`, `coverage`, `infect`, `fmt`, `debug`, `dissect` and `lsp` wrap the matching `coil` subcommands and forward every flag unchanged. `spool coil ARGS` runs plain `coil ARGS` from the project root with no flags added.
 
