@@ -271,6 +271,17 @@ static let hits = 0;            // reassignable
 
 A `const` whose value is not known at compile time (an array, a function call) is computed once in the program prologue (before `main`), in module dependency order, as is every `static let`. Other modules import the item name via `use` like ordinary functions. The old `static const` spelling still compiles with a warning; write `const`.
 
+Write a lookup table as a `const` set to a `readonly` array. Nothing can change its elements, so a read at an index known at compile time (`SBOX[3]`, `SBOX.len()`) is replaced by the value, and a read with a variable index is one load. Inside a function, a `const` table of literals is built on the first call and reused after that, instead of a new array on every call:
+
+```coil
+const SQUARES = readonly [0, 1, 4, 9, 16, 25];
+
+fn nibble_bits(int x) -> int {
+    const BITS = readonly [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
+    return BITS[x & 15] + BITS[(x >> 4) & 15];
+}
+```
+
 Class statics use `ClassName::field` / `ClassName::method(...)` — see [Types — Static slots](/docs/references/types#static-slots) and `examples/static_singleton.hy`.
 
 ### `readonly` values
