@@ -2063,7 +2063,7 @@ See [`examples/projects/README.md`](https://github.com/ardax-corp/coil-lang/blob
 | `array_grow.hy` | Collections | `414` |
 | `vec.hy` | Collections | `20,3,99,2` |
 | `static_singleton.hy` | Statics | `121` |
-| `readonly_seal.hy` | Readonly | `322` |
+| `readonly_seal.hy` | Readonly | `312` |
 | `dict.hy` | Collections | `4210042` |
 | `gc_root_weak.hy` | GC | `pinned\npinned` |
 | `gc_collect.hy` | GC | `none` |

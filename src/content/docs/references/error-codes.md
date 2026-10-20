@@ -33,7 +33,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0104` | `NotAFunction` | Value is not callable |
 | `E0105` | `TooManyArguments` | Too many arguments in a call that uses named arguments. A positional call with too many arguments reports `E0119` |
 | `E0106` | `UndeclaredAssignment` | Assignment to undeclared variable |
-| `E0107` | `InvalidAssignment` | Invalid assignment target (includes removed `arr[] =` append — use `Vec::push`) |
+| `E0107` | `InvalidAssignment` | Invalid assignment target (includes removed `arr[] =` append — use `Vec::push`); a write through a `readonly` value, or a call that passes one where the callee mutates it |
 | `E0108` | `VariableRedeclaration` | Variable redeclaration |
 | `E0109` | `ConstantRedeclaration` | Constant redeclaration |
 | `E0110` | `UnknownType` | Unknown type name |
