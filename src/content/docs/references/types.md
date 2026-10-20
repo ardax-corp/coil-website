@@ -470,7 +470,7 @@ c.get();     // fine: `get` only reads `self`
 c.twice();   // E0107: it mutates `self` (calls `Counter::bump`, which writes field `n`)
 ```
 
-A mutation counts when it goes through anything reached from the parameter: a field or element read from it, a loop or pattern variable, what a getter returns, a lambda that captures it, or another function that mutates it. Writing `readonly` on a parameter is an optional promise, checked against the body. Stdlib methods follow the same rule: `map.get(k, d)` works on a `readonly HashMap`, while `map.insert(k, v)` does not.
+A mutation counts when it goes through anything reached from the parameter: a field or element read from it, a loop or pattern variable, what a getter returns, a lambda that captures it, or another function that mutates it. Writing `readonly` on a parameter is an optional promise, checked against the body. Stdlib methods follow the same rule: `map.get(k, d)` works on a `readonly HashMap`, while `map.insert(k, v)` does not. An operator on a class is a call of its trait impl: `ro + x` is fine when the class's `impl Add` only reads its operands, and an error when it mutates one.
 
 A trait method has no body to look at when it is called through a trait object or a generic bound, so the trait declares it: `fn area(readonly A self) -> int;`. Only methods declared that way can be called through a `readonly Area` or on a readonly `T: Area`, and every impl must keep the promise: an impl whose body mutates `self` is an error. A trait method without the declaration is treated as mutating its parameters.
 
