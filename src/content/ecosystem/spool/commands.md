@@ -75,10 +75,11 @@ Declare a dependency in `coil.toml`, resolve it, update `coil.lock`, and link it
 ```bash
 spool add http --git https://github.com/ardax-corp/coil-http.git --version '^0.1'
 spool add toml --git https://github.com/ardax-corp/coil-toml.git --rev main
+spool add msgpack --git https://github.com/ardax-corp/coil-msgpack.git --version latest
 spool add mylib --path ../mylib
 ```
 
-`--version` takes a [version requirement](/packages/spool/manifest#version-requirements) and defaults to `*`; `--rev` pins a branch, tag or commit instead. A name that is already declared is an error. `add` and `remove` restore `coil.toml` and `coil.lock` if the install fails. Runs the `pre_install` / `post_install` [scripts](/packages/spool/manifest#scripts) when enabled.
+`--version` takes a [version requirement](/packages/spool/manifest#version-requirements) or [`latest`](/packages/spool/manifest#latest) (the tip of the default branch). It defaults to `*`, or to `latest` when the repository has no version tags; spool then prints a one-line note saying so. `--rev` pins a branch, tag or commit instead. A name that is already declared is an error. `add` and `remove` restore `coil.toml` and `coil.lock` if the install fails. Runs the `pre_install` / `post_install` [scripts](/packages/spool/manifest#scripts) when enabled.
 
 ## `spool remove`
 
@@ -92,11 +93,11 @@ Fetch, resolve, prune and link: check engine ranges, check out every locked pack
 
 ## `spool update`
 
-Re-resolve requirements to the newest allowed versions and rewrite `coil.lock`, then link. A `rev` that names a branch moves to the branch head. With a `name`, only that dependency is updated; it must be a git dependency. Runs `pre_update` / `post_update` when scripts are enabled.
+Re-resolve requirements to the newest allowed versions and rewrite `coil.lock`, then link. A `rev` that names a branch moves to the branch head, and `version = "latest"` moves to the tip of the default branch. With a `name`, only that dependency is updated; it must be a git dependency. Runs `pre_update` / `post_update` when scripts are enabled.
 
 ## `spool tree` / `spool outdated`
 
-`tree` prints the dependency graph. `outdated` compares the locked version with the newest compatible and the newest tag.
+`tree` prints the dependency graph. `outdated` compares the locked version with the newest compatible and the newest tag; for a `latest` dependency it compares the locked commit with the current tip.
 
 ## `spool download`
 
