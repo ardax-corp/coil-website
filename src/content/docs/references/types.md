@@ -48,7 +48,7 @@ Recursive enum references use isorecursive `Con(name)` inside variant payloads (
 
 ## Built-in `Option` and `Result`
 
-The compiler pre-registers polymorphic sum types under the virtual `prelude` module (auto-imported). **Do not redeclare them** while the short name is still bound — a user `enum Option` / `enum Result` (or a `class` of either name) is a duplicate-enum error (`E0200`) unless you first rebind with `use prelude::Option as …`.
+The compiler pre-registers polymorphic sum types under the virtual `prelude` module (auto-imported). **Do not redeclare them** — a user `enum Option` / `enum Result` (or a `class` of either name, in any letter case such as `OPTION`) is a duplicate-enum error (`E0200`) in every module. A `use prelude::Option as …` rebind does not free the name. Pick a different name, such as `Maybe`.
 
 The other built-in types — `Vec`, `Range`, `RangeInclusive`, `ArrayIter`, `Matrix`, `gc::Root` and `gc::Weak` — cannot be redeclared at all: a `class` or `enum` with one of those names, in any module, is `E0200` (`Cannot redeclare built-in type`). Pick a different name, such as `Bounds` for a user range.
 

@@ -13,7 +13,7 @@ This chapter builds on [Enums and Match](/docs/manual/tutorial/03-enums-and-matc
 
 ## Built-in types
 
-You do **not** declare these yourself — they live in the virtual `prelude` module and are auto-imported into every file. Redeclaring `enum Option { ... }` or `enum Result { ... }` while the short name is still prelude-bound is a duplicate-enum error (free the name first with `use prelude::Option as PreludeOption;`).
+You do **not** declare these yourself — they live in the virtual `prelude` module and are auto-imported into every file. Redeclaring `enum Option { ... }` or `enum Result { ... }` is a duplicate-enum error (`E0200`); pick a different name for your own type.
 
 | Type | Variants | Meaning |
 |------|----------|---------|
