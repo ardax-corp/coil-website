@@ -14,7 +14,7 @@ description: "use gc::{root, weak, upgrade, collect, heapbytes}; — explicit GC
 | `root` | `T -> Root<T>` | Allocate a pin around a value |
 | `get` | `Root<T> -> Option<T>` | Read the pinned value; pin remains valid. `None` after `unroot` |
 | `unroot` | `Root<T> -> Option<T>` | Take the value and clear the pin. `None` if already cleared |
-| `weak` | `T -> Weak<T>` | Allocate a non-rooting handle (not on a [`readonly class`](/docs/references/types#readonly-classes) instance: `E0119`) |
+| `weak` | `T -> Weak<T>` | Allocate a non-rooting handle (not on a [`readonly class`](/docs/references/types#readonly-classes) instance, directly or through a type parameter: `E0119`) |
 | `upgrade` | `Weak<T> -> Option<T>` | `Some` while the referent is live; `None` after collection |
 | `heap_bytes` | `() -> int` | Managed heap size in bytes (`Heap::size`) |
 | `collect` | `() -> int` | Force a full mark-sweep; returns bytes freed |
