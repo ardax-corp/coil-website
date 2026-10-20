@@ -39,6 +39,14 @@ fn main() {
 
 `join(t)` blocks until the worker finishes and returns its result value. `detach(t)` lets the thread run without a join (errors if you later `join` the same handle).
 
+### Statics in a worker
+
+A worker starts with a copy of the program's statics as they were when it
+was spawned: a `const` such as a lookup table reads the same values in the
+worker as in `main`. A `static let` starts at the spawner's value, and the
+worker's writes to it are its own; share state through a channel or a
+`mutex` instead.
+
 ### Spawn capacity
 
 `spawn` submits work to a fixed **work-stealing reactor** (default one OS
