@@ -85,6 +85,15 @@ trap, and floats keep IEEE behaviour (`inf`, `NaN`). Checked, wrapping, saturati
 arithmetic are userland traits in coil-stdlib's `arith` module (`Checked`,
 `Wrapping`, `Saturating`, `Overflowing`).
 
+For a shift count that may be out of range, those traits have shift methods
+that take any `int` count:
+
+| Method | Count outside `0..=63` |
+|--------|------------------------|
+| `x.checked_shl(n)` / `x.checked_shr(n)` | `None` (otherwise `Some(x << n)` / `Some(x >> n)`) |
+| `x.wrapping_shl(n)` / `x.wrapping_shr(n)` | Shifts by `n & 63`, as Rust does (`1.wrapping_shl(65)` is `2`) |
+| `x.overflowing_shl(n)` / `x.overflowing_shr(n)` | `(x << (n & 63), true)`; an in-range count gives `(x << n, false)` |
+
 `byte` arithmetic wraps modulo 256 instead: `+`, `-`, `*`, `**`, `<<`, unary
 `-` and their compound forms keep the low 8 bits of the result, so a `byte`
 is always in `0..=255` (`200 + 100` is `44`, `0 - 1` is `255`). Each of these
