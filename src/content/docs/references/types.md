@@ -48,7 +48,9 @@ Recursive enum references use isorecursive `Con(name)` inside variant payloads (
 
 ## Built-in `Option` and `Result`
 
-The compiler pre-registers polymorphic sum types under the virtual `prelude` module (auto-imported). **Do not redeclare them** while the short name is still bound — a user `enum Option` / `enum Result` is a duplicate-enum error unless you first rebind with `use prelude::Option as …`.
+The compiler pre-registers polymorphic sum types under the virtual `prelude` module (auto-imported). **Do not redeclare them** while the short name is still bound — a user `enum Option` / `enum Result` (or a `class` of either name) is a duplicate-enum error (`E0200`) unless you first rebind with `use prelude::Option as …`.
+
+The other built-in types — `Vec`, `Range`, `RangeInclusive`, `ArrayIter`, `Matrix`, `gc::Root` and `gc::Weak` — cannot be redeclared at all: a `class` or `enum` with one of those names, in any module, is `E0200` (`Cannot redeclare built-in type`). Pick a different name, such as `Bounds` for a user range.
 
 | Type | Variants (tag order) | Annotation |
 |------|----------------------|------------|
@@ -386,6 +388,8 @@ Initializers run once in the program prologue (declaration order). Other modules
 
 A module-level `const` whose value is known at compile time (`const LIMIT = 10;`) is inlined where it is read and takes no slot. Any other `const` (an array, a call, another module's value) is a static slot set once at startup; reassigning it is `E0107`. `static const` is the old spelling of such a `const`: it still compiles, with an `E0129` warning, and `coil fmt` rewrites it to `const`.
 
+A `const` set to a `readonly` array literal is a lookup table: no code can change an element, so a read at a constant index (`T[2]`, `T.len()`) folds to the value, also from another module, and a read with a variable index is one element load. A function-local `const t = readonly [...]` of literals is built the first time it runs and reused after that; since array `==` is structural, sharing that one copy is not observable.
+
 Class `static` fields require an initializer. `static` and `const` field modifiers are mutually exclusive on class fields.
 
 ---
@@ -470,7 +474,7 @@ c.get();     // fine: `get` only reads `self`
 c.twice();   // E0107: it mutates `self` (calls `Counter::bump`, which writes field `n`)
 ```
 
-A mutation counts when it goes through anything reached from the parameter: a field or element read from it, a loop or pattern variable, what a getter returns, a lambda that captures it, or another function that mutates it. Writing `readonly` on a parameter is an optional promise, checked against the body. Stdlib methods follow the same rule: `map.get(k, d)` works on a `readonly HashMap`, while `map.insert(k, v)` does not.
+A mutation counts when it goes through anything reached from the parameter: a field or element read from it, a loop or pattern variable, what a getter returns, a lambda that captures it, or another function that mutates it. Writing `readonly` on a parameter is an optional promise, checked against the body. Stdlib methods follow the same rule: `map.get(k, d)` works on a `readonly HashMap`, while `map.insert(k, v)` does not. An operator on a class is a call of its trait impl: `ro + x` is fine when the class's `impl Add` only reads its operands, and an error when it mutates one.
 
 A trait method has no body to look at when it is called through a trait object or a generic bound, so the trait declares it: `fn area(readonly A self) -> int;`. Only methods declared that way can be called through a `readonly Area` or on a readonly `T: Area`, and every impl must keep the promise: an impl whose body mutates `self` is an error. A trait method without the declaration is treated as mutating its parameters.
 
@@ -516,6 +520,7 @@ impl Point {
 | `==` / `!=` | structural over the fields, as if it derived `Eq` |
 | `hash` | structural, as if it derived `Hash`, when every field type hashes as written (primitives, tuples, type parameters, this module's hashing types). With a `Vec`, array, map or another module's type in a field, write `impl Hash` yourself |
 | `fn drop()` | not allowed (`E0126`): instances have no identity to finalise |
+| `gc::weak(p)` | not allowed (`E0119`): a weak handle would observe the instance's identity and when it is collected |
 
 A written `#[derive(Eq)]` / `impl Eq` (or `Hash`) takes the place of the implied one. Generic readonly classes work the same way: in `readonly class Pair<A, B>`, `pair.a` is read-only even when `A` is a mutable class.
 
