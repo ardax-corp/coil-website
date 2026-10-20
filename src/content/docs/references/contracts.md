@@ -222,6 +222,11 @@ bounds into a `Vec` or string are goals too. It writes `FILE.proof`
 (`--no-proof` skips it), and later builds of the unchanged file drop the
 proved `ensures` and invariant checks.
 
+What a clause says about the fields of a `readonly class` instance still
+holds after a call and across a loop, since nothing can change them. The
+fields of an ordinary class, including one seen through a `readonly`
+parameter, may have changed in any call that could write them.
+
 ## Related
 
 - [Effects](/docs/references/effects): why a clause must be effect-free
