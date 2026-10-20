@@ -52,7 +52,7 @@ Each entry is an inline table keyed by the name you `use` it under. Values must 
 
 | Form | Keys | Notes |
 |------|------|-------|
-| Git | `git` + `version` or `rev` | `git` is any URL host `git` can clone (HTTPS, SSH, private remotes via your credentials). `version` is a [version requirement](#version-requirements) matched against the repository's tags. `rev` pins a branch, tag or commit instead; `update` moves a branch pin. |
+| Git | `git` + `version` or `rev` | `git` is any URL host `git` can clone (HTTPS, SSH, private remotes via your credentials). `version` is a [version requirement](#version-requirements) matched against the repository's tags, or [`latest`](#latest) for the tip of the default branch. `rev` pins a branch, tag or commit instead; `update` moves a branch pin. |
 | Path | `path` | A local checkout, relative to the project root. No `version` or `rev`. Not written to the lockfile. |
 
 Either form may add `trusted = true` (a bool): that dependency's `dload` stems skip the sha256 pin (spool passes `--dload-trusted STEM`). The stem still needs `[ffi] allow`.
@@ -62,6 +62,7 @@ spool rejects a dependency that:
 - combines `git` and `path` — `git and path cannot be combined`
 - is a git dependency without `version` or `rev` — `git dependency <name> needs version or rev`
 - sets `version` or `rev` on a path dependency — `path dependency cannot set version or rev`
+- combines `version = "latest"` with `rev` — `git dependency <name>: version = "latest" cannot be combined with rev`
 - uses any other key — `unknown dependency key <key>`
 - sets `trusted` to a non-bool — `dependency <name> key trusted must be a bool`
 - repeats a name — `duplicate dependency <name>`
@@ -73,7 +74,13 @@ spool add http --git https://github.com/ardax-corp/coil-http.git --version '^0.1
 spool add local --path ../my-lib
 ```
 
-Without `--version` or `--rev`, `add` records `*`. `spool remove <name>` drops the entry again.
+Without `--version` or `--rev`, `add` records `*`, or `latest` when the repository has no version tags at all. In that case it prints a one-line note:
+
+```text
+spool: note: msgpack has no version tags; using version = "latest" (the default branch tip)
+```
+
+`spool remove <name>` drops the entry again.
 
 ### Version requirements
 
@@ -93,6 +100,23 @@ The highest matching tag wins; with none, spool reports `no tag matches requirem
 
 ```text
 diamond conflict for base: hello requires @dev, mid requires ^1
+```
+
+### `latest`
+
+`version = "latest"` follows the tip of the repository's default branch, whatever the branch is called: spool resolves it with `git ls-remote <url> HEAD`. Use it for libraries that have no release tags yet.
+
+```toml
+[dependencies]
+msgpack = { git = "https://github.com/ardax-corp/coil-msgpack.git", version = "latest" }
+```
+
+It is locked like a branch pin: the lockfile records the resolved commit with `ref = 'HEAD'`. `install` keeps that commit, and `update` moves it to the current tip. `outdated` shows the locked commit next to the current tip.
+
+`latest` also works in a dependency's own `coil.toml`. Two `latest` requirements on the same package agree, but `latest` together with a range or a `rev` is a diamond conflict:
+
+```text
+diamond conflict for msgpack: app requires ^0.1, wrap requires latest
 ```
 
 ---
@@ -177,7 +201,7 @@ One row per git dependency, direct or transitive, sorted by name. Path dependenc
 | `tag` | no | The tag the requirement resolved to |
 | `rev` | yes | Commit checked out |
 | `content_hash` | yes | Hash of the checkout's tree; `install` verifies it after fetching |
-| `ref` | no | The manifest `rev` (branch, tag or commit) a rev-pinned dependency asked for |
+| `ref` | no | The manifest `rev` (branch, tag or commit) a rev-pinned dependency asked for; `HEAD` for `version = "latest"` |
 | `hook_path`, `hook_hash` | no | Pinned [include hook](/packages/spool#include-hooks) path and `git hash-object` hash, recorded on the first opted-in run |
 
 A `[[package.native]]` block under a package may pin its native library: `sha256` (with `stem` / `lib`) becomes `--dload-pin STEM=SHA256`. spool keeps these blocks when it rewrites the lock.
