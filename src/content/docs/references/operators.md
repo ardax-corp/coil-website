@@ -235,7 +235,7 @@ identifier += expr    // and other compound forms
 
 | Rule | Detail |
 |------|--------|
-| LHS | Identifier, dict field (`d.x`), or array index (`arr[i]`) |
+| LHS | Identifier, record field (`d.x`), or array index (`arr[i]`) |
 | Compound | `+=`, `-=`, `*=`, `/=`, `%=`, `**=`, `<<=`, `>>=`, `&=`, `\|=`, `^=` |
 | Type | `x op= y` checks like `x = x op y`: the RHS must unify with the assigned slot, except the `int` count of `<<=` / `>>=`; bitwise compound ops require `int` or `byte`, or a type with the operator's trait |
 | Undeclared | Error — use `let` first |
@@ -254,7 +254,7 @@ identifier += expr    // and other compound forms
 | Prefix increment | `++expr` | New value |
 | Prefix decrement | `--expr` | New value |
 
-Works on variables, mutable dict fields, and array elements. Enum record fields and tuples are immutable.
+Works on variables, mutable record fields, and array elements. Enum record fields and tuples are immutable.
 
 ---
 
@@ -278,7 +278,7 @@ Field resolution:
 | Receiver type | Mechanism |
 |---------------|-----------|
 | Enum record variant | `LoadField` (index by declaration order) |
-| Dict / `{ }` record | `GetField` (string key) |
+| `{ }` record | `LoadField` (slot of the field, fields sorted by name) |
 
 ---
 

@@ -225,11 +225,11 @@ The `.` must be followed by a name, so `1.5` stays a float and `a .. b` stays a 
 
 ---
 
-## Record variants vs. anonymous dicts
+## Record variants vs. records
 
-Record-shaped **enum variants** and anonymous **dict literals** look similar but are different features:
+Record-shaped **enum variants** and **record literals** look similar but are different features:
 
-| | Enum record variant | Anonymous dict |
+| | Enum record variant | Record |
 |---|---|---|
 | Syntax | `Point::Point { x: 5, y: 12 }` | `{ x: 5, y: 12 }` |
 | Type | fixed variant of a declared enum | structural `{ x: int, y: int }` |
@@ -240,11 +240,11 @@ Record-shaped **enum variants** and anonymous **dict literals** look similar but
 // enum record variant — tagged, matchable
 let p = Point::Point { x: 5, y: 12 };
 
-// anonymous dict — untagged, structurally typed
+// record — untagged, structurally typed
 let d = { x: 5, y: 12 };
 ```
 
-Dicts, tuples, and arrays are covered in [Aggregates](/docs/manual/tutorial/05-aggregates).
+Records, tuples, and arrays are covered in [Aggregates](/docs/manual/tutorial/05-aggregates).
 
 ---
 
@@ -309,7 +309,7 @@ Reading a field that the type does not declare:
 Cannot find field `bar` on record `{ foo: int }`
 ```
 
-This applies to both dot access on enum record variants and anonymous dicts.
+This applies to both dot access on enum record variants and records.
 
 ---
 
@@ -343,5 +343,5 @@ E::V { inner: Other::O { v }, label } => v
 
 ## What's next
 
-- [Aggregates](/docs/manual/tutorial/05-aggregates) — tuples `(a, b)`, arrays `[1, 2, 3]`, and anonymous dicts `{ key: value }`.
+- [Aggregates](/docs/manual/tutorial/05-aggregates) — tuples `(a, b)`, arrays `[1, 2, 3]`, and records `{ key: value }`.
 - [Enums and Pattern Matching](/docs/manual/tutorial/03-enums-and-match) — unit and tuple variants, nested `_`, `default` catch-alls, exhaustiveness, and inner-pattern dispatch.

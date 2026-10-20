@@ -51,7 +51,7 @@ Parse → typecheck → typed HIR (inlining, optimization passes) → stack IL +
 | `break` / `continue` | Supported |
 | Enums, `match`, record variants, scalar `#[repr]` | Supported (`Enum::Variant`; catch-all is `default =>`) |
 | Built-in `Option` / `Result`, `raise`, `?`, `??`, `?.` | Supported (desugar to match/return) |
-| Tuples, fixed arrays (`[T; N]` / `len`), `Vec<T>`, dicts (anonymous records) | Supported |
+| Tuples, fixed arrays (`[T; N]` / `len`), `Vec<T>`, records `{ x: 1 }` | Supported |
 | Type aliases (`type Name = T;`, lexically scoped) | Supported |
 | Generics and traits | Supported: generic functions/enums/aliases/classes, higher-kinded type parameters, associated types/GATs, existentials, coherence checks |
 | Modules / namespaces (`use`, `mod`) | Supported (multi-file CLI via `--root`; spool reads `coil.toml`) |
@@ -60,7 +60,7 @@ Parse → typecheck → typed HIR (inlining, optimization passes) → stack IL +
 | IO streams (`use io::{…};`, `Vec<byte>`, files, sync adapters, TCP, UDP) | Supported (non-blocking L0) |
 | Classes (`class` / `impl` / `new`, fields, methods) | Supported |
 | Coroutines (`gen fn`, `yield`, `resume`, `yield from`, `done`) | Supported |
-| `for x in` (Iterator / IntoIterator) | Supported (arrays, homogeneous tuples/dicts, ranges, coroutines, user `impl`s) |
+| `for x in` (Iterator / IntoIterator) | Supported (arrays, homogeneous tuples, ranges, coroutines, user `impl`s) |
 | Integer arithmetic | `+ - * / % **` and unary `-` on `int` panic on overflow in every build; `float` is IEEE. Wrapping / checked / saturating helpers are the userland `arith` module |
 | Effects and capabilities (`pure fn`, `uses {…}`, `--allow-*`) | Supported ([effects](/docs/references/effects), [permissions](/docs/references/permissions)) |
 | Contracts (`requires`, `ensures`, `invariant`, `decreases`) | Supported; `coil verify` proves them with an SMT solver ([contracts](/docs/references/contracts)) |

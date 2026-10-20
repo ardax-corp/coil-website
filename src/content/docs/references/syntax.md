@@ -457,7 +457,7 @@ statement ::= while_stmt
 | `return` | `return [expr] ';'` (`return;` returns unit) |
 | `yield` | `yield expr ';'` or `yield from expr ';'` |
 | `while` | `while expr loop_clause* block` — `loop_clause` is `invariant expr` or `decreases expr` ([Contracts](/docs/references/contracts)); a `for` takes `invariant` the same way |
-| `for` | `for IDENT in expr block` — via prelude `IntoIterator` / `Iterator` (arrays, homogeneous tuples/dicts, coroutines, or user `impl`s; see [Built-ins](/docs/references/iterator)). C-style `for (init; cond; step)` is a parse error. |
+| `for` | `for IDENT in expr block` — via prelude `IntoIterator` / `Iterator` (arrays, homogeneous tuples, ranges, coroutines, or user `impl`s — not records; see [Built-ins](/docs/references/iterator)). C-style `for (init; cond; step)` is a parse error. |
 | `break` | `break ';'` (innermost loop) |
 | `continue` | `continue ';'` (jumps to the `while` condition / next for-in iteration) |
 | `if` | `if expr block ('else' (block \| if_stmt))?` |
@@ -514,7 +514,7 @@ Primitive casts use postfix `expr as T` (`int` / `float` / `byte` / `bool`). `fl
 | Group | `(expr)` | Single expr — **not** a 1-tuple |
 | Tuple | `(e1, e2)` or `(e,)` | Comma required for tuple |
 | Array | `[e1, e2, ...]` or `[]` | Homogeneous; literal → `[T; N]`; empty `[]` needs `Vec<T>` / `[T; 0]` |
-| Dict | `{ name: expr, ... }` | Anonymous record; field names must be unique (`E0208`) |
+| Record | `{ name: expr, ... }` | Anonymous record; field names must be unique (`E0208`) |
 | Construct | `Enum::Variant(...)` | Qualified constructor (`::` only; not `Enum.Variant`) |
 | Call | `f(args)` | Args are positional `expr` and/or named `name: expr` (positional prefix, then named; no positional after named). Includes user functions and FFI-wrapped extern fns |
 | Instantiate | `new Class(args)` | Class construction |
@@ -721,9 +721,9 @@ match dir {
 }
 ```
 
-Brace bodies (`{ … }`) are **expression blocks**, not dict literals — so
+Brace bodies (`{ … }`) are **expression blocks**, not record literals — so
 `self.method()` and other non-`name: value` forms work inside them.
-A dict arm still works when the body is a real record literal (`{ x: 1 }`).
+A record arm still works when the body is a real record literal (`{ x: 1 }`).
 
 ---
 
