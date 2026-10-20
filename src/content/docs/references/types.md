@@ -360,7 +360,7 @@ Module-level and class-level singletons share one global slot table for the proc
 
 ```coil
 static let hits = 0;
-static const VERSION = "1.0";
+const PRIMES = [2, 3, 5, 7];   // not a compile-time value: set once at startup
 
 class Counter {
     static count: int = 0,
@@ -378,11 +378,13 @@ impl Counter {
 | Form | Access | Mutation |
 |------|--------|----------|
 | `static let x = …` | bare `x` in defining module | Reassignable |
-| `static const X = …` | bare `X` | Immutable after init |
-| `Class::field` | `Counter::count` | `static let`-style unless `static const` |
+| `const X = …` (does not fold) | bare `X` | Immutable after init |
+| `Class::field` | `Counter::count` | Reassignable, like `static let` |
 | `static fn` | `Class::method()` | No `self`; not callable on instances |
 
 Initializers run once in the program prologue (declaration order). Other modules import statics via `use` like ordinary items.
+
+A module-level `const` whose value is known at compile time (`const LIMIT = 10;`) is inlined where it is read and takes no slot. Any other `const` (an array, a call, another module's value) is a static slot set once at startup; reassigning it is `E0107`. `static const` is the old spelling of such a `const`: it still compiles, with an `E0129` warning, and `coil fmt` rewrites it to `const`.
 
 Class `static` fields require an initializer. `static` and `const` field modifiers are mutually exclusive on class fields.
 
@@ -487,6 +489,36 @@ A function value of type `(Point) -> R` cannot be passed where `(readonly Point)
 
 Type pretty-print: `readonly T`.
 
+### Readonly classes
+
+`readonly class` declares a class whose instances never change after `new`. It is a value, not an object you share and update:
+
+```coil
+readonly class Point {
+    pub x: float,
+    pub y: float,
+}
+
+impl Point {
+    pub fn moved(float dx) -> Point {
+        return new Point(self.x + dx, self.y);   // a new instance
+    }
+}
+```
+
+| | Rule |
+|---|---|
+| Field writes | `p.x = …`, `p.x += …`, `self.x = …` in a method: all `E0107` |
+| What fields hold | read-only through the instance: a `Vec` field cannot `push`, a class field's own fields cannot be written |
+| `readonly Point` | the same type as `Point`, so `fn f(Point p)` accepts every instance |
+| `==` / `!=` | structural over the fields, as if it derived `Eq` |
+| `hash` | structural, as if it derived `Hash`, when every field type hashes as written (primitives, tuples, type parameters, this module's hashing types). With a `Vec`, array, map or another module's type in a field, write `impl Hash` yourself |
+| `fn drop()` | not allowed (`E0126`): instances have no identity to finalise |
+
+A written `#[derive(Eq)]` / `impl Eq` (or `Hash`) takes the place of the implied one. Generic readonly classes work the same way: in `readonly class Pair<A, B>`, `pair.a` is read-only even when `A` is a mutable class.
+
+A `readonly class` costs nothing at runtime either: it compiles to the same bytecode as a plain class with `#[derive(Eq, Hash)]`.
+
 ---
 
 Inherent `fn drop()` on a class is a GC-time finalizer (`unit` return, implicit `self` by value). See [`gc`](/docs/references/gc). Named locals are always heap-allocated (`InitTyped`); only a consumed `new Class(args).field` may skip the box, and never when the class has `fn drop()`.
@@ -500,7 +532,7 @@ class Point {
 }
 ```
 
-Const fields may be set only in `new` (constructor). Any later `p.x = …` or `self.x = …` is a type error. A `const` field locks that **slot** for every reference, the way a `const` local locks a name; `readonly` locks the **value** seen through one reference.
+Const fields may be set only in `new` (constructor). Any later `p.x = …` or `self.x = …` is a type error. A `const` field locks that **slot** for every reference, the way a `const` local locks a name; `readonly` locks the **value** seen through one reference, and a [`readonly class`](#readonly-classes) locks every field of every instance.
 
 Local `const` bindings are shallow: the compiler warns when the initializer type is heap-mutable (`Vec<T>`, class instances, records) because interior mutation through fields or indexed writes still succeeds. Fixed `[T; N]` locals are multi-slot and warn when the array element type is itself heap-mutable.
 

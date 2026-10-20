@@ -374,7 +374,7 @@ Signature-only `fn foo() -> T;` outside `extern` is a parse error. Runtime loadi
 ### Classes and impl
 
 ```
-class_decl ::= attr_list? 'class' IDENT type_param_list? '{' field_decl (',' field_decl)* ','? '}'
+class_decl ::= attr_list? 'readonly'? 'class' IDENT type_param_list? '{' field_decl (',' field_decl)* ','? '}'
 field_decl ::= 'pub'? IDENT ':' type
 
 impl_decl  ::= 'impl' IDENT type_param_list? '{' method_decl* '}'
@@ -451,7 +451,7 @@ statement ::= while_stmt
 |-----------|--------|
 | `let` | `let IDENT (':' type_annotation)? ('=' expr)? ';'` |
 | `const` | `const IDENT (':' type_annotation)? '=' expr ';'` |
-| `static` | `static let IDENT …` / `static const IDENT …` (top-level only) |
+| `static` | `static let IDENT …` (top-level only; `static const` is deprecated, write `const`) |
 | `defer` | `defer [use (ident,*)] { statement* }` (runs on enclosing function exit, LIFO; outer locals require `use`) |
 | Expression | `expr ';'` |
 | `return` | `return [expr] ';'` (`return;` returns unit) |
@@ -467,7 +467,7 @@ statement ::= while_stmt
 
 `let x: int = 5;` produces a variable declaration fragment followed by initializer expression. Type-only `let x: int;` is allowed. A scalar (`int`, `float`, `bool`, `byte`) starts at zero. Any other type (`string`, a class, `Vec<T>`, a tuple) must be assigned on every path before it is read, or compilation fails with `E0132`; an assignment inside a loop body does not count after the loop, and a closure capturing the local reads it when the closure is made.
 
-`static let` / `static const` are top-level declarations only; initializers run in the program prologue before `main`.
+`static let` is a top-level declaration only; its initializer runs in the program prologue before `main`, as does that of a top-level `const` whose value does not fold at compile time.
 
 A parameter, `let`, pattern or loop binding, or `use` capture with the same name as a static shadows it within its scope: reads and writes there go to the local, and the static is unchanged.
 

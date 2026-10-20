@@ -259,16 +259,17 @@ const VERSION = "1.0";
 
 `const` is **shallow**: if the initializer is heap-mutable (`Vec<T>`, a class instance, or a dict), the compiler emits a warning that interior mutation (fields, indices) still succeeds. Scalars, strings, tuples, and enums without interior paths do not warn, and neither does a `readonly` value (`const p = readonly new Point(1, 2);`), which is sealed all the way down.
 
-### Module `static` slots
+### Module `const` and `static let`
 
-Top-level singletons use `static let` (mutable) or `static const` (immutable binding):
+At the top of a module, `const` names a value that cannot be rebound, and `static let` a variable the whole program shares:
 
 ```coil
-static let hits = 0;
-static const VERSION = "1.0";
+const VERSION = "1.0";          // known at compile time: inlined
+const PRIMES = [2, 3, 5, 7];    // computed once at startup
+static let hits = 0;            // reassignable
 ```
 
-Initializers run once in the program prologue (before `main`), in module dependency order. Other modules import the item name via `use` like ordinary functions.
+A `const` whose value is not known at compile time (an array, a function call) is computed once in the program prologue (before `main`), in module dependency order, as is every `static let`. Other modules import the item name via `use` like ordinary functions. The old `static const` spelling still compiles with a warning; write `const`.
 
 Class statics use `ClassName::field` / `ClassName::method(...)` — see [Types — Static slots](/docs/references/types#static-slots) and `examples/static_singleton.hy`.
 
