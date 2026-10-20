@@ -220,7 +220,9 @@ a type error.
 
 Float and int comparisons use separate opcode families (`LE` vs `LEF`, etc.) selected at codegen from inferred types.
 
-`==` / `!=` on arrays and tuples are **structural** (length + element-wise, recursively). Strings compare by UTF-8 content. Enums, classes, and records stay pointer-identity unless a user `Eq` instance is dispatched.
+`==` / `!=` on arrays, tuples, records and enums are **structural**, recursively: arrays and tuples by length and element-wise, records field by field (`{ a: 1 } == { a: 1 }`, whatever order the literals name the fields in), enums by variant and payload (`Some("x") == Some("x")`). Strings compare by UTF-8 content. A `float` inside an array, tuple or record compares by IEEE 754, as scalar `float` `==` does (`NaN != NaN`, `0.0 == -0.0`).
+
+Classes compare by identity: two `new P(1)` are not equal, though a value and its alias are. A class or enum with a user or derived `Eq` instance (`#[derive(Eq)]`) dispatches `==` to it. Inside an array, tuple, record or enum payload, a class value still compares by identity, with or without an `Eq` instance.
 
 ---
 
