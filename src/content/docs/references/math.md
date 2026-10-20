@@ -1,6 +1,6 @@
 ---
 title: "Math (`sin` / `sqrt` / linear algebra)"
-description: "Auto-imported from virtual prelude::math (via inject_prelude_scope — no source use needed). Powers and remainders are the ** and % operators; num::pow is the function form."
+description: "Auto-imported from virtual prelude::math (via inject_prelude_scope — no source use needed). Powers and remainders are the ** and % operators."
 ---
 
 # Math (`sin` / `sqrt` / linear algebra)
@@ -24,14 +24,29 @@ For powers and remainders use the operators: `a ** b` (on `float`, IEEE
 `float`, C `fmod`: the sign follows `a`). `prelude::math::pow` and
 `prelude::math::rem` were removed; importing them is an error that names the
 operator. A bare `rem(a, b)` or `pow(a, b)` is the `Rem` / `Pow` operator
-trait's method, the same as `a % b` / `a ** b`.
+trait's method, the same as `a % b` / `a ** b`. There is no `num::pow`
+either: coil-stdlib removed it in favour of `**`.
 
-When you need a function value, `use num::{pow};` gives:
+For an `int` power that must not trap on overflow, coil-stdlib's `arith`
+traits have `checked_pow`, `wrapping_pow`, `saturating_pow` and
+`overflowing_pow` (see the [module catalog](/packages/stdlib/modules)):
 
-| Overload | Meaning |
-|----------|---------|
-| `pow(float, float) -> float` | `a ** b` |
-| `pow(int, int) -> int` | Iterative integer power; `exp < 0` returns `0` (unlike `**`, which traps) |
+| Method | Result |
+|--------|--------|
+| `a.checked_pow(exp)` | `Option<int>`: `None` on overflow or when `exp < 0` |
+| `a.wrapping_pow(exp)` | `int`: the power modulo 2^64 |
+| `a.saturating_pow(exp)` | `int`: clamped to `INT_MIN` / `INT_MAX` |
+| `a.overflowing_pow(exp)` | `(int, bool)`: the wrapped power, and whether it wrapped |
+
+All but `checked_pow` panic with `negative exponent` when `exp < 0`, as `**`
+does.
+
+```coil
+use arith::{Checked, Wrapping};
+
+let big = 3.checked_pow(40);   // None: 3^40 does not fit in an int
+let hash = 31.wrapping_pow(20); // 31^20 modulo 2^64
+```
 
 They use Rust `f64` operations through `HostInvoke` and preserve IEEE-754
 behavior: for example, `sqrt(-1.0)` and `ln(-1.0)` produce NaN,
