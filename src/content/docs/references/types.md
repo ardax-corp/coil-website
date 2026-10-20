@@ -386,6 +386,8 @@ Initializers run once in the program prologue (declaration order). Other modules
 
 A module-level `const` whose value is known at compile time (`const LIMIT = 10;`) is inlined where it is read and takes no slot. Any other `const` (an array, a call, another module's value) is a static slot set once at startup; reassigning it is `E0107`. `static const` is the old spelling of such a `const`: it still compiles, with an `E0129` warning, and `coil fmt` rewrites it to `const`.
 
+A `const` set to a `readonly` array literal is a lookup table: no code can change an element, so a read at a constant index (`T[2]`, `T.len()`) folds to the value, also from another module, and a read with a variable index is one element load. A function-local `const t = readonly [...]` of literals is built the first time it runs and reused after that; since array `==` is structural, sharing that one copy is not observable.
+
 Class `static` fields require an initializer. `static` and `const` field modifiers are mutually exclusive on class fields.
 
 ---
