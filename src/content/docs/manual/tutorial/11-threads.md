@@ -47,6 +47,32 @@ worker as in `main`. A `static let` starts at the spawner's value, and the
 worker's writes to it are its own; share state through a channel or a
 `mutex` instead.
 
+A static holding `stdin()`, `stdout()` or `stderr()` works in a worker too:
+the standard streams belong to the whole process, so the worker writes to
+the same stdout as `main`. A file or socket stream cannot cross threads. If
+a static holds one, using it in a worker (`write`, `read`, `close`, ...)
+panics, and the worker's `join` returns `Err(ThreadError::JoinFailed)`. Open
+the file in the worker, or send what you want written to the thread that
+owns it over a channel.
+
+```coil
+use io::stdout;
+use io::sync::write_all;
+use string::to_bytes;
+use thread::{join, spawn};
+
+static let OUT = stdout();
+
+fn hello() -> int {
+    write_all(OUT, to_bytes("hello from a worker\n"));
+    return 0;
+}
+
+fn main() {
+    join(spawn(hello)?)?;
+}
+```
+
 ### Spawn capacity
 
 `spawn` submits work to a fixed **work-stealing reactor** (default one OS
