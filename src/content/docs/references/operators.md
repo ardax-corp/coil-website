@@ -222,7 +222,7 @@ Float and int comparisons use separate opcode families (`LE` vs `LEF`, etc.) sel
 
 `==` / `!=` on arrays, tuples, records and enums are **structural**, recursively: arrays and tuples by length and element-wise, records field by field (`{ a: 1 } == { a: 1 }`, whatever order the literals name the fields in), enums by variant and payload (`Some("x") == Some("x")`). Strings compare by UTF-8 content. A `float` inside an array, tuple or record compares by IEEE 754, as scalar `float` `==` does (`NaN != NaN`, `0.0 == -0.0`).
 
-Classes compare by identity: two `new P(1)` are not equal, though a value and its alias are. A class or enum with a user or derived `Eq` instance (`#[derive(Eq)]`) dispatches `==` to it. Inside an array, tuple, record or enum payload, a class value still compares by identity, with or without an `Eq` instance.
+Classes compare by identity: two `new P(1)` are not equal, though a value and its alias are. A class or enum with a user or derived `Eq` instance (`#[derive(Eq)]`) dispatches `==` to it. The same holds inside an array, `Vec`, tuple, record, `Option` or enum payload, at any depth: an element with an `Eq` instance compares with it (`[new Q(1)] == [new Q(1)]` when `Q` derives `Eq`), so a derived `Eq` over a `Vec<Q>` field compares the elements too, and a class element without one compares by identity. A ground `Vec`, `Option`, `Result`, tuple, array or record whose elements have `Eq` meets a `T: Eq` bound.
 
 ---
 
