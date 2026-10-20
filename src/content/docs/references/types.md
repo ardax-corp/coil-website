@@ -390,7 +390,7 @@ Class `static` fields require an initializer. `static` and `const` field modifie
 
 ## Readonly types
 
-`readonly` seals a value against mutation through this reference. The seal is **deep**: whatever you read through a readonly value (a field, an element, a loop variable) is readonly too. Methods may still mutate via `self`.
+`readonly` seals a value against mutation through this reference. The seal is **deep**: whatever you read through a readonly value (a field, an element, a loop variable, a matched payload) is readonly too. Methods are no exception: a method that mutates `self` cannot be called on a readonly value (see [Methods and calls](#methods-and-calls-on-readonly-values)).
 
 `readonly T` is a type, written anywhere a type is written. `readonly e` views any expression read-only:
 
@@ -409,15 +409,17 @@ let a: readonly Area = p;                  // a read-only trait object
 let f: readonly Point -> int = total;      // `(readonly Point) -> int`
 ```
 
-`readonly` qualifies one type atom, so `readonly Point -> int` is `(readonly Point) -> int`; write `readonly (A -> B)` to qualify a function type (which has no mutable interior, so it is just `A -> B`). Types with no mutable interior are unchanged: `readonly int` is `int`, `readonly string` is `string`. A tuple is readonly element-wise: `readonly (Point, int)` is `(readonly Point, int)`.
+`readonly` qualifies one type atom, so `readonly Point -> int` is `(readonly Point) -> int`; write `readonly (A -> B)` to qualify a function type (which has no mutable interior, so it is just `A -> B`). Types with no mutable interior are unchanged: `readonly int` is `int`, `readonly string` is `string`. A tuple is readonly element-wise: `readonly (Point, int)` is `(readonly Point, int)`, and so are an enum's type arguments: `readonly Option<Point>` is `Option<readonly Point>`, so `match` and `if let` bind readonly payloads.
 
-| Operation | `readonly T` handle | Inside `impl` via `self` |
-|-----------|-------------------|---------------------------|
-| Read fields / index / iterate | Allowed; the result is readonly | Allowed |
-| `p.x = …` / `xs[i] = …` | Error | Allowed for class fields |
-| `p.inner.n = …`, `xs[0].n = …`, `for x in xs { x.n = …; }` | Error | — |
-| `let i = p.inner; i.n = …;` | Error: `i` is readonly | — |
-| Rebind variable | Allowed (`let a = readonly [1]; a = readonly [2];`) | — |
+| Operation on a `readonly T` value | |
+|-----------|-------------------|
+| Read fields / index / iterate / match | Allowed; the result is readonly |
+| `p.x = …` / `xs[i] = …` | Error |
+| `p.inner.n = …`, `xs[0].n = …`, `for x in xs { x.n = …; }` | Error |
+| `let i = p.inner; i.n = …;` | Error: `i` is readonly |
+| `p.get()`, where `get` only reads `self` | Allowed |
+| `p.bump()`, where `bump` mutates `self` (directly or through what it calls) | Error |
+| Rebind variable | Allowed (`let a = readonly [1]; a = readonly [2];`) |
 
 A plain value converts to a readonly type: `total(p)` accepts both a `Point` and a `readonly Point`. A readonly value converts to a readonly type only, never back. Each of these is an error (E0107), because the new name could mutate the value:
 
@@ -444,9 +446,46 @@ Generic arguments of a mutable container are **invariant**:
 
 A function that only reads a Vec should take `readonly Vec<Point>`: it accepts both kinds. `push`, `pop`, `insert`, `remove`, `clear` and `reserve` through a `readonly Vec<T>` are errors.
 
+### Methods and calls on readonly values
+
+The compiler infers, for every function and method, which parameters it mutates (`self` counts as one), the same way it infers `uses {mutate}`. A call that passes a readonly value where the callee mutates it is an error (E0107) that names the write:
+
+```coil
+class Counter {
+    pub n: int,
+}
+
+impl Counter {
+    pub fn get() -> int { return self.n; }
+    pub fn bump() { self.n = self.n + 1; }
+    pub fn twice() { self.bump(); self.bump(); }
+}
+
+let c = readonly new Counter(0);
+c.get();     // fine: `get` only reads `self`
+c.twice();   // E0107: it mutates `self` (calls `Counter::bump`, which writes field `n`)
+```
+
+A mutation counts when it goes through anything reached from the parameter: a field or element read from it, a loop or pattern variable, what a getter returns, a lambda that captures it, or another function that mutates it. Writing `readonly` on a parameter is an optional promise, checked against the body. Stdlib methods follow the same rule: `map.get(k, d)` works on a `readonly HashMap`, while `map.insert(k, v)` does not.
+
+A trait method has no body to look at when it is called through a trait object or a generic bound, so the trait declares it: `fn area(readonly A self) -> int;`. Only methods declared that way can be called through a `readonly Area` or on a readonly `T: Area`, and every impl must keep the promise: an impl whose body mutates `self` is an error. A trait method without the declaration is treated as mutating its parameters.
+
+```coil
+trait Area<A> {
+    fn area(readonly A self) -> int;
+    fn grow(A self);
+}
+
+let a: readonly Area = readonly new Sq(2);
+a.area();    // fine
+a.grow();    // E0107: `grow` may mutate `self`
+```
+
+A function value of type `(Point) -> R` cannot be passed where `(readonly Point) -> R` is expected, since it could mutate what it is given. A readonly argument to a foreign function must be declared `readonly` in the `extern` block, or `ConstBytes` (`const uint8_t *`) in a `declare` signature.
+
 `readonly` costs nothing at runtime: a program compiles to the same bytecode with or without it.
 
-Type pretty-print: `readonly T`. Arrays and records have no method exception — external `StoreIndex` / field writes are rejected.
+Type pretty-print: `readonly T`.
 
 ---
 
@@ -461,7 +500,7 @@ class Point {
 }
 ```
 
-Const fields may be set only in `new` (constructor). Any later `p.x = …` or `self.x = …` is a type error — stricter than `readonly`, which allows method bodies to mutate via `self`.
+Const fields may be set only in `new` (constructor). Any later `p.x = …` or `self.x = …` is a type error. A `const` field locks that **slot** for every reference, the way a `const` local locks a name; `readonly` locks the **value** seen through one reference.
 
 Local `const` bindings are shallow: the compiler warns when the initializer type is heap-mutable (`Vec<T>`, class instances, records) because interior mutation through fields or indexed writes still succeeds. Fixed `[T; N]` locals are multi-slot and warn when the array element type is itself heap-mutable.
 

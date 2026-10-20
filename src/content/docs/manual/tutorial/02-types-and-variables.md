@@ -274,14 +274,14 @@ Class statics use `ClassName::field` / `ClassName::method(...)` — see [Types �
 
 ### `readonly` values
 
-`readonly` seals a value against **external** mutation while still allowing methods to mutate via `self`:
+`readonly` seals a value: nothing reachable through it can be changed, by a write or by a method that mutates `self`:
 
 ```coil
 let xs = readonly [1, 2, 3];
 let p = readonly new Point(1, 2);
 ```
 
-Rebinding the variable is allowed; writing through an external handle (`p.x = …`, `xs[i] = …`) is rejected. The seal is deep: fields, elements and loop variables read from a readonly value are readonly too, and a readonly value cannot be passed, stored or returned where a plain (non-readonly) type is expected.
+Rebinding the variable is allowed; writing through it (`p.x = …`, `xs[i] = …`) is rejected, and so is calling a method that mutates `self` (`p.shift()`); methods that only read work as usual. The seal is deep: fields, elements, loop variables and matched payloads read from a readonly value are readonly too, and a readonly value cannot be passed, stored or returned where a plain (non-readonly) type is expected.
 
 `readonly T` is also a type, so a function that only reads says so, and accepts both kinds of value:
 
