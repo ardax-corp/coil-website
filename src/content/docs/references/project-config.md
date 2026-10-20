@@ -202,7 +202,7 @@ coil package app.hy -o app --allow-dload crypto \
   --ffi-native 'name=crypto,version=0.1.0,path=.spool/deps/crypto/native'
 ```
 
-The embedded lock holds names, versions and hashes, not URLs. A packaged app looks for each library under `~/.coil/natives/cache/<package>/<version>/<sha16>/` (override with `COIL_NATIVES_DIR`), beside the executable, and in `lib/` next to it. It starts either way; a library found nowhere fails at its `dload`. Getting the files there is up to you. Inspect a lock with `coil natives dump [exe] [--tsv]` (TSV columns: package, version, filename, sha256, size).
+The embedded lock holds names, versions and hashes, not URLs. A packaged app looks for each library under `~/.coil/natives/cache/<package>/<version>/<sha16>/` (override with `COIL_NATIVES_DIR`), beside the executable, and in `lib/` next to it. It starts either way; a library found nowhere fails at its `dload`. Getting the files there is up to you. Inspect a lock with `coil natives dump [exe] [--tsv]` (TSV columns: package, version, filename, sha256, size). Without `exe`, `dump` hashes each `--ffi-native` row's local file; a row whose file is not there yet is listed as missing instead of failing (JSON `"missing": true` with an empty `sha256`; TSV empty sha256 and size columns and a sixth column `missing`), so a downloader such as `spool download` can fetch it. `coil package` still needs every file.
 
 ### `[package]`
 
