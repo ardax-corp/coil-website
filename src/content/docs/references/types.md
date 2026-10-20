@@ -433,9 +433,11 @@ let a: Area = p;         // a plain trait object
 new Holder(p);           // a plain `Point` field
 holder.p = p;            // assignment to a plain `Point` place
 fn mk() -> Point { return readonly new Point(1, new Inner(2)); }   // a plain return type
+let o: Option<Point> = Option::Some(p);   // a plain enum payload
+let v: Vec<Point> = [p];                  // a plain element type
 ```
 
-Generic parameters keep the qualifier, so `id(p)` with `fn id<T>(T v) -> T` returns a readonly value, and `[p]` is a `Vec<readonly Point>`.
+Generic parameters keep the qualifier, so `id(p)` with `fn id<T>(T v) -> T` returns a readonly value, and `[p]` is a `Vec<readonly Point>`. Joining a plain and a readonly value gives a readonly one, whichever comes first: `[new Point(0), p]` has readonly elements, and so does a `match` with one arm that gives `p`.
 
 Generic arguments of a mutable container are **invariant**:
 
