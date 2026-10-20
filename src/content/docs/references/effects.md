@@ -53,6 +53,37 @@ pure fn squares(int n) -> Vec<int> {
 }
 ```
 
+Calling a method that changes `self` on such an object is not an effect
+either, nor is passing the object to a function that changes only what it
+is given:
+
+```coil
+class Counter {
+    pub n: int,
+}
+
+impl Counter {
+    pub fn bump() {
+        self.n = self.n + 1;
+    }
+}
+
+pure fn counted(int k) -> int {
+    let c = new Counter(k);
+    c.bump();
+    c.bump();
+    return c.n;
+}
+```
+
+This holds only while the object stays the function's own. The call is
+`mutate` again when the object is stored in a field, a `static let` or a
+`Vec`, captured by a lambda, passed to a call together with an object the
+function did not make, passed to a call whose result could alias it, or returned
+from the function other than as a `readonly` view. A method that also
+writes anything else (a `static let`, an object the function did not make)
+is `mutate` too.
+
 ## When a declaration does not hold
 
 The compiler reports `E0413` with the call chain that needs the missing
