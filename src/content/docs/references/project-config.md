@@ -177,7 +177,7 @@ Rows that declare **direct** shared libraries for `coil package`. Spool passes e
 
 | Key | Type | Required | Description |
 |-----|------|----------|-------------|
-| `name` | string | Yes | `dload` stem (`crypto` → `libcrypto.so` / `libcrypto.dylib` / `crypto.dll`) |
+| `name` | string | Yes | `dload` stem (`crypto` → `libcrypto.so` / `libcrypto.dylib` / `crypto.dll`). A path literal such as `dload("./native/libcrypto.so")` reduces to the same stem the gate uses, so this row covers it too |
 | `package` | string | No | Cache key (defaults to `name`) |
 | `version` | string | Yes | Version string used in the natives cache path |
 | `path` | string | Yes | Directory (relative to project root) containing the local platform library (hashed at package time) |
