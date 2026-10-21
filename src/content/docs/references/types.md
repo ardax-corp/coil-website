@@ -52,6 +52,10 @@ The compiler pre-registers polymorphic sum types under the virtual `prelude` mod
 
 The other built-in types — `Vec`, `Range`, `RangeInclusive`, `ArrayIter`, `Matrix`, `gc::Root` and `gc::Weak` — cannot be redeclared at all: a `class` or `enum` with one of those names, in any module, is `E0200` (`Cannot redeclare built-in type`). Pick a different name, such as `Bounds` for a user range.
 
+The built-in error enums `IoError`, `ThreadError`, `EnvError` and `ErrorKind` are reserved the same way, in any module and whether or not you import them (`IoError`, `ThreadError` and `ErrorKind` in any letter case, such as `IOERROR`). The FFI `Error` is not reserved: a user `class Error` or `enum Error` is its own type.
+
+A module that declares a type with a reserved name reports only that `E0200`: other uses of the name still mean the built-in, so the errors they would raise are left out until the type is renamed.
+
 | Type | Variants (tag order) | Annotation |
 |------|----------------------|------------|
 | `Option` | `None` (0), `Some(T)` (1) | `Option` / `Option<T>` |
