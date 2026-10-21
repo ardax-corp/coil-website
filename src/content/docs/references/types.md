@@ -208,7 +208,7 @@ let mode: string = Mode::Fast;    // "fast"
 | Reverse coerce | None. Write `Status::Ok`, not `200 as Status`. Matching a raw `200` against a `Status` scrutinee is a type error |
 | `.value` | Does not exist. Conversion is the implicit coerce above |
 | `Show` | Prints the backing (`Status::Ok` shows as `200`, same as showing that `int`). Not the qualified name |
-| `Eq` / `Hash` / `Ord` | A derived instance compares, hashes, and orders the backing word: `#[derive(Ord)]` follows the backing's order (an `int` / `float` numerically, a `string` by its UTF-8 bytes), not declaration order. `bool` has no order, so a `#[repr(bool)]` enum cannot derive `Ord`. Without a derive, a case still compares with a value of its backing type (`Status::Ok < 300`, `Mode::Fast < "g"`); two cases need `#[derive(Ord)]` for `<` |
+| `Eq` / `Hash` / `Ord` | A derived instance compares, hashes, and orders the backing word: `#[derive(Ord)]` follows the backing's order (an `int` / `float` numerically, a `string` by its UTF-8 bytes), not declaration order. `bool` has no order, so a `#[repr(bool)]` enum cannot derive `Ord`. Without a derive, a case still compares with a value of its backing type (`Status::Ok < 300`, `Mode::Fast < "g"`); two cases need `#[derive(Eq, Ord)]` for `<` |
 | `Default` | First case, same as payload enums |
 | `match` | Constructor cases (`Status::Ok`) plus a `default` catch-all. Payload enums stay the same |
 
@@ -914,7 +914,7 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 | `Le` | Less-or-equal | `<=` → `le` |
 | `Gt` | Greater-than | `>` → `gt` |
 | `Ge` | Greater-or-equal | `>=` → `ge` |
-| `Ord` | Convenience bundle | Supertrait of `Lt` + `Le` + `Gt` + `Ge` (no own methods) |
+| `Ord` | Convenience bundle | Supertrait of `Lt` + `Le` + `Gt` + `Ge` + `Eq` (no own methods); `T: Ord` allows `==` / `!=` too |
 | `Eq` | Equality | `==`, `!=` (`unit` too: `()` equals `()`, also under a `T: Eq` bound); structural for ground tuples and fixed arrays of `Eq` elements |
 | `Hash` | Hashing | `hash(T) -> int`; structural for ground tuples and fixed arrays of `Hash` elements (combined as a derived `Hash` combines fields) |
 | `Show` | Display | `show(T) -> string`; used by format `%v`; structural for tuples (bounded type-parameter elements included), fixed arrays, anonymous records, `Option` and `Result` |
@@ -954,7 +954,7 @@ class Cell {
 |-------|---------------------|----------|
 | `Show` | `show` | Payload enum: `match` + `format` / string lits (qualified case names). Scalar enum: the backing word (`Status::Ok` shows as `200`). Class: field walk via `.field` |
 | `Eq` | `eq`, `ne` | Payload: tag + payload `==`. Scalar: backing-word `==`. `ne` is `!(a == b)` |
-| `Ord` | `lt`, `le`, `gt`, `ge` | Payload: lexicographic on declaration order. Scalar: order of the backing word (an `int` / `float` numerically, a `string` by its UTF-8 bytes) |
+| `Ord` | `lt`, `le`, `gt`, `ge` | Needs an `Eq` instance (`#[derive(Eq, Ord)]`). Payload: lexicographic on declaration order. Scalar: order of the backing word (an `int` / `float` numerically, a `string` by its UTF-8 bytes) |
 | `Default` | `static fn default` | Class: each field takes its type's default (`0`, `0.0`, `false`, `""`, otherwise `Ty::default()`); enum: first variant with defaulted payloads. Call it as `Ty::default()` |
 | `Hash` | `hash` | Payload: tag + recursive `field.hash()`. Scalar: hash of the backing word |
 | `Send` | _(marker)_ | Empty instance (thread spawn still uses structural sendability) |
@@ -1254,9 +1254,12 @@ fn cmp_eq<T: Ordered>(T a, T b) -> bool {
   the subclass bound alone.
 - **Dict slots:** `Ordered` dict = `[lt_val, eq_val]` (subclass then superclass).
 
-Builtin `Ord` / `Eq` are independent (no superclass link) so existing builtin
-dict layouts stay unchanged. Prefer a custom `Ordered` / `Equal` pair when you
-need superclass semantics. See `examples/superclass_ord.hy`.
+Builtin `Ord` works the same way: `Eq` is one of its superclasses, beside
+`Lt` / `Le` / `Gt` / `Ge`. An `Ord` instance, hand-written or derived, needs an
+`Eq` instance for the same type (`#[derive(Eq, Ord)]`), and `==` / `!=` on a
+`T: Ord` value call `T`'s `Eq`, in a monomorphized clone and in a shared
+generic body (called through a function value) alike. See
+`examples/superclass_ord.hy`.
 
 ### First-class generic functions
 

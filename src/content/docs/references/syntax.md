@@ -254,7 +254,7 @@ Example:
 
 ```coil
 // Builtin arithmetic: Add / Sub / Mul / Div / Neg / Rem / Pow (Num implies all seven).
-// Builtin ordering: Lt / Le / Gt / Ge (Ord implies all four).
+// Builtin ordering: Lt / Le / Gt / Ge (Ord implies all four, and Eq).
 
 trait Collect<C> {
     type Elem;
