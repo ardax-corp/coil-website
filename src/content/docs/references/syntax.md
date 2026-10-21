@@ -175,9 +175,11 @@ between importers.
 
 A method's rest parameter packs its trailing arguments the same way, after
 any named fixed arguments: `h.label(head: "n", 1, 2)`, `h.pair(1, "a")`.
-A method's bare `... xs` is not a template yet: its body is checked once,
-so every call passes the same pack shape and the body uses `xs` as that
-one tuple (`let (a, s) = xs;`).
+An inherent method's bare `... xs` (instance or `static fn`, on a generic
+class too) is a template the same way: `h.count(1, "a")` and `h.count()`
+each get their own copy. Only the method's own module can call it; a call
+from another module is an error (give the rest parameter a type, `T... xs`,
+or call it through a function of that module).
 
 ```coil
 fn first(... xs) { return xs[0]; }
