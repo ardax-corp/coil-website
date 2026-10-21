@@ -284,6 +284,24 @@ fn nibble_bits(int x) -> int {
 
 Class statics use `ClassName::field` / `ClassName::method(...)` — see [Types — Static slots](/docs/references/types#static-slots) and `examples/static_singleton.hy`.
 
+A `const` or `static` that holds a function is called like one, by its bare name, through another module's path, or as a class static field:
+
+```coil
+fn twice(int x) -> int {
+    return x * 2;
+}
+
+const TWICE = twice;
+
+class Ops {
+    pub static triple: fn(int) -> int = fn (int x) => x * 3,
+}
+
+let a = TWICE(4);          // 8
+let b = Ops::triple(4);    // 12
+// from another module: `ops::TWICE(4)`
+```
+
 ### `readonly` values
 
 `readonly` seals a value: nothing reachable through it can be changed, by a write or by a method that mutates `self`:
