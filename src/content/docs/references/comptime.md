@@ -42,8 +42,10 @@ const TOTAL = sum_of_squares(1000);
 - The initializer must be pure. Reading or writing a `static let`, or IO
   without a grant, is `E0134`, and the message names the cause.
 - A panic, or running into a [limit](#limits), is also `E0134` at the const.
-- The value must exist without a running program. A function, a stream or a
-  thread handle cannot be kept, and the error names the field that holds it.
+- A const whose value exists only in a running program, such as a function
+  value, a stream or another handle, is computed when the program starts
+  instead. So is one whose initializer only opens a handle: `stdout()`,
+  `stderr()`, `stdin()`, `dload(…)` or `declare(…)`.
 - Write `static let` when a value should be computed when the program
   starts instead.
 
@@ -158,7 +160,8 @@ macro repeat(Expr text, Expr n) -> Code {
 
 Compile-time code may read files, write files, read environment variables,
 run programs and connect over TCP only when the build grants it. Each flag
-repeats, and `MODULE=` limits a grant to one module (`config::load=`):
+repeats, and `MODULE=` limits a grant to one module and the modules under it
+(`config=` covers `config` and `config::load`):
 
 | Flag | Allows |
 |------|--------|
@@ -188,6 +191,22 @@ needs: ``reading `other.json` while compiling needs `--comptime-read .` ``.
 - Listening for connections and UDP are not available at compile time.
 - Each connect, read or write waits at most 30 seconds. The whole
   evaluation stops after `--comptime-timeout` seconds (300 by default).
+
+### With spool
+
+[spool](/docs/references/project-config) passes these flags from a `[comptime]` section in
+`coil.toml`, with paths relative to the project:
+
+```toml
+[comptime]
+read = ["schemas"]
+env = ["CI"]
+net = ["api.example.com:443"]
+cache = ".comptime"
+```
+
+A dependency's own `[comptime]` is used only after `spool allow-comptime
+NAME`, and then only for that dependency's modules.
 
 ## The result cache
 
