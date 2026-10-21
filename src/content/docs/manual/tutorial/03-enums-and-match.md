@@ -415,7 +415,7 @@ fn main() {
 | Reverse | None. Do not write `200 as Status`. Matching `200` against a `Status` scrutinee is a type error |
 | `.value` | Does not exist |
 | `Show` | Prints the backing (`200`), not `Status::Ok`. `%i` and `%v` both print `200` here |
-| `Eq` / `Hash` / `Ord` | On the backing word (`Rank::Low < Rank::High` when `Low = 1` and `High = 10`) |
+| `Eq` / `Hash` / `Ord` | Derived on the backing word (`Rank::Low < Rank::High` when `Low = 1` and `High = 10`; a `#[repr(string)]` enum orders by its strings) |
 | `match` | Cases (`Status::Ok`) plus `default`. Exhaustiveness still applies |
 
 The same program can hold `Status::Ok` and `Result::Ok(1)`. Nested `_` still discards a payload:
