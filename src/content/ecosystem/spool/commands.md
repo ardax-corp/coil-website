@@ -103,7 +103,7 @@ Re-resolve requirements to the newest allowed versions and rewrite `coil.lock`, 
 
 Fetch direct native libraries into `~/.coil/natives/cache/<package>/<version>/<sha256_16>/`.
 
-- With no argument, reads the project's `[[ffi.native]]` entries (via `coil natives dump --tsv`). Local libraries must exist so their hashes can be pinned. Only rows with an https `url` are fetched.
+- With no argument, reads the project's `[[ffi.native]]` entries (via `coil natives dump --tsv`). Only rows with an https `url` are fetched. A library that is there locally is pinned by its hash and fetched into the cache. One that is not there yet has no hash from coil: it is fetched into the row's `path`, where `spool build` (`coil package`) hashes and pins it. With a `sha256` on the row the download is checked against it first (a mismatch removes the partial file and fails). Without one it is placed unchecked and spool prints a `WARNING` that it was not hash-checked, that `coil package` pins it when it hashes it, and to add `sha256` to the row; until then only https vouches for it. A file already in `path` is left alone.
 - With a path, reads the native lock embedded in an executable built by `coil package`.
 
 Only libraries loaded directly with `dload` are fetched; their own shared-library dependencies must come from the OS. A lock built for another OS or architecture is refused.
