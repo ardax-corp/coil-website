@@ -208,7 +208,7 @@ let mode: string = Mode::Fast;    // "fast"
 | Reverse coerce | None. Write `Status::Ok`, not `200 as Status`. Matching a raw `200` against a `Status` scrutinee is a type error |
 | `.value` | Does not exist. Conversion is the implicit coerce above |
 | `Show` | Prints the backing (`Status::Ok` shows as `200`, same as showing that `int`). Not the qualified name |
-| `Eq` / `Hash` / `Ord` | A derived instance compares, hashes, and orders the backing word: `#[derive(Ord)]` follows the backing's order (an `int` / `float` numerically, a `string` by its UTF-8 bytes), not declaration order. `bool` has no order, so a `#[repr(bool)]` enum cannot derive `Ord`. Without a derive, a case still compares with a value of its backing type (`Status::Ok < 300`, `Mode::Fast < "g"`); two cases need `#[derive(Ord)]` for `<` |
+| `Eq` / `Hash` / `Ord` | A derived instance compares, hashes, and orders the backing word: `#[derive(Ord)]` follows the backing's order (an `int` / `float` numerically, a `string` by its UTF-8 bytes), not declaration order. `bool` has no order, so a `#[repr(bool)]` enum cannot derive `Ord`. Without a derive, a case still compares with a value of its backing type (`Status::Ok < 300`, `Mode::Fast < "g"`); two cases need `#[derive(Eq, Ord)]` for `<` |
 | `Default` | First case, same as payload enums |
 | `match` | Constructor cases (`Status::Ok`) plus a `default` catch-all. Payload enums stay the same |
 
@@ -355,6 +355,17 @@ typeof (1, 2)             // "(int, int)"
 typeof Option::Some(1)    // "prelude::Option<int>"
 ```
 
+`typeof` is a unary prefix operator, like `-` or `readonly`: it takes the
+operand right after it, together with any calls, field accesses or indexing,
+and binary operators apply to the resulting name. Parenthesize a larger operand.
+
+```coil
+typeof x == "int"         // (typeof x) == "int"
+typeof(x) == "int"        // the same
+typeof p.f(1) + "!"       // (typeof p.f(1)) + "!"
+typeof (a + b)            // the type of the sum
+```
+
 Open / unsolved types (free type variables, `never`, bare `Option::None`
 without an annotation) are a compile error. Nominal types include their defining
 module when non-empty (`prelude::Option<int>`, `math::Point`); entry-file types
@@ -433,6 +444,7 @@ let f: readonly Point -> int = total;      // `(readonly Point) -> int`
 | `let i = p.inner; i.n = …;` | Error: `i` is readonly |
 | `p.get()`, where `get` only reads `self` | Allowed |
 | `p.bump()`, where `bump` mutates `self` (directly or through what it calls) | Error |
+| `let i = p.get_inner(); i.n = …;` | Error: what a method returns through `p` is readonly |
 | Rebind variable | Allowed (`let a = readonly [1]; a = readonly [2];`) |
 
 A plain value converts to a readonly type: `total(p)` accepts both a `Point` and a `readonly Point`. A readonly value converts to a readonly type only, never back. Each of these is an error (E0107), because the new name could mutate the value:
@@ -482,7 +494,7 @@ c.get();     // fine: `get` only reads `self`
 c.twice();   // E0107: it mutates `self` (calls `Counter::bump`, which writes field `n`)
 ```
 
-A mutation counts when it goes through anything reached from the parameter: a field or element read from it, a loop or pattern variable, what a getter returns, a lambda that captures it, or another function that mutates it. Writing `readonly` on a parameter is an optional promise, checked against the body. Stdlib methods follow the same rule: `map.get(k, d)` works on a `readonly HashMap`, while `map.insert(k, v)` does not. An operator on a class is a call of its trait impl: `ro + x` is fine when the class's `impl Add` only reads its operands, and an error when it mutates one.
+A mutation counts when it goes through anything reached from the parameter: a field or element read from it, a loop or pattern variable, what a getter returns, a lambda that captures it, or another function that mutates it. Writing `readonly` on a parameter is an optional promise, checked against the body. Stdlib methods follow the same rule: `map.get(k, d)` works on a `readonly HashMap`, while `map.insert(k, v)` does not. What a method returns when called on a readonly value is readonly too, since it may be `self` or something reached from it: `p.get_inner()` is a `readonly Inner`, `r.get()` on a `readonly Ref<Point>` is a `readonly Point` (so `Ref` is no way around the seal), and so is `m.get(k, d)` on a `readonly HashMap<string, Point>`. This holds for a method that returns a new object too; to get a mutable result, call the method through a name that is not readonly, or declare the method in a trait with `readonly A self`, whose result keeps its type because no impl can return `self` as mutable. An operator on a class is a call of its trait impl: `ro + x` is fine when the class's `impl Add` only reads its operands, and an error when it mutates one.
 
 A trait method has no body to look at when it is called through a trait object or a generic bound, so the trait declares it: `fn area(readonly A self) -> int;`. Only methods declared that way can be called through a `readonly Area` or on a readonly `T: Area`, and every impl must keep the promise: an impl whose body mutates `self` is an error. A trait method without the declaration is treated as mutating its parameters. On a value of a concrete class the impl's body is known, so it decides instead, and `p.area()` and `Area::area(p)` are checked alike.
 
@@ -903,7 +915,7 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 | `Le` | Less-or-equal | `<=` → `le` |
 | `Gt` | Greater-than | `>` → `gt` |
 | `Ge` | Greater-or-equal | `>=` → `ge` |
-| `Ord` | Convenience bundle | Supertrait of `Lt` + `Le` + `Gt` + `Ge` (no own methods) |
+| `Ord` | Convenience bundle | Supertrait of `Lt` + `Le` + `Gt` + `Ge` + `Eq` (no own methods); `T: Ord` allows `==` / `!=` too |
 | `Eq` | Equality | `==`, `!=` (`unit` too: `()` equals `()`, also under a `T: Eq` bound); structural for ground tuples and fixed arrays of `Eq` elements |
 | `Hash` | Hashing | `hash(T) -> int`; structural for ground tuples and fixed arrays of `Hash` elements (combined as a derived `Hash` combines fields) |
 | `Show` | Display | `show(T) -> string`; used by format `%v`; structural for tuples (bounded type-parameter elements included), fixed arrays, anonymous records, `Option` and `Result` |
@@ -943,7 +955,7 @@ class Cell {
 |-------|---------------------|----------|
 | `Show` | `show` | Payload enum: `match` + `format` / string lits (qualified case names). Scalar enum: the backing word (`Status::Ok` shows as `200`). Class: field walk via `.field` |
 | `Eq` | `eq`, `ne` | Payload: tag + payload `==`. Scalar: backing-word `==`. `ne` is `!(a == b)` |
-| `Ord` | `lt`, `le`, `gt`, `ge` | Payload: lexicographic on declaration order. Scalar: order of the backing word (a `#[repr(string)]` enum orders by declaration, not by its strings) |
+| `Ord` | `lt`, `le`, `gt`, `ge` | Needs an `Eq` instance (`#[derive(Eq, Ord)]`). Payload: lexicographic on declaration order. Scalar: order of the backing word (an `int` / `float` numerically, a `string` by its UTF-8 bytes) |
 | `Default` | `static fn default` | Class: each field takes its type's default (`0`, `0.0`, `false`, `""`, otherwise `Ty::default()`); enum: first variant with defaulted payloads. Call it as `Ty::default()` |
 | `Hash` | `hash` | Payload: tag + recursive `field.hash()`. Scalar: hash of the backing word |
 | `Send` | _(marker)_ | Empty instance (thread spawn still uses structural sendability) |
@@ -1243,9 +1255,12 @@ fn cmp_eq<T: Ordered>(T a, T b) -> bool {
   the subclass bound alone.
 - **Dict slots:** `Ordered` dict = `[lt_val, eq_val]` (subclass then superclass).
 
-Builtin `Ord` / `Eq` are independent (no superclass link) so existing builtin
-dict layouts stay unchanged. Prefer a custom `Ordered` / `Equal` pair when you
-need superclass semantics. See `examples/superclass_ord.hy`.
+Builtin `Ord` works the same way: `Eq` is one of its superclasses, beside
+`Lt` / `Le` / `Gt` / `Ge`. An `Ord` instance, hand-written or derived, needs an
+`Eq` instance for the same type (`#[derive(Eq, Ord)]`), and `==` / `!=` on a
+`T: Ord` value call `T`'s `Eq`, in a monomorphized clone and in a shared
+generic body (called through a function value) alike. See
+`examples/superclass_ord.hy`.
 
 ### First-class generic functions
 
