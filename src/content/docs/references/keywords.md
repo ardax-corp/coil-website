@@ -28,6 +28,7 @@ All keywords in the coil parser. Keywords are recognized by position: the identi
 | `return` | Statement | Exit function with value | [Syntax — Statements](/docs/references/syntax#statements) |
 | `raise` | Expression / stmt | Early-return `Err(e)` (result mode) | [Tutorial: Error handling](/docs/manual/tutorial/09-error-handling) |
 | `panic` | Expression / stmt | Abort with a string message | [Built-ins](/docs/references/panic) |
+| `comptime` | Prefix operator, block | Run code while compiling: `comptime e` and `comptime { … }` give a value; a top-level `comptime { … }` returns `Code` | [Compile-time code](/docs/references/comptime) |
 | `typeof` | Prefix operator | Compile-time fully-qualified type name as `string` | [Types — typeof](/docs/references/types#typeof) |
 | `enum` | Declaration | Sum type definition | [Types — Sum types](/docs/references/types#sum-types--enums-tysum) |
 | `match` | Expression | Pattern match | [Syntax — Patterns](/docs/references/syntax#patterns-match) |

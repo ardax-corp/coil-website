@@ -534,8 +534,11 @@ only parsed once the macro has run.
 `panic "got: " + e.str();` is the way to see what it received.
 
 A macro runs with **no host access** (no files, network, clock, environment,
-threads or processes) and a step budget, so a runaway loop fails with "step
-budget exhausted" instead of hanging the build.
+threads or processes) unless the build grants it with a `--comptime-*` flag,
+and within a step budget, so a runaway loop fails with an error instead of
+hanging the build. See [Compile-time code](/docs/references/comptime) for the
+grants, the limits and `comptime` blocks, which generate code without
+declaring a macro.
 
 ---
 
