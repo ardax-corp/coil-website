@@ -16,6 +16,8 @@ Canonical constructors are **`Option::Some(…)`**, **`Option::None`**, **`Resul
 
 `Option` and `Result` cannot be redeclared: a user `enum` or `class` of either name is `E0200`, even after `use prelude::Option as …`. Give your own type a different name.
 
+An alias names the built-in: after `use prelude::Option as Opt;`, `Opt<int>` is a type, `Opt::Some(1)` a constructor and `Opt::Some(x) =>` a pattern, exactly like `Option`. The same holds for `Result` and for the built-in error enums (`use io::IoError as IoErr;`).
+
 Use constructors / `match` as usual, plus `raise`, `?`, `??`, and `?.` — see [Tutorial: Error handling](/docs/manual/tutorial/09-error-handling). A `match` catch-all is `default =>`; nested `_` in `Result::Err(_)` remains legal. See [Syntax — Patterns](/docs/references/syntax#patterns-match).
 
 `match` **copies** the scrutinee. It does not move a local or a class field. Nested `match` on the same `Option` field is valid, and outer pattern bindings remain visible in the inner arm (an inner name shadows). See [Enums and Match](/docs/manual/tutorial/03-enums-and-match#match-does-not-consume-the-scrutinee).

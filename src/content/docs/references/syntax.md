@@ -173,6 +173,14 @@ error. Another module can import and call it too: each argument list it
 uses gets a copy made in the declaring module, and copies are shared
 between importers.
 
+A method's rest parameter packs its trailing arguments the same way, after
+any named fixed arguments: `h.label(head: "n", 1, 2)`, `h.pair(1, "a")`.
+An inherent method's bare `... xs` (instance or `static fn`, on a generic
+class too) is a template the same way: `h.count(1, "a")` and `h.count()`
+each get their own copy. Only the method's own module can call it; a call
+from another module is an error (give the rest parameter a type, `T... xs`,
+or call it through a function of that module).
+
 ```coil
 fn first(... xs) { return xs[0]; }
 first(7, "x");        // 7
@@ -246,7 +254,7 @@ Example:
 
 ```coil
 // Builtin arithmetic: Add / Sub / Mul / Div / Neg / Rem / Pow (Num implies all seven).
-// Builtin ordering: Lt / Le / Gt / Ge (Ord implies all four).
+// Builtin ordering: Lt / Le / Gt / Ge (Ord implies all four, and Eq).
 
 trait Collect<C> {
     type Elem;
