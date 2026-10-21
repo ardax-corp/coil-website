@@ -228,7 +228,9 @@ Strings order by their UTF-8 bytes, compared left to right, and a prefix sorts
 first: `"B" < "a"`, `"10" < "9"`, `"ab" < "abc"`, `"z" < "é"`. There is no
 locale or case folding. `string` is `Ord`, so generic code bounded by `Ord`
 (`collections::sort`, `num::min`, a `#[derive(Ord)]` field) takes strings. A
-`string` is not a range bound (`"a".."c"` is `E0119`).
+`string` is not a range bound (`"a".."c"` is `E0119`). A `#[repr(string)]`
+enum orders by its backing string too: `#[derive(Ord)]` compares its cases'
+strings, and a case compares with a plain `string` without one.
 
 Ordering any other type (`bool`, a class without an `Ord` instance) is a type
 error.

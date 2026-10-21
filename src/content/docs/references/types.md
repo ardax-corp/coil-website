@@ -204,7 +204,7 @@ let mode: string = Mode::Fast;    // "fast"
 | Reverse coerce | None. Write `Status::Ok`, not `200 as Status`. Matching a raw `200` against a `Status` scrutinee is a type error |
 | `.value` | Does not exist. Conversion is the implicit coerce above |
 | `Show` | Prints the backing (`Status::Ok` shows as `200`, same as showing that `int`). Not the qualified name |
-| `Eq` / `Hash` / `Ord` | Compare, hash, and order the backing word (`Ord` follows the numeric/string order, not declaration order) |
+| `Eq` / `Hash` / `Ord` | A derived instance compares, hashes, and orders the backing word: `#[derive(Ord)]` follows the backing's order (an `int` / `float` numerically, a `string` by its UTF-8 bytes), not declaration order. `bool` has no order, so a `#[repr(bool)]` enum cannot derive `Ord`. Without a derive, a case still compares with a value of its backing type (`Status::Ok < 300`, `Mode::Fast < "g"`); two cases need `#[derive(Ord)]` for `<` |
 | `Default` | First case, same as payload enums |
 | `match` | Constructor cases (`Status::Ok`) plus a `default` catch-all. Payload enums stay the same |
 
