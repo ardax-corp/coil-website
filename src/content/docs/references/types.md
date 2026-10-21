@@ -549,7 +549,7 @@ class Point {
 
 Const fields may be set only in `new` (constructor). Any later `p.x = …` or `self.x = …` is a type error. A `const` field locks that **slot** for every reference, the way a `const` local locks a name; `readonly` locks the **value** seen through one reference, and a [`readonly class`](#readonly-classes) locks every field of every instance.
 
-Local `const` bindings are shallow: the compiler warns when the initializer type is heap-mutable (`Vec<T>`, class instances, records) because interior mutation through fields or indexed writes still succeeds. Fixed `[T; N]` locals are multi-slot and warn when the array element type is itself heap-mutable. Opaque handles (`Stream`, `Thread`, `Sender`, `Receiver`, `Mutex`, `RwLock`) never warn, and a `gc::Root<T>` / `Weak<T>` warns as its target `T` does.
+`const` bindings, local or module-level, are shallow: the compiler warns (`E0119`) when the initializer type is heap-mutable (`Vec<T>`, class instances, records, fixed `[T; N]` arrays) because interior mutation through fields or indexed writes still succeeds. A fixed array warns whatever its element type: `const a = [1, 2, 3];` warns, since `a[0] = 9;` still writes the element. Write `const a = readonly [1, 2, 3];` for an array that is frozen and does not warn. Opaque handles (`Stream`, `Thread`, `Sender`, `Receiver`, `Mutex`, `RwLock`) never warn, and a `gc::Root<T>` / `Weak<T>` warns as its target `T` does.
 
 ---
 
