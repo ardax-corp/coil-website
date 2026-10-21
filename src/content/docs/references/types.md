@@ -20,7 +20,7 @@ coil uses **Hindley–Milner (Algorithm W)** type inference with optional annota
 | `bool` | `Ty::Con("bool")` | `true` / `false` |
 | `void` / `unit` | `Ty::Con("unit")` | Used for statements with no value; FFI `void` return |
 
-Primitive names in annotations are matched **case-insensitively** (`Int` ≡ `int`).
+Primitive names in annotations are matched **case-insensitively** (`Int` ≡ `int`). So a user `class` or `enum` cannot take a primitive name in any spelling: `class String`, `enum Bool` or `class INT` is `E0200` (`Cannot redeclare built-in type`).
 
 Integer literals coerce to `byte` when the expected type is `byte` (returns, annotated `let`s, call args) or `Vec<byte>` / `[byte; N]` array elements, and the value is in `0..=255`. Under an expected `byte`, arithmetic of such literals (e.g. `return 1 + 1;` in a `-> byte` function) also types as `byte`. Unannotated `int` variables still do not coerce (`let x = 42; return x;` needs `let x: byte`).
 
