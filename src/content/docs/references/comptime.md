@@ -194,7 +194,7 @@ needs: ``reading `other.json` while compiling needs `--comptime-read .` ``.
 
 ### With spool
 
-[spool](/docs/references/project-config) passes these flags from a `[comptime]` section in
+[spool](/docs/references/project-config#comptime) passes these flags from a `[comptime]` section in
 `coil.toml`, with paths relative to the project:
 
 ```toml
