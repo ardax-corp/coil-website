@@ -14,7 +14,7 @@ Pre-registered enums with fixed tags, exported from the virtual `prelude` module
 
 Canonical constructors are **`Option::Some(…)`**, **`Option::None`**, **`Result::Ok(…)`**, and **`Result::Err(…)`** (`::`). Bare `Some` / `None` / `Ok` / `Err` is prelude sugar when that case name is unique in scope. A user `enum Status { Ok = 200, … }` next to prelude `Result` makes bare `Ok` `E0201` — write `Status::Ok` and `Result::Ok(x)`.
 
-To redefine a prelude type name, first free the short binding (`use prelude::Option as PreludeOption;`) then declare your own.
+`Option` and `Result` cannot be redeclared: a user `enum` or `class` of either name is `E0200`, even after `use prelude::Option as …`. Give your own type a different name.
 
 Use constructors / `match` as usual, plus `raise`, `?`, `??`, and `?.` — see [Tutorial: Error handling](/docs/manual/tutorial/09-error-handling). A `match` catch-all is `default =>`; nested `_` in `Result::Err(_)` remains legal. See [Syntax — Patterns](/docs/references/syntax#patterns-match).
 
