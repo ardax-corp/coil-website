@@ -222,7 +222,7 @@ A user type's `Shl` / `Shr` instance takes the count as an `int` too:
 | Operator | Operands | Result |
 |----------|----------|--------|
 | `==`, `!=` | Same type | `bool` |
-| `<`, `<=`, `>`, `>=` | Same type: `int` / `float` / `byte` / `string`, a tuple of `Ord` elements (lexicographic, see [Types — Tuples](/docs/references/types#tuples-tytuple)), or a type with an `Lt` / `Le` / `Gt` / `Ge` instance (`#[derive(Ord)]`) | `bool` |
+| `<`, `<=`, `>`, `>=` | Same type: `int` / `float` / `byte` / `string`, a tuple of `Ord` elements (lexicographic, see [Types — Tuples](/docs/references/types#tuples-tytuple)), or a type with an `Lt` / `Le` / `Gt` / `Ge` instance (`#[derive(Eq, Ord)]`) | `bool` |
 
 Strings order by their UTF-8 bytes, compared left to right, and a prefix sorts
 first: `"B" < "a"`, `"10" < "9"`, `"ab" < "abc"`, `"z" < "é"`. There is no
