@@ -250,7 +250,7 @@ declare(lib, "sum", Int, Int);
 invoke(lib, id, 40, 2);
 ```
 
-Unwrap with `match` (as above) or `?` inside a `Result`-returning function. Failed `dload` / `declare` no longer return `-1` or `0`. `invoke`'s `fn_id` must be the unwrapped `int`: passing `declare`'s `Result` straight to `invoke` is a compile error.
+Unwrap with `match` (as above) or `?` inside a `Result`-returning function. Failed `dload` / `declare` no longer return `-1` or `0`. The library handle and `invoke`'s `fn_id` must be the unwrapped `int`s: passing `dload`'s `Result` straight to `declare` or `invoke`, or `declare`'s `Result` straight to `invoke`, is a compile error.
 
 ### FFI type tags
 

@@ -66,6 +66,8 @@ declare(lib, name, (arg_types...), ret_type, variadic)
 | `ret_type` | FFI tag | Return type (`void` allowed) |
 | `variadic` | `bool` (optional) | `true` for C-style varargs (`printf`-style) |
 
+`lib` must have type `int`. Passing `dload`'s `Result<int, Error>` itself is a compile error (E0102); unwrap it first with `?` or `match`.
+
 Returns `Result<int, Error>` — `Ok` is the function id; `Err` if the symbol is missing or libffi rejects the signature (`ErrorKind::SymbolNotFound`, `Libffi`, …). When `variadic` is `true`, later `invoke` calls may pass more arguments than the fixed prefix; the CIF is rebuilt per call with default C promotions on the tail.
 
 ### FFI type tags (`ffi::types`)
@@ -109,7 +111,7 @@ invoke(lib, fn_id, (args...))
 | `fn_id` | `int` | Id from a successful `declare` |
 | `(args...)` | Tuple of values | Must match declared arity (or `>=` fixed prefix when `declare` was variadic) |
 
-`fn_id` must have type `int`. Passing `declare`'s `Result<int, Error>` itself (a local, a `static`, or any other `Result` expression) is a compile error (E0102); unwrap it first with `?` or `match`.
+`lib` and `fn_id` must both have type `int`. Passing `dload`'s or `declare`'s `Result<int, Error>` itself (a local, a `static`, or any other `Result` expression) is a compile error (E0102); unwrap it first with `?` or `match`.
 
 Returns `Result<T, Error>` where `T` is the type recorded from the matching `declare(..., ret)` (`unit` for `void`). The compiler refines `T` when the fn-id expression is:
 
