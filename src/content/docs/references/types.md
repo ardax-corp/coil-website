@@ -943,7 +943,7 @@ class Cell {
 |-------|---------------------|----------|
 | `Show` | `show` | Payload enum: `match` + `format` / string lits (qualified case names). Scalar enum: the backing word (`Status::Ok` shows as `200`). Class: field walk via `.field` |
 | `Eq` | `eq`, `ne` | Payload: tag + payload `==`. Scalar: backing-word `==`. `ne` is `!(a == b)` |
-| `Ord` | `lt`, `le`, `gt`, `ge` | Payload: lexicographic on declaration order. Scalar: order of the backing word (a `#[repr(string)]` enum orders by declaration, not by its strings) |
+| `Ord` | `lt`, `le`, `gt`, `ge` | Payload: lexicographic on declaration order. Scalar: order of the backing word (an `int` / `float` numerically, a `string` by its UTF-8 bytes) |
 | `Default` | `static fn default` | Class: each field takes its type's default (`0`, `0.0`, `false`, `""`, otherwise `Ty::default()`); enum: first variant with defaulted payloads. Call it as `Ty::default()` |
 | `Hash` | `hash` | Payload: tag + recursive `field.hash()`. Scalar: hash of the backing word |
 | `Send` | _(marker)_ | Empty instance (thread spawn still uses structural sendability) |
