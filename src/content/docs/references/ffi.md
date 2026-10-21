@@ -109,6 +109,8 @@ invoke(lib, fn_id, (args...))
 | `fn_id` | `int` | Id from a successful `declare` |
 | `(args...)` | Tuple of values | Must match declared arity (or `>=` fixed prefix when `declare` was variadic) |
 
+`fn_id` must have type `int`. Passing `declare`'s `Result<int, Error>` itself (a local, a `static`, or any other `Result` expression) is a compile error (E0102); unwrap it first with `?` or `match`.
+
 Returns `Result<T, Error>` where `T` is the type recorded from the matching `declare(..., ret)` (`unit` for `void`). The compiler refines `T` when the fn-id expression is:
 
 - a `let id = declare(...)?` binding (or a local copied from one, e.g. `let id = api.fn_id`);
