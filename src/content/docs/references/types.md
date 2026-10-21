@@ -235,6 +235,8 @@ Tuples have structural `Show` support when every element is showable, `()` eleme
 
 Ground tuples also have structural `Eq` and `Hash` instances when every element has one: `t.eq(u)` / `t.ne(u)` compare as `==` / `!=` do, and `t.hash()` combines the element hashes left to right as a derived `Hash` combines fields (a `()` element hashes as `0`). So a tuple meets a `T: Eq` or `T: Hash` bound and can key a `HashMap<(int, int), V>`.
 
+A ground tuple whose elements are all `Ord` is `Ord` too, ordered lexicographically: `<`, `<=`, `>` and `>=` compare the first elements, and only when those are equal the next ones, each element in its own type's order (`(1, "b") < (2, "a")`, `(1, "a") < (1, "b")`, `(1,) < (2,)`, nested tuples included). So `collections::sort` sorts a `Vec<(int, string)>`, and a tuple meets a `T: Ord` bound. A `float` `NaN` element compares unequal to itself, so it decides `false` where it is reached. A tuple with an element that is not `Ord` (`bool`, a class without `#[derive(Ord)]`) does not order (`E0102`), nor yet does one with an element of a type parameter inside a generic body (`(x, 1) < (y, 2)` for `T: Ord`).
+
 Homogeneous numeric tuples also support **element-wise arithmetic** (zip /
 broadcast / unary `-`). See [Operators](/docs/references/operators).
 
