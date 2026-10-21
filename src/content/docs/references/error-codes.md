@@ -58,6 +58,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0131` | `ShiftCountOutOfRange` | A constant shift count (`x << 64`, `x >> -1`, or the compound `<<=` / `>>=`) outside `0..=63`. A run-time count out of range panics with `shift count out of range` |
 | `E0132` | `UnassignedLocal` | A type-only `let x: T;` of a non-scalar type read where it may not have been assigned yet (one branch only, only inside a loop body, or captured before the assignment) |
 | `E0133` | `DuplicateImport` | Two `use` imports bind the same local name to different items (`use math::{add, mul as add};`) |
+| `E0136` | `UnusedResult` | Warning: an expression statement drops a `Result` (`Err("bad");`, or `f(x);` where `f` returns one), and with it any error it holds. Handle it with `?` or `match`, or discard it on purpose with `let _ = f(x);`. `f(x)?;`, an assignment (`x = r;`) and a block's tail value do not warn |
 | `E0200`–`E0216` | Enum / match family | Duplicate enum, ambiguous / duplicate constructor, unknown variant, non-exhaustive match, scalar `#[repr]`, `default` catch-all, … |
 | `E0213` | `InvalidEnumRepr` | Invalid scalar enum (`#[repr]` / `=`): mixed backing, missing `=`, or `=` mixed with a payload |
 | `E0214` | `DuplicateEnumDiscriminant` | Two scalar cases share the same backing value |
