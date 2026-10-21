@@ -173,6 +173,12 @@ error. Another module can import and call it too: each argument list it
 uses gets a copy made in the declaring module, and copies are shared
 between importers.
 
+A method's rest parameter packs its trailing arguments the same way, after
+any named fixed arguments: `h.label(head: "n", 1, 2)`, `h.pair(1, "a")`.
+A method's bare `... xs` is not a template yet: its body is checked once,
+so every call passes the same pack shape and the body uses `xs` as that
+one tuple (`let (a, s) = xs;`).
+
 ```coil
 fn first(... xs) { return xs[0]; }
 first(7, "x");        // 7

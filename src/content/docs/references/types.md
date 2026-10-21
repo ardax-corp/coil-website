@@ -52,6 +52,10 @@ The compiler pre-registers polymorphic sum types under the virtual `prelude` mod
 
 The other built-in types — `Vec`, `Range`, `RangeInclusive`, `ArrayIter`, `Matrix`, `gc::Root` and `gc::Weak` — cannot be redeclared at all: a `class` or `enum` with one of those names, in any module, is `E0200` (`Cannot redeclare built-in type`). Pick a different name, such as `Bounds` for a user range.
 
+The built-in error enums `IoError`, `ThreadError`, `EnvError` and `ErrorKind` are reserved the same way, in any module and whether or not you import them (`IoError`, `ThreadError` and `ErrorKind` in any letter case, such as `IOERROR`). The FFI `Error` is not reserved: a user `class Error` or `enum Error` is its own type.
+
+A module that declares a type with a reserved name reports only that `E0200`: other uses of the name still mean the built-in, so the errors they would raise are left out until the type is renamed.
+
 | Type | Variants (tag order) | Annotation |
 |------|----------------------|------------|
 | `Option` | `None` (0), `Some(T)` (1) | `Option` / `Option<T>` |
@@ -204,7 +208,7 @@ let mode: string = Mode::Fast;    // "fast"
 | Reverse coerce | None. Write `Status::Ok`, not `200 as Status`. Matching a raw `200` against a `Status` scrutinee is a type error |
 | `.value` | Does not exist. Conversion is the implicit coerce above |
 | `Show` | Prints the backing (`Status::Ok` shows as `200`, same as showing that `int`). Not the qualified name |
-| `Eq` / `Hash` / `Ord` | Compare, hash, and order the backing word (`Ord` follows the numeric/string order, not declaration order) |
+| `Eq` / `Hash` / `Ord` | A derived instance compares, hashes, and orders the backing word: `#[derive(Ord)]` follows the backing's order (an `int` / `float` numerically, a `string` by its UTF-8 bytes), not declaration order. `bool` has no order, so a `#[repr(bool)]` enum cannot derive `Ord`. Without a derive, a case still compares with a value of its backing type (`Status::Ok < 300`, `Mode::Fast < "g"`); two cases need `#[derive(Ord)]` for `<` |
 | `Default` | First case, same as payload enums |
 | `match` | Constructor cases (`Status::Ok`) plus a `default` catch-all. Payload enums stay the same |
 
@@ -234,6 +238,8 @@ Annotation: `(T1, T2, ...)`. Literal syntax requires a comma: `(1,)` is a 1-tupl
 Tuples have structural `Show` support when every element is showable, `()` elements included: `%v`, `show(t)` / `t.show()` and a `T: Show` bound all accept a ground tuple (`show(((), 1))` is `"((), 1)"`), through a monomorphic clone or a shared generic body's dictionary. A tuple with an element of a bounded type parameter is showable too: inside `fn f<T: Show>(T x)`, `show((x, ()))`, `(x, 1).show()` and passing `(1, x)` on to another `Show` bound all work, each element shown through its own type's `Show` (the instance for tuples of that arity, with one `Show` dictionary per element). The printed form is `(a, b)` (and `(a,)` for a 1-tuple), the same text `%v` prints.
 
 Ground tuples also have structural `Eq` and `Hash` instances when every element has one: `t.eq(u)` / `t.ne(u)` compare as `==` / `!=` do, and `t.hash()` combines the element hashes left to right as a derived `Hash` combines fields (a `()` element hashes as `0`). So a tuple meets a `T: Eq` or `T: Hash` bound and can key a `HashMap<(int, int), V>`.
+
+A ground tuple whose elements are all `Ord` is `Ord` too, ordered lexicographically: `<`, `<=`, `>` and `>=` compare the first elements, and only when those are equal the next ones, each element in its own type's order (`(1, "b") < (2, "a")`, `(1, "a") < (1, "b")`, `(1,) < (2,)`, nested tuples included). So `collections::sort` sorts a `Vec<(int, string)>`, and a tuple meets a `T: Ord` bound. A `float` `NaN` element compares unequal to itself, so it decides `false` where it is reached. A tuple with an element that is not `Ord` (`bool`, a class without `#[derive(Ord)]`) does not order (`E0102`), nor yet does one with an element of a type parameter inside a generic body (`(x, 1) < (y, 2)` for `T: Ord`).
 
 Homogeneous numeric tuples also support **element-wise arithmetic** (zip /
 broadcast / unary `-`). See [Operators](/docs/references/operators).
@@ -543,7 +549,7 @@ class Point {
 
 Const fields may be set only in `new` (constructor). Any later `p.x = …` or `self.x = …` is a type error. A `const` field locks that **slot** for every reference, the way a `const` local locks a name; `readonly` locks the **value** seen through one reference, and a [`readonly class`](#readonly-classes) locks every field of every instance.
 
-Local `const` bindings are shallow: the compiler warns when the initializer type is heap-mutable (`Vec<T>`, class instances, records) because interior mutation through fields or indexed writes still succeeds. Fixed `[T; N]` locals are multi-slot and warn when the array element type is itself heap-mutable. Opaque handles (`Stream`, `Thread`, `Sender`, `Receiver`, `Mutex`, `RwLock`) never warn, and a `gc::Root<T>` / `Weak<T>` warns as its target `T` does.
+`const` bindings, local or module-level, are shallow: the compiler warns (`E0119`) when the initializer type is heap-mutable (`Vec<T>`, class instances, records, fixed `[T; N]` arrays) because interior mutation through fields or indexed writes still succeeds. A fixed array warns whatever its element type: `const a = [1, 2, 3];` warns, since `a[0] = 9;` still writes the element. Write `const a = readonly [1, 2, 3];` for an array that is frozen and does not warn. Opaque handles (`Stream`, `Thread`, `Sender`, `Receiver`, `Mutex`, `RwLock`) never warn, and a `gc::Root<T>` / `Weak<T>` warns as its target `T` does.
 
 ---
 
