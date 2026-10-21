@@ -56,7 +56,7 @@ fn triple(int x) -> int { return x * 3; }
 
 | Attribute | Target | Semantics |
 |-----------|--------|-----------|
-| `#[derive(Trait, …)]` | `enum` / `class` | Runs each derive (built-in `Show`, `Eq`, `Ord`, `Hash`, `Default`, `Send`, `Sensitive`, or a user `derive` imported with `use`) and adds its output after the type. Without derive, non-generic **payload** types still get a default `Show` that returns the type name string. Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
+| `#[derive(Trait, …)]` | `enum` / `class` | Runs each derive (built-in `Show`, `Eq`, `Ord`, `Hash`, `Default`, `Send`, `Sensitive`, or a user `derive` imported with `use`) and adds its output after the type. Without derive, non-generic **payload** types still get a default `Show`: a class returns its type name string, an enum its qualified variant name (`E::V`, payload elided). Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
 | `#[repr(int)]` / `#[repr(string)]` / `#[repr(float)]` / `#[repr(bool)]` | `enum` | Scalar-backed enum: each case is `Name = lit` of that primitive. May be omitted when every case has `=` and the literals share one type. See [Types — Scalar-backed enums](/docs/references/types#scalar-backed-enums). |
 | `#[max_depth(N)]` | recursive `fn` | Optional hint: presizes the VM stack for `N` simultaneous frames when the compiler cannot prove a depth (dynamic args, mutual recursion). The stack grows at run time either way, so a wrong `N` only costs a regrow. `N` must be a positive integer. |
 | Attribute macro `#[name(…)]` | `fn`, methods, `class`, `enum` | Runs the `attr name(…)` macro imported with `use`; its output replaces the item. See [Macros](/docs/references/macros#attribute-macros). |
@@ -254,7 +254,7 @@ Example:
 
 ```coil
 // Builtin arithmetic: Add / Sub / Mul / Div / Neg / Rem / Pow (Num implies all seven).
-// Builtin ordering: Lt / Le / Gt / Ge (Ord implies all four).
+// Builtin ordering: Lt / Le / Gt / Ge (Ord implies all four, and Eq).
 
 trait Collect<C> {
     type Elem;
