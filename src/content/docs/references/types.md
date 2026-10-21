@@ -349,6 +349,17 @@ typeof (1, 2)             // "(int, int)"
 typeof Option::Some(1)    // "prelude::Option<int>"
 ```
 
+`typeof` is a unary prefix operator, like `-` or `readonly`: it takes the
+operand right after it, together with any calls, field accesses or indexing,
+and binary operators apply to the resulting name. Parenthesize a larger operand.
+
+```coil
+typeof x == "int"         // (typeof x) == "int"
+typeof(x) == "int"        // the same
+typeof p.f(1) + "!"       // (typeof p.f(1)) + "!"
+typeof (a + b)            // the type of the sum
+```
+
 Open / unsolved types (free type variables, `never`, bare `Option::None`
 without an annotation) are a compile error. Nominal types include their defining
 module when non-empty (`prelude::Option<int>`, `math::Point`); entry-file types
