@@ -28,7 +28,7 @@ All keywords in the coil parser. Keywords are recognized by position: the identi
 | `return` | Statement | Exit function with value | [Syntax — Statements](/docs/references/syntax#statements) |
 | `raise` | Expression / stmt | Early-return `Err(e)` (result mode) | [Tutorial: Error handling](/docs/manual/tutorial/09-error-handling) |
 | `panic` | Expression / stmt | Abort with a string message | [Built-ins](/docs/references/panic) |
-| `typeof` | Expression | Compile-time fully-qualified type name as `string` | [Types — typeof](/docs/references/types#typeof) |
+| `typeof` | Prefix operator | Compile-time fully-qualified type name as `string` | [Types — typeof](/docs/references/types#typeof) |
 | `enum` | Declaration | Sum type definition | [Types — Sum types](/docs/references/types#sum-types--enums-tysum) |
 | `match` | Expression | Pattern match | [Syntax — Patterns](/docs/references/syntax#patterns-match) |
 | `default` | Pattern | Match catch-all arm (`default => …` only; not interchangeable with whole-arm `_`) | [Syntax — Patterns](/docs/references/syntax#patterns-match) |
@@ -86,10 +86,12 @@ Appear inside `{ ... }` blocks via `statement()`.
 ## Expression / literal keywords
 
 ```
-match | new | true | false | yield | resume | done | raise | panic | typeof
+match | new | true | false | yield | resume | done | raise | panic
 ```
 
-Tried as **atoms** before the generic `ident()` rule. When the keyword form does not parse (`match + 1`), the word falls through to `ident()` and is read as a variable name; `true`, `false` and `typeof` never fall through.
+Tried as **atoms** before the generic `ident()` rule. When the keyword form does not parse (`match + 1`), the word falls through to `ident()` and is read as a variable name; `true` and `false` never fall through.
+
+`typeof` is a unary prefix operator at the same precedence as `-` and `readonly` (see [Operators](/docs/references/operators#precedence-table-high-to-low)), so `typeof(x) == "int"` is `(typeof x) == "int"`.
 
 ---
 
