@@ -182,6 +182,16 @@ fn main() {
 }
 ```
 
+Byte buffers work in `extern` parameters too, with the same lending rules as `invoke`:
+
+```coil
+use ffi::types::{Bytes, ConstBytes};
+extern "mylib" {
+    fn checksum(ConstBytes buf, int len) -> int;   // reads a string or a Vec<byte>
+    fn fill(Bytes buf, int len);                   // writes into a Vec<byte>
+}
+```
+
 `extern "c"` is a libc alias and is **denied** by the same gate as `dload("c")`. Compiler-emitted setup unwraps `dload`/`declare`/`invoke` Results and panics with a clear message on failure. See [FFI tutorial](/docs/manual/tutorial/07-ffi) and [Project config — `[ffi]`](/docs/references/project-config#ffi).
 
 ---
