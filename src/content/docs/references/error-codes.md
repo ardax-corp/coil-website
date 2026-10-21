@@ -23,7 +23,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | Code | Name | Meaning |
 |------|------|---------|
 | `E0001` | `ParseError` | Syntax / parse error |
-| `E0200` | `DuplicateEnum` | Two `enum` declarations with the same name in one scope, or a `class` / `enum` that redeclares a built-in type (`Option`, `Result`, `Vec`, `Range`, `Weak`, a primitive in any letter case such as `String`, …) |
+| `E0200` | `DuplicateEnum` | Two `enum` declarations with the same name in one scope, or a `class` / `enum` that redeclares a built-in type (`Option`, `Result`, `Vec`, `Range`, `Weak`, a primitive in any letter case such as `String`, a built-in error enum such as `IoError`, …) |
 | `E0201` | `DuplicateConstructor` | Duplicate variant on one enum, or a bare constructor when two in-scope enums share that case name (`Ambiguous constructor`). Write `Status::Ok` / `Result::Ok(…)` |
 | `E0208` | `DuplicateField` | Duplicate record field (parse-time for literals, constructors, patterns, and enum variant field decls; typecheck keeps the same code if parse is bypassed). Also duplicate named arguments. |
 | `E0100` | `UnknownValue` | Cannot find value in this scope |

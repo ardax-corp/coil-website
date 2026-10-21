@@ -47,13 +47,15 @@ worker as in `main`. A `static let` starts at the spawner's value, and the
 worker's writes to it are its own; share state through a channel or a
 `mutex` instead.
 
-A static holding `stdin()`, `stdout()` or `stderr()` works in a worker too:
-the standard streams belong to the whole process, so the worker writes to
-the same stdout as `main`. A file or socket stream cannot cross threads. If
-a static holds one, using it in a worker (`write`, `read`, `close`, ...)
-panics, and the worker's `join` returns `Err(ThreadError::JoinFailed)`. Open
-the file in the worker, or send what you want written to the thread that
-owns it over a channel.
+A static holding `stdin()`, `stdout()` or `stderr()` works in a worker too,
+whether the stream is the whole static or sits inside it (a tuple element,
+an array, an enum payload, a class field): the standard streams belong to
+the whole process, so the worker writes to the same stdout as `main`. A file
+or socket stream cannot cross threads. If a static holds one, the rest of
+the static is still copied, but using that stream in a worker (`write`,
+`read`, `close`, ...) panics, and the worker's `join` returns
+`Err(ThreadError::JoinFailed)`. Open the file in the worker, or send what
+you want written to the thread that owns it over a channel.
 
 ```coil
 use io::stdout;

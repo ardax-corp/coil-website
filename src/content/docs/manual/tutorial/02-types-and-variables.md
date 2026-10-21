@@ -257,7 +257,7 @@ const VERSION = "1.0";
 // VERSION = "2.0";   // error: cannot assign to const binding
 ```
 
-`const` is **shallow**: if the initializer is heap-mutable (`Vec<T>`, a class instance, or a dict), the compiler emits a warning that interior mutation (fields, indices) still succeeds. Scalars, strings, tuples, and enums without interior paths do not warn, and neither does a `readonly` value (`const p = readonly new Point(1, 2);`), which is sealed all the way down. Opaque handles (an IO `Stream` such as `const OUT = stdout();`, and the `thread` handles `Thread`, `Sender`, `Receiver`, `Mutex`, `RwLock`) do not warn either: they have no fields or indices to write through.
+`const` is **shallow**: if the initializer is heap-mutable (`Vec<T>`, a class instance, a record, or a fixed `[T; N]` array, whatever its element type: `const a = [1, 2, 3];` warns because `a[0] = 9;` still succeeds), the compiler emits a warning that interior mutation (fields, indices) still succeeds. Scalars, strings, tuples, and enums without interior paths do not warn, and neither does a `readonly` value (`const p = readonly new Point(1, 2);`), which is sealed all the way down. Opaque handles (an IO `Stream` such as `const OUT = stdout();`, and the `thread` handles `Thread`, `Sender`, `Receiver`, `Mutex`, `RwLock`) do not warn either: they have no fields or indices to write through.
 
 ### Module `const` and `static let`
 
