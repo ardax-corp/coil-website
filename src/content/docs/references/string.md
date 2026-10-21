@@ -25,6 +25,11 @@ use string::format;
 let s = format("%i-%s", 42, "x");
 ```
 
+Strings themselves need no import to compare: `==` / `!=` compare contents,
+and `<`, `<=`, `>`, `>=` order by UTF-8 bytes (`"B" < "a"`, a prefix first),
+so `collections::sort` sorts a `Vec<string>`. See
+[Operators](/docs/references/operators#comparison).
+
 For stdout, combine `string` with `io`:
 
 ```coil
@@ -41,3 +46,4 @@ The old `io::{from_bytes, to_bytes}` aliases were removed; importing them from `
 
 - [format](/docs/references/format)
 - [io](/docs/references/io)
+- [operators](/docs/references/operators#comparison)

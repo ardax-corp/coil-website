@@ -16,7 +16,7 @@ coil uses **Hindley–Milner (Algorithm W)** type inference with optional annota
 | `int` | `Ty::Con("int")` | 64-bit signed integer at runtime; `+ - * / % **` and unary `-` panic on overflow (and `/ %` on division by zero) in every build — see [Operators](/docs/references/operators#arithmetic) |
 | `float` | `Ty::Con("float")` | IEEE double |
 | `byte` | `Ty::Con("byte")` | Integer in `0..=255`; same immediate `Value` shape as `int`; `+ - * ** <<` and unary `-` wrap modulo 256 (warning `E0130`) — see [Operators](/docs/references/operators#arithmetic) |
-| `string` | `Ty::Con("string")` | Heap-allocated UTF-8 string |
+| `string` | `Ty::Con("string")` | Heap-allocated UTF-8 string; `==` by content, `<` / `<=` / `>` / `>=` by UTF-8 bytes — see [Operators](/docs/references/operators#comparison) |
 | `bool` | `Ty::Con("bool")` | `true` / `false` |
 | `void` / `unit` | `Ty::Con("unit")` | Used for statements with no value; FFI `void` return |
 
@@ -937,7 +937,7 @@ class Cell {
 |-------|---------------------|----------|
 | `Show` | `show` | Payload enum: `match` + `format` / string lits (qualified case names). Scalar enum: the backing word (`Status::Ok` shows as `200`). Class: field walk via `.field` |
 | `Eq` | `eq`, `ne` | Payload: tag + payload `==`. Scalar: backing-word `==`. `ne` is `!(a == b)` |
-| `Ord` | `lt`, `le`, `gt`, `ge` | Payload: lexicographic on declaration order. Scalar: order of the backing word (a `#[repr(string)]` enum orders by declaration: strings have no ordering) |
+| `Ord` | `lt`, `le`, `gt`, `ge` | Payload: lexicographic on declaration order. Scalar: order of the backing word (a `#[repr(string)]` enum orders by declaration, not by its strings) |
 | `Default` | `static fn default` | Class: each field takes its type's default (`0`, `0.0`, `false`, `""`, otherwise `Ty::default()`); enum: first variant with defaulted payloads. Call it as `Ty::default()` |
 | `Hash` | `hash` | Payload: tag + recursive `field.hash()`. Scalar: hash of the backing word |
 | `Send` | _(marker)_ | Empty instance (thread spawn still uses structural sendability) |
