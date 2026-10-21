@@ -360,7 +360,7 @@ This produces `HostInvoke` bytecode from `Compiler::register()`. See [Built-ins 
 | Explicit signatures | Wrong arity or tag → `Result::Err` from `declare` / `invoke` |
 | Struct returns | `extern struct` + `declare(..., Point)` returns a record; fields via `.x` |
 | Callback returns | Opaque `Ptr` / function address — no auto-trampoline; re-`declare` to call |
-| `invoke` return typing | `Result<T, Error>` where `T` is refined from `let id = declare(..., ret)` when `fn_id` is that binding; else falls back |
+| `invoke` return typing | `Result<T, Error>` where `T` is refined from `declare(..., ret)` when `fn_id` is a `let` bound to it, a field or `static` it was stored in, or a parameter passed one of those; else falls back |
 
 ### Safety
 

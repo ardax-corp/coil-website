@@ -113,7 +113,8 @@ Returns `Result<T, Error>` where `T` is the type recorded from the matching `dec
 
 - a `let id = declare(...)?` binding (or a local copied from one, e.g. `let id = api.fn_id`);
 - a class field that was assigned `self.fn_id = declare(...)?` in an `impl` initializer;
-- a function parameter when every call site passes a value with known `declare` metadata (e.g. `helper(api.fn_id)`).
+- a module `static let` (or startup `const`) initialised or assigned from `declare`, e.g. `fn_sum = declare(lib, "sum", (Int, Int), Int)?;` in a load function, read in any function before or after it (unless a local of the same name shadows it);
+- a function parameter when every call site passes a value with known `declare` metadata (e.g. `helper(api.fn_id)` or `helper(fn_sum)`).
 
 Direct `invoke(lib, api.fn_id, …)` uses the field table; a bare parameter `id` uses call-site flow recorded from callers (including a module pre-pass before inference).
 
