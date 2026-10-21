@@ -111,6 +111,8 @@ pub
 
 Optional prefix on class fields and `impl` methods. Default visibility is private.
 
+`pub` goes nowhere else. Top-level items (`fn`, `const`, `static let`, `class`, `enum`, …) need no marker: every one can be imported with `use`. `pub const X = 1;` or `pub class C { … }` is a parse error (E0001: "`pub` is not allowed on `const`"), reported the same way by `coil` and `coil fmt`.
+
 ---
 
 ## Reserved words (not keywords today)
