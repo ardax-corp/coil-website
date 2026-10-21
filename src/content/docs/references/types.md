@@ -444,6 +444,7 @@ let f: readonly Point -> int = total;      // `(readonly Point) -> int`
 | `let i = p.inner; i.n = …;` | Error: `i` is readonly |
 | `p.get()`, where `get` only reads `self` | Allowed |
 | `p.bump()`, where `bump` mutates `self` (directly or through what it calls) | Error |
+| `let i = p.get_inner(); i.n = …;` | Error: what a method returns through `p` is readonly |
 | Rebind variable | Allowed (`let a = readonly [1]; a = readonly [2];`) |
 
 A plain value converts to a readonly type: `total(p)` accepts both a `Point` and a `readonly Point`. A readonly value converts to a readonly type only, never back. Each of these is an error (E0107), because the new name could mutate the value:
@@ -493,7 +494,7 @@ c.get();     // fine: `get` only reads `self`
 c.twice();   // E0107: it mutates `self` (calls `Counter::bump`, which writes field `n`)
 ```
 
-A mutation counts when it goes through anything reached from the parameter: a field or element read from it, a loop or pattern variable, what a getter returns, a lambda that captures it, or another function that mutates it. Writing `readonly` on a parameter is an optional promise, checked against the body. Stdlib methods follow the same rule: `map.get(k, d)` works on a `readonly HashMap`, while `map.insert(k, v)` does not. An operator on a class is a call of its trait impl: `ro + x` is fine when the class's `impl Add` only reads its operands, and an error when it mutates one.
+A mutation counts when it goes through anything reached from the parameter: a field or element read from it, a loop or pattern variable, what a getter returns, a lambda that captures it, or another function that mutates it. Writing `readonly` on a parameter is an optional promise, checked against the body. Stdlib methods follow the same rule: `map.get(k, d)` works on a `readonly HashMap`, while `map.insert(k, v)` does not. What a method returns when called on a readonly value is readonly too, since it may be `self` or something reached from it: `p.get_inner()` is a `readonly Inner`, `r.get()` on a `readonly Ref<Point>` is a `readonly Point` (so `Ref` is no way around the seal), and so is `m.get(k, d)` on a `readonly HashMap<string, Point>`. This holds for a method that returns a new object too; to get a mutable result, call the method through a name that is not readonly, or declare the method in a trait with `readonly A self`, whose result keeps its type because no impl can return `self` as mutable. An operator on a class is a call of its trait impl: `ro + x` is fine when the class's `impl Add` only reads its operands, and an error when it mutates one.
 
 A trait method has no body to look at when it is called through a trait object or a generic bound, so the trait declares it: `fn area(readonly A self) -> int;`. Only methods declared that way can be called through a `readonly Area` or on a readonly `T: Area`, and every impl must keep the promise: an impl whose body mutates `self` is an error. A trait method without the declaration is treated as mutating its parameters. On a value of a concrete class the impl's body is known, so it decides instead, and `p.area()` and `Area::area(p)` are checked alike.
 
