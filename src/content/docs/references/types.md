@@ -336,9 +336,11 @@ let n = d.x;              // field access
 - Anonymous records have structural `Show` support when every field is showable: `%v`, `show(r)` / `r.show()` and a `T: Show` bound all accept a ground record, through a monomorphic clone or a shared generic body's dictionary. Fields print in canonical name order as `{ a: 1, b: 2 }`, the same text `%v` prints.
 
 Structural `Show` covers tuples, fixed arrays, anonymous records, `Option` and `Result` automatically. Non-generic
-enums and classes receive a **default** `Show` that returns the type name
-as a string (same display as `typeof self` for non-generic types)
-(the type's fully-qualified name). Prefer `#[derive(Show)]` for structural field
+classes receive a **default** `Show` that returns the type name
+as a string (same display as `typeof self` for non-generic types).
+Non-generic enums receive one that returns the qualified variant name with any
+payload elided (`Errr::Fatal`, `Errr::Soft` for `Errr::Soft(3)`); a scalar-backed
+enum shows its backing value. Prefer `#[derive(Show)]` for structural field
 formatting (see [Trait derive](#trait-derive)), or write an explicit `impl Show for T`.
 
 ---
@@ -963,7 +965,9 @@ class Cell {
 
 **Default display (no derive):** every non-generic `enum` / `class` that lacks
 `#[derive(Show)]` and has no explicit `impl Show` gets a
-compiler-generated instance whose body returns the type name string. Explicit
+compiler-generated instance: a class shows its type name, an enum its
+qualified variant name without the payload (`E::V`, the text a derived `Show`
+prints for a unit variant). Explicit
 `impl` and structural `#[derive(Show)]` take precedence (overlap with a manual
 `impl` is still an error if both exist).
 
