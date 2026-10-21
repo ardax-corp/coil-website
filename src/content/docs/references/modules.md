@@ -85,7 +85,7 @@ trait Eq<T> { /* your trait */ }   // now allowed
 
 Without the `as` rebind, `trait Eq` / `enum Option` is a conflict diagnostic.
 
-The alias names the builtin: `T: PreludeEq` is the builtin `Eq` bound. Your module may then declare its own `trait Eq`; both stay usable side by side. In that module the short name `Eq` (bounds, `where` clauses, `impl Eq for …`) is your trait, `PreludeEq` is still the builtin, and `==` keeps using the builtin. A type with only the builtin `Eq` does not satisfy a bound on your trait.
+The alias names the builtin: `T: PreludeEq` is the builtin `Eq` bound, and an aliased prelude enum works as a type and constructor head (`use prelude::Option as Opt;` then `Opt<int>`, `Opt::Some(1)`). Your module may then declare its own `trait Eq`; both stay usable side by side. In that module the short name `Eq` (bounds, `where` clauses, `impl Eq for …`) is your trait, `PreludeEq` is still the builtin, and `==` keeps using the builtin. A type with only the builtin `Eq` does not satisfy a bound on your trait.
 
 Prelude functions (`sin`, `sqrt`, `diff`, …) need no rebind. A same-named
 `fn` in the file, or an explicit import of one (`use trig::sin;`), takes the
