@@ -355,6 +355,17 @@ typeof (1, 2)             // "(int, int)"
 typeof Option::Some(1)    // "prelude::Option<int>"
 ```
 
+`typeof` is a unary prefix operator, like `-` or `readonly`: it takes the
+operand right after it, together with any calls, field accesses or indexing,
+and binary operators apply to the resulting name. Parenthesize a larger operand.
+
+```coil
+typeof x == "int"         // (typeof x) == "int"
+typeof(x) == "int"        // the same
+typeof p.f(1) + "!"       // (typeof p.f(1)) + "!"
+typeof (a + b)            // the type of the sum
+```
+
 Open / unsolved types (free type variables, `never`, bare `Option::None`
 without an annotation) are a compile error. Nominal types include their defining
 module when non-empty (`prelude::Option<int>`, `math::Point`); entry-file types
@@ -943,7 +954,7 @@ class Cell {
 |-------|---------------------|----------|
 | `Show` | `show` | Payload enum: `match` + `format` / string lits (qualified case names). Scalar enum: the backing word (`Status::Ok` shows as `200`). Class: field walk via `.field` |
 | `Eq` | `eq`, `ne` | Payload: tag + payload `==`. Scalar: backing-word `==`. `ne` is `!(a == b)` |
-| `Ord` | `lt`, `le`, `gt`, `ge` | Needs an `Eq` instance (`#[derive(Eq, Ord)]`). Payload: lexicographic on declaration order. Scalar: order of the backing word (a `#[repr(string)]` enum orders by declaration, not by its strings) |
+| `Ord` | `lt`, `le`, `gt`, `ge` | Needs an `Eq` instance (`#[derive(Eq, Ord)]`). Payload: lexicographic on declaration order. Scalar: order of the backing word (an `int` / `float` numerically, a `string` by its UTF-8 bytes) |
 | `Default` | `static fn default` | Class: each field takes its type's default (`0`, `0.0`, `false`, `""`, otherwise `Ty::default()`); enum: first variant with defaulted payloads. Call it as `Ty::default()` |
 | `Hash` | `hash` | Payload: tag + recursive `field.hash()`. Scalar: hash of the backing word |
 | `Send` | _(marker)_ | Empty instance (thread spawn still uses structural sendability) |

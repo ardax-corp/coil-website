@@ -31,7 +31,7 @@ Shift and bitwise operators follow Rust: `1 << 2 | 1` is `(1 << 2) | 1`,
 |------------|-------------------|-------|
 | **Primary (postfix)** | `expr++`, `expr--`, `expr.field`, `expr?.field`, `expr[index]`, `expr?` | Tightest — postfix on atoms |
 | **Call (postfix)** | `f(args)` | Function / method call |
-| **Prefix unary** | `-expr`, `+expr`, `~expr`, `!expr` | Numeric negation, no-op plus, bitwise NOT, logical NOT |
+| **Prefix unary** | `-expr`, `+expr`, `~expr`, `!expr`, `readonly expr`, `typeof expr` | Numeric negation, no-op plus, bitwise NOT, logical NOT, read-only view, compile-time type name |
 | **Cast (postfix)** | `expr as T` | Below unary (`-1 as byte` is `(-1) as byte`), above `**` / `*` / `+` and assignment (`c = m as byte` → RHS cast) |
 | **Exponentiation** | `**` | Right-associative |
 | **Multiplicative** | `*`, `/`, `%` | Left-associative |
@@ -346,6 +346,7 @@ bounds`). Literal OOB on `[T; N]` and tuples is a compile error. See
 | `+` | Positive | numeric | numeric (no-op) |
 | `~` | Bitwise NOT | `int`, a type parameter bounded by `BitNot` (`Integral` implies it), or a type with a `BitNot` instance | same (flip bits) |
 | `!` | Logical NOT | `bool` or `int` | `bool` |
+| `typeof` | Type name | any expression with a fully known type (not evaluated) | `string` |
 
 For `!` on integers, zero is false and any non-zero value is true (`!0` → `true`, `!42` → `false`).
 
@@ -360,6 +361,7 @@ For `!` on integers, zero is false and any non-zero value is true (`!0` → `tru
 | `(1)` | Group | 1-tuple |
 | `(1,)` | 1-tuple | |
 | `1.0` | Float literal | `1` `.` `0` |
+| `typeof(x) == "int"` | `(typeof x) == "int"` | `typeof ((x) == "int")` |
 | `a++` | Postfix inc | |
 | `!=` | Single operator | `!` `=` |
 | `!true` | Prefix logical NOT | `!` applied to `true` |
