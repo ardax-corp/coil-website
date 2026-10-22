@@ -8,7 +8,7 @@ name: "is_finite"
 signature: "fn is_finite(float x) -> bool"
 import: "use num::{is_finite};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/num.hy#L224"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/num.hy#L224"
 order: 15
 ---
 

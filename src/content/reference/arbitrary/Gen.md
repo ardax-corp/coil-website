@@ -8,7 +8,7 @@ name: "Gen"
 signature: "class Gen"
 import: "use arbitrary::{Gen};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/prelude/arbitrary.hy#L11"
+source: "https://github.com/ardax-corp/coil-lang/blob/cba8e48ffdc03a4068234e57b347406c4b478e0f/compiler/src/prelude/arbitrary.hy#L11"
 order: 0
 ---
 

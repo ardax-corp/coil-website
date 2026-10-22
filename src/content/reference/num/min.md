@@ -8,7 +8,7 @@ name: "min"
 signature: "fn min<T: Ord>(T a, T b) -> T"
 import: "use num::{min};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/num.hy#L58"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/num.hy#L58"
 order: 4
 ---
 

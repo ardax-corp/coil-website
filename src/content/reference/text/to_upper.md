@@ -8,7 +8,7 @@ name: "to_upper"
 signature: "fn to_upper(string s) -> Result<string, string>"
 import: "use text::{to_upper};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/text.hy#L496"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/text.hy#L496"
 order: 22
 ---
 

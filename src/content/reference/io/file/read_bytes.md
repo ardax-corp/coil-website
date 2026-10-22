@@ -8,7 +8,7 @@ name: "read_bytes"
 signature: "fn read_bytes(string path) -> Result<Vec<byte>, IoError>"
 import: "use io::file::{read_bytes};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/io/file.hy#L16"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/io/file.hy#L16"
 order: 0
 ---
 

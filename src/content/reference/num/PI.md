@@ -8,7 +8,7 @@ name: "PI"
 signature: "const PI = 3.141592653589793;"
 import: "use num::{PI};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/num.hy#L12"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/num.hy#L12"
 order: 0
 ---
 

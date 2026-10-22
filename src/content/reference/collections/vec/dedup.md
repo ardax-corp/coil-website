@@ -9,7 +9,7 @@ signature: "fn dedup(Vec<int> xs) -> Vec<int>"
 signatures: ["fn dedup(Vec<int> xs) -> Vec<int>","fn dedup(Vec<string> xs) -> Vec<string>"]
 import: "use collections::vec::{dedup};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/collections/vec.hy#L118"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/collections/vec.hy#L118"
 order: 5
 ---
 

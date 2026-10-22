@@ -8,7 +8,7 @@ name: "pad_left"
 signature: "fn pad_left(string s, int width, string fill) -> Result<string, string>"
 import: "use text::{pad_left};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/text.hy#L376"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/text.hy#L376"
 order: 16
 ---
 

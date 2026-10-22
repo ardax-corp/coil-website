@@ -9,7 +9,7 @@ parent: "HashSet"
 signature: "pub static fn with_capacity(int cap) -> HashSet<T>"
 import: "use collections::set::{HashSet};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/collections/set.hy#L26"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/collections/set.hy#L26"
 order: 0
 ---
 

@@ -8,7 +8,7 @@ name: "Int8"
 signature: "class Int8"
 import: "use ffi::types::{Int8};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/ffi/types.hy#L47"
+source: "https://github.com/ardax-corp/coil-lang/blob/cba8e48ffdc03a4068234e57b347406c4b478e0f/compiler/src/builtin_docs/ffi/types.hy#L47"
 order: 5
 ---
 

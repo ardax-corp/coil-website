@@ -9,7 +9,7 @@ parent: "HashMap"
 signature: "pub fn size() -> int"
 import: "use collections::map::{HashMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/collections/map.hy#L126"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/collections/map.hy#L126"
 order: 2
 ---
 
