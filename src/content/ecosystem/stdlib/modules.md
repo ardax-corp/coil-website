@@ -30,7 +30,7 @@ package (`use json::{Json, JsonValue, JsonError};`). There is no in-tree
 | `ascii` | `use ascii::{is_digit, is_alnum, …};` | ASCII classify / digit / case helpers |
 | `conv` | `use conv::{parse_int, int_to_hex, …};` | `int_to_dec` / `parse_int` / `parse_float` / radix parse |
 | `bytes` | `use bytes::{slice, concat, to_hex, …};` | `[byte]` helpers; `Bytes` wrapper; hex encode/decode |
-| `text` | `use text::{trim, split, rfind, …};` | String helpers via UTF-8 bytes (virtual `string` owns `format` / `to_bytes`) |
+| `text` | `use text::{Searchable, trim, rfind, …};` | String helpers via UTF-8 bytes (virtual `string` owns `format` / `to_bytes`). `Searchable` gives `string` (and any `Show` type with an empty `impl`) pattern methods: `"foobar".contains(p)`, `starts_with` / `ends_with` / `find` / `find_all` / `split` / `split_once` / `replace_first` / `replace_all`, where `p` is a `string` or any `Pattern` (coil-regex's `Regex`) |
 | `encoding` | `use encoding::{encode, decode};` | Standard Base64 encode/decode |
 | `fmt` | `use fmt::{Buf, pad_left, …};` | Incremental string builder (`Buf`) and padding helpers |
 | `collections` | `use collections::{sort, sort_by, reverse, …};` | Stable mergesort / `sort_by` (`T -> K` with `K: Ord`) / `reverse` / `collect_ints`; strings sort by UTF-8 bytes |
@@ -49,7 +49,7 @@ package (`use json::{Json, JsonValue, JsonError};`). There is no in-tree
 
 ## Notes
 
-- Prefer **byte offsets** for `text::slice` / `find` (mid-codepoint slices error on decode).
+- Prefer **byte offsets** for `text::slice` / `rfind` / `Span` offsets (mid-codepoint slices error on decode).
 - Byte constants use single-byte string literals (`"/"`, `"\n"`) under `byte` /
   `[byte]` expected types; whole strings coerce to `[byte]` / `[byte; N]` too.
 - `num` is named so a project `math.hy` does not shadow it.

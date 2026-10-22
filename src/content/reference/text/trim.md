@@ -8,8 +8,8 @@ name: "trim"
 signature: "fn trim(string s) -> Result<string, string>"
 import: "use text::{trim};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/text.hy#L115"
-order: 4
+source: "https://github.com/ardax-corp/coil-stdlib/blob/d009ba27df1ee081c0600ed3f72b1abd6282db85/src/text.hy#L115"
+order: 7
 ---
 
 Returns `s` without leading and trailing ASCII whitespace (space, tab, CR, LF).
@@ -50,6 +50,6 @@ assert!((trim("\t  key = value \r\n") ?? "") == "key = value");
 - [`slice`](/docs/reference/text/slice): Returns the part of s from byte offset start up to (not including) end.
 - [`trim_start`](/docs/reference/text/trim_start): Returns s without leading ASCII whitespace (space, tab, CR, LF).
 - [`trim_end`](/docs/reference/text/trim_end): Returns s without trailing ASCII whitespace (space, tab, CR, LF).
-- [`contains`](/docs/reference/text/contains): Returns true when needle occurs in hay.
-- [`starts_with`](/docs/reference/text/starts_with): Returns true when s begins with prefix.
-- [`ends_with`](/docs/reference/text/ends_with): Returns true when s ends with suffix.
+- [`rfind`](/docs/reference/text/rfind): Returns the byte offset of the last needle in hay, or -1.
+- [`split_at`](/docs/reference/text/split_at): Splits s at byte offset at into the part before and the part from at on.
+- [`join`](/docs/reference/text/join): Returns the parts concatenated with sep between each pair.

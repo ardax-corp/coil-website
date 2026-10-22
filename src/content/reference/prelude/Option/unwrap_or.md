@@ -9,7 +9,7 @@ parent: "Option"
 signature: "pub fn unwrap_or(T fallback) -> T"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/cba8e48ffdc03a4068234e57b347406c4b478e0f/compiler/src/prelude/core.hy#L47"
+source: "https://github.com/ardax-corp/coil-lang/blob/f3e0c941bdbea312cda5f6550d0d24ed00c93f2d/compiler/src/prelude/core.hy#L47"
 order: 2
 ---
 

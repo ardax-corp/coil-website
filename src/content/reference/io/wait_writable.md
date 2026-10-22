@@ -8,8 +8,8 @@ name: "wait_writable"
 signature: "fn wait_writable(Stream s) -> Result<unit, IoError>"
 import: "use io::{wait_writable};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/cba8e48ffdc03a4068234e57b347406c4b478e0f/compiler/src/builtin_docs/io.hy#L512"
-order: 13
+source: "https://github.com/ardax-corp/coil-lang/blob/f3e0c941bdbea312cda5f6550d0d24ed00c93f2d/compiler/src/builtin_docs/io.hy#L549"
+order: 15
 ---
 
 Waits until `s` is writable.
@@ -48,7 +48,7 @@ assert!(ready);
 - [`stdin`](/docs/reference/io/stdin): Returns a new stream on the process's standard input.
 - [`stdout`](/docs/reference/io/stdout): Returns a new stream on the process's standard output.
 - [`stderr`](/docs/reference/io/stderr): Returns a new stream on the process's standard error.
+- [`capture_begin`](/docs/reference/io/capture_begin): Starts keeping this thread's stdout and stderr writes in memory instead of writing them, until the matching capture_end().
+- [`capture_end`](/docs/reference/io/capture_end): Ends the innermost capture_begin() and returns what it kept, as (stdout, stderr).
 - [`open`](/docs/reference/io/open): Opens the file at path with mode and returns a stream on it.
 - [`close`](/docs/reference/io/close): Closes s.
-- [`read`](/docs/reference/io/fn.read): Reads bytes from s into the front of buf without waiting.
-- [`write`](/docs/reference/io/fn.write): Writes bytes from buf to s without waiting and returns how many were written.

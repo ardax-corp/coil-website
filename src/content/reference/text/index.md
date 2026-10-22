@@ -17,8 +17,21 @@ Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; wi
 Import what you use (`use path::*` is not allowed):
 
 ```coil
-use text::{byte_len, slice};
+use text::{Span, Pattern};
 ```
+
+## Types
+
+| Name | Description |
+|------|-------------|
+| [`Span`](/docs/reference/text/Span) | A match: the byte offsets `start..end` of the matched text. |
+
+## Traits
+
+| Name | Description |
+|------|-------------|
+| [`Pattern`](/docs/reference/text/Pattern) | Something a [[`Searchable`](/docs/reference/text/Searchable)] value can be searched for: a plain [`string`](/docs/reference/types/string) (matched literally), or a type such as coil-regex's `Regex`. |
+| [`Searchable`](/docs/reference/text/Searchable) | Pattern search methods (`contains`, `find`, `split`, `replace_all`, …) on any [[`Show`](/docs/reference/prelude/ops/Show)] type, which search its display form. |
 
 ## Functions
 
@@ -29,15 +42,8 @@ use text::{byte_len, slice};
 | [`trim_start`](/docs/reference/text/trim_start) | Returns `s` without leading ASCII whitespace (space, tab, CR, LF). |
 | [`trim_end`](/docs/reference/text/trim_end) | Returns `s` without trailing ASCII whitespace (space, tab, CR, LF). |
 | [`trim`](/docs/reference/text/trim) | Returns `s` without leading and trailing ASCII whitespace (space, tab, CR, LF). |
-| [`contains`](/docs/reference/text/contains) | Returns `true` when `needle` occurs in `hay`. |
-| [`starts_with`](/docs/reference/text/starts_with) | Returns `true` when `s` begins with `prefix`. |
-| [`ends_with`](/docs/reference/text/ends_with) | Returns `true` when `s` ends with `suffix`. |
-| [`find`](/docs/reference/text/find) | Returns the byte offset of the first `needle` in `hay`, or `-1`. |
 | [`rfind`](/docs/reference/text/rfind) | Returns the byte offset of the last `needle` in `hay`, or `-1`. |
 | [`split_at`](/docs/reference/text/split_at) | Splits `s` at byte offset `at` into the part before and the part from `at` on. |
-| [`split`](/docs/reference/text/split) | Splits `s` at every `sep`, returning the pieces between them. |
-| [`split_once`](/docs/reference/text/split_once) | Splits `s` at the first `sep` into the parts before and after it. |
-| [`replace`](/docs/reference/text/replace) | Returns `s` with every non-overlapping `old` replaced by `new`, scanning left to right. |
 | [`join`](/docs/reference/text/join) | Returns the `parts` concatenated with `sep` between each pair. |
 | [`repeat`](/docs/reference/text/repeat) | Returns `s` repeated `n` times; empty when `n <= 0`. |
 | [`pad_left`](/docs/reference/text/pad_left) | Returns `s` with `fill` added in front until it is `width` bytes long. |

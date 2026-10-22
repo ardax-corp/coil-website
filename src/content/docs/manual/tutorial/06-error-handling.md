@@ -72,12 +72,12 @@ on `Err(e)` it returns `Err(e)` from the current function straight away:
 use io::sync::{println};
 use string::{format};
 use conv::{parse_int};
-use text::{split, trim};
+use text::{Searchable, trim};
 
 // "3, 4, 5" → 12
 fn sum_csv(string line) -> Result<int, string> {
     let total = 0;
-    for field in split(line, ",")? {
+    for field in line.split(",") {
         total += parse_int(trim(field)?)?;
     }
     return Ok(total);
@@ -96,7 +96,7 @@ Ok(12)
 Err(invalid integer)
 ```
 
-Without `?`, each of those three calls would need its own `match`. This is
+Without `?`, each of those two calls would need its own `match`. This is
 also why every `println` in this tutorial ends in `?`: printing returns a
 `Result<int, IoError>`, and `?` passes a write failure up to `main`.
 
@@ -219,7 +219,7 @@ means the program itself is wrong.
 ## Exercises
 
 1. Write `fn parse_point(string s) -> Result<(int, int), string>` that
-   accepts text like `"3,4"`, using `split`, `parse_int` and `?`.
+   accepts text like `"3,4"`, using `.split`, `parse_int` and `?`.
 2. Change `divide` to return `Option<int>` instead, and use `??` to print
    `0` when dividing by zero.
 3. Write a `main` that calls `parse_point` on a bad input and prints

@@ -9,7 +9,7 @@ parent: "Variant"
 signature: "pub fn arity() -> int"
 import: "use macro::{Variant};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/cba8e48ffdc03a4068234e57b347406c4b478e0f/compiler/src/prelude/macro.hy#L369"
+source: "https://github.com/ardax-corp/coil-lang/blob/f3e0c941bdbea312cda5f6550d0d24ed00c93f2d/compiler/src/prelude/macro.hy#L369"
 order: 3
 ---
 

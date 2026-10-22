@@ -8,7 +8,7 @@ name: "declare"
 signature: "fn declare<A, R>(int lib, string name, A arg_types, R ret_type, bool variadic) -> Result<int, Error>"
 import: "use ffi::{declare};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/cba8e48ffdc03a4068234e57b347406c4b478e0f/compiler/src/builtin_docs/ffi.hy#L120"
+source: "https://github.com/ardax-corp/coil-lang/blob/f3e0c941bdbea312cda5f6550d0d24ed00c93f2d/compiler/src/builtin_docs/ffi.hy#L120"
 order: 3
 ---
 
