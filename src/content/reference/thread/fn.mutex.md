@@ -60,7 +60,7 @@ fn main() {
 - [`thread::with_lock`](/docs/reference/thread/with_lock)
 - [`join`](/docs/reference/thread/join): Waits for the thread to finish and returns the value its function returned.
 - [`detach`](/docs/reference/thread/detach): Lets the thread run to completion without being joined.
-- [`channel`](/docs/reference/thread/channel): Creates an unbounded channel and returns its (Sender, Receiver) ends.
-- [`send`](/docs/reference/thread/send): Sends a copy of value on the channel.
+- [`channel`](/docs/reference/thread/channel): Creates an unbounded channel and returns its `(Sender, Receiver)` ends.
+- [`send`](/docs/reference/thread/send): Sends a copy of `value` on the channel.
 - [`recv`](/docs/reference/thread/recv): Takes the next value from the channel, waiting until one arrives.
-- [`try_send`](/docs/reference/thread/try_send): Sends value without waiting.
+- [`try_send`](/docs/reference/thread/try_send): Sends `value` without waiting.

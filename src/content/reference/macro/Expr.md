@@ -29,14 +29,14 @@ A function-style macro argument as written: `f(1)`, `a + b`, `"text"`.
 | Name | Description |
 |------|-------------|
 | [`str`](/docs/reference/macro/Expr/str) | The source text as written. |
-| [`src`](/docs/reference/macro/Expr/src) | The source to splice: parenthesized unless it is a single term, so ${a} * 2 keeps a whole. |
+| [`src`](/docs/reference/macro/Expr/src) | The source to splice: parenthesized unless it is a single term, so `${a} * 2` keeps `a` whole. |
 | [`kind`](/docs/reference/macro/Expr/kind) |  |
 | [`is_literal`](/docs/reference/macro/Expr/is_literal) |  |
 | [`is_ident`](/docs/reference/macro/Expr/is_ident) |  |
-| [`int`](/docs/reference/macro/Expr/int) | The argument's value when it is an integer constant: 3, -2, 2 * 21. |
-| [`float`](/docs/reference/macro/Expr/float) | The value of a float constant (2.5, -1.0e3), or of an integer one. |
-| [`bool`](/docs/reference/macro/Expr/bool) | The value of a true / false constant. |
-| [`string`](/docs/reference/macro/Expr/string) | The value of a string constant, escapes decoded: for "a\"b", a"b. |
+| [`int`](/docs/reference/macro/Expr/int) | The argument's value when it is an integer constant: `3`, `-2`, `2 * 21`. |
+| [`float`](/docs/reference/macro/Expr/float) | The value of a float constant (`2.5`, `-1.0e3`), or of an integer one. |
+| [`bool`](/docs/reference/macro/Expr/bool) | The value of a `true` / `false` constant. |
+| [`string`](/docs/reference/macro/Expr/string) | The value of a string constant, escapes decoded: for `"a\"b"`, `a"b`. |
 
 ## See also
 

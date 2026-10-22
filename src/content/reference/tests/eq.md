@@ -36,8 +36,8 @@ assert!(eq!(2 + 2, 4));
 
 ## See also
 
-- [`not!`](/docs/reference/tests/not): Expands to !expression.
-- [`matches!`](/docs/reference/tests/matches): Returns whether expr matches the pattern ty, as a bool.
-- [`type!`](/docs/reference/tests/type): Expands to typeof ty: the type of an expression, as a value that can be compared.
-- [`and!`](/docs/reference/tests/and): Expands to lhs && rhs.
-- [`assert!`](/docs/reference/tests/assert): Fails the enclosing function with an error when condition is false.
+- [`not!`](/docs/reference/tests/not): Expands to `!expression`.
+- [`matches!`](/docs/reference/tests/matches): Returns whether `expr` matches the pattern `ty`, as a `bool`.
+- [`type!`](/docs/reference/tests/type): Expands to `typeof ty`: the type of an expression, as a value that can be compared.
+- [`and!`](/docs/reference/tests/and): Expands to `lhs && rhs`.
+- [`assert!`](/docs/reference/tests/assert): Fails the enclosing function with an error when `condition` is false.

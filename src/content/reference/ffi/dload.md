@@ -54,6 +54,6 @@ let lib = match dload("sum") {
 ## See also
 
 - [`ffi::ErrorKind`](/docs/reference/ffi/ErrorKind)
-- [`declare`](/docs/reference/ffi/declare): Looks up the C function name in a loaded library and records its signature.
-- [`invoke`](/docs/reference/ffi/invoke): Calls a function registered with declare, passing the tuple args.
-- [`read_ints`](/docs/reference/ffi/read_ints): Copies count 64-bit integers (int64_t) from native memory at ptr.
+- [`declare`](/docs/reference/ffi/declare): Looks up the C function `name` in a loaded library and records its signature.
+- [`invoke`](/docs/reference/ffi/invoke): Calls a function registered with `declare`, passing the tuple `args`.
+- [`read_ints`](/docs/reference/ffi/read_ints): Copies `count` 64-bit integers (`int64_t`) from native memory at `ptr`.

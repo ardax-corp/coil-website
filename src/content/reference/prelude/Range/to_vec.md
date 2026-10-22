@@ -40,4 +40,4 @@ assert!((5..2).to_vec().len() == 0);
 - [`int`](/docs/reference/types/int)
 - [`byte`](/docs/reference/types/byte)
 - [`float`](/docs/reference/types/float)
-- [`Range`](/docs/reference/prelude/Range): A lazy half-open range start..end: every value from start up to, but not including, end.
+- [`Range`](/docs/reference/prelude/Range): A lazy half-open range `start..end`: every value from `start` up to, but not including, `end`.

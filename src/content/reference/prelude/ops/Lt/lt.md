@@ -28,4 +28,4 @@ Returns `true` when `a` is less than `b`.
 
 ## See also
 
-- [`Lt`](/docs/reference/prelude/ops/Lt): The less-than operator <.
+- [`Lt`](/docs/reference/prelude/ops/Lt): The less-than operator `<`.

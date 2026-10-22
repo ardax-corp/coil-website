@@ -52,4 +52,4 @@ let n = invoke(lib, sum_id, (40, 2))?; // 42
 - [`unit`](/docs/reference/types/unit)
 - [`ffi::ErrorKind`](/docs/reference/ffi/ErrorKind)
 - [`dload`](/docs/reference/ffi/dload): Loads a native shared library and returns a handle to it.
-- [`read_ints`](/docs/reference/ffi/read_ints): Copies count 64-bit integers (int64_t) from native memory at ptr.
+- [`read_ints`](/docs/reference/ffi/read_ints): Copies `count` 64-bit integers (`int64_t`) from native memory at `ptr`.

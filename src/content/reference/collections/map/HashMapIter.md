@@ -18,7 +18,7 @@ An iterator over the entries of a [`HashMap`](/docs/reference/collections/map/Ha
 
 | Name | Description |
 |------|-------------|
-| [`next`](/docs/reference/collections/map/HashMapIter/next) | Returns the next entry, or None after the last one. |
+| [`next`](/docs/reference/collections/map/HashMapIter/next) | Returns the next entry, or `None` after the last one. |
 
 ## Trait implementations
 
@@ -28,4 +28,4 @@ An iterator over the entries of a [`HashMap`](/docs/reference/collections/map/Ha
 
 - [`collections::map::HashMap`](/docs/reference/collections/map/HashMap)
 - [`HashMap::iter`](/docs/reference/collections/map/HashMap/iter)
-- [`Entry`](/docs/reference/collections/map/Entry): One key-value pair, as HashMap iteration yields it.
+- [`Entry`](/docs/reference/collections/map/Entry): One key-value pair, as `HashMap` iteration yields it.

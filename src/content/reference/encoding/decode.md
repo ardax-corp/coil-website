@@ -40,4 +40,4 @@ assert!(encode(bytes) == "aGVsbG8=");
 
 ## See also
 
-- [`encode`](/docs/reference/encoding/encode): Encodes data as standard Base64 (RFC 4648 alphabet, with = padding).
+- [`encode`](/docs/reference/encoding/encode): Encodes `data` as standard Base64 (RFC 4648 alphabet, with `=` padding).

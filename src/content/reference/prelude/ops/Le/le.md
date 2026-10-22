@@ -28,4 +28,4 @@ Returns `true` when `a` is less than or equal to `b`.
 
 ## See also
 
-- [`Le`](/docs/reference/prelude/ops/Le): The less-or-equal operator <=.
+- [`Le`](/docs/reference/prelude/ops/Le): The less-or-equal operator `<=`.

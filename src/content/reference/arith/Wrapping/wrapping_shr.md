@@ -29,9 +29,9 @@ order: 6
 ## See also
 
 - [`Wrapping`](/docs/reference/arith/Wrapping): Integer arithmetic that wraps around modulo 2^64 instead of panicking.
-- [`Wrapping::wrapping_add`](/docs/reference/arith/Wrapping/wrapping_add): a + b modulo 2^64.
-- [`Wrapping::wrapping_sub`](/docs/reference/arith/Wrapping/wrapping_sub): a - b modulo 2^64.
-- [`Wrapping::wrapping_mul`](/docs/reference/arith/Wrapping/wrapping_mul): a * b modulo 2^64.
-- [`Wrapping::wrapping_neg`](/docs/reference/arith/Wrapping/wrapping_neg): -a modulo 2^64 (INT_MIN stays INT_MIN).
-- [`Wrapping::wrapping_pow`](/docs/reference/arith/Wrapping/wrapping_pow): a ** exp modulo 2^64.
-- [`Wrapping::wrapping_shl`](/docs/reference/arith/Wrapping/wrapping_shl): a << (n & 63): the count is taken modulo 64.
+- [`Wrapping::wrapping_add`](/docs/reference/arith/Wrapping/wrapping_add): `a + b` modulo 2^64.
+- [`Wrapping::wrapping_sub`](/docs/reference/arith/Wrapping/wrapping_sub): `a - b` modulo 2^64.
+- [`Wrapping::wrapping_mul`](/docs/reference/arith/Wrapping/wrapping_mul): `a * b` modulo 2^64.
+- [`Wrapping::wrapping_neg`](/docs/reference/arith/Wrapping/wrapping_neg): `-a` modulo 2^64 (`INT_MIN` stays `INT_MIN`).
+- [`Wrapping::wrapping_pow`](/docs/reference/arith/Wrapping/wrapping_pow): `a ** exp` modulo 2^64.
+- [`Wrapping::wrapping_shl`](/docs/reference/arith/Wrapping/wrapping_shl): `a << (n & 63)`: the count is taken modulo 64.

@@ -306,10 +306,11 @@ function renderDocs(md, ctx, mentions) {
   const out = [];
   let fence = null;
   for (const line of md.split("\n")) {
-    const f = line.match(/^(\s*)```\s*([\w,]*)\s*$/);
+    // Info strings separate attributes with commas or spaces: ```coil,no_run / ```coil no_run.
+    const f = line.match(/^(\s*)```\s*([\w, ]*?)\s*$/);
     if (f) {
       if (fence === null) {
-        const tag = f[2].split(",")[0];
+        const tag = f[2].split(/[,\s]+/)[0];
         fence = tag;
         const lang = ["", "coil", "ignore", "no_run", "should_panic", "compile_fail"].includes(tag) ? "coil" : tag;
         out.push(`${f[1]}\`\`\`${lang}`);
@@ -350,7 +351,8 @@ const plain = (md) =>
     .replace(/\s+/g, " ")
     .trim();
 const firstSentence = (s) => {
-  const m = s.match(/^(.+?[.!?])(\s|$)/);
+  // A full stop inside `code` does not end the sentence.
+  const m = s.match(/^((?:`[^`]*`|[^`])+?[.!?])(\s|$)/);
   return m ? m[1] : s;
 };
 
@@ -462,19 +464,24 @@ function page(slug, front, body) {
   pages.set(slug, `---\n${fm}\n---\n\n${body.join("\n").replace(/\n{3,}/g, "\n\n").trim()}\n`);
 }
 
-const summaryOf = (it) => plain(splitDocs(it.docs ?? "").summary);
+/** The summary as markdown for lists and tables: keeps `code`, drops links (rendering adds its own). */
+const summaryMd = (it) =>
+  splitDocs(it.docs ?? "")
+    .summary.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/\s+/g, " ")
+    .trim();
 
 function siblings(mod, it) {
   return mod.items
     .filter((o) => o !== it && o.kind === it.kind)
-    .map((o) => ({ href: itemHref(o), label: displayName(o), summary: firstSentence(summaryOf(o)) }));
+    .map((o) => ({ href: itemHref(o), label: displayName(o), summary: firstSentence(summaryMd(o)) }));
 }
 
 function memberTable(title, ty, members, ctx) {
   if (!members.length) return [];
   const lines = [`## ${title}`, "", "| Name | Description |", "|------|-------------|"];
   for (const m of members) {
-    const s = firstSentence(summaryOf(m));
+    const s = firstSentence(summaryMd(m));
     lines.push(`| [\`${m.name}\`](${memberHref(ty, m)}) | ${esc(renderDocs(s, withParams(ctx, m)))} |`);
   }
   return [...lines, ""];
@@ -568,8 +575,8 @@ function memberPage(mod, ty, m, order) {
   body.push(...trailingSections(parts, ctx, mentions));
   const rel = visibleMembers(ty)
     .filter((o) => o !== m && (o.kind === "method" || o.kind === "static method"))
-    .map((o) => ({ href: memberHref(ty, o), label: `${ty.name}::${o.name}`, summary: firstSentence(summaryOf(o)) }));
-  body.push(...seeAlso(parts, ctx, mentions, [{ href: itemHref(ty), label: ty.name, summary: firstSentence(summaryOf(ty)) }, ...rel]));
+    .map((o) => ({ href: memberHref(ty, o), label: `${ty.name}::${o.name}`, summary: firstSentence(summaryMd(o)) }));
+  body.push(...seeAlso(parts, ctx, mentions, [{ href: itemHref(ty), label: ty.name, summary: firstSentence(summaryMd(ty)) }, ...rel]));
   const slug = `${itemSlug(mod.path, ty.name)}/${slugName(m.name)}`;
   page(slug, front(mod, m, parts, order, ty), body);
 }

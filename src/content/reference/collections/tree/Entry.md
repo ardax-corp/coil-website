@@ -24,4 +24,4 @@ One key-value pair, as [`TreeMap`](/docs/reference/collections/tree/TreeMap) ite
 ## See also
 
 - [`collections::tree::TreeMap`](/docs/reference/collections/tree/TreeMap)
-- [`TreeMapIter`](/docs/reference/collections/tree/TreeMapIter): An in-order iterator over a TreeMap, from TreeMap::iter.
+- [`TreeMapIter`](/docs/reference/collections/tree/TreeMapIter): An in-order iterator over a `TreeMap`, from `TreeMap::iter`.

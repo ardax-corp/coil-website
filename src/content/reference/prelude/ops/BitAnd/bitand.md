@@ -28,4 +28,4 @@ Returns the bitwise AND of `a` and `b`.
 
 ## See also
 
-- [`BitAnd`](/docs/reference/prelude/ops/BitAnd): The bitwise AND operator &.
+- [`BitAnd`](/docs/reference/prelude/ops/BitAnd): The bitwise AND operator `&`.

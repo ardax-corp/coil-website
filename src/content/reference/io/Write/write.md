@@ -29,4 +29,4 @@ Writes from `buf`; see [`io::write`](/docs/reference/io/fn.write).
 ## See also
 
 - [`io::write`](/docs/reference/io/fn.write)
-- [`Write`](/docs/reference/io/Write): Types that bytes can be written to; implemented for Stream.
+- [`Write`](/docs/reference/io/Write): Types that bytes can be written to; implemented for `Stream`.

@@ -27,4 +27,4 @@ Converts `value` into a `T`.
 
 ## See also
 
-- [`Into`](/docs/reference/prelude/ops/Into): Conversion from S into T, written impl Into<T> for S.
+- [`Into`](/docs/reference/prelude/ops/Into): Conversion from `S` into `T`, written `impl Into<T> for S`.

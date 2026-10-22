@@ -48,9 +48,9 @@ assert!(not_held);
 
 - [`thread::lock`](/docs/reference/thread/lock)
 - [`thread::try_lock`](/docs/reference/thread/try_lock)
-- [`spawn`](/docs/reference/thread/spawn): Runs f(arg) on another OS thread and returns a handle to it.
+- [`spawn`](/docs/reference/thread/spawn): Runs `f(arg)` on another OS thread and returns a handle to it.
 - [`join`](/docs/reference/thread/join): Waits for the thread to finish and returns the value its function returned.
 - [`detach`](/docs/reference/thread/detach): Lets the thread run to completion without being joined.
-- [`channel`](/docs/reference/thread/channel): Creates an unbounded channel and returns its (Sender, Receiver) ends.
-- [`send`](/docs/reference/thread/send): Sends a copy of value on the channel.
+- [`channel`](/docs/reference/thread/channel): Creates an unbounded channel and returns its `(Sender, Receiver)` ends.
+- [`send`](/docs/reference/thread/send): Sends a copy of `value` on the channel.
 - [`recv`](/docs/reference/thread/recv): Takes the next value from the channel, waiting until one arrives.

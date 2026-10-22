@@ -72,4 +72,4 @@ assert!(format("%v", ErrorKind::SymbolNotFound) == "SymbolNotFound");
 - [`ffi::invoke`](/docs/reference/ffi/invoke)
 - [`ffi::dload`](/docs/reference/ffi/dload)
 - [`ffi::read_ints`](/docs/reference/ffi/read_ints)
-- [`Error`](/docs/reference/ffi/Error): The error of dload, declare, invoke and read_ints.
+- [`Error`](/docs/reference/ffi/Error): The error of `dload`, `declare`, `invoke` and `read_ints`.

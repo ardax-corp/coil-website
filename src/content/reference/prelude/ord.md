@@ -49,4 +49,4 @@ assert!(err == "expected single character");
 
 - [`byte`](/docs/reference/types/byte)
 - [`char`](/docs/reference/prelude/char)
-- [`black_box`](/docs/reference/prelude/black_box): Returns x unchanged, through a call the optimizer cannot see into.
+- [`black_box`](/docs/reference/prelude/black_box): Returns `x` unchanged, through a call the optimizer cannot see into.

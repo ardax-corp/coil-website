@@ -42,7 +42,7 @@ assert!(got == "hi");
 - [`thread::channel`](/docs/reference/thread/channel)
 - [`thread::spawn`](/docs/reference/thread/spawn)
 - [`thread::close`](/docs/reference/thread/close)
-- [`Thread`](/docs/reference/thread/Thread): A handle to a function running on another OS thread, from spawn.
-- [`Receiver`](/docs/reference/thread/Receiver): The receiving half of a channel made by channel.
-- [`Mutex`](/docs/reference/thread/Mutex): A mutual-exclusion lock that owns a value, made by mutex.
-- [`RwLock`](/docs/reference/thread/RwLock): A readers-writer lock that owns a value, made by rwlock.
+- [`Thread`](/docs/reference/thread/Thread): A handle to a function running on another OS thread, from `spawn`.
+- [`Receiver`](/docs/reference/thread/Receiver): The receiving half of a channel made by `channel`.
+- [`Mutex`](/docs/reference/thread/Mutex): A mutual-exclusion lock that owns a value, made by `mutex`.
+- [`RwLock`](/docs/reference/thread/RwLock): A readers-writer lock that owns a value, made by `rwlock`.

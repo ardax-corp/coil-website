@@ -37,4 +37,4 @@ assert!(alive && data.len() == 2);
 
 - [`gc::weak`](/docs/reference/gc/fn.weak)
 - [`gc::upgrade`](/docs/reference/gc/upgrade)
-- [`Root`](/docs/reference/gc/Root): A strong pin that keeps a value alive, made by root.
+- [`Root`](/docs/reference/gc/Root): A strong pin that keeps a value alive, made by `root`.

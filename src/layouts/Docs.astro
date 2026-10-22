@@ -1,9 +1,9 @@
 ---
 import type { MarkdownHeading } from "astro";
 import Base from "./Base.astro";
+import NavTree from "../components/NavTree.astro";
 import {
   inlineCode,
-  isExternal,
   linkHref,
   locate,
   type NavGroup,
@@ -74,39 +74,7 @@ const pagerLabel = (item: NavLink) => {
               {groups
                 .filter((g) => g.track === t.key)
                 .map((g) => {
-                  const links = (
-                    <ul>
-                      {g.items.map((item, i) => (
-                        <li>
-                          <a
-                            href={linkHref(item)}
-                            aria-current={!isExternal(item) && linkHref(item) === href ? "page" : undefined}
-                            class:list={[{ external: isExternal(item) }]}
-                          >
-                            {g.key === "tutorial" && <span class="num">{String(i + 1).padStart(2, "0")}</span>}
-                            <span>{item.label}</span>
-                            {isExternal(item) && <span class="ext" aria-label="(external)">↗</span>}
-                          </a>
-                          {item.children?.length && (href === linkHref(item) || href.startsWith(`${linkHref(item)}/`)) ? (
-                            <ul class="nav-children">
-                              {item.children.map((child) => (
-                                <li>
-                                  <a
-                                    href={linkHref(child)}
-                                    aria-current={
-                                      href === linkHref(child) || href.startsWith(`${linkHref(child)}/`) ? "page" : undefined
-                                    }
-                                  >
-                                    <code>{child.label}</code>
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          ) : null}
-                        </li>
-                      ))}
-                    </ul>
-                  );
+                  const links = <NavTree items={g.items} href={href} numbered={g.key === "tutorial"} />;
                   // Packages are many small groups: collapse all but the current one.
                   return g.track === "packages" ? (
                     <details class="nav-group collapsible" open={g === here?.group}>
@@ -253,6 +221,19 @@ const pagerLabel = (item: NavLink) => {
   const current = document.querySelector<HTMLElement>(".sidebar [aria-current=page]");
   const inner = document.querySelector<HTMLElement>(".sidebar-inner");
   if (current && inner) inner.scrollTop = current.offsetTop - inner.clientHeight / 2;
+
+  // "See also" hover cards: anchor to the right edge of their link when they
+  // would overflow the viewport.
+  document.querySelectorAll<HTMLElement>(".see-also li").forEach((li) => {
+    const pop = li.querySelector<HTMLElement>(".see-pop");
+    if (!pop) return;
+    const place = () => {
+      pop.classList.remove("flip");
+      if (pop.getBoundingClientRect().right > document.documentElement.clientWidth - 8) pop.classList.add("flip");
+    };
+    li.addEventListener("mouseenter", place);
+    li.addEventListener("focusin", place);
+  });
 
   // Mobile drawer.
   const sidebar = document.getElementById("docs-sidebar")!;
@@ -406,74 +387,10 @@ const pagerLabel = (item: NavLink) => {
     color: var(--fg);
   }
 
-  .collapsible ul {
+  .collapsible > :global(ul) {
     border-left: 1px solid var(--border);
     margin: 0.15rem 0 0.4rem 0.95rem;
     padding-left: 0.35rem;
-  }
-
-  .nav-group ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .nav-group a {
-    align-items: baseline;
-    border-radius: var(--radius-sm);
-    color: var(--muted);
-    display: flex;
-    font-size: 0.9rem;
-    gap: 0.55rem;
-    line-height: 1.4;
-    padding: 0.36rem 0.65rem;
-    text-decoration: none;
-    transition: color 0.12s, background 0.12s;
-  }
-
-  .nav-group a:hover {
-    background: var(--surface);
-    color: var(--fg);
-  }
-
-  .nav-group a[aria-current="page"] {
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  .nav-group .nav-children {
-    border-left: 1px solid var(--border);
-    margin: 0.15rem 0 0.4rem 0.75rem;
-    padding-left: 0.4rem;
-  }
-
-  .nav-group .nav-children a {
-    font-size: 0.82rem;
-    padding-block: 0.15rem;
-  }
-
-  .nav-children code {
-    background: none;
-    border: 0;
-    font-size: inherit;
-    padding: 0;
-  }
-
-  .nav-group .num {
-    color: var(--faint);
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-  }
-
-  .nav-group a[aria-current="page"] .num {
-    color: inherit;
-  }
-
-  .nav-group .ext {
-    color: var(--faint);
-    font-size: 0.75rem;
-    margin-left: auto;
   }
 
   /* --------------------------------------------------------------- main */

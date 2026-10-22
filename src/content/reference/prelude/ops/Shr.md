@@ -22,7 +22,7 @@ count is always an [`int`](/docs/reference/types/int). [`int`](/docs/reference/t
 
 | Name | Description |
 |------|-------------|
-| [`shr`](/docs/reference/prelude/ops/Shr/shr) | Returns a shifted right by n bits. |
+| [`shr`](/docs/reference/prelude/ops/Shr/shr) | Returns `a` shifted right by `n` bits. |
 
 ## Examples
 
@@ -49,9 +49,9 @@ fn main() {
 
 - [`int`](/docs/reference/types/int)
 - [`byte`](/docs/reference/types/byte)
-- [`Add`](/docs/reference/prelude/ops/Add): The addition operator +.
-- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator -.
-- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator *.
-- [`Div`](/docs/reference/prelude/ops/Div): The division operator /.
-- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator -x.
-- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator %.
+- [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.
+- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator `-`.
+- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator `*`.
+- [`Div`](/docs/reference/prelude/ops/Div): The division operator `/`.
+- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator `-x`.
+- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator `%`.

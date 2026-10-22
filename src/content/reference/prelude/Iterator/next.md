@@ -27,4 +27,4 @@ Returns the next value, or `None` when the iterator is exhausted.
 
 ## See also
 
-- [`Iterator`](/docs/reference/prelude/Iterator): A source of values that for loops pull from one at a time.
+- [`Iterator`](/docs/reference/prelude/Iterator): A source of values that `for` loops pull from one at a time.

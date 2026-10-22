@@ -52,7 +52,7 @@ assert!(sort(words)[0] == "Apple");
 ## See also
 
 - [`Ord`](/docs/reference/prelude/ops/Ord)
-- [`sort_by`](/docs/reference/collections/sort_by): Returns a copy of arr sorted by the value key gives each element, in ascending order.
-- [`reverse`](/docs/reference/collections/reverse): Returns a copy of arr in reverse order.
-- [`collect_ints`](/docs/reference/collections/collect_ints): Returns the values of the range a..b as a Vec<int>.
-- [`collect_ints_inclusive`](/docs/reference/collections/collect_ints_inclusive): Returns the values of the inclusive range a..=b as a Vec<int>.
+- [`sort_by`](/docs/reference/collections/sort_by): Returns a copy of `arr` sorted by the value `key` gives each element, in ascending order.
+- [`reverse`](/docs/reference/collections/reverse): Returns a copy of `arr` in reverse order.
+- [`collect_ints`](/docs/reference/collections/collect_ints): Returns the values of the range `a..b` as a `Vec<int>`.
+- [`collect_ints_inclusive`](/docs/reference/collections/collect_ints_inclusive): Returns the values of the inclusive range `a..=b` as a `Vec<int>`.

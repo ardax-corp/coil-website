@@ -17,4 +17,4 @@ The smallest [`int`](/docs/reference/types/int), `-9223372036854775808`.
 ## See also
 
 - [`int`](/docs/reference/types/int)
-- [`INT_MAX`](/docs/reference/arith/INT_MAX): The largest int, 9223372036854775807.
+- [`INT_MAX`](/docs/reference/arith/INT_MAX): The largest `int`, `9223372036854775807`.

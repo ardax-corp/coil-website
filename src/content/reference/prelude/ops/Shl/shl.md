@@ -28,4 +28,4 @@ Returns `a` shifted left by `n` bits.
 
 ## See also
 
-- [`Shl`](/docs/reference/prelude/ops/Shl): The left shift operator <<.
+- [`Shl`](/docs/reference/prelude/ops/Shl): The left shift operator `<<`.

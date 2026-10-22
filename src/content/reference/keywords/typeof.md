@@ -37,7 +37,7 @@ fn main() {
 - [`Option`](/docs/reference/prelude/Option)
 - [`fn`](/docs/reference/keywords/fn): Declares a function, a method, or (written in an expression) an anonymous function.
 - [`let`](/docs/reference/keywords/let): Declares a mutable local variable.
-- [`const`](/docs/reference/keywords/const): Declares a binding that cannot be reassigned: a local, a module constant, or a class field that is set only by new.
-- [`static`](/docs/reference/keywords/static): Declares a module-level or class-level slot shared by the whole program, or a method without self.
+- [`const`](/docs/reference/keywords/const): Declares a binding that cannot be reassigned: a local, a module constant, or a class field that is set only by `new`.
+- [`static`](/docs/reference/keywords/static): Declares a module-level or class-level slot shared by the whole program, or a method without `self`.
 - [`readonly`](/docs/reference/keywords/readonly): A read-only view of a value: nothing reachable through it can be changed.
-- [`if`](/docs/reference/keywords/if): Runs a block when a bool condition is true.
+- [`if`](/docs/reference/keywords/if): Runs a block when a `bool` condition is true.

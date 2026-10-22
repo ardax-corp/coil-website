@@ -36,10 +36,10 @@ assert!(div_euclid(-7, 3) == -3);
 ## See also
 
 - [`num::rem_euclid`](/docs/reference/num/rem_euclid)
-- [`abs`](/docs/reference/num/abs): Returns the absolute value of x.
-- [`min`](/docs/reference/num/min): Returns the smaller of a and b (a when they are equal).
-- [`max`](/docs/reference/num/max): Returns the larger of a and b (a when they are equal).
-- [`round`](/docs/reference/num/round): Rounds x to the nearest whole number; halves round away from zero.
-- [`clamp`](/docs/reference/num/clamp): Returns x limited to the range lo..=hi.
-- [`signum`](/docs/reference/num/signum): Returns -1, 0 or 1 by the sign of x.
-- [`gcd`](/docs/reference/num/gcd): Returns the greatest common divisor of a and b, which should be non-negative.
+- [`abs`](/docs/reference/num/abs): Returns the absolute value of `x`.
+- [`min`](/docs/reference/num/min): Returns the smaller of `a` and `b` (`a` when they are equal).
+- [`max`](/docs/reference/num/max): Returns the larger of `a` and `b` (`a` when they are equal).
+- [`round`](/docs/reference/num/round): Rounds `x` to the nearest whole number; halves round away from zero.
+- [`clamp`](/docs/reference/num/clamp): Returns `x` limited to the range `lo..=hi`.
+- [`signum`](/docs/reference/num/signum): Returns `-1`, `0` or `1` by the sign of `x`.
+- [`gcd`](/docs/reference/num/gcd): Returns the greatest common divisor of `a` and `b`, which should be non-negative.

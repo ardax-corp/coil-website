@@ -37,17 +37,17 @@ Some value of type `T`.
 
 | Name | Description |
 |------|-------------|
-| [`is_some`](/docs/reference/prelude/Option/is_some) | True when this is Some. |
-| [`is_none`](/docs/reference/prelude/Option/is_none) | True when this is None. |
-| [`unwrap_or`](/docs/reference/prelude/Option/unwrap_or) | The value, or fallback when None. |
-| [`unwrap_or_else`](/docs/reference/prelude/Option/unwrap_or_else) | The value, or the result of f when None. |
-| [`map`](/docs/reference/prelude/Option/map) | Some(f(value)), or None. |
-| [`map_or`](/docs/reference/prelude/Option/map_or) | f(value), or fallback when None. |
-| [`and_then`](/docs/reference/prelude/Option/and_then) | f(value) (itself an Option), or None. |
-| [`or`](/docs/reference/prelude/Option/or) | This option if it is Some, otherwise other. |
-| [`or_else`](/docs/reference/prelude/Option/or_else) | This option if it is Some, otherwise the result of f. |
-| [`filter`](/docs/reference/prelude/Option/filter) | This option if its value passes pred, otherwise None. |
-| [`ok_or`](/docs/reference/prelude/Option/ok_or) | Ok(value), or Err(err) when None. |
+| [`is_some`](/docs/reference/prelude/Option/is_some) | True when this is [`Some`](/docs/reference/prelude/Option#variant-some). |
+| [`is_none`](/docs/reference/prelude/Option/is_none) | True when this is [`None`](/docs/reference/prelude/Option#variant-none). |
+| [`unwrap_or`](/docs/reference/prelude/Option/unwrap_or) | The value, or `fallback` when [`None`](/docs/reference/prelude/Option#variant-none). |
+| [`unwrap_or_else`](/docs/reference/prelude/Option/unwrap_or_else) | The value, or the result of `f` when [`None`](/docs/reference/prelude/Option#variant-none). |
+| [`map`](/docs/reference/prelude/Option/map) | `Some(f(value))`, or [`None`](/docs/reference/prelude/Option#variant-none). |
+| [`map_or`](/docs/reference/prelude/Option/map_or) | `f(value)`, or `fallback` when [`None`](/docs/reference/prelude/Option#variant-none). |
+| [`and_then`](/docs/reference/prelude/Option/and_then) | `f(value)` (itself an `Option`), or [`None`](/docs/reference/prelude/Option#variant-none). |
+| [`or`](/docs/reference/prelude/Option/or) | This option if it is [`Some`](/docs/reference/prelude/Option#variant-some), otherwise `other`. |
+| [`or_else`](/docs/reference/prelude/Option/or_else) | This option if it is [`Some`](/docs/reference/prelude/Option#variant-some), otherwise the result of `f`. |
+| [`filter`](/docs/reference/prelude/Option/filter) | This option if its value passes `pred`, otherwise [`None`](/docs/reference/prelude/Option#variant-none). |
+| [`ok_or`](/docs/reference/prelude/Option/ok_or) | `Ok(value)`, or `Err(err)` when [`None`](/docs/reference/prelude/Option#variant-none). |
 
 ## Trait implementations
 
@@ -83,4 +83,4 @@ fn main() {
 
 - [`Vec::pop`](/docs/reference/prelude/Vec/pop)
 - [`Vec::remove`](/docs/reference/prelude/Vec/remove)
-- [`Result`](/docs/reference/prelude/Result): The outcome of an operation that can fail: Ok(value) or Err(error).
+- [`Result`](/docs/reference/prelude/Result): The outcome of an operation that can fail: `Ok(value)` or `Err(error)`.

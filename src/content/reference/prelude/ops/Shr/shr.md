@@ -28,4 +28,4 @@ Returns `a` shifted right by `n` bits.
 
 ## See also
 
-- [`Shr`](/docs/reference/prelude/ops/Shr): The right shift operator >>.
+- [`Shr`](/docs/reference/prelude/ops/Shr): The right shift operator `>>`.

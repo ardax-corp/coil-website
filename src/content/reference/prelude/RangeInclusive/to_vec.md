@@ -33,4 +33,4 @@ assert!(v[2] == 3);
 ## See also
 
 - [`Vec`](/docs/reference/prelude/Vec)
-- [`RangeInclusive`](/docs/reference/prelude/RangeInclusive): A lazy inclusive range start..=end: every value from start up to and including end.
+- [`RangeInclusive`](/docs/reference/prelude/RangeInclusive): A lazy inclusive range `start..=end`: every value from `start` up to and including `end`.

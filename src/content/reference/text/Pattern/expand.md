@@ -32,6 +32,6 @@ The default is `template` itself. A regex substitutes its captures
 ## See also
 
 - [`Pattern::find_in`](/docs/reference/text/Pattern/find_in)
-- [`Pattern`](/docs/reference/text/Pattern): Something a [Searchable] value can be searched for: a plain string (matched literally), or a type such as coil-regex's Regex.
-- [`Pattern::is_prefix_of`](/docs/reference/text/Pattern/is_prefix_of): Returns true when a match starts at the beginning of hay.
-- [`Pattern::is_suffix_of`](/docs/reference/text/Pattern/is_suffix_of): Returns true when a match ends at the end of hay.
+- [`Pattern`](/docs/reference/text/Pattern): Something a [`Searchable`] value can be searched for: a plain `string` (matched literally), or a type such as coil-regex's `Regex`.
+- [`Pattern::is_prefix_of`](/docs/reference/text/Pattern/is_prefix_of): Returns `true` when a match starts at the beginning of `hay`.
+- [`Pattern::is_suffix_of`](/docs/reference/text/Pattern/is_suffix_of): Returns `true` when a match ends at the end of `hay`.

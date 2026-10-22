@@ -29,16 +29,16 @@ Backed by a ring buffer that doubles when full. Use it as a FIFO queue
 | Name | Description |
 |------|-------------|
 | [`size`](/docs/reference/collections/deque/VecDeque/size) | Returns the number of values. |
-| [`is_empty`](/docs/reference/collections/deque/VecDeque/is_empty) | Returns true when the deque has no values. |
+| [`is_empty`](/docs/reference/collections/deque/VecDeque/is_empty) | Returns `true` when the deque has no values. |
 | [`capacity`](/docs/reference/collections/deque/VecDeque/capacity) | Returns how many values fit before the ring buffer grows. |
-| [`push_back`](/docs/reference/collections/deque/VecDeque/push_back) | Adds v at the back. |
-| [`push_front`](/docs/reference/collections/deque/VecDeque/push_front) | Adds v at the front. |
-| [`peek_front`](/docs/reference/collections/deque/VecDeque/peek_front) | Returns the front value without removing it, or None when the deque is empty. |
-| [`peek_back`](/docs/reference/collections/deque/VecDeque/peek_back) | Returns the back value without removing it, or None when the deque is empty. |
-| [`pop_front`](/docs/reference/collections/deque/VecDeque/pop_front) | Removes and returns the front value, or None when the deque is empty. |
-| [`pop_back`](/docs/reference/collections/deque/VecDeque/pop_back) | Removes and returns the back value, or None when the deque is empty. |
+| [`push_back`](/docs/reference/collections/deque/VecDeque/push_back) | Adds `v` at the back. |
+| [`push_front`](/docs/reference/collections/deque/VecDeque/push_front) | Adds `v` at the front. |
+| [`peek_front`](/docs/reference/collections/deque/VecDeque/peek_front) | Returns the front value without removing it, or `None` when the deque is empty. |
+| [`peek_back`](/docs/reference/collections/deque/VecDeque/peek_back) | Returns the back value without removing it, or `None` when the deque is empty. |
+| [`pop_front`](/docs/reference/collections/deque/VecDeque/pop_front) | Removes and returns the front value, or `None` when the deque is empty. |
+| [`pop_back`](/docs/reference/collections/deque/VecDeque/pop_back) | Removes and returns the back value, or `None` when the deque is empty. |
 | [`clear`](/docs/reference/collections/deque/VecDeque/clear) | Removes every value, keeping the capacity. |
-| [`to_vec`](/docs/reference/collections/deque/VecDeque/to_vec) | Returns the values front to back as a new Vec. |
+| [`to_vec`](/docs/reference/collections/deque/VecDeque/to_vec) | Returns the values front to back as a new [`Vec`](/docs/reference/prelude/Vec). |
 
 ## Invariants
 

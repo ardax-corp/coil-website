@@ -75,9 +75,9 @@ assert!(index_of(xs, 9) == -1);
 
 - [`int`](/docs/reference/types/int)
 - [`string`](/docs/reference/types/string)
-- [`fold_int`](/docs/reference/collections/vec/fold_int): The same as fold; kept for older code.
-- [`contains`](/docs/reference/collections/vec/contains): Returns true when needle is in xs.
-- [`binary_search`](/docs/reference/collections/vec/binary_search): Finds needle in the ascending vector xs by halving, and returns an index holding it.
-- [`dedup`](/docs/reference/collections/vec/dedup): Returns xs with runs of equal neighbours collapsed to one value.
-- [`map`](/docs/reference/collections/vec/map): Returns a new vector with mapper applied to each element, in order.
-- [`filter`](/docs/reference/collections/vec/filter): Returns the elements for which pred is true, in order.
+- [`fold_int`](/docs/reference/collections/vec/fold_int): The same as `fold`; kept for older code.
+- [`contains`](/docs/reference/collections/vec/contains): Returns `true` when `needle` is in `xs`.
+- [`binary_search`](/docs/reference/collections/vec/binary_search): Finds `needle` in the ascending vector `xs` by halving, and returns an index holding it.
+- [`dedup`](/docs/reference/collections/vec/dedup): Returns `xs` with runs of equal neighbours collapsed to one value.
+- [`map`](/docs/reference/collections/vec/map): Returns a new vector with `mapper` applied to each element, in order.
+- [`filter`](/docs/reference/collections/vec/filter): Returns the elements for which `pred` is `true`, in order.

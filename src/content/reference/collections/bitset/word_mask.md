@@ -26,4 +26,4 @@ Mask for bit `b` in `0..WORD_BITS` (`1` doubled `b` times).
 
 ## See also
 
-- [`bits_per_word`](/docs/reference/collections/bitset/bits_per_word): Bits stored in one int word (sign bit unused).
+- [`bits_per_word`](/docs/reference/collections/bitset/bits_per_word): Bits stored in one `int` word (sign bit unused).

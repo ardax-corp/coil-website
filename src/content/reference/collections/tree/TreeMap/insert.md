@@ -53,11 +53,11 @@ assert!(m.size() == 1);
 
 ## See also
 
-- [`TreeMap`](/docs/reference/collections/tree/TreeMap): An ordered map from keys of type K to values of type V.
+- [`TreeMap`](/docs/reference/collections/tree/TreeMap): An ordered map from keys of type `K` to values of type `V`.
 - [`TreeMap::new`](/docs/reference/collections/tree/TreeMap/new): Creates an empty map.
-- [`TreeMap::empty`](/docs/reference/collections/tree/TreeMap/empty): Creates an empty map; the same as TreeMap::new.
+- [`TreeMap::empty`](/docs/reference/collections/tree/TreeMap/empty): Creates an empty map; the same as `TreeMap::new`.
 - [`TreeMap::size`](/docs/reference/collections/tree/TreeMap/size): Returns the number of entries.
-- [`TreeMap::is_empty`](/docs/reference/collections/tree/TreeMap/is_empty): Returns true when the map has no entries.
+- [`TreeMap::is_empty`](/docs/reference/collections/tree/TreeMap/is_empty): Returns `true` when the map has no entries.
 - [`TreeMap::clear`](/docs/reference/collections/tree/TreeMap/clear): Removes every entry.
 - [`TreeMap::iter`](/docs/reference/collections/tree/TreeMap/iter): Returns an iterator over the entries in ascending key order.
-- [`TreeMap::contains`](/docs/reference/collections/tree/TreeMap/contains): Returns true when the map has an entry for k.
+- [`TreeMap::contains`](/docs/reference/collections/tree/TreeMap/contains): Returns `true` when the map has an entry for `k`.

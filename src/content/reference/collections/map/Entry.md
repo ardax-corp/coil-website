@@ -24,4 +24,4 @@ One key-value pair, as [`HashMap`](/docs/reference/collections/map/HashMap) iter
 ## See also
 
 - [`collections::map::HashMap`](/docs/reference/collections/map/HashMap)
-- [`HashMapIter`](/docs/reference/collections/map/HashMapIter): An iterator over the entries of a HashMap, from HashMap::iter.
+- [`HashMapIter`](/docs/reference/collections/map/HashMapIter): An iterator over the entries of a `HashMap`, from `HashMap::iter`.

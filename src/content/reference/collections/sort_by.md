@@ -41,7 +41,7 @@ assert!(by_len[2] == "banana");
 
 ## See also
 
-- [`sort`](/docs/reference/collections/sort): Returns a sorted copy of arr, in ascending order.
-- [`reverse`](/docs/reference/collections/reverse): Returns a copy of arr in reverse order.
-- [`collect_ints`](/docs/reference/collections/collect_ints): Returns the values of the range a..b as a Vec<int>.
-- [`collect_ints_inclusive`](/docs/reference/collections/collect_ints_inclusive): Returns the values of the inclusive range a..=b as a Vec<int>.
+- [`sort`](/docs/reference/collections/sort): Returns a sorted copy of `arr`, in ascending order.
+- [`reverse`](/docs/reference/collections/reverse): Returns a copy of `arr` in reverse order.
+- [`collect_ints`](/docs/reference/collections/collect_ints): Returns the values of the range `a..b` as a `Vec<int>`.
+- [`collect_ints_inclusive`](/docs/reference/collections/collect_ints_inclusive): Returns the values of the inclusive range `a..=b` as a `Vec<int>`.

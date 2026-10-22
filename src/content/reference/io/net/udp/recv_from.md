@@ -62,6 +62,6 @@ fn main() {
 
 - [`io::sync::recv_from_wait`](/docs/reference/io/sync/recv_from_wait)
 - [`io::net::udp::bind`](/docs/reference/io/net/udp/bind)
-- [`connect`](/docs/reference/io/net/udp/connect): Opens a UDP socket whose default peer is host on port.
+- [`connect`](/docs/reference/io/net/udp/connect): Opens a UDP socket whose default peer is `host` on `port`.
 - [`local_port`](/docs/reference/io/net/udp/local_port): Returns the local port a UDP socket is bound to.
-- [`send_to`](/docs/reference/io/net/udp/send_to): Sends buf as one datagram to host on port and returns how many bytes were sent.
+- [`send_to`](/docs/reference/io/net/udp/send_to): Sends `buf` as one datagram to `host` on `port` and returns how many bytes were sent.

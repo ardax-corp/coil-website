@@ -50,7 +50,7 @@ assert!(n == 3);
 - [`stdin`](/docs/reference/io/stdin): Returns a new stream on the process's standard input.
 - [`stdout`](/docs/reference/io/stdout): Returns a new stream on the process's standard output.
 - [`stderr`](/docs/reference/io/stderr): Returns a new stream on the process's standard error.
-- [`capture_begin`](/docs/reference/io/capture_begin): Starts keeping this thread's stdout and stderr writes in memory instead of writing them, until the matching capture_end().
-- [`capture_end`](/docs/reference/io/capture_end): Ends the innermost capture_begin() and returns what it kept, as (stdout, stderr).
-- [`open`](/docs/reference/io/open): Opens the file at path with mode and returns a stream on it.
-- [`close`](/docs/reference/io/close): Closes s.
+- [`capture_begin`](/docs/reference/io/capture_begin): Starts keeping this thread's stdout and stderr writes in memory instead of writing them, until the matching `capture_end()`.
+- [`capture_end`](/docs/reference/io/capture_end): Ends the innermost `capture_begin()` and returns what it kept, as `(stdout, stderr)`.
+- [`open`](/docs/reference/io/open): Opens the file at `path` with `mode` and returns a stream on it.
+- [`close`](/docs/reference/io/close): Closes `s`.

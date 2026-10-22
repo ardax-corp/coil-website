@@ -27,4 +27,4 @@ Returns `-a`.
 
 ## See also
 
-- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator -x.
+- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator `-x`.

@@ -18,8 +18,8 @@ Two-bucket result of [`partition`](/docs/reference/collections/vec/partition) ([
 
 | Name | Description |
 |------|-------------|
-| [`matched`](/docs/reference/collections/vec/Partitioned/matched) | The elements for which the predicate was true. |
-| [`rest`](/docs/reference/collections/vec/Partitioned/rest) | The elements for which the predicate was false. |
+| [`matched`](/docs/reference/collections/vec/Partitioned/matched) | The elements for which the predicate was `true`. |
+| [`rest`](/docs/reference/collections/vec/Partitioned/rest) | The elements for which the predicate was `false`. |
 
 ## See also
 

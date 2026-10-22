@@ -61,7 +61,7 @@ fn main() {
 
 - [`io::write`](/docs/reference/io/fn.write)
 - [`io::read`](/docs/reference/io/fn.read)
-- [`bind`](/docs/reference/io/net/udp/bind): Opens a UDP socket bound to host and port.
+- [`bind`](/docs/reference/io/net/udp/bind): Opens a UDP socket bound to `host` and `port`.
 - [`local_port`](/docs/reference/io/net/udp/local_port): Returns the local port a UDP socket is bound to.
-- [`recv_from`](/docs/reference/io/net/udp/recv_from): Receives one datagram into the front of buf without waiting.
-- [`send_to`](/docs/reference/io/net/udp/send_to): Sends buf as one datagram to host on port and returns how many bytes were sent.
+- [`recv_from`](/docs/reference/io/net/udp/recv_from): Receives one datagram into the front of `buf` without waiting.
+- [`send_to`](/docs/reference/io/net/udp/send_to): Sends `buf` as one datagram to `host` on `port` and returns how many bytes were sent.

@@ -29,4 +29,4 @@ Reads into `buf`; see [`io::read`](/docs/reference/io/fn.read).
 ## See also
 
 - [`io::read`](/docs/reference/io/fn.read)
-- [`Read`](/docs/reference/io/Read): Types that bytes can be read from; implemented for Stream.
+- [`Read`](/docs/reference/io/Read): Types that bytes can be read from; implemented for `Stream`.

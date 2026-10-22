@@ -47,6 +47,6 @@ assert!(port > 0 && port <= 65535);
 ## See also
 
 - [`io::net::udp::connect`](/docs/reference/io/net/udp/connect)
-- [`bind`](/docs/reference/io/net/udp/bind): Opens a UDP socket bound to host and port.
-- [`recv_from`](/docs/reference/io/net/udp/recv_from): Receives one datagram into the front of buf without waiting.
-- [`send_to`](/docs/reference/io/net/udp/send_to): Sends buf as one datagram to host on port and returns how many bytes were sent.
+- [`bind`](/docs/reference/io/net/udp/bind): Opens a UDP socket bound to `host` and `port`.
+- [`recv_from`](/docs/reference/io/net/udp/recv_from): Receives one datagram into the front of `buf` without waiting.
+- [`send_to`](/docs/reference/io/net/udp/send_to): Sends `buf` as one datagram to `host` on `port` and returns how many bytes were sent.

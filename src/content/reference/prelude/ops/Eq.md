@@ -25,8 +25,8 @@ generates a field-by-field instance.
 
 | Name | Description |
 |------|-------------|
-| [`eq`](/docs/reference/prelude/ops/Eq/eq) | Returns true when a and b are equal. |
-| [`ne`](/docs/reference/prelude/ops/Eq/ne) | Returns true when a and b are not equal. |
+| [`eq`](/docs/reference/prelude/ops/Eq/eq) | Returns `true` when `a` and `b` are equal. |
+| [`ne`](/docs/reference/prelude/ops/Eq/ne) | Returns `true` when `a` and `b` are not equal. |
 
 ## Examples
 
@@ -54,10 +54,10 @@ fn main() {
 ## See also
 
 - [`Vec`](/docs/reference/prelude/Vec)
-- [`Add`](/docs/reference/prelude/ops/Add): The addition operator +.
-- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator -.
-- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator *.
-- [`Div`](/docs/reference/prelude/ops/Div): The division operator /.
-- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator -x.
-- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator %.
-- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator **.
+- [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.
+- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator `-`.
+- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator `*`.
+- [`Div`](/docs/reference/prelude/ops/Div): The division operator `/`.
+- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator `-x`.
+- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator `%`.
+- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator `**`.

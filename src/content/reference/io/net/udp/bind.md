@@ -58,4 +58,4 @@ fn main() {
 - [`io::net::udp::local_port`](/docs/reference/io/net/udp/local_port)
 - [`io::net::udp::send_to`](/docs/reference/io/net/udp/send_to)
 - [`io::net::udp::recv_from`](/docs/reference/io/net/udp/recv_from)
-- [`connect`](/docs/reference/io/net/udp/connect): Opens a UDP socket whose default peer is host on port.
+- [`connect`](/docs/reference/io/net/udp/connect): Opens a UDP socket whose default peer is `host` on `port`.

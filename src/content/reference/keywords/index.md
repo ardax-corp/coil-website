@@ -67,7 +67,7 @@ Built into the compiler.
 | [`decreases`](/docs/reference/keywords/decreases) | States an [`int`](/docs/reference/types/int) that every iteration of a `while` loop makes smaller, without going negative. |
 | [`trait`](/docs/reference/keywords/trait) | Declares a trait: a set of functions that types implement with `impl Trait for Type`. |
 | [`test`](/docs/reference/keywords/test) | Declares a test case run by `coil test`: `test("name") { … }`. |
-| [`forall`](/docs/reference/keywords/forall) | Writes a polymorphic (higher-rank) function type: `forall T. |
+| [`forall`](/docs/reference/keywords/forall) | Writes a polymorphic (higher-rank) function type: `forall T. T -> T`. |
 | [`from`](/docs/reference/keywords/from) | Delegates a generator to another coroutine: `yield from other()`. |
 | [`struct`](/docs/reference/keywords/struct) | Declares a C struct layout for FFI: `extern struct Name { field: type, … };`. |
 | [`attr`](/docs/reference/keywords/attr) | Declares an attribute macro: `attr name(FnDecl f, …) -> Code { … }`. |

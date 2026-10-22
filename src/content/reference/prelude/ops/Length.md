@@ -23,7 +23,7 @@ Implement `Length` to give your own type a length.
 
 | Name | Description |
 |------|-------------|
-| [`len`](/docs/reference/prelude/ops/Length/len) | Returns the length of value. |
+| [`len`](/docs/reference/prelude/ops/Length/len) | Returns the length of `value`. |
 
 ## Examples
 
@@ -49,9 +49,9 @@ fn main() {
 
 - [`Vec`](/docs/reference/prelude/Vec)
 - [`Length::len`](/docs/reference/prelude/ops/Length/len)
-- [`Add`](/docs/reference/prelude/ops/Add): The addition operator +.
-- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator -.
-- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator *.
-- [`Div`](/docs/reference/prelude/ops/Div): The division operator /.
-- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator -x.
-- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator %.
+- [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.
+- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator `-`.
+- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator `*`.
+- [`Div`](/docs/reference/prelude/ops/Div): The division operator `/`.
+- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator `-x`.
+- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator `%`.

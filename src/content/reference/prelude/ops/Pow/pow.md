@@ -28,4 +28,4 @@ Returns `a` raised to the power `b`.
 
 ## See also
 
-- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator **.
+- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator `**`.

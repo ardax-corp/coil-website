@@ -28,11 +28,11 @@ Values need [`Eq`](/docs/reference/prelude/ops/Eq) and `Hash`. Backed by a `Hash
 | Name | Description |
 |------|-------------|
 | [`size`](/docs/reference/collections/set/HashSet/size) | Number of elements. |
-| [`is_empty`](/docs/reference/collections/set/HashSet/is_empty) | Returns true when the set has no values. |
+| [`is_empty`](/docs/reference/collections/set/HashSet/is_empty) | Returns `true` when the set has no values. |
 | [`clear`](/docs/reference/collections/set/HashSet/clear) | Remove all elements. |
-| [`insert`](/docs/reference/collections/set/HashSet/insert) | Insert x; returns true when newly added. |
-| [`contains`](/docs/reference/collections/set/HashSet/contains) | True when x is present. |
-| [`remove`](/docs/reference/collections/set/HashSet/remove) | Remove x; returns true when an element was removed. |
+| [`insert`](/docs/reference/collections/set/HashSet/insert) | Insert `x`; returns `true` when newly added. |
+| [`contains`](/docs/reference/collections/set/HashSet/contains) | True when `x` is present. |
+| [`remove`](/docs/reference/collections/set/HashSet/remove) | Remove `x`; returns `true` when an element was removed. |
 
 ## Examples
 

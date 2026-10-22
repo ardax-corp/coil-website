@@ -46,15 +46,15 @@ between every pair of characters (`"ab".split("")` is `["", "a", "b", ""]`).
 
 | Name | Description |
 |------|-------------|
-| [`contains`](/docs/reference/text/Searchable/contains) | Returns true when pat matches anywhere in hay. |
-| [`starts_with`](/docs/reference/text/Searchable/starts_with) | Returns true when a match of pat starts at the beginning of hay. |
-| [`ends_with`](/docs/reference/text/Searchable/ends_with) | Returns true when a match of pat ends at the end of hay. |
-| [`find`](/docs/reference/text/Searchable/find) | Returns the byte span of the first match of pat, or None. |
+| [`contains`](/docs/reference/text/Searchable/contains) | Returns `true` when `pat` matches anywhere in `hay`. |
+| [`starts_with`](/docs/reference/text/Searchable/starts_with) | Returns `true` when a match of `pat` starts at the beginning of `hay`. |
+| [`ends_with`](/docs/reference/text/Searchable/ends_with) | Returns `true` when a match of `pat` ends at the end of `hay`. |
+| [`find`](/docs/reference/text/Searchable/find) | Returns the byte span of the first match of `pat`, or `None`. |
 | [`find_all`](/docs/reference/text/Searchable/find_all) | Returns the byte spans of every non-overlapping match, left to right. |
-| [`split`](/docs/reference/text/Searchable/split) | Returns the pieces of hay between the matches of pat. |
-| [`split_once`](/docs/reference/text/Searchable/split_once) | Splits hay at the first match of pat into the parts before and after it. |
-| [`replace_first`](/docs/reference/text/Searchable/replace_first) | Returns hay with its first match of pat replaced by with. |
-| [`replace_all`](/docs/reference/text/Searchable/replace_all) | Returns hay with every non-overlapping match of pat replaced by with. |
+| [`split`](/docs/reference/text/Searchable/split) | Returns the pieces of `hay` between the matches of `pat`. |
+| [`split_once`](/docs/reference/text/Searchable/split_once) | Splits `hay` at the first match of `pat` into the parts before and after it. |
+| [`replace_first`](/docs/reference/text/Searchable/replace_first) | Returns `hay` with its first match of `pat` replaced by `with`. |
+| [`replace_all`](/docs/reference/text/Searchable/replace_all) | Returns `hay` with every non-overlapping match of `pat` replaced by `with`. |
 
 ## Examples
 

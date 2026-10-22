@@ -43,8 +43,8 @@ assert!(dot([1.5, 2.0], [2.0, 4.0]) == 11.0);
 - [`int`](/docs/reference/types/int)
 - [`float`](/docs/reference/types/float)
 - [`byte`](/docs/reference/types/byte)
-- [`sin`](/docs/reference/prelude/math/sin): Returns the sine of x (in radians).
-- [`cos`](/docs/reference/prelude/math/cos): Returns the cosine of x (in radians).
-- [`tan`](/docs/reference/prelude/math/tan): Returns the tangent of x (in radians).
-- [`sqrt`](/docs/reference/prelude/math/sqrt): Returns the square root of x.
-- [`floor`](/docs/reference/prelude/math/floor): Returns the largest whole number less than or equal to x, as a float.
+- [`sin`](/docs/reference/prelude/math/sin): Returns the sine of `x` (in radians).
+- [`cos`](/docs/reference/prelude/math/cos): Returns the cosine of `x` (in radians).
+- [`tan`](/docs/reference/prelude/math/tan): Returns the tangent of `x` (in radians).
+- [`sqrt`](/docs/reference/prelude/math/sqrt): Returns the square root of `x`.
+- [`floor`](/docs/reference/prelude/math/floor): Returns the largest whole number less than or equal to `x`, as a `float`.

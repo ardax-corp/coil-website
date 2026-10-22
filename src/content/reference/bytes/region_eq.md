@@ -39,11 +39,11 @@ requires ao + n <= a.len() && bo + n <= b.len()
 
 ## See also
 
-- [`to_hex`](/docs/reference/bytes/to_hex): Encodes buf as lowercase hexadecimal, two digits per byte.
+- [`to_hex`](/docs/reference/bytes/to_hex): Encodes `buf` as lowercase hexadecimal, two digits per byte.
 - [`from_hex`](/docs/reference/bytes/from_hex): Decodes hexadecimal text (either case) into bytes.
-- [`slice`](/docs/reference/bytes/slice): Returns a copy of src[start..end] (end exclusive), with both offsets clamped to the buffer.
-- [`concat`](/docs/reference/bytes/concat): Returns a new buffer holding a followed by b.
-- [`eq`](/docs/reference/bytes/eq): Returns true when a and b have the same length and the same bytes.
-- [`find_from`](/docs/reference/bytes/find_from): Returns the offset of the first needle in hay at or after start, or -1.
-- [`find`](/docs/reference/bytes/find): Returns the offset of the first needle in hay, or -1.
-- [`rfind`](/docs/reference/bytes/rfind): Returns the offset of the last needle in hay, or -1.
+- [`slice`](/docs/reference/bytes/slice): Returns a copy of `src[start..end]` (end exclusive), with both offsets clamped to the buffer.
+- [`concat`](/docs/reference/bytes/concat): Returns a new buffer holding `a` followed by `b`.
+- [`eq`](/docs/reference/bytes/eq): Returns `true` when `a` and `b` have the same length and the same bytes.
+- [`find_from`](/docs/reference/bytes/find_from): Returns the offset of the first `needle` in `hay` at or after `start`, or `-1`.
+- [`find`](/docs/reference/bytes/find): Returns the offset of the first `needle` in `hay`, or `-1`.
+- [`rfind`](/docs/reference/bytes/rfind): Returns the offset of the last `needle` in `hay`, or `-1`.

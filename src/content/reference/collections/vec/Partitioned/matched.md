@@ -23,5 +23,5 @@ Called on a `Partitioned` value as `value.matched(…)`.
 
 ## See also
 
-- [`Partitioned`](/docs/reference/collections/vec/Partitioned): Two-bucket result of partition (matched = pred true, rest = pred false).
-- [`Partitioned::rest`](/docs/reference/collections/vec/Partitioned/rest): The elements for which the predicate was false.
+- [`Partitioned`](/docs/reference/collections/vec/Partitioned): Two-bucket result of `partition` (`matched` = pred true, `rest` = pred false).
+- [`Partitioned::rest`](/docs/reference/collections/vec/Partitioned/rest): The elements for which the predicate was `false`.

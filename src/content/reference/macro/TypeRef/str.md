@@ -23,7 +23,7 @@ Called on a `TypeRef` value as `value.str(…)`.
 
 ## See also
 
-- [`TypeRef`](/docs/reference/macro/TypeRef): A type annotation as written (not resolved): Vec<int>, json::Value.
+- [`TypeRef`](/docs/reference/macro/TypeRef): A type annotation as written (not resolved): `Vec<int>`, `json::Value`.
 - [`TypeRef::src`](/docs/reference/macro/TypeRef/src)
 - [`TypeRef::head`](/docs/reference/macro/TypeRef/head): The type constructor, e.g.
 - [`TypeRef::args`](/docs/reference/macro/TypeRef/args): Generic arguments, e.g.

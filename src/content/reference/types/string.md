@@ -46,5 +46,5 @@ assert!(show(s) == "héllo");
 - [`string::to_bytes`](/docs/reference/string/to_bytes)
 - [`string::format`](/docs/reference/string/format)
 - [`byte`](/docs/reference/types/byte)
-- [`int`](/docs/reference/types/int): A 64-bit signed integer, from -9223372036854775808 to 9223372036854775807.
+- [`int`](/docs/reference/types/int): A 64-bit signed integer, from `-9223372036854775808` to `9223372036854775807`.
 - [`float`](/docs/reference/types/float): A 64-bit IEEE-754 floating-point number.

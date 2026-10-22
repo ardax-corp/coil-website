@@ -23,4 +23,4 @@ Called on a `ListIter` value as `value.next(…)`.
 
 ## See also
 
-- [`ListIter`](/docs/reference/collections/list/ListIter): An iterator over a List, front to back, from List::iter.
+- [`ListIter`](/docs/reference/collections/list/ListIter): An iterator over a `List`, front to back, from `List::iter`.

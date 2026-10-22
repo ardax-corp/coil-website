@@ -45,7 +45,7 @@ assert!(bad == "invalid integer");
 ## See also
 
 - [`conv::parse_int_radix`](/docs/reference/conv/parse_int_radix)
-- [`int_to_dec`](/docs/reference/conv/int_to_dec): Formats n in decimal; the same as format("%i", n).
-- [`int_to_hex`](/docs/reference/conv/int_to_hex): Formats n in lowercase hexadecimal without a prefix; a negative n gets a leading -.
-- [`int_to_bin`](/docs/reference/conv/int_to_bin): Formats n in binary without a prefix; a negative n gets a leading -.
-- [`parse_float`](/docs/reference/conv/parse_float): Parses a decimal float such as "3.5", "-0.25", "1e3" or "42".
+- [`int_to_dec`](/docs/reference/conv/int_to_dec): Formats `n` in decimal; the same as `format("%i", n)`.
+- [`int_to_hex`](/docs/reference/conv/int_to_hex): Formats `n` in lowercase hexadecimal without a prefix; a negative `n` gets a leading `-`.
+- [`int_to_bin`](/docs/reference/conv/int_to_bin): Formats `n` in binary without a prefix; a negative `n` gets a leading `-`.
+- [`parse_float`](/docs/reference/conv/parse_float): Parses a decimal float such as `"3.5"`, `"-0.25"`, `"1e3"` or `"42"`.

@@ -27,4 +27,4 @@ Returns the length of `value`.
 
 ## See also
 
-- [`Length`](/docs/reference/prelude/ops/Length): A size query: x.len().
+- [`Length`](/docs/reference/prelude/ops/Length): A size query: `x.len()`.

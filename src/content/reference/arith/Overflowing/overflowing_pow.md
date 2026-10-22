@@ -29,9 +29,9 @@ The wrapped `a ** exp`, and whether it wrapped. Panics with `negative exponent` 
 ## See also
 
 - [`Overflowing`](/docs/reference/arith/Overflowing): Integer arithmetic that returns the wrapped result together with whether it wrapped.
-- [`Overflowing::overflowing_add`](/docs/reference/arith/Overflowing/overflowing_add): The wrapped a + b, and whether it wrapped.
-- [`Overflowing::overflowing_sub`](/docs/reference/arith/Overflowing/overflowing_sub): The wrapped a - b, and whether it wrapped.
-- [`Overflowing::overflowing_mul`](/docs/reference/arith/Overflowing/overflowing_mul): The wrapped a * b, and whether it wrapped.
-- [`Overflowing::overflowing_neg`](/docs/reference/arith/Overflowing/overflowing_neg): The wrapped -a, and whether it wrapped.
-- [`Overflowing::overflowing_shl`](/docs/reference/arith/Overflowing/overflowing_shl): a << (n & 63), and whether n was outside 0..=63.
-- [`Overflowing::overflowing_shr`](/docs/reference/arith/Overflowing/overflowing_shr): a >> (n & 63), and whether n was outside 0..=63.
+- [`Overflowing::overflowing_add`](/docs/reference/arith/Overflowing/overflowing_add): The wrapped `a + b`, and whether it wrapped.
+- [`Overflowing::overflowing_sub`](/docs/reference/arith/Overflowing/overflowing_sub): The wrapped `a - b`, and whether it wrapped.
+- [`Overflowing::overflowing_mul`](/docs/reference/arith/Overflowing/overflowing_mul): The wrapped `a * b`, and whether it wrapped.
+- [`Overflowing::overflowing_neg`](/docs/reference/arith/Overflowing/overflowing_neg): The wrapped `-a`, and whether it wrapped.
+- [`Overflowing::overflowing_shl`](/docs/reference/arith/Overflowing/overflowing_shl): `a << (n & 63)`, and whether `n` was outside `0..=63`.
+- [`Overflowing::overflowing_shr`](/docs/reference/arith/Overflowing/overflowing_shr): `a >> (n & 63)`, and whether `n` was outside `0..=63`.

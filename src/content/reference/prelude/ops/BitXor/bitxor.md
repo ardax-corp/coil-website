@@ -28,4 +28,4 @@ Returns the bitwise XOR of `a` and `b`.
 
 ## See also
 
-- [`BitXor`](/docs/reference/prelude/ops/BitXor): The bitwise XOR operator ^.
+- [`BitXor`](/docs/reference/prelude/ops/BitXor): The bitwise XOR operator `^`.

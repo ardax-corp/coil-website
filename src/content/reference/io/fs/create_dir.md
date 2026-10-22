@@ -55,10 +55,10 @@ assert!(made && again && dir_now);
 ## See also
 
 - [`io::fs::create_dir_all`](/docs/reference/io/fs/create_dir_all)
-- [`copy`](/docs/reference/io/fs/copy): Copies the contents of file from to to, creating or overwriting to.
-- [`exists`](/docs/reference/io/fs/exists): Returns whether anything exists at path.
-- [`is_dir`](/docs/reference/io/fs/is_dir): Returns whether path is a directory, following symbolic links.
-- [`is_file`](/docs/reference/io/fs/is_file): Returns whether path is a regular file, following symbolic links.
-- [`is_symlink`](/docs/reference/io/fs/is_symlink): Returns whether path itself is a symbolic link (the link is not followed).
-- [`list_dir`](/docs/reference/io/fs/list_dir): Returns the names of the entries in directory path, sorted.
-- [`metadata`](/docs/reference/io/fs/metadata): Returns facts about path as a record, without following a final symbolic link.
+- [`copy`](/docs/reference/io/fs/copy): Copies the contents of file `from` to `to`, creating or overwriting `to`.
+- [`exists`](/docs/reference/io/fs/exists): Returns whether anything exists at `path`.
+- [`is_dir`](/docs/reference/io/fs/is_dir): Returns whether `path` is a directory, following symbolic links.
+- [`is_file`](/docs/reference/io/fs/is_file): Returns whether `path` is a regular file, following symbolic links.
+- [`is_symlink`](/docs/reference/io/fs/is_symlink): Returns whether `path` itself is a symbolic link (the link is not followed).
+- [`list_dir`](/docs/reference/io/fs/list_dir): Returns the names of the entries in directory `path`, sorted.
+- [`metadata`](/docs/reference/io/fs/metadata): Returns facts about `path` as a record, without following a final symbolic link.

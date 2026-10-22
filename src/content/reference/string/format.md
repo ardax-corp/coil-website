@@ -58,5 +58,5 @@ assert!(format("%v", (1, "a")) == "(1, a)");
 - [`string`](/docs/reference/types/string)
 - [`bool`](/docs/reference/types/bool)
 - [`Show`](/docs/reference/prelude/ops/Show)
-- [`byte_at`](/docs/reference/string/byte_at): Returns the byte at byte offset i of s, or -1 when i is out of range.
-- [`find_from`](/docs/reference/string/find_from): Returns the byte offset of the first needle in hay at or after start, or -1.
+- [`byte_at`](/docs/reference/string/byte_at): Returns the byte at byte offset `i` of `s`, or `-1` when `i` is out of range.
+- [`find_from`](/docs/reference/string/find_from): Returns the byte offset of the first `needle` in `hay` at or after `start`, or `-1`.

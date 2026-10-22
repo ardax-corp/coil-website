@@ -20,15 +20,15 @@ Implemented for [`int`](/docs/reference/types/int). Call the methods on a value:
 
 | Name | Description |
 |------|-------------|
-| [`checked_add`](/docs/reference/arith/Checked/checked_add) | a + b, or None when it does not fit. |
-| [`checked_sub`](/docs/reference/arith/Checked/checked_sub) | a - b, or None when it does not fit. |
-| [`checked_mul`](/docs/reference/arith/Checked/checked_mul) | a * b, or None when it does not fit. |
-| [`checked_div`](/docs/reference/arith/Checked/checked_div) | a / b, or None when b is zero or the quotient does not fit. |
-| [`checked_rem`](/docs/reference/arith/Checked/checked_rem) | a % b, or None when b is zero. |
-| [`checked_neg`](/docs/reference/arith/Checked/checked_neg) | -a, or None when it does not fit. |
-| [`checked_pow`](/docs/reference/arith/Checked/checked_pow) | a ** exp, or None when it does not fit or exp is negative. |
-| [`checked_shl`](/docs/reference/arith/Checked/checked_shl) | a << n, or None when n is outside 0..=63. |
-| [`checked_shr`](/docs/reference/arith/Checked/checked_shr) | a >> n, or None when n is outside 0..=63. |
+| [`checked_add`](/docs/reference/arith/Checked/checked_add) | `a + b`, or `None` when it does not fit. |
+| [`checked_sub`](/docs/reference/arith/Checked/checked_sub) | `a - b`, or `None` when it does not fit. |
+| [`checked_mul`](/docs/reference/arith/Checked/checked_mul) | `a * b`, or `None` when it does not fit. |
+| [`checked_div`](/docs/reference/arith/Checked/checked_div) | `a / b`, or `None` when `b` is zero or the quotient does not fit. |
+| [`checked_rem`](/docs/reference/arith/Checked/checked_rem) | `a % b`, or `None` when `b` is zero. |
+| [`checked_neg`](/docs/reference/arith/Checked/checked_neg) | `-a`, or `None` when it does not fit. |
+| [`checked_pow`](/docs/reference/arith/Checked/checked_pow) | `a ** exp`, or `None` when it does not fit or `exp` is negative. |
+| [`checked_shl`](/docs/reference/arith/Checked/checked_shl) | `a << n`, or `None` when `n` is outside `0..=63`. |
+| [`checked_shr`](/docs/reference/arith/Checked/checked_shr) | `a >> n`, or `None` when `n` is outside `0..=63`. |
 
 ## Examples
 
@@ -45,5 +45,5 @@ assert!(3.checked_pow(40).is_none());
 
 - [`int`](/docs/reference/types/int)
 - [`Wrapping`](/docs/reference/arith/Wrapping): Integer arithmetic that wraps around modulo 2^64 instead of panicking.
-- [`Saturating`](/docs/reference/arith/Saturating): Integer arithmetic that clamps to INT_MIN / INT_MAX instead of panicking.
+- [`Saturating`](/docs/reference/arith/Saturating): Integer arithmetic that clamps to `INT_MIN` / `INT_MAX` instead of panicking.
 - [`Overflowing`](/docs/reference/arith/Overflowing): Integer arithmetic that returns the wrapped result together with whether it wrapped.

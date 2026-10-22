@@ -27,7 +27,7 @@ Returns the values of the inclusive range `a..=b` as a [`Vec<int>`](/docs/refere
 ## See also
 
 - [`Vec`](/docs/reference/prelude/Vec)
-- [`sort`](/docs/reference/collections/sort): Returns a sorted copy of arr, in ascending order.
-- [`sort_by`](/docs/reference/collections/sort_by): Returns a copy of arr sorted by the value key gives each element, in ascending order.
-- [`reverse`](/docs/reference/collections/reverse): Returns a copy of arr in reverse order.
-- [`collect_ints`](/docs/reference/collections/collect_ints): Returns the values of the range a..b as a Vec<int>.
+- [`sort`](/docs/reference/collections/sort): Returns a sorted copy of `arr`, in ascending order.
+- [`sort_by`](/docs/reference/collections/sort_by): Returns a copy of `arr` sorted by the value `key` gives each element, in ascending order.
+- [`reverse`](/docs/reference/collections/reverse): Returns a copy of `arr` in reverse order.
+- [`collect_ints`](/docs/reference/collections/collect_ints): Returns the values of the range `a..b` as a `Vec<int>`.

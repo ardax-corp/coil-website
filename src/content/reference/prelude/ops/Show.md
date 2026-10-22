@@ -24,7 +24,7 @@ generates a field-by-field instance.
 
 | Name | Description |
 |------|-------------|
-| [`show`](/docs/reference/prelude/ops/Show/show) | Returns the display form of value. |
+| [`show`](/docs/reference/prelude/ops/Show/show) | Returns the display form of `value`. |
 
 ## Examples
 
@@ -59,5 +59,5 @@ fn main() {
 - [`string`](/docs/reference/types/string)
 - [`bool`](/docs/reference/types/bool)
 - [`unit`](/docs/reference/types/unit)
-- [`Add`](/docs/reference/prelude/ops/Add): The addition operator +.
-- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator -.
+- [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.
+- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator `-`.

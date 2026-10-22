@@ -40,8 +40,8 @@ fn main() {
 
 ## See also
 
-- [`read_bytes`](/docs/reference/io/file/read_bytes): Reads the whole file at path.
-- [`write_bytes`](/docs/reference/io/file/write_bytes): Replaces the contents of the file at path with buf, creating it if needed, and returns the number of bytes written.
-- [`read_text`](/docs/reference/io/file/read_text): Reads the whole file at path as UTF-8 text.
-- [`append_bytes`](/docs/reference/io/file/append_bytes): Appends buf to the file at path, creating it if needed.
-- [`append_text`](/docs/reference/io/file/append_text): Appends text to the file at path, creating it if needed.
+- [`read_bytes`](/docs/reference/io/file/read_bytes): Reads the whole file at `path`.
+- [`write_bytes`](/docs/reference/io/file/write_bytes): Replaces the contents of the file at `path` with `buf`, creating it if needed, and returns the number of bytes written.
+- [`read_text`](/docs/reference/io/file/read_text): Reads the whole file at `path` as UTF-8 text.
+- [`append_bytes`](/docs/reference/io/file/append_bytes): Appends `buf` to the file at `path`, creating it if needed.
+- [`append_text`](/docs/reference/io/file/append_text): Appends `text` to the file at `path`, creating it if needed.

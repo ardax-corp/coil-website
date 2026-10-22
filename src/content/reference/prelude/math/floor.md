@@ -38,9 +38,9 @@ assert!(floor(-2.1) == -3.0);
 
 - [`float`](/docs/reference/types/float)
 - [`int`](/docs/reference/types/int)
-- [`sin`](/docs/reference/prelude/math/sin): Returns the sine of x (in radians).
-- [`cos`](/docs/reference/prelude/math/cos): Returns the cosine of x (in radians).
-- [`tan`](/docs/reference/prelude/math/tan): Returns the tangent of x (in radians).
-- [`sqrt`](/docs/reference/prelude/math/sqrt): Returns the square root of x.
-- [`ceil`](/docs/reference/prelude/math/ceil): Returns the smallest whole number greater than or equal to x, as a float.
-- [`exp`](/docs/reference/prelude/math/exp): Returns e raised to the power x.
+- [`sin`](/docs/reference/prelude/math/sin): Returns the sine of `x` (in radians).
+- [`cos`](/docs/reference/prelude/math/cos): Returns the cosine of `x` (in radians).
+- [`tan`](/docs/reference/prelude/math/tan): Returns the tangent of `x` (in radians).
+- [`sqrt`](/docs/reference/prelude/math/sqrt): Returns the square root of `x`.
+- [`ceil`](/docs/reference/prelude/math/ceil): Returns the smallest whole number greater than or equal to `x`, as a `float`.
+- [`exp`](/docs/reference/prelude/math/exp): Returns `e` raised to the power `x`.

@@ -24,4 +24,4 @@ One cell of a [`List`](/docs/reference/collections/list/List): a value and the r
 ## See also
 
 - [`collections::list::List`](/docs/reference/collections/list/List)
-- [`ListIter`](/docs/reference/collections/list/ListIter): An iterator over a List, front to back, from List::iter.
+- [`ListIter`](/docs/reference/collections/list/ListIter): An iterator over a `List`, front to back, from `List::iter`.

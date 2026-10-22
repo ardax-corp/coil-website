@@ -32,4 +32,4 @@ Called on a `Field` value as `value.attr_str(…)`.
 ## See also
 
 - [`Field`](/docs/reference/macro/Field): A class field, or a field of a record enum variant.
-- [`Field::has_attr`](/docs/reference/macro/Field/has_attr): True when the field carries #[name(...)].
+- [`Field::has_attr`](/docs/reference/macro/Field/has_attr): True when the field carries `#[name(...)]`.

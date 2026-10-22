@@ -28,4 +28,4 @@ Returns `a * b`.
 
 ## See also
 
-- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator *.
+- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator `*`.

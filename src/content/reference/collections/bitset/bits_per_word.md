@@ -21,4 +21,4 @@ Bits stored in one [`int`](/docs/reference/types/int) word (sign bit unused).
 ## See also
 
 - [`int`](/docs/reference/types/int)
-- [`word_mask`](/docs/reference/collections/bitset/word_mask): Mask for bit b in 0..WORD_BITS (1 doubled b times).
+- [`word_mask`](/docs/reference/collections/bitset/word_mask): Mask for bit `b` in `0..WORD_BITS` (`1` doubled `b` times).

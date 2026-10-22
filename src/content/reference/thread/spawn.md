@@ -67,5 +67,5 @@ fn main() {
 - [`thread::Mutex`](/docs/reference/thread/Mutex)
 - [`thread::RwLock`](/docs/reference/thread/RwLock)
 - [`detach`](/docs/reference/thread/detach): Lets the thread run to completion without being joined.
-- [`channel`](/docs/reference/thread/channel): Creates an unbounded channel and returns its (Sender, Receiver) ends.
-- [`send`](/docs/reference/thread/send): Sends a copy of value on the channel.
+- [`channel`](/docs/reference/thread/channel): Creates an unbounded channel and returns its `(Sender, Receiver)` ends.
+- [`send`](/docs/reference/thread/send): Sends a copy of `value` on the channel.

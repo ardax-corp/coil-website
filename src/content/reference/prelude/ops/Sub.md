@@ -21,7 +21,7 @@ The subtraction operator `-`.
 
 | Name | Description |
 |------|-------------|
-| [`sub`](/docs/reference/prelude/ops/Sub/sub) | Returns a - b. |
+| [`sub`](/docs/reference/prelude/ops/Sub/sub) | Returns `a - b`. |
 
 ## Examples
 
@@ -49,9 +49,9 @@ fn main() {
 
 - [`int`](/docs/reference/types/int)
 - [`float`](/docs/reference/types/float)
-- [`Add`](/docs/reference/prelude/ops/Add): The addition operator +.
-- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator *.
-- [`Div`](/docs/reference/prelude/ops/Div): The division operator /.
-- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator -x.
-- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator %.
-- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator **.
+- [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.
+- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator `*`.
+- [`Div`](/docs/reference/prelude/ops/Div): The division operator `/`.
+- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator `-x`.
+- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator `%`.
+- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator `**`.

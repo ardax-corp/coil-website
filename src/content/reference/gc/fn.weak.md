@@ -45,5 +45,5 @@ assert!(match upgrade(w) { Option::Some(n) => n == 5, Option::None => false });
 - [`gc::Weak`](/docs/reference/gc/Weak)
 - [`Option`](/docs/reference/prelude/Option)
 - [`Result`](/docs/reference/prelude/Result)
-- [`root`](/docs/reference/gc/fn.root): Pins value so the garbage collector keeps it alive while the returned Root is reachable.
+- [`root`](/docs/reference/gc/fn.root): Pins `value` so the garbage collector keeps it alive while the returned `Root` is reachable.
 - [`get`](/docs/reference/gc/get): Returns the pinned value, leaving the pin in place.

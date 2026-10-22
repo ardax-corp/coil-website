@@ -48,7 +48,7 @@ assert!((q.peek_back() ?? 0) == 2);
 - [`VecDeque::with_capacity`](/docs/reference/collections/deque/VecDeque/with_capacity): Empty deque with ring capacity rounded up to the next power of two (min 8).
 - [`VecDeque::new`](/docs/reference/collections/deque/VecDeque/new): Empty deque with default capacity 8.
 - [`VecDeque::size`](/docs/reference/collections/deque/VecDeque/size): Returns the number of values.
-- [`VecDeque::is_empty`](/docs/reference/collections/deque/VecDeque/is_empty): Returns true when the deque has no values.
+- [`VecDeque::is_empty`](/docs/reference/collections/deque/VecDeque/is_empty): Returns `true` when the deque has no values.
 - [`VecDeque::capacity`](/docs/reference/collections/deque/VecDeque/capacity): Returns how many values fit before the ring buffer grows.
-- [`VecDeque::push_front`](/docs/reference/collections/deque/VecDeque/push_front): Adds v at the front.
-- [`VecDeque::peek_front`](/docs/reference/collections/deque/VecDeque/peek_front): Returns the front value without removing it, or None when the deque is empty.
+- [`VecDeque::push_front`](/docs/reference/collections/deque/VecDeque/push_front): Adds `v` at the front.
+- [`VecDeque::peek_front`](/docs/reference/collections/deque/VecDeque/peek_front): Returns the front value without removing it, or `None` when the deque is empty.

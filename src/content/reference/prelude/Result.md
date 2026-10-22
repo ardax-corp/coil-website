@@ -38,16 +38,16 @@ The operation failed with an error of type `E`.
 
 | Name | Description |
 |------|-------------|
-| [`is_ok`](/docs/reference/prelude/Result/is_ok) | True when this is Ok. |
-| [`is_err`](/docs/reference/prelude/Result/is_err) | True when this is Err. |
-| [`ok`](/docs/reference/prelude/Result/ok) | The Ok value as an Option. |
-| [`err`](/docs/reference/prelude/Result/err) | The Err value as an Option. |
-| [`unwrap_or`](/docs/reference/prelude/Result/unwrap_or) | The Ok value, or fallback on Err. |
-| [`unwrap_or_else`](/docs/reference/prelude/Result/unwrap_or_else) | The Ok value, or f applied to the error. |
-| [`map`](/docs/reference/prelude/Result/map) | Ok(f(value)), or the same error. |
-| [`map_err`](/docs/reference/prelude/Result/map_err) | The same value, or Err(f(error)). |
-| [`and_then`](/docs/reference/prelude/Result/and_then) | f(value) (itself a Result), or the same error. |
-| [`or_else`](/docs/reference/prelude/Result/or_else) | This result if it is Ok, otherwise f(error). |
+| [`is_ok`](/docs/reference/prelude/Result/is_ok) | True when this is [`Ok`](/docs/reference/prelude/Result#variant-ok). |
+| [`is_err`](/docs/reference/prelude/Result/is_err) | True when this is [`Err`](/docs/reference/prelude/Result#variant-err). |
+| [`ok`](/docs/reference/prelude/Result/ok) | The [`Ok`](/docs/reference/prelude/Result#variant-ok) value as an [`Option`](/docs/reference/prelude/Option). |
+| [`err`](/docs/reference/prelude/Result/err) | The [`Err`](/docs/reference/prelude/Result#variant-err) value as an [`Option`](/docs/reference/prelude/Option). |
+| [`unwrap_or`](/docs/reference/prelude/Result/unwrap_or) | The [`Ok`](/docs/reference/prelude/Result#variant-ok) value, or `fallback` on [`Err`](/docs/reference/prelude/Result#variant-err). |
+| [`unwrap_or_else`](/docs/reference/prelude/Result/unwrap_or_else) | The [`Ok`](/docs/reference/prelude/Result#variant-ok) value, or `f` applied to the error. |
+| [`map`](/docs/reference/prelude/Result/map) | `Ok(f(value))`, or the same error. |
+| [`map_err`](/docs/reference/prelude/Result/map_err) | The same value, or `Err(f(error))`. |
+| [`and_then`](/docs/reference/prelude/Result/and_then) | `f(value)` (itself a `Result`), or the same error. |
+| [`or_else`](/docs/reference/prelude/Result/or_else) | This result if it is [`Ok`](/docs/reference/prelude/Result#variant-ok), otherwise `f(error)`. |
 
 ## Examples
 
@@ -76,4 +76,4 @@ fn main() {
 
 ## See also
 
-- [`Option`](/docs/reference/prelude/Option): An optional value: either Some(value) or None.
+- [`Option`](/docs/reference/prelude/Option): An optional value: either `Some(value)` or `None`.
