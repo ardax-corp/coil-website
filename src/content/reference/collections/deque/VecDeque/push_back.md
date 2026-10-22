@@ -9,7 +9,7 @@ parent: "VecDeque"
 signature: "pub fn push_back(T v)"
 import: "use collections::deque::{VecDeque};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/collections/deque.hy#L107"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/d009ba27df1ee081c0600ed3f72b1abd6282db85/src/collections/deque.hy#L107"
 order: 5
 ---
 

@@ -9,7 +9,7 @@ parent: "Ref"
 signature: "pub static fn new(T value) -> Ref<T>"
 import: "use cell::{Ref};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/cell.hy#L30"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/d009ba27df1ee081c0600ed3f72b1abd6282db85/src/cell.hy#L30"
 order: 0
 ---
 

@@ -7,7 +7,7 @@ kind: "keyword"
 name: "where"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/cba8e48ffdc03a4068234e57b347406c4b478e0f/compiler/src/builtin_docs/keywords.md#L843"
+source: "https://github.com/ardax-corp/coil-lang/blob/f3e0c941bdbea312cda5f6550d0d24ed00c93f2d/compiler/src/builtin_docs/keywords.md#L843"
 order: 37
 ---
 
