@@ -3,6 +3,7 @@
 // and a link to the source the page was generated from.
 import type { CollectionEntry } from "astro:content";
 import CodeSample from "./CodeSample.astro";
+import { REFERENCE_KINDS } from "../lib/nav";
 
 type Props = {
   data: CollectionEntry<"reference">["data"];
@@ -11,20 +12,6 @@ type Props = {
 };
 const { data, moduleHref, parentHref } = Astro.props;
 
-const KIND: Record<string, string> = {
-  module: "Module",
-  fn: "Function",
-  method: "Method",
-  "static method": "Associated function",
-  macro: "Macro",
-  class: "Class",
-  enum: "Enum",
-  trait: "Trait",
-  type: "Type alias",
-  const: "Constant",
-  primitive: "Primitive type",
-  keyword: "Keyword",
-};
 const ORIGIN: Record<string, string> = { builtin: "compiler", embedded: "compiler", stdlib: "coil-stdlib" };
 
 const isModule = data.kind === "module";
@@ -36,7 +23,7 @@ const sourceFile = data.source?.match(/\/blob\/[0-9a-f]+\/(.+?)(#L\d+)?$/)?.[1];
 
 <header class="api-head">
   <div class="api-meta">
-    <span class="api-kind">{KIND[data.kind] ?? data.kind}</span>
+    <span class="api-kind">{REFERENCE_KINDS[data.kind] ?? data.kind}</span>
     {
       !isModule && !pseudo && (
         <span class="api-path">

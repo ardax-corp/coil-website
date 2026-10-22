@@ -1,0 +1,194 @@
+---
+// "See also" block at the end of a docs page: the reference pages it mentions.
+// Hovering or focusing a link shows a card with the item's signature.
+import CodeSample from "./CodeSample.astro";
+import { inlineCode, REFERENCE_KINDS } from "../lib/nav";
+import type { SeeAlso } from "../lib/see-also";
+
+type Props = { links: SeeAlso[] };
+const { links } = Astro.props;
+
+const modules = links.filter((l) => l.kind === "module");
+const items = links.filter((l) => l.kind !== "module");
+const lists = [
+  { title: "Modules", links: modules },
+  { title: "Functions & types", links: items },
+].filter((l) => l.links.length > 0);
+---
+
+{
+  links.length > 0 && (
+    <section class="see-also" aria-labelledby="see-also">
+      <h2 id="see-also">See also</h2>
+      {lists.map((list) => (
+        <div class="see-list">
+          <h3>{list.title}</h3>
+          <ul>
+            {list.links.map((l) => (
+              <li>
+                <a href={l.href}>
+                  <code>{l.label}</code>
+                </a>
+                <div class="see-pop" role="tooltip" data-plain-code>
+                  <span class="see-kind">
+                    {REFERENCE_KINDS[l.kind] ?? l.kind} · <code>{l.path}</code>
+                  </span>
+                  {l.signatures.map((s) => (
+                    <CodeSample code={s} class="see-sig" />
+                  ))}
+                  {l.description && <p set:html={inlineCode(l.description)} />}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+  )
+}
+
+<style>
+  .see-also {
+    margin-top: 2.5rem;
+  }
+
+  .see-also .see-list h3 {
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin: 1.2rem 0 0.6rem;
+    text-transform: uppercase;
+  }
+
+  .see-also ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .see-also li {
+    margin: 0;
+    position: relative;
+  }
+
+  .see-also a {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--fg-soft);
+    display: inline-block;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.55rem;
+    text-decoration: none;
+    transition: border-color 0.12s, color 0.12s, background 0.12s;
+  }
+
+  .see-also a:hover,
+  .see-also a:focus-visible {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .see-also a code {
+    background: none;
+    border: 0;
+    color: inherit;
+    font-size: inherit;
+    padding: 0;
+  }
+
+  .see-pop {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    bottom: calc(100% + 0.45rem);
+    box-shadow: var(--shadow-lg);
+    left: 0;
+    opacity: 0;
+    padding: 0.65rem 0.8rem;
+    pointer-events: none;
+    position: absolute;
+    transform: translateY(4px);
+    transition: opacity 0.12s, transform 0.12s, visibility 0.12s;
+    visibility: hidden;
+    width: max-content;
+    max-width: min(34rem, calc(100vw - 2rem));
+    z-index: 20;
+  }
+
+  .see-also li:hover .see-pop,
+  .see-also li:focus-within .see-pop {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+  }
+
+  .see-kind {
+    color: var(--faint);
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+  }
+
+  .see-pop :global(.see-sig) {
+    border: 0;
+    font-size: 0.8rem;
+    margin: 0 0 0.4rem;
+    padding: 0;
+    white-space: pre-wrap;
+    background: transparent !important;
+  }
+
+  .see-kind code {
+    background: none;
+    border: 0;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    padding: 0;
+    text-transform: none;
+  }
+
+  /* Flipped by the script below when the card would leave the viewport. */
+  .see-pop.flip {
+    left: auto;
+    right: 0;
+  }
+
+  .see-also .see-pop p {
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  @media (hover: none) {
+    .see-pop {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Keep hover cards on screen: anchor them to the right edge of their link
+  // when they would overflow the viewport.
+  document.querySelectorAll<HTMLElement>(".see-also li").forEach((li) => {
+    const pop = li.querySelector<HTMLElement>(".see-pop");
+    if (!pop) return;
+    const place = () => {
+      pop.classList.remove("flip");
+      if (pop.getBoundingClientRect().right > document.documentElement.clientWidth - 8) pop.classList.add("flip");
+    };
+    li.addEventListener("mouseenter", place);
+    li.addEventListener("focusin", place);
+  });
+</script>

@@ -2,7 +2,9 @@
 import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import Docs from "../../layouts/Docs.astro";
+import SeeAlso from "../../components/SeeAlso.astro";
 import { allGroups, docHref, plainTitle } from "../../lib/nav";
+import { seeAlso } from "../../lib/see-also";
 
 export async function getStaticPaths() {
   const docs = await getCollection("docs");
@@ -16,15 +18,20 @@ export async function getStaticPaths() {
 type Props = { doc: CollectionEntry<"docs"> };
 const { doc } = Astro.props;
 const { Content, headings } = await render(doc);
-const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), await getCollection("reference"));
+const docs = await getCollection("docs");
+const reference = await getCollection("reference");
+const groups = allGroups(docs, await getCollection("ecosystem"), reference);
+const related = seeAlso(doc, docs, reference);
+const toc = related.length ? [...headings, { depth: 2, slug: "see-also", text: "See also" }] : headings;
 ---
 
 <Docs
   href={docHref(doc.id)}
   title={plainTitle(doc.data.title)}
   description={doc.data.description}
-  headings={headings}
+  headings={toc}
   groups={groups}
 >
   <Content />
+  <SeeAlso links={related} />
 </Docs>
