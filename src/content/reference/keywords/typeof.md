@@ -11,7 +11,7 @@ source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b94019773
 order: 15
 ---
 
-Gives the static type of an expression as a [`string`](/docs/reference/string), at compile time.
+Gives the static type of an expression as a [`string`](/docs/reference/types/string), at compile time.
 
 The operand is type-checked but never evaluated. Nominal types are written
 with their defining module ([`prelude::Option<int>`](/docs/reference/prelude/Option)); types from the entry
@@ -33,7 +33,7 @@ fn main() {
 
 ## See also
 
-- [`string`](/docs/reference/string)
+- [`string`](/docs/reference/types/string)
 - [`Option`](/docs/reference/prelude/Option)
 - [`fn`](/docs/reference/keywords/fn): Declares a function, a method, or (written in an expression) an anonymous function.
 - [`let`](/docs/reference/keywords/let): Declares a mutable local variable.

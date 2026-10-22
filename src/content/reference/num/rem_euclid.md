@@ -1,18 +1,20 @@
 ---
 slug: "num/rem_euclid"
 title: "rem_euclid"
-description: "Euclidean remainder (0 <= rem < abs(b) when b != 0)."
+description: "Returns the remainder of a / b that is never negative: 0 <= r < abs(b)."
 module: "num"
 kind: "fn"
 name: "rem_euclid"
 signature: "fn rem_euclid(int a, int b) -> int"
 import: "use num::{rem_euclid};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/num.hy#L157"
-order: 13
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/num.hy#L239"
+order: 16
 ---
 
-Euclidean remainder (`0 <= rem < abs(b)` when `b != 0`).
+Returns the remainder of `a / b` that is never negative: `0 <= r < abs(b)`.
+
+Unlike `%`, whose result takes the sign of `a`. Panics with `division by zero` when `b` is `0`.
 
 ## Parameters
 
@@ -25,13 +27,22 @@ Euclidean remainder (`0 <= rem < abs(b)` when `b != 0`).
 
 `int`
 
+## Examples
+
+```coil
+use num::{rem_euclid};
+use tests::assert;
+assert!(rem_euclid(-7, 3) == 2);
+assert!(-7 % 3 == -1);
+```
+
 ## See also
 
-- [`abs`](/docs/reference/num/abs): Absolute value of an integer.
-- [`min`](/docs/reference/num/min): Smaller of two Ord values.
-- [`max`](/docs/reference/num/max): Larger of two Ord values.
-- [`round`](/docs/reference/num/round): Nearest int as float; halves round away from zero (via trunc bias).
-- [`clamp`](/docs/reference/num/clamp): Clamp x into the inclusive range [lo, hi].
-- [`signum`](/docs/reference/num/signum): Sign of an integer (-1, 0, or 1).
-- [`gcd`](/docs/reference/num/gcd): Greatest common divisor for non-negative integers.
-- [`lcm`](/docs/reference/num/lcm): Least common multiple for non-negative integers (0 if either operand is 0).
+- [`abs`](/docs/reference/num/abs): Returns the absolute value of x.
+- [`min`](/docs/reference/num/min): Returns the smaller of a and b (a when they are equal).
+- [`max`](/docs/reference/num/max): Returns the larger of a and b (a when they are equal).
+- [`round`](/docs/reference/num/round): Rounds x to the nearest whole number; halves round away from zero.
+- [`clamp`](/docs/reference/num/clamp): Returns x limited to the range lo..=hi.
+- [`signum`](/docs/reference/num/signum): Returns -1, 0 or 1 by the sign of x.
+- [`gcd`](/docs/reference/num/gcd): Returns the greatest common divisor of a and b, which should be non-negative.
+- [`lcm`](/docs/reference/num/lcm): Returns the least common multiple of a and b, which should be non-negative; 0 when either is 0.

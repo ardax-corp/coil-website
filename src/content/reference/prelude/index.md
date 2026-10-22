@@ -18,7 +18,7 @@ loops are built on.
 
 Operator traits live in [`prelude::ops`](/docs/reference/prelude/ops) and
 float math in [`prelude::math`](/docs/reference/prelude/math); both are
-auto-imported too. The primitive types ([`int`](/docs/reference/types/int), [`string`](/docs/reference/string), …) are listed under
+auto-imported too. The primitive types ([`int`](/docs/reference/types/int), [`string`](/docs/reference/types/string), …) are listed under
 [types](/docs/reference/types).
 
 Built into the compiler.

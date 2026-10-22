@@ -5,11 +5,11 @@ description: "True when a[ao..ao+n) equals b[bo..bo+n) (caller guarantees bounds
 module: "bytes"
 kind: "fn"
 name: "region_eq"
-signature: "fn region_eq(Vec<byte> a, int ao, Vec<byte> b, int bo, int n) -> bool requires ao >= 0 && bo >= 0 && n >= 0 requires ao + n <= a.len() && bo + n <= b.len()"
+signature: "fn region_eq(Vec<byte> a, int ao, Vec<byte> b, int bo, int n) -> bool"
 import: "use bytes::{region_eq};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/bytes.hy#L20"
-order: 0
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/bytes.hy#L26"
+order: 1
 ---
 
 True when `a[ao..ao+n)` equals `b[bo..bo+n)` (caller guarantees bounds).
@@ -39,9 +39,11 @@ requires ao + n <= a.len() && bo + n <= b.len()
 
 ## See also
 
-- [`to_hex`](/docs/reference/bytes/to_hex): Hex-encode a byte buffer (lowercase).
-- [`from_hex`](/docs/reference/bytes/from_hex): Decode a lowercase/uppercase hex string into bytes.
-- [`slice`](/docs/reference/bytes/slice): Copy src[start..end) into a new buffer (clamped to src bounds).
-- [`concat`](/docs/reference/bytes/concat): Append b after a into a new buffer.
-- [`eq`](/docs/reference/bytes/eq): True when a and b have equal length and equal bytes.
-- [`find_from`](/docs/reference/bytes/find_from): First index of needle in hay at or after start, or -1.
+- [`to_hex`](/docs/reference/bytes/to_hex): Encodes buf as lowercase hexadecimal, two digits per byte.
+- [`from_hex`](/docs/reference/bytes/from_hex): Decodes hexadecimal text (either case) into bytes.
+- [`slice`](/docs/reference/bytes/slice): Returns a copy of src[start..end] (end exclusive), with both offsets clamped to the buffer.
+- [`concat`](/docs/reference/bytes/concat): Returns a new buffer holding a followed by b.
+- [`eq`](/docs/reference/bytes/eq): Returns true when a and b have the same length and the same bytes.
+- [`find_from`](/docs/reference/bytes/find_from): Returns the offset of the first needle in hay at or after start, or -1.
+- [`find`](/docs/reference/bytes/find): Returns the offset of the first needle in hay, or -1.
+- [`rfind`](/docs/reference/bytes/rfind): Returns the offset of the last needle in hay, or -1.

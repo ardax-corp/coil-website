@@ -1,18 +1,18 @@
 ---
 slug: "collections/collect_ints_inclusive"
 title: "collect_ints_inclusive"
-description: "Materialize a lazy inclusive RangeInclusive<int>."
+description: "Returns the values of the inclusive range a..=b as a Vec<int>."
 module: "collections"
 kind: "fn"
 name: "collect_ints_inclusive"
 signature: "fn collect_ints_inclusive(RangeInclusive<int> r) -> Vec<int>"
 import: "use collections::{collect_ints_inclusive};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/collections.hy#L169"
-order: 5
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/collections.hy#L220"
+order: 4
 ---
 
-Materialize a lazy inclusive [`RangeInclusive<int>`](/docs/reference/prelude/RangeInclusive).
+Returns the values of the inclusive range `a..=b` as a [`Vec<int>`](/docs/reference/prelude/Vec).
 
 ## Parameters
 
@@ -26,9 +26,8 @@ Materialize a lazy inclusive [`RangeInclusive<int>`](/docs/reference/prelude/Ran
 
 ## See also
 
-- [`RangeInclusive`](/docs/reference/prelude/RangeInclusive)
-- [`merge_range`](/docs/reference/collections/merge_range): Merge buf[lo..mid) and buf[mid..hi) via tmp scratch (stable).
-- [`sort`](/docs/reference/collections/sort): Stable bottom-up mergesort for Ord elements (new vector; input unchanged).
-- [`merge_range_by`](/docs/reference/collections/merge_range_by): Stable mergesort by key (K: Ord).
-- [`reverse`](/docs/reference/collections/reverse): Reverse a copy of arr.
-- [`collect_ints`](/docs/reference/collections/collect_ints): Materialize a lazy Range<int> into a dynamic vector.
+- [`Vec`](/docs/reference/prelude/Vec)
+- [`sort`](/docs/reference/collections/sort): Returns a sorted copy of arr, in ascending order.
+- [`sort_by`](/docs/reference/collections/sort_by): Returns a copy of arr sorted by the value key gives each element, in ascending order.
+- [`reverse`](/docs/reference/collections/reverse): Returns a copy of arr in reverse order.
+- [`collect_ints`](/docs/reference/collections/collect_ints): Returns the values of the range a..b as a Vec<int>.

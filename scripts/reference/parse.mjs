@@ -250,6 +250,10 @@ export function parseItems(src, from = 0, to = src.length, container = null) {
   const items = [];
   let docs = [];
   let attrs = [];
+  // Plain `//` lines right above an item (no blank line): used as docs for
+  // items that cannot carry `///`, such as module constants.
+  let comment = [];
+  let lastCommentEnd = -1;
   let i = from;
   const fieldMode = container === "class" || container === "enum";
   while (i < to) {
@@ -269,7 +273,11 @@ export function parseItems(src, from = 0, to = src.length, container = null) {
     }
     if (src.startsWith("//", i)) {
       const end = src.indexOf("\n", i);
+      const lineStart = src.lastIndexOf("\n", i - 1) + 1;
+      if (lastCommentEnd !== lineStart) comment = [];
+      comment.push(src.slice(i + 2, end < 0 ? to : end).replace(/^ /, ""));
       i = end < 0 ? to : end + 1;
+      lastCommentEnd = i;
       continue;
     }
     if (src.startsWith("/*", i)) {
@@ -301,6 +309,9 @@ export function parseItems(src, from = 0, to = src.length, container = null) {
       continue;
     }
     const start = i;
+    const itemLineStart = src.lastIndexOf("\n", i - 1) + 1;
+    const attached = lastCommentEnd === itemLineStart ? comment.join("\n").trim() : "";
+    comment = [];
     const stops = fieldMode ? [",", "}"] : ["{", ";"];
     const h = readHeader(src, i, stops);
     const header = h.text;
@@ -315,7 +326,7 @@ export function parseItems(src, from = 0, to = src.length, container = null) {
     }
     i = Math.max(bodyEnd, start + 1);
 
-    const item = { line, docs: docs.join("\n").trim(), attrs, ...classify(header, h.paramDocs, container) };
+    const item = { line, docs: docs.join("\n").trim(), comment: attached, attrs, ...classify(header, h.paramDocs, container) };
     docs = [];
     attrs = [];
     if (!item.kind) continue;
@@ -361,7 +372,9 @@ function classify(header, paramDocs, container) {
     if (!nm) return {};
     const parsed = parseFnHeader(nm[2], paramDocs, headerOffset + rest.indexOf(nm[2]));
     if (kind === "fn" && container) kind = mods.includes("static") ? "static method" : "method";
-    return { ...base, kind, name: nm[1], ...parsed };
+    // Contracts get their own section; the signature stops before them.
+    const signature = norm(text.replace(/\b(requires|ensures)\b[^]*$/, ""));
+    return { ...base, signature, kind, name: nm[1], ...parsed };
   }
   if (kind === "impl") {
     // `impl Foo<T>`, `impl Trait for Foo<T>`, `impl Foo<T: Bound>`.
@@ -395,7 +408,8 @@ function classify(header, paramDocs, container) {
   if (kind === "const") {
     const t = after.match(/^\s*:\s*([^=]+)=/);
     out.type = t ? norm(t[1]) : null;
-    out.signature = norm(text.replace(/=.*$/s, "")) + (t ? "" : "");
+    const value = norm(after.replace(/^[^=]*=/s, ""));
+    out.signature = value.length <= 60 ? `${norm(text)};` : norm(text.replace(/=.*$/s, ""));
   }
   if (kind === "class") {
     const inv = [...after.matchAll(/\binvariant\b\s*([^]*?)(?=\binvariant\b|$)/g)].map((x) => norm(x[1]));

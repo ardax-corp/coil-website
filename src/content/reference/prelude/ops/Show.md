@@ -14,7 +14,7 @@ order: 21
 
 Conversion to a display string, used by the `%v` format specifier.
 
-[`int`](/docs/reference/types/int), [`float`](/docs/reference/types/float), [`byte`](/docs/reference/types/byte), [`string`](/docs/reference/string), [`bool`](/docs/reference/types/bool) and [`unit`](/docs/reference/types/unit) have builtin
+[`int`](/docs/reference/types/int), [`float`](/docs/reference/types/float), [`byte`](/docs/reference/types/byte), [`string`](/docs/reference/types/string), [`bool`](/docs/reference/types/bool) and [`unit`](/docs/reference/types/unit) have builtin
 instances; tuples and records are shown structurally. A non-generic class
 without an instance shows its type name, and a non-generic enum its
 qualified variant name (`E::V`, payload elided). `#[derive(Show)]`
@@ -56,7 +56,7 @@ fn main() {
 - [`int`](/docs/reference/types/int)
 - [`float`](/docs/reference/types/float)
 - [`byte`](/docs/reference/types/byte)
-- [`string`](/docs/reference/string)
+- [`string`](/docs/reference/types/string)
 - [`bool`](/docs/reference/types/bool)
 - [`unit`](/docs/reference/types/unit)
 - [`Add`](/docs/reference/prelude/ops/Add): The addition operator +.

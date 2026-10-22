@@ -8,8 +8,8 @@ name: "chunks"
 signature: "fn chunks<T>(Vec<T> xs, int size) -> Vec<Vec<T>>"
 import: "use collections::vec::{chunks};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/collections/vec.hy#L190"
-order: 2
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/collections/vec.hy#L283"
+order: 11
 ---
 
 Consecutive non-overlapping slices of `size` (last slice may be short). Empty when `size <= 0`. Name is `chunks` (no `chunk` alias).
@@ -27,6 +27,11 @@ Consecutive non-overlapping slices of `size` (last slice may be short). Empty wh
 
 ## See also
 
-- [`found_at`](/docs/reference/collections/vec/found_at): found is None or an index of needle in xs (for contracts).
-- [`windows`](/docs/reference/collections/vec/windows): Overlapping sliding windows of exact size.
-- [`partition`](/docs/reference/collections/vec/partition): Split xs into (matched, rest) by pred.
+- [`fold_int`](/docs/reference/collections/vec/fold_int): The same as fold; kept for older code.
+- [`contains`](/docs/reference/collections/vec/contains): Returns true when needle is in xs.
+- [`index_of`](/docs/reference/collections/vec/index_of): Returns the index of the first needle in xs, or -1.
+- [`binary_search`](/docs/reference/collections/vec/binary_search): Finds needle in the ascending vector xs by halving, and returns an index holding it.
+- [`dedup`](/docs/reference/collections/vec/dedup): Returns xs with runs of equal neighbours collapsed to one value.
+- [`map`](/docs/reference/collections/vec/map): Returns a new vector with mapper applied to each element, in order.
+- [`filter`](/docs/reference/collections/vec/filter): Returns the elements for which pred is true, in order.
+- [`first`](/docs/reference/collections/vec/first): Returns the first element, or None when xs is empty.

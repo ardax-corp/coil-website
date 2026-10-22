@@ -1,18 +1,22 @@
 ---
 slug: "collections/sort"
 title: "sort"
-description: "Stable bottom-up mergesort for Ord elements (new vector; input unchanged). Strings sort by their UTF-8 bytes (\"B\" before \"a\", a prefix first)."
+description: "Returns a sorted copy of arr, in ascending order."
 module: "collections"
 kind: "fn"
 name: "sort"
-signature: "fn sort<T: Ord>(Vec<T> arr) -> Vec<T> ensures result.len() == arr.len()"
+signature: "fn sort<T: Ord>(Vec<T> arr) -> Vec<T>"
 import: "use collections::{sort};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/collections.hy#L52"
-order: 1
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/collections.hy#L68"
+order: 0
 ---
 
-Stable bottom-up mergesort for [`Ord`](/docs/reference/prelude/ops/Ord) elements (new vector; input unchanged). Strings sort by their UTF-8 bytes (`"B"` before `"a"`, a prefix first).
+Returns a sorted copy of `arr`, in ascending order.
+
+The sort is stable (equal elements keep their order) and takes `O(n log n)`
+time. `arr` itself is not changed. Elements need [`Ord`](/docs/reference/prelude/ops/Ord); strings compare by
+their UTF-8 bytes, so `"B"` sorts before `"a"`.
 
 ## Parameters
 
@@ -32,11 +36,23 @@ Checked according to `--contracts` (see [Contracts](/docs/language/contracts)).
 ensures result.len() == arr.len()
 ```
 
+## Examples
+
+```coil
+use collections::{sort};
+use tests::assert;
+let xs: Vec<int> = [3, 1, 2];
+let s = sort(xs);
+assert!(s[0] == 1 && s[2] == 3);
+assert!(xs[0] == 3);
+let words: Vec<string> = ["pear", "Apple", "fig"];
+assert!(sort(words)[0] == "Apple");
+```
+
 ## See also
 
 - [`Ord`](/docs/reference/prelude/ops/Ord)
-- [`merge_range`](/docs/reference/collections/merge_range): Merge buf[lo..mid) and buf[mid..hi) via tmp scratch (stable).
-- [`merge_range_by`](/docs/reference/collections/merge_range_by): Stable mergesort by key (K: Ord).
-- [`reverse`](/docs/reference/collections/reverse): Reverse a copy of arr.
-- [`collect_ints`](/docs/reference/collections/collect_ints): Materialize a lazy Range<int> into a dynamic vector.
-- [`collect_ints_inclusive`](/docs/reference/collections/collect_ints_inclusive): Materialize a lazy inclusive RangeInclusive<int>.
+- [`sort_by`](/docs/reference/collections/sort_by): Returns a copy of arr sorted by the value key gives each element, in ascending order.
+- [`reverse`](/docs/reference/collections/reverse): Returns a copy of arr in reverse order.
+- [`collect_ints`](/docs/reference/collections/collect_ints): Returns the values of the range a..b as a Vec<int>.
+- [`collect_ints_inclusive`](/docs/reference/collections/collect_ints_inclusive): Returns the values of the inclusive range a..=b as a Vec<int>.

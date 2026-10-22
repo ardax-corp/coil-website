@@ -18,8 +18,8 @@ The ordering bundle: [`Lt`](/docs/reference/prelude/ops/Lt), [`Le`](/docs/refere
 `>=`, `==` and `!=` on `T`, and range bounds (`a..b`) must be `Ord`.
 [`Eq`](/docs/reference/prelude/ops/Eq) is a superclass, so a type that is `Ord` is [`Eq`](/docs/reference/prelude/ops/Eq) too: an `impl Ord`
 or `#[derive(Ord)]` needs an [`Eq`](/docs/reference/prelude/ops/Eq) instance (`#[derive(Eq, Ord)]`). [`int`](/docs/reference/types/int), [`float`](/docs/reference/types/float),
-[`byte`](/docs/reference/types/byte) and [`string`](/docs/reference/string) are ordered (a [`string`](/docs/reference/string) by its UTF-8 bytes, so
-`"B" < "a"` and a prefix sorts first); [`bool`](/docs/reference/types/bool) is not. A [`string`](/docs/reference/string) is not
+[`byte`](/docs/reference/types/byte) and [`string`](/docs/reference/types/string) are ordered (a [`string`](/docs/reference/types/string) by its UTF-8 bytes, so
+`"B" < "a"` and a prefix sorts first); [`bool`](/docs/reference/types/bool) is not. A [`string`](/docs/reference/types/string) is not
 a range bound. `#[derive(Ord)]` orders an enum or class by its fields in
 declaration order, and a scalar-backed enum (`#[repr(int)]`,
 `#[repr(string)]`, ..) by its backing value.
@@ -57,5 +57,5 @@ fn main() {
 - [`int`](/docs/reference/types/int)
 - [`float`](/docs/reference/types/float)
 - [`byte`](/docs/reference/types/byte)
-- [`string`](/docs/reference/string)
+- [`string`](/docs/reference/types/string)
 - [`bool`](/docs/reference/types/bool)

@@ -51,8 +51,8 @@ use io::{Stream, IoError};
 | Module | Description |
 |--------|-------------|
 | [`io::fs`](/docs/reference/io/fs) | Paths and the file system: metadata, directories, rename, copy, symlinks. |
-| [`io::file`](/docs/reference/io/file) |  |
-| [`io::sync`](/docs/reference/io/sync) |  |
+| [`io::file`](/docs/reference/io/file) | Read and write whole files in one call. |
+| [`io::sync`](/docs/reference/io/sync) | Blocking IO helpers: println, read_line, write_all, read_to_end. |
 | [`io::net`](/docs/reference/io/net) | TCP and UDP sockets. |
 
 ## Types

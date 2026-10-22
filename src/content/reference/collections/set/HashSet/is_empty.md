@@ -1,7 +1,7 @@
 ---
 slug: "collections/set/HashSet/is_empty"
 title: "HashSet::is_empty"
-description: "Method HashSet::is_empty."
+description: "Returns true when the set has no values."
 module: "collections::set"
 kind: "method"
 name: "is_empty"
@@ -9,11 +9,11 @@ parent: "HashSet"
 signature: "pub fn is_empty() -> bool"
 import: "use collections::set::{HashSet};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/collections/set.hy#L26"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/collections/set.hy#L41"
 order: 3
 ---
 
-*No documentation yet.*
+Returns `true` when the set has no values.
 
 Called on a `HashSet` value as `value.is_empty(…)`.
 
@@ -23,7 +23,7 @@ Called on a `HashSet` value as `value.is_empty(…)`.
 
 ## See also
 
-- [`HashSet`](/docs/reference/collections/set/HashSet): Set of unique values backed by HashMap<T, bool>.
+- [`HashSet`](/docs/reference/collections/set/HashSet): A set of unique values.
 - [`HashSet::with_capacity`](/docs/reference/collections/set/HashSet/with_capacity): Create a set with bucket count rounded up to the next power of two (min 8).
 - [`HashSet::new`](/docs/reference/collections/set/HashSet/new): Empty set with default capacity 8.
 - [`HashSet::size`](/docs/reference/collections/set/HashSet/size): Number of elements.

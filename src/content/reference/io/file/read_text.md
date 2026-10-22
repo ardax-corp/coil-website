@@ -1,18 +1,20 @@
 ---
 slug: "io/file/read_text"
 title: "read_text"
-description: "Read an entire file as a UTF-8 string."
+description: "Reads the whole file at path as UTF-8 text."
 module: "io::file"
 kind: "fn"
 name: "read_text"
 signature: "fn read_text(string path) -> Result<string, IoError>"
 import: "use io::file::{read_text};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/io/file.hy#L44"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/io/file.hy#L69"
 order: 2
 ---
 
-Read an entire file as a UTF-8 string.
+Reads the whole file at [`path`](/docs/reference/path) as UTF-8 text.
+
+Needs `--allow-read`.
 
 ## Parameters
 
@@ -24,10 +26,28 @@ Read an entire file as a UTF-8 string.
 
 `Result<string, IoError>`
 
+## Errors
+
+`IoError::NotFound` when the file does not exist and `IoError::InvalidInput`
+when it is not valid UTF-8.
+
+## Examples
+
+```coil
+use io::file::{read_text};
+use io::sync::{println};
+
+fn main() {
+    let config = read_text("config.toml")?;
+    println(config)?;
+}
+```
+
 ## See also
 
-- [`read_bytes`](/docs/reference/io/file/read_bytes): Read an entire file as bytes (open + read_to_end + close).
-- [`write_bytes`](/docs/reference/io/file/write_bytes): Write buf to path, creating/truncating ("w").
-- [`write_text`](/docs/reference/io/file/write_text): Write a UTF-8 string to path.
-- [`append_bytes`](/docs/reference/io/file/append_bytes): Append bytes to path ("a" mode).
-- [`append_text`](/docs/reference/io/file/append_text): Append a UTF-8 string to path.
+- [`path`](/docs/reference/path)
+- [`read_bytes`](/docs/reference/io/file/read_bytes): Reads the whole file at path.
+- [`write_bytes`](/docs/reference/io/file/write_bytes): Replaces the contents of the file at path with buf, creating it if needed, and returns the number of bytes written.
+- [`write_text`](/docs/reference/io/file/write_text): Replaces the contents of the file at path with text, creating it if needed, and returns the number of bytes written.
+- [`append_bytes`](/docs/reference/io/file/append_bytes): Appends buf to the file at path, creating it if needed.
+- [`append_text`](/docs/reference/io/file/append_text): Appends text to the file at path, creating it if needed.

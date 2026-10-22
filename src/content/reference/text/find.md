@@ -1,18 +1,18 @@
 ---
 slug: "text/find"
 title: "find"
-description: "First byte offset of needle in hay, or -1. Empty needle → 0."
+description: "Returns the byte offset of the first needle in hay, or -1. An empty needle matches at 0."
 module: "text"
 kind: "fn"
 name: "find"
-signature: "fn find(string hay, string needle) -> int ensures result >= -1 && result <= hay.len() ensures result < 0 || match_at(hay, needle, result) ensures needle.len() > 0 || result == 0"
+signature: "fn find(string hay, string needle) -> int"
 import: "use text::{find};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/text.hy#L112"
-order: 9
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/text.hy#L185"
+order: 8
 ---
 
-First byte offset of `needle` in `hay`, or `-1`. Empty needle → `0`.
+Returns the byte offset of the first `needle` in `hay`, or `-1`. An empty `needle` matches at `0`.
 
 ## Parameters
 
@@ -35,13 +35,22 @@ ensures result < 0 || match_at(hay, needle, result)
 ensures needle.len() > 0 || result == 0
 ```
 
+## Examples
+
+```coil
+use text::{find};
+use tests::assert;
+assert!(find("a=b=c", "=") == 1);
+assert!(find("abc", "z") == -1);
+```
+
 ## See also
 
-- [`ok_len`](/docs/reference/text/ok_len): Length of an Ok string, -1 for an Err (for contracts).
-- [`byte_len`](/docs/reference/text/byte_len): Byte length of UTF-8 s (same as to_bytes(s).len()).
-- [`slice`](/docs/reference/text/slice): Slice by byte offsets; returns Err if the slice is not valid UTF-8.
-- [`trim_start`](/docs/reference/text/trim_start): Trim ASCII whitespace from the start.
-- [`trim_end`](/docs/reference/text/trim_end): Trim ASCII whitespace from the end.
-- [`trim`](/docs/reference/text/trim): Trim ASCII whitespace (space/tab/CR/LF) from both ends.
-- [`contains`](/docs/reference/text/contains): True when hay contains needle as a byte-exact substring.
-- [`starts_with`](/docs/reference/text/starts_with): True when s begins with prefix (byte identity).
+- [`byte_len`](/docs/reference/text/byte_len): Returns the length of s in bytes; the same as s.len().
+- [`slice`](/docs/reference/text/slice): Returns the part of s from byte offset start up to (not including) end.
+- [`trim_start`](/docs/reference/text/trim_start): Returns s without leading ASCII whitespace (space, tab, CR, LF).
+- [`trim_end`](/docs/reference/text/trim_end): Returns s without trailing ASCII whitespace (space, tab, CR, LF).
+- [`trim`](/docs/reference/text/trim): Returns s without leading and trailing ASCII whitespace (space, tab, CR, LF).
+- [`contains`](/docs/reference/text/contains): Returns true when needle occurs in hay.
+- [`starts_with`](/docs/reference/text/starts_with): Returns true when s begins with prefix.
+- [`ends_with`](/docs/reference/text/ends_with): Returns true when s ends with suffix.

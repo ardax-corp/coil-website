@@ -12,7 +12,7 @@ source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b94019773
 order: 2
 ---
 
-FFI tag for a NUL-terminated C string (`const char *`), passed from and returned as [`string`](/docs/reference/string).
+FFI tag for a NUL-terminated C string (`const char *`), passed from and returned as [`string`](/docs/reference/types/string).
 
 A Coil string is passed as a pointer to its UTF-8 bytes; C must not keep
 it after the call. A returned `char *` is copied into a new Coil string
@@ -21,7 +21,7 @@ its memory.
 
 ## See also
 
-- [`string`](/docs/reference/string)
+- [`string`](/docs/reference/types/string)
 - [`Int`](/docs/reference/ffi/types/Int): FFI tag for a 64-bit signed integer (int64_t), passed from and returned as int.
 - [`Float`](/docs/reference/ffi/types/Float): FFI tag for a 64-bit float (double), passed from and returned as float.
 - [`Void`](/docs/reference/ffi/types/Void): FFI tag for no value (void), valid only as a return type.

@@ -27,7 +27,7 @@ use ffi::types::{Int, Float};
 |------|-------------|
 | [`Int`](/docs/reference/ffi/types/Int) | FFI tag for a 64-bit signed integer (`int64_t`), passed from and returned as [`int`](/docs/reference/types/int). |
 | [`Float`](/docs/reference/ffi/types/Float) | FFI tag for a 64-bit float (`double`), passed from and returned as [`float`](/docs/reference/types/float). |
-| [`String`](/docs/reference/ffi/types/String) | FFI tag for a NUL-terminated C string (`const char *`), passed from and returned as [`string`](/docs/reference/string). |
+| [`String`](/docs/reference/ffi/types/String) | FFI tag for a NUL-terminated C string (`const char *`), passed from and returned as [`string`](/docs/reference/types/string). |
 | [`Void`](/docs/reference/ffi/types/Void) | FFI tag for no value (`void`), valid only as a return type. |
 | [`Bool`](/docs/reference/ffi/types/Bool) | FFI tag for a C [`bool`](/docs/reference/types/bool) (one byte, `0` or `1`), passed from and returned as [`bool`](/docs/reference/types/bool). |
 | [`Int8`](/docs/reference/ffi/types/Int8) | FFI tag for an 8-bit signed integer (`int8_t`), passed from and returned as [`int`](/docs/reference/types/int). |
@@ -41,4 +41,4 @@ use ffi::types::{Int, Float};
 | [`Callback`](/docs/reference/ffi/types/Callback) | FFI tag for a C function pointer, letting C call back into a Coil function. |
 | [`Struct`](/docs/reference/ffi/types/Struct) | FFI tag for a C struct passed or returned by value. |
 | [`Bytes`](/docs/reference/ffi/types/Bytes) | FFI tag for a writable byte buffer (`uint8_t *`) made from a [`Vec<byte>`](/docs/reference/prelude/Vec). |
-| [`ConstBytes`](/docs/reference/ffi/types/ConstBytes) | FFI tag for a read-only byte view (`const uint8_t *`) of a [`string`](/docs/reference/string) or [`Vec<byte>`](/docs/reference/prelude/Vec). |
+| [`ConstBytes`](/docs/reference/ffi/types/ConstBytes) | FFI tag for a read-only byte view (`const uint8_t *`) of a [`string`](/docs/reference/types/string) or [`Vec<byte>`](/docs/reference/prelude/Vec). |

@@ -1,40 +1,50 @@
 ---
 slug: "num/index"
 title: "num"
-description: "The num module."
+description: "Numeric helpers: abs, min, max, clamp, round, gcd and the constants PI, E, TAU."
 module: "num"
 kind: "module"
 name: "num"
 origin: "stdlib"
 auto: false
-order: 25
+order: 32
 ---
+
+Float functions such as [`sqrt`](/docs/reference/prelude/math/sqrt) and [`sin`](/docs/reference/prelude/math/sin) are auto-imported from [`prelude::math`](/docs/reference/prelude/math); this module adds the rest. Powers are the `**` operator.
 
 Part of [coil-stdlib](/packages/stdlib): add it with `spool add coil-stdlib` or pass `--root path/to/coil-stdlib/src`.
 
 Import what you use (`use path::*` is not allowed):
 
 ```coil
-use num::{abs, min};
+use num::{PI, E};
 ```
+
+## Constants
+
+| Name | Description |
+|------|-------------|
+| [`PI`](/docs/reference/num/PI) | The circle constant π, as a [`float`](/docs/reference/types/float). |
+| [`E`](/docs/reference/num/E) | Euler's number e, the base of [`ln`](/docs/reference/prelude/math/ln), as a [`float`](/docs/reference/types/float). |
+| [`TAU`](/docs/reference/num/TAU) | A full turn τ = 2π, as a [`float`](/docs/reference/types/float). |
 
 ## Functions
 
 | Name | Description |
 |------|-------------|
-| [`abs`](/docs/reference/num/abs) | Absolute value of an integer. |
-| [`min`](/docs/reference/num/min) | Smaller of two [`Ord`](/docs/reference/prelude/ops/Ord) values. |
-| [`max`](/docs/reference/num/max) | Larger of two [`Ord`](/docs/reference/prelude/ops/Ord) values. |
-| [`round`](/docs/reference/num/round) | Nearest int as float; halves round away from zero (via trunc bias). |
-| [`clamp`](/docs/reference/num/clamp) | Clamp `x` into the inclusive range `[lo, hi]`. |
-| [`signum`](/docs/reference/num/signum) | Sign of an integer (`-1`, `0`, or `1`). |
-| [`gcd`](/docs/reference/num/gcd) | Greatest common divisor for non-negative integers. |
-| [`lcm`](/docs/reference/num/lcm) | Least common multiple for non-negative integers (`0` if either operand is `0`). |
-| [`trunc`](/docs/reference/num/trunc) | Truncate toward zero. |
-| [`fract`](/docs/reference/num/fract) | Fractional part (`x - trunc(x)`). |
-| [`is_nan`](/docs/reference/num/is_nan) | True when `x` is NaN. |
-| [`is_infinite`](/docs/reference/num/is_infinite) | True when `x` is infinite (not NaN). |
-| [`is_finite`](/docs/reference/num/is_finite) | True when `x` is neither NaN nor infinite. |
-| [`rem_euclid`](/docs/reference/num/rem_euclid) | Euclidean remainder (`0 <= rem < abs(b)` when `b != 0`). |
-| [`div_euclid`](/docs/reference/num/div_euclid) | Euclidean division quotient. |
-| [`hypot`](/docs/reference/num/hypot) | Hypotenuse `sqrt(a*a + b*b)`. |
+| [`abs`](/docs/reference/num/abs) | Returns the absolute value of `x`. |
+| [`min`](/docs/reference/num/min) | Returns the smaller of `a` and `b` (`a` when they are equal). |
+| [`max`](/docs/reference/num/max) | Returns the larger of `a` and `b` (`a` when they are equal). |
+| [`round`](/docs/reference/num/round) | Rounds `x` to the nearest whole number; halves round away from zero. |
+| [`clamp`](/docs/reference/num/clamp) | Returns `x` limited to the range `lo..=hi`. |
+| [`signum`](/docs/reference/num/signum) | Returns `-1`, `0` or `1` by the sign of `x`. |
+| [`gcd`](/docs/reference/num/gcd) | Returns the greatest common divisor of `a` and `b`, which should be non-negative. |
+| [`lcm`](/docs/reference/num/lcm) | Returns the least common multiple of `a` and `b`, which should be non-negative; `0` when either is `0`. |
+| [`trunc`](/docs/reference/num/trunc) | Removes the fractional part of `x`, rounding toward zero. |
+| [`fract`](/docs/reference/num/fract) | Returns the fractional part of `x`, `x - trunc(x)`; it has the sign of `x`. |
+| [`is_nan`](/docs/reference/num/is_nan) | Returns `true` when `x` is NaN (`0.0 / 0.0`, `sqrt(-1.0)`, …). |
+| [`is_infinite`](/docs/reference/num/is_infinite) | Returns `true` when `x` is positive or negative infinity. |
+| [`is_finite`](/docs/reference/num/is_finite) | Returns `true` when `x` is neither NaN nor infinite. |
+| [`rem_euclid`](/docs/reference/num/rem_euclid) | Returns the remainder of `a / b` that is never negative: `0 <= r < abs(b)`. |
+| [`div_euclid`](/docs/reference/num/div_euclid) | Returns the quotient that goes with [`rem_euclid`](/docs/reference/num/rem_euclid): `a == div_euclid(a, b) * b + rem_euclid(a, b)`. |
+| [`hypot`](/docs/reference/num/hypot) | Returns `sqrt(a * a + b * b)`, the length of the hypotenuse. |

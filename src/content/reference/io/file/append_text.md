@@ -1,18 +1,18 @@
 ---
 slug: "io/file/append_text"
 title: "append_text"
-description: "Append a UTF-8 string to path."
+description: "Appends text to the file at path, creating it if needed. Needs --allow-write."
 module: "io::file"
 kind: "fn"
 name: "append_text"
 signature: "fn append_text(string path, string text) -> Result<int, IoError>"
 import: "use io::file::{append_text};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/io/file.hy#L76"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/io/file.hy#L114"
 order: 5
 ---
 
-Append a UTF-8 string to [`path`](/docs/reference/path).
+Appends [`text`](/docs/reference/text) to the file at [`path`](/docs/reference/path), creating it if needed. Needs `--allow-write`.
 
 ## Parameters
 
@@ -27,9 +27,10 @@ Append a UTF-8 string to [`path`](/docs/reference/path).
 
 ## See also
 
+- [`text`](/docs/reference/text)
 - [`path`](/docs/reference/path)
-- [`read_bytes`](/docs/reference/io/file/read_bytes): Read an entire file as bytes (open + read_to_end + close).
-- [`write_bytes`](/docs/reference/io/file/write_bytes): Write buf to path, creating/truncating ("w").
-- [`read_text`](/docs/reference/io/file/read_text): Read an entire file as a UTF-8 string.
-- [`write_text`](/docs/reference/io/file/write_text): Write a UTF-8 string to path.
-- [`append_bytes`](/docs/reference/io/file/append_bytes): Append bytes to path ("a" mode).
+- [`read_bytes`](/docs/reference/io/file/read_bytes): Reads the whole file at path.
+- [`write_bytes`](/docs/reference/io/file/write_bytes): Replaces the contents of the file at path with buf, creating it if needed, and returns the number of bytes written.
+- [`read_text`](/docs/reference/io/file/read_text): Reads the whole file at path as UTF-8 text.
+- [`write_text`](/docs/reference/io/file/write_text): Replaces the contents of the file at path with text, creating it if needed, and returns the number of bytes written.
+- [`append_bytes`](/docs/reference/io/file/append_bytes): Appends buf to the file at path, creating it if needed.

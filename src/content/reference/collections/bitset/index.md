@@ -1,13 +1,13 @@
 ---
 slug: "collections/bitset/index"
 title: "collections::bitset"
-description: "The collections::bitset module."
+description: "BitSet: a compact set of small non-negative integers."
 module: "collections::bitset"
 kind: "module"
 name: "collections::bitset"
 origin: "stdlib"
 auto: false
-order: 18
+order: 20
 ---
 
 Part of [coil-stdlib](/packages/stdlib): add it with `spool add coil-stdlib` or pass `--root path/to/coil-stdlib/src`.
@@ -15,8 +15,14 @@ Part of [coil-stdlib](/packages/stdlib): add it with `spool add coil-stdlib` or 
 Import what you use (`use path::*` is not allowed):
 
 ```coil
-use collections::bitset::{word_mask, bits_per_word};
+use collections::bitset::{BitSet, word_mask};
 ```
+
+## Types
+
+| Name | Description |
+|------|-------------|
+| [`BitSet`](/docs/reference/collections/bitset/BitSet) | A set of non-negative [`int`](/docs/reference/types/int)s stored as bits. |
 
 ## Functions
 

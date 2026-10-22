@@ -7,7 +7,7 @@ kind: "module"
 name: "keywords"
 origin: "builtin"
 auto: true
-order: 29
+order: 39
 ---
 
 Keywords are recognized by position. Contextual keywords such as `self`,
@@ -36,7 +36,7 @@ Built into the compiler.
 | [`return`](/docs/reference/keywords/return) | Leaves the current function, optionally with a value. |
 | [`raise`](/docs/reference/keywords/raise) | Returns early from the current function with `Result::Err(e)`. |
 | [`panic`](/docs/reference/keywords/panic) | Aborts with a message: `panic "message"`. |
-| [`typeof`](/docs/reference/keywords/typeof) | Gives the static type of an expression as a [`string`](/docs/reference/string), at compile time. |
+| [`typeof`](/docs/reference/keywords/typeof) | Gives the static type of an expression as a [`string`](/docs/reference/types/string), at compile time. |
 | [`comptime`](/docs/reference/keywords/comptime) | Computes an expression while compiling; the program gets its value. |
 | [`enum`](/docs/reference/keywords/enum) | Declares a sum type: a value is exactly one of its variants. |
 | [`match`](/docs/reference/keywords/match) | Compares a value against patterns and evaluates the first arm that matches. |

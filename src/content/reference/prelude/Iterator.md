@@ -19,7 +19,7 @@ Implementations define the associated type `Item` (the element type) and
 exhausted. `for x in e` first converts `e` with [`IntoIterator`](/docs/reference/prelude/IntoIterator), then calls
 [`next`](/docs/reference/prelude/Iterator/next) until it returns `None`. Arrays, [`Vec`](/docs/reference/prelude/Vec), homogeneous tuples,
 coroutines and numeric ranges are iterable without an `impl`; a record
-is not iterable (use `collections::map::HashMap` for keys to iterate).
+is not iterable (use [`collections::map::HashMap`](/docs/reference/collections/map/HashMap) for keys to iterate).
 
 ## Associated types
 
@@ -72,3 +72,4 @@ fn main() {
 - [`Iterator::next`](/docs/reference/prelude/Iterator/next)
 - [`IntoIterator`](/docs/reference/prelude/IntoIterator)
 - [`Vec`](/docs/reference/prelude/Vec)
+- [`collections::map::HashMap`](/docs/reference/collections/map/HashMap)

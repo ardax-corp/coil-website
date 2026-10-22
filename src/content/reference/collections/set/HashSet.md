@@ -1,18 +1,20 @@
 ---
 slug: "collections/set/HashSet"
 title: "HashSet"
-description: "Set of unique values backed by HashMap<T, bool>."
+description: "A set of unique values."
 module: "collections::set"
 kind: "class"
 name: "HashSet"
 signature: "class HashSet<T>"
 import: "use collections::set::{HashSet};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/collections/set.hy#L6"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/collections/set.hy#L20"
 order: 0
 ---
 
-Set of unique values backed by `HashMap<T, bool>`.
+A set of unique values.
+
+Values need [`Eq`](/docs/reference/prelude/ops/Eq) and `Hash`. Backed by a `HashMap<T, bool>`.
 
 ## Associated functions
 
@@ -26,8 +28,24 @@ Set of unique values backed by `HashMap<T, bool>`.
 | Name | Description |
 |------|-------------|
 | [`size`](/docs/reference/collections/set/HashSet/size) | Number of elements. |
-| [`is_empty`](/docs/reference/collections/set/HashSet/is_empty) |  |
+| [`is_empty`](/docs/reference/collections/set/HashSet/is_empty) | Returns true when the set has no values. |
 | [`clear`](/docs/reference/collections/set/HashSet/clear) | Remove all elements. |
 | [`insert`](/docs/reference/collections/set/HashSet/insert) | Insert x; returns true when newly added. |
 | [`contains`](/docs/reference/collections/set/HashSet/contains) | True when x is present. |
 | [`remove`](/docs/reference/collections/set/HashSet/remove) | Remove x; returns true when an element was removed. |
+
+## Examples
+
+```coil
+use collections::set::{HashSet};
+use tests::assert;
+let tags: HashSet<string> = HashSet::new();
+assert!(tags.insert("red"));
+assert!(!tags.insert("red"));
+assert!(tags.contains("red"));
+assert!(tags.size() == 1);
+```
+
+## See also
+
+- [`Eq`](/docs/reference/prelude/ops/Eq)

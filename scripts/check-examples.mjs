@@ -88,7 +88,8 @@ for (const file of files) {
     const src = join(dir, "example.hy");
     writeFileSync(src, `${wrap(code)}\n`);
     const where = `${file}:${start}`;
-    const argv = ["--root", stdlib, "-A", ...(mode === "no_run" ? ["compile", src, "-o", join(dir, "out.hyc")] : [src])];
+    const argv =
+      mode === "no_run" ? ["compile", "--root", stdlib, "-A", src, "-o", join(dir, "out.hyc")] : ["--root", stdlib, "-A", src];
     const r = spawnSync(coil, argv, { encoding: "utf8", timeout: 20000, input: "" });
     const ok = mode === "fail" ? r.status !== 0 : r.status === 0;
     const outOk = expected === undefined || r.stdout.trimEnd() === expected.trimEnd();

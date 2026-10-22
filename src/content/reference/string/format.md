@@ -19,7 +19,7 @@ in [`fmt`](/docs/reference/fmt) consumes the next one:
 
 - `%i`: an [`int`](/docs/reference/types/int) (or [`byte`](/docs/reference/types/byte)) in decimal.
 - `%f`: a [`float`](/docs/reference/types/float) (`1.5`, `2.0`).
-- `%s`: a [`string`](/docs/reference/string).
+- `%s`: a [`string`](/docs/reference/types/string).
 - `%z`: a [`bool`](/docs/reference/types/bool) (`true` / `false`).
 - `%v`: any value with a [`Show`](/docs/reference/prelude/ops/Show) instance (enums, tuples, records, ...).
 - `%x`, `%b`, `%u`: an [`int`](/docs/reference/types/int) in hex, binary, or unsigned decimal.
@@ -56,7 +56,7 @@ assert!(format("%v", (1, "a")) == "(1, a)");
 - [`int`](/docs/reference/types/int)
 - [`byte`](/docs/reference/types/byte)
 - [`float`](/docs/reference/types/float)
-- [`string`](/docs/reference/string)
+- [`string`](/docs/reference/types/string)
 - [`bool`](/docs/reference/types/bool)
 - [`Show`](/docs/reference/prelude/ops/Show)
 - [`byte_at`](/docs/reference/string/byte_at): Returns the byte at byte offset i of s, or -1 when i is out of range.

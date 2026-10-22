@@ -8,8 +8,8 @@ name: "bits_per_word"
 signature: "fn bits_per_word() -> int"
 import: "use collections::bitset::{bits_per_word};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/collections/bitset.hy#L23"
-order: 1
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/collections/bitset.hy#L23"
+order: 2
 ---
 
 Bits stored in one [`int`](/docs/reference/types/int) word (sign bit unused).

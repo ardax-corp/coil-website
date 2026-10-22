@@ -1,18 +1,18 @@
 ---
 slug: "bytes/slice"
 title: "slice"
-description: "Copy src[start..end) into a new buffer (clamped to src bounds)."
+description: "Returns a copy of src[start..end] (end exclusive), with both offsets clamped to the buffer."
 module: "bytes"
 kind: "fn"
 name: "slice"
-signature: "fn slice(Vec<byte> src, int start, int end) -> Vec<byte> ensures result.len() <= src.len() ensures start < end || result.len() == 0"
+signature: "fn slice(Vec<byte> src, int start, int end) -> Vec<byte>"
 import: "use bytes::{slice};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/bytes.hy#L90"
-order: 3
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/bytes.hy#L128"
+order: 4
 ---
 
-Copy `src[start..end)` into a new buffer (clamped to `src` bounds).
+Returns a copy of `src[start..end]` (end exclusive), with both offsets clamped to the buffer.
 
 ## Parameters
 
@@ -35,11 +35,23 @@ ensures result.len() <= src.len()
 ensures start < end || result.len() == 0
 ```
 
+## Examples
+
+```coil
+use bytes::{slice};
+use tests::assert;
+let b: Vec<byte> = "hello";
+assert!(slice(b, 1, 3).len() == 2);
+assert!(slice(b, 3, 99).len() == 2);
+```
+
 ## See also
 
 - [`region_eq`](/docs/reference/bytes/region_eq): True when a[ao..ao+n) equals b[bo..bo+n) (caller guarantees bounds).
-- [`to_hex`](/docs/reference/bytes/to_hex): Hex-encode a byte buffer (lowercase).
-- [`from_hex`](/docs/reference/bytes/from_hex): Decode a lowercase/uppercase hex string into bytes.
-- [`concat`](/docs/reference/bytes/concat): Append b after a into a new buffer.
-- [`eq`](/docs/reference/bytes/eq): True when a and b have equal length and equal bytes.
-- [`find_from`](/docs/reference/bytes/find_from): First index of needle in hay at or after start, or -1.
+- [`to_hex`](/docs/reference/bytes/to_hex): Encodes buf as lowercase hexadecimal, two digits per byte.
+- [`from_hex`](/docs/reference/bytes/from_hex): Decodes hexadecimal text (either case) into bytes.
+- [`concat`](/docs/reference/bytes/concat): Returns a new buffer holding a followed by b.
+- [`eq`](/docs/reference/bytes/eq): Returns true when a and b have the same length and the same bytes.
+- [`find_from`](/docs/reference/bytes/find_from): Returns the offset of the first needle in hay at or after start, or -1.
+- [`find`](/docs/reference/bytes/find): Returns the offset of the first needle in hay, or -1.
+- [`rfind`](/docs/reference/bytes/rfind): Returns the offset of the last needle in hay, or -1.

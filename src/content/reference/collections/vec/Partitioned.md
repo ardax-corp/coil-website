@@ -8,7 +8,7 @@ name: "Partitioned"
 signature: "class Partitioned<T>"
 import: "use collections::vec::{Partitioned};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/collections/vec.hy#L237"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/collections/vec.hy#L330"
 order: 0
 ---
 
@@ -18,8 +18,8 @@ Two-bucket result of [`partition`](/docs/reference/collections/vec/partition) ([
 
 | Name | Description |
 |------|-------------|
-| [`matched`](/docs/reference/collections/vec/Partitioned/matched) |  |
-| [`rest`](/docs/reference/collections/vec/Partitioned/rest) |  |
+| [`matched`](/docs/reference/collections/vec/Partitioned/matched) | The elements for which the predicate was true. |
+| [`rest`](/docs/reference/collections/vec/Partitioned/rest) | The elements for which the predicate was false. |
 
 ## See also
 

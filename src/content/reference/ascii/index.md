@@ -1,14 +1,16 @@
 ---
 slug: "ascii/index"
 title: "ascii"
-description: "The ascii module."
+description: "Classify and convert single ASCII bytes: digits, letters, whitespace, case."
 module: "ascii"
 kind: "module"
 name: "ascii"
 origin: "stdlib"
 auto: false
-order: 15
+order: 16
 ---
+
+Functions here take and return [`byte`](/docs/reference/types/byte). Bytes outside ASCII are never letters or digits, and case conversion leaves them unchanged. For whole strings, see [`text`](/docs/reference/text).
 
 Part of [coil-stdlib](/packages/stdlib): add it with `spool add coil-stdlib` or pass `--root path/to/coil-stdlib/src`.
 

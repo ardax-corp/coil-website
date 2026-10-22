@@ -261,7 +261,11 @@ const KIND_RANK: Record<string, number> = { primitive: 0, class: 1, enum: 1, tra
 
 /** Module pages in display order (parents before children). */
 export function referenceModules(entries: CollectionEntry<"reference">[]): CollectionEntry<"reference">[] {
-  return entries.filter((e) => e.data.kind === "module").sort((a, b) => a.data.order - b.data.order);
+  const first = ["prelude", "prelude::ops", "prelude::math", "types", "keywords"];
+  const rank = (m: string) => (first.includes(m) ? first.indexOf(m) : first.length);
+  return entries
+    .filter((e) => e.data.kind === "module")
+    .sort((a, b) => rank(a.data.module) - rank(b.data.module) || a.data.module.localeCompare(b.data.module));
 }
 
 /** Items directly in a module (not members of a type), in display order. */

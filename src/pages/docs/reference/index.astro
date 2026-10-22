@@ -73,7 +73,7 @@ const headings = [
             <tbody>
               {s.items.map((m) => (
                 <tr>
-                  <td>
+                  <td class="mod">
                     <a href={linkHref(m)}>
                       <code>{m.label}</code>
                     </a>
@@ -89,3 +89,9 @@ const headings = [
     ))
   }
 </Docs>
+
+<style>
+  .mod {
+    white-space: nowrap;
+  }
+</style>

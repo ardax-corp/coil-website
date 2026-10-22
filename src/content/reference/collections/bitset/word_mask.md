@@ -8,8 +8,8 @@ name: "word_mask"
 signature: "fn word_mask(int b) -> int"
 import: "use collections::bitset::{word_mask};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/collections/bitset.hy#L12"
-order: 0
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/collections/bitset.hy#L12"
+order: 1
 ---
 
 Mask for bit `b` in `0..WORD_BITS` (`1` doubled `b` times).

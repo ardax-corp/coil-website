@@ -152,6 +152,8 @@ function collect(mod) {
     }
     attachImpl(ty, impl);
   }
+  // Module constants cannot carry `///`; their `//` comment is their doc.
+  for (const it of loose) if (it.kind === "const" && !it.docs && it.comment) it.docs = it.comment;
   const keep = (it) => !hidden(it.name) && (it.stub || it.docs);
   const items = [...types.values(), ...loose].filter(keep);
   for (const it of items) it.module = mod.path;
@@ -242,7 +244,8 @@ const index = new Map(); // key -> href
 const put = (key, href) => {
   if (!index.has(key)) index.set(key, href);
 };
-const autoModules = [...modules.values()].filter((m) => m.auto && m.path !== "keywords");
+// Primitive type names win over same-named modules (`string`).
+for (const it of primitives) put(it.name, `${BASE}/types/${it.name}`);
 for (const mod of modules.values()) {
   if (mod.path === "keywords") continue;
   put(mod.path, moduleHref(mod.path));
@@ -561,12 +564,14 @@ function fnPage(mod, fn, order) {
   if (parts.body) body.push(renderDocs(parts.body, ctx, mentions), "");
   if (fn.kind === "macro") body.push(`Invoke it as \`${fn.name}!(…)\`; the arguments are passed as code (\`Expr\`), not values.`, "");
   if (fn.overloads?.length) {
-    // Overloaded macros: one parameter table per arity.
+    // Overloads: one section per signature (an `int` and a `string` version,
+    // or a macro with and without a message).
     for (const o of [fn, ...fn.overloads]) {
-      body.push(`### \`${o.name}!(${o.params.map((p) => p.name).join(", ")})\``, "");
+      const title = fn.kind === "macro" ? `${o.name}!(${o.params.map((p) => p.name).join(", ")})` : o.signature.replace(/\s*(requires|ensures)\b.*$/, "");
+      body.push(`### \`${title}\``, "");
       const op = splitDocs(o.docs ?? "");
       if (o !== fn && op.summary) body.push(renderDocs(op.summary, ctx, mentions), "");
-      body.push(...callableSections({ ...o, returns: null }, { sections: {} }, ctx, mentions));
+      body.push(...callableSections(o, { sections: {} }, ctx, mentions).map((l) => l.replace(/^## /, "#### ")));
     }
   } else body.push(...callableSections(fn, parts, ctx, mentions));
   body.push(...trailingSections(parts, ctx, mentions));

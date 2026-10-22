@@ -17,7 +17,7 @@ A UTF-8 text string.
 Literals are written in double quotes, with escapes `\\`, `\"`, `\n`,
 `\r`, `\t`, `\0`, `\e`, `\xHH` and `\u{HEX}`. `+` and `+=` concatenate two
 strings (adding a non-string is a type error). `==` compares contents,
-and `<`, `<=`, `>`, `>=` order strings by their UTF-8 bytes ([`string`](/docs/reference/string) is
+and `<`, `<=`, `>`, `>=` order strings by their UTF-8 bytes (`string` is
 [`Ord`](/docs/reference/prelude/ops/Ord), so [`collections::sort`](/docs/reference/collections/sort) sorts a [`Vec<string>`](/docs/reference/prelude/Vec)). `s.len()` counts
 UTF-8 bytes, not characters.
 
@@ -40,7 +40,6 @@ assert!(show(s) == "héllo");
 
 ## See also
 
-- [`string`](/docs/reference/string)
 - [`Ord`](/docs/reference/prelude/ops/Ord)
 - [`collections::sort`](/docs/reference/collections/sort)
 - [`Vec`](/docs/reference/prelude/Vec)
@@ -48,3 +47,4 @@ assert!(show(s) == "héllo");
 - [`string::format`](/docs/reference/string/format)
 - [`byte`](/docs/reference/types/byte)
 - [`int`](/docs/reference/types/int): A 64-bit signed integer, from -9223372036854775808 to 9223372036854775807.
+- [`float`](/docs/reference/types/float): A 64-bit IEEE-754 floating-point number.

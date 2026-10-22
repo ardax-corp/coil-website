@@ -1,18 +1,18 @@
 ---
 slug: "num/round"
 title: "round"
-description: "Nearest int as float; halves round away from zero (via trunc bias)."
+description: "Rounds x to the nearest whole number; halves round away from zero."
 module: "num"
 kind: "fn"
 name: "round"
 signature: "fn round(float x) -> float"
 import: "use num::{round};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/num.hy#L56"
-order: 3
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/num.hy#L90"
+order: 6
 ---
 
-Nearest int as float; halves round away from zero (via trunc bias).
+Rounds `x` to the nearest whole number; halves round away from zero.
 
 ## Parameters
 
@@ -24,13 +24,23 @@ Nearest int as float; halves round away from zero (via trunc bias).
 
 `float`
 
+## Examples
+
+```coil
+use num::{round};
+use tests::assert;
+assert!(round(2.5) == 3.0);
+assert!(round(-2.5) == -3.0);
+assert!(round(2.4) == 2.0);
+```
+
 ## See also
 
-- [`abs`](/docs/reference/num/abs): Absolute value of an integer.
-- [`min`](/docs/reference/num/min): Smaller of two Ord values.
-- [`max`](/docs/reference/num/max): Larger of two Ord values.
-- [`clamp`](/docs/reference/num/clamp): Clamp x into the inclusive range [lo, hi].
-- [`signum`](/docs/reference/num/signum): Sign of an integer (-1, 0, or 1).
-- [`gcd`](/docs/reference/num/gcd): Greatest common divisor for non-negative integers.
-- [`lcm`](/docs/reference/num/lcm): Least common multiple for non-negative integers (0 if either operand is 0).
-- [`trunc`](/docs/reference/num/trunc): Truncate toward zero.
+- [`abs`](/docs/reference/num/abs): Returns the absolute value of x.
+- [`min`](/docs/reference/num/min): Returns the smaller of a and b (a when they are equal).
+- [`max`](/docs/reference/num/max): Returns the larger of a and b (a when they are equal).
+- [`clamp`](/docs/reference/num/clamp): Returns x limited to the range lo..=hi.
+- [`signum`](/docs/reference/num/signum): Returns -1, 0 or 1 by the sign of x.
+- [`gcd`](/docs/reference/num/gcd): Returns the greatest common divisor of a and b, which should be non-negative.
+- [`lcm`](/docs/reference/num/lcm): Returns the least common multiple of a and b, which should be non-negative; 0 when either is 0.
+- [`trunc`](/docs/reference/num/trunc): Removes the fractional part of x, rounding toward zero.

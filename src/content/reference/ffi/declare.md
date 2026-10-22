@@ -16,7 +16,7 @@ Looks up the C function `name` in a loaded library and records its signature.
 
 `arg_types` is a tuple of FFI type tags from [`ffi::types`](/docs/reference/ffi/types) (`(Int, Ptr)`,
 or `()` for none), and `ret_type` is one tag (`Void` for no result).
-Bare names ([`int`](/docs/reference/types/int), [`float`](/docs/reference/types/float), [`string`](/docs/reference/string), `void`) and `extern struct` types
+Bare names ([`int`](/docs/reference/types/int), [`float`](/docs/reference/types/float), [`string`](/docs/reference/types/string), `void`) and `extern struct` types
 are accepted too. Pass `true` as the optional fifth argument for a C
 variadic function such as `printf`: `arg_types` is then the fixed prefix.
 
@@ -55,7 +55,7 @@ fn add(int a, int b) -> Result<int, Error> {
 - [`ffi::types`](/docs/reference/ffi/types)
 - [`int`](/docs/reference/types/int)
 - [`float`](/docs/reference/types/float)
-- [`string`](/docs/reference/string)
+- [`string`](/docs/reference/types/string)
 - [`ffi::invoke`](/docs/reference/ffi/invoke)
 - [`ffi::ErrorKind`](/docs/reference/ffi/ErrorKind)
 - [`dload`](/docs/reference/ffi/dload): Loads a native shared library and returns a handle to it.

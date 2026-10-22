@@ -15,7 +15,7 @@ Declares a sum type: a value is exactly one of its variants.
 
 Variants can carry no data, a tuple payload or named fields. Build them with
 `Enum::Variant` and take them apart with `match`. With `#[repr(int)]` (or
-[`string`](/docs/reference/string), [`float`](/docs/reference/types/float), [`bool`](/docs/reference/types/bool)), each variant is backed by a literal (`Ok = 200`).
+[`string`](/docs/reference/types/string), [`float`](/docs/reference/types/float), [`bool`](/docs/reference/types/bool)), each variant is backed by a literal (`Ok = 200`).
 An enum may be generic.
 
 ```coil
@@ -36,7 +36,7 @@ fn area(Shape s) -> float {
 
 ## See also
 
-- [`string`](/docs/reference/string)
+- [`string`](/docs/reference/types/string)
 - [`float`](/docs/reference/types/float)
 - [`bool`](/docs/reference/types/bool)
 - [`fn`](/docs/reference/keywords/fn): Declares a function, a method, or (written in an expression) an anonymous function.

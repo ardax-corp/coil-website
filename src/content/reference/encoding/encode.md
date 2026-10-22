@@ -1,18 +1,18 @@
 ---
 slug: "encoding/encode"
 title: "encode"
-description: "Encode bytes as standard Base64."
+description: "Encodes data as standard Base64 (RFC 4648 alphabet, with = padding)."
 module: "encoding"
 kind: "fn"
 name: "encode"
 signature: "fn encode(Vec<byte> data) -> string"
 import: "use encoding::{encode};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/encoding.hy#L42"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/encoding.hy#L49"
 order: 0
 ---
 
-Encode bytes as standard Base64.
+Encodes `data` as standard Base64 (RFC 4648 alphabet, with `=` padding).
 
 ## Parameters
 
@@ -24,6 +24,14 @@ Encode bytes as standard Base64.
 
 `string`
 
+## Examples
+
+```coil
+use encoding::{encode};
+use tests::assert;
+assert!(encode("hello") == "aGVsbG8=");
+```
+
 ## See also
 
-- [`decode`](/docs/reference/encoding/decode): Decode standard Base64 into bytes.
+- [`decode`](/docs/reference/encoding/decode): Decodes standard Base64 text into bytes.

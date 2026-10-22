@@ -1,18 +1,20 @@
 ---
 slug: "io/file/read_bytes"
 title: "read_bytes"
-description: "Read an entire file as bytes (open + read_to_end + close)."
+description: "Reads the whole file at path."
 module: "io::file"
 kind: "fn"
 name: "read_bytes"
 signature: "fn read_bytes(string path) -> Result<Vec<byte>, IoError>"
 import: "use io::file::{read_bytes};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/io/file.hy#L10"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/io/file.hy#L16"
 order: 0
 ---
 
-Read an entire file as bytes (`open` + `read_to_end` + `close`).
+Reads the whole file at [`path`](/docs/reference/path).
+
+Needs `--allow-read`.
 
 ## Parameters
 
@@ -24,10 +26,15 @@ Read an entire file as bytes (`open` + `read_to_end` + `close`).
 
 `Result<Vec<byte>, IoError>`
 
+## Errors
+
+`IoError::NotFound` when the file does not exist, `PermissionDenied` when it cannot be opened.
+
 ## See also
 
-- [`write_bytes`](/docs/reference/io/file/write_bytes): Write buf to path, creating/truncating ("w").
-- [`read_text`](/docs/reference/io/file/read_text): Read an entire file as a UTF-8 string.
-- [`write_text`](/docs/reference/io/file/write_text): Write a UTF-8 string to path.
-- [`append_bytes`](/docs/reference/io/file/append_bytes): Append bytes to path ("a" mode).
-- [`append_text`](/docs/reference/io/file/append_text): Append a UTF-8 string to path.
+- [`path`](/docs/reference/path)
+- [`write_bytes`](/docs/reference/io/file/write_bytes): Replaces the contents of the file at path with buf, creating it if needed, and returns the number of bytes written.
+- [`read_text`](/docs/reference/io/file/read_text): Reads the whole file at path as UTF-8 text.
+- [`write_text`](/docs/reference/io/file/write_text): Replaces the contents of the file at path with text, creating it if needed, and returns the number of bytes written.
+- [`append_bytes`](/docs/reference/io/file/append_bytes): Appends buf to the file at path, creating it if needed.
+- [`append_text`](/docs/reference/io/file/append_text): Appends text to the file at path, creating it if needed.

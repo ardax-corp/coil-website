@@ -1,18 +1,20 @@
 ---
 slug: "collections/collect_ints"
 title: "collect_ints"
-description: "Materialize a lazy Range<int> into a dynamic vector."
+description: "Returns the values of the range a..b as a Vec<int>."
 module: "collections"
 kind: "fn"
 name: "collect_ints"
 signature: "fn collect_ints(Range<int> r) -> Vec<int>"
 import: "use collections::{collect_ints};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/cfae0294a018d9fc5cf340def3bc424534960785/src/collections.hy#L160"
-order: 4
+source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becefecbc896a1a674022/src/collections.hy#L211"
+order: 3
 ---
 
-Materialize a lazy [`Range<int>`](/docs/reference/prelude/Range) into a dynamic vector.
+Returns the values of the range `a..b` as a [`Vec<int>`](/docs/reference/prelude/Vec).
+
+`(a..b).to_vec()` does the same.
 
 ## Parameters
 
@@ -24,11 +26,19 @@ Materialize a lazy [`Range<int>`](/docs/reference/prelude/Range) into a dynamic 
 
 `Vec<int>`
 
+## Examples
+
+```coil
+use collections::{collect_ints};
+use tests::assert;
+let v = collect_ints(2..5);
+assert!(v.len() == 3 && v[0] == 2);
+```
+
 ## See also
 
-- [`Range`](/docs/reference/prelude/Range)
-- [`merge_range`](/docs/reference/collections/merge_range): Merge buf[lo..mid) and buf[mid..hi) via tmp scratch (stable).
-- [`sort`](/docs/reference/collections/sort): Stable bottom-up mergesort for Ord elements (new vector; input unchanged).
-- [`merge_range_by`](/docs/reference/collections/merge_range_by): Stable mergesort by key (K: Ord).
-- [`reverse`](/docs/reference/collections/reverse): Reverse a copy of arr.
-- [`collect_ints_inclusive`](/docs/reference/collections/collect_ints_inclusive): Materialize a lazy inclusive RangeInclusive<int>.
+- [`Vec`](/docs/reference/prelude/Vec)
+- [`sort`](/docs/reference/collections/sort): Returns a sorted copy of arr, in ascending order.
+- [`sort_by`](/docs/reference/collections/sort_by): Returns a copy of arr sorted by the value key gives each element, in ascending order.
+- [`reverse`](/docs/reference/collections/reverse): Returns a copy of arr in reverse order.
+- [`collect_ints_inclusive`](/docs/reference/collections/collect_ints_inclusive): Returns the values of the inclusive range a..=b as a Vec<int>.
