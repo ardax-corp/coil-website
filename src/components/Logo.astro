@@ -1,36 +1,52 @@
 ---
-import { COIL_PATH } from "../lib/logo";
+import { LOGOS } from "../lib/brand";
 
-type Props = { size?: number; wordmark?: boolean };
-const { size = 28, wordmark = true } = Astro.props;
+type Props = { size?: number; wordmark?: boolean; only?: string };
+const { size = 28, wordmark = true, only } = Astro.props;
+const marks = only ? LOGOS.filter((m) => m.id === only) : LOGOS;
 ---
 
-<span class="logo">
-  <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true">
-    <rect width="32" height="32" rx="8" class="logo-bg"></rect>
-    <path
-      d={COIL_PATH}
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2.3"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="logo-wire"></path>
-  </svg>
+<span class:list={["logo", { pinned: only }]}>
+  {
+    marks.map((m) => (
+      <svg class="mark" data-mark={m.id} width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" set:html={m.svg} />
+    ))
+  }
   {wordmark && <span class="logo-word">coil</span>}
 </span>
+
+<style is:global>
+  .logo .mark-tile {
+    fill: #18150f;
+  }
+  .logo .mark-ink {
+    stroke: #eb8a52;
+  }
+  .logo .mark-ink2 {
+    stroke: #7fc8b6;
+  }
+  .logo .mark-fill2 {
+    fill: #7fc8b6;
+  }
+  /* Brand preview: show only the picked mark (see src/lib/brand.ts). */
+  .logo:not(.pinned) .mark {
+    display: none;
+  }
+  :root:not([data-logo]) .logo:not(.pinned) .mark[data-mark="current"],
+  :root[data-logo="current"] .logo .mark[data-mark="current"],
+  :root[data-logo="rings"] .logo .mark[data-mark="rings"],
+  :root[data-logo="prompt"] .logo .mark[data-mark="prompt"],
+  :root[data-logo="solenoid"] .logo .mark[data-mark="solenoid"],
+  :root[data-logo="toroid"] .logo .mark[data-mark="toroid"] {
+    display: block;
+  }
+</style>
 
 <style>
   .logo {
     align-items: center;
     display: inline-flex;
     gap: 0.55rem;
-  }
-  .logo-bg {
-    fill: #18150f;
-  }
-  .logo-wire {
-    color: #eb8a52;
   }
   .logo-word {
     color: var(--fg);
