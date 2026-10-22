@@ -3,12 +3,13 @@ import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import { INTERNALS, SHOWCASE, STDLIB, allGroups, inlineCode, linkHref } from "../../lib/nav";
 
-const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), await getCollection("reference"));
+const refEntries = await getCollection("reference");
+const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), refEntries);
 const tutorial = groups.find((g) => g.key === "tutorial")!;
 const start = groups.find((g) => g.key === "start")!;
 const refGroups = groups.filter((g) => g.track === "reference");
 const pkgGroups = groups.filter((g) => g.track === "packages");
-const refCount = refGroups.reduce((n, g) => n + g.items.length, 0);
+const refCount = refEntries.length + refGroups.reduce((n, g) => n + g.items.filter((i) => i.id).length, 0);
 
 const beyond = [
   { href: "/docs/manual/examples", title: "Examples catalog", text: "Every runnable demo in the repository, with expected output." },
@@ -20,7 +21,7 @@ const beyond = [
 
 <Base
   title="Documentation"
-  description="Learn Coil with an eleven-chapter tutorial, then look up syntax, types and built-in modules in the reference."
+  description="Learn Coil with a sixteen-chapter tutorial, then look up any module, type or function in the reference."
   section="docs"
 >
   <section class="hub-hero">
@@ -52,7 +53,7 @@ const beyond = [
       <h2>The tutorial</h2>
       <p>
         Start from installation and a first program, then work through {tutorial.items.length} chapters — types,
-        pattern matching, modules, FFI, coroutines, error handling, IO and threads.
+        collections, classes, errors, traits, modules, IO, testing, tasks, threads, macros and C.
       </p>
       <span class="path-cta">Start with Getting started <span class="arrow">→</span></span>
     </a>
@@ -66,8 +67,8 @@ const beyond = [
       <span class="eyebrow">Reference</span>
       <h2>The reference</h2>
       <p>
-        {refCount} pages of precise lookup: grammar, the type system, operators, keywords, error codes, the prelude and
-        every virtual module.
+        {refCount} pages of precise lookup: a page for every module, type and function, plus grammar, the type
+        system, operators, keywords and error codes.
       </p>
       <span class="path-cta">Open the reference index <span class="arrow">→</span></span>
     </a>
