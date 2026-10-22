@@ -46,5 +46,5 @@ not follow `[module] roots` or path deps for discovery). Do not pass
 Clone it as a sibling (`../coil-stdlib`) or under `coil-lang/.deps/coil-stdlib`.
 Its workspace `coil.toml` lists those roots for spool; with plain `coil`, pass `--root ../coil-stdlib/src`.
 
-Manifest schema (read by spool, not by `coil`): [project config](/docs/references/project-config).
+Manifest schema (read by spool, not by `coil`): [project config](/docs/language/project-config).
 `spool` vs `coil package`: [spool README](https://github.com/ardax-corp/spool).

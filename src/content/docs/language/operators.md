@@ -131,7 +131,7 @@ scalar opcodes (bytecode size scales with `N` in that case).
 For **dot product**, **cross product**, and bare-array **matrix multiply**,
 use the named helpers `dot`, `cross`, and `matmul`. For matmul via `*`
 (Mul), wrap rows with `matrix(...)` to get a nominal `Matrix` — see
-[Built-ins](/docs/references/math).
+[Built-ins](/docs/reference/prelude/math).
 
 ```coil
 (1, 1) + (1, 1);   // (2, 2)
@@ -222,7 +222,7 @@ A user type's `Shl` / `Shr` instance takes the count as an `int` too:
 | Operator | Operands | Result |
 |----------|----------|--------|
 | `==`, `!=` | Same type | `bool` |
-| `<`, `<=`, `>`, `>=` | Same type: `int` / `float` / `byte` / `string`, a tuple of `Ord` elements (lexicographic, see [Types — Tuples](/docs/references/types#tuples-tytuple)), or a type with an `Lt` / `Le` / `Gt` / `Ge` instance (`#[derive(Eq, Ord)]`) | `bool` |
+| `<`, `<=`, `>`, `>=` | Same type: `int` / `float` / `byte` / `string`, a tuple of `Ord` elements (lexicographic, see [Types — Tuples](/docs/language/types#tuples-tytuple)), or a type with an `Lt` / `Le` / `Gt` / `Ge` instance (`#[derive(Eq, Ord)]`) | `bool` |
 
 Strings order by their UTF-8 bytes, compared left to right, and a prefix sorts
 first: `"B" < "a"`, `"10" < "9"`, `"ab" < "abc"`, `"z" < "é"`. There is no
@@ -330,11 +330,11 @@ a = b ?? c        // a = (b ?? c)
 | Postfix index | `arr[i]`, `v[i]`, `t[0]` | Primary |
 
 Empty index `arr[]` (append assignment) is **removed** — use `vec.push(v)` on a
-`Vec<T>` (`E0107`). See [Arrays and Vec](/docs/references/arrays).
+`Vec<T>` (`E0107`). See [Arrays and Vec](/docs/language/arrays).
 
 Runtime out-of-range `arr[i]` and `arr[i] = x` **panic** (`index out of
 bounds`). Literal OOB on `[T; N]` and tuples is a compile error. See
-[Out-of-range index](/docs/references/arrays#out-of-range-index).
+[Out-of-range index](/docs/language/arrays#out-of-range-index).
 
 ---
 
@@ -372,6 +372,6 @@ For `!` on integers, zero is false and any non-zero value is true (`!0` → `tru
 
 | Document | Contents |
 |----------|----------|
-| [Syntax](/docs/references/syntax) | Full expression grammar |
-| [Types](/docs/references/types) | Unification on operator operands |
-| [Keywords](/docs/references/keywords) | `true`, `false`, `new`, etc. |
+| [Syntax](/docs/language/syntax) | Full expression grammar |
+| [Types](/docs/language/types) | Unification on operator operands |
+| [Keywords](/docs/reference/keywords) | `true`, `false`, `new`, etc. |

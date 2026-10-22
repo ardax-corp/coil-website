@@ -13,10 +13,10 @@ coil uses **Hindley–Milner (Algorithm W)** type inference with optional annota
 
 | Name | `Ty` representation | Notes |
 |------|---------------------|-------|
-| `int` | `Ty::Con("int")` | 64-bit signed integer at runtime; `+ - * / % **` and unary `-` panic on overflow (and `/ %` on division by zero) in every build — see [Operators](/docs/references/operators#arithmetic) |
+| `int` | `Ty::Con("int")` | 64-bit signed integer at runtime; `+ - * / % **` and unary `-` panic on overflow (and `/ %` on division by zero) in every build — see [Operators](/docs/language/operators#arithmetic) |
 | `float` | `Ty::Con("float")` | IEEE double |
-| `byte` | `Ty::Con("byte")` | Integer in `0..=255`; same immediate `Value` shape as `int`; `+ - * ** <<` and unary `-` wrap modulo 256 (warning `E0130`) — see [Operators](/docs/references/operators#arithmetic) |
-| `string` | `Ty::Con("string")` | Heap-allocated UTF-8 string; `==` by content, `<` / `<=` / `>` / `>=` by UTF-8 bytes — see [Operators](/docs/references/operators#comparison) |
+| `byte` | `Ty::Con("byte")` | Integer in `0..=255`; same immediate `Value` shape as `int`; `+ - * ** <<` and unary `-` wrap modulo 256 (warning `E0130`) — see [Operators](/docs/language/operators#arithmetic) |
+| `string` | `Ty::Con("string")` | Heap-allocated UTF-8 string; `==` by content, `<` / `<=` / `>` / `>=` by UTF-8 bytes — see [Operators](/docs/language/operators#comparison) |
 | `bool` | `Ty::Con("bool")` | `true` / `false` |
 | `void` / `unit` | `Ty::Con("unit")` | Used for statements with no value; FFI `void` return |
 
@@ -34,7 +34,7 @@ The builtin error enums (`IoError`, `ThreadError`, `EnvError`, ffi `ErrorKind`) 
 
 Strings support `+` / `+=` with other strings. `string::format(...)` returns `string` and validates literal format specifiers (`%i` accepts `byte`).
 
-Opaque **`Stream`** (`Ty::Con("Stream")`) is the handle type for the virtual [`io`](/docs/references/io) module — not constructible in userland.
+Opaque **`Stream`** (`Ty::Con("Stream")`) is the handle type for the virtual [`io`](/docs/reference/io) module — not constructible in userland.
 
 ---
 
@@ -61,7 +61,7 @@ A module that declares a type with a reserved name reports only that `E0200`: ot
 | `Option` | `None` (0), `Some(T)` (1) | `Option` / `Option<T>` |
 | `Result` | `Ok(T)` (0), `Err(E)` (1) | `Result` / `Result<T, E>` |
 
-Payload types are inferred at use sites (`Option::Some(1)` → `Option` of `int`). Error-handling operators (`raise`, `?`, `??`, `?.`) are documented in [Operators](/docs/references/operators) and [Tutorial 09](/docs/manual/tutorial/09-error-handling).
+Payload types are inferred at use sites (`Option::Some(1)` → `Option` of `int`). Error-handling operators (`raise`, `?`, `??`, `?.`) are documented in [Operators](/docs/language/operators) and [Tutorial 09](/docs/manual/tutorial/09-error-handling).
 
 **Result mode:** a function that uses `raise` or Result-`?` (or is annotated `-> Result<…>`) has return type `Result<T, E>`; success `return` values are implicitly wrapped as `Ok`. Explicit `return Result::Ok(v)` / `return Result::Err(e)` are also accepted. One `E` per function.
 
@@ -106,7 +106,7 @@ it by name instead.
 Write a function type either way, in any type position: `int -> int -> int`
 or `fn(int a, int b) -> int` (names optional: `fn(int, int) -> int`). A
 function taking no arguments is `fn() -> int`, the same type as `unit -> int`. See
-[Syntax — Type annotations](/docs/references/syntax#type-annotations).
+[Syntax — Type annotations](/docs/language/syntax#type-annotations).
 
 ---
 
@@ -242,7 +242,7 @@ Ground tuples also have structural `Eq` and `Hash` instances when every element 
 A ground tuple whose elements are all `Ord` is `Ord` too, ordered lexicographically: `<`, `<=`, `>` and `>=` compare the first elements, and only when those are equal the next ones, each element in its own type's order (`(1, "b") < (2, "a")`, `(1, "a") < (1, "b")`, `(1,) < (2,)`, nested tuples included). So `collections::sort` sorts a `Vec<(int, string)>`, and a tuple meets a `T: Ord` bound. A `float` `NaN` element compares unequal to itself, so it decides `false` where it is reached. A tuple with an element that is not `Ord` (`bool`, a class without `#[derive(Ord)]`) does not order (`E0102`), nor yet does one with an element of a type parameter inside a generic body (`(x, 1) < (y, 2)` for `T: Ord`).
 
 Homogeneous numeric tuples also support **element-wise arithmetic** (zip /
-broadcast / unary `-`). See [Operators](/docs/references/operators).
+broadcast / unary `-`). See [Operators](/docs/language/operators).
 
 ---
 
@@ -252,7 +252,7 @@ Homogeneous **fixed-length** arrays. Length `N` is part of the type and is
 inferred from literals when possible; otherwise write it explicitly.
 Annotation `[T]` (no length) is a type error (`E0119`) in every position (lets,
 parameters, returns, casts) — use `[T; N]` or growable
-[`Vec<T>`](/docs/references/arrays). An array literal builds a `Vec<T>` wherever
+[`Vec<T>`](/docs/language/arrays). An array literal builds a `Vec<T>` wherever
 one is expected, so `fn sum(Vec<int> v)` takes `sum([1, 2, 3])`.
 
 | Annotation | `ArrayLength` | Example |
@@ -303,7 +303,7 @@ v.push(2);
 Statics: `Vec::new`, `Vec::with_capacity`, `Vec::from`. Methods: `push`, `pop`,
 `insert`, `remove`, `clear`, `reserve`, `capacity`, `len`, plus `v[i]` /
 `v[i] = x`. Rest parameters `T... xs` pack into `Vec<T>`. IO buffers use
-`Vec<byte>`. Full table: [Arrays and Vec](/docs/references/arrays).
+`Vec<byte>`. Full table: [Arrays and Vec](/docs/language/arrays).
 
 ### Indexing
 
@@ -314,7 +314,7 @@ Statics: `Vec::new`, `Vec::with_capacity`, `Vec::from`. Methods: `push`, `pop`,
 | Tuple | OOB literal → diagnostic | — |
 | Non-aggregate | Error | — |
 
-Proven counted-loop `Index` / `StoreIndex` rewrite to unchecked opcodes ([#192](https://github.com/ardax-corp/coil-lang/pull/192)). Dynamic indices stay checked and **panic** on OOB (archive major 4). Prefer `i < a.len()` in loops (`LEQ`/`GEQ` are not proofs). Details: [Arrays and Vec](/docs/references/arrays#out-of-range-index).
+Proven counted-loop `Index` / `StoreIndex` rewrite to unchecked opcodes ([#192](https://github.com/ardax-corp/coil-lang/pull/192)). Dynamic indices stay checked and **panic** on OOB (archive major 4). Prefer `i < a.len()` in loops (`LEQ`/`GEQ` are not proofs). Details: [Arrays and Vec](/docs/language/arrays#out-of-range-index).
 
 ---
 
@@ -403,7 +403,7 @@ impl Counter {
 | `Class::field` | `Counter::count` | Reassignable, like `static let` |
 | `static fn` | `Class::method()` | No `self`; not callable on instances |
 
-A `static let` initializer runs once in the program prologue (declaration order). A `const` is computed while compiling and its value is stored in the program (see [Compile-time code](/docs/references/comptime#computed-consts)), so its initializer must be pure. Other modules import statics via `use` like ordinary items.
+A `static let` initializer runs once in the program prologue (declaration order). A `const` is computed while compiling and its value is stored in the program (see [Compile-time code](/docs/language/comptime#computed-consts)), so its initializer must be pure. Other modules import statics via `use` like ordinary items.
 
 A thread started with `thread::spawn` has its own heap, and starts with a copy of every static as it was when the thread was spawned, so a `const` reads the same value there. Its writes to a `static let` or class `static` field stay in that thread: the spawner and other threads do not see them. A static holding a value that cannot be sent to a thread (a stream, say) reads as unset there.
 
@@ -550,7 +550,7 @@ A `readonly class` costs nothing at runtime either: it compiles to the same byte
 
 ---
 
-Inherent `fn drop()` on a class is a GC-time finalizer (`unit` return, implicit `self` by value). See [`gc`](/docs/references/gc). Named locals are always heap-allocated (`InitTyped`); only a consumed `new Class(args).field` may skip the box, and never when the class has `fn drop()`.
+Inherent `fn drop()` on a class is a GC-time finalizer (`unit` return, implicit `self` by value). See [`gc`](/docs/reference/gc). Named locals are always heap-allocated (`InitTyped`); only a consumed `new Class(args).field` may skip the box, and never when the class has `fn drop()`.
 
 ## Class `const` fields
 
@@ -706,7 +706,7 @@ fn main() {
 ```
 
 Resuming an already-`Done` coroutine panics with `resumed after
-completion`. Check [`done(h)`](/docs/references/done) first when a loop may
+completion`. Check [`done(h)`](/docs/language/done) first when a loop may
 outrun the body.
 
 ---
@@ -974,7 +974,7 @@ prints for a unit variant). Explicit
 Rules:
 
 - Placement: immediately before the `enum` / `class` keyword (after any `///` doc comment).
-- Built-in derives: `Show`, `Eq`, `Ord`, `Default`, `Hash`, `Send`, `Sensitive`. Unknown / arithmetic traits (`Num`, …) error; user derives come from `derive` macros ([Macros](/docs/references/macros)).
+- Built-in derives: `Show`, `Eq`, `Ord`, `Default`, `Hash`, `Send`, `Sensitive`. Unknown / arithmetic traits (`Num`, …) error; user derives come from `derive` macros ([Macros](/docs/language/macros)).
 - Generic types derive bounded instances: `#[derive(Show, Eq)] class Box<T>`
   expands to `impl Show for Box<T: Show>` and `impl Eq for Box<T: Eq>`, so the
   instance applies to `Box<X>` whenever `X` has the trait. `Ord` bounds by
@@ -1390,7 +1390,7 @@ Diagnostic messages render types roughly as:
 
 | Document | Contents |
 |----------|----------|
-| [Syntax](/docs/references/syntax) | Where annotations appear in grammar |
-| [Operators](/docs/references/operators) | Arithmetic and comparison typing |
-| [Built-ins](/docs/references) | FFI type tags |
+| [Syntax](/docs/language/syntax) | Where annotations appear in grammar |
+| [Operators](/docs/language/operators) | Arithmetic and comparison typing |
+| [Built-ins](/docs/reference) | FFI type tags |
 | [Tutorial: Types](/docs/manual/tutorial/02-types-and-variables) | Guided introduction |

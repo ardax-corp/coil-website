@@ -26,11 +26,11 @@ Put the extracted `coil` binary on your `PATH`.
 
 ### Regular expressions ([coil-regex](https://github.com/ardax-corp/coil-regex))
 
-Regex is a **userland** package (not a virtual module). Clone [coil-regex](https://github.com/ardax-corp/coil-regex) separately or add via spool; see [regex reference](/docs/references/regex). It binds the system libpcre2-8 directly; tests and examples live in that repo (`make test`).
+Regex is a **userland** package (not a virtual module). Clone [coil-regex](https://github.com/ardax-corp/coil-regex) separately or add via spool; see [regex reference](/packages/regex). It binds the system libpcre2-8 directly; tests and examples live in that repo (`make test`).
 
 ### Time ([coil-time](https://github.com/ardax-corp/coil-time))
 
-Time is a **userland** package (not a virtual module). Clone [coil-time](https://github.com/ardax-corp/coil-time) separately or add via spool; see [time reference](/docs/references/time). Tests live in that repo (`coil test` after `make`).
+Time is a **userland** package (not a virtual module). Clone [coil-time](https://github.com/ardax-corp/coil-time) separately or add via spool; see [time reference](/packages/time). Tests live in that repo (`coil test` after `make`).
 
 ## Run your first program
 
@@ -83,15 +83,15 @@ The default CLI invocation compiles `examples/fib.hy` to bytecode in memory and 
 | `coil compile <file.hy> [-o path]` | Compile only; default output is `out.hyc` |
 | `coil -V` / `coil --version` | Print `coil 0.1.0` on stdout. These flags win over other args. |
 | `coil -O0` … `-O3` / `-Os` / `-Og` | Optimization preset (`none`/`basic`/`standard`/`aggressive`/`size`/`debug`); default `-O2` |
-| `coil -g0` / `-g1` / `-g2` | Debug info kept with the program (also on `compile`, `package` and `test`): `-g2` names functions and keeps lines and byte spans (needed by `coil debug` and `--coverage`); `-g1` keeps function names and lines only; `-g0` keeps neither, so a panic prints just its message. Default `-g2`, or `-g1` at `-Os` and for `coil package`. `--strip-debug` is `-g0`. See [panic](/docs/references/panic#locations-and-backtraces) |
-| `coil --allow-read` … / `-A` | Grant host access: `--allow-read`, `--allow-write`, `--allow-net`, `--allow-env`, `--allow-exec`, `--allow-exit`, `--allow-attach`, or `-A` for all. Default is none; the compiler names the flag a program needs. See [Permissions](/docs/references/permissions) |
-| `coil --allow-dload STEM` + `--dload-pin STEM=SHA256` / `--dload-trusted STEM` | Allow a `dload` stem, then pin its library hash or trust it; both are needed. spool passes them from `coil.toml` / `coil.lock`. See [FFI](/docs/references/ffi) |
+| `coil -g0` / `-g1` / `-g2` | Debug info kept with the program (also on `compile`, `package` and `test`): `-g2` names functions and keeps lines and byte spans (needed by `coil debug` and `--coverage`); `-g1` keeps function names and lines only; `-g0` keeps neither, so a panic prints just its message. Default `-g2`, or `-g1` at `-Os` and for `coil package`. `--strip-debug` is `-g0`. See [panic](/docs/language/panic#locations-and-backtraces) |
+| `coil --allow-read` … / `-A` | Grant host access: `--allow-read`, `--allow-write`, `--allow-net`, `--allow-env`, `--allow-exec`, `--allow-exit`, `--allow-attach`, or `-A` for all. Default is none; the compiler names the flag a program needs. See [Permissions](/docs/language/permissions) |
+| `coil --allow-dload STEM` + `--dload-pin STEM=SHA256` / `--dload-trusted STEM` | Allow a `dload` stem, then pin its library hash or trust it; both are needed. spool passes them from `coil.toml` / `coil.lock`. See [FFI](/docs/reference/ffi) |
 | `coil run <file.hyc>` | Execute a previously compiled archive |
 | `coil package <file.hy> [-o path]` | Build a **single executable** for this OS/arch (embeds `.hyc` into `coil-embed` by default); always requires an explicit `.hy` path. Embeds a native lock for each `--ffi-native name=…,version=…,path=…` that matches a `dload` stem (spool passes one per `[[ffi.native]]`). Embeds debug info at `-g1` unless told otherwise (`-g2`, or `-g0` / `--strip-debug` for the smallest binary). |
 | `coil natives dump [exe] [--tsv]` | Print the native lock (JSON or TSV: package, version, filename, sha256, size) from a packaged exe, or from the `--ffi-native` rows when `exe` is omitted (a row whose local file is missing is listed as `missing`, with no sha256) |
 | `coil test [path] [--fail-fast]` | Compile and run every `.hy` under `[path]` (default `./tests`); re-execs `coil-test` (`coil test --help` lists `--seed`, `-j`, `--coverage`, `--no-doc-tests`, …); also runs the code examples in `///` docs |
 | `coil mutate [flags]` | Mutation testing: which small source edits no test notices (re-execs `coil-test mutate`) |
-| `coil verify <file.hy>` | Prove `requires` / `ensures` contracts with an SMT solver (re-execs `coil-verify`). See [Contracts](/docs/references/contracts) |
+| `coil verify <file.hy>` | Prove `requires` / `ensures` contracts with an SMT solver (re-execs `coil-verify`). See [Contracts](/docs/language/contracts) |
 | `coil dissect <file.hy> [--fn pat] [--il] [--ast] [--effects]` | Re-execs `coil-dissect`: in-memory compile and dump filtered bytecode (optional pre-opt IL / entry AST / each function's effects and why auto-par left a loop sequential); never writes `out.hyc` |
 | `coil debug <file.hy> [-x script] [--batch]` | Re-execs `coil-debug`: GDB-style debugger (REPL; optional script / batch mode); never writes `out.hyc` |
 | `coil fmt [--check] <file.hy\|dir>...` | Re-execs `coil-fmt`: pretty-print `.hy` sources (in place; `--check` exits non-zero if changes needed). Preserves `//` and `///` docs. |
@@ -158,7 +158,7 @@ Layout under `./tests`:
 | `tests/**/*.hy` (except below) | Must compile; each `test("…")` case must return `Ok` |
 | `tests/compile_fail/**/*.hy` | Must **fail** to compile with an error code the file's header declares: `// Expected: E0209 — why` (negative syntax / type tests) |
 | `tests/positive/`, `tests/negative_runtime/` | Organized positive and soft-failure runtime suites |
-| `///` code examples in test files and the project sources they import | Run as doc-tests (`doc: module::item (file:line)`); see [Doc-tests](/docs/references/test-harness#doc-tests). `--no-doc-tests` skips them |
+| `///` code examples in test files and the project sources they import | Run as doc-tests (`doc: module::item (file:line)`); see [Doc-tests](/docs/language/test-harness#doc-tests). `--no-doc-tests` skips them |
 
 A test file can declare multiple cases without `fn main`:
 
@@ -340,7 +340,7 @@ The language includes:
 - **`match`** with `Enum::Variant` constructors, a `default` catch-all, nested `_` in payloads, and nested record patterns
 - **Tuples** `(a, b)`, **fixed arrays** `[T; N]`, **`Vec<T>`**, **dicts** `{ key: value }`
 - **Type aliases** `type Point = (int, int);`
-- **Modules** via `use foo::bar;` and `mod foo;` (multi-file projects; see [Modules](/docs/references/modules))
+- **Modules** via `use foo::bar;` and `mod foo;` (multi-file projects; see [Modules](/docs/language/modules))
 - **FFI** via `extern "lib" { ... }` or runtime `dload` / `declare` / `invoke`
 - **Classes** (`class` / `impl` / `new`, `pub` members, statics, generic classes — see `examples/classes.hy`)
 - **Coroutines** — `gen fn`, `yield`, `resume`, `resume h with v`, `let x = yield e`, `yield from` (see [tutorial/08-coroutines.md](/docs/manual/tutorial/08-coroutines))
@@ -350,8 +350,8 @@ The language includes:
 
 1. **Tutorial** — start with [01 — Basics](/docs/manual/tutorial/01-basics) for a guided tour of syntax and types.
 2. **Examples** — browse the full catalog in [examples.md](/docs/manual/examples); each entry includes the run command and expected output.
-3. **References** — keep [syntax](/docs/references/syntax) and [types](/docs/references/types) open while you code.
-4. **Modules** — pass `--root DIR` (or let spool read `coil.toml`) when you split code across files; see [project config](/docs/references/project-config).
+3. **References** — keep [syntax](/docs/language/syntax) and [types](/docs/language/types) open while you code.
+4. **Modules** — pass `--root DIR` (or let spool read `coil.toml`) when you split code across files; see [project config](/docs/language/project-config).
 
 ### Suggested learning path
 

@@ -26,7 +26,7 @@ test("reads the config") {
 }
 ```
 
-(A case that reaches `open` needs `coil test --allow-read`, like any program; see [Permissions](/docs/references/permissions).) This applies only to the test body itself. Helper functions and lambdas keep their own declared `Result` / `Option` types. A user class without `#[derive(Show)]` or an `impl Show` shows as its type name and an enum as its variant name without the payload (`E::V`), so derive `Show` to get the fields in the message.
+(A case that reaches `open` needs `coil test --allow-read`, like any program; see [Permissions](/docs/language/permissions).) This applies only to the test body itself. Helper functions and lambdas keep their own declared `Result` / `Option` types. A user class without `#[derive(Show)]` or an `impl Show` shows as its type name and an enum as its variant name without the payload (`E::V`), so derive `Show` to get the fields in the message.
 
 Do **not** also define `fn main` in a file that uses `test(...)` cases — the compiler injects a virtual `main` for standalone runs. The `coil test` CLI runs each case in an isolated VM (so a `panic` in one case does not skip later cases) and prints `> Test " " failed` on failure. Pass `--fail-fast` to stop after the first failed case. `env::exit` inside a case ends only that case, not the run: a `test` case that calls it fails whatever the code (the rest of its body never ran), and a file without `test` cases, whose `main` runs as one case, passes on `exit(0)` and fails on any other code. To check a program's real exit status, run it as a subprocess. The code examples in `///` docs also run; see [Doc-tests](#doc-tests).
 
@@ -83,5 +83,5 @@ fn double(int x) -> int {
 
 ## Related
 
-- [assert](/docs/references/assert)
+- [assert](/docs/reference/tests/assert)
 - [Getting Started](/docs/manual/getting-started)

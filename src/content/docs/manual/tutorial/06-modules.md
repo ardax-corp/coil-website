@@ -37,7 +37,7 @@ my-project/
 
 The **`coil.toml`** manifest declares the module search roots and optionally the entry point for spool. `coil` does not read it: [spool](/packages/spool) passes `[module].roots` as `--root` flags. Run `coil` directly and you pass `--root DIR` yourself; with no `--root`, the compiler defaults to a single search root: `src/`.
 
-See [Project configuration reference](/docs/references/project-config) for the full format.
+See [Project configuration reference](/docs/language/project-config) for the full format.
 
 ---
 
@@ -254,12 +254,12 @@ You normally call imported items by their local alias (`sadge()`), but the FQN i
 | `use io::{open, stdout};` | (virtual) | named exports of virtual `io` |
 | `mod foo;` | `<root>/foo.hy` | none |
 
-For complete syntax rules, path resolution details, and edge cases, see the [Modules reference](/docs/references/modules).
+For complete syntax rules, path resolution details, and edge cases, see the [Modules reference](/docs/language/modules).
 
 ---
 
 ## See also
 
-- [Project configuration reference](/docs/references/project-config) — full `coil.toml` format (read by spool)
+- [Project configuration reference](/docs/language/project-config) — full `coil.toml` format (read by spool)
 - [Examples catalog](/docs/manual/examples) — `modules.hy` setup notes
 - [FFI](/docs/manual/tutorial/07-ffi) — next chapter for C interop

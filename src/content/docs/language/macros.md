@@ -17,7 +17,7 @@ For a step-by-step introduction with one worked example per kind, see [Tutorial 
 
 The compiler runs macros after parsing and before typechecking. It parses the returned code and typechecks it like hand-written code, so a type error in generated code is reported at the macro's use site.
 
-The built-in derives (`Show`, `Eq`, `Ord`, `Hash`, `Default`, `Send`, `Sensitive`) are derive macros too; they need no `use`. See [Types](/docs/references/types).
+The built-in derives (`Show`, `Eq`, `Ord`, `Hash`, `Default`, `Send`, `Sensitive`) are derive macros too; they need no `use`. See [Types](/docs/language/types).
 
 ## Providers and imports
 
@@ -217,7 +217,7 @@ Where the call is decides what the output must be:
 | `Field` | `name: Ident`, `ty: TypeRef`, `is_pub`, `attrs`, `docs`, `has_attr`, `attr_str` |
 | `Variant` | `name`, `shape` (`"unit"` / `"tuple"` / `"record"`), `tuple: Vec<TypeRef>`, `fields: Vec<Field>`, `value` (discriminant as written), `attrs`, `docs`, `arity()`, `is_unit()`, `is_tuple()`, `is_record()`, `has_attr`, `attr_str` |
 | `FnDecl` | `name`, `params: Vec<Param>`, `ret`, `type_params`, `attrs`, `owner` (class of an `impl` method), `is_pub`, `is_static`, `is_coro`, `declares_effects`, `is_pure` (`pure fn`), `effects` (the `uses {…}` names), `uses_clause()`, `source`, `body_source()`, `signature(name)`, `with_name(name)` (keeps `pure` and `uses {…}`), `call(name)`, `arg_names()` |
-| `Expr` | a `name!(…)` argument: `str()` (source text as written), `src()` (the text, parenthesized unless it is a single term), `kind()` (`"literal"`, `"ident"`, `"path"`, `"call"` or `"other"`), `is_literal()`, `is_ident()`, and its value when it is a constant: `int()`, `float()`, `bool()`, `string()` (each an `Option`; see [Values in macros](/docs/references/comptime#values-in-macros)) |
+| `Expr` | a `name!(…)` argument: `str()` (source text as written), `src()` (the text, parenthesized unless it is a single term), `kind()` (`"literal"`, `"ident"`, `"path"`, `"call"` or `"other"`), `is_literal()`, `is_ident()`, and its value when it is a constant: `int()`, `float()`, `bool()`, `string()` (each an `Option`; see [Values in macros](/docs/language/comptime#values-in-macros)) |
 | `TypeRef` | `str()`, `head()`, `args()` |
 | `Attr` / `AttrArg` | `name`, `args`, `has(key)`, `arg(key, fallback)` |
 | `Ident` | `str()`, `src()` |
@@ -228,9 +228,9 @@ Because types are as written, a derive cannot ask whether a field's type impleme
 
 ## At compile time
 
-- A macro runs in the VM with **no host access** unless the build grants it: files, environment variables, programs and TCP connections need a `--comptime-*` flag ([IO](/docs/references/comptime#io)), scoped to the module that declares the macro. Clocks, threads, listening and UDP are unavailable. Pure computation (strings, math, `Vec`) always works.
-- It runs within the compile-time [limits](/docs/references/comptime#limits) (`--comptime-steps`, `--comptime-mem`, `--comptime-timeout`); a runaway macro fails with an error that names the flag to raise.
-- Output that used IO is kept in the [result cache](/docs/references/comptime#the-result-cache).
+- A macro runs in the VM with **no host access** unless the build grants it: files, environment variables, programs and TCP connections need a `--comptime-*` flag ([IO](/docs/language/comptime#io)), scoped to the module that declares the macro. Clocks, threads, listening and UDP are unavailable. Pure computation (strings, math, `Vec`) always works.
+- It runs within the compile-time [limits](/docs/language/comptime#limits) (`--comptime-steps`, `--comptime-mem`, `--comptime-timeout`); a runaway macro fails with an error that names the flag to raise.
+- Output that used IO is kept in the [result cache](/docs/language/comptime#the-result-cache).
 - `panic "…"` fails the macro with that message, which is the way to see what a macro received.
 - Module statics of the provider are not initialized while macros run.
 - A provider is compiled once and kept in the user cache (`~/.cache/coil`), so later builds load it instead of compiling it again; its outputs are reused.

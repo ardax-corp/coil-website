@@ -18,11 +18,11 @@ Still not a compiler builtin (and not coil-stdlib either):
 
 | Category | Examples | Where to look |
 |----------|----------|----------------|
-| Raw memory | `alloc`, `free` | [`gc::Root` / `gc::Weak`](/docs/references/gc) |
-| Regex | PCRE2 | [coil-regex](https://github.com/ardax-corp/coil-regex) ([regex](/docs/references/regex)) |
-| TLS | rustls | [coil-tls](https://github.com/ardax-corp/coil-tls) ([tls](/docs/references/tls)) |
-| Crypto | hashes, AEAD, keys | [coil-crypto](https://github.com/ardax-corp/coil-crypto) ([crypto](/docs/references/crypto)) |
-| Time | calendar, monotonic Instant | [coil-time](https://github.com/ardax-corp/coil-time) ([time](/docs/references/time)) |
+| Raw memory | `alloc`, `free` | [`gc::Root` / `gc::Weak`](/docs/reference/gc) |
+| Regex | PCRE2 | [coil-regex](https://github.com/ardax-corp/coil-regex) ([regex](/packages/regex)) |
+| TLS | rustls | [coil-tls](https://github.com/ardax-corp/coil-tls) ([tls](/packages/tls)) |
+| Crypto | hashes, AEAD, keys | [coil-crypto](https://github.com/ardax-corp/coil-crypto) ([crypto](/packages/crypto)) |
+| Time | calendar, monotonic Instant | [coil-time](https://github.com/ardax-corp/coil-time) ([time](/packages/time)) |
 
 Use **`io`** for streams, **FFI** for C libraries, or **host natives** when embedding the VM in Rust.
 
@@ -31,8 +31,8 @@ Use **`io`** for streams, **FFI** for C libraries, or **host natives** when embe
 ## Related
 
 - [coil-stdlib docs](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/README.md)
-- [io](/docs/references/io)
-- [tls](/docs/references/tls)
-- [time](/docs/references/time)
-- [ffi](/docs/references/ffi)
-- [host-natives](/docs/references/host-natives)
+- [io](/docs/reference/io)
+- [tls](/packages/tls)
+- [time](/packages/time)
+- [ffi](/docs/reference/ffi)
+- [host-natives](/docs/language/host-natives)

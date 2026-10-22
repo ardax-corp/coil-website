@@ -16,7 +16,7 @@ use string::{from_bytes};
 
 Buffers use the **`byte`** primitive and **`Vec<byte>`** vectors.
 
-Opening files and sockets is a host capability: a program that can reach `open` or a socket call compiles only with the matching grant (`--allow-read`, `--allow-write`, `--allow-net`, or `-A`); the compiler names the missing flag. Stdio needs none. See [Permissions](/docs/references/permissions).
+Opening files and sockets is a host capability: a program that can reach `open` or a socket call compiles only with the matching grant (`--allow-read`, `--allow-write`, `--allow-net`, or `-A`); the compiler names the missing flag. Stdio needs none. See [Permissions](/docs/language/permissions).
 
 ---
 
@@ -102,7 +102,7 @@ use io::net::udp::{bind, local_port, send_to};
 ```
 
 TLS is the [coil-tls](https://github.com/ardax-corp/coil-tls) package, not a
-virtual module. See [tls](/docs/references/tls) and `examples/io_tls.hy`.
+virtual module. See [tls](/packages/tls) and `examples/io_tls.hy`.
 
 ---
 
@@ -156,7 +156,7 @@ See `examples/io_udp.hy`.
 | `shutdown(s, how)` | `→ Result<(), IoError>` | Half-close: `0` read, `1` write, `2` both |
 
 TLS wrap of a TCP stream is [coil-tls](https://github.com/ardax-corp/coil-tls)
-(`use tls::{client, server}`), not a virtual module. See [tls](/docs/references/tls).
+(`use tls::{client, server}`), not a virtual module. See [tls](/packages/tls).
 
 ---
 
@@ -207,6 +207,6 @@ lower to the same host natives (`HostInvoke`).
 
 ## Related
 
-- [Built-ins — `io` module](/docs/references/io)
-- [Types — `byte`](/docs/references/types)
+- [Built-ins — `io` module](/docs/reference/io)
+- [Types — `byte`](/docs/language/types)
 - [Examples catalog](/docs/manual/examples)

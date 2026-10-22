@@ -13,7 +13,7 @@ Narrowing conversions between `int`, `float`, `byte`, and `bool` (wrapping/trunc
 
 Examples: `n as byte`, `f as int`, `flag as bool`, `"/" as byte`. The same matrix is available via `Into` (`n.into()` when the target type is known). See `examples/casts.hy`.
 
-`as` is a Pratt **postfix** operator (see [Operators](/docs/references/operators)): it binds tighter than arithmetic and assignment, so `c = m as byte` means `c = (m as byte)`, and `1 + 2 as float` means `1 + (2 as float)`.
+`as` is a Pratt **postfix** operator (see [Operators](/docs/language/operators)): it binds tighter than arithmetic and assignment, so `c = m as byte` means `c = (m as byte)`, and `1 + 2 as float` means `1 + (2 as float)`.
 
 A **string literal** whose UTF-8 encoding is exactly one byte coerces to `byte` under an expected `byte` (or via `"/" as byte`). Escapes like `"\n"` and `"\""` work; multi-byte literals are a type error for `byte`.
 
@@ -25,5 +25,5 @@ A **non-literal** `string` may use `s as [byte]`, which lowers to `string::to_by
 
 ## Related
 
-- [Types](/docs/references/types)
-- [Operators](/docs/references/operators)
+- [Types](/docs/language/types)
+- [Operators](/docs/language/operators)

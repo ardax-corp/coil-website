@@ -7,7 +7,7 @@ description: Enums are a choice among named cases. Payload cases carry unit, tup
 
 Enums let you define a type as a choice among named cases. **Payload** cases carry no data (unit), positional values (tuple), or named fields (record). **Scalar-backed** cases assign a primitive literal (`Ok = 200`) so the runtime word is that backing while the type stays the enum. You create values with `Enum::Variant` and branch with `match`.
 
-This chapter builds on [Types and Variables](/docs/manual/tutorial/02-types-and-variables). Record-shaped variants and field access are covered in depth in [Records and Fields](/docs/manual/tutorial/04-records-and-fields). Scalar rules are also in [Types — Scalar-backed enums](/docs/references/types#scalar-backed-enums).
+This chapter builds on [Types and Variables](/docs/manual/tutorial/02-types-and-variables). Record-shaped variants and field access are covered in depth in [Records and Fields](/docs/manual/tutorial/04-records-and-fields). Scalar rules are also in [Types — Scalar-backed enums](/docs/language/types#scalar-backed-enums).
 
 ---
 
@@ -476,5 +476,5 @@ match r {
 ## What's next
 
 - [Records and Fields](/docs/manual/tutorial/04-records-and-fields) — field access (`p.x`), chained access (`o.x.v`), nested record patterns, and the diagnostics that guard record-shaped variants.
-- [Types](/docs/references/types#scalar-backed-enums) — scalar coerce, `Show` as the backing word, and payload vs scalar runtime.
+- [Types](/docs/language/types#scalar-backed-enums) — scalar coerce, `Show` as the backing word, and payload vs scalar runtime.
 - [Aggregates](/docs/manual/tutorial/05-aggregates) — tuples, arrays, and anonymous dicts (`{ foo: 42 }`), which look similar to record variants but are a separate feature.

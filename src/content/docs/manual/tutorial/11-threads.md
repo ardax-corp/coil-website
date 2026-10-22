@@ -99,7 +99,7 @@ sq: pure
 
 Hovering a function in the editor (`coil lsp`) shows the same effects line.
 Writing `pure fn` makes the compiler check that a function stays pure; see
-[Effects](/docs/references/effects).
+[Effects](/docs/language/effects).
 
 ## Channels
 

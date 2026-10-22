@@ -282,7 +282,7 @@ fn nibble_bits(int x) -> int {
 }
 ```
 
-Class statics use `ClassName::field` / `ClassName::method(...)` — see [Types — Static slots](/docs/references/types#static-slots) and `examples/static_singleton.hy`.
+Class statics use `ClassName::field` / `ClassName::method(...)` — see [Types — Static slots](/docs/language/types#static-slots) and `examples/static_singleton.hy`.
 
 A `const` or `static` that holds a function is called like one, by its bare name, through another module's path, or as a class static field:
 
@@ -333,7 +333,7 @@ let c: readonly Point = a;   // `readonly e` works on any expression too: `reado
 | `let` | `let p = new Point(1, 2);` | `let p: readonly Point = …;` / `let p = readonly new Point(1, 2);` |
 | `const` | `const p = new Point(1, 2);` (warns: the value is still mutable) | `const p = readonly new Point(1, 2);` fully frozen, no warning |
 
-See `examples/readonly_seal.hy` and [Types — Readonly](/docs/references/types#readonly-types).
+See `examples/readonly_seal.hy` and [Types — Readonly](/docs/language/types#readonly-types).
 
 **Reading** a variable emits a load from that slot. The typechecker ensures you only assign types compatible with the binding's declared or inferred type.
 
@@ -382,7 +382,7 @@ Key points today:
 - **`impl Name { fn method(...) -> Ret { ... } }`** attaches methods; `self` is the receiver.
 - **`new Point(1, 3)`** allocates an instance on the heap, taking one argument per field in declaration order.
 
-See `examples/classes.hy`, `examples/static_ctor.hy` and [Types](/docs/references/types) for static members, generic classes and traits.
+See `examples/classes.hy`, `examples/static_ctor.hy` and [Types](/docs/language/types) for static members, generic classes and traits.
 
 ---
 
@@ -460,7 +460,7 @@ If you change `clamp` to return `"100"` (string), the checker reports a `Type mi
 
 - [Chapter 1 — Basics](/docs/manual/tutorial/01-basics) — syntax, control flow, and stdout
 - [Chapter 5 — Aggregates](/docs/manual/tutorial/05-aggregates) — tuples, arrays, records, and aliases in depth
-- [Operator reference](/docs/references/operators) — operators and operand types
+- [Operator reference](/docs/language/operators) — operators and operand types
 - `examples/let_test.hy` — binding and reassignment
 - `examples/aliases.hy` — type alias end-to-end
 - `examples/classes.hy` — class syntax snapshot

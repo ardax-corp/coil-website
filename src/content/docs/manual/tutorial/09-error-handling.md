@@ -132,7 +132,7 @@ write_all(stdout(), to_bytes(format("%i", none?.v ?? 0)));     // None → 0
 
 `panic msg` aborts immediately with `panic: <msg> at <file>:<line>:<col>` (CLI exit code 1); `defer` blocks still run as it unwinds. Prefer `assert!` when failure should be recoverable.
 
-See [assert!](/docs/references/assert) and `examples/assert.hy` / `examples/panic.hy`.
+See [assert!](/docs/reference/tests/assert) and `examples/assert.hy` / `examples/panic.hy`.
 
 ---
 
@@ -146,8 +146,8 @@ See `examples/raise_try.hy` (output `10,neg`), `examples/coalesce.hy` (`bar,hi,7
 
 | Document | Contents |
 |----------|----------|
-| [Operators](/docs/references/operators) | Precedence for `?`, `?.`, `??` |
-| [Types](/docs/references/types) | Built-in Option / Result |
-| [Built-ins](/docs/references) | Compiler-provided enums, `panic`; stdlib `assert!` |
-| [Keywords](/docs/references/keywords) | `raise`, `panic` |
-| [Error codes](/docs/references/error-codes) | E0114–E0117 |
+| [Operators](/docs/language/operators) | Precedence for `?`, `?.`, `??` |
+| [Types](/docs/language/types) | Built-in Option / Result |
+| [Built-ins](/docs/reference) | Compiler-provided enums, `panic`; stdlib `assert!` |
+| [Keywords](/docs/reference/keywords) | `raise`, `panic` |
+| [Error codes](/docs/language/error-codes) | E0114–E0117 |

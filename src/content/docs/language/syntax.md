@@ -5,7 +5,7 @@ description: Complete grammar overview for coil source (.hy). This document desc
 
 # Syntax reference
 
-Complete grammar overview for coil source (`.hy`). This document describes what the parser accepts today; see [Types](/docs/references/types), [Operators](/docs/references/operators), and [Keywords](/docs/references/keywords) for semantics.
+Complete grammar overview for coil source (`.hy`). This document describes what the parser accepts today; see [Types](/docs/language/types), [Operators](/docs/language/operators), and [Keywords](/docs/reference/keywords) for semantics.
 
 ---
 
@@ -57,9 +57,9 @@ fn triple(int x) -> int { return x * 3; }
 | Attribute | Target | Semantics |
 |-----------|--------|-----------|
 | `#[derive(Trait, …)]` | `enum` / `class` | Runs each derive (built-in `Show`, `Eq`, `Ord`, `Hash`, `Default`, `Send`, `Sensitive`, or a user `derive` imported with `use`) and adds its output after the type. Without derive, non-generic **payload** types still get a default `Show`: a class returns its type name string, an enum its qualified variant name (`E::V`, payload elided). Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
-| `#[repr(int)]` / `#[repr(string)]` / `#[repr(float)]` / `#[repr(bool)]` | `enum` | Scalar-backed enum: each case is `Name = lit` of that primitive. May be omitted when every case has `=` and the literals share one type. See [Types — Scalar-backed enums](/docs/references/types#scalar-backed-enums). |
+| `#[repr(int)]` / `#[repr(string)]` / `#[repr(float)]` / `#[repr(bool)]` | `enum` | Scalar-backed enum: each case is `Name = lit` of that primitive. May be omitted when every case has `=` and the literals share one type. See [Types — Scalar-backed enums](/docs/language/types#scalar-backed-enums). |
 | `#[max_depth(N)]` | recursive `fn` | Optional hint: presizes the VM stack for `N` simultaneous frames when the compiler cannot prove a depth (dynamic args, mutual recursion). The stack grows at run time either way, so a wrong `N` only costs a regrow. `N` must be a positive integer. |
-| Attribute macro `#[name(…)]` | `fn`, methods, `class`, `enum` | Runs the `attr name(…)` macro imported with `use`; its output replaces the item. See [Macros](/docs/references/macros#attribute-macros). |
+| Attribute macro `#[name(…)]` | `fn`, methods, `class`, `enum` | Runs the `attr name(…)` macro imported with `use`; its output replaces the item. See [Macros](/docs/language/macros#attribute-macros). |
 
 Several attribute macros on one item apply outermost first. Unknown attribute names are rejected at compile time.
 
@@ -73,9 +73,9 @@ macro_call    ::= IDENT '!(' (expr (',' expr)*)? ')'      // no space between `!
 quote_expr    ::= 'quote' ('items' | 'expr' | 'stmts' | 'type') '{' template '}'
 ```
 
-`pure` (directly before `fn`) and `uses` (after a function's signature) are contextual too; see [Effects](/docs/references/effects). `derive`, `attrs`, `macro` and `quote` are contextual: they are ordinary identifiers elsewhere (`use macro::{…}` names the model module). A `macro_call` is an expression; written as a statement (`name!(…);`) its output is statements, or declarations at the top level. See [Macros](/docs/references/macros).
+`pure` (directly before `fn`) and `uses` (after a function's signature) are contextual too; see [Effects](/docs/language/effects). `derive`, `attrs`, `macro` and `quote` are contextual: they are ordinary identifiers elsewhere (`use macro::{…}` names the model module). A `macro_call` is an expression; written as a statement (`name!(…);`) its output is statements, or declarations at the top level. See [Macros](/docs/language/macros).
 
-`#[test]` and `#[ffi]` are rejected with an error. Write test cases as top-level [`test("desc") { … }`](/docs/references/test-harness) blocks, and compile-time C bindings as `extern "lib" { fn …; }` blocks ([FFI](/docs/references/ffi)).
+`#[test]` and `#[ffi]` are rejected with an error. Write test cases as top-level [`test("desc") { … }`](/docs/language/test-harness) blocks, and compile-time C bindings as `extern "lib" { fn …; }` blocks ([FFI](/docs/reference/ffi)).
 
 ---
 
@@ -83,7 +83,7 @@ quote_expr    ::= 'quote' ('items' | 'expr' | 'stmts' | 'type') '{' template '}'
 
 | Element | Rules |
 |---------|-------|
-| Identifiers | ASCII letters, digits, underscore; should not be a [keyword](/docs/references/keywords) (the parser does not reject most of them yet) |
+| Identifiers | ASCII letters, digits, underscore; should not be a [keyword](/docs/reference/keywords) (the parser does not reject most of them yet) |
 | Integers | Decimal (`42`, `-1`) |
 | Floats | Decimal with fraction (`1.0`, `3.14`) — parsed before postfix `.field` |
 | Strings | `"..."` — escapes: `\\` `\"` `\n` `\r` `\t` `\0` `\e` `\xHH` `\u{HEX}` |
@@ -311,7 +311,7 @@ field_decl      ::= IDENT ':' type
 scalar_lit      ::= int | float | string | 'true' | 'false' | '-' int
 ```
 
-`=` on a variant is a scalar discriminant. It cannot mix with a tuple or record payload. See [Types — Scalar-backed enums](/docs/references/types#scalar-backed-enums).
+`=` on a variant is a scalar discriminant. It cannot mix with a tuple or record payload. See [Types — Scalar-backed enums](/docs/language/types#scalar-backed-enums).
 
 Grammar (with optional attributes):
 
@@ -352,7 +352,7 @@ mod_stmt ::= 'mod' IDENT ';'
 prelude is auto-injected — no source `use prelude::*` needed.)
 
 Brace groups (`use math::{add, mul};`) desugar to multiple single-item `use`s.
-See [Modules reference](/docs/references/modules).
+See [Modules reference](/docs/language/modules).
 
 ### Extern (FFI)
 
@@ -375,7 +375,7 @@ extern "c" {
 }
 ```
 
-`extern "c"` is a libc alias and is **denied** by the `dload` gate. See [FFI tutorial](/docs/manual/tutorial/07-ffi) and [Project config — `[ffi]`](/docs/references/project-config#ffi).
+`extern "c"` is a libc alias and is **denied** by the `dload` gate. See [FFI tutorial](/docs/manual/tutorial/07-ffi) and [Project config — `[ffi]`](/docs/language/project-config#ffi).
 
 Signature-only `fn foo() -> T;` outside `extern` is a parse error. Runtime loading stays `use ffi::{dload, declare, invoke}`.
 
@@ -392,7 +392,7 @@ method_decl ::= 'pub'? function_decl
 `type_param_list` is the same form as on functions (`<T>`, `<T: Num>`, …).
 An inherent `impl Cell<T>` shares those parameters with the class so methods
 can mention `T` and type `self` as `Cell<T>`.
-See [Trait derive](/docs/references/types#trait-derive) for `#[derive(...)]`.
+See [Trait derive](/docs/language/types#trait-derive) for `#[derive(...)]`.
 
 Example:
 
@@ -414,7 +414,7 @@ impl Cell<T> {
 
 Classes support positional constructor args (field order), field read/write, and method calls with implicit `self`. See `examples/classes.hy` and `examples/generic_class.hy`.
 
-An inherent `fn drop()` is a GC-time finalizer (not RAII). The receiver is implicit `self` by value (same as other instance methods); it must return `unit` and appear at most once per class. Explicit `obj.drop()` is allowed and counts toward the once-limit. Storing `self` from `drop` can keep the object alive after the sweep; drop still runs at most once. See [`gc`](/docs/references/gc).
+An inherent `fn drop()` is a GC-time finalizer (not RAII). The receiver is implicit `self` by value (same as other instance methods); it must return `unit` and appear at most once per class. Explicit `obj.drop()` is allowed and counts toward the once-limit. Storing `self` from `drop` can keep the object alive after the sweep; drop still runs at most once. See [`gc`](/docs/reference/gc).
 
 Inherent method names are **not** bound as bare identifiers inside the method body (so `use thread::{send, recv};` keeps `send` / `recv` visible even if you write `fn send(...)`). Call the method as `self.send(...)` (or `Class::method(...)` for `static fn`). Bare `send(...)` resolves to the imported function.
 
@@ -464,8 +464,8 @@ statement ::= while_stmt
 | Expression | `expr ';'` |
 | `return` | `return [expr] ';'` (`return;` returns unit) |
 | `yield` | `yield expr ';'` or `yield from expr ';'` |
-| `while` | `while expr loop_clause* block` — `loop_clause` is `invariant expr` or `decreases expr` ([Contracts](/docs/references/contracts)); a `for` takes `invariant` the same way |
-| `for` | `for IDENT in expr block` — via prelude `IntoIterator` / `Iterator` (arrays, homogeneous tuples, ranges, coroutines, or user `impl`s — not records; see [Built-ins](/docs/references/iterator)). C-style `for (init; cond; step)` is a parse error. |
+| `while` | `while expr loop_clause* block` — `loop_clause` is `invariant expr` or `decreases expr` ([Contracts](/docs/language/contracts)); a `for` takes `invariant` the same way |
+| `for` | `for IDENT in expr block` — via prelude `IntoIterator` / `Iterator` (arrays, homogeneous tuples, ranges, coroutines, or user `impl`s — not records; see [Built-ins](/docs/reference/prelude/Iterator)). C-style `for (init; cond; step)` is a parse error. |
 | `break` | `break ';'` (innermost loop) |
 | `continue` | `continue ';'` (jumps to the `while` condition / next for-in iteration) |
 | `if` | `if expr block ('else' (block \| if_stmt))?` |
@@ -482,7 +482,7 @@ A parameter, `let`, pattern or loop binding, or `use` capture with the same name
 ### Empty index (`arr[]`) — removed
 
 `arr[] = value` (append assignment) is **no longer supported** (`E0107`).
-Use `vec.push(value)` on a `Vec<T>`. See [Arrays and Vec](/docs/references/arrays).
+Use `vec.push(value)` on a `Vec<T>`. See [Arrays and Vec](/docs/language/arrays).
 
 ### `readonly` expressions
 
@@ -494,13 +494,13 @@ let p = readonly new Point(1, 2);
 let i = readonly q.inner;
 ```
 
-In a type, `readonly T` is written anywhere a type is: `fn f(readonly Point p) -> readonly Vec<int>`, `let v: Vec<readonly Point> = …;`. See [Types — Readonly](/docs/references/types#readonly-types).
+In a type, `readonly T` is written anywhere a type is: `fn f(readonly Point p) -> readonly Vec<int>`, `let v: Vec<readonly Point> = …;`. See [Types — Readonly](/docs/language/types#readonly-types).
 
 ---
 
 ## Expressions
 
-Expression grammar uses a **Pratt parser** with atoms and operator precedence (see [Operators](/docs/references/operators)).
+Expression grammar uses a **Pratt parser** with atoms and operator precedence (see [Operators](/docs/language/operators)).
 
 ### Atoms (primary forms)
 
@@ -518,7 +518,7 @@ atom ::= match_expr
 
 `dload` / `declare` / `invoke` are ordinary `IDENT` calls after `use ffi::{dload, declare, invoke};` (not keyword atoms).
 
-Primitive casts use postfix `expr as T` (`int` / `float` / `byte` / `bool`). `float as int` truncates toward zero (not `round`/`floor`); see [Built-ins](/docs/references/casts).
+Primitive casts use postfix `expr as T` (`int` / `float` / `byte` / `bool`). `float as int` truncates toward zero (not `round`/`floor`); see [Built-ins](/docs/language/casts).
 
 | Form | Syntax | Notes |
 |------|--------|-------|
@@ -751,7 +751,7 @@ A record arm still works when the body is a real record literal (`{ x: 1 }`).
 
 ## Multi-file projects
 
-The pipeline discovers dependencies via `use` / `mod` under the `--root` search roots (spool passes `coil.toml` `[module].roots`) and compiles each file with a namespace prefix. The **entry file** uses the empty namespace. See [Modules reference](/docs/references/modules).
+The pipeline discovers dependencies via `use` / `mod` under the `--root` search roots (spool passes `coil.toml` `[module].roots`) and compiles each file with a namespace prefix. The **entry file** uses the empty namespace. See [Modules reference](/docs/language/modules).
 
 ---
 
@@ -794,8 +794,8 @@ See [README](/docs) language-at-a-glance table for the live feature matrix.
 
 | Document | Contents |
 |----------|----------|
-| [Types](/docs/references/types) | Type forms and inference |
-| [Operators](/docs/references/operators) | Precedence and semantics |
-| [Keywords](/docs/references/keywords) | Reserved words |
-| [Built-ins](/docs/references) | virtual modules and FFI builtins |
-| [Modules](/docs/references/modules) | `use` / `mod` resolution |
+| [Types](/docs/language/types) | Type forms and inference |
+| [Operators](/docs/language/operators) | Precedence and semantics |
+| [Keywords](/docs/reference/keywords) | Reserved words |
+| [Built-ins](/docs/reference) | virtual modules and FFI builtins |
+| [Modules](/docs/language/modules) | `use` / `mod` resolution |

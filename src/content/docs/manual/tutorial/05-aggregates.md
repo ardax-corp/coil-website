@@ -74,11 +74,11 @@ scalar broadcast:
 ```
 
 Heterogeneous tuples and mismatched arities are compile errors.
-See [Operators — Aggregate arithmetic](/docs/references/operators).
+See [Operators — Aggregate arithmetic](/docs/language/operators).
 
 For linear algebra on bare vectors/arrays, use named helpers (`dot`,
 `cross`, `matmul`). For matmul with `*`, wrap with `matrix(...)` to get
-a `Matrix` — see [Built-ins](/docs/references/math).
+a `Matrix` — see [Built-ins](/docs/reference/prelude/math).
 
 ---
 
@@ -155,7 +155,7 @@ Indexing uses the same `arr[i]` syntax as tuples (also works on `Vec`).
 
 **`Vec<T>`:** no compile-time out-of-bounds check on variable indices. At
 runtime an out-of-range read or write **panics** (same as `[T; N]` with a
-variable index). See [Arrays and Vec](/docs/references/arrays#out-of-range-index).
+variable index). See [Arrays and Vec](/docs/language/arrays#out-of-range-index).
 
 ### Growing collections with `Vec` and `len`
 
@@ -177,7 +177,7 @@ fn main() {
 
 Useful `Vec` API: `Vec::new` / `with_capacity` / `from`, plus `push`, `pop`,
 `insert`, `remove`, `clear`, `reserve`, `capacity`, `len`, and index get/set.
-See [Arrays and Vec](/docs/references/arrays) and `examples/vec.hy`.
+See [Arrays and Vec](/docs/language/arrays) and `examples/vec.hy`.
 
 ---
 
@@ -340,4 +340,4 @@ cargo run -- --root ../coil-stdlib/src examples/dict.hy
 
 - [Records and Fields](/docs/manual/tutorial/04-records-and-fields) — enum record variants vs records
 - [Types and Variables](/docs/manual/tutorial/02-types-and-variables) — type annotations and inference
-- [Types reference](/docs/references/types) — complete type system reference
+- [Types reference](/docs/language/types) — complete type system reference

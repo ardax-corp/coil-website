@@ -33,7 +33,7 @@ $ coil --allow-read load.hy
 | `-A`, `--allow-all` | All of the above | |
 
 Read, write, net and env report `E0414`. `dload` is separate: each library
-needs `--allow-dload STEM` (see [FFI](/docs/references/ffi)), and `-A` does
+needs `--allow-dload STEM` (see [FFI](/docs/reference/ffi)), and `-A` does
 not grant it. At run time the stem also needs `--dload-pin STEM=SHA256` or
 `--dload-trusted STEM`, or the load is denied.
 
@@ -85,11 +85,11 @@ net = true
 
 A key left out is denied. spool also passes `[ffi] allow`, the `coil.lock`
 native pins and `trusted` deps as `--allow-dload`, `--dload-pin` and
-`--dload-trusted`. See [Project configuration](/docs/references/project-config#permissions).
+`--dload-trusted`. See [Project configuration](/docs/language/project-config#permissions).
 
 ## Related
 
-- [Error codes](/docs/references/error-codes)
-- [Compile-time code](/docs/references/comptime#io): the `--comptime-*` grants for code that runs while compiling
-- [Effects](/docs/references/effects): what a function does, inferred and declared
-- [env](/docs/references/env), [io::fs](/docs/references/io-fs), [io](/docs/references/io)
+- [Error codes](/docs/language/error-codes)
+- [Compile-time code](/docs/language/comptime#io): the `--comptime-*` grants for code that runs while compiling
+- [Effects](/docs/language/effects): what a function does, inferred and declared
+- [env](/docs/reference/env), [io::fs](/docs/reference/io/fs), [io](/docs/reference/io)

@@ -300,7 +300,7 @@ Runtime tag mapping:
 | Full path | `dload("/abs/path/libsum.so")` | Filename stem is still gated; not a bypass |
 | Relative path | `dload("./vendor/libfoo.so")` | Same stem gate; cwd / `base_dir` still matter for locating |
 
-The `extern` block string and the `dload` path use the same resolver (`base_dir`, `--ffi-search-path`) and the same gate. See [Project config — `[ffi]`](/docs/references/project-config#ffi).
+The `extern` block string and the `dload` path use the same resolver (`base_dir`, `--ffi-search-path`) and the same gate. See [Project config — `[ffi]`](/docs/language/project-config#ffi).
 
 ### C function guidelines
 
@@ -347,7 +347,7 @@ pipeline.register_host_native(sig, |heap, args| { /* ... */ Ok(Some(value)) });
 pipeline.wire_host_natives(&mut vm);
 ```
 
-This produces `HostInvoke` bytecode from `Compiler::register()`. See [Built-ins reference](/docs/references/host-natives).
+This produces `HostInvoke` bytecode from `Compiler::register()`. See [Built-ins reference](/docs/language/host-natives).
 
 ---
 
@@ -396,7 +396,7 @@ This produces `HostInvoke` bytecode from `Compiler::register()`. See [Built-ins 
 
 ## Exercises
 
-1. Stems (`time`, `crypto`, `tls`, `regex`, and others) need `--allow-dload` plus `--dload-pin` or `--dload-trusted` (spool: `[ffi] allow` plus a lock hash or `trusted`) — see [Project config — `[ffi]`](/docs/references/project-config#ffi). The libc aliases (`extern "c"`, `dload("c")`) are always **denied**.
+1. Stems (`time`, `crypto`, `tls`, `regex`, and others) need `--allow-dload` plus `--dload-pin` or `--dload-trusted` (spool: `[ffi] allow` plus a lock hash or `trusted`) — see [Project config — `[ffi]`](/docs/language/project-config#ffi). The libc aliases (`extern "c"`, `dload("c")`) are always **denied**.
 2. Build the platform `libsum` artifact from `examples/sum.c` and run `examples/ffi_sum.hy` only with `--allow-dload sum` and `--dload-pin sum=SHA256` (from `sha256sum examples/libsum.so`) or `--dload-trusted sum` (an absolute path is not a bypass).
 3. Add a C function `int triple(int x) { return x * 3; }`, export it from the same library, and call it via `declare`/`invoke` (unwrap the `Result`s).
 4. Try an incorrect signature (e.g. declare `sum` with one `int` argument) and observe `Result::Err`.
@@ -405,6 +405,6 @@ This produces `HostInvoke` bytecode from `Compiler::register()`. See [Built-ins 
 
 ## Next steps
 
-- [Built-ins reference](/docs/references) — virtual module and FFI builtin details
-- [Types reference](/docs/references/types) — what can and cannot cross the FFI boundary
+- [Built-ins reference](/docs/reference) — virtual module and FFI builtin details
+- [Types reference](/docs/language/types) — what can and cannot cross the FFI boundary
 - [Getting Started](/docs/manual/getting-started) — build and CLI workflow

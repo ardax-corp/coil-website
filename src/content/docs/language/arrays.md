@@ -86,7 +86,7 @@ a rest pack is forwarded. A `Vec` has no static length, so spreading one into
 fixed parameters is error E0119.
 
 Numeric ranges (`int` / `byte` / `float`) expose inherent `.to_vec()` — same
-step and empty-decreasing rule as `for`. See [Ranges](/docs/references/syntax#ranges-lazy).
+step and empty-decreasing rule as `for`. See [Ranges](/docs/language/syntax#ranges-lazy).
 
 IO buffers (`to_bytes`, `read`/`write`) use `Vec<byte>`.
 
@@ -104,6 +104,6 @@ Proven counted-loop reads/writes rewrite to unchecked / pin opcodes
 
 ## Related
 
-- [Types](/docs/references/types)
-- [Syntax](/docs/references/syntax)
+- [Types](/docs/language/types)
+- [Syntax](/docs/language/syntax)
 - Example: `examples/vec.hy`

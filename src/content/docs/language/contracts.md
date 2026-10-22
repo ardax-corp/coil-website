@@ -198,7 +198,7 @@ in are not checked for effects either.
 ## Macros and tools
 
 - The macro model's `FnDecl` has `requires` and `ensures` (each clause as
-  written), and `contract_clauses()`. See [Macros](/docs/references/macros).
+  written), and `contract_clauses()`. See [Macros](/docs/language/macros).
 - Editor hover shows a function's contracts.
 
 ## Generated tests
@@ -229,6 +229,6 @@ parameter, may have changed in any call that could write them.
 
 ## Related
 
-- [Effects](/docs/references/effects): why a clause must be effect-free
-- [Panic](/docs/references/panic): what a failed check does
-- [Test harness](/docs/references/test-harness)
+- [Effects](/docs/language/effects): why a clause must be effect-free
+- [Panic](/docs/language/panic): what a failed check does
+- [Test harness](/docs/language/test-harness)

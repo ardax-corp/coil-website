@@ -52,11 +52,11 @@ vm.run_raw(&bytecode);
 | Approach | Use when |
 |----------|----------|
 | Host natives | Embedding coil in a Rust app; hot callbacks without a shared library |
-| `extern` / `dload` | Calling existing C libraries; plugins as `.so` files (subject to the [`dload` gate](/docs/references/project-config#ffi)) |
+| `extern` / `dload` | Calling existing C libraries; plugins as `.so` files (subject to the [`dload` gate](/docs/language/project-config#ffi)) |
 
 ---
 
 ## Related
 
-- [ffi](/docs/references/ffi)
-- [Project config — `[ffi]`](/docs/references/project-config#ffi) — `dload` gate (`HostInvoke` is not that gate)
+- [ffi](/docs/reference/ffi)
+- [Project config — `[ffi]`](/docs/language/project-config#ffi) — `dload` gate (`HostInvoke` is not that gate)

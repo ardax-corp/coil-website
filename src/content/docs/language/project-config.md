@@ -106,7 +106,7 @@ spool build
 
 Read by [spool](/packages/spool/manifest), not by `coil`: spool turns each key
 that is `true` into the matching `coil` flag on every compile, run and test.
-`coil` itself takes grants only as flags. See [Permissions](/docs/references/permissions).
+`coil` itself takes grants only as flags. See [Permissions](/docs/language/permissions).
 
 | Key | Type | Flag |
 |-----|------|------|
@@ -131,7 +131,7 @@ net = true
 
 Read by [spool](/packages/spool/manifest): what code run while compiling (a
 `const`, `comptime`, a macro) may use. Each entry becomes the matching flag
-for every module of the project. See [Compile-time code](/docs/references/comptime#io).
+for every module of the project. See [Compile-time code](/docs/language/comptime#io).
 
 | Key | Type | Flag |
 |-----|------|------|
@@ -194,7 +194,7 @@ crypto = { git = "https://github.com/ardax-corp/coil-crypto.git", trusted = true
 
 An absolute or relative path is **not** a bypass. The gate uses the filename stem (`/abs/libfoo.so` → `foo`). Host-registered Rust closures (`HostInvoke`) are an embedder API, not this gate.
 
-See [FFI](/docs/references/ffi) for `dload` errors and consume.
+See [FFI](/docs/reference/ffi) for `dload` errors and consume.
 
 ### `[[ffi.native]]` {#ffi-native}
 
@@ -316,7 +316,7 @@ When a managed root is on disk:
 roots = ["./src", "./.spool/deps"]
 ```
 
-Then `use greet::hello;` resolves under `./.spool/deps/greet/hello.hy` via the normal discovery algorithm (see [Modules](/docs/references/modules)). For coil-stdlib unprefixed imports, add `.spool/deps/stdlib` as a root ([consume](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/consume.md)).
+Then `use greet::hello;` resolves under `./.spool/deps/greet/hello.hy` via the normal discovery algorithm (see [Modules](/docs/language/modules)). For coil-stdlib unprefixed imports, add `.spool/deps/stdlib` as a root ([consume](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/consume.md)).
 
 ---
 
@@ -376,7 +376,7 @@ roots = ["./src", "./vendor", "../coil-stdlib/src"]
 ## Discovery algorithm
 
 Given a `use a::b::c;` statement and roots `["./src", "./vendor", "./builtins"]`.
-Resolution matches the [modules reference](/docs/references/modules#path-resolution-algorithm): **one-item-per-file first**, then a **module-file** fallback. When both `<root>/foo/item.hy` and `<root>/foo.hy` exist, the item file wins (see shadowing note in modules.md). **Migration:** if a project accidentally kept both layouts, `use foo::item` silently binds the item file after this change — delete or rename the unused path.
+Resolution matches the [modules reference](/docs/language/modules#path-resolution-algorithm): **one-item-per-file first**, then a **module-file** fallback. When both `<root>/foo/item.hy` and `<root>/foo.hy` exist, the item file wins (see shadowing note in modules.md). **Migration:** if a project accidentally kept both layouts, `use foo::item` silently binds the item file after this change — delete or rename the unused path.
 
 ### Step 1 — Split the import path
 
@@ -506,7 +506,7 @@ project/
 
 ## Related documentation
 
-- [Modules reference](/docs/references/modules) — `use` / `mod` syntax, FQN rules, dep roots
-- [FFI](/docs/references/ffi) — `dload` gate, allow + pin or trusted
+- [Modules reference](/docs/language/modules) — `use` / `mod` syntax, FQN rules, dep roots
+- [FFI](/docs/reference/ffi) — `dload` gate, allow + pin or trusted
 - [Tutorial: Modules](/docs/manual/tutorial/06-modules) — walkthrough with `examples/modules.hy`
 - [Getting started](/docs/manual/getting-started) — `coil package` (embed executable), unrelated to `spool`

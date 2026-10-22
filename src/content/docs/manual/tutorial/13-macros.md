@@ -19,7 +19,7 @@ The built-in `#[derive(Show, Eq, …)]` you met in
 [chapter 2](/docs/manual/tutorial/02-types-and-variables) are derives of the
 third kind. This chapter writes one macro of each kind, then shows how to see
 and debug what they produce. Every option is listed in the
-[Macros reference](/docs/references/macros).
+[Macros reference](/docs/language/macros).
 
 ---
 
@@ -311,7 +311,7 @@ Output:
 Arguments are passed by name (`label = "math"`) or in order
 (`#[trace("math")]`). Several attribute macros on one item apply outermost
 first, and each one wraps what the next produced; see
-[the reference](/docs/references/macros#attribute-macros) for the exact order.
+[the reference](/docs/language/macros#attribute-macros) for the exact order.
 
 ---
 
@@ -485,7 +485,7 @@ needs an enum, and Point is a class`` at the `#[derive]` line.
 
 For generic types, use `t.self_type()` (`Box<T>`) and `t.impl_head("Show")`
 (`Box<T: Show>`) instead of `t.name`; see
-[the reference](/docs/references/macros#derives).
+[the reference](/docs/language/macros#derives).
 
 ---
 
@@ -540,7 +540,7 @@ only parsed once the macro has run.
 A macro runs with **no host access** (no files, network, clock, environment,
 threads or processes) unless the build grants it with a `--comptime-*` flag,
 and within a step budget, so a runaway loop fails with an error instead of
-hanging the build. See [Compile-time code](/docs/references/comptime) for the
+hanging the build. See [Compile-time code](/docs/language/comptime) for the
 grants, the limits and `comptime` blocks, which generate code without
 declaring a macro.
 
@@ -586,7 +586,7 @@ Some rules of thumb:
 
 ## Next
 
-- [Macros reference](/docs/references/macros): every declaration form,
+- [Macros reference](/docs/language/macros): every declaration form,
   `quote` hole, and `macro` module member.
 - `examples/macro_fn.hy`, `examples/attr_decorator.hy` and
   `examples/attr_class.hy` in the coil-lang repository, with their providers

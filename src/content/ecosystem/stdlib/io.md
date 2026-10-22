@@ -6,7 +6,7 @@ source: "https://github.com/ardax-corp/coil-stdlib/blob/025245d29473d7d259d47c02
 # IO adapters (`io::sync`, `io::file`)
 
 Non-blocking streams are the compiler virtual module
-[`io`](/docs/references/io).
+[`io`](/docs/reference/io).
 This package adds blocking loops and whole-file helpers on top.
 
 ```coil

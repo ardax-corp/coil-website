@@ -200,7 +200,7 @@ See `examples/coro_interleave.hy` for a longer alternating-`resume` example.
 ## Iterating with `for x in`
 
 `for x in expr` goes through the prelude [`IntoIterator` /
-`Iterator`](/docs/references/iterator) protocol.
+`Iterator`](/docs/reference/prelude/Iterator) protocol.
 Coroutines participate: the loop resumes until `done`, binding each
 **yielded** value to `x`. The resume that completes the coroutine
 (`return` / fall-off) does **not** enter the body (Python/JS-like).
@@ -231,6 +231,6 @@ iterable.
 
 ## Related
 
-- [Keywords — coroutines](/docs/references/keywords)
-- [Types — coroutine<Y, S>](/docs/references/types)
+- [Keywords — coroutines](/docs/reference/keywords)
+- [Types — coroutine<Y, S>](/docs/language/types)
 - [Examples catalog](/docs/manual/examples)

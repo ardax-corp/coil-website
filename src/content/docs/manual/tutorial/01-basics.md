@@ -414,7 +414,7 @@ Using an outer name without listing it produces `cannot capture \`n\` without \`
 
 Use `defer` for resource teardown, logging, or paired setup/teardown logic without scattering cleanup across every `return` path.
 
-**GC finalizers** are different: an inherent `fn drop()` on a class runs when the instance is unmarked after a mark-sweep (`gc::collect()` or automatic GC), and again at VM exit for anything still allocated. Order is unspecified; `defer` stays the deterministic function-exit tool. Storing `self` from `drop` can resurrect the object for later collections, but drop still runs at most once — treat that as a footgun, not a pin API (`gc::root` / `Weak` are the pin API). See [`gc`](/docs/references/gc).
+**GC finalizers** are different: an inherent `fn drop()` on a class runs when the instance is unmarked after a mark-sweep (`gc::collect()` or automatic GC), and again at VM exit for anything still allocated. Order is unspecified; `defer` stays the deterministic function-exit tool. Storing `self` from `drop` can resurrect the object for later collections, but drop still runs at most once — treat that as a footgun, not a pin API (`gc::root` / `Weak` are the pin API). See [`gc`](/docs/reference/gc).
 
 ---
 
@@ -537,7 +537,7 @@ When in doubt, parenthesise:
 (2 + 2) * (2 + 2)
 ```
 
-For the full precedence table and associativity rules, see [Operator reference](/docs/references/operators).
+For the full precedence table and associativity rules, see [Operator reference](/docs/language/operators).
 
 ---
 
@@ -719,6 +719,6 @@ use string::{format, to_bytes};
 ## See also
 
 - [Chapter 2 — Types and Variables](/docs/manual/tutorial/02-types-and-variables) — annotations, inference, and type errors
-- [Operator reference](/docs/references/operators) — full precedence and associativity
+- [Operator reference](/docs/language/operators) — full precedence and associativity
 - [Aggregates](/docs/manual/tutorial/05-aggregates) — tuples, arrays, records (coming in the tutorial track)
 - `examples/fib.hy`, `examples/let_test.hy`, `examples/fizbuz.hy` — source for the worked examples above

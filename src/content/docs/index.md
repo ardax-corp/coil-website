@@ -62,10 +62,10 @@ Parse → typecheck → typed HIR (inlining, optimization passes) → stack IL +
 | Coroutines (`gen fn`, `yield`, `resume`, `yield from`, `done`) | Supported |
 | `for x in` (Iterator / IntoIterator) | Supported (arrays, homogeneous tuples, ranges, coroutines, user `impl`s) |
 | Integer arithmetic | `+ - * / % **` and unary `-` on `int` panic on overflow in every build; `float` is IEEE. Wrapping / checked / saturating helpers are the userland `arith` module |
-| Effects and capabilities (`pure fn`, `uses {…}`, `--allow-*`) | Supported ([effects](/docs/references/effects), [permissions](/docs/references/permissions)) |
-| Contracts (`requires`, `ensures`, `invariant`, `decreases`) | Supported; `coil verify` proves them with an SMT solver ([contracts](/docs/references/contracts)) |
+| Effects and capabilities (`pure fn`, `uses {…}`, `--allow-*`) | Supported ([effects](/docs/language/effects), [permissions](/docs/language/permissions)) |
+| Contracts (`requires`, `ensures`, `invariant`, `decreases`) | Supported; `coil verify` proves them with an SMT solver ([contracts](/docs/language/contracts)) |
 | Tasks (`task::scope`, `spawn`, `join`, channels) and OS threads | Supported ([tasks](/docs/manual/tutorial/12-tasks), [threads](/docs/manual/tutorial/11-threads)) |
-| Ranges (`a..b` / `a..=b`) | Supported — lazy `Range<T: Ord>`; `for` / `.to_vec()` step `int`/`byte`/`float`; non-numeric `Ord` is a type error ([syntax](/docs/references/syntax#ranges-lazy)) |
+| Ranges (`a..b` / `a..=b`) | Supported — lazy `Range<T: Ord>`; `for` / `.to_vec()` step `int`/`byte`/`float`; non-numeric `Ord` is a type error ([syntax](/docs/language/syntax#ranges-lazy)) |
 | String concat via `+` | Supported (`string + string` → `string`) |
 | `string::format(...)` | Supported compiler intrinsic (returns `string`; literal specifiers are checked) |
 
@@ -78,7 +78,7 @@ Docs are split into three trees:
 | Tree | Audience | Start here |
 |------|----------|------------|
 | [Manual](/docs/manual/getting-started) | Learners | Getting started, tutorials 01–12, examples catalog |
-| [References](/docs/references) | Lookup | Syntax, types, keywords, per-API builtin pages |
+| [References](/docs/reference) | Lookup | Syntax, types, keywords, per-API builtin pages |
 | [Internals](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/README.md) | Contributors / embedders | Pipeline, debug info, opcodes, grammar |
 
 
@@ -104,7 +104,7 @@ Docs are split into three trees:
 | [Showcase projects](https://github.com/ardax-corp/coil-lang/blob/main/examples/projects/README.md) | Multi-file apps + co-located tests |
 | [Userland stdlib](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/README.md) | coil-stdlib: consume, modules, IO adapters |
 
-Classes (`class`, `impl`, `new`) — see [02 — Types & Variables](/docs/manual/tutorial/02-types-and-variables) and `examples/classes.hy`. Full API index: [References](/docs/references).
+Classes (`class`, `impl`, `new`) — see [02 — Types & Variables](/docs/manual/tutorial/02-types-and-variables) and `examples/classes.hy`. Full API index: [References](/docs/reference).
 
 ## Repository layout
 

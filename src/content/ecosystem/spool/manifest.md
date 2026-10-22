@@ -6,7 +6,7 @@ order: 2
 
 # Manifest and lockfile
 
-spool reads your project's **`coil.toml`** and writes **`coil.lock`** next to it. `coil` reads neither: spool turns them into flags (`--root`, `--allow-*`, `--dload-pin`, …) on every `coil` command it runs (see [Project configuration](/docs/references/project-config)). This page covers the parts spool uses and how it interprets them.
+spool reads your project's **`coil.toml`** and writes **`coil.lock`** next to it. `coil` reads neither: spool turns them into flags (`--root`, `--allow-*`, `--dload-pin`, …) on every `coil` command it runs (see [Project configuration](/docs/language/project-config)). This page covers the parts spool uses and how it interprets them.
 
 ```toml
 [package]
@@ -155,7 +155,7 @@ read = true
 write = true
 ```
 
-See [Permissions](/docs/references/permissions).
+See [Permissions](/docs/language/permissions).
 
 ---
 
@@ -255,4 +255,4 @@ Any other key or line is rejected as `corrupt coil.lock`.
 
 - [spool commands](/packages/spool/commands)
 - [spool overview](/packages/spool) — hooks, scripts, cache, private git
-- [Project configuration (`coil.toml`)](/docs/references/project-config) — the flags each key becomes
+- [Project configuration (`coil.toml`)](/docs/language/project-config) — the flags each key becomes

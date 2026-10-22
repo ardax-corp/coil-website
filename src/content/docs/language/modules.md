@@ -72,7 +72,7 @@ Some `use` paths resolve to **compiler-owned virtual modules**, not `.hy` files 
 | `thread` | `spawn`, channels, mutexes | No — `use thread::{spawn, join, channel, …};` |
 | `gc` | `Root` / `Weak`, `root` / `unroot` / `get` / `weak` / `upgrade`, `heap_bytes` / `collect` | No — `use gc::{root, weak, collect, …};` |
 
-TLS for applications is **not** a virtual module named `tls` or `io::net::tls`. Use the [coil-tls](https://github.com/ardax-corp/coil-tls) package (`use tls::{client, server}`); see [tls](/docs/references/tls). `use tls` / `use io::net::tls` / `use io::__tls` without that package on `[module].roots` is a module-not-found error. Crypto is [coil-crypto](https://github.com/ardax-corp/coil-crypto), not a virtual module. Time is [coil-time](https://github.com/ardax-corp/coil-time), not a virtual module (`use time::{timestamp, Instant}`).
+TLS for applications is **not** a virtual module named `tls` or `io::net::tls`. Use the [coil-tls](https://github.com/ardax-corp/coil-tls) package (`use tls::{client, server}`); see [tls](/packages/tls). `use tls` / `use io::net::tls` / `use io::__tls` without that package on `[module].roots` is a module-not-found error. Crypto is [coil-crypto](https://github.com/ardax-corp/coil-crypto), not a virtual module. Time is [coil-time](https://github.com/ardax-corp/coil-time), not a virtual module (`use time::{timestamp, Instant}`).
 
 ### Prelude rebind / redefine
 
@@ -180,7 +180,7 @@ algorithm as any other root — first match wins; local `./src` still shadows
 deps. The compiler reads neither `coil.toml` nor `coil.lock`: spool passes the
 roots as `--root` and the lock's `[[package.native]] sha256` pins as
 `--dload-pin` for `dload` stems. Nothing auto-injects `[module].roots`.
-See [Project configuration](/docs/references/project-config) for `[package]` / `[dependencies]` / `[ffi]`
+See [Project configuration](/docs/language/project-config) for `[package]` / `[dependencies]` / `[ffi]`
 schema and the **`spool` vs `coil package`** naming distinction (`coil package`
 builds an embedded executable; it is not the library dependency manager).
 
@@ -329,7 +329,7 @@ The pipeline runs in two passes:
 
 ## Interaction with `coil.toml`
 
-Module resolution depends on the `--root` search roots. `coil` does not read `coil.toml`; spool passes its `[module].roots` as `--root` flags. See [Project configuration](/docs/references/project-config) for manifest format and default behavior.
+Module resolution depends on the `--root` search roots. `coil` does not read `coil.toml`; spool passes its `[module].roots` as `--root` flags. See [Project configuration](/docs/language/project-config) for manifest format and default behavior.
 
 Without `--root`, the compiler uses a single default root: `src/` under the current directory. With `--root`, `src/` is still searched first.
 

@@ -8,7 +8,7 @@ description: "Code that runs while compiling: computed consts, comptime expressi
 Coil can run code while it compiles a program. The result goes into the
 program as if you had written it out: a value for a `const` or a
 `comptime` expression, and source code for a top-level `comptime` block or a
-[macro](/docs/references/macros).
+[macro](/docs/language/macros).
 
 | Written | Runs | Becomes |
 |---------|------|---------|
@@ -120,7 +120,7 @@ comptime {
   modules. A function declared in the same file is "Cannot find function",
   with a help line about this.
 - `return` must give `Code` (from `quote`, `raw`, `lit` and the other
-  [macro helpers](/docs/references/macros#the-macro-module)). `?` does not
+  [macro helpers](/docs/language/macros#the-macro-module)). `?` does not
   apply here, so use `??` or `match` on a `Result`.
 - Errors in the block's body are reported where they are in your file. A
   panic shows the block's own lines in its backtrace.
@@ -187,14 +187,14 @@ needs: ``reading `other.json` while compiling needs `--comptime-read .` ``.
 - A grant applies to the code in that module: a `const`, a `comptime`
   expression or block, or a macro by the module that declares it.
 - These flags are separate from `--allow-read` and friends, which are what
-  the [program](/docs/references/permissions) may do when it runs.
+  the [program](/docs/language/permissions) may do when it runs.
 - Listening for connections and UDP are not available at compile time.
 - Each connect, read or write waits at most 30 seconds. The whole
   evaluation stops after `--comptime-timeout` seconds (300 by default).
 
 ### With spool
 
-[spool](/docs/references/project-config#comptime) passes these flags from a `[comptime]` section in
+[spool](/docs/language/project-config#comptime) passes these flags from a `[comptime]` section in
 `coil.toml`, with paths relative to the project:
 
 ```toml
@@ -271,6 +271,6 @@ Code the compiler computes on its own (a pure `static let`, call folding at
 
 ## Related
 
-- [Macros](/docs/references/macros)
-- [Permissions](/docs/references/permissions): what the program may do when it runs
-- [Error codes](/docs/references/error-codes): `E0134`, `E0135`
+- [Macros](/docs/language/macros)
+- [Permissions](/docs/language/permissions): what the program may do when it runs
+- [Error codes](/docs/language/error-codes): `E0134`, `E0135`
