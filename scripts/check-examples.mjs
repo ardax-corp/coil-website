@@ -18,7 +18,7 @@
 import { spawnSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => {
@@ -28,8 +28,10 @@ const opt = (name, fallback) => {
   args.splice(i, 2);
   return v;
 };
-const coil = opt("coil", "coil");
-const stdlib = opt("stdlib", "../coil-stdlib/src");
+const coilArg = opt("coil", "coil");
+// Examples run in a scratch directory, so files they write do not land in the repo.
+const coil = coilArg.includes("/") ? resolve(coilArg) : coilArg;
+const stdlib = resolve(opt("stdlib", "../coil-stdlib/src"));
 const files = args;
 
 const DECL = /^(pub\s+|pure\s+|gen\s+|async\s+|static\s+|readonly\s+|#\[)*(fn|class|enum|trait|impl|type|const|macro|extern|static|mod)\b|^#\[/;
@@ -97,7 +99,7 @@ for (const file of files) {
       : mode === "no_run"
         ? ["compile", "--root", stdlib, "-A", src, "-o", join(dir, "out.hyc")]
         : ["--root", stdlib, "-A", src];
-    const r = spawnSync(coil, argv, { encoding: "utf8", timeout: 20000, input: "" });
+    const r = spawnSync(coil, argv, { encoding: "utf8", timeout: 20000, input: "", cwd: dir });
     const ok = mode === "fail" ? r.status !== 0 : r.status === 0;
     const outOk = expected === undefined || r.stdout.trimEnd() === expected.trimEnd();
     if (isTest) rmSync(join(dir, "tests"), { recursive: true, force: true });
