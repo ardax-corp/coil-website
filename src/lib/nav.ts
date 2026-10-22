@@ -16,6 +16,10 @@ export type NavLink = {
   /** Site path or external URL (used instead of id). */
   href?: string;
   label: string;
+  /** Shorter label for the sidebar, where a parent already gives the context (submodules). */
+  short?: string;
+  /** Set on API reference module pages: the module path, e.g. "io::fs". */
+  module?: string;
   /** One-line summary shown on hub pages and pager cards. */
   hint?: string;
 };
@@ -279,30 +283,54 @@ export function moduleItems(entries: CollectionEntry<"reference">[], module: str
     .sort((a, b) => (KIND_RANK[a.data.kind] ?? 9) - (KIND_RANK[b.data.kind] ?? 9) || a.data.order - b.data.order);
 }
 
-/** Sidebar groups for the API reference (Reference track). */
+/**
+ * Sidebar groups for the API reference (Reference track). Submodules nest under
+ * their parent module (io → io::fs, io::net → io::net::tcp) when the parent is
+ * in the same section; each module lists its submodules, then its items.
+ */
 export function referenceGroups(entries: CollectionEntry<"reference">[]): NavGroup[] {
   const mods = referenceModules(entries);
   const taken = new Set<string>();
   return REFERENCE_SECTIONS.map((sec) => {
     const picked = mods.filter((m) => !taken.has(m.id) && sec.pick(m));
     picked.forEach((m) => taken.add(m.id));
+    const names = new Set(picked.map((m) => m.data.module));
+    // Nearest listed ancestor: "io::net::tcp" → "io::net", else "io", else none.
+    const parentOf = (module: string) => {
+      for (let p = module; p.includes("::"); ) {
+        p = p.replace(/::[^:]+$/, "");
+        if (names.has(p)) return p;
+      }
+      return undefined;
+    };
+    const link = (m: CollectionEntry<"reference">, parent?: string): NavLink => ({
+      href: referenceHref(m.id),
+      label: m.data.title,
+      short: parent ? m.data.module.slice(parent.length + 2) : undefined,
+      module: m.data.module,
+      hint: m.data.description,
+      children: [
+        ...picked.filter((s) => parentOf(s.data.module) === m.data.module).map((s) => link(s, m.data.module)),
+        ...moduleItems(entries, m.data.module).map((e) => ({
+          href: referenceHref(e.id),
+          label: e.data.kind === "macro" ? `${e.data.name}!` : e.data.name,
+          hint: e.data.description,
+        })),
+      ],
+    });
     return {
       key: sec.key,
       title: sec.title,
       track: "reference" as const,
       blurb: sec.blurb,
-      items: picked.map((m) => ({
-        href: referenceHref(m.id),
-        label: m.data.title,
-        hint: m.data.description,
-        children: moduleItems(entries, m.data.module).map((e) => ({
-          href: referenceHref(e.id),
-          label: e.data.kind === "macro" ? `${e.data.name}!` : e.data.name,
-          hint: e.data.description,
-        })),
-      })),
+      items: picked.filter((m) => !parentOf(m.data.module)).map((m) => link(m)),
     };
   });
+}
+
+/** Every module link in a reference group, parents before their submodules. */
+export function referenceModuleLinks(items: NavLink[]): NavLink[] {
+  return items.filter((i) => i.module).flatMap((i) => [i, ...referenceModuleLinks(i.children ?? [])]);
 }
 
 // --------------------------------------------------------------- packages

@@ -3,7 +3,7 @@
 // of the API reference by section.
 import { getCollection } from "astro:content";
 import Docs from "../../../layouts/Docs.astro";
-import { allGroups, inlineCode, linkHref, moduleItems, referenceGroups, REFERENCE } from "../../../lib/nav";
+import { allGroups, inlineCode, linkHref, moduleItems, referenceGroups, referenceModuleLinks, REFERENCE } from "../../../lib/nav";
 
 const reference = await getCollection("reference");
 const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), reference);
@@ -71,7 +71,7 @@ const headings = [
               </tr>
             </thead>
             <tbody>
-              {s.items.map((m) => (
+              {referenceModuleLinks(s.items).map((m) => (
                 <tr>
                   <td class="mod">
                     <a href={linkHref(m)}>
