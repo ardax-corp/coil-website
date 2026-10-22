@@ -43,8 +43,8 @@ export const groups: NavGroup[] = [
     track: "learn",
     blurb: "What Coil is, how to install it, and your first program.",
     items: [
-      { id: "index", label: "Overview", hint: "The language at a glance, CLI commands, repository layout." },
-      { id: "manual/getting-started", label: "Getting started", hint: "Install the toolkit, run a first program, understand the cache." },
+      { id: "index", label: "Overview", hint: "The language at a glance and where to start." },
+      { id: "manual/getting-started", label: "Getting started", hint: "Install coil and spool, run a first program, start a project." },
     ],
   },
   {
@@ -86,6 +86,7 @@ export const groups: NavGroup[] = [
     blurb: "Grammar, type system and the rules the compiler enforces.",
     items: [
       { href: "/docs/reference", label: "Reference index", hint: "Every module, type and function, and the language pages." },
+      { id: "language/cli", label: "Command line", hint: "Every `coil` command and the flags you will use." },
       { id: "language/syntax", label: "Syntax", hint: "Grammar overview: declarations, statements, expressions." },
       { id: "language/types", label: "Type system", hint: "Inference, generics, traits, aliases, aggregates." },
       { id: "language/operators", label: "Operators", hint: "Precedence table and operand rules." },

@@ -10,12 +10,13 @@
 //   ```coil no_run     compiled only (servers, programs that wait for input)
 //   ```coil ignore     skipped (fragments, deliberate errors)
 //   ```coil fail       must fail to compile
+// A block of `test("…") { … }` cases runs under `coil test` instead.
 // Without a `fn main`, top-level declarations stay at the top level and the
 // remaining statements are wrapped in `fn main() { … }`. An `// Output:` block
 // right after the fence (```text) is compared with the program's stdout.
 
-import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -85,14 +86,21 @@ for (const file of files) {
       while (!/^```\s*$/.test(lines[e])) e++;
       expected = lines.slice(k + 1, e).join("\n");
     }
-    const src = join(dir, "example.hy");
-    writeFileSync(src, `${wrap(code)}\n`);
+    // A file of `test("…") { … }` cases runs under `coil test`.
+    const isTest = /^test\(/m.test(code);
+    const src = isTest ? join(dir, "tests", "example.hy") : join(dir, "example.hy");
+    if (isTest) mkdirSync(join(dir, "tests"), { recursive: true });
+    writeFileSync(src, isTest ? `${code}\n` : `${wrap(code)}\n`);
     const where = `${file}:${start}`;
-    const argv =
-      mode === "no_run" ? ["compile", "--root", stdlib, "-A", src, "-o", join(dir, "out.hyc")] : ["--root", stdlib, "-A", src];
+    const argv = isTest
+      ? ["test", "--root", stdlib, "-A", join(dir, "tests")]
+      : mode === "no_run"
+        ? ["compile", "--root", stdlib, "-A", src, "-o", join(dir, "out.hyc")]
+        : ["--root", stdlib, "-A", src];
     const r = spawnSync(coil, argv, { encoding: "utf8", timeout: 20000, input: "" });
     const ok = mode === "fail" ? r.status !== 0 : r.status === 0;
     const outOk = expected === undefined || r.stdout.trimEnd() === expected.trimEnd();
+    if (isTest) rmSync(join(dir, "tests"), { recursive: true, force: true });
     if (ok && outOk) pass++;
     else failures.push({ where, mode, status: r.status, stderr: (r.stderr || "").slice(0, 1500), stdout: r.stdout, expected, code: wrap(code) });
   }
