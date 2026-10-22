@@ -90,5 +90,6 @@ native pins and `trusted` deps as `--allow-dload`, `--dload-pin` and
 ## Related
 
 - [Error codes](/docs/references/error-codes)
+- [Compile-time code](/docs/references/comptime#io): the `--comptime-*` grants for code that runs while compiling
 - [Effects](/docs/references/effects): what a function does, inferred and declared
 - [env](/docs/references/env), [io::fs](/docs/references/io-fs), [io](/docs/references/io)

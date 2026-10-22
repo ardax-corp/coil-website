@@ -127,6 +127,31 @@ read = true
 net = true
 ```
 
+### `[comptime]` {#comptime}
+
+Read by [spool](/packages/spool/manifest): what code run while compiling (a
+`const`, `comptime`, a macro) may use. Each entry becomes the matching flag
+for every module of the project. See [Compile-time code](/docs/references/comptime#io).
+
+| Key | Type | Flag |
+|-----|------|------|
+| `read` | array of paths | `--comptime-read` |
+| `write` | array of paths | `--comptime-write` |
+| `env` | array of names | `--comptime-env` |
+| `exec` | array of program names | `--comptime-exec` |
+| `net` | array of `HOST[:PORT]` | `--comptime-net` |
+| `cache` | path | `--comptime-cache` (default `.comptime`) |
+
+Paths are relative to the project root. A dependency's own `[comptime]` is
+used only after `spool allow-comptime NAME`, which records it in
+`coil.lock`, and then only for that dependency's modules.
+
+```toml
+[comptime]
+read = ["schemas"]
+env = ["CI"]
+```
+
 ### `[ffi]` {#ffi}
 
 Controls how `dload` / `extern` resolve and whether a shared library may open. The gate runs **before** the process opens the file. `[ffi] search_paths` only locates candidates; it is not a grant. Spool passes `allow` as `--allow-dload STEM` and `search_paths` as `--ffi-search-path DIR`.
