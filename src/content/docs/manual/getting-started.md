@@ -20,18 +20,52 @@ Coil comes in three parts:
 - **spool**, the project manager. It creates projects, fetches dependencies
   and runs `coil` with the right flags.
 
-The quickest way to get all three is spool's bootstrap script. It needs `git`
-and `sh`, and `curl` to download the prebuilt binaries (Linux x86-64 and
-ARM64, macOS on Apple silicon):
+The binaries come from the `edge` releases. Coil has no stable release yet;
+`edge` is a snapshot rebuilt from the main branch after every green CI run.
+
+### From the release binaries
+
+Set `TRIPLE` to your platform: `x86_64-unknown-linux-gnu`,
+`aarch64-unknown-linux-gnu` or `aarch64-apple-darwin`. spool has no build for
+macOS on Intel, musl Linux or Windows yet.
+
+**1. spool.** Download it from the
+[spool edge release](https://github.com/ardax-corp/spool/releases/tag/edge),
+check it against `SHA256SUMS` and put it on your `PATH`:
 
 ```bash
-git clone https://github.com/ardax-corp/spool.git
-cd spool
-./bootstrap.sh --channel edge --install
+TRIPLE=x86_64-unknown-linux-gnu
+BASE=https://github.com/ardax-corp/spool/releases/download/edge
+mkdir -p ~/.local/bin && cd "$(mktemp -d)"
+curl -fLO "$BASE/spool-$TRIPLE.tar.gz" -O "$BASE/SHA256SUMS"
+grep " spool-$TRIPLE.tar.gz\$" SHA256SUMS | sha256sum -c -    # macOS: shasum -a 256 -c -
+tar xzf "spool-$TRIPLE.tar.gz" -C ~/.local/bin spool
 ```
 
-That installs `coil` to `~/.coil/bin`, the stdlib to `~/.coil/stdlib` and
-`spool` to `~/.local/bin`. Put both directories on your `PATH`:
+**2. coil.** The spool binary does not download coil. Get the toolkit from the
+[coil edge release](https://github.com/ardax-corp/coil-lang/releases/tag/edge)
+and unpack it into `~/.coil/bin`. Keep the helper binaries (`coil-fmt`,
+`coil-test`, …) next to `coil`:
+
+```bash
+BASE=https://github.com/ardax-corp/coil-lang/releases/download/edge
+mkdir -p ~/.coil/bin && cd "$(mktemp -d)"
+curl -fLO "$BASE/coil-$TRIPLE.tar.gz" -O "$BASE/SHA256SUMS"
+grep " coil-$TRIPLE.tar.gz\$" SHA256SUMS | sha256sum -c -     # macOS: shasum -a 256 -c -
+tar xzf "coil-$TRIPLE.tar.gz" -C ~/.coil/bin --strip-components=1
+```
+
+On Windows, the coil release has an x86-64 build
+(`coil-x86_64-pc-windows-gnu.zip`), but spool does not run there yet. The
+release also has a musl build of coil for Linux (`x86_64-unknown-linux-musl`).
+
+**3. The standard library.** It is plain source code:
+
+```bash
+git clone https://github.com/ardax-corp/coil-stdlib.git ~/.coil/stdlib
+```
+
+**4. Check.** Put both directories on your `PATH`:
 
 ```bash
 export PATH="$HOME/.coil/bin:$HOME/.local/bin:$PATH"
@@ -39,30 +73,49 @@ coil -V
 spool doctor
 ```
 
-`spool doctor` checks that it can find coil, the stdlib, git and curl.
+`spool doctor` checks that it can find coil, the stdlib, git and curl. spool
+looks for coil in `$COIL`, then on `PATH`, then in `~/.coil/bin/coil`, and for
+the stdlib in `~/.coil/stdlib` unless its config says otherwise.
 
-> Coil has no stable release yet. The `edge` channel is a snapshot built from
-> the main branch after every green CI run. Without `--channel edge`, the
-> script builds coil from source, which needs a Rust toolchain, libffi and
-> PCRE2 headers.
+Steps 2 and 3 are manual for now. A spool command that does them for you is
+planned ([spool#51](https://github.com/ardax-corp/spool/issues/51)) but does
+not exist yet.
 
-### Installing by hand
+### With the bootstrap script
 
-You can also download the toolkit for your platform from the
-[edge release](https://github.com/ardax-corp/coil-lang/releases/tag/edge),
-unpack it, and put the directory on your `PATH`. Keep the helper binaries
-(`coil-fmt`, `coil-test`, …) next to `coil`. Then clone the stdlib:
+To do all of it in one command, use spool's bootstrap script. It needs `git`,
+`sh` and `curl`:
 
 ```bash
-git clone https://github.com/ardax-corp/coil-stdlib.git ~/.coil/stdlib
+git clone https://github.com/ardax-corp/spool.git
+cd spool
+./bootstrap.sh --channel edge --install
 ```
 
-On Windows, the release has an x86-64 build of coil; spool does not run
-there yet.
+That builds spool, downloads the prebuilt coil from the edge release, and
+installs `coil` to `~/.coil/bin`, the stdlib to `~/.coil/stdlib` and `spool`
+to `~/.local/bin`. Then set `PATH` and run `spool doctor` as in step 4.
+
+Without `--channel edge`, or on a platform without a prebuilt coil, the
+script builds coil from source, which needs a Rust toolchain, libffi and
+PCRE2 headers.
 
 ## Your first program
 
-Create a file called `hello.hy`:
+The quickest way is a spool project:
+
+```bash
+spool new hello
+cd hello
+spool run
+```
+
+`spool new` creates the project and `spool run` builds and runs it, printing
+a greeting from the generated `src/main.hy`.
+[A project with spool](#a-project-with-spool) below shows the layout.
+
+A program does not need a project, though. Put this in a loose file called
+`hello.hy`:
 
 ```coil
 use io::sync::{println};
@@ -78,15 +131,17 @@ Output:
 Hello, world!
 ```
 
-Run it:
+`coil` compiles the file in memory and runs it. This is what spool runs for
+you, minus the project setup:
 
 ```bash
 coil --root ~/.coil/stdlib/src hello.hy
 ```
 
-`coil` compiles the file in memory and runs it. `--root` tells the compiler
-where to find modules: `println` lives in the stdlib module `io::sync`, and
-the stdlib is source code in `~/.coil/stdlib/src`.
+`--root` tells the compiler where to find modules: `println` lives in the
+stdlib module `io::sync`, and the stdlib is source code in
+`~/.coil/stdlib/src`. `coil` does not look for the stdlib on its own. spool
+adds that root, and your project's `src/`, for you.
 
 A few things to notice:
 
@@ -99,16 +154,6 @@ A few things to notice:
   the caller. In `main` that ends the program with the error. The
   [error handling chapter](/docs/manual/tutorial/06-error-handling) explains
   this properly; until then, write `println(…)?;`.
-
-Typing `--root` every time gets old. A shell alias helps for quick
-experiments:
-
-```bash
-alias coilr='coil --root ~/.coil/stdlib/src'
-coilr hello.hy
-```
-
-For anything bigger than a single file, use a spool project instead.
 
 ## A project with spool
 
