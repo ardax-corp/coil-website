@@ -20,4 +20,4 @@ HTTP is [coil-http](https://github.com/ardax-corp/coil-http) — install via spo
 JSON is [coil-json](https://github.com/ardax-corp/coil-json) — `spool add json --git … --rev …` or a sibling `--root`; see [JSON](/packages/stdlib/codec).
 
 Language tutorials that *use* these modules (virtual `io` + adapters):
-[IO streams](/docs/manual/tutorial/10-io-streams).
+[IO streams](/docs/manual/tutorial/10-files-and-io).

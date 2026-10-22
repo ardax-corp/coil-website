@@ -376,7 +376,7 @@ roots = ["./src", "./vendor", "../coil-stdlib/src"]
 ## Discovery algorithm
 
 Given a `use a::b::c;` statement and roots `["./src", "./vendor", "./builtins"]`.
-Resolution matches the [modules reference](/docs/language/modules#path-resolution-algorithm): **one-item-per-file first**, then a **module-file** fallback. When both `<root>/foo/item.hy` and `<root>/foo.hy` exist, the item file wins (see shadowing note in modules.md). **Migration:** if a project accidentally kept both layouts, `use foo::item` silently binds the item file after this change — delete or rename the unused path.
+Resolution matches the [modules reference](/docs/language/modules#how-a-path-is-resolved): **one-item-per-file first**, then a **module-file** fallback. When both `<root>/foo/item.hy` and `<root>/foo.hy` exist, the item file wins (see shadowing note in modules.md). **Migration:** if a project accidentally kept both layouts, `use foo::item` silently binds the item file after this change — delete or rename the unused path.
 
 ### Step 1 — Split the import path
 
@@ -508,5 +508,5 @@ project/
 
 - [Modules reference](/docs/language/modules) — `use` / `mod` syntax, FQN rules, dep roots
 - [FFI](/docs/reference/ffi) — `dload` gate, allow + pin or trusted
-- [Tutorial: Modules](/docs/manual/tutorial/06-modules) — walkthrough with `examples/modules.hy`
+- [Tutorial: Modules](/docs/manual/tutorial/09-modules) — walkthrough with `examples/modules.hy`
 - [Getting started](/docs/manual/getting-started) — `coil package` (embed executable), unrelated to `spool`

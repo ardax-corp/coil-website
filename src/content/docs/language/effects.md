@@ -140,4 +140,4 @@ apply: pure apart from its parameters: calls parameter `f`
 ```
 
 Auto-parallelization splits loops over pure functions only; see
-[Threads](/docs/manual/tutorial/11-threads#spawn-capacity).
+[Threads](/docs/manual/tutorial/14-threads#tasks-or-threads).

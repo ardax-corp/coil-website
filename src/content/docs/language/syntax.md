@@ -375,7 +375,7 @@ extern "c" {
 }
 ```
 
-`extern "c"` is a libc alias and is **denied** by the `dload` gate. See [FFI tutorial](/docs/manual/tutorial/07-ffi) and [Project config — `[ffi]`](/docs/language/project-config#ffi).
+`extern "c"` is a libc alias and is **denied** by the `dload` gate. See [FFI tutorial](/docs/manual/tutorial/16-ffi) and [Project config — `[ffi]`](/docs/language/project-config#ffi).
 
 Signature-only `fn foo() -> T;` outside `extern` is a parse error. Runtime loading stays `use ffi::{dload, declare, invoke}`.
 
@@ -563,7 +563,7 @@ fn main() {
 }
 ```
 
-See [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines).
+See [Tutorial: Coroutines](/docs/manual/tutorial/12-generators).
 
 ### Assignment
 
@@ -650,7 +650,7 @@ match r {
 }
 ```
 
-`match` copies the scrutinee (fields included). Nested `match` on the same value is allowed; outer pattern bindings stay in scope unless an inner pattern shadows them. See [Enums and Match](/docs/manual/tutorial/03-enums-and-match#match-does-not-consume-the-scrutinee). Pattern matching is spelled `match` only; `case` is not an alias ([limitations.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md)).
+`match` copies the scrutinee (fields included). Nested `match` on the same value is allowed; outer pattern bindings stay in scope unless an inner pattern shadows them. See [Enums and Match](/docs/manual/tutorial/05-enums-and-match#match). Pattern matching is spelled `match` only; `case` is not an alias ([limitations.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/limitations.md)).
 
 ---
 

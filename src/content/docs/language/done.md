@@ -38,4 +38,4 @@ write_all(stdout(), to_bytes(format("%z", done(h)))); // true
 
 ## Related
 
-- [Coroutines tutorial](/docs/manual/tutorial/08-coroutines)
+- [Coroutines tutorial](/docs/manual/tutorial/12-generators)

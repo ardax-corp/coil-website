@@ -31,7 +31,7 @@ fn main() {
 ```coil
 
 To do several IO operations at once, run them as tasks: inside a
-[`task::scope`](/docs/manual/tutorial/12-tasks) a task that waits for IO lets
+[`task::scope`](/docs/manual/tutorial/13-tasks) a task that waits for IO lets
 the others run. Text conversion is in [`string`](/docs/reference/string)
 (`to_bytes`, `from_bytes`). File and network access needs a grant when the
 program runs (`--allow-read`, `--allow-write`, `--allow-net`); see

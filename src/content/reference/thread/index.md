@@ -14,9 +14,9 @@ order: 8
 cross between threads by copy through [`send`](/docs/reference/thread/send)/[`recv`](/docs/reference/thread/recv) on a channel or through a
 [`Mutex`](/docs/reference/thread/Mutex) / [`RwLock`](/docs/reference/thread/RwLock); heap handles such as [`gc::Root`](/docs/reference/gc/Root) cannot be sent.
 
-For concurrent IO on one thread, [tasks](/docs/manual/tutorial/12-tasks) are
+For concurrent IO on one thread, [tasks](/docs/manual/tutorial/13-tasks) are
 lighter. Threads pay off for CPU-bound work. See the
-[threads tutorial](/docs/manual/tutorial/11-threads).
+[threads tutorial](/docs/manual/tutorial/14-threads).
 
 Built into the compiler.
 

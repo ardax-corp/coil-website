@@ -14,7 +14,7 @@ Macros are Coil functions that run at compile time and return code. A derive
 receives a [`TypeDecl`](/docs/reference/macro/TypeDecl), an attribute macro an [`FnDecl`](/docs/reference/macro/FnDecl) or [`TypeDecl`](/docs/reference/macro/TypeDecl), and a
 function-style macro (`name!(…)`) its arguments as [`Expr`](/docs/reference/macro/Expr). Each returns
 [`Code`](/docs/reference/macro/Code), usually built with a `quote` block. See [Macros](/docs/language/macros)
-and the [macros tutorial](/docs/manual/tutorial/13-macros).
+and the [macros tutorial](/docs/manual/tutorial/15-macros).
 
 Written in Coil and shipped inside the compiler.
 

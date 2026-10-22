@@ -64,7 +64,7 @@ Parse → typecheck → typed HIR (inlining, optimization passes) → stack IL +
 | Integer arithmetic | `+ - * / % **` and unary `-` on `int` panic on overflow in every build; `float` is IEEE. Wrapping / checked / saturating helpers are the userland `arith` module |
 | Effects and capabilities (`pure fn`, `uses {…}`, `--allow-*`) | Supported ([effects](/docs/language/effects), [permissions](/docs/language/permissions)) |
 | Contracts (`requires`, `ensures`, `invariant`, `decreases`) | Supported; `coil verify` proves them with an SMT solver ([contracts](/docs/language/contracts)) |
-| Tasks (`task::scope`, `spawn`, `join`, channels) and OS threads | Supported ([tasks](/docs/manual/tutorial/12-tasks), [threads](/docs/manual/tutorial/11-threads)) |
+| Tasks (`task::scope`, `spawn`, `join`, channels) and OS threads | Supported ([tasks](/docs/manual/tutorial/13-tasks), [threads](/docs/manual/tutorial/14-threads)) |
 | Ranges (`a..b` / `a..=b`) | Supported — lazy `Range<T: Ord>`; `for` / `.to_vec()` step `int`/`byte`/`float`; non-numeric `Ord` is a type error ([syntax](/docs/language/syntax#ranges-lazy)) |
 | String concat via `+` | Supported (`string + string` → `string`) |
 | `string::format(...)` | Supported compiler intrinsic (returns `string`; literal specifiers are checked) |
@@ -77,7 +77,7 @@ Docs are split into three trees:
 
 | Tree | Audience | Start here |
 |------|----------|------------|
-| [Manual](/docs/manual/getting-started) | Learners | Getting started, tutorials 01–12, examples catalog |
+| [Manual](/docs/manual/getting-started) | Learners | Getting started, tutorial chapters 01–16, examples catalog |
 | [References](/docs/reference) | Lookup | Syntax, types, keywords, per-API builtin pages |
 | [Internals](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/README.md) | Contributors / embedders | Pipeline, debug info, opcodes, grammar |
 
@@ -86,25 +86,28 @@ Docs are split into three trees:
 
 | Chapter | Topic |
 |---------|-------|
-| [Getting Started](/docs/manual/getting-started) | Install, first run, CLI |
-| [01 — Basics](/docs/manual/tutorial/01-basics) | Syntax, functions, `let`, control flow |
-| [02 — Types & Variables](/docs/manual/tutorial/02-types-and-variables) | Primitives, inference, annotations |
-| [03 — Enums & Match](/docs/manual/tutorial/03-enums-and-match) | Sum types and pattern matching |
-| [04 — Records & Fields](/docs/manual/tutorial/04-records-and-fields) | Record variants, field access, nested patterns |
-| [05 — Aggregates](/docs/manual/tutorial/05-aggregates) | Tuples, `[T; N]`, `Vec<T>`, dicts, type aliases |
-| [06 — Modules](/docs/manual/tutorial/06-modules) | `use`, `mod`, `coil.toml` |
-| [07 — FFI](/docs/manual/tutorial/07-ffi) | `extern` blocks and dynamic loading |
-| [08 — Coroutines](/docs/manual/tutorial/08-coroutines) | `gen fn`, resume, send/receive, `yield from`, `for x in` |
-| [09 — Error handling](/docs/manual/tutorial/09-error-handling) | Built-in Option/Result, `raise`, `?`, `??`, `?.` |
-| [10 — IO streams](/docs/manual/tutorial/10-io-streams) | `byte` / `Vec<byte>`, `Stream`, files, sync adapters, TCP |
-| [11 — OS threads](/docs/manual/tutorial/11-threads) | `use thread::{spawn, join, …}`, channels, mutexes |
-| [12 — Tasks](/docs/manual/tutorial/12-tasks) | `use task::{scope, Scope}`, `spawn`, `join`, concurrent IO |
-| [13 — Macros](/docs/manual/tutorial/13-macros) | Function-style macros, attribute macros, derives, `quote` |
+| [Getting started](/docs/manual/getting-started) | Install, first program, spool projects |
+| [01 — Basics](/docs/manual/tutorial/01-basics) | Running files, functions, `let`, control flow |
+| [02 — Types and variables](/docs/manual/tutorial/02-types-and-variables) | Numbers, strings, bools, conversions, constants |
+| [03 — Collections](/docs/manual/tutorial/03-collections) | Arrays, `Vec`, tuples, `HashMap`, ranges |
+| [04 — Classes](/docs/manual/tutorial/04-classes) | Fields, methods, `new`, derives |
+| [05 — Enums and match](/docs/manual/tutorial/05-enums-and-match) | Cases with data, `match`, `Option`, `if let` |
+| [06 — Error handling](/docs/manual/tutorial/06-error-handling) | `Result`, `?`, `??`, panics |
+| [07 — Traits and generics](/docs/manual/tutorial/07-traits-and-generics) | Generic functions and types, traits, `impl` |
+| [08 — Closures](/docs/manual/tutorial/08-closures) | Lambdas, captures, functions as values |
+| [09 — Modules](/docs/manual/tutorial/09-modules) | Files as modules, `use`, `mod`, packages |
+| [10 — Files and IO](/docs/manual/tutorial/10-files-and-io) | Reading and writing files, streams, stdin |
+| [11 — Testing](/docs/manual/tutorial/11-testing) | `coil test`, assertions, test files |
+| [12 — Generators](/docs/manual/tutorial/12-generators) | `gen fn`, `yield`, `resume`, `yield from` |
+| [13 — Tasks](/docs/manual/tutorial/13-tasks) | `task::scope`, channels, timeouts, a TCP server |
+| [14 — Threads](/docs/manual/tutorial/14-threads) | `spawn`, `join`, channels, mutexes |
+| [15 — Macros](/docs/manual/tutorial/15-macros) | Function-style macros, attribute macros, derives |
+| [16 — Calling C](/docs/manual/tutorial/16-ffi) | `extern` blocks, `dload`, permission flags |
 | [Examples catalog](/docs/manual/examples) | Runnable demos in `examples/` (see catalog for expected output) |
 | [Showcase projects](https://github.com/ardax-corp/coil-lang/blob/main/examples/projects/README.md) | Multi-file apps + co-located tests |
 | [Userland stdlib](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/README.md) | coil-stdlib: consume, modules, IO adapters |
 
-Classes (`class`, `impl`, `new`) — see [02 — Types & Variables](/docs/manual/tutorial/02-types-and-variables) and `examples/classes.hy`. Full API index: [References](/docs/reference).
+Full API index: [Reference](/docs/reference).
 
 ## Repository layout
 

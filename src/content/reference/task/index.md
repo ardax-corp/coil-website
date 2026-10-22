@@ -16,7 +16,7 @@ lives inside a [`scope`](/docs/reference/task/fn.scope), which does not return u
 finished, so no task outlives the code that started it.
 
 Use tasks for concurrent IO; use [threads](/docs/reference/thread) for
-CPU-bound work. The [tasks tutorial](/docs/manual/tutorial/12-tasks) walks
+CPU-bound work. The [tasks tutorial](/docs/manual/tutorial/13-tasks) walks
 through the model.
 
 Written in Coil and shipped inside the compiler.

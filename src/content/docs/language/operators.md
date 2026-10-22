@@ -303,7 +303,7 @@ Field resolution:
 
 ## Error-handling operators (`?`, `?.`, `??`)
 
-Desugared to `match` / `return` / `MakeEnum` — no new opcodes. See [Tutorial: Error handling](/docs/manual/tutorial/09-error-handling).
+Desugared to `match` / `return` / `MakeEnum` — no new opcodes. See [Tutorial: Error handling](/docs/manual/tutorial/06-error-handling).
 
 | Operator | Form | Operand | Result type | Notes |
 |----------|------|---------|-------------|-------|
