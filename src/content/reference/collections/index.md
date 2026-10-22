@@ -12,7 +12,7 @@ order: 21
 
 The collection types live in submodules: [`HashMap`](/docs/reference/collections/map/HashMap), [`HashSet`](/docs/reference/collections/set/HashSet), [`TreeMap`](/docs/reference/collections/tree/TreeMap), [`VecDeque`](/docs/reference/collections/deque/VecDeque), [`List`](/docs/reference/collections/list/List) and [`BitSet`](/docs/reference/collections/bitset/BitSet). [`Vec`](/docs/reference/prelude/Vec) itself is in the [prelude](/docs/reference/prelude/Vec); its functional helpers ([`map`](/docs/reference/collections/map), `filter`, `fold`, …) are in [`collections::vec`](/docs/reference/collections/vec).
 
-Part of [coil-stdlib](/packages/stdlib): add it with `spool add coil-stdlib` or pass `--root path/to/coil-stdlib/src`.
+Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; with plain `coil`, pass `--root ~/.coil/stdlib/src`.
 
 Import what you use (`use path::*` is not allowed):
 

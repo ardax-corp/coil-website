@@ -12,7 +12,7 @@ order: 18
 
 Functions here take and return [`byte`](/docs/reference/types/byte). Bytes outside ASCII are never letters or digits, and case conversion leaves them unchanged. For whole strings, see [`text`](/docs/reference/text).
 
-Part of [coil-stdlib](/packages/stdlib): add it with `spool add coil-stdlib` or pass `--root path/to/coil-stdlib/src`.
+Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; with plain `coil`, pass `--root ~/.coil/stdlib/src`.
 
 Import what you use (`use path::*` is not allowed):
 

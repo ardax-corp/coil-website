@@ -10,7 +10,7 @@ auto: false
 order: 27
 ---
 
-Part of [coil-stdlib](/packages/stdlib): add it with `spool add coil-stdlib` or pass `--root path/to/coil-stdlib/src`.
+Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; with plain `coil`, pass `--root ~/.coil/stdlib/src`.
 
 Import what you use (`use path::*` is not allowed):
 
