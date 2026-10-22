@@ -3,7 +3,7 @@
 
 import type { APIRoute } from "astro";
 import { getCollection, render } from "astro:content";
-import { allGroups, docHref, locate, packageHref, plainTitle } from "../lib/nav";
+import { allGroups, docHref, locate, packageHref, plainTitle, referenceHref } from "../lib/nav";
 
 export type SearchEntry = {
   /** Title */
@@ -40,6 +40,18 @@ export const GET: APIRoute = async () => {
         .filter((h) => h.depth === 2 || h.depth === 3)
         .map((h) => [h.text, h.slug]),
     });
+  }
+
+  // API reference: one entry per item, named by its path (`io::open`,
+  // `Vec::push`) so either part finds it.
+  for (const e of await getCollection("reference")) {
+    const d = e.data;
+    const name = d.kind === "macro" ? `${d.name}!` : d.name;
+    const auto = d.module === "types" || d.module === "keywords" || d.module === "prelude" || d.module.startsWith("prelude::");
+    const t =
+      d.kind === "module" ? d.module : d.parent ? `${d.parent}::${name}` : auto ? name : `${d.module}::${name}`;
+    const kind = d.kind === "static method" ? "fn" : d.kind;
+    entries.push({ t, u: referenceHref(e.id), s: `Reference · ${kind}`, h: [] });
   }
 
   for (const post of await getCollection("blog")) {
