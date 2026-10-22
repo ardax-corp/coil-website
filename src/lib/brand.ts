@@ -28,6 +28,21 @@ function toroidTicks(): string {
   return d;
 }
 
+/** An angular C, as a circuit trace: square bounds [m, 32-m] with 45° corners of size c, open to the right at x = right. */
+function traceC(m: number, c: number, right: number): string {
+  const [t, b] = [m, 32 - m];
+  return `M${right} ${t}L${m + c} ${t}L${m} ${t + c}L${m} ${b - c}L${m + c} ${b}L${right} ${b}`;
+}
+
+const pad = (x: number, y: number, r = 2.3) => `<circle cx="${x}" cy="${y}" r="${r}" class="mark-pad"/>`;
+
+function chipPins(): string {
+  let d = "";
+  for (const y of [11, 16, 21]) d += `M4.5 ${y}H9M23 ${y}H27.5`;
+  for (const x of [11, 16, 21]) d += `M${x} 4.5V9M${x} 23V27.5`;
+  return d;
+}
+
 export type Mark = { id: string; name: string; note: string; svg: string };
 
 export const LOGOS: Mark[] = [
@@ -69,6 +84,31 @@ export const LOGOS: Mark[] = [
     name: "Toroid",
     note: "A ring wound with wire, as on a toroidal inductor.",
     svg: `${TILE}<circle cx="16" cy="16" r="6.6" fill="none" class="mark-ink2" stroke-width="3"/><path d="${toroidTicks()}" class="mark-ink" stroke-width="2" stroke-linecap="round"/>`,
+  },
+  {
+    id: "trace",
+    name: "Trace C",
+    note: "A C routed like a board trace, 45° corners, ending in two pads. Matches the circuit background.",
+    svg: `${TILE}<path d="${traceC(7, 5, 22)}" fill="none" class="mark-ink" stroke-width="2.6" stroke-linejoin="round"/>${pad(23, 7)}${pad(23, 25)}`,
+  },
+  {
+    id: "bus",
+    name: "Bus",
+    note: "Two nested trace Cs, like a bus of parallel lines; the angular cousin of Rings.",
+    svg:
+      TILE +
+      [
+        [6, 5, 22],
+        [11.5, 3, 19],
+      ]
+        .map(([m, c, r], i) => `<path d="${traceC(m, c, r)}" fill="none" class="${i === 1 ? "mark-ink2" : "mark-ink"}" stroke-width="2.2" stroke-linejoin="round"/>${pad(r + 1.6, m, 1.9)}${pad(r + 1.6, 32 - m, 1.9)}`)
+        .join(""),
+  },
+  {
+    id: "chip",
+    name: "Chip",
+    note: "A small IC package with a trace C on its die: the language as a component.",
+    svg: `${TILE}<path d="${chipPins()}" class="mark-ink2" stroke-width="1.8" stroke-linecap="round"/><rect x="9" y="9" width="14" height="14" rx="2.5" class="mark-ink" fill="none" stroke-width="2.2"/><path d="${traceC(12.5, 2.2, 19.5)}" fill="none" class="mark-ink" stroke-width="2" stroke-linejoin="round"/>`,
   },
 ];
 
@@ -126,4 +166,4 @@ export const BACKGROUNDS: Backdrop[] = [
 ];
 
 export const DEFAULT_LOGO = "current";
-export const DEFAULT_BG = "current";
+export const DEFAULT_BG = "traces";

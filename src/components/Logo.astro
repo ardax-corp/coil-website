@@ -28,6 +28,11 @@ const marks = only ? LOGOS.filter((m) => m.id === only) : LOGOS;
   .logo .mark-fill2 {
     fill: #7fc8b6;
   }
+  .logo .mark-pad {
+    fill: #18150f;
+    stroke: #7fc8b6;
+    stroke-width: 1.5;
+  }
   /* Brand preview: show only the picked mark (see src/lib/brand.ts). */
   .logo:not(.pinned) .mark {
     display: none;
@@ -37,7 +42,10 @@ const marks = only ? LOGOS.filter((m) => m.id === only) : LOGOS;
   :root[data-logo="rings"] .logo .mark[data-mark="rings"],
   :root[data-logo="prompt"] .logo .mark[data-mark="prompt"],
   :root[data-logo="solenoid"] .logo .mark[data-mark="solenoid"],
-  :root[data-logo="toroid"] .logo .mark[data-mark="toroid"] {
+  :root[data-logo="toroid"] .logo .mark[data-mark="toroid"],
+  :root[data-logo="trace"] .logo .mark[data-mark="trace"],
+  :root[data-logo="bus"] .logo .mark[data-mark="bus"],
+  :root[data-logo="chip"] .logo .mark[data-mark="chip"] {
     display: block;
   }
 </style>
