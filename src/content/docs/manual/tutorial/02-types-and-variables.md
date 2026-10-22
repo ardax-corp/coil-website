@@ -107,14 +107,14 @@ only for ASCII text:
 ```coil
 use io::sync::{println};
 use string::{format};
-use text::{contains, starts_with};
+use text::{Searchable};
 
 fn main() {
     let first = "Ada";
     let full = first + " Lovelace";
     println(full)?;
     println(format("%i bytes", "héllo".len()))?;
-    println(format("%z %z", contains(full, "Love"), starts_with(full, "Bob")))?;
+    println(format("%z %z", full.contains("Love"), full.starts_with("Bob")))?;
 }
 ```
 
@@ -127,8 +127,11 @@ true false
 ```
 
 The stdlib module [`text`](/docs/reference/text) has the everyday string
-functions: `split`, `trim`, `replace`, `to_upper`, `find`, `join` and more.
-Some of them return a `Result`; you will see how to use those in chapter 6.
+helpers. Importing its `Searchable` trait gives strings the search methods
+`contains`, `starts_with`, `ends_with`, `find`, `split`, `split_once` and
+`replace_all`; free functions such as `trim`, `to_upper` and `join` cover the
+rest. Some of those return a `Result`; you will see how to use those in
+chapter 6.
 
 ## Tuples
 

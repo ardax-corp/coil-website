@@ -84,7 +84,7 @@ module, and the braces list what to import:
 ```coil ignore
 use money::{format_cents, CURRENCY};
 use store::item::{Item};
-use text::{split, trim as strip};     // `as` renames on import
+use text::{Searchable, trim as strip}; // `as` renames on import
 ```
 
 Anything declared at the top level of a module can be imported: functions,
