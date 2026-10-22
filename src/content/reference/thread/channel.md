@@ -55,6 +55,6 @@ fn main() {
 - [`join`](/docs/reference/thread/join): Waits for the thread to finish and returns the value its function returned.
 - [`detach`](/docs/reference/thread/detach): Lets the thread run to completion without being joined.
 - [`recv`](/docs/reference/thread/recv): Takes the next value from the channel, waiting until one arrives.
-- [`try_send`](/docs/reference/thread/try_send): Sends value without waiting.
+- [`try_send`](/docs/reference/thread/try_send): Sends `value` without waiting.
 - [`try_recv`](/docs/reference/thread/try_recv): Takes the next value if there is one, without waiting.
 - [`close`](/docs/reference/thread/close): Closes the channel: no more sends.

@@ -56,9 +56,9 @@ fn main() {
 ## See also
 
 - [`io::net::tcp::connect`](/docs/reference/io/net/tcp/connect)
-- [`accept`](/docs/reference/io/net/tcp/accept): Accepts one pending connection on listener without waiting.
-- [`listen`](/docs/reference/io/net/tcp/listen): Opens a TCP socket listening on host and port.
-- [`local_addr`](/docs/reference/io/net/tcp/local_addr): Returns the local (host, port) of a TCP listener or connected TCP stream.
-- [`peer_addr`](/docs/reference/io/net/tcp/peer_addr): Returns the remote (host, port) of a connected TCP stream.
-- [`set_nodelay`](/docs/reference/io/net/tcp/set_nodelay): Turns TCP_NODELAY on or off for a TCP stream.
+- [`accept`](/docs/reference/io/net/tcp/accept): Accepts one pending connection on `listener` without waiting.
+- [`listen`](/docs/reference/io/net/tcp/listen): Opens a TCP socket listening on `host` and `port`.
+- [`local_addr`](/docs/reference/io/net/tcp/local_addr): Returns the local `(host, port)` of a TCP listener or connected TCP stream.
+- [`peer_addr`](/docs/reference/io/net/tcp/peer_addr): Returns the remote `(host, port)` of a connected TCP stream.
+- [`set_nodelay`](/docs/reference/io/net/tcp/set_nodelay): Turns `TCP_NODELAY` on or off for a TCP stream.
 - [`shutdown`](/docs/reference/io/net/tcp/shutdown): Shuts down the reading half, the writing half, or both halves of a TCP stream.

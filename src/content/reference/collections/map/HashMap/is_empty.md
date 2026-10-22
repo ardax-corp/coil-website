@@ -23,8 +23,8 @@ Called on a `HashMap` value as `value.is_empty(…)`.
 
 ## See also
 
-- [`HashMap`](/docs/reference/collections/map/HashMap): A hash map from keys of type K to values of type V.
-- [`HashMap::with_capacity`](/docs/reference/collections/map/HashMap/with_capacity): Creates an empty map with room for about cap buckets before it grows.
+- [`HashMap`](/docs/reference/collections/map/HashMap): A hash map from keys of type `K` to values of type `V`.
+- [`HashMap::with_capacity`](/docs/reference/collections/map/HashMap/with_capacity): Creates an empty map with room for about `cap` buckets before it grows.
 - [`HashMap::new`](/docs/reference/collections/map/HashMap/new): Creates an empty map.
 - [`HashMap::size`](/docs/reference/collections/map/HashMap/size): Returns the number of entries.
 - [`HashMap::capacity`](/docs/reference/collections/map/HashMap/capacity): Returns the number of buckets.

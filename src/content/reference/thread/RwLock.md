@@ -43,5 +43,5 @@ assert!(seen == 2);
 - [`thread::with_write`](/docs/reference/thread/with_write)
 - [`thread::try_write`](/docs/reference/thread/try_write)
 - [`thread::Mutex`](/docs/reference/thread/Mutex)
-- [`Thread`](/docs/reference/thread/Thread): A handle to a function running on another OS thread, from spawn.
-- [`Sender`](/docs/reference/thread/Sender): The sending half of a channel made by channel.
+- [`Thread`](/docs/reference/thread/Thread): A handle to a function running on another OS thread, from `spawn`.
+- [`Sender`](/docs/reference/thread/Sender): The sending half of a channel made by `channel`.

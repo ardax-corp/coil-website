@@ -17,5 +17,5 @@ A full turn τ = 2π, as a [`float`](/docs/reference/types/float).
 ## See also
 
 - [`float`](/docs/reference/types/float)
-- [`PI`](/docs/reference/num/PI): The circle constant π, as a float.
-- [`E`](/docs/reference/num/E): Euler's number e, the base of ln, as a float.
+- [`PI`](/docs/reference/num/PI): The circle constant π, as a `float`.
+- [`E`](/docs/reference/num/E): Euler's number e, the base of `ln`, as a `float`.

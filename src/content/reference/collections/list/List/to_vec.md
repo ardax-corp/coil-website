@@ -35,7 +35,7 @@ ensures result.len() == self.len
 - [`List`](/docs/reference/collections/list/List): A singly-linked list with constant-time push and pop at the front.
 - [`List::new`](/docs/reference/collections/list/List/new): Creates an empty list.
 - [`List::size`](/docs/reference/collections/list/List/size): Returns the number of values.
-- [`List::is_empty`](/docs/reference/collections/list/List/is_empty): Returns true when the list has no values.
-- [`List::push_front`](/docs/reference/collections/list/List/push_front): Adds v at the front.
-- [`List::push_back`](/docs/reference/collections/list/List/push_back): Adds v at the back.
-- [`List::peek_front`](/docs/reference/collections/list/List/peek_front): Returns the front value without removing it, or None when the list is empty.
+- [`List::is_empty`](/docs/reference/collections/list/List/is_empty): Returns `true` when the list has no values.
+- [`List::push_front`](/docs/reference/collections/list/List/push_front): Adds `v` at the front.
+- [`List::push_back`](/docs/reference/collections/list/List/push_back): Adds `v` at the back.
+- [`List::peek_front`](/docs/reference/collections/list/List/peek_front): Returns the front value without removing it, or `None` when the list is empty.

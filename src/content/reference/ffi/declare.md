@@ -59,4 +59,4 @@ fn add(int a, int b) -> Result<int, Error> {
 - [`ffi::invoke`](/docs/reference/ffi/invoke)
 - [`ffi::ErrorKind`](/docs/reference/ffi/ErrorKind)
 - [`dload`](/docs/reference/ffi/dload): Loads a native shared library and returns a handle to it.
-- [`read_ints`](/docs/reference/ffi/read_ints): Copies count 64-bit integers (int64_t) from native memory at ptr.
+- [`read_ints`](/docs/reference/ffi/read_ints): Copies `count` 64-bit integers (`int64_t`) from native memory at `ptr`.

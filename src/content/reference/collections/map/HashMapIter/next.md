@@ -23,4 +23,4 @@ Called on a `HashMapIter` value as `value.next(…)`.
 
 ## See also
 
-- [`HashMapIter`](/docs/reference/collections/map/HashMapIter): An iterator over the entries of a HashMap, from HashMap::iter.
+- [`HashMapIter`](/docs/reference/collections/map/HashMapIter): An iterator over the entries of a `HashMap`, from `HashMap::iter`.

@@ -29,6 +29,6 @@ Called on a `Attr` value as `value.has(…)`.
 
 ## See also
 
-- [`Attr`](/docs/reference/macro/Attr): #[name(args)] on a declaration, field or variant.
-- [`Attr::src`](/docs/reference/macro/Attr/src): The attribute as written: #[name(key = "v", 2)].
-- [`Attr::arg`](/docs/reference/macro/Attr/arg): Value of the key = value argument, or fallback.
+- [`Attr`](/docs/reference/macro/Attr): `#[name(args)]` on a declaration, field or variant.
+- [`Attr::src`](/docs/reference/macro/Attr/src): The attribute as written: `#[name(key = "v", 2)]`.
+- [`Attr::arg`](/docs/reference/macro/Attr/arg): Value of the `key = value` argument, or `fallback`.

@@ -48,5 +48,5 @@ fn main() {
 ## See also
 
 - [`Result`](/docs/reference/prelude/Result)
-- [`ord`](/docs/reference/prelude/ord): Returns the code of the single character in s as a byte.
-- [`char`](/docs/reference/prelude/char): Returns the one-character string whose code point is b.
+- [`ord`](/docs/reference/prelude/ord): Returns the code of the single character in `s` as a `byte`.
+- [`char`](/docs/reference/prelude/char): Returns the one-character string whose code point is `b`.

@@ -23,4 +23,4 @@ Called on a `TreeMapIter` value as `value.next(…)`.
 
 ## See also
 
-- [`TreeMapIter`](/docs/reference/collections/tree/TreeMapIter): An in-order iterator over a TreeMap, from TreeMap::iter.
+- [`TreeMapIter`](/docs/reference/collections/tree/TreeMapIter): An in-order iterator over a `TreeMap`, from `TreeMap::iter`.

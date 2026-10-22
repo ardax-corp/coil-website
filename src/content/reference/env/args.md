@@ -34,10 +34,10 @@ assert!(argv.len() >= 1);
 
 ## See also
 
-- [`var`](/docs/reference/env/var): Returns the value of the environment variable name.
-- [`set_var`](/docs/reference/env/set_var): Sets the environment variable name to value for this process.
-- [`remove_var`](/docs/reference/env/remove_var): Removes the environment variable name from this process.
+- [`var`](/docs/reference/env/var): Returns the value of the environment variable `name`.
+- [`set_var`](/docs/reference/env/set_var): Sets the environment variable `name` to `value` for this process.
+- [`remove_var`](/docs/reference/env/remove_var): Removes the environment variable `name` from this process.
 - [`cwd`](/docs/reference/env/cwd): Returns the current working directory as an absolute path.
 - [`set_cwd`](/docs/reference/env/set_cwd): Changes the current working directory of the whole process.
-- [`exit`](/docs/reference/env/exit): Ends the process at once with exit status code.
-- [`exec`](/docs/reference/env/exec): Runs program with the arguments argv and waits for it to finish.
+- [`exit`](/docs/reference/env/exit): Ends the process at once with exit status `code`.
+- [`exec`](/docs/reference/env/exec): Runs `program` with the arguments `argv` and waits for it to finish.

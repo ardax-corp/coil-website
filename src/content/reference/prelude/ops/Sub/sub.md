@@ -28,4 +28,4 @@ Returns `a - b`.
 
 ## See also
 
-- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator -.
+- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator `-`.

@@ -27,4 +27,4 @@ Returns `a` with every bit flipped.
 
 ## See also
 
-- [`BitNot`](/docs/reference/prelude/ops/BitNot): The bitwise NOT operator ~x.
+- [`BitNot`](/docs/reference/prelude/ops/BitNot): The bitwise NOT operator `~x`.

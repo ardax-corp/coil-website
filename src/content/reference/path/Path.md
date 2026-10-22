@@ -23,19 +23,19 @@ the same `--allow-read` / `--allow-write` grants.
 
 | Name | Description |
 |------|-------------|
-| [`from`](/docs/reference/path/Path/from) | Creates a path from s as written. |
+| [`from`](/docs/reference/path/Path/from) | Creates a path from `s` as written. |
 
 ## Methods
 
 | Name | Description |
 |------|-------------|
 | [`as_str`](/docs/reference/path/Path/as_str) | Returns the path as a string. |
-| [`join`](/docs/reference/path/Path/join) | Returns this path followed by other, with exactly one separator between them. |
+| [`join`](/docs/reference/path/Path/join) | Returns this path followed by `other`, with exactly one separator between them. |
 | [`dirname`](/docs/reference/path/Path/dirname) | Returns the path without its last component. |
-| [`basename`](/docs/reference/path/Path/basename) | Returns the last component, ignoring trailing separators ("" for an empty path or /). |
-| [`extension`](/docs/reference/path/Path/extension) | Returns the text after the last . |
-| [`is_absolute`](/docs/reference/path/Path/is_absolute) | Returns true when the path starts with a separator or a Windows drive letter (C:). |
-| [`normalize`](/docs/reference/path/Path/normalize) | Removes . |
+| [`basename`](/docs/reference/path/Path/basename) | Returns the last component, ignoring trailing separators (`""` for an empty path or `/`). |
+| [`extension`](/docs/reference/path/Path/extension) | Returns the text after the last `.` of the last component, or `""` when there is none. |
+| [`is_absolute`](/docs/reference/path/Path/is_absolute) | Returns `true` when the path starts with a separator or a Windows drive letter (`C:`). |
+| [`normalize`](/docs/reference/path/Path/normalize) | Removes `.` components, resolves `..` against the component before it, and collapses repeated separators. |
 | [`components`](/docs/reference/path/Path/components) | Returns the components of the normalized path, without separators. |
 | [`exists`](/docs/reference/path/Path/exists) | Returns whether something exists at this path. |
 | [`is_file`](/docs/reference/path/Path/is_file) | Returns whether this path is a regular file. |
@@ -45,14 +45,14 @@ the same `--allow-read` / `--allow-write` grants.
 | [`mkdir`](/docs/reference/path/Path/mkdir) | Creates this directory; its parent must exist. |
 | [`mkdir_all`](/docs/reference/path/Path/mkdir_all) | Creates this directory and any missing parents. |
 | [`remove_file`](/docs/reference/path/Path/remove_file) | Deletes the file at this path. |
-| [`rename`](/docs/reference/path/Path/rename) | Moves this file or directory to dst. |
-| [`copy_to`](/docs/reference/path/Path/copy_to) | Copies this file to dst, replacing it. |
+| [`rename`](/docs/reference/path/Path/rename) | Moves this file or directory to `dst`. |
+| [`copy_to`](/docs/reference/path/Path/copy_to) | Copies this file to `dst`, replacing it. |
 | [`read_text`](/docs/reference/path/Path/read_text) | Reads the whole file as UTF-8 text. |
-| [`write_text`](/docs/reference/path/Path/write_text) | Replaces the file's contents with text and returns the number of bytes written. |
+| [`write_text`](/docs/reference/path/Path/write_text) | Replaces the file's contents with `text` and returns the number of bytes written. |
 | [`read_bytes`](/docs/reference/path/Path/read_bytes) | Reads the whole file. |
-| [`write_bytes`](/docs/reference/path/Path/write_bytes) | Replaces the file's contents with buf. |
-| [`append_text`](/docs/reference/path/Path/append_text) | Appends text to the file, creating it if needed. |
-| [`append_bytes`](/docs/reference/path/Path/append_bytes) | Appends buf to the file, creating it if needed. |
+| [`write_bytes`](/docs/reference/path/Path/write_bytes) | Replaces the file's contents with `buf`. |
+| [`append_text`](/docs/reference/path/Path/append_text) | Appends `text` to the file, creating it if needed. |
+| [`append_bytes`](/docs/reference/path/Path/append_bytes) | Appends `buf` to the file, creating it if needed. |
 
 ## Examples
 

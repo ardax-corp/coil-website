@@ -25,4 +25,4 @@ Called on a `Task` value as `value.cancel(…)`.
 
 - [`Task::join`](/docs/reference/task/Task/join)
 - [`task::shield`](/docs/reference/task/shield)
-- [`Task`](/docs/reference/task/Task): A handle to a child task started with Scope::spawn.
+- [`Task`](/docs/reference/task/Task): A handle to a child task started with `Scope::spawn`.

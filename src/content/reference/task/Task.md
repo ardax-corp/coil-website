@@ -25,5 +25,5 @@ A handle to a child task started with [`Scope::spawn`](/docs/reference/task/Scop
 
 - [`Scope::spawn`](/docs/reference/task/Scope/spawn)
 - [`Task::join`](/docs/reference/task/Task/join)
-- [`Scope`](/docs/reference/task/Scope): A running scope, used to start child tasks with spawn.
+- [`Scope`](/docs/reference/task/Scope): A running `scope`, used to start child tasks with `spawn`.
 - [`Channel`](/docs/reference/task/Channel): A bounded queue for passing values between tasks.

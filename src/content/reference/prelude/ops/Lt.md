@@ -20,7 +20,7 @@ The less-than operator `<`.
 
 | Name | Description |
 |------|-------------|
-| [`lt`](/docs/reference/prelude/ops/Lt/lt) | Returns true when a is less than b. |
+| [`lt`](/docs/reference/prelude/ops/Lt/lt) | Returns `true` when `a` is less than `b`. |
 
 ## Examples
 
@@ -43,11 +43,11 @@ fn main() {
 
 ## See also
 
-- [`Add`](/docs/reference/prelude/ops/Add): The addition operator +.
-- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator -.
-- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator *.
-- [`Div`](/docs/reference/prelude/ops/Div): The division operator /.
-- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator -x.
-- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator %.
-- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator **.
-- [`Num`](/docs/reference/prelude/ops/Num): The numeric bundle: Add, Sub, Mul, Div, Neg, Rem and Pow.
+- [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.
+- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator `-`.
+- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator `*`.
+- [`Div`](/docs/reference/prelude/ops/Div): The division operator `/`.
+- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator `-x`.
+- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator `%`.
+- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator `**`.
+- [`Num`](/docs/reference/prelude/ops/Num): The numeric bundle: `Add`, `Sub`, `Mul`, `Div`, `Neg`, `Rem` and `Pow`.

@@ -54,7 +54,7 @@ assert!(match with_lock(m, fn (int n) => (n, n)) { Result::Ok(n) => n == 20, Res
 - [`thread::Mutex`](/docs/reference/thread/Mutex)
 - [`thread::lock`](/docs/reference/thread/lock)
 - [`thread::unlock`](/docs/reference/thread/unlock)
-- [`spawn`](/docs/reference/thread/spawn): Runs f(arg) on another OS thread and returns a handle to it.
+- [`spawn`](/docs/reference/thread/spawn): Runs `f(arg)` on another OS thread and returns a handle to it.
 - [`join`](/docs/reference/thread/join): Waits for the thread to finish and returns the value its function returned.
 - [`detach`](/docs/reference/thread/detach): Lets the thread run to completion without being joined.
-- [`channel`](/docs/reference/thread/channel): Creates an unbounded channel and returns its (Sender, Receiver) ends.
+- [`channel`](/docs/reference/thread/channel): Creates an unbounded channel and returns its `(Sender, Receiver)` ends.

@@ -36,9 +36,9 @@ if ok {
 ## See also
 
 - [`args`](/docs/reference/env/args): Returns the program's command-line arguments, starting with the program name.
-- [`var`](/docs/reference/env/var): Returns the value of the environment variable name.
-- [`set_var`](/docs/reference/env/set_var): Sets the environment variable name to value for this process.
-- [`remove_var`](/docs/reference/env/remove_var): Removes the environment variable name from this process.
+- [`var`](/docs/reference/env/var): Returns the value of the environment variable `name`.
+- [`set_var`](/docs/reference/env/set_var): Sets the environment variable `name` to `value` for this process.
+- [`remove_var`](/docs/reference/env/remove_var): Removes the environment variable `name` from this process.
 - [`cwd`](/docs/reference/env/cwd): Returns the current working directory as an absolute path.
 - [`set_cwd`](/docs/reference/env/set_cwd): Changes the current working directory of the whole process.
-- [`exec`](/docs/reference/env/exec): Runs program with the arguments argv and waits for it to finish.
+- [`exec`](/docs/reference/env/exec): Runs `program` with the arguments `argv` and waits for it to finish.

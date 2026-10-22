@@ -27,4 +27,4 @@ Returns the display form of `value`.
 
 ## See also
 
-- [`Show`](/docs/reference/prelude/ops/Show): Conversion to a display string, used by the %v format specifier.
+- [`Show`](/docs/reference/prelude/ops/Show): Conversion to a display string, used by the `%v` format specifier.

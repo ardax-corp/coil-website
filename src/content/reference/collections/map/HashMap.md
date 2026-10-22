@@ -34,7 +34,7 @@ when the fallback could be a real value.
 
 | Name | Description |
 |------|-------------|
-| [`with_capacity`](/docs/reference/collections/map/HashMap/with_capacity) | Creates an empty map with room for about cap buckets before it grows. |
+| [`with_capacity`](/docs/reference/collections/map/HashMap/with_capacity) | Creates an empty map with room for about `cap` buckets before it grows. |
 | [`new`](/docs/reference/collections/map/HashMap/new) | Creates an empty map. |
 
 ## Methods
@@ -42,16 +42,16 @@ when the fallback could be a real value.
 | Name | Description |
 |------|-------------|
 | [`size`](/docs/reference/collections/map/HashMap/size) | Returns the number of entries. |
-| [`is_empty`](/docs/reference/collections/map/HashMap/is_empty) | Returns true when the map has no entries. |
+| [`is_empty`](/docs/reference/collections/map/HashMap/is_empty) | Returns `true` when the map has no entries. |
 | [`capacity`](/docs/reference/collections/map/HashMap/capacity) | Returns the number of buckets. |
 | [`clear`](/docs/reference/collections/map/HashMap/clear) | Removes every entry, keeping the bucket count. |
 | [`keys`](/docs/reference/collections/map/HashMap/keys) | Returns the keys, in insertion order. |
 | [`values`](/docs/reference/collections/map/HashMap/values) | Returns the values, in the insertion order of their keys. |
 | [`iter`](/docs/reference/collections/map/HashMap/iter) | Returns an iterator over the entries, in insertion order. |
-| [`insert`](/docs/reference/collections/map/HashMap/insert) | Stores v under k, replacing any value already there. |
-| [`contains`](/docs/reference/collections/map/HashMap/contains) | Returns true when the map has an entry for k. |
-| [`get`](/docs/reference/collections/map/HashMap/get) | Returns the value stored under k, or fallback when there is none. |
-| [`remove`](/docs/reference/collections/map/HashMap/remove) | Removes the entry for k. |
+| [`insert`](/docs/reference/collections/map/HashMap/insert) | Stores `v` under `k`, replacing any value already there. |
+| [`contains`](/docs/reference/collections/map/HashMap/contains) | Returns `true` when the map has an entry for `k`. |
+| [`get`](/docs/reference/collections/map/HashMap/get) | Returns the value stored under `k`, or `fallback` when there is none. |
+| [`remove`](/docs/reference/collections/map/HashMap/remove) | Removes the entry for `k`. |
 
 ## Trait implementations
 
@@ -96,5 +96,5 @@ assert!(total == 78);
 - [`HashMap::contains`](/docs/reference/collections/map/HashMap/contains)
 - [`HashMap::keys`](/docs/reference/collections/map/HashMap/keys)
 - [`HashMap::values`](/docs/reference/collections/map/HashMap/values)
-- [`Entry`](/docs/reference/collections/map/Entry): One key-value pair, as HashMap iteration yields it.
-- [`HashMapIter`](/docs/reference/collections/map/HashMapIter): An iterator over the entries of a HashMap, from HashMap::iter.
+- [`Entry`](/docs/reference/collections/map/Entry): One key-value pair, as `HashMap` iteration yields it.
+- [`HashMapIter`](/docs/reference/collections/map/HashMapIter): An iterator over the entries of a `HashMap`, from `HashMap::iter`.

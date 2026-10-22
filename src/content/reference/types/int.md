@@ -59,4 +59,4 @@ assert!(5 as bool);
 - [`Ord`](/docs/reference/prelude/ops/Ord)
 - [`Eq`](/docs/reference/prelude/ops/Eq)
 - [`Show`](/docs/reference/prelude/ops/Show)
-- [`bool`](/docs/reference/types/bool): A boolean: true or false.
+- [`bool`](/docs/reference/types/bool): A boolean: `true` or `false`.

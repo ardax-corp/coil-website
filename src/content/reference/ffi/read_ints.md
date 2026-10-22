@@ -47,5 +47,5 @@ let first_start = ovector[0];
 
 - [`ffi::dload`](/docs/reference/ffi/dload)
 - [`ffi::ErrorKind`](/docs/reference/ffi/ErrorKind)
-- [`declare`](/docs/reference/ffi/declare): Looks up the C function name in a loaded library and records its signature.
-- [`invoke`](/docs/reference/ffi/invoke): Calls a function registered with declare, passing the tuple args.
+- [`declare`](/docs/reference/ffi/declare): Looks up the C function `name` in a loaded library and records its signature.
+- [`invoke`](/docs/reference/ffi/invoke): Calls a function registered with `declare`, passing the tuple `args`.

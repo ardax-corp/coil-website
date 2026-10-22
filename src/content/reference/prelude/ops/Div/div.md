@@ -28,4 +28,4 @@ Returns `a / b`.
 
 ## See also
 
-- [`Div`](/docs/reference/prelude/ops/Div): The division operator /.
+- [`Div`](/docs/reference/prelude/ops/Div): The division operator `/`.

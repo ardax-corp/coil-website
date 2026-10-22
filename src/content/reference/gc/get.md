@@ -40,8 +40,8 @@ assert!(match get(pin) { Option::Some(_) => false, Option::None => true });
 ## See also
 
 - [`gc::unroot`](/docs/reference/gc/unroot)
-- [`root`](/docs/reference/gc/fn.root): Pins value so the garbage collector keeps it alive while the returned Root is reachable.
-- [`weak`](/docs/reference/gc/fn.weak): Makes a handle to value that does not keep it alive.
-- [`upgrade`](/docs/reference/gc/upgrade): Returns the value while it is still alive, None once it was collected.
+- [`root`](/docs/reference/gc/fn.root): Pins `value` so the garbage collector keeps it alive while the returned `Root` is reachable.
+- [`weak`](/docs/reference/gc/fn.weak): Makes a handle to `value` that does not keep it alive.
+- [`upgrade`](/docs/reference/gc/upgrade): Returns the value while it is still alive, `None` once it was collected.
 - [`heap_bytes`](/docs/reference/gc/heap_bytes): Returns the size of the managed heap in bytes.
 - [`collect`](/docs/reference/gc/collect): Runs a full garbage collection now and returns the number of bytes freed.

@@ -31,7 +31,7 @@ Called on a `TypeDecl` value as `value.impl_head(…)`.
 
 - [`TypeDecl`](/docs/reference/macro/TypeDecl): A class or enum declaration handed to a derive or attribute macro.
 - [`TypeDecl::is_class`](/docs/reference/macro/TypeDecl/is_class)
-- [`TypeDecl::self_type`](/docs/reference/macro/TypeDecl/self_type): The type as written in a signature: Name, or Name<T, U> for a generic type.
+- [`TypeDecl::self_type`](/docs/reference/macro/TypeDecl/self_type): The type as written in a signature: `Name`, or `Name<T, U>` for a generic type.
 - [`TypeDecl::is_enum`](/docs/reference/macro/TypeDecl/is_enum)
 - [`TypeDecl::fields`](/docs/reference/macro/TypeDecl/fields): Class fields (empty for an enum).
 - [`TypeDecl::variants`](/docs/reference/macro/TypeDecl/variants): Enum variants (empty for a class).

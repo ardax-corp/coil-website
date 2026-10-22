@@ -22,16 +22,16 @@ every holder sees each [`set`](/docs/reference/cell/Ref/set).
 
 | Name | Description |
 |------|-------------|
-| [`new`](/docs/reference/cell/Ref/new) | New cell holding value. |
+| [`new`](/docs/reference/cell/Ref/new) | New cell holding `value`. |
 
 ## Methods
 
 | Name | Description |
 |------|-------------|
 | [`get`](/docs/reference/cell/Ref/get) | Current value. |
-| [`set`](/docs/reference/cell/Ref/set) | Store value. |
-| [`replace`](/docs/reference/cell/Ref/replace) | Store value and return the previous one. |
-| [`update`](/docs/reference/cell/Ref/update) | Store f(current) and return the new value. |
+| [`set`](/docs/reference/cell/Ref/set) | Store `value`. |
+| [`replace`](/docs/reference/cell/Ref/replace) | Store `value` and return the previous one. |
+| [`update`](/docs/reference/cell/Ref/update) | Store `f(current)` and return the new value. |
 
 ## Examples
 

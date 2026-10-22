@@ -24,7 +24,7 @@ side is rejected as an orphan).
 
 | Name | Description |
 |------|-------------|
-| [`into`](/docs/reference/prelude/ops/Into/into) | Converts value into a T. |
+| [`into`](/docs/reference/prelude/ops/Into/into) | Converts `value` into a `T`. |
 
 ## Examples
 
@@ -53,10 +53,10 @@ fn main() {
 ## See also
 
 - [`int`](/docs/reference/types/int)
-- [`Add`](/docs/reference/prelude/ops/Add): The addition operator +.
-- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator -.
-- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator *.
-- [`Div`](/docs/reference/prelude/ops/Div): The division operator /.
-- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator -x.
-- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator %.
-- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator **.
+- [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.
+- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator `-`.
+- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator `*`.
+- [`Div`](/docs/reference/prelude/ops/Div): The division operator `/`.
+- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator `-x`.
+- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator `%`.
+- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator `**`.

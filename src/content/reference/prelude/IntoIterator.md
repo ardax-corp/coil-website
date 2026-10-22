@@ -27,7 +27,7 @@ example.
 
 | Name | Description |
 |------|-------------|
-| [`into_iter`](/docs/reference/prelude/IntoIterator/into_iter) | Converts value into its iterator. |
+| [`into_iter`](/docs/reference/prelude/IntoIterator/into_iter) | Converts `value` into its iterator. |
 
 ## Examples
 

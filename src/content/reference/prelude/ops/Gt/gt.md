@@ -28,4 +28,4 @@ Returns `true` when `a` is greater than `b`.
 
 ## See also
 
-- [`Gt`](/docs/reference/prelude/ops/Gt): The greater-than operator >.
+- [`Gt`](/docs/reference/prelude/ops/Gt): The greater-than operator `>`.

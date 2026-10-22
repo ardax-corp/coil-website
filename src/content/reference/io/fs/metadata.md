@@ -55,8 +55,8 @@ assert!(size == 4 && file);
 - [`io::fs::is_file`](/docs/reference/io/fs/is_file)
 - [`io::fs::is_dir`](/docs/reference/io/fs/is_dir)
 - [`io::fs::is_symlink`](/docs/reference/io/fs/is_symlink)
-- [`copy`](/docs/reference/io/fs/copy): Copies the contents of file from to to, creating or overwriting to.
-- [`create_dir`](/docs/reference/io/fs/create_dir): Creates the directory path.
-- [`create_dir_all`](/docs/reference/io/fs/create_dir_all): Creates the directory path and any missing parent directories.
-- [`exists`](/docs/reference/io/fs/exists): Returns whether anything exists at path.
-- [`list_dir`](/docs/reference/io/fs/list_dir): Returns the names of the entries in directory path, sorted.
+- [`copy`](/docs/reference/io/fs/copy): Copies the contents of file `from` to `to`, creating or overwriting `to`.
+- [`create_dir`](/docs/reference/io/fs/create_dir): Creates the directory `path`.
+- [`create_dir_all`](/docs/reference/io/fs/create_dir_all): Creates the directory `path` and any missing parent directories.
+- [`exists`](/docs/reference/io/fs/exists): Returns whether anything exists at `path`.
+- [`list_dir`](/docs/reference/io/fs/list_dir): Returns the names of the entries in directory `path`, sorted.

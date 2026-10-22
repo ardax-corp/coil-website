@@ -47,8 +47,8 @@ assert!(parse_int_radix("12", 8).is_err());
 ## See also
 
 - [`int`](/docs/reference/types/int)
-- [`int_to_dec`](/docs/reference/conv/int_to_dec): Formats n in decimal; the same as format("%i", n).
-- [`int_to_hex`](/docs/reference/conv/int_to_hex): Formats n in lowercase hexadecimal without a prefix; a negative n gets a leading -.
-- [`int_to_bin`](/docs/reference/conv/int_to_bin): Formats n in binary without a prefix; a negative n gets a leading -.
-- [`parse_int`](/docs/reference/conv/parse_int): Parses a decimal integer, such as "42", " -7 " or "+3".
-- [`parse_float`](/docs/reference/conv/parse_float): Parses a decimal float such as "3.5", "-0.25", "1e3" or "42".
+- [`int_to_dec`](/docs/reference/conv/int_to_dec): Formats `n` in decimal; the same as `format("%i", n)`.
+- [`int_to_hex`](/docs/reference/conv/int_to_hex): Formats `n` in lowercase hexadecimal without a prefix; a negative `n` gets a leading `-`.
+- [`int_to_bin`](/docs/reference/conv/int_to_bin): Formats `n` in binary without a prefix; a negative `n` gets a leading `-`.
+- [`parse_int`](/docs/reference/conv/parse_int): Parses a decimal integer, such as `"42"`, `" -7 "` or `"+3"`.
+- [`parse_float`](/docs/reference/conv/parse_float): Parses a decimal float such as `"3.5"`, `"-0.25"`, `"1e3"` or `"42"`.

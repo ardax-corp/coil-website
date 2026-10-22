@@ -50,10 +50,10 @@ assert!(done);
 ## See also
 
 - [`task::scope`](/docs/reference/task/fn.scope)
-- [`spawn`](/docs/reference/thread/spawn): Runs f(arg) on another OS thread and returns a handle to it.
+- [`spawn`](/docs/reference/thread/spawn): Runs `f(arg)` on another OS thread and returns a handle to it.
 - [`join`](/docs/reference/thread/join): Waits for the thread to finish and returns the value its function returned.
 - [`detach`](/docs/reference/thread/detach): Lets the thread run to completion without being joined.
-- [`channel`](/docs/reference/thread/channel): Creates an unbounded channel and returns its (Sender, Receiver) ends.
-- [`send`](/docs/reference/thread/send): Sends a copy of value on the channel.
-- [`try_send`](/docs/reference/thread/try_send): Sends value without waiting.
+- [`channel`](/docs/reference/thread/channel): Creates an unbounded channel and returns its `(Sender, Receiver)` ends.
+- [`send`](/docs/reference/thread/send): Sends a copy of `value` on the channel.
+- [`try_send`](/docs/reference/thread/try_send): Sends `value` without waiting.
 - [`try_recv`](/docs/reference/thread/try_recv): Takes the next value if there is one, without waiting.

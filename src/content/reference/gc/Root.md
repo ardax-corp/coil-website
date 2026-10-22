@@ -38,4 +38,4 @@ assert!(n == 3);
 - [`gc::root`](/docs/reference/gc/fn.root)
 - [`gc::get`](/docs/reference/gc/get)
 - [`gc::unroot`](/docs/reference/gc/unroot)
-- [`Weak`](/docs/reference/gc/Weak): A handle that refers to a value without keeping it alive, made by weak.
+- [`Weak`](/docs/reference/gc/Weak): A handle that refers to a value without keeping it alive, made by `weak`.

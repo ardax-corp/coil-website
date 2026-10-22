@@ -62,9 +62,9 @@ fn main() {
 
 - [`io::sync::accept_wait`](/docs/reference/io/sync/accept_wait)
 - [`io::net::tcp::listen`](/docs/reference/io/net/tcp/listen)
-- [`connect`](/docs/reference/io/net/tcp/connect): Opens a TCP connection to host on port.
-- [`connect_timeout`](/docs/reference/io/net/tcp/connect_timeout): Opens a TCP connection to host on port, giving up after ms milliseconds.
-- [`local_addr`](/docs/reference/io/net/tcp/local_addr): Returns the local (host, port) of a TCP listener or connected TCP stream.
-- [`peer_addr`](/docs/reference/io/net/tcp/peer_addr): Returns the remote (host, port) of a connected TCP stream.
-- [`set_nodelay`](/docs/reference/io/net/tcp/set_nodelay): Turns TCP_NODELAY on or off for a TCP stream.
+- [`connect`](/docs/reference/io/net/tcp/connect): Opens a TCP connection to `host` on `port`.
+- [`connect_timeout`](/docs/reference/io/net/tcp/connect_timeout): Opens a TCP connection to `host` on `port`, giving up after `ms` milliseconds.
+- [`local_addr`](/docs/reference/io/net/tcp/local_addr): Returns the local `(host, port)` of a TCP listener or connected TCP stream.
+- [`peer_addr`](/docs/reference/io/net/tcp/peer_addr): Returns the remote `(host, port)` of a connected TCP stream.
+- [`set_nodelay`](/docs/reference/io/net/tcp/set_nodelay): Turns `TCP_NODELAY` on or off for a TCP stream.
 - [`shutdown`](/docs/reference/io/net/tcp/shutdown): Shuts down the reading half, the writing half, or both halves of a TCP stream.

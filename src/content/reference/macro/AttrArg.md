@@ -26,9 +26,9 @@ One `key = value` (or positional `value`, with `key == ""`) attribute argument.
 
 - [`Code`](/docs/reference/macro/Code): Generated coil source: declarations, an expression, statements or a type.
 - [`Ident`](/docs/reference/macro/Ident): A name as written in source.
-- [`Expr`](/docs/reference/macro/Expr): A function-style macro argument as written: f(1), a + b, "text".
-- [`TypeRef`](/docs/reference/macro/TypeRef): A type annotation as written (not resolved): Vec<int>, json::Value.
-- [`Attr`](/docs/reference/macro/Attr): #[name(args)] on a declaration, field or variant.
+- [`Expr`](/docs/reference/macro/Expr): A function-style macro argument as written: `f(1)`, `a + b`, `"text"`.
+- [`TypeRef`](/docs/reference/macro/TypeRef): A type annotation as written (not resolved): `Vec<int>`, `json::Value`.
+- [`Attr`](/docs/reference/macro/Attr): `#[name(args)]` on a declaration, field or variant.
 - [`Field`](/docs/reference/macro/Field): A class field, or a field of a record enum variant.
 - [`Variant`](/docs/reference/macro/Variant): One enum variant.
 - [`TypeDecl`](/docs/reference/macro/TypeDecl): A class or enum declaration handed to a derive or attribute macro.

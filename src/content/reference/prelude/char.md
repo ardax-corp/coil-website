@@ -44,4 +44,4 @@ assert!(s == "B");
 
 - [`byte`](/docs/reference/types/byte)
 - [`ord`](/docs/reference/prelude/ord)
-- [`black_box`](/docs/reference/prelude/black_box): Returns x unchanged, through a call the optimizer cannot see into.
+- [`black_box`](/docs/reference/prelude/black_box): Returns `x` unchanged, through a call the optimizer cannot see into.

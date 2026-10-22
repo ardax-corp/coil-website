@@ -21,7 +21,7 @@ The functions in this module work on plain [`Vec<byte>`](/docs/reference/prelude
 
 | Name | Description |
 |------|-------------|
-| [`from_vec`](/docs/reference/bytes/Bytes/from_vec) | Wraps buf without copying it. |
+| [`from_vec`](/docs/reference/bytes/Bytes/from_vec) | Wraps `buf` without copying it. |
 | [`to_vec`](/docs/reference/bytes/Bytes/to_vec) | Returns the wrapped buffer. |
 
 ## See also

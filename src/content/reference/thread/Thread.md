@@ -44,7 +44,7 @@ fn main() {
 - [`thread::spawn`](/docs/reference/thread/spawn)
 - [`thread::join`](/docs/reference/thread/join)
 - [`thread::detach`](/docs/reference/thread/detach)
-- [`Sender`](/docs/reference/thread/Sender): The sending half of a channel made by channel.
-- [`Receiver`](/docs/reference/thread/Receiver): The receiving half of a channel made by channel.
-- [`Mutex`](/docs/reference/thread/Mutex): A mutual-exclusion lock that owns a value, made by mutex.
-- [`RwLock`](/docs/reference/thread/RwLock): A readers-writer lock that owns a value, made by rwlock.
+- [`Sender`](/docs/reference/thread/Sender): The sending half of a channel made by `channel`.
+- [`Receiver`](/docs/reference/thread/Receiver): The receiving half of a channel made by `channel`.
+- [`Mutex`](/docs/reference/thread/Mutex): A mutual-exclusion lock that owns a value, made by `mutex`.
+- [`RwLock`](/docs/reference/thread/RwLock): A readers-writer lock that owns a value, made by `rwlock`.

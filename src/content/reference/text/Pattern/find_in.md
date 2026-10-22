@@ -29,7 +29,7 @@ Returns the span of the leftmost match in `hay` at or after byte `from`.
 
 ## See also
 
-- [`Pattern`](/docs/reference/text/Pattern): Something a [Searchable] value can be searched for: a plain string (matched literally), or a type such as coil-regex's Regex.
-- [`Pattern::is_prefix_of`](/docs/reference/text/Pattern/is_prefix_of): Returns true when a match starts at the beginning of hay.
-- [`Pattern::is_suffix_of`](/docs/reference/text/Pattern/is_suffix_of): Returns true when a match ends at the end of hay.
-- [`Pattern::expand`](/docs/reference/text/Pattern/expand): Returns the replacement text for the match find_in just returned.
+- [`Pattern`](/docs/reference/text/Pattern): Something a [`Searchable`] value can be searched for: a plain `string` (matched literally), or a type such as coil-regex's `Regex`.
+- [`Pattern::is_prefix_of`](/docs/reference/text/Pattern/is_prefix_of): Returns `true` when a match starts at the beginning of `hay`.
+- [`Pattern::is_suffix_of`](/docs/reference/text/Pattern/is_suffix_of): Returns `true` when a match ends at the end of `hay`.
+- [`Pattern::expand`](/docs/reference/text/Pattern/expand): Returns the replacement text for the match `find_in` just returned.

@@ -23,7 +23,7 @@ IEEE-754 (`1.0 / 0.0` is infinity).
 
 | Name | Description |
 |------|-------------|
-| [`div`](/docs/reference/prelude/ops/Div/div) | Returns a / b. |
+| [`div`](/docs/reference/prelude/ops/Div/div) | Returns `a / b`. |
 
 ## Examples
 
@@ -52,9 +52,9 @@ fn main() {
 
 - [`int`](/docs/reference/types/int)
 - [`float`](/docs/reference/types/float)
-- [`Add`](/docs/reference/prelude/ops/Add): The addition operator +.
-- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator -.
-- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator *.
-- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator -x.
-- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator %.
-- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator **.
+- [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.
+- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator `-`.
+- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator `*`.
+- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator `-x`.
+- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator `%`.
+- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator `**`.

@@ -23,7 +23,7 @@ greater than its start is empty.
 
 | Name | Description |
 |------|-------------|
-| [`to_vec`](/docs/reference/prelude/Range/to_vec) | Collects the range into a new Vec<T>. |
+| [`to_vec`](/docs/reference/prelude/Range/to_vec) | Collects the range into a new [`Vec<T>`](/docs/reference/prelude/Vec). |
 
 ## Examples
 
@@ -42,5 +42,5 @@ assert!(sum == 6);
 - [`int`](/docs/reference/types/int)
 - [`byte`](/docs/reference/types/byte)
 - [`float`](/docs/reference/types/float)
-- [`Vec`](/docs/reference/prelude/Vec): A growable, heap-allocated vector of T values.
-- [`RangeInclusive`](/docs/reference/prelude/RangeInclusive): A lazy inclusive range start..=end: every value from start up to and including end.
+- [`Vec`](/docs/reference/prelude/Vec): A growable, heap-allocated vector of `T` values.
+- [`RangeInclusive`](/docs/reference/prelude/RangeInclusive): A lazy inclusive range `start..=end`: every value from `start` up to and including `end`.

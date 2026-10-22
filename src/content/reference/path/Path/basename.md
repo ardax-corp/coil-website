@@ -33,10 +33,10 @@ assert!((Path::from("a/b/").basename() ?? "") == "b");
 ## See also
 
 - [`Path`](/docs/reference/path/Path): A file-system path, with helpers to take it apart and to use it.
-- [`Path::from`](/docs/reference/path/Path/from): Creates a path from s as written.
+- [`Path::from`](/docs/reference/path/Path/from): Creates a path from `s` as written.
 - [`Path::as_str`](/docs/reference/path/Path/as_str): Returns the path as a string.
-- [`Path::join`](/docs/reference/path/Path/join): Returns this path followed by other, with exactly one separator between them.
+- [`Path::join`](/docs/reference/path/Path/join): Returns this path followed by `other`, with exactly one separator between them.
 - [`Path::dirname`](/docs/reference/path/Path/dirname): Returns the path without its last component.
-- [`Path::extension`](/docs/reference/path/Path/extension): Returns the text after the last .
-- [`Path::is_absolute`](/docs/reference/path/Path/is_absolute): Returns true when the path starts with a separator or a Windows drive letter (C:).
-- [`Path::normalize`](/docs/reference/path/Path/normalize): Removes .
+- [`Path::extension`](/docs/reference/path/Path/extension): Returns the text after the last `.` of the last component, or `""` when there is none.
+- [`Path::is_absolute`](/docs/reference/path/Path/is_absolute): Returns `true` when the path starts with a separator or a Windows drive letter (`C:`).
+- [`Path::normalize`](/docs/reference/path/Path/normalize): Removes `.` components, resolves `..` against the component before it, and collapses repeated separators.

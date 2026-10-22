@@ -28,5 +28,5 @@ Returns `true` when `a` and `b` are equal.
 
 ## See also
 
-- [`Eq`](/docs/reference/prelude/ops/Eq): The equality operators == and !=.
-- [`Eq::ne`](/docs/reference/prelude/ops/Eq/ne): Returns true when a and b are not equal.
+- [`Eq`](/docs/reference/prelude/ops/Eq): The equality operators `==` and `!=`.
+- [`Eq::ne`](/docs/reference/prelude/ops/Eq/ne): Returns `true` when `a` and `b` are not equal.

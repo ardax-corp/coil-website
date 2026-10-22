@@ -28,4 +28,4 @@ Returns the bitwise OR of `a` and `b`.
 
 ## See also
 
-- [`BitOr`](/docs/reference/prelude/ops/BitOr): The bitwise OR operator |.
+- [`BitOr`](/docs/reference/prelude/ops/BitOr): The bitwise OR operator `|`.

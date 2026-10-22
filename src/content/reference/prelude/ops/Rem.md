@@ -22,7 +22,7 @@ The remainder operator `%`.
 
 | Name | Description |
 |------|-------------|
-| [`rem`](/docs/reference/prelude/ops/Rem/rem) | Returns the remainder of a / b. |
+| [`rem`](/docs/reference/prelude/ops/Rem/rem) | Returns the remainder of `a / b`. |
 
 ## Examples
 
@@ -49,9 +49,9 @@ fn main() {
 
 - [`int`](/docs/reference/types/int)
 - [`float`](/docs/reference/types/float)
-- [`Add`](/docs/reference/prelude/ops/Add): The addition operator +.
-- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator -.
-- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator *.
-- [`Div`](/docs/reference/prelude/ops/Div): The division operator /.
-- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator -x.
-- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator **.
+- [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.
+- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator `-`.
+- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator `*`.
+- [`Div`](/docs/reference/prelude/ops/Div): The division operator `/`.
+- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator `-x`.
+- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator `**`.

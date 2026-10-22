@@ -22,7 +22,7 @@ rules as [`Range`](/docs/reference/prelude/Range): step `1` (or `1.0`), numeric 
 
 | Name | Description |
 |------|-------------|
-| [`to_vec`](/docs/reference/prelude/RangeInclusive/to_vec) | Collects the range into a new Vec<T>, including the end value. |
+| [`to_vec`](/docs/reference/prelude/RangeInclusive/to_vec) | Collects the range into a new [`Vec<T>`](/docs/reference/prelude/Vec), including the end value. |
 
 ## Examples
 
@@ -38,4 +38,4 @@ assert!(sum == 10);
 ## See also
 
 - [`Range`](/docs/reference/prelude/Range)
-- [`Vec`](/docs/reference/prelude/Vec): A growable, heap-allocated vector of T values.
+- [`Vec`](/docs/reference/prelude/Vec): A growable, heap-allocated vector of `T` values.

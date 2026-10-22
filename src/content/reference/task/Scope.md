@@ -21,11 +21,11 @@ starts has finished by the time [`scope`](/docs/reference/task/fn.scope) returns
 
 | Name | Description |
 |------|-------------|
-| [`spawn`](/docs/reference/task/Scope/spawn) | Starts body as a child task of this scope and returns its handle. |
+| [`spawn`](/docs/reference/task/Scope/spawn) | Starts `body` as a child task of this scope and returns its handle. |
 
 ## See also
 
 - [`task::scope`](/docs/reference/task/fn.scope)
 - [`Scope::spawn`](/docs/reference/task/Scope/spawn)
-- [`Task`](/docs/reference/task/Task): A handle to a child task started with Scope::spawn.
+- [`Task`](/docs/reference/task/Task): A handle to a child task started with `Scope::spawn`.
 - [`Channel`](/docs/reference/task/Channel): A bounded queue for passing values between tasks.

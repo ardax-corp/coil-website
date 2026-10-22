@@ -22,7 +22,7 @@ have builtin instances; negating the smallest [`int`](/docs/reference/types/int)
 
 | Name | Description |
 |------|-------------|
-| [`neg`](/docs/reference/prelude/ops/Neg/neg) | Returns -a. |
+| [`neg`](/docs/reference/prelude/ops/Neg/neg) | Returns `-a`. |
 
 ## Examples
 
@@ -50,9 +50,9 @@ fn main() {
 
 - [`int`](/docs/reference/types/int)
 - [`float`](/docs/reference/types/float)
-- [`Add`](/docs/reference/prelude/ops/Add): The addition operator +.
-- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator -.
-- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator *.
-- [`Div`](/docs/reference/prelude/ops/Div): The division operator /.
-- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator %.
-- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator **.
+- [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.
+- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator `-`.
+- [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator `*`.
+- [`Div`](/docs/reference/prelude/ops/Div): The division operator `/`.
+- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator `%`.
+- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator `**`.

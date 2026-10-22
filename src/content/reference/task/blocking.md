@@ -35,9 +35,9 @@ The `ThreadError` from starting or joining the thread.
 
 - [`task::scope`](/docs/reference/task/fn.scope)
 - [`thread::spawn`](/docs/reference/thread/spawn)
-- [`sleep`](/docs/reference/task/sleep): Suspends the current task for at least ms milliseconds; other tasks run meanwhile.
+- [`sleep`](/docs/reference/task/sleep): Suspends the current task for at least `ms` milliseconds; other tasks run meanwhile.
 - [`yield_now`](/docs/reference/task/yield_now): Lets other ready tasks run before the current one continues.
-- [`timeout`](/docs/reference/task/timeout): Runs body as a task and cancels it if it has not finished after ms milliseconds.
-- [`shield`](/docs/reference/task/shield): Runs body so that a cancel waits for it to finish instead of interrupting it.
-- [`channel`](/docs/reference/task/fn.channel): Creates a channel that holds up to capacity values.
-- [`blocking_with`](/docs/reference/task/blocking_with): Like blocking, passing arg to work (it is copied to the other thread, like thread::spawn(work, arg)).
+- [`timeout`](/docs/reference/task/timeout): Runs `body` as a task and cancels it if it has not finished after `ms` milliseconds.
+- [`shield`](/docs/reference/task/shield): Runs `body` so that a cancel waits for it to finish instead of interrupting it.
+- [`channel`](/docs/reference/task/fn.channel): Creates a channel that holds up to `capacity` values.
+- [`blocking_with`](/docs/reference/task/blocking_with): Like `blocking`, passing `arg` to `work` (it is copied to the other thread, like `thread::spawn(work, arg)`).

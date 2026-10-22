@@ -40,11 +40,11 @@ assert!(!m.contains(8));
 
 ## See also
 
-- [`HashMap`](/docs/reference/collections/map/HashMap): A hash map from keys of type K to values of type V.
-- [`HashMap::with_capacity`](/docs/reference/collections/map/HashMap/with_capacity): Creates an empty map with room for about cap buckets before it grows.
+- [`HashMap`](/docs/reference/collections/map/HashMap): A hash map from keys of type `K` to values of type `V`.
+- [`HashMap::with_capacity`](/docs/reference/collections/map/HashMap/with_capacity): Creates an empty map with room for about `cap` buckets before it grows.
 - [`HashMap::new`](/docs/reference/collections/map/HashMap/new): Creates an empty map.
 - [`HashMap::size`](/docs/reference/collections/map/HashMap/size): Returns the number of entries.
-- [`HashMap::is_empty`](/docs/reference/collections/map/HashMap/is_empty): Returns true when the map has no entries.
+- [`HashMap::is_empty`](/docs/reference/collections/map/HashMap/is_empty): Returns `true` when the map has no entries.
 - [`HashMap::capacity`](/docs/reference/collections/map/HashMap/capacity): Returns the number of buckets.
 - [`HashMap::clear`](/docs/reference/collections/map/HashMap/clear): Removes every entry, keeping the bucket count.
 - [`HashMap::keys`](/docs/reference/collections/map/HashMap/keys): Returns the keys, in insertion order.

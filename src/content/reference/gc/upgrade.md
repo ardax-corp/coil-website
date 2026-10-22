@@ -54,9 +54,9 @@ fn main() {
 ## See also
 
 - [`gc::Root`](/docs/reference/gc/Root)
-- [`root`](/docs/reference/gc/fn.root): Pins value so the garbage collector keeps it alive while the returned Root is reachable.
+- [`root`](/docs/reference/gc/fn.root): Pins `value` so the garbage collector keeps it alive while the returned `Root` is reachable.
 - [`get`](/docs/reference/gc/get): Returns the pinned value, leaving the pin in place.
 - [`unroot`](/docs/reference/gc/unroot): Releases the pin and returns the value it held.
-- [`weak`](/docs/reference/gc/fn.weak): Makes a handle to value that does not keep it alive.
+- [`weak`](/docs/reference/gc/fn.weak): Makes a handle to `value` that does not keep it alive.
 - [`heap_bytes`](/docs/reference/gc/heap_bytes): Returns the size of the managed heap in bytes.
 - [`collect`](/docs/reference/gc/collect): Runs a full garbage collection now and returns the number of bytes freed.

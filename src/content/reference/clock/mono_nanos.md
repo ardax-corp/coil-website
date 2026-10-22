@@ -35,4 +35,4 @@ assert!(elapsed_ms >= 5);
 ## See also
 
 - [`wall_nanos`](/docs/reference/clock/wall_nanos): Returns the current wall-clock time in nanoseconds since the Unix epoch (UTC).
-- [`sleep_ms`](/docs/reference/clock/sleep_ms): Pauses for at least ms milliseconds.
+- [`sleep_ms`](/docs/reference/clock/sleep_ms): Pauses for at least `ms` milliseconds.

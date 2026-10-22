@@ -27,4 +27,4 @@ Converts `value` into its iterator.
 
 ## See also
 
-- [`IntoIterator`](/docs/reference/prelude/IntoIterator): A type that can be turned into an Iterator, which makes it usable in for x in value.
+- [`IntoIterator`](/docs/reference/prelude/IntoIterator): A type that can be turned into an `Iterator`, which makes it usable in `for x in value`.

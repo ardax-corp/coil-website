@@ -29,14 +29,14 @@ A singly-linked list with constant-time push and pop at the front.
 | Name | Description |
 |------|-------------|
 | [`size`](/docs/reference/collections/list/List/size) | Returns the number of values. |
-| [`is_empty`](/docs/reference/collections/list/List/is_empty) | Returns true when the list has no values. |
-| [`push_front`](/docs/reference/collections/list/List/push_front) | Adds v at the front. |
-| [`push_back`](/docs/reference/collections/list/List/push_back) | Adds v at the back. |
-| [`peek_front`](/docs/reference/collections/list/List/peek_front) | Returns the front value without removing it, or None when the list is empty. |
-| [`pop_front`](/docs/reference/collections/list/List/pop_front) | Removes and returns the front value, or None when the list is empty. |
-| [`pop_back`](/docs/reference/collections/list/List/pop_back) | Removes and returns the back value, or None when the list is empty. |
+| [`is_empty`](/docs/reference/collections/list/List/is_empty) | Returns `true` when the list has no values. |
+| [`push_front`](/docs/reference/collections/list/List/push_front) | Adds `v` at the front. |
+| [`push_back`](/docs/reference/collections/list/List/push_back) | Adds `v` at the back. |
+| [`peek_front`](/docs/reference/collections/list/List/peek_front) | Returns the front value without removing it, or `None` when the list is empty. |
+| [`pop_front`](/docs/reference/collections/list/List/pop_front) | Removes and returns the front value, or `None` when the list is empty. |
+| [`pop_back`](/docs/reference/collections/list/List/pop_back) | Removes and returns the back value, or `None` when the list is empty. |
 | [`clear`](/docs/reference/collections/list/List/clear) | Removes every value. |
-| [`to_vec`](/docs/reference/collections/list/List/to_vec) | Returns the values front to back as a new Vec. |
+| [`to_vec`](/docs/reference/collections/list/List/to_vec) | Returns the values front to back as a new [`Vec`](/docs/reference/prelude/Vec). |
 | [`iter`](/docs/reference/collections/list/List/iter) | Returns an iterator over the values, front to back. |
 
 ## Trait implementations
@@ -74,5 +74,5 @@ assert!((xs.pop_front() ?? 0) == 1);
 - [`List::push_back`](/docs/reference/collections/list/List/push_back)
 - [`List::pop_back`](/docs/reference/collections/list/List/pop_back)
 - [`collections::deque::VecDeque`](/docs/reference/collections/deque/VecDeque)
-- [`Node`](/docs/reference/collections/list/Node): One cell of a List: a value and the rest of the list.
-- [`ListIter`](/docs/reference/collections/list/ListIter): An iterator over a List, front to back, from List::iter.
+- [`Node`](/docs/reference/collections/list/Node): One cell of a `List`: a value and the rest of the list.
+- [`ListIter`](/docs/reference/collections/list/ListIter): An iterator over a `List`, front to back, from `List::iter`.

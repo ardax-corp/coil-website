@@ -36,6 +36,6 @@ assert!(show(ready) == "true");
 
 - [`int`](/docs/reference/types/int)
 - [`float`](/docs/reference/types/float): A 64-bit IEEE-754 floating-point number.
-- [`byte`](/docs/reference/types/byte): An unsigned 8-bit integer in 0..=255.
+- [`byte`](/docs/reference/types/byte): An unsigned 8-bit integer in `0..=255`.
 - [`string`](/docs/reference/types/string): A UTF-8 text string.
-- [`unit`](/docs/reference/types/unit): The type with a single value, (), used where there is no meaningful value.
+- [`unit`](/docs/reference/types/unit): The type with a single value, `()`, used where there is no meaningful value.

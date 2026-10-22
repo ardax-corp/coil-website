@@ -28,4 +28,4 @@ Returns `a + b`.
 
 ## See also
 
-- [`Add`](/docs/reference/prelude/ops/Add): The addition operator +.
+- [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.

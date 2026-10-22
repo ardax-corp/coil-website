@@ -18,7 +18,7 @@ An iterator over a [`List`](/docs/reference/collections/list/List), front to bac
 
 | Name | Description |
 |------|-------------|
-| [`next`](/docs/reference/collections/list/ListIter/next) | Returns the next value, or None at the end. |
+| [`next`](/docs/reference/collections/list/ListIter/next) | Returns the next value, or `None` at the end. |
 
 ## Trait implementations
 
@@ -28,4 +28,4 @@ An iterator over a [`List`](/docs/reference/collections/list/List), front to bac
 
 - [`collections::list::List`](/docs/reference/collections/list/List)
 - [`List::iter`](/docs/reference/collections/list/List/iter)
-- [`Node`](/docs/reference/collections/list/Node): One cell of a List: a value and the rest of the list.
+- [`Node`](/docs/reference/collections/list/Node): One cell of a `List`: a value and the rest of the list.

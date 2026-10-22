@@ -20,7 +20,7 @@ Types that bytes can be read from; implemented for [`Stream`](/docs/reference/io
 
 | Name | Description |
 |------|-------------|
-| [`read`](/docs/reference/io/Read/read) | Reads into buf; see io::read. |
+| [`read`](/docs/reference/io/Read/read) | Reads into `buf`; see [`io::read`](/docs/reference/io/fn.read). |
 
 ## Examples
 
@@ -55,4 +55,4 @@ assert!(n == 3);
 - [`io::Stream`](/docs/reference/io/Stream)
 - [`Read::read`](/docs/reference/io/Read/read)
 - [`io::read`](/docs/reference/io/fn.read)
-- [`Write`](/docs/reference/io/Write): Types that bytes can be written to; implemented for Stream.
+- [`Write`](/docs/reference/io/Write): Types that bytes can be written to; implemented for `Stream`.

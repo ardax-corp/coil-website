@@ -28,4 +28,4 @@ Returns `true` when `a` is greater than or equal to `b`.
 
 ## See also
 
-- [`Ge`](/docs/reference/prelude/ops/Ge): The greater-or-equal operator >=.
+- [`Ge`](/docs/reference/prelude/ops/Ge): The greater-or-equal operator `>=`.

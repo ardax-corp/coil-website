@@ -22,7 +22,7 @@ multiplication.
 
 | Name | Description |
 |------|-------------|
-| [`mul`](/docs/reference/prelude/ops/Mul/mul) | Returns a * b. |
+| [`mul`](/docs/reference/prelude/ops/Mul/mul) | Returns `a * b`. |
 
 ## Examples
 
@@ -51,8 +51,8 @@ fn main() {
 - [`int`](/docs/reference/types/int)
 - [`float`](/docs/reference/types/float)
 - [`Matrix`](/docs/reference/prelude/math/Matrix)
-- [`Add`](/docs/reference/prelude/ops/Add): The addition operator +.
-- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator -.
-- [`Div`](/docs/reference/prelude/ops/Div): The division operator /.
-- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator -x.
-- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator %.
+- [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.
+- [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator `-`.
+- [`Div`](/docs/reference/prelude/ops/Div): The division operator `/`.
+- [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator `-x`.
+- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator `%`.

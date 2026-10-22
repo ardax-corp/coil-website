@@ -22,7 +22,7 @@ counted in bits. Each [`int`](/docs/reference/types/int) word holds 63 bits.
 
 | Name | Description |
 |------|-------------|
-| [`with_capacity`](/docs/reference/collections/bitset/BitSet/with_capacity) | Empty set with storage for at least bits indices (0 → no words). |
+| [`with_capacity`](/docs/reference/collections/bitset/BitSet/with_capacity) | Empty set with storage for at least `bits` indices (`0` → no words). |
 | [`new`](/docs/reference/collections/bitset/BitSet/new) | Empty set with no word storage (grows on insert). |
 
 ## Methods
@@ -30,11 +30,11 @@ counted in bits. Each [`int`](/docs/reference/types/int) word holds 63 bits.
 | Name | Description |
 |------|-------------|
 | [`size`](/docs/reference/collections/bitset/BitSet/size) | Number of set bits (cardinality). |
-| [`is_empty`](/docs/reference/collections/bitset/BitSet/is_empty) | Returns true when no bit is set. |
-| [`capacity`](/docs/reference/collections/bitset/BitSet/capacity) | Current bit capacity (words.len() * 63); grows when inserting past it. |
-| [`insert`](/docs/reference/collections/bitset/BitSet/insert) | Insert index i; returns true when newly set. |
-| [`contains`](/docs/reference/collections/bitset/BitSet/contains) | True when index i is set. |
-| [`remove`](/docs/reference/collections/bitset/BitSet/remove) | Clear index i; returns true when a bit was unset. |
+| [`is_empty`](/docs/reference/collections/bitset/BitSet/is_empty) | Returns `true` when no bit is set. |
+| [`capacity`](/docs/reference/collections/bitset/BitSet/capacity) | Current bit capacity (`words.len() * 63`); grows when inserting past it. |
+| [`insert`](/docs/reference/collections/bitset/BitSet/insert) | Insert index `i`; returns `true` when newly set. |
+| [`contains`](/docs/reference/collections/bitset/BitSet/contains) | True when index `i` is set. |
+| [`remove`](/docs/reference/collections/bitset/BitSet/remove) | Clear index `i`; returns `true` when a bit was unset. |
 | [`clear`](/docs/reference/collections/bitset/BitSet/clear) | Unset every bit; keeps allocated word capacity. |
 
 ## Invariants

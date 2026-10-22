@@ -25,8 +25,8 @@ Called on a `Ref` value as `value.set(…)`.
 
 ## See also
 
-- [`Ref`](/docs/reference/cell/Ref): A shared, mutable box holding one T.
-- [`Ref::new`](/docs/reference/cell/Ref/new): New cell holding value.
+- [`Ref`](/docs/reference/cell/Ref): A shared, mutable box holding one `T`.
+- [`Ref::new`](/docs/reference/cell/Ref/new): New cell holding `value`.
 - [`Ref::get`](/docs/reference/cell/Ref/get): Current value.
-- [`Ref::replace`](/docs/reference/cell/Ref/replace): Store value and return the previous one.
-- [`Ref::update`](/docs/reference/cell/Ref/update): Store f(current) and return the new value.
+- [`Ref::replace`](/docs/reference/cell/Ref/replace): Store `value` and return the previous one.
+- [`Ref::update`](/docs/reference/cell/Ref/update): Store `f(current)` and return the new value.

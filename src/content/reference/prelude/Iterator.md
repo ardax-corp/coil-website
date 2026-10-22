@@ -29,7 +29,7 @@ is not iterable (use [`collections::map::HashMap`](/docs/reference/collections/m
 
 | Name | Description |
 |------|-------------|
-| [`next`](/docs/reference/prelude/Iterator/next) | Returns the next value, or None when the iterator is exhausted. |
+| [`next`](/docs/reference/prelude/Iterator/next) | Returns the next value, or `None` when the iterator is exhausted. |
 
 ## Examples
 

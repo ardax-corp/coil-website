@@ -20,7 +20,7 @@ Most programs use the blocking helpers on top of this layer from coil-stdlib:
 `read_to_end`, `read_line`) and [`io::file`](/docs/reference/io/file)
 (`read_text`, `write_text`):
 
-```coil no_run
+```coil
 use io::sync::{println};
 use io::file::{read_text};
 

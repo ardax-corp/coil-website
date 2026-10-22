@@ -27,5 +27,5 @@ Returns the wrapped buffer.
 
 ## See also
 
-- [`Bytes`](/docs/reference/bytes/Bytes): A wrapper around a Vec<byte>, for APIs that want a distinct byte-buffer type.
-- [`Bytes::from_vec`](/docs/reference/bytes/Bytes/from_vec): Wraps buf without copying it.
+- [`Bytes`](/docs/reference/bytes/Bytes): A wrapper around a `Vec<byte>`, for APIs that want a distinct byte-buffer type.
+- [`Bytes::from_vec`](/docs/reference/bytes/Bytes/from_vec): Wraps `buf` without copying it.

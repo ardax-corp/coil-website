@@ -23,17 +23,17 @@ package on the module roots.
 
 | Name | Description |
 |------|-------------|
-| [`seeded`](/docs/reference/random/Rng/seeded) | Creates a generator from seed. |
+| [`seeded`](/docs/reference/random/Rng/seeded) | Creates a generator from `seed`. |
 | [`from_time`](/docs/reference/random/Rng/from_time) | Creates a generator seeded from the current wall-clock and monotonic time (via coil-time). |
 
 ## Methods
 
 | Name | Description |
 |------|-------------|
-| [`next_u64`](/docs/reference/random/Rng/next_u64) | Returns the next raw value from the generator, a non-negative int. |
-| [`range`](/docs/reference/random/Rng/range) | Returns a value in lo..hi (including lo, excluding hi), or lo when hi <= lo. |
-| [`float`](/docs/reference/random/Rng/float) | Returns a float in 0.0..1.0. |
-| [`bytes`](/docs/reference/random/Rng/bytes) | Returns n pseudo-random bytes (none when n <= 0). |
+| [`next_u64`](/docs/reference/random/Rng/next_u64) | Returns the next raw value from the generator, a non-negative [`int`](/docs/reference/types/int). |
+| [`range`](/docs/reference/random/Rng/range) | Returns a value in `lo..hi` (including `lo`, excluding `hi`), or `lo` when `hi <= lo`. |
+| [`float`](/docs/reference/random/Rng/float) | Returns a [`float`](/docs/reference/random/Rng/float) in `0.0..1.0`. |
+| [`bytes`](/docs/reference/random/Rng/bytes) | Returns `n` pseudo-random bytes (none when `n <= 0`). |
 
 ## Examples
 

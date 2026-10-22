@@ -34,5 +34,5 @@ Panics with `task deadlock` when every task is waiting on another one.
 
 ## See also
 
-- [`Task`](/docs/reference/task/Task): A handle to a child task started with Scope::spawn.
+- [`Task`](/docs/reference/task/Task): A handle to a child task started with `Scope::spawn`.
 - [`Task::cancel`](/docs/reference/task/Task/cancel): Asks the task to stop.

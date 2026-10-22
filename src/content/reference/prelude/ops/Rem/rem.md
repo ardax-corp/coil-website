@@ -28,4 +28,4 @@ Returns the remainder of `a / b`.
 
 ## See also
 
-- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator %.
+- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator `%`.

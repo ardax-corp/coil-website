@@ -30,4 +30,4 @@ The channel was closed (and, for `recv`, every value has been taken).
 
 ## See also
 
-- [`TaskError`](/docs/reference/task/TaskError): Why a task or a scope did not produce its value.
+- [`TaskError`](/docs/reference/task/TaskError): Why a task or a `scope` did not produce its value.

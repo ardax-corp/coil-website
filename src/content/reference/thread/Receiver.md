@@ -41,6 +41,6 @@ assert!(match try_recv(r) { Result::Ok(v) => v == 1, Result::Err(_) => false });
 - [`thread::channel`](/docs/reference/thread/channel)
 - [`thread::Sender`](/docs/reference/thread/Sender)
 - [`thread::recv`](/docs/reference/thread/recv)
-- [`Thread`](/docs/reference/thread/Thread): A handle to a function running on another OS thread, from spawn.
-- [`Mutex`](/docs/reference/thread/Mutex): A mutual-exclusion lock that owns a value, made by mutex.
-- [`RwLock`](/docs/reference/thread/RwLock): A readers-writer lock that owns a value, made by rwlock.
+- [`Thread`](/docs/reference/thread/Thread): A handle to a function running on another OS thread, from `spawn`.
+- [`Mutex`](/docs/reference/thread/Mutex): A mutual-exclusion lock that owns a value, made by `mutex`.
+- [`RwLock`](/docs/reference/thread/RwLock): A readers-writer lock that owns a value, made by `rwlock`.

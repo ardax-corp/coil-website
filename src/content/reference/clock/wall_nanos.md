@@ -34,4 +34,4 @@ assert!(secs > 1600000000);
 ## See also
 
 - [`clock::mono_nanos`](/docs/reference/clock/mono_nanos)
-- [`sleep_ms`](/docs/reference/clock/sleep_ms): Pauses for at least ms milliseconds.
+- [`sleep_ms`](/docs/reference/clock/sleep_ms): Pauses for at least `ms` milliseconds.

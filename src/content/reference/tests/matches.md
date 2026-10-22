@@ -41,8 +41,8 @@ assert!(!matches!(Option::Some(_), Option::None));
 ## See also
 
 - [`bool`](/docs/reference/types/bool)
-- [`not!`](/docs/reference/tests/not): Expands to !expression.
-- [`eq!`](/docs/reference/tests/eq): Expands to lhs == rhs.
-- [`type!`](/docs/reference/tests/type): Expands to typeof ty: the type of an expression, as a value that can be compared.
-- [`and!`](/docs/reference/tests/and): Expands to lhs && rhs.
-- [`assert!`](/docs/reference/tests/assert): Fails the enclosing function with an error when condition is false.
+- [`not!`](/docs/reference/tests/not): Expands to `!expression`.
+- [`eq!`](/docs/reference/tests/eq): Expands to `lhs == rhs`.
+- [`type!`](/docs/reference/tests/type): Expands to `typeof ty`: the type of an expression, as a value that can be compared.
+- [`and!`](/docs/reference/tests/and): Expands to `lhs && rhs`.
+- [`assert!`](/docs/reference/tests/assert): Fails the enclosing function with an error when `condition` is false.

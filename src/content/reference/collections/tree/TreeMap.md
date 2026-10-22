@@ -34,22 +34,22 @@ do not need the order.
 | Name | Description |
 |------|-------------|
 | [`new`](/docs/reference/collections/tree/TreeMap/new) | Creates an empty map. |
-| [`empty`](/docs/reference/collections/tree/TreeMap/empty) | Creates an empty map; the same as TreeMap::new. |
+| [`empty`](/docs/reference/collections/tree/TreeMap/empty) | Creates an empty map; the same as [`TreeMap::new`](/docs/reference/collections/tree/TreeMap/new). |
 
 ## Methods
 
 | Name | Description |
 |------|-------------|
 | [`size`](/docs/reference/collections/tree/TreeMap/size) | Returns the number of entries. |
-| [`is_empty`](/docs/reference/collections/tree/TreeMap/is_empty) | Returns true when the map has no entries. |
+| [`is_empty`](/docs/reference/collections/tree/TreeMap/is_empty) | Returns `true` when the map has no entries. |
 | [`clear`](/docs/reference/collections/tree/TreeMap/clear) | Removes every entry. |
 | [`iter`](/docs/reference/collections/tree/TreeMap/iter) | Returns an iterator over the entries in ascending key order. |
-| [`insert`](/docs/reference/collections/tree/TreeMap/insert) | Stores v under k, replacing any value already there. |
-| [`contains`](/docs/reference/collections/tree/TreeMap/contains) | Returns true when the map has an entry for k. |
-| [`get`](/docs/reference/collections/tree/TreeMap/get) | Returns the value stored under k, or fallback when there is none. |
-| [`remove`](/docs/reference/collections/tree/TreeMap/remove) | Removes the entry for k. |
-| [`min_key`](/docs/reference/collections/tree/TreeMap/min_key) | Returns the smallest key, or fallback when the map is empty. |
-| [`max_key`](/docs/reference/collections/tree/TreeMap/max_key) | Returns the largest key, or fallback when the map is empty. |
+| [`insert`](/docs/reference/collections/tree/TreeMap/insert) | Stores `v` under `k`, replacing any value already there. |
+| [`contains`](/docs/reference/collections/tree/TreeMap/contains) | Returns `true` when the map has an entry for `k`. |
+| [`get`](/docs/reference/collections/tree/TreeMap/get) | Returns the value stored under `k`, or `fallback` when there is none. |
+| [`remove`](/docs/reference/collections/tree/TreeMap/remove) | Removes the entry for `k`. |
+| [`min_key`](/docs/reference/collections/tree/TreeMap/min_key) | Returns the smallest key, or `fallback` when the map is empty. |
+| [`max_key`](/docs/reference/collections/tree/TreeMap/max_key) | Returns the largest key, or `fallback` when the map is empty. |
 
 ## Trait implementations
 
@@ -89,5 +89,5 @@ assert!(m.min_key(0) == 10);
 - [`Eq`](/docs/reference/prelude/ops/Eq)
 - [`TreeMap::min_key`](/docs/reference/collections/tree/TreeMap/min_key)
 - [`TreeMap::max_key`](/docs/reference/collections/tree/TreeMap/max_key)
-- [`Entry`](/docs/reference/collections/tree/Entry): One key-value pair, as TreeMap iteration yields it.
-- [`TreeMapIter`](/docs/reference/collections/tree/TreeMapIter): An in-order iterator over a TreeMap, from TreeMap::iter.
+- [`Entry`](/docs/reference/collections/tree/Entry): One key-value pair, as `TreeMap` iteration yields it.
+- [`TreeMapIter`](/docs/reference/collections/tree/TreeMapIter): An in-order iterator over a `TreeMap`, from `TreeMap::iter`.

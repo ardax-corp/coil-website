@@ -18,5 +18,5 @@ Euler's number e, the base of [`ln`](/docs/reference/prelude/math/ln), as a [`fl
 
 - [`ln`](/docs/reference/prelude/math/ln)
 - [`float`](/docs/reference/types/float)
-- [`PI`](/docs/reference/num/PI): The circle constant π, as a float.
-- [`TAU`](/docs/reference/num/TAU): A full turn τ = 2π, as a float.
+- [`PI`](/docs/reference/num/PI): The circle constant π, as a `float`.
+- [`TAU`](/docs/reference/num/TAU): A full turn τ = 2π, as a `float`.

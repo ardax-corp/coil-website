@@ -28,7 +28,7 @@ order: 1
 
 ## See also
 
-- [`Saturating`](/docs/reference/arith/Saturating): Integer arithmetic that clamps to INT_MIN / INT_MAX instead of panicking.
-- [`Saturating::saturating_add`](/docs/reference/arith/Saturating/saturating_add): a + b clamped to the type's range.
-- [`Saturating::saturating_mul`](/docs/reference/arith/Saturating/saturating_mul): a * b clamped to the type's range.
-- [`Saturating::saturating_pow`](/docs/reference/arith/Saturating/saturating_pow): a ** exp clamped to the type's range.
+- [`Saturating`](/docs/reference/arith/Saturating): Integer arithmetic that clamps to `INT_MIN` / `INT_MAX` instead of panicking.
+- [`Saturating::saturating_add`](/docs/reference/arith/Saturating/saturating_add): `a + b` clamped to the type's range.
+- [`Saturating::saturating_mul`](/docs/reference/arith/Saturating/saturating_mul): `a * b` clamped to the type's range.
+- [`Saturating::saturating_pow`](/docs/reference/arith/Saturating/saturating_pow): `a ** exp` clamped to the type's range.

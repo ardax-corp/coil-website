@@ -33,8 +33,8 @@ Called on a `TypeDecl` value as `value.attr_str(…)`.
 
 - [`TypeDecl`](/docs/reference/macro/TypeDecl): A class or enum declaration handed to a derive or attribute macro.
 - [`TypeDecl::is_class`](/docs/reference/macro/TypeDecl/is_class)
-- [`TypeDecl::self_type`](/docs/reference/macro/TypeDecl/self_type): The type as written in a signature: Name, or Name<T, U> for a generic type.
-- [`TypeDecl::impl_head`](/docs/reference/macro/TypeDecl/impl_head): Head of an impl Trait for … for this type: Name, or for a generic type Name<T: bound, U: bound>, every type parameter bounded by bound ("Show", "Ord + Eq").
+- [`TypeDecl::self_type`](/docs/reference/macro/TypeDecl/self_type): The type as written in a signature: `Name`, or `Name<T, U>` for a generic type.
+- [`TypeDecl::impl_head`](/docs/reference/macro/TypeDecl/impl_head): Head of an `impl Trait for …` for this type: `Name`, or for a generic type `Name<T: bound, U: bound>`, every type parameter bounded by `bound` (`"Show"`, `"Ord + Eq"`).
 - [`TypeDecl::is_enum`](/docs/reference/macro/TypeDecl/is_enum)
 - [`TypeDecl::fields`](/docs/reference/macro/TypeDecl/fields): Class fields (empty for an enum).
 - [`TypeDecl::variants`](/docs/reference/macro/TypeDecl/variants): Enum variants (empty for a class).

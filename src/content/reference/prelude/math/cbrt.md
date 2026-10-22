@@ -36,11 +36,11 @@ assert!(cbrt(-8.0) == -2.0);
 
 ## See also
 
-- [`sin`](/docs/reference/prelude/math/sin): Returns the sine of x (in radians).
-- [`cos`](/docs/reference/prelude/math/cos): Returns the cosine of x (in radians).
-- [`tan`](/docs/reference/prelude/math/tan): Returns the tangent of x (in radians).
-- [`sqrt`](/docs/reference/prelude/math/sqrt): Returns the square root of x.
-- [`floor`](/docs/reference/prelude/math/floor): Returns the largest whole number less than or equal to x, as a float.
-- [`ceil`](/docs/reference/prelude/math/ceil): Returns the smallest whole number greater than or equal to x, as a float.
-- [`exp`](/docs/reference/prelude/math/exp): Returns e raised to the power x.
-- [`ln`](/docs/reference/prelude/math/ln): Returns the natural logarithm of x.
+- [`sin`](/docs/reference/prelude/math/sin): Returns the sine of `x` (in radians).
+- [`cos`](/docs/reference/prelude/math/cos): Returns the cosine of `x` (in radians).
+- [`tan`](/docs/reference/prelude/math/tan): Returns the tangent of `x` (in radians).
+- [`sqrt`](/docs/reference/prelude/math/sqrt): Returns the square root of `x`.
+- [`floor`](/docs/reference/prelude/math/floor): Returns the largest whole number less than or equal to `x`, as a `float`.
+- [`ceil`](/docs/reference/prelude/math/ceil): Returns the smallest whole number greater than or equal to `x`, as a `float`.
+- [`exp`](/docs/reference/prelude/math/exp): Returns `e` raised to the power `x`.
+- [`ln`](/docs/reference/prelude/math/ln): Returns the natural logarithm of `x`.

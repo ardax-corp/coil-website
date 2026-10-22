@@ -24,10 +24,10 @@ Called on a `Channel` value as `value.capacity(…)`.
 ## See also
 
 - [`Channel`](/docs/reference/task/Channel): A bounded queue for passing values between tasks.
-- [`Channel::send`](/docs/reference/task/Channel/send): Adds value to the channel, waiting while it is full (a suspension point).
-- [`Channel::try_send`](/docs/reference/task/Channel/try_send): Adds value if there is room, without waiting.
+- [`Channel::send`](/docs/reference/task/Channel/send): Adds `value` to the channel, waiting while it is full (a suspension point).
+- [`Channel::try_send`](/docs/reference/task/Channel/try_send): Adds `value` if there is room, without waiting.
 - [`Channel::recv`](/docs/reference/task/Channel/recv): Takes the oldest value, waiting while the channel is empty (a suspension point).
 - [`Channel::try_recv`](/docs/reference/task/Channel/try_recv): Takes the oldest value if there is one, without waiting.
 - [`Channel::close`](/docs/reference/task/Channel/close): Closes the channel: no more values can be sent.
 - [`Channel::len`](/docs/reference/task/Channel/len): Returns the number of values waiting to be received.
-- [`Channel::is_closed`](/docs/reference/task/Channel/is_closed): Returns true once close has been called.
+- [`Channel::is_closed`](/docs/reference/task/Channel/is_closed): Returns `true` once `close` has been called.

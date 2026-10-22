@@ -42,8 +42,8 @@ let _ = set_cwd(before);
 
 - [`env::exec`](/docs/reference/env/exec)
 - [`args`](/docs/reference/env/args): Returns the program's command-line arguments, starting with the program name.
-- [`var`](/docs/reference/env/var): Returns the value of the environment variable name.
-- [`set_var`](/docs/reference/env/set_var): Sets the environment variable name to value for this process.
-- [`remove_var`](/docs/reference/env/remove_var): Removes the environment variable name from this process.
+- [`var`](/docs/reference/env/var): Returns the value of the environment variable `name`.
+- [`set_var`](/docs/reference/env/set_var): Sets the environment variable `name` to `value` for this process.
+- [`remove_var`](/docs/reference/env/remove_var): Removes the environment variable `name` from this process.
 - [`cwd`](/docs/reference/env/cwd): Returns the current working directory as an absolute path.
-- [`exit`](/docs/reference/env/exit): Ends the process at once with exit status code.
+- [`exit`](/docs/reference/env/exit): Ends the process at once with exit status `code`.

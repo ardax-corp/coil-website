@@ -48,4 +48,4 @@ assert!((total ?? 0) == 42);
 
 - [`task::sleep`](/docs/reference/task/sleep)
 - [`task::yield_now`](/docs/reference/task/yield_now)
-- [`Scope`](/docs/reference/task/Scope): A running scope, used to start child tasks with spawn.
+- [`Scope`](/docs/reference/task/Scope): A running `scope`, used to start child tasks with `spawn`.

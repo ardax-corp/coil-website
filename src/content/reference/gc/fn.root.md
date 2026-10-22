@@ -38,7 +38,7 @@ assert!(match get(pin) { Option::Some(s) => s == "kept", Option::None => false }
 - [`gc::Root`](/docs/reference/gc/Root)
 - [`get`](/docs/reference/gc/get): Returns the pinned value, leaving the pin in place.
 - [`unroot`](/docs/reference/gc/unroot): Releases the pin and returns the value it held.
-- [`weak`](/docs/reference/gc/fn.weak): Makes a handle to value that does not keep it alive.
-- [`upgrade`](/docs/reference/gc/upgrade): Returns the value while it is still alive, None once it was collected.
+- [`weak`](/docs/reference/gc/fn.weak): Makes a handle to `value` that does not keep it alive.
+- [`upgrade`](/docs/reference/gc/upgrade): Returns the value while it is still alive, `None` once it was collected.
 - [`heap_bytes`](/docs/reference/gc/heap_bytes): Returns the size of the managed heap in bytes.
 - [`collect`](/docs/reference/gc/collect): Runs a full garbage collection now and returns the number of bytes freed.

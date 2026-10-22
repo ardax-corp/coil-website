@@ -23,7 +23,7 @@ Called on a `Reader` value as `value.idents(…)`.
 
 ## See also
 
-- [`Reader`](/docs/reference/macro/Reader): Reads a macro call's input: length-prefixed fields (<len>:<bytes>, lists as a count then their items) in constructor order, written by the compiler (macros::encode).
+- [`Reader`](/docs/reference/macro/Reader): Reads a macro call's input: length-prefixed fields (`<len>:<bytes>`, lists as a count then their items) in constructor order, written by the compiler (`macros::encode`).
 - [`Reader::over`](/docs/reference/macro/Reader/over)
 - [`Reader::str`](/docs/reference/macro/Reader/str): One field.
 - [`Reader::int`](/docs/reference/macro/Reader/int): A field holding a decimal integer, possibly negative.

@@ -27,4 +27,4 @@ order: 0
 
 ## See also
 
-- [`Arbitrary`](/docs/reference/arbitrary/Arbitrary): A type coil test can make values of.
+- [`Arbitrary`](/docs/reference/arbitrary/Arbitrary): A type `coil test` can make values of.

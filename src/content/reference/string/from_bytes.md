@@ -48,9 +48,9 @@ assert!(bad);
 ## See also
 
 - [`string::to_bytes`](/docs/reference/string/to_bytes)
-- [`byte_at`](/docs/reference/string/byte_at): Returns the byte at byte offset i of s, or -1 when i is out of range.
-- [`find_from`](/docs/reference/string/find_from): Returns the byte offset of the first needle in hay at or after start, or -1.
-- [`format`](/docs/reference/string/format): Builds a string from the literal fmt and the arguments that follow it.
-- [`match_at`](/docs/reference/string/match_at): Returns whether needle occurs in s starting exactly at byte offset at.
-- [`rfind`](/docs/reference/string/rfind): Returns the byte offset of the last needle in hay, or -1.
-- [`slice_bytes`](/docs/reference/string/slice_bytes): Returns the part of s between byte offsets start (inclusive) and end (exclusive).
+- [`byte_at`](/docs/reference/string/byte_at): Returns the byte at byte offset `i` of `s`, or `-1` when `i` is out of range.
+- [`find_from`](/docs/reference/string/find_from): Returns the byte offset of the first `needle` in `hay` at or after `start`, or `-1`.
+- [`format`](/docs/reference/string/format): Builds a string from the literal `fmt` and the arguments that follow it.
+- [`match_at`](/docs/reference/string/match_at): Returns whether `needle` occurs in `s` starting exactly at byte offset `at`.
+- [`rfind`](/docs/reference/string/rfind): Returns the byte offset of the last `needle` in `hay`, or `-1`.
+- [`slice_bytes`](/docs/reference/string/slice_bytes): Returns the part of `s` between byte offsets `start` (inclusive) and `end` (exclusive).

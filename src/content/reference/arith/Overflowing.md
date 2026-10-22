@@ -20,13 +20,13 @@ Implemented for [`int`](/docs/reference/types/int).
 
 | Name | Description |
 |------|-------------|
-| [`overflowing_add`](/docs/reference/arith/Overflowing/overflowing_add) | The wrapped a + b, and whether it wrapped. |
-| [`overflowing_sub`](/docs/reference/arith/Overflowing/overflowing_sub) | The wrapped a - b, and whether it wrapped. |
-| [`overflowing_mul`](/docs/reference/arith/Overflowing/overflowing_mul) | The wrapped a * b, and whether it wrapped. |
-| [`overflowing_neg`](/docs/reference/arith/Overflowing/overflowing_neg) | The wrapped -a, and whether it wrapped. |
-| [`overflowing_pow`](/docs/reference/arith/Overflowing/overflowing_pow) | The wrapped a ** exp, and whether it wrapped. |
-| [`overflowing_shl`](/docs/reference/arith/Overflowing/overflowing_shl) | a << (n & 63), and whether n was outside 0..=63. |
-| [`overflowing_shr`](/docs/reference/arith/Overflowing/overflowing_shr) | a >> (n & 63), and whether n was outside 0..=63. |
+| [`overflowing_add`](/docs/reference/arith/Overflowing/overflowing_add) | The wrapped `a + b`, and whether it wrapped. |
+| [`overflowing_sub`](/docs/reference/arith/Overflowing/overflowing_sub) | The wrapped `a - b`, and whether it wrapped. |
+| [`overflowing_mul`](/docs/reference/arith/Overflowing/overflowing_mul) | The wrapped `a * b`, and whether it wrapped. |
+| [`overflowing_neg`](/docs/reference/arith/Overflowing/overflowing_neg) | The wrapped `-a`, and whether it wrapped. |
+| [`overflowing_pow`](/docs/reference/arith/Overflowing/overflowing_pow) | The wrapped `a ** exp`, and whether it wrapped. |
+| [`overflowing_shl`](/docs/reference/arith/Overflowing/overflowing_shl) | `a << (n & 63)`, and whether `n` was outside `0..=63`. |
+| [`overflowing_shr`](/docs/reference/arith/Overflowing/overflowing_shr) | `a >> (n & 63)`, and whether `n` was outside `0..=63`. |
 
 ## Examples
 
@@ -42,6 +42,6 @@ assert!(w == 6 && !again);
 ## See also
 
 - [`int`](/docs/reference/types/int)
-- [`Checked`](/docs/reference/arith/Checked): Integer arithmetic that returns None instead of panicking when the result does not fit.
+- [`Checked`](/docs/reference/arith/Checked): Integer arithmetic that returns `None` instead of panicking when the result does not fit.
 - [`Wrapping`](/docs/reference/arith/Wrapping): Integer arithmetic that wraps around modulo 2^64 instead of panicking.
-- [`Saturating`](/docs/reference/arith/Saturating): Integer arithmetic that clamps to INT_MIN / INT_MAX instead of panicking.
+- [`Saturating`](/docs/reference/arith/Saturating): Integer arithmetic that clamps to `INT_MIN` / `INT_MAX` instead of panicking.

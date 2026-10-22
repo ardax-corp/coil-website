@@ -18,7 +18,7 @@ An in-order iterator over a [`TreeMap`](/docs/reference/collections/tree/TreeMap
 
 | Name | Description |
 |------|-------------|
-| [`next`](/docs/reference/collections/tree/TreeMapIter/next) | Returns the entry with the next larger key, or None after the last one. |
+| [`next`](/docs/reference/collections/tree/TreeMapIter/next) | Returns the entry with the next larger key, or `None` after the last one. |
 
 ## Trait implementations
 
@@ -28,4 +28,4 @@ An in-order iterator over a [`TreeMap`](/docs/reference/collections/tree/TreeMap
 
 - [`collections::tree::TreeMap`](/docs/reference/collections/tree/TreeMap)
 - [`TreeMap::iter`](/docs/reference/collections/tree/TreeMap/iter)
-- [`Entry`](/docs/reference/collections/tree/Entry): One key-value pair, as TreeMap iteration yields it.
+- [`Entry`](/docs/reference/collections/tree/Entry): One key-value pair, as `TreeMap` iteration yields it.

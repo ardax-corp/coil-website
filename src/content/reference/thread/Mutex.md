@@ -39,7 +39,7 @@ assert!(now == 5);
 
 - [`thread::mutex`](/docs/reference/thread/fn.mutex)
 - [`thread::with_lock`](/docs/reference/thread/with_lock)
-- [`Thread`](/docs/reference/thread/Thread): A handle to a function running on another OS thread, from spawn.
-- [`Sender`](/docs/reference/thread/Sender): The sending half of a channel made by channel.
-- [`Receiver`](/docs/reference/thread/Receiver): The receiving half of a channel made by channel.
-- [`RwLock`](/docs/reference/thread/RwLock): A readers-writer lock that owns a value, made by rwlock.
+- [`Thread`](/docs/reference/thread/Thread): A handle to a function running on another OS thread, from `spawn`.
+- [`Sender`](/docs/reference/thread/Sender): The sending half of a channel made by `channel`.
+- [`Receiver`](/docs/reference/thread/Receiver): The receiving half of a channel made by `channel`.
+- [`RwLock`](/docs/reference/thread/RwLock): A readers-writer lock that owns a value, made by `rwlock`.
