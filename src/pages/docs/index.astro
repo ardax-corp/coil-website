@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import { INTERNALS, SHOWCASE, STDLIB, allGroups, inlineCode, linkHref } from "../../lib/nav";
 
-const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"));
+const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), await getCollection("reference"));
 const tutorial = groups.find((g) => g.key === "tutorial")!;
 const start = groups.find((g) => g.key === "start")!;
 const refGroups = groups.filter((g) => g.track === "reference");
@@ -57,7 +57,7 @@ const beyond = [
       <span class="path-cta">Start with Getting started <span class="arrow">→</span></span>
     </a>
 
-    <a class="card path path-ref" href="/docs/references">
+    <a class="card path path-ref" href="/docs/reference">
       <div class="path-icon" aria-hidden="true">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5v-17Z"></path><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M9 7h7M9 11h5"></path>

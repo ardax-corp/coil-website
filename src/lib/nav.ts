@@ -9,6 +9,8 @@ import { packages } from "./packages";
 export type Track = "learn" | "reference" | "packages";
 
 export type NavLink = {
+  /** Nested links, shown under this one while a page inside it is open. */
+  children?: NavLink[];
   /** Doc collection id, e.g. "manual/tutorial/01-basics". */
   id?: string;
   /** Site path or external URL (used instead of id). */
@@ -83,76 +85,25 @@ export const groups: NavGroup[] = [
     track: "reference",
     blurb: "Grammar, type system and the rules the compiler enforces.",
     items: [
-      { id: "references", label: "Reference index", hint: "Map of every reference page and virtual module." },
-      { id: "references/syntax", label: "Syntax", hint: "Grammar overview: declarations, statements, expressions." },
-      { id: "references/types", label: "Types", hint: "Inference, generics, traits, aliases, aggregates." },
-      { id: "references/operators", label: "Operators", hint: "Precedence table and operand rules." },
-      { id: "references/keywords", label: "Keywords", hint: "Every reserved word and where it is used." },
-      { id: "references/modules", label: "Modules", hint: "`use` resolution and namespace rules." },
-      { id: "references/macros", label: "Macros", hint: "Derives, attribute macros, `name!(…)` macros, `quote`." },
-      { id: "references/effects", label: "Effects", hint: "`pure fn`, `uses {…}` and inferred effects." },
-      { id: "references/contracts", label: "Contracts", hint: "`requires`, `ensures`, invariants and `--contracts` levels." },
-      { id: "references/permissions", label: "Permissions", hint: "`--allow-read`, `--allow-net` and the reachability check." },
-      { id: "references/project-config", label: "coil.toml", hint: "Project manifest: roots, entry, package metadata." },
-      { id: "references/error-codes", label: "Error codes", hint: "Stable `E####` diagnostics." },
-    ],
-  },
-  {
-    key: "core",
-    title: "Core & prelude",
-    track: "reference",
-    blurb: "Built-in types and auto-imported functions.",
-    items: [
-      { id: "references/option-result", label: "Option & Result", hint: "Built-in sum types." },
-      { id: "references/arrays", label: "Arrays & Vec", hint: "Fixed `[T; N]` and growable `Vec<T>`." },
-      { id: "references/iterator", label: "Iterator", hint: "The `for x in` protocol." },
-      { id: "references/string", label: "string", hint: "UTF-8 and byte conversions." },
-      { id: "references/format", label: "string::format", hint: "Checked format specifiers." },
-      { id: "references/math", label: "Math", hint: "IEEE float math and linear algebra." },
-      { id: "references/casts", label: "Casts", hint: "`expr as T` between primitives." },
-      { id: "references/ord-char", label: "ord & char", hint: "Single-byte string ↔ `byte`." },
-      { id: "references/done", label: "done", hint: "Has a coroutine finished?" },
-      { id: "references/panic", label: "panic", hint: "Abort with a message." },
-      { id: "references/print", label: "print (removed)", hint: "Migration note: use `io` + `string`." },
-    ],
-  },
-  {
-    key: "testing",
-    title: "Testing",
-    track: "reference",
-    blurb: "The built-in test harness.",
-    items: [
-      { id: "references/test-harness", label: "test blocks", hint: "`test(\"…\") { … }` cases run by `coil test`." },
-      { id: "references/assert", label: "assert", hint: "`assert(cond[, msg])` returns a `Result`." },
-    ],
-  },
-  {
-    key: "system",
-    title: "System modules",
-    track: "reference",
-    blurb: "Virtual modules for IO, processes, memory and native code.",
-    items: [
-      { id: "references/io", label: "io", hint: "Non-blocking files, stdio, TCP, UDP." },
-      { id: "references/io-fs", label: "io::fs", hint: "Paths, metadata, directories." },
-      { id: "references/env", label: "env", hint: "Arguments, variables, `exec`." },
-      { id: "references/gc", label: "gc", hint: "Roots, weak handles, collection." },
-      { id: "references/ffi", label: "ffi", hint: "`dload`, `declare`, `invoke`, `extern`." },
-      { id: "references/host-natives", label: "Host embedder API", hint: "Rust closures callable from bytecode." },
-    ],
-  },
-  {
-    key: "packages",
-    title: "Userland packages",
-    track: "reference",
-    blurb: "Libraries that live outside the compiler.",
-    items: [
-      // Packages with a reference page in the language docs; the full
-      // package docs live in the Packages track.
-      ...packages
-        .filter((p) => p.docs)
-        .map((p) => ({ id: p.docs!.replace(/^\/docs\//, ""), label: p.name, hint: p.summary })),
-      { id: "references/not-builtins", label: "What is not built in", hint: "Where the compiler stops and userland starts." },
-      { href: "/packages", label: "All packages", hint: "Every package, with its full documentation." },
+      { href: "/docs/reference", label: "Reference index", hint: "Every module, type and function, and the language pages." },
+      { id: "language/syntax", label: "Syntax", hint: "Grammar overview: declarations, statements, expressions." },
+      { id: "language/types", label: "Type system", hint: "Inference, generics, traits, aliases, aggregates." },
+      { id: "language/operators", label: "Operators", hint: "Precedence table and operand rules." },
+      { id: "language/arrays", label: "Arrays & Vec", hint: "Fixed `[T; N]` and growable `Vec<T>`." },
+      { id: "language/casts", label: "Casts", hint: "`expr as T` between primitives." },
+      { id: "language/modules", label: "Modules", hint: "`use`, `mod`, roots and how a path finds its file." },
+      { id: "language/macros", label: "Macros", hint: "Derives, attribute macros, `name!(…)` macros, `quote`." },
+      { id: "language/comptime", label: "Compile-time code", hint: "Computed `const`s, `comptime` and IO grants." },
+      { id: "language/effects", label: "Effects", hint: "`pure fn`, `uses {…}` and inferred effects." },
+      { id: "language/contracts", label: "Contracts", hint: "`requires`, `ensures`, invariants and `--contracts` levels." },
+      { id: "language/permissions", label: "Permissions", hint: "`--allow-read`, `--allow-net` and the reachability check." },
+      { id: "language/panic", label: "Panics", hint: "`panic` and what aborts a program." },
+      { id: "language/done", label: "done", hint: "Has a coroutine finished?" },
+      { id: "language/test-harness", label: "Tests", hint: "`test(\"…\") { … }` cases run by `coil test`." },
+      { id: "language/project-config", label: "coil.toml", hint: "Project manifest: roots, entry, package metadata." },
+      { id: "language/error-codes", label: "Error codes", hint: "Stable `E####` diagnostics." },
+      { id: "language/host-natives", label: "Host embedder API", hint: "Rust closures callable from bytecode." },
+      { id: "language/not-builtins", label: "What is not built in", hint: "Where the compiler stops and userland starts." },
     ],
   },
 ];
@@ -235,29 +186,115 @@ export type Located = {
   chapters?: number;
 };
 
+/** An item followed by its nested children, depth first. */
+function flatten(items: NavLink[]): NavLink[] {
+  return items.flatMap((i) => [i, ...flatten(i.children ?? [])]);
+}
+
+/** The listed link an href belongs to: itself, or its nearest listed parent path. */
+function nearest(all: NavGroup[], href: string): string | undefined {
+  const listed = new Set(all.flatMap((g) => flatten(g.items)).map(linkHref));
+  for (let h = href; h.length > 1; h = h.replace(/\/[^/]*$/, "")) if (listed.has(h)) return h;
+  return undefined;
+}
+
 /** Find the page at `href` (a site path) and its neighbours within its track. */
 export function locate(all: NavGroup[], href: string): Located | undefined {
-  const at = (i: NavLink) => linkHref(i) === href;
+  const target = nearest(all, href);
+  if (!target) return undefined;
+  const at = (i: NavLink) => linkHref(i) === target;
   // A page can be linked from several tracks (coil-stdlib is also under
   // Learn → Keep going); it belongs to the track its URL lives in.
   const home: Track | undefined = href.startsWith("/packages/") ? "packages" : undefined;
-  const matches = all.filter((g) => g.items.some(at));
+  const matches = all.filter((g) => flatten(g.items).some(at));
   const group = matches.find((g) => !home || g.track === home) ?? matches[0];
   if (!group) return undefined;
-  const item = group.items.find(at)!;
-  const sequence = all.filter((g) => g.track === group.track).flatMap((g) => g.items.filter((i) => !isExternal(i)));
+  const item = flatten(group.items).find(at)!;
+  const sequence = all.filter((g) => g.track === group.track).flatMap((g) => flatten(g.items).filter((i) => !isExternal(i)));
   const pos = sequence.findIndex(at);
+  const exact = target === href;
   const located: Located = {
     group,
     item,
-    prev: sequence[pos - 1],
-    next: sequence[pos + 1],
+    prev: exact ? sequence[pos - 1] : undefined,
+    next: exact ? sequence[pos + 1] : undefined,
   };
   if (group.key === "tutorial") {
     located.chapter = group.items.indexOf(item) + 1;
     located.chapters = group.items.length;
   }
   return located;
+}
+
+// -------------------------------------------------------------- reference
+
+export const REFERENCE = "/docs/reference";
+
+/** "io/fs/index" → "/docs/reference/io/fs"; "io/open" → "/docs/reference/io/open". */
+export function referenceHref(id: string): string {
+  return `${REFERENCE}/${id.replace(/(^|\/)index$/, "")}`.replace(/\/$/, "");
+}
+
+/** Sections of the API reference, by module path. */
+export const REFERENCE_SECTIONS: { key: string; title: string; blurb: string; pick: (m: CollectionEntry<"reference">) => boolean }[] = [
+  {
+    key: "ref-core",
+    title: "Prelude & primitives",
+    blurb: "In scope in every file, no `use` needed.",
+    pick: (m) => ["types", "keywords"].includes(m.data.module) || m.data.module === "prelude" || m.data.module.startsWith("prelude::"),
+  },
+  {
+    key: "ref-builtin",
+    title: "Compiler modules",
+    blurb: "Shipped with the compiler; import what you use.",
+    pick: (m) => m.data.origin !== "stdlib",
+  },
+  {
+    key: "ref-stdlib",
+    title: "Standard library",
+    blurb: "coil-stdlib: collections, text, numbers, blocking IO.",
+    pick: (m) => m.data.origin === "stdlib",
+  },
+];
+
+const KIND_RANK: Record<string, number> = { primitive: 0, class: 1, enum: 1, trait: 2, type: 3, const: 4, macro: 5, fn: 6, keyword: 7 };
+
+/** Module pages in display order (parents before children). */
+export function referenceModules(entries: CollectionEntry<"reference">[]): CollectionEntry<"reference">[] {
+  return entries.filter((e) => e.data.kind === "module").sort((a, b) => a.data.order - b.data.order);
+}
+
+/** Items directly in a module (not members of a type), in display order. */
+export function moduleItems(entries: CollectionEntry<"reference">[], module: string): CollectionEntry<"reference">[] {
+  return entries
+    .filter((e) => e.data.module === module && e.data.kind !== "module" && !e.data.parent)
+    .sort((a, b) => (KIND_RANK[a.data.kind] ?? 9) - (KIND_RANK[b.data.kind] ?? 9) || a.data.order - b.data.order);
+}
+
+/** Sidebar groups for the API reference (Reference track). */
+export function referenceGroups(entries: CollectionEntry<"reference">[]): NavGroup[] {
+  const mods = referenceModules(entries);
+  const taken = new Set<string>();
+  return REFERENCE_SECTIONS.map((sec) => {
+    const picked = mods.filter((m) => !taken.has(m.id) && sec.pick(m));
+    picked.forEach((m) => taken.add(m.id));
+    return {
+      key: sec.key,
+      title: sec.title,
+      track: "reference" as const,
+      blurb: sec.blurb,
+      items: picked.map((m) => ({
+        href: referenceHref(m.id),
+        label: m.data.title,
+        hint: m.data.description,
+        children: moduleItems(entries, m.data.module).map((e) => ({
+          href: referenceHref(e.id),
+          label: e.data.kind === "macro" ? `${e.data.name}!` : e.data.name,
+          hint: e.data.description,
+        })),
+      })),
+    };
+  });
 }
 
 // --------------------------------------------------------------- packages
@@ -332,6 +369,10 @@ export function packageGroups(entries: CollectionEntry<"ecosystem">[]): NavGroup
 }
 
 /** Every docs group: learn, reference and packages tracks. */
-export function allGroups(docs: CollectionEntry<"docs">[], ecosystem: CollectionEntry<"ecosystem">[]): NavGroup[] {
-  return [...resolveGroups(docs), ...packageGroups(ecosystem)];
+export function allGroups(
+  docs: CollectionEntry<"docs">[],
+  ecosystem: CollectionEntry<"ecosystem">[],
+  reference: CollectionEntry<"reference">[] = [],
+): NavGroup[] {
+  return [...resolveGroups(docs), ...referenceGroups(reference), ...packageGroups(ecosystem)];
 }

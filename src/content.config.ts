@@ -32,4 +32,29 @@ const ecosystem = defineCollection({
   }),
 });
 
-export const collections = { blog, docs, ecosystem };
+// API reference generated from the `///` docs in coil-lang and coil-stdlib by
+// scripts/sync-reference.mjs. Ids are "<module path>/<item>[/<member>]" with
+// `::` as `/`; a module's own page is "<module path>/index".
+const reference = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/reference" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    module: z.string(),
+    kind: z.string(),
+    name: z.string(),
+    /** Owning type, for methods. */
+    parent: z.string().optional(),
+    signature: z.string().optional(),
+    /** Every signature, for overloaded macros. */
+    signatures: z.array(z.string()).optional(),
+    import: z.string().optional(),
+    origin: z.enum(["builtin", "embedded", "stdlib"]),
+    /** Module pages: auto-imported, no `use` needed. */
+    auto: z.boolean().optional(),
+    source: z.string().url().optional(),
+    order: z.number(),
+  }),
+});
+
+export const collections = { blog, docs, ecosystem, reference };

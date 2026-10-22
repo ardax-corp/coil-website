@@ -1,0 +1,38 @@
+---
+// One page per module, type, function, method, macro, primitive and keyword,
+// generated into src/content/reference by scripts/sync-reference.mjs.
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import Docs from "../../../layouts/Docs.astro";
+import ApiHeader from "../../../components/ApiHeader.astro";
+import { allGroups, referenceHref } from "../../../lib/nav";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("reference");
+  return pages.map((page) => ({
+    params: { slug: referenceHref(page.id).replace(/^\/docs\/reference\/?/, "") },
+    props: { page },
+  }));
+}
+
+type Props = { page: CollectionEntry<"reference"> };
+const { page } = Astro.props;
+const { Content, headings } = await render(page);
+const all = await getCollection("reference");
+const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), all);
+const parentPage = page.data.parent
+  ? all.find((e) => e.data.module === page.data.module && e.data.name === page.data.parent && !e.data.parent)
+  : undefined;
+const modulePage = all.find((e) => e.data.kind === "module" && e.data.module === page.data.module);
+const href = referenceHref(page.id);
+const title = page.data.kind === "module" ? page.data.title : page.data.title;
+---
+
+<Docs href={href} title={title} description={page.data.description} headings={headings} groups={groups}>
+  <ApiHeader
+    data={page.data}
+    moduleHref={modulePage && modulePage !== page ? referenceHref(modulePage.id) : undefined}
+    parentHref={parentPage ? referenceHref(parentPage.id) : undefined}
+  />
+  <Content />
+</Docs>
