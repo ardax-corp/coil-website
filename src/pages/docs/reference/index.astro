@@ -1,0 +1,97 @@
+---
+// Landing page of the Reference track: the language pages, then every module
+// of the API reference by section.
+import { getCollection } from "astro:content";
+import Docs from "../../../layouts/Docs.astro";
+import { allGroups, inlineCode, linkHref, moduleItems, referenceGroups, REFERENCE } from "../../../lib/nav";
+
+const reference = await getCollection("reference");
+const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), reference);
+const language = groups.find((g) => g.key === "language")!;
+const sections = referenceGroups(reference);
+const itemCount = reference.filter((e) => e.data.kind !== "module").length;
+const count = (href: string) => {
+  const mod = reference.find((e) => e.data.kind === "module" && `${REFERENCE}/${e.id.replace(/\/?index$/, "")}` === href);
+  return mod ? moduleItems(reference, mod.data.module).length : 0;
+};
+
+const headings = [
+  { depth: 2, slug: "language", text: "Language" },
+  ...sections.map((s) => ({ depth: 2, slug: s.key, text: s.title })),
+];
+---
+
+<Docs
+  href={REFERENCE}
+  title="Reference"
+  description="Every module, type, function and keyword, one page each, plus the language rules."
+  headings={headings}
+  groups={groups}
+>
+  <h1>Reference</h1>
+  <p>
+    Exact rules and APIs to come back to. The language pages describe syntax and semantics; the API reference has
+    one page for each of its {itemCount} types, functions, methods, macros and keywords, generated
+    from the documentation comments in the compiler and coil-stdlib sources. Press <kbd>/</kbd> to search by name.
+  </p>
+
+  <h2 id="language">Language</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Page</th><th>Contents</th></tr></thead>
+      <tbody>
+        {
+          language.items
+            .filter((i) => linkHref(i) !== REFERENCE)
+            .map((i) => (
+              <tr>
+                <td>
+                  <a href={linkHref(i)}>{i.label}</a>
+                </td>
+                <td set:html={inlineCode(i.hint ?? "")} />
+              </tr>
+            ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  {
+    sections.map((s) => (
+      <>
+        <h2 id={s.key}>{s.title}</h2>
+        <p set:html={inlineCode(s.blurb)} />
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Module</th>
+                <th>Contents</th>
+                <th>Items</th>
+              </tr>
+            </thead>
+            <tbody>
+              {s.items.map((m) => (
+                <tr>
+                  <td class="mod">
+                    <a href={linkHref(m)}>
+                      <code>{m.label}</code>
+                    </a>
+                  </td>
+                  <td set:html={inlineCode(m.hint ?? "")} />
+                  <td>{count(linkHref(m)) || ""}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    ))
+  }
+</Docs>
+
+<style>
+  .mod {
+    white-space: nowrap;
+  }
+</style>

@@ -1,22 +1,12 @@
 ---
-import { COIL_PATH } from "../lib/logo";
+import { MARK_SVG } from "../lib/logo";
 
 type Props = { size?: number; wordmark?: boolean };
 const { size = 28, wordmark = true } = Astro.props;
 ---
 
 <span class="logo">
-  <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true">
-    <rect width="32" height="32" rx="8" class="logo-bg"></rect>
-    <path
-      d={COIL_PATH}
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2.3"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="logo-wire"></path>
-  </svg>
+  <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" set:html={MARK_SVG} />
   {wordmark && <span class="logo-word">coil</span>}
 </span>
 
@@ -26,11 +16,19 @@ const { size = 28, wordmark = true } = Astro.props;
     display: inline-flex;
     gap: 0.55rem;
   }
-  .logo-bg {
+  .logo :global(.mark-tile) {
     fill: #18150f;
   }
-  .logo-wire {
-    color: #eb8a52;
+  .logo :global(.mark-ink) {
+    stroke: #eb8a52;
+  }
+  .logo :global(.mark-ink2) {
+    stroke: #7fc8b6;
+  }
+  .logo :global(.mark-pad) {
+    fill: #18150f;
+    stroke: #7fc8b6;
+    stroke-width: 1.5;
   }
   .logo-word {
     color: var(--fg);

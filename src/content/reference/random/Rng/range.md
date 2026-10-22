@@ -1,0 +1,53 @@
+---
+slug: "random/Rng/range"
+title: "Rng::range"
+description: "Returns a value in lo..hi (including lo, excluding hi), or lo when hi <= lo."
+module: "random"
+kind: "method"
+name: "range"
+parent: "Rng"
+signature: "pub fn range(int lo, int hi) -> int"
+import: "use random::{Rng};"
+origin: "stdlib"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/random.hy#L86"
+order: 3
+---
+
+Returns a value in `lo..hi` (including `lo`, excluding `hi`), or `lo` when `hi <= lo`.
+
+Called on a `Rng` value as `value.range(…)`.
+
+## Parameters
+
+| Name | Type |
+|------|------|
+| `lo` | `int` |
+| `hi` | `int` |
+
+## Returns
+
+`int`
+
+## Examples
+
+```coil
+use random::{Rng};
+use tests::assert;
+let r = Rng::seeded(1);
+let i = 0;
+while i < 20 {
+    let x = r.range(-5, 5);
+    assert!(x >= -5 && x < 5);
+    i = i + 1;
+}
+assert!(r.range(3, 3) == 3);
+```
+
+## See also
+
+- [`Rng`](/docs/reference/random/Rng): A seeded pseudo-random number generator.
+- [`Rng::seeded`](/docs/reference/random/Rng/seeded): Creates a generator from seed.
+- [`Rng::from_time`](/docs/reference/random/Rng/from_time): Creates a generator seeded from the current wall-clock and monotonic time (via coil-time).
+- [`Rng::next_u64`](/docs/reference/random/Rng/next_u64): Returns the next raw value from the generator, a non-negative int.
+- [`Rng::float`](/docs/reference/random/Rng/float): Returns a float in 0.0..1.0.
+- [`Rng::bytes`](/docs/reference/random/Rng/bytes): Returns n pseudo-random bytes (none when n <= 0).

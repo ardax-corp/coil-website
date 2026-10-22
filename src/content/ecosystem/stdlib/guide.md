@@ -7,7 +7,7 @@ source: "https://github.com/ardax-corp/coil-stdlib/blob/025245d29473d7d259d47c02
 
 Userland `.hy` library for [Coil](https://github.com/ardax-corp/coil-lang).
 Language builtins and virtual modules stay in the
-[Coil references](https://github.com/ardax-corp/coil-website/tree/main/src/content/docs/references).
+[Coil references](https://github.com/ardax-corp/coil-website/tree/main/src/content/docs/reference).
 
 | Page | Contents |
 |------|----------|
@@ -20,4 +20,4 @@ HTTP is [coil-http](https://github.com/ardax-corp/coil-http) — install via spo
 JSON is [coil-json](https://github.com/ardax-corp/coil-json) — `spool add json --git … --rev …` or a sibling `--root`; see [JSON](/packages/stdlib/codec).
 
 Language tutorials that *use* these modules (virtual `io` + adapters):
-[IO streams](/docs/manual/tutorial/10-io-streams).
+[IO streams](/docs/manual/tutorial/10-files-and-io).

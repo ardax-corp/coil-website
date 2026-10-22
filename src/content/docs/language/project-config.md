@@ -1,0 +1,512 @@
+---
+title: "Project configuration (`coil.toml`)"
+description: "The coil.toml file at a project's root tells spool where to find module files, which file is the entry point, and which grants and native libraries to pass to coil. It may also declare [package] /…"
+---
+
+# Project configuration (`coil.toml`)
+
+The **`coil.toml`** file at a project's root tells the compiler, through spool, where to find module files and optionally which file is the entry point. It may also declare **`[package]`** / **`[dependencies]`** / **`[scripts]`** metadata for the **`spool`** library dependency manager. Spool owns fetch, link, lifecycle scripts, include-hooks, and engine-range checks.
+
+**`coil` reads neither `coil.toml` nor `coil.lock`.** [spool](/packages/spool) reads them and passes flags to every `coil` command it runs: `[module] roots` → `--root`, `[entry] file` → the entry argument, `[permissions]` → `--allow-*`, `[ffi] allow` → `--allow-dload`, `[ffi] search_paths` → `--ffi-search-path`, lock `sha256` pins → `--dload-pin`, `trusted = true` → `--dload-trusted`, and `[[ffi.native]]` → `--ffi-native`. With spool the manifest below keeps working. Running `coil` directly, pass those flags yourself.
+
+### `spool` vs `coil package`
+
+| Command | Role |
+|---------|------|
+| **`spool`** | Library dependency management (`install` / `add` / `update`): resolve git/path deps, write `coil.lock`, maintain a shared cache and project `.spool/deps` roots. Reads `coil.toml` / `coil.lock` and passes them to `coil` as flags. Coil userland (not a Rust subcommand of `coil`). |
+| **`coil package`** | Build an embedded **executable** (`.hyc` + runner such as `coil-embed`). May embed a **native lock** (names, versions and hashes only — no `.so` bytes, no URLs). Putting the native libraries on the target machine is up to you; see [`[[ffi.native]]`](#ffi-native). |
+
+---
+
+## File location
+
+Place `coil.toml` in the **project root** — the directory its relative paths resolve against.
+
+```
+my-project/
+├── coil.toml
+└── src/
+    ├── main.hy
+    └── foo/
+        └── bar.hy
+```
+
+Without flags (no `coil.toml`, or `coil` run directly), the compiler uses built-in defaults (see [Default behavior](#default-behavior-without-coiltoml)).
+
+---
+
+## Format
+
+Spool's parser accepts a minimal TOML-like subset:
+
+- Section headers: `[module]`, `[entry]`, `[permissions]` (spool), `[ffi]`, `[[ffi.native]]`, `[package]`, `[dependencies]`, `[scripts]`
+- Key-value lines: `key = value`
+- String values: double-quoted (`"./src"`)
+- Array values: `["a", "b"]`
+- Inline tables: `{ git = "…" }` (used under `[dependencies]`; optional `version` / `rev` / `trusted`)
+- Array-of-tables: `[[ffi.native]]` (one or more native artifact rows for packaging)
+- Comments: `#` to end of line
+- Blank lines are ignored
+
+Unknown sections or keys are parse errors.
+
+---
+
+## Sections and keys
+
+### `[module]`
+
+| Key | Type | Required | Description |
+|-----|------|----------|-------------|
+| `roots` | array of strings | No (defaults to `["src"]`) | Directories searched for module files, relative to the project root. For coil-stdlib, see [consume](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/consume.md) (`../coil-stdlib/src`, `./.deps/coil-stdlib/src`, or `.spool/deps/stdlib` when a managed root is present). |
+
+Example:
+
+```toml
+[module]
+roots = ["./src", "./vendor", "./builtins"]
+```
+
+Each path in `roots` is a **search root** (spool passes each as `--root`; without spool, use `coil --root DIR`). When resolving `use foo::bar;`, the compiler looks under each root **in order** for `<root>/foo/bar.hy` (one-item-per-file), then falls back to `<root>/foo.hy` (module file). The first existing path wins; see [Discovery algorithm](#discovery-algorithm).
+
+If the `[module]` section is omitted entirely, roots default to `["src"]`.
+
+If `[module]` is present but `roots` is omitted, roots also default to `["src"]`.
+
+Compiler builtins (`prelude`, `prelude::ops`, `prelude::test`, `prelude::math`, `ffi`, `ffi::types`) are virtual modules owned by the compiler — they are **not** configured via `coil.toml`. Every file always gets the implicit prelude; FFI still requires an explicit `use`. Extra disk search directories belong in `roots`.
+
+### `[entry]`
+
+| Key | Type | Required | Description |
+|-----|------|----------|-------------|
+| `file` | string | No | Explicit entry-point file, relative to the project root |
+
+Example:
+
+```toml
+[entry]
+file = "./src/main.hy"
+```
+
+When set, spool commands with **no file argument** (`spool run`, `spool build`, …) use this path as the program entry (relative to the project root that owns `coil.toml`). `coil` itself always needs the entry file on the command line:
+
+```bash
+coil examples/modules.hy
+# or
+coil compile examples/modules.hy
+```
+
+```bash
+# with [entry] file = "./src/main.hy" in coil.toml:
+spool run
+spool build
+```
+
+### `[permissions]` {#permissions}
+
+Read by [spool](/packages/spool/manifest), not by `coil`: spool turns each key
+that is `true` into the matching `coil` flag on every compile, run and test.
+`coil` itself takes grants only as flags. See [Permissions](/docs/language/permissions).
+
+| Key | Type | Flag |
+|-----|------|------|
+| `read` | bool | `--allow-read` |
+| `write` | bool | `--allow-write` |
+| `net` | bool | `--allow-net` |
+| `env` | bool | `--allow-env` |
+| `exec` | bool | `--allow-exec` |
+| `exit` | bool | `--allow-exit` |
+| `attach` | bool | `--allow-attach` |
+| `all` | bool | `--allow-all` |
+
+Every key defaults to `false`.
+
+```toml
+[permissions]
+read = true
+net = true
+```
+
+### `[comptime]` {#comptime}
+
+Read by [spool](/packages/spool/manifest): what code run while compiling (a
+`const`, `comptime`, a macro) may use. Each entry becomes the matching flag
+for every module of the project. See [Compile-time code](/docs/language/comptime#io).
+
+| Key | Type | Flag |
+|-----|------|------|
+| `read` | array of paths | `--comptime-read` |
+| `write` | array of paths | `--comptime-write` |
+| `env` | array of names | `--comptime-env` |
+| `exec` | array of program names | `--comptime-exec` |
+| `net` | array of `HOST[:PORT]` | `--comptime-net` |
+| `cache` | path | `--comptime-cache` (default `.comptime`) |
+
+Paths are relative to the project root. A dependency's own `[comptime]` is
+used only after `spool allow-comptime NAME`, which records it in
+`coil.lock`, and then only for that dependency's modules.
+
+```toml
+[comptime]
+read = ["schemas"]
+env = ["CI"]
+```
+
+### `[ffi]` {#ffi}
+
+Controls how `dload` / `extern` resolve and whether a shared library may open. The gate runs **before** the process opens the file. `[ffi] search_paths` only locates candidates; it is not a grant. Spool passes `allow` as `--allow-dload STEM` and `search_paths` as `--ffi-search-path DIR`.
+
+| Key | Type | Required | Description |
+|-----|------|----------|-------------|
+| `search_paths` | array of strings | No (defaults to `[]`) | Extra directories searched for the shared-library file, relative to the project root. |
+| `allow` | array of strings | No (defaults to `[]`) | `dload` stems this project may open (including `crypto`, `tls`, `regex`, `time`). Each entry is a stem (no `/` or `\`). Duplicate stems are ignored. |
+
+```toml
+[ffi]
+search_paths = ["./.spool/native"]
+allow = ["crypto", "plugin"]
+```
+
+Every `dload` stem needs **both**:
+
+1. the stem on this project's `[ffi] allow` (`--allow-dload STEM`), and
+2. a matching `[[package.native]] sha256` pin in `coil.lock` (64 hex digits; `--dload-pin STEM=SHA256`) **or** `trusted = true` on that dependency row (`--dload-trusted STEM`).
+
+There is **no first-party exemption**. `crypto`, `tls`, `regex`, and `time` use the same rule as `sum` or a plugin. Allow without trusted and without a pin is `LibraryDenied`. Trusted without allow is `LibraryDenied`. A pin whose stem is not allowed is ignored. A missing file that already passed the gate is `LibraryNotFound`. Spool derives each stem: optional `stem` / `lib` on the lock's native row, otherwise the dependency name with a `coil-` prefix stripped (`coil-http` → `http`).
+
+Running `coil` directly, the same rule is three flags:
+
+```bash
+coil --allow-dload crypto --dload-trusted crypto --ffi-search-path ../coil-crypto/native app.hy
+```
+
+Bootstrap for coil-crypto is allow plus trusted (or a lock hash), not a hardcoded skip:
+
+```toml
+[ffi]
+allow = ["crypto"]
+
+[dependencies]
+crypto = { git = "https://github.com/ardax-corp/coil-crypto.git", trusted = true }
+```
+
+**`c` stays deny.** Libc aliases (`c`, `libc`, `libc.so.6`, `libsystem`, `ucrtbase`, `msvcrt`, …) cannot be loaded, even if listed in `allow` or marked `trusted`. Putting them in `allow` is a parse error; a lock pin for those names is ignored.
+
+An absolute or relative path is **not** a bypass. The gate uses the filename stem (`/abs/libfoo.so` → `foo`). Host-registered Rust closures (`HostInvoke`) are an embedder API, not this gate.
+
+See [FFI](/docs/reference/ffi) for `dload` errors and consume.
+
+### `[[ffi.native]]` {#ffi-native}
+
+Rows that declare **direct** shared libraries for `coil package`. Spool passes each row as `--ffi-native name=…,version=…,path=…[,package=…][,requires=a;b][,requires-hint=…]` to `coil package` and `coil natives dump` (write `\,` for a comma inside a value). Transitive linker deps (e.g. a system `libssl`) stay on the OS — list them under `requires` for error hints only. This is separate from the `dload` allow/hash gate above.
+
+| Key | Type | Required | Description |
+|-----|------|----------|-------------|
+| `name` | string | Yes | `dload` stem (`crypto` → `libcrypto.so` / `libcrypto.dylib` / `crypto.dll`). A path literal such as `dload("./native/libcrypto.so")` reduces to the same stem the gate uses, so this row covers it too |
+| `package` | string | No | Cache key (defaults to `name`) |
+| `version` | string | Yes | Version string used in the natives cache path |
+| `path` | string | Yes | Directory (relative to project root) containing the local platform library (hashed at package time) |
+| `url` | string | No | https URL `spool download` fetches the library from (spool only, not passed to coil) |
+| `sha256` | string | No | 64 hex digits; `spool download` checks a library it fetches because it is not in `path` yet against it (without it the fetch is unchecked, with a warning) (spool only, not passed to coil) |
+| `requires` | array of strings | No | Sonames expected from the OS (never downloaded) |
+| `requires_hint` | string | No | Install hint when a `requires` soname is missing |
+
+```toml
+[ffi]
+search_paths = ["./.spool/deps/crypto/native"]
+allow = ["crypto"]
+
+[[ffi.native]]
+name = "crypto"
+version = "0.1.0"
+path = ".spool/deps/crypto/native"
+```
+
+The same row without spool:
+
+```bash
+coil package app.hy -o app --allow-dload crypto \
+  --ffi-native 'name=crypto,version=0.1.0,path=.spool/deps/crypto/native'
+```
+
+The embedded lock holds names, versions and hashes, not URLs. A packaged app looks for each library under `~/.coil/natives/cache/<package>/<version>/<sha16>/` (override with `COIL_NATIVES_DIR`), beside the executable, and in `lib/` next to it. It starts either way; a library found nowhere fails at its `dload`. Getting the files there is up to you. Inspect a lock with `coil natives dump [exe] [--tsv]` (TSV columns: package, version, filename, sha256, size). Without `exe`, `dump` hashes each `--ffi-native` row's local file; a row whose file is not there yet is listed as missing instead of failing (JSON `"missing": true` with an empty `sha256`; TSV empty sha256 and size columns and a sixth column `missing`), so a downloader such as `spool download` can fetch it (spool checks it against the row's `sha256` when the row has one). `coil package` still needs every file.
+
+### `[package]`
+
+Optional package identity for publishing / consuming libraries via **`spool`**. When the section is present, `name` and `version` are required. Other keys below are optional.
+
+| Key | Type | Required | Description |
+|-----|------|----------|-------------|
+| `name` | string | Yes (if section present) | Short package name. Consumers import this name (`use http::…`), never the git URL. |
+| `version` | string | Yes (if section present) | Semver version of this package (e.g. `"0.1.0"`). |
+| `coil` | string | No | Optional Coil engine semver range (e.g. `">=0.1.0"`). Same range language as optional git-dep `version`. Stored only — this crate does not resolve or enforce it. Omit means no engine constraint. |
+| `include` | string | No | Optional include-hook path, relative to **this package's checkout**. Runs when another project depends on this package (not when this repo is the current project). There is no `[hooks]` table — unknown sections still error. |
+
+Example:
+
+```toml
+[package]
+name = "http"
+version = "0.1.0"
+coil = ">=0.1.0"
+include = "./hooks/include.sh"
+```
+
+`coil` never reads these fields. **`spool`** owns dependency semantics, include-hook execution, and engine-range checks.
+
+### `[scripts]`
+
+Optional lifecycle scripts for **this project** when it is the current `spool` consumer. Paths are relative to this project root. Missing keys are `None` (no-op for later runners). Extra keys are parse errors. Allowed keys are only:
+
+| Key | Type | Required | Description |
+|-----|------|----------|-------------|
+| `pre_install` | string | No | Before `spool install` fetch/link |
+| `post_install` | string | No | After a successful `spool install` link |
+| `pre_update` | string | No | Before `spool update` fetch/link |
+| `post_update` | string | No | After a successful `spool update` link |
+
+```toml
+[scripts]
+pre_install = "./scripts/pre-install.sh"
+post_install = "./scripts/post-install.sh"
+pre_update = "./scripts/pre-update.sh"
+post_update = "./scripts/post-update.sh"
+```
+
+**Current-project vs include-hooks:** `[scripts]` fire only for the current project (`spool install` / `update` / `add` that materializes this project's deps). `[package].include` is the dependency's hook and runs in the consumer when that package is linked. They do not double-fire: a dependency's `[scripts]` are ignored during a consumer install; the consumer's `include` is ignored because it is not being consumed. Spool owns running both; `coil` never reads them.
+
+Keep scripts out of `coil package` (executable embed).
+
+### `[dependencies]`
+
+Declares library dependencies for **`spool`**. Each key is the short package name (must match that dependency’s `[package].name`). Values are inline tables — one of:
+
+| Form | Keys | Description |
+|------|------|-------------|
+| Git | `git` (string URL). Optional `version`, optional `rev`. Optional `trusted` (bool, default `false`). | `{ git = "…" }` is valid. `version` is optional schema, not a resolved tag. `rev` is stored only. The pin is `coil.lock` (`rev` + `content_hash`) for now; git tag resolution is not implemented yet. |
+| Path | `path` (string). Optional `trusted` (bool, default `false`). | Local checkout relative to the project root. |
+
+Optional **`trusted`** is per dep row. Omitted / `false` is the default. `true` skips native `sha256` for that dependency's `dload` stem, and only when the stem is also on `[ffi] allow`. It is **not** git `content_hash`, not hooks, not engine, and never `dload("c")`. Spool passes it as `--dload-trusted STEM`, which the `dload` gate honors. Trusted without allow is `LibraryDenied`. `crypto` / `tls` / `regex` / `time` use the same skip.
+
+`git` and `path` must not be combined on the same entry. `version` or `rev` without `git` is a parse error. Unknown inline keys are parse errors. Duplicate dependency names are parse errors.
+
+Example:
+
+```toml
+[dependencies]
+http = { git = "https://github.com/coil-lang/http.git" }
+local_http = { path = "../local-http" }
+crypto = { git = "https://github.com/ardax-corp/coil-crypto.git", trusted = true }
+```
+
+`version` and `rev` may appear on a git entry; both are optional:
+
+```toml
+http = { git = "https://github.com/coil-lang/http.git", version = "^0.2" }
+http = { git = "https://github.com/coil-lang/http.git", rev = "abc123" }
+http = { git = "https://github.com/coil-lang/http.git", version = "^0.2", rev = "abc123" }
+```
+
+**Compiler role:** none — `coil` does not read this table. Git tag resolution is not implemented yet; until then `coil.lock` (`rev` + `content_hash`) remains the pin. **`spool`** (`install` / `add` / `update`) resolves deps, writes that lock, and maintains a project-local managed root (e.g. `.spool/deps/<name>`) that should appear in `[module].roots`. Spool turns `coil.lock` `[[package.native]] sha256` rows into `--dload-pin` flags (see [`[ffi]`](#ffi)). It does **not** auto-inject `[module].roots`.
+
+When a managed root is on disk:
+
+```toml
+[module]
+roots = ["./src", "./.spool/deps"]
+```
+
+Then `use greet::hello;` resolves under `./.spool/deps/greet/hello.hy` via the normal discovery algorithm (see [Modules](/docs/language/modules)). For coil-stdlib unprefixed imports, add `.spool/deps/stdlib` as a root ([consume](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/consume.md)).
+
+---
+
+## Complete example
+
+```toml
+# coil project manifest
+
+[package]
+name = "my_app"
+version = "0.1.0"
+# coil = ">=0.1.0"
+# include = "./hooks/include.sh"
+
+[module]
+# Search roots for `use` resolution. Each path is relative to
+# the directory containing this coil.toml file. The compiler
+# searches the roots in order; the first file that exists wins.
+# Include ./.spool/deps when a managed library root is present.
+roots = ["./src", "./vendor", "../coil-stdlib/src"]
+
+# Default when no coil.toml exists: roots = ["src"]
+
+[entry]
+# Optional entry point. If omitted, use the file from the CLI.
+# file = "./src/main.hy"
+
+# [dependencies]
+# http = { git = "https://github.com/coil-lang/http.git" }
+# http = { git = "https://github.com/coil-lang/http.git", version = "^0.2" }
+# http = { git = "https://github.com/coil-lang/http.git", rev = "abc123" }
+# local_http = { path = "../local-http" }
+# crypto = { git = "https://github.com/ardax-corp/coil-crypto.git", trusted = true }
+
+# [permissions]
+# read = true
+# write = true
+# net = true
+
+# [scripts]
+# pre_install = "./scripts/pre-install.sh"
+# post_install = "./scripts/post-install.sh"
+# pre_update = "./scripts/pre-update.sh"
+# post_update = "./scripts/post-update.sh"
+
+# [ffi]
+# search_paths locates shared libraries; it is not a grant.
+# Every stem (including crypto / tls / regex / time) needs allow AND
+# a matching [[package.native]] sha256 or trusted = true on that dep
+# (spool passes --allow-dload / --dload-pin / --dload-trusted).
+# search_paths = ["./.spool/native"]
+# allow = ["crypto", "plugin"]
+```
+
+---
+
+## Discovery algorithm
+
+Given a `use a::b::c;` statement and roots `["./src", "./vendor", "./builtins"]`.
+Resolution matches the [modules reference](/docs/language/modules#how-a-path-is-resolved): **one-item-per-file first**, then a **module-file** fallback. When both `<root>/foo/item.hy` and `<root>/foo.hy` exist, the item file wins (see shadowing note in modules.md). **Migration:** if a project accidentally kept both layouts, `use foo::item` silently binds the item file after this change — delete or rename the unused path.
+
+### Step 1 — Split the import path
+
+- Directory path segments: `["a", "b"]`
+- Item name (last segment): `"c"`
+
+### Step 2 — Search each root in order (Convention A)
+
+For root `./src`:
+
+```
+./src/a/b/c.hy   → exists? use this file
+```
+
+If not found, try `./vendor`:
+
+```
+./vendor/a/b/c.hy
+```
+
+Then `./builtins`:
+
+```
+./builtins/a/b/c.hy
+```
+
+### Step 2b — Module-file fallback (Convention B)
+
+If no one-item-per-file candidate exists in any root, try each root again for the parent module file (directory path only):
+
+```
+./src/a/b.hy     → exists? use this file (item `c` lives inside)
+./vendor/a/b.hy
+./builtins/a/b.hy
+```
+
+Example: `use math::add;` with only `./src/math.hy` present resolves to that file (namespace `math`, FQN `math::add`).
+
+### Step 3 — First match wins
+
+Stop at the first path that exists on disk. That file is loaded and compiled.
+
+### Step 4 — Compute namespace
+
+Strip the matching root prefix, remove `.hy`, replace `/` with `::`:
+
+```
+./src/a/b/c.hy  →  namespace "a::b::c"
+./src/a/b.hy    →  namespace "a::b"     (module-file fallback)
+```
+
+### Wildcard imports (`E0124`)
+
+`use path::*;` is rejected at typecheck for **every** module — virtual (`io`,
+`ffi`, …) and userland disk modules. List names explicitly:
+`use io::{stdout, open};`, `use foo::{name, …}`, or concrete `use io::open;`.
+Prelude is auto-injected; do not write `use prelude::*` in source.
+
+`mod foo;` loads a file for discovery/link order without binding names.
+
+Discovery may still map a path ending in `*` to `<root>/…/stem.hy` when
+scanning dependencies, but no names are imported from a wildcard `use`.
+
+### `mod` declarations
+
+For `mod foo;`:
+
+1. Search each root for `<root>/foo.hy`.
+2. First existing file wins.
+3. Namespace is `foo`.
+
+### Transitive discovery
+
+1. Enqueue the entry file.
+2. Parse it; find all `use` and `mod` declarations.
+3. Enqueue referenced files not yet seen.
+4. Repeat until no new files are discovered.
+5. Compile all discovered files in dependency order.
+
+---
+
+## Default behavior without `coil.toml` {#default-behavior-without-coiltoml}
+
+When `coil` gets no flags (no spool, or no `coil.toml`):
+
+| Setting | Default |
+|---------|---------|
+| `[module].roots` / `--root` | `["src"]` — `coil` always searches `src` under the current directory first; each `--root DIR` adds a root after it |
+| `[entry].file` | None — use CLI argument |
+| `[ffi].search_paths` / `--ffi-search-path` | `[]` |
+| `[ffi].allow` / `--allow-dload` | `[]` — every stem is `LibraryDenied` until listed |
+| pins / trusted | none — an allowed stem is still `LibraryDenied` without `--dload-pin` or `--dload-trusted` |
+
+This means a minimal project with only `src/main.hy` and `src/foo/bar.hy` works without any manifest, as long as you run the compiler from the project root:
+
+```bash
+cargo run -- src/main.hy
+```
+
+The namespace test suite confirms that `use foo::greet;` resolves to `src/foo/greet.hy` with no manifest present.
+
+---
+
+## Multiple roots in practice
+
+Use multiple roots for vendored libraries, stdlib, or **`spool`**-managed deps:
+
+```toml
+[module]
+roots = ["./src", "./.spool/deps", "../coil-stdlib/src"]
+```
+
+Resolution order means **your source tree takes precedence**. If both `src/foo/greet.hy` and `.spool/deps/foo/greet.hy` exist, the `src/` copy is used.
+
+Typical layout:
+
+```
+project/
+├── coil.toml
+├── coil.lock          # written and read by spool (when used)
+├── src/               # application code (first priority)
+├── .spool/deps/       # managed symlinks into the shared spool cache
+└── .deps/coil-stdlib/ # optional local checkout (use .deps/coil-stdlib/src as a root)
+```
+
+---
+
+## Related documentation
+
+- [Modules reference](/docs/language/modules) — `use` / `mod` syntax, FQN rules, dep roots
+- [FFI](/docs/reference/ffi) — `dload` gate, allow + pin or trusted
+- [Tutorial: Modules](/docs/manual/tutorial/09-modules) — walkthrough with `examples/modules.hy`
+- [Getting started](/docs/manual/getting-started) — `coil package` (embed executable), unrelated to `spool`

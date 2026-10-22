@@ -1,0 +1,21 @@
+---
+slug: "num/PI"
+title: "PI"
+description: "The circle constant π, as a float."
+module: "num"
+kind: "const"
+name: "PI"
+signature: "const PI = 3.141592653589793;"
+import: "use num::{PI};"
+origin: "stdlib"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/num.hy#L12"
+order: 0
+---
+
+The circle constant π, as a [`float`](/docs/reference/types/float).
+
+## See also
+
+- [`float`](/docs/reference/types/float)
+- [`E`](/docs/reference/num/E): Euler's number e, the base of ln, as a float.
+- [`TAU`](/docs/reference/num/TAU): A full turn τ = 2π, as a float.

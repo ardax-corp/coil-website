@@ -897,7 +897,7 @@ into `MakeTuple`.
 | **Run** | `cargo run -- --allow-read --allow-write examples/io_nested_write.hy` |
 | **Output** | `2` |
 
-See [Tutorial 10 — IO streams](/docs/manual/tutorial/10-io-streams).
+See [Tutorial 10 — IO streams](/docs/manual/tutorial/10-files-and-io).
 
 ---
 
@@ -1723,7 +1723,7 @@ fn main() {
 
 ## Coroutines
 
-Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/receive and `yield from`. See [Tutorial: Coroutines](/docs/manual/tutorial/08-coroutines).
+Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/receive and `yield from`. See [Tutorial: Coroutines](/docs/manual/tutorial/12-generators).
 
 ### `examples/coro.hy`
 
@@ -1826,7 +1826,7 @@ Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/recei
 
 ### `examples/task_files.hy`
 
-**Demonstrates:** `task::scope` reading two files as concurrent tasks; each IO wait suspends only its task. See [Tutorial 12 — Tasks](/docs/manual/tutorial/12-tasks).
+**Demonstrates:** `task::scope` reading two files as concurrent tasks; each IO wait suspends only its task. See [Tutorial 12 — Tasks](/docs/manual/tutorial/13-tasks).
 
 | | |
 |---|---|
@@ -1837,7 +1837,7 @@ Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/recei
 
 ## OS threads
 
-Native threads via `use thread::{spawn, join, …};` — each worker runs on its own VM. See [Tutorial 11 — OS threads](/docs/manual/tutorial/11-threads).
+Native threads via `use thread::{spawn, join, …};` — each worker runs on its own VM. See [Tutorial 11 — OS threads](/docs/manual/tutorial/14-threads).
 
 ### `examples/thread_join.hy`
 

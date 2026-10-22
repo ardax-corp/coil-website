@@ -71,4 +71,4 @@ package (`use json::{Json, JsonValue, JsonError};`). There is no in-tree
   with 63 usable bits per word (Coil `int` is signed 64-bit; sign bit unused).
 
 What the **compiler** does *not* provide as builtins:
-[not-builtins](/docs/references/not-builtins).
+[not-builtins](/docs/language/not-builtins).

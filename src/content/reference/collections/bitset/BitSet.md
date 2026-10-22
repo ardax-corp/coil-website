@@ -1,0 +1,63 @@
+---
+slug: "collections/bitset/BitSet"
+title: "BitSet"
+description: "A set of non-negative ints stored as bits."
+module: "collections::bitset"
+kind: "class"
+name: "BitSet"
+signature: "class BitSet"
+import: "use collections::bitset::{BitSet};"
+origin: "stdlib"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/de7dc3b341ae9bbbcdd775a2dfa282870f0cbf82/src/collections/bitset.hy#L45"
+order: 0
+---
+
+A set of non-negative [`int`](/docs/reference/types/int)s stored as bits.
+
+Much smaller than a `HashSet<int>` when the values are dense, such as indices
+or flags. Storage grows to fit the largest value inserted; capacities are
+counted in bits. Each [`int`](/docs/reference/types/int) word holds 63 bits.
+
+## Associated functions
+
+| Name | Description |
+|------|-------------|
+| [`with_capacity`](/docs/reference/collections/bitset/BitSet/with_capacity) | Empty set with storage for at least bits indices (0 → no words). |
+| [`new`](/docs/reference/collections/bitset/BitSet/new) | Empty set with no word storage (grows on insert). |
+
+## Methods
+
+| Name | Description |
+|------|-------------|
+| [`size`](/docs/reference/collections/bitset/BitSet/size) | Number of set bits (cardinality). |
+| [`is_empty`](/docs/reference/collections/bitset/BitSet/is_empty) | Returns true when no bit is set. |
+| [`capacity`](/docs/reference/collections/bitset/BitSet/capacity) | Current bit capacity (words.len() * 63); grows when inserting past it. |
+| [`insert`](/docs/reference/collections/bitset/BitSet/insert) | Insert index i; returns true when newly set. |
+| [`contains`](/docs/reference/collections/bitset/BitSet/contains) | True when index i is set. |
+| [`remove`](/docs/reference/collections/bitset/BitSet/remove) | Clear index i; returns true when a bit was unset. |
+| [`clear`](/docs/reference/collections/bitset/BitSet/clear) | Unset every bit; keeps allocated word capacity. |
+
+## Invariants
+
+Checked according to `--contracts` (see [Contracts](/docs/language/contracts)).
+
+```coil
+invariant self.count >= 0 && self.count <= self.words.len() * WORD_BITS
+```
+
+## Examples
+
+```coil
+use collections::bitset::{BitSet};
+use tests::assert;
+let seen = BitSet::new();
+seen.insert(3);
+seen.insert(200);
+assert!(seen.contains(200));
+assert!(!seen.contains(4));
+assert!(seen.size() == 2);
+```
+
+## See also
+
+- [`int`](/docs/reference/types/int)

@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import CodeSample from "../components/CodeSample.astro";
-import { COIL_PATH } from "../lib/logo";
+import HeroBackdrop from "../components/HeroBackdrop.astro";
 import { NIGHTLY, RELEASES, SPOOL, STDLIB, inlineCode, linkHref, groups } from "../lib/nav";
 import { packages } from "../lib/packages";
 
@@ -52,7 +52,7 @@ let buf: Vec<int> = Vec::new();`,
   {
     title: "Data you can match on",
     text: "Enums with unit, tuple and record cases, scalar-backed variants, and exhaustive pattern matching.",
-    href: "/docs/manual/tutorial/03-enums-and-match",
+    href: "/docs/manual/tutorial/05-enums-and-match",
     code: `match s {
     Shape::Circle(r) => r * r,
     Shape::Rect { width, height } => width * height,
@@ -61,7 +61,7 @@ let buf: Vec<int> = Vec::new();`,
   {
     title: "Errors are values",
     text: "Built-in Option and Result, with raise, ? , ?? and ?. desugaring to ordinary matches — no exceptions.",
-    href: "/docs/manual/tutorial/09-error-handling",
+    href: "/docs/manual/tutorial/06-error-handling",
     code: `fn port(string s) -> Result<int, string> {
     if s == "" { raise "empty"; }
     return Result::Ok(8080);
@@ -71,7 +71,7 @@ let p = port(s) ?? 80;`,
   {
     title: "Coroutines built in",
     text: "Stackful coroutines with gen fn, yield and resume — and they plug straight into for-in loops.",
-    href: "/docs/manual/tutorial/08-coroutines",
+    href: "/docs/manual/tutorial/12-generators",
     code: `gen fn countdown(int n) {
     let i = n;
     while i > 0 { yield i; i = i - 1; }
@@ -81,7 +81,7 @@ for n in countdown(3) { … }`,
   {
     title: "Reach native code",
     text: "Declare C functions in an extern block and call them directly, or load libraries at runtime through libffi.",
-    href: "/docs/manual/tutorial/07-ffi",
+    href: "/docs/manual/tutorial/16-ffi",
     code: `extern "c" {
     fn strlen(string s) -> int;
 }
@@ -90,7 +90,7 @@ let n = strlen("hello");`,
   {
     title: "Real programs",
     text: "Non-blocking files, TCP and UDP streams, OS threads with channels, and a multi-file module system.",
-    href: "/docs/manual/tutorial/10-io-streams",
+    href: "/docs/manual/tutorial/10-files-and-io",
     code: `use io::{stdout, open};
 use thread::{spawn, join, channel};
 use env::{args, var};`,
@@ -121,9 +121,7 @@ const commands = [
 >
   <!-- ------------------------------------------------------------ hero -->
   <section class="hero">
-    <svg class="hero-wire" viewBox="0 0 32 32" preserveAspectRatio="none" aria-hidden="true">
-      <path d={COIL_PATH} fill="none" stroke="currentColor" stroke-width="0.35" stroke-linecap="round"></path>
-    </svg>
+    <HeroBackdrop />
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <a class="status" href={RELEASES}>
@@ -286,7 +284,7 @@ const commands = [
               ))
             }
           </ul>
-          <a class="btn btn-ghost" href="/docs/references">Browse the reference <span class="arrow">→</span></a>
+          <a class="btn btn-ghost" href="/docs/reference">Browse the reference <span class="arrow">→</span></a>
         </div>
       </div>
     </div>
@@ -373,17 +371,6 @@ const commands = [
     overflow: hidden;
     padding: 5rem 0 5.5rem;
     position: relative;
-  }
-
-  .hero-wire {
-    color: var(--accent);
-    height: 140%;
-    left: -10%;
-    opacity: 0.07;
-    pointer-events: none;
-    position: absolute;
-    top: -20%;
-    width: 120%;
   }
 
   .hero-grid {

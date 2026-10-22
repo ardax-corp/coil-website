@@ -12,7 +12,7 @@ import {
 } from "../lib/nav";
 
 type Props = {
-  /** Site path of this page, e.g. "/docs/references/types". */
+  /** Site path of this page, e.g. "/docs/language/types". */
   href: string;
   title: string;
   description: string;
@@ -87,6 +87,22 @@ const pagerLabel = (item: NavLink) => {
                             <span>{item.label}</span>
                             {isExternal(item) && <span class="ext" aria-label="(external)">↗</span>}
                           </a>
+                          {item.children?.length && (href === linkHref(item) || href.startsWith(`${linkHref(item)}/`)) ? (
+                            <ul class="nav-children">
+                              {item.children.map((child) => (
+                                <li>
+                                  <a
+                                    href={linkHref(child)}
+                                    aria-current={
+                                      href === linkHref(child) || href.startsWith(`${linkHref(child)}/`) ? "page" : undefined
+                                    }
+                                  >
+                                    <code>{child.label}</code>
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : null}
                         </li>
                       ))}
                     </ul>
@@ -424,6 +440,24 @@ const pagerLabel = (item: NavLink) => {
     background: var(--accent-soft);
     color: var(--accent);
     font-weight: 500;
+  }
+
+  .nav-group .nav-children {
+    border-left: 1px solid var(--border);
+    margin: 0.15rem 0 0.4rem 0.75rem;
+    padding-left: 0.4rem;
+  }
+
+  .nav-group .nav-children a {
+    font-size: 0.82rem;
+    padding-block: 0.15rem;
+  }
+
+  .nav-children code {
+    background: none;
+    border: 0;
+    font-size: inherit;
+    padding: 0;
   }
 
   .nav-group .num {

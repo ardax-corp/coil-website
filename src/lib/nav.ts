@@ -9,6 +9,8 @@ import { packages } from "./packages";
 export type Track = "learn" | "reference" | "packages";
 
 export type NavLink = {
+  /** Nested links, shown under this one while a page inside it is open. */
+  children?: NavLink[];
   /** Doc collection id, e.g. "manual/tutorial/01-basics". */
   id?: string;
   /** Site path or external URL (used instead of id). */
@@ -41,29 +43,32 @@ export const groups: NavGroup[] = [
     track: "learn",
     blurb: "What Coil is, how to install it, and your first program.",
     items: [
-      { id: "index", label: "Overview", hint: "The language at a glance, CLI commands, repository layout." },
-      { id: "manual/getting-started", label: "Getting started", hint: "Install the toolkit, run a first program, understand the cache." },
+      { id: "index", label: "Overview", hint: "The language at a glance and where to start." },
+      { id: "manual/getting-started", label: "Getting started", hint: "Install coil and spool, run a first program, start a project." },
     ],
   },
   {
     key: "tutorial",
     title: "Tutorial",
     track: "learn",
-    blurb: "Eleven chapters, from syntax basics to coroutines and OS threads.",
+    blurb: "Sixteen chapters, from your first program to tasks, threads, macros and C.",
     items: [
-      { id: "manual/tutorial/01-basics", label: "Basics", hint: "Literals, functions, `let`, control flow and output." },
-      { id: "manual/tutorial/02-types-and-variables", label: "Types & variables", hint: "Primitives, inference, annotations, classes." },
-      { id: "manual/tutorial/03-enums-and-match", label: "Enums & match", hint: "Sum types, scalar-backed cases, pattern matching." },
-      { id: "manual/tutorial/04-records-and-fields", label: "Records & fields", hint: "Record variants, field access, nested patterns." },
-      { id: "manual/tutorial/05-aggregates", label: "Aggregates", hint: "Tuples, `[T; N]`, `Vec<T>`, dicts and type aliases." },
-      { id: "manual/tutorial/06-modules", label: "Modules", hint: "`use`, `mod` and the `coil.toml` manifest." },
-      { id: "manual/tutorial/07-ffi", label: "Foreign functions", hint: "`extern` blocks and dynamic loading with libffi." },
-      { id: "manual/tutorial/08-coroutines", label: "Coroutines", hint: "`gen fn`, `yield`, `resume`, `yield from`." },
-      { id: "manual/tutorial/09-error-handling", label: "Error handling", hint: "`Option`, `Result`, `raise`, `?`, `??`, `?.`." },
-      { id: "manual/tutorial/10-io-streams", label: "IO streams", hint: "Bytes, streams, files, TCP and UDP." },
-      { id: "manual/tutorial/11-threads", label: "OS threads", hint: "`spawn`, `join`, channels and mutexes." },
-      { id: "manual/tutorial/12-tasks", label: "Tasks", hint: "`task::scope`, `spawn`, `join`: concurrent IO on one VM." },
-      { id: "manual/tutorial/13-macros", label: "Macros", hint: "`name!(…)`, `#[attr(…)]` and `#[derive(…)]`: code that writes code." },
+      { id: "manual/tutorial/01-basics", label: "Basics", hint: "Printing, variables, functions, `if` and loops." },
+      { id: "manual/tutorial/02-types-and-variables", label: "Types & variables", hint: "Built-in types, inference, `as`, strings, tuples, records, constants." },
+      { id: "manual/tutorial/03-collections", label: "Collections", hint: "Arrays, `Vec`, maps and sets; sorting, mapping, filtering." },
+      { id: "manual/tutorial/04-classes", label: "Classes", hint: "Fields, methods, `pub`, static functions, `derive`, generic classes." },
+      { id: "manual/tutorial/05-enums-and-match", label: "Enums & match", hint: "Cases with data, `match`, `Option`, `if let`." },
+      { id: "manual/tutorial/06-error-handling", label: "Error handling", hint: "`Result`, `raise`, `?`, `??` and `panic`." },
+      { id: "manual/tutorial/07-traits-and-generics", label: "Traits & generics", hint: "Generic functions, bounds, your own traits, trait-typed values." },
+      { id: "manual/tutorial/08-closures", label: "Functions as values", hint: "Lambdas, `use (…)` captures, returning functions, partial application." },
+      { id: "manual/tutorial/09-modules", label: "Modules & packages", hint: "Files as modules, `use`, and packages with spool." },
+      { id: "manual/tutorial/10-files-and-io", label: "Files & IO", hint: "The terminal, files, directories, arguments and permissions." },
+      { id: "manual/tutorial/11-testing", label: "Testing", hint: "`test` blocks, `assert!`, doc examples and contracts." },
+      { id: "manual/tutorial/12-generators", label: "Generators", hint: "`gen fn`, `yield`, lazy sequences and pipelines." },
+      { id: "manual/tutorial/13-tasks", label: "Tasks", hint: "Concurrent IO on one thread: scopes, channels, timeouts." },
+      { id: "manual/tutorial/14-threads", label: "Threads", hint: "Parallel CPU work: `spawn`, `join`, channels, mutexes." },
+      { id: "manual/tutorial/15-macros", label: "Macros", hint: "`name!(…)`, `#[attr(…)]` and `#[derive(…)]`: code that writes code." },
+      { id: "manual/tutorial/16-ffi", label: "Calling C", hint: "`extern` blocks, `dload` and the flags that allow a library." },
     ],
   },
   {
@@ -83,76 +88,26 @@ export const groups: NavGroup[] = [
     track: "reference",
     blurb: "Grammar, type system and the rules the compiler enforces.",
     items: [
-      { id: "references", label: "Reference index", hint: "Map of every reference page and virtual module." },
-      { id: "references/syntax", label: "Syntax", hint: "Grammar overview: declarations, statements, expressions." },
-      { id: "references/types", label: "Types", hint: "Inference, generics, traits, aliases, aggregates." },
-      { id: "references/operators", label: "Operators", hint: "Precedence table and operand rules." },
-      { id: "references/keywords", label: "Keywords", hint: "Every reserved word and where it is used." },
-      { id: "references/modules", label: "Modules", hint: "`use` resolution and namespace rules." },
-      { id: "references/macros", label: "Macros", hint: "Derives, attribute macros, `name!(…)` macros, `quote`." },
-      { id: "references/effects", label: "Effects", hint: "`pure fn`, `uses {…}` and inferred effects." },
-      { id: "references/contracts", label: "Contracts", hint: "`requires`, `ensures`, invariants and `--contracts` levels." },
-      { id: "references/permissions", label: "Permissions", hint: "`--allow-read`, `--allow-net` and the reachability check." },
-      { id: "references/project-config", label: "coil.toml", hint: "Project manifest: roots, entry, package metadata." },
-      { id: "references/error-codes", label: "Error codes", hint: "Stable `E####` diagnostics." },
-    ],
-  },
-  {
-    key: "core",
-    title: "Core & prelude",
-    track: "reference",
-    blurb: "Built-in types and auto-imported functions.",
-    items: [
-      { id: "references/option-result", label: "Option & Result", hint: "Built-in sum types." },
-      { id: "references/arrays", label: "Arrays & Vec", hint: "Fixed `[T; N]` and growable `Vec<T>`." },
-      { id: "references/iterator", label: "Iterator", hint: "The `for x in` protocol." },
-      { id: "references/string", label: "string", hint: "UTF-8 and byte conversions." },
-      { id: "references/format", label: "string::format", hint: "Checked format specifiers." },
-      { id: "references/math", label: "Math", hint: "IEEE float math and linear algebra." },
-      { id: "references/casts", label: "Casts", hint: "`expr as T` between primitives." },
-      { id: "references/ord-char", label: "ord & char", hint: "Single-byte string ↔ `byte`." },
-      { id: "references/done", label: "done", hint: "Has a coroutine finished?" },
-      { id: "references/panic", label: "panic", hint: "Abort with a message." },
-      { id: "references/print", label: "print (removed)", hint: "Migration note: use `io` + `string`." },
-    ],
-  },
-  {
-    key: "testing",
-    title: "Testing",
-    track: "reference",
-    blurb: "The built-in test harness.",
-    items: [
-      { id: "references/test-harness", label: "test blocks", hint: "`test(\"…\") { … }` cases run by `coil test`." },
-      { id: "references/assert", label: "assert", hint: "`assert(cond[, msg])` returns a `Result`." },
-    ],
-  },
-  {
-    key: "system",
-    title: "System modules",
-    track: "reference",
-    blurb: "Virtual modules for IO, processes, memory and native code.",
-    items: [
-      { id: "references/io", label: "io", hint: "Non-blocking files, stdio, TCP, UDP." },
-      { id: "references/io-fs", label: "io::fs", hint: "Paths, metadata, directories." },
-      { id: "references/env", label: "env", hint: "Arguments, variables, `exec`." },
-      { id: "references/gc", label: "gc", hint: "Roots, weak handles, collection." },
-      { id: "references/ffi", label: "ffi", hint: "`dload`, `declare`, `invoke`, `extern`." },
-      { id: "references/host-natives", label: "Host embedder API", hint: "Rust closures callable from bytecode." },
-    ],
-  },
-  {
-    key: "packages",
-    title: "Userland packages",
-    track: "reference",
-    blurb: "Libraries that live outside the compiler.",
-    items: [
-      // Packages with a reference page in the language docs; the full
-      // package docs live in the Packages track.
-      ...packages
-        .filter((p) => p.docs)
-        .map((p) => ({ id: p.docs!.replace(/^\/docs\//, ""), label: p.name, hint: p.summary })),
-      { id: "references/not-builtins", label: "What is not built in", hint: "Where the compiler stops and userland starts." },
-      { href: "/packages", label: "All packages", hint: "Every package, with its full documentation." },
+      { href: "/docs/reference", label: "Reference index", hint: "Every module, type and function, and the language pages." },
+      { id: "language/cli", label: "Command line", hint: "Every `coil` command and the flags you will use." },
+      { id: "language/syntax", label: "Syntax", hint: "Grammar overview: declarations, statements, expressions." },
+      { id: "language/types", label: "Type system", hint: "Inference, generics, traits, aliases, aggregates." },
+      { id: "language/operators", label: "Operators", hint: "Precedence table and operand rules." },
+      { id: "language/arrays", label: "Arrays & Vec", hint: "Fixed `[T; N]` and growable `Vec<T>`." },
+      { id: "language/casts", label: "Casts", hint: "`expr as T` between primitives." },
+      { id: "language/modules", label: "Modules", hint: "`use`, `mod`, roots and how a path finds its file." },
+      { id: "language/macros", label: "Macros", hint: "Derives, attribute macros, `name!(…)` macros, `quote`." },
+      { id: "language/comptime", label: "Compile-time code", hint: "Computed `const`s, `comptime` and IO grants." },
+      { id: "language/effects", label: "Effects", hint: "`pure fn`, `uses {…}` and inferred effects." },
+      { id: "language/contracts", label: "Contracts", hint: "`requires`, `ensures`, invariants and `--contracts` levels." },
+      { id: "language/permissions", label: "Permissions", hint: "`--allow-read`, `--allow-net` and the reachability check." },
+      { id: "language/panic", label: "Panics", hint: "`panic` and what aborts a program." },
+      { id: "language/done", label: "done", hint: "Has a coroutine finished?" },
+      { id: "language/test-harness", label: "Tests", hint: "`test(\"…\") { … }` cases run by `coil test`." },
+      { id: "language/project-config", label: "coil.toml", hint: "Project manifest: roots, entry, package metadata." },
+      { id: "language/error-codes", label: "Error codes", hint: "Stable `E####` diagnostics." },
+      { id: "language/host-natives", label: "Host embedder API", hint: "Rust closures callable from bytecode." },
+      { id: "language/not-builtins", label: "What is not built in", hint: "Where the compiler stops and userland starts." },
     ],
   },
 ];
@@ -235,29 +190,119 @@ export type Located = {
   chapters?: number;
 };
 
+/** An item followed by its nested children, depth first. */
+function flatten(items: NavLink[]): NavLink[] {
+  return items.flatMap((i) => [i, ...flatten(i.children ?? [])]);
+}
+
+/** The listed link an href belongs to: itself, or its nearest listed parent path. */
+function nearest(all: NavGroup[], href: string): string | undefined {
+  const listed = new Set(all.flatMap((g) => flatten(g.items)).map(linkHref));
+  for (let h = href; h.length > 1; h = h.replace(/\/[^/]*$/, "")) if (listed.has(h)) return h;
+  return undefined;
+}
+
 /** Find the page at `href` (a site path) and its neighbours within its track. */
 export function locate(all: NavGroup[], href: string): Located | undefined {
-  const at = (i: NavLink) => linkHref(i) === href;
+  const target = nearest(all, href);
+  if (!target) return undefined;
+  const at = (i: NavLink) => linkHref(i) === target;
   // A page can be linked from several tracks (coil-stdlib is also under
   // Learn → Keep going); it belongs to the track its URL lives in.
   const home: Track | undefined = href.startsWith("/packages/") ? "packages" : undefined;
-  const matches = all.filter((g) => g.items.some(at));
+  const matches = all.filter((g) => flatten(g.items).some(at));
   const group = matches.find((g) => !home || g.track === home) ?? matches[0];
   if (!group) return undefined;
-  const item = group.items.find(at)!;
-  const sequence = all.filter((g) => g.track === group.track).flatMap((g) => g.items.filter((i) => !isExternal(i)));
+  const item = flatten(group.items).find(at)!;
+  const sequence = all.filter((g) => g.track === group.track).flatMap((g) => flatten(g.items).filter((i) => !isExternal(i)));
   const pos = sequence.findIndex(at);
+  const exact = target === href;
   const located: Located = {
     group,
     item,
-    prev: sequence[pos - 1],
-    next: sequence[pos + 1],
+    prev: exact ? sequence[pos - 1] : undefined,
+    next: exact ? sequence[pos + 1] : undefined,
   };
   if (group.key === "tutorial") {
     located.chapter = group.items.indexOf(item) + 1;
     located.chapters = group.items.length;
   }
   return located;
+}
+
+// -------------------------------------------------------------- reference
+
+export const REFERENCE = "/docs/reference";
+
+/** "io/fs/index" → "/docs/reference/io/fs"; "io/open" → "/docs/reference/io/open". */
+export function referenceHref(id: string): string {
+  return `${REFERENCE}/${id.replace(/(^|\/)index$/, "")}`.replace(/\/$/, "");
+}
+
+/** Sections of the API reference, by module path. */
+export const REFERENCE_SECTIONS: { key: string; title: string; blurb: string; pick: (m: CollectionEntry<"reference">) => boolean }[] = [
+  {
+    key: "ref-core",
+    title: "Prelude & primitives",
+    blurb: "In scope in every file, no `use` needed.",
+    pick: (m) => ["types", "keywords"].includes(m.data.module) || m.data.module === "prelude" || m.data.module.startsWith("prelude::"),
+  },
+  {
+    key: "ref-builtin",
+    title: "Compiler modules",
+    blurb: "Shipped with the compiler; import what you use.",
+    pick: (m) => m.data.origin !== "stdlib",
+  },
+  {
+    key: "ref-stdlib",
+    title: "Standard library",
+    blurb: "coil-stdlib: collections, text, numbers, blocking IO.",
+    pick: (m) => m.data.origin === "stdlib",
+  },
+];
+
+const KIND_RANK: Record<string, number> = { primitive: 0, class: 1, enum: 1, trait: 2, type: 3, const: 4, macro: 5, fn: 6, keyword: 7 };
+
+/** Module pages in display order (parents before children). */
+export function referenceModules(entries: CollectionEntry<"reference">[]): CollectionEntry<"reference">[] {
+  const first = ["prelude", "prelude::ops", "prelude::math", "types", "keywords"];
+  const rank = (m: string) => (first.includes(m) ? first.indexOf(m) : first.length);
+  return entries
+    .filter((e) => e.data.kind === "module")
+    .sort((a, b) => rank(a.data.module) - rank(b.data.module) || a.data.module.localeCompare(b.data.module));
+}
+
+/** Items directly in a module (not members of a type), in display order. */
+export function moduleItems(entries: CollectionEntry<"reference">[], module: string): CollectionEntry<"reference">[] {
+  return entries
+    .filter((e) => e.data.module === module && e.data.kind !== "module" && !e.data.parent)
+    .sort((a, b) => (KIND_RANK[a.data.kind] ?? 9) - (KIND_RANK[b.data.kind] ?? 9) || a.data.order - b.data.order);
+}
+
+/** Sidebar groups for the API reference (Reference track). */
+export function referenceGroups(entries: CollectionEntry<"reference">[]): NavGroup[] {
+  const mods = referenceModules(entries);
+  const taken = new Set<string>();
+  return REFERENCE_SECTIONS.map((sec) => {
+    const picked = mods.filter((m) => !taken.has(m.id) && sec.pick(m));
+    picked.forEach((m) => taken.add(m.id));
+    return {
+      key: sec.key,
+      title: sec.title,
+      track: "reference" as const,
+      blurb: sec.blurb,
+      items: picked.map((m) => ({
+        href: referenceHref(m.id),
+        label: m.data.title,
+        hint: m.data.description,
+        children: moduleItems(entries, m.data.module).map((e) => ({
+          href: referenceHref(e.id),
+          label: e.data.kind === "macro" ? `${e.data.name}!` : e.data.name,
+          hint: e.data.description,
+        })),
+      })),
+    };
+  });
 }
 
 // --------------------------------------------------------------- packages
@@ -332,6 +377,10 @@ export function packageGroups(entries: CollectionEntry<"ecosystem">[]): NavGroup
 }
 
 /** Every docs group: learn, reference and packages tracks. */
-export function allGroups(docs: CollectionEntry<"docs">[], ecosystem: CollectionEntry<"ecosystem">[]): NavGroup[] {
-  return [...resolveGroups(docs), ...packageGroups(ecosystem)];
+export function allGroups(
+  docs: CollectionEntry<"docs">[],
+  ecosystem: CollectionEntry<"ecosystem">[],
+  reference: CollectionEntry<"reference">[] = [],
+): NavGroup[] {
+  return [...resolveGroups(docs), ...referenceGroups(reference), ...packageGroups(ecosystem)];
 }

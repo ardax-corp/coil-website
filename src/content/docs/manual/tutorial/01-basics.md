@@ -1,724 +1,356 @@
 ---
 title: Chapter 1 — Basics
-description: "This chapter introduces the core syntax of coil: literals, variables, functions, control flow, output, and the expression/statement model. By the end you will be able to write…"
+description: "A first tour of Coil: printing, variables, functions, if, loops and blocks, ending with FizzBuzz."
 ---
 
 # Chapter 1 — Basics
 
-This chapter introduces the core syntax of coil: literals, variables, functions, control flow, output, and the expression/statement model. By the end you will be able to write small programs like Fibonacci, arithmetic helpers, and FizzBuzz-style output.
+This chapter covers what almost every program needs: printing, variables,
+functions, conditions and loops. By the end you will have written FizzBuzz.
 
-Every coil program is a `.hy` file. The runtime looks for a top-level `main` function as the entry point:
+If you have not installed Coil yet, start with
+[Getting started](/docs/manual/getting-started). Every example in this
+tutorial is a complete program unless it says otherwise. Save it as a `.hy`
+file and run it with `coil --root ~/.coil/stdlib/src file.hy` (or inside a
+spool project with `spool run`).
+
+## A program
 
 ```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
+use io::sync::{println};
+
 fn main() {
-    write_all(stdout(), to_bytes("hello"));
+    println("Hello from Coil")?;
 }
 ```
 
-Run a file from the project root:
+Output:
 
-```bash
-cargo run -- --root ../coil-stdlib/src examples/fib.hy
+```text
+Hello from Coil
 ```
 
----
+A program is a list of declarations: imports (`use`), functions (`fn`), and
+the types you will meet in later chapters. Running a program calls its
+`main` function. Statements end with a semicolon and blocks are wrapped in
+braces.
+
+`println` comes from the stdlib module `io::sync`. Writing output can fail,
+so it returns a `Result`, and the `?` after the call hands any failure to
+the caller. For now, think of `println(…)?;` as the way to print; chapter 6
+explains `?`.
 
 ## Comments
 
-Line comments start with `//` and run to the end of the line. Block comments
-start with `/*` and end with `*/`; they can span lines and nest, so you can
-comment out code that already contains one:
-
 ```coil
-// This is a comment.
-let x = 5; // inline comment
-let y = /* inline block */ 6;
-/* A longer note
-   /* nested */ still inside the outer comment. */
-```
+// A line comment runs to the end of the line.
+let width = 80; // and can follow code
 
-A comment can go anywhere whitespace can: between fields, list items, call
-arguments or match arms, not only on its own statement line.
+/* A block comment can span lines,
+   /* and nests, */ so commenting out code that has one is safe. */
 
-Documentation comments use `///` and must sit immediately above a declaration
-(`fn`, `class`, field, `trait`, `enum`, …). Function parameters may also have
-their own `///` lines immediately above the parameter inside the signature.
-They are stored on the AST for docgen / LSP hover (`parser::item_docs`); the
-compiler ignores them for semantics. `coil fmt` preserves both `//` and `///`.
-
-```coil
-/// Return the next Fibonacci number.
-fn fib(int n) -> int {
-    if n <= 2 {
-        return 1;
-    }
-    return fib(n - 1) + fib(n - 2);
+/// A documentation comment describes the item below it.
+/// Editors show it on hover, and `coil test` runs its examples.
+fn area(int w, int h) -> int {
+    return w * h;
 }
 ```
-
-Parameter documentation is shown with the function documentation in LSP
-hover:
-
-```coil
-fn fib(
-    /// Zero-based sequence index.
-    int n,
-) -> int {
-    return n;
-}
-```
-
-A bare `///` that is not followed by a declaration is a parse error.
-
-Comments are ignored by the compiler. Use them to explain *why* something is written a certain way, not to restate what the code already says.
-
----
-
-## Literals
-
-coil has four primitive literal forms.
-
-| Kind   | Examples              | Notes                                      |
-|--------|-----------------------|--------------------------------------------|
-| `int`  | `0`, `42`, `-7`       | Signed 64-bit integers; arithmetic that overflows panics |
-| `float`| `1.0`, `3.14`, `-0.5` | Must contain a decimal point (`1.0`, not `1`) |
-| `string` | `"hello"`, `"FIZ"`, `"say \"hi\""`  | Double-quoted; escapes: `\\` `\"` `\n` `\r` `\t` `\0` `\e` `\xHH` `\u{HEX}` |
-| `bool` | `true`, `false`       | Boolean literals                           |
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn main() {
-    write_all(stdout(), to_bytes(format("%i", 42)));
-    write_all(stdout(), to_bytes(format("%f", 3.14)));
-    write_all(stdout(), to_bytes(format("%s", "hello")));
-    write_all(stdout(), to_bytes(format("%z", true)));
-}
-```
-
----
 
 ## Variables
 
-Bind a name to a value with `let`:
+`let` introduces a variable. Its type is inferred from the value, or you can
+write it after a colon:
 
 ```coil
-let x = 5;
-let y = 10;
-```
+use io::sync::{println};
+use string::{format};
 
-You may attach an explicit type after the name:
-
-```coil
-let x: int = 5;
-let name: string = "coil";
-```
-
-When the type is omitted, the compiler infers it from the right-hand side (see [Chapter 2 — Types and Variables](/docs/manual/tutorial/02-types-and-variables)).
-
-Each `let` creates a new binding in the current scope. Bindings are introduced at the point of the `let` statement and remain visible in enclosing blocks.
-
----
-
-## Reassignment
-
-After a variable is bound, update it with assignment (no `let` keyword):
-
-```coil
-let x = 5;
-x = 20;
-```
-
-From `examples/let_test.hy`:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
 fn main() {
-    let x = 5;
-    write_all(stdout(), to_bytes(format("%i", x)));   // 5
-    let y = 10;
-    write_all(stdout(), to_bytes(format("%i", y)));   // 10
-    x = 20;
-    write_all(stdout(), to_bytes(format("%i", x)));   // 20
+    let count = 3;              // int
+    let price: float = 2.5;     // float, written out
+    let name = "lamp";          // string
+    let in_stock = true;        // bool
+
+    count = count + 1;          // assign a new value (no `let`)
+    count += 10;                // compound assignment: += -= *= /= %= …
+    count++;                    // add one
+
+    println(format("%i × %s at %f, in stock: %z", count, name, price, in_stock))?;
 }
 ```
 
-Expected output when run: `51020` (three integers printed back-to-back).
+Output:
 
-Assignment requires an existing binding. Assigning to an undeclared name is a compile-time error.
-
-Compound assignment (`+=`, `-=`, `*=`, and the other arithmetic/bitwise forms) updates a binding in place and evaluates to the new value:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-let x = 5;
-x += 3;
-write_all(stdout(), to_bytes(format("%i", x)));   // 8
+```text
+15 × lamp at 2.5, in stock: true
 ```
 
-Increment and decrement follow C-like rules: prefix forms (`++x`, `--x`) evaluate to the new value; postfix forms (`x++`, `x--`) evaluate to the old value. They work on variables, dict fields, and array elements.
+A variable keeps the type it started with: assigning a `string` to `count`
+is a compile error. The next chapter covers the types in detail.
 
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-let y = 0;
-write_all(stdout(), to_bytes(format("%i", y++)));   // 0
-write_all(stdout(), to_bytes(format("%i", y)));     // 1
-let z = 0;
-write_all(stdout(), to_bytes(format("%i", ++z)));   // 1
-```
+## Printing values
 
-See `examples/operators.hy` for a broader operator demo.
+`string::format` builds a string from a template. Each `%` specifier takes
+the next argument, and the compiler checks that the types match:
 
----
+| Specifier | Argument | Example |
+|-----------|----------|---------|
+| `%i` | `int` | `format("%i", 42)` → `42` |
+| `%f` | `float` | `format("%f", 0.5)` → `0.5` |
+| `%s` | `string` | `format("%s!", "hi")` → `hi!` |
+| `%z` | `bool` | `format("%z", 1 < 2)` → `true` |
+| `%x`, `%b` | `int` | hexadecimal, binary |
+| `%v` | anything printable | arrays, tuples, `Option`, your own types |
+| `%%` | | a literal `%` |
+
+`format("%i", "ten")` does not compile, so a wrong specifier never reaches
+your users. To join strings, `+` works too: `"Hello, " + name`.
+
+`show(value)` turns any printable value into a string on its own, the same
+text `%v` produces.
 
 ## Functions
 
-Define functions with `fn`. Parameter types and an optional return type are written in the signature; the body is a block:
-
 ```coil
-fn add(int a, int b) -> int {
-    return a + b;
-}
-```
+use io::sync::{println};
+use string::{format};
 
-- Parameters are comma-separated: `Type name`.
-- Return type follows `->`. Omit it when the function returns nothing useful (implicit unit).
-- Functions must be declared at the top level in a file (not nested inside other functions in current coil).
-
-Call a function by name with parenthesised arguments:
-
-```coil
-add(3, 4);
-```
-
-From `examples/call_test.hy`:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
 fn add(int a, int b) -> int {
     return a + b;
 }
 
-fn main() {
-    add(3, 4);      // result discarded
-    write_all(stdout(), to_bytes("done"));
-}
-```
-
-The call `add(3, 4)` is an **expression statement** — its return value is computed and then dropped.
-
-### Partial application
-
-A call that gives only the first few arguments does not run the function. It makes a function value that holds the given arguments and takes the rest:
-
-```coil
-fn add3(int a, int b, int c) -> int {
-    return a * 100 + b * 10 + c;
+fn greeting(string name) -> string {
+    return "Hello, " + name;
 }
 
 fn main() {
-    let f = add3(1);    // int -> int -> int
-    let g = add3(4, 5); // int -> int
-    let x = f(2, 3);    // 123
-    let y = g(6);       // 456
+    let sum = add(2, 3);
+    println(format("2 + 3 = %i", sum))?;
+    println(greeting("Ada"))?;
 }
 ```
 
-Methods work the same way. The receiver is held along with the given arguments:
+Output:
+
+```text
+2 + 3 = 5
+Hello, Ada
+```
+
+Parameters are written type first: `int a`. The return type follows `->`; a
+function without one returns nothing. A function that returns a value must
+`return` on every path, and the compiler checks that it does.
+
+`?` only works in a function that can hand the error on, such as `main`.
+That is why these helpers return strings and leave the printing to `main`;
+chapter 6 shows how to write helpers that print and pass errors along.
+
+Functions can be declared in any order; `main` can call a function defined
+below it.
+
+## Conditions
 
 ```coil
-class Counter {
-    pub v: int,
-}
+use io::sync::{println};
 
-impl Counter {
-    pub fn plus(int a, int b) -> int {
-        return self.v + a + b;
+fn describe(int temperature) -> string {
+    if temperature < 0 {
+        return "freezing";
+    } else if temperature < 20 {
+        return "cool";
+    } else {
+        return "warm";
     }
 }
 
 fn main() {
-    let c = new Counter(10);
-    let add_to_c = c.plus(1); // int -> int
-    let z = add_to_c(2);      // 13
+    println(describe(-5))?;
+    println(describe(12))?;
+    println(describe(25))?;
 }
 ```
 
-The arguments, and the receiver, are evaluated when the partial call is made, not when the resulting function is called. A partial call has a function type, so using it where the result is expected is a type error (`let r: int = add3(1);` reports `E0102`).
+Output:
 
-The other way round works too: a function that returns a function can be given all the arguments at once. The call applies the arguments the function declares, then calls the function it returns with the rest:
+```text
+freezing
+cool
+warm
+```
+
+The condition must be a `bool`; `if count { … }` with an `int` is an error.
+No parentheses are needed around it. Combine conditions with `&&`, `||` and
+`!`.
+
+## Loops
+
+`for` walks over a range, an array or any other collection. `a..b` counts
+from `a` up to but not including `b`; `a..=b` includes `b`:
 
 ```coil
-fn adder(int a) -> int -> int {
-    return fn (int b) use (a) => a * 10 + b;
-}
+use io::sync::{println};
+use string::{format};
 
 fn main() {
-    let x = adder(1)(2); // 12
-    let y = adder(1, 2); // 12, the same call
-}
-```
-
-The same holds for function values. A value of type `int -> int -> int` may be a two-parameter closure (`fn (int a, int b) => …`) or a curried one (`fn (int a) => fn (int b) use (a) => …`), and either one can be called as `f(1, 2)` or as `f(1)(2)`.
-
----
-
-## Return statements
-
-Use `return expr;` to leave a function early with a value:
-
-```coil
-fn fib(int n) -> int {
-    if n <= 2 {
-        return 1;
+    let total = 0;
+    for n in 1..=100 {
+        total += n;
     }
-    return fib(n - 1) + fib(n - 2);
+    println(format("1 + 2 + … + 100 = %i", total))?;
+
+    for word in ["red", "green", "blue"] {
+        println(word)?;
+    }
 }
 ```
 
-A function with a non-unit return type must `return` on every path; falling off the end is a compile error (`E0111`). Unit functions may fall off the end.
+Output:
 
----
+```text
+1 + 2 + … + 100 = 5050
+red
+green
+blue
+```
 
-## Control flow
-
-### `if`, `else if`, `else`
-
-Conditions must be boolean expressions:
+`while` repeats as long as its condition holds. `break` leaves the loop and
+`continue` skips to the next round; both work in `for` loops too:
 
 ```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-if n <= 2 {
-    return 1;
-}
+use io::sync::{println};
+use string::{format};
 
-if (n % 3) == 0 {
-    write_all(stdout(), to_bytes("FIZ"));
-} else if (n % 5) == 0 {
-    write_all(stdout(), to_bytes("BUZ"));
-} else {
-    write_all(stdout(), to_bytes(format("%i", n)));
+fn main() {
+    let n = 27;
+    let steps = 0;
+    while n != 1 {
+        if n % 2 == 0 {
+            n = n / 2;
+        } else {
+            n = 3 * n + 1;
+        }
+        steps++;
+    }
+    println(format("27 reaches 1 after %i steps", steps))?;
 }
 ```
 
-`else if` chains are parsed as nested `if`/`else` — you can stack as many branches as needed.
+Output:
 
-Parentheses around conditions are optional but often improve readability when mixing operators: `if (n % 3) == 0`.
-
-### `while` loops
-
-A `while` loop repeats its body while the condition is `true`:
-
-```coil
-let i = 0;
-while (i < 3) {
-    i = i + 1;
-}
+```text
+27 reaches 1 after 111 steps
 ```
 
-The condition is re-evaluated before each iteration. As with `if`, the condition must be boolean — `while 42 { ... }` is rejected by the typechecker.
+## Blocks and scope
 
-Use `break;` to leave the nearest loop and `continue;` to jump to the next iteration.
-
-### `for` loops
-
-There is no C-style `for (init; cond; step)`. Counted loops use `while`. Iteration uses `for x in expr` (prelude `IntoIterator` / `Iterator`):
+A variable lives until the end of the block (`{ … }`) it was declared in:
 
 ```coil
-let sum = 0;
-let i = 0;
-while i < 10 {
-    if i == 3 { i = i + 1; continue; }
-    if i == 7 { break; }
-    sum = sum + i;
-    i = i + 1;
-}
+use io::sync::{println};
+use string::{format};
 
-for x in [1, 2, 3] {
-    sum = sum + x;
-}
-```
-
-For the `while` example, `sum` becomes `18` (`0 + 1 + 2 + 4 + 5 + 6`).
-
----
-
-## Blocks
-
-A block `{ ... }` groups zero or more statements. Blocks create scope for `let` bindings declared inside them:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
 fn main() {
     let x = 1;
     {
         let y = 2;
-        write_all(stdout(), to_bytes(format("%i", x + y)));
+        println(format("inside: %i", x + y))?;
     }
-    // y is not visible here
+    // `y` does not exist here; `x` still does.
+    println(format("outside: %i", x))?;
 }
 ```
 
-Function bodies, `if` branches, `while` bodies, and `defer` bodies are all blocks.
+Output:
 
----
+```text
+inside: 3
+outside: 1
+```
 
-## `defer`
+## Cleanup with `defer`
 
-Schedule cleanup (or other exit work) with `defer`:
+`defer { … }` runs a block when the function returns, however it returns.
+It keeps cleanup next to the setup it belongs to. Several `defer`s run in
+reverse order. A deferred block sees only the variables listed in its
+`use (…)`. `let _ = …` runs an expression and throws its result away on
+purpose, here because a deferred block has nowhere to pass an error to:
 
 ```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn example() {
-    defer {
-        write_all(stdout(), to_bytes("cleanup"));
+use io::sync::{println};
+
+fn work(string name) {
+    defer use (name) {
+        let _ = println("done: " + name);
     }
-    write_all(stdout(), to_bytes("work"));
-}
-```
-
-A `defer` block runs when the **enclosing function** exits — via `return` / `return;` or by falling off the end of a **unit** body (codegen still runs deferred cleanup). A `panic` runs it too, as the panic leaves the function. Defers scheduled before a non-terminating `while true` loop never run on function exit (`E0123` warning). Multiple `defer` statements in one function run in **last-in, first-out (LIFO)** order: the defer written last runs first. Functions with a `defer` are not self-tail-call optimized so cleanup always runs.
-
-Outer locals are **not** visible inside a defer unless you list them in an explicit `use (…)` capture list (same rule as lambdas):
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn log_on_exit(int n) {
-    defer use (n) {
-        write_all(stdout(), to_bytes(format("%i", n)));
-    }
-}
-```
-
-Using an outer name without listing it produces `cannot capture \`n\` without \`use (n)\``. Names that don't exist at all still produce `Cannot find value \`…\``.
-
-Use `defer` for resource teardown, logging, or paired setup/teardown logic without scattering cleanup across every `return` path.
-
-**GC finalizers** are different: an inherent `fn drop()` on a class runs when the instance is unmarked after a mark-sweep (`gc::collect()` or automatic GC), and again at VM exit for anything still allocated. Order is unspecified; `defer` stays the deterministic function-exit tool. Storing `self` from `drop` can resurrect the object for later collections, but drop still runs at most once — treat that as a footgun, not a pin API (`gc::root` / `Weak` are the pin API). See [`gc`](/docs/references/gc).
-
----
-
-## Stdout and format specifiers
-
-### Literal output
-
-Write a string to stdout with `io::write_all` and `string::to_bytes`:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-write_all(stdout(), to_bytes("hello"));
-write_all(stdout(), to_bytes("FIZ"));
-```
-
-### Formatted output
-
-When the format string contains conversion specifiers, call `string::format` first:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-write_all(stdout(), to_bytes(format("%i", 42)));
-write_all(stdout(), to_bytes(format("%i", x + y)));
-```
-
-The compiler **type-checks** every specifier against its argument. A mismatch is a compile error, not a silent runtime bug.
-
-| Specifier | Expected type | Typical use                          |
-|-----------|---------------|--------------------------------------|
-| `%i`      | `int`         | Signed decimal integer               |
-| `%u`      | `int`         | Unsigned-style integer formatting    |
-| `%x`      | `int`         | Hexadecimal                          |
-| `%b`      | `int`         | Binary                               |
-| `%p`      | `int`         | Pointer-style / address formatting   |
-| `%f`      | `float`       | Floating-point                       |
-| `%s`      | `string`      | String                               |
-| `%z`      | `bool`        | Boolean (`true` / `false`)           |
-| `%%`      | (none)        | Literal percent sign                 |
-
-Example mixing integers with a helper call:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn sum(int a, int b) -> int {
-    return a + b;
+    let _ = println("working on " + name);
 }
 
 fn main() {
-    write_all(stdout(), to_bytes(format("%u", 2 + 2 + sum(2, 2))));
-    write_all(stdout(), to_bytes(format("%u", 2 + 2 + 2 + 2)));
+    work("report");
 }
 ```
 
-Output: `88`.
+Output:
 
-Common type errors:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-write_all(stdout(), to_bytes(format("%i", "hello")));  // error: %i requires int
-write_all(stdout(), to_bytes(format("%s", 42)));       // error: %s requires string
-write_all(stdout(), to_bytes(format("%f", 1)));        // error: %f requires float (use 1.0)
+```text
+working on report
+done: report
 ```
 
----
+## Putting it together: FizzBuzz
 
-## Expressions vs statements
-
-Understanding the distinction keeps programs predictable.
-
-| Concept      | Ends with `;`? | Produces a value? | Example                    |
-|--------------|----------------|-------------------|----------------------------|
-| Expression   | Optional       | Yes               | `2 + 2`, `fib(10)`, `x`    |
-| Statement    | Usually yes    | Often no          | `let x = 5;`, `write_all(...);` |
-
-- **Expression statement**: an expression followed by `;`. The value is evaluated and discarded — e.g. `add(3, 4);`.
-- **`let` binding**: a statement that introduces a name; not an expression (you cannot write `let y = let x = 5;`).
-- **`return`**: a statement that exits the function with a value.
-- **Blocks**: the last expression in a block may be used as the block's value in expression contexts; in statement-only contexts each inner line is typically a statement.
-
-Function calls, arithmetic, and comparisons are expressions and can nest:
+Print the numbers from 1 to 15, but `Fizz` for multiples of 3, `Buzz` for
+multiples of 5 and `FizzBuzz` for multiples of both:
 
 ```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-return fib(n - 1) + fib(n - 2);
-write_all(stdout(), to_bytes(format("%u", 2 + 2 + sum(2, 2))));
-```
+use io::sync::{println};
+use string::{format};
 
----
-
-## Operator precedence (overview)
-
-coil uses a Pratt parser with familiar C-like precedence. From highest to lowest (approximate):
-
-1. Postfix: field access (`.field`), function call `()`
-2. Prefix: `-`, `+`, `~`, `!`
-3. Exponentiation: `**` (right-associative)
-4. Multiplicative: `*`, `/`, `%`
-5. Additive: `+`, `-`
-6. Shifts: `<<`, `>>`
-7. Bitwise: `&`, `^`, `|`
-8. Comparisons: `==`, `!=`, `<`, `<=`, `>`, `>=`
-9. Logical: `&&`, `||`
-10. Assignment: `=`
-
-When in doubt, parenthesise:
-
-```coil
-((2 + 2) * 2) + -3
-(2 + 2) * (2 + 2)
-```
-
-For the full precedence table and associativity rules, see [Operator reference](/docs/references/operators).
-
----
-
-## Worked examples
-
-The following examples build on each other. Read them in order, then run them locally.
-
-### Step 1 — Fibonacci (`examples/fib.hy`)
-
-Recursive functions, `if`, and formatted integer output:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn fib(int n) -> int {
-    if n <= 2 {
-        return 1;
+fn fizzbuzz(int n) -> string {
+    if n % 15 == 0 {
+        return "FizzBuzz";
     }
-
-    return fib(n - 1) + fib(n - 2);
-}
-
-fn main() {
-    write_all(stdout(), to_bytes(format("%i", fib(10))));
-}
-```
-
-Running this prints `55` (the 10th Fibonacci number; `examples/fib.hy` itself computes `fib(32)` = `2178309`). Notice:
-
-- Base case via early `return`.
-- Recursive calls in an expression (`fib(n - 1) + fib(n - 2)`).
-- `%i` matches the `int` return type.
-
-### Step 2 — Variables and reassignment (`examples/let_test.hy`)
-
-Multiple bindings and reassignment:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn main() {
-    let x = 5;
-    write_all(stdout(), to_bytes(format("%i", x)));
-    let y = 10;
-    write_all(stdout(), to_bytes(format("%i", y)));
-    x = 20;
-    write_all(stdout(), to_bytes(format("%i", x)));
-}
-```
-
-Output: `51020`.
-
-### Step 3 — Calls and arithmetic (`examples/call_test.hy`)
-
-Combine function calls with expression statements and `%u` formatting:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn add(int a, int b) -> int {
-    return a + b;
-}
-
-fn main() {
-    add(3, 4);
-    write_all(stdout(), to_bytes("done"));
-}
-```
-
-And nested arithmetic with a helper:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn sum(int a, int b) -> int {
-    return a + b;
-}
-
-fn main() {
-    write_all(stdout(), to_bytes(format("%u", 2 + 2 + sum(2, 2))));
-    write_all(stdout(), to_bytes(format("%u", 2 + 2 + 2 + 2)));
-}
-```
-
-### Step 4 — FizzBuzz-style output (`examples/fizbuz.hy`)
-
-Independent `if` checks (not `else if`) so multiples of both 3 and 5 write both fragments:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn fizbuz(int n) {
-    if (n % 3) == 0 {
-        write_all(stdout(), to_bytes("FIZ"));
+    if n % 3 == 0 {
+        return "Fizz";
     }
-    if (n % 5) == 0 {
-        write_all(stdout(), to_bytes("BUZ"));
+    if n % 5 == 0 {
+        return "Buzz";
+    }
+    return format("%i", n);
+}
+
+fn main() {
+    for n in 1..=15 {
+        println(fizzbuzz(n))?;
     }
 }
-
-fn main() {
-    fizbuz(1);
-    fizbuz(2);
-    fizbuz(3);
-    fizbuz(4);
-    fizbuz(5);
-    fizbuz(6);
-    fizbuz(7);
-    fizbuz(8);
-    fizbuz(9);
-    fizbuz(10);
-    fizbuz(11);
-    fizbuz(12);
-    fizbuz(13);
-    fizbuz(14);
-    fizbuz(15);
-}
 ```
 
-For `n = 15`, both conditions hold, so output includes `FIZBUZ`. For `n = 3`, only `FIZ` prints.
+Output:
 
-**Stretch goal:** rewrite `main` with a `while` loop that calls `fizbuz(i)` for `i` from 1 to 15 instead of listing each call.
-
----
-
-## Common pitfalls
-
-1. **Forgetting semicolons** — Statements like `let`, `return`, and expression statements such as `write_all(...);` need a trailing `;`.
-
-2. **Using `let` on reassignment** — Write `x = 10;`, not `let x = 10;` again (that would shadow or error depending on scope).
-
-3. **Non-boolean conditions** — `if 1 { ... }` and `while 1 { ... }` fail typechecking. Use comparisons: `if x > 0 { ... }`.
-
-4. **Format specifier mismatches** — `%i` requires `int`, `%f` requires `float` (`1.0` not `1`), `%s` requires `string`. The checker catches these before run time.
-
-5. **Float vs int literals** — `1.0` is a float; `1` is an int. Mixing them in arithmetic may require an explicit cast or a float literal where `%f` is used.
-
-6. **Discarding return values accidentally** — `add(3, 4);` computes `7` and throws it away. Assign or write the result when you need it: `let r = add(3, 4);` or `write_all(stdout(), to_bytes(format("%i", add(3, 4))));`.
-
-7. **`else if` vs separate `if`s** — Chained `else if` runs at most one branch. Separate `if` statements can each run (as in FizzBuzz when a number is divisible by both 3 and 5).
-
-8. **Missing `return` on non-unit functions** — Falling off the end is only allowed for unit (and open) returns. `-> int` / `-> string` / `Option` / … need an explicit `return` on every path (or a proven `while true` loop). Use `return;` for early exit from unit functions.
-
-9. **Parentheses in tuples vs grouping** — `(1 + 2)` is a grouped expression; `(1, 2)` is a two-element tuple (covered in [Aggregates](/docs/manual/tutorial/05-aggregates)). A single-element tuple requires a trailing comma: `(1,)`.
-
----
+```text
+1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+FizzBuzz
+```
 
 ## Exercises
 
-1. Write `fn double(int n) -> int` and write `double(21)` from `main`.
+1. Write `fn max(int a, int b) -> int` and print `max(3, 9)`.
+2. Print the first 10 Fibonacci numbers with a `while` loop.
+3. Change FizzBuzz to read the upper limit from a variable, and print
+   `Fizz` for multiples of 7 instead of 3.
 
-2. Extend the Fibonacci example to write `fib(0)` through `fib(10)` on one line using a `while` loop.
-
-3. Write a function `abs(int n) -> int` using `if`/`else` (no built-in `abs` assumed).
-
-4. Use `defer` in a function that writes `"enter"`, does work, and relies on defer to write `"leave"`. Confirm LIFO order with two defers.
-
-5. Fix the type errors in this snippet (there are three):
-   ```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-   fn main() {
-       write_all(stdout(), to_bytes(format("%f", 3)));
-       write_all(stdout(), to_bytes(format("%s", 100)));
-       if 1 {
-           write_all(stdout(), to_bytes("always"));
-       }
-   }
-   ```
-
----
-
-## See also
-
-- [Chapter 2 — Types and Variables](/docs/manual/tutorial/02-types-and-variables) — annotations, inference, and type errors
-- [Operator reference](/docs/references/operators) — full precedence and associativity
-- [Aggregates](/docs/manual/tutorial/05-aggregates) — tuples, arrays, records (coming in the tutorial track)
-- `examples/fib.hy`, `examples/let_test.hy`, `examples/fizbuz.hy` — source for the worked examples above
+Next: [Chapter 2 — Types and variables](/docs/manual/tutorial/02-types-and-variables).

@@ -1,0 +1,109 @@
+---
+title: "Arrays and `Vec`"
+description: coil splits fixed-size arrays from growable vectors (Rust-style).
+---
+
+# Arrays and `Vec`
+
+coil splits fixed-size arrays from growable vectors (Rust-style).
+
+## Fixed arrays — `[T; N]`
+
+Homogeneous, fixed length. `N` is part of the type and is **inferred** from
+literals when possible; otherwise it must be written explicitly.
+
+```coil
+let a = [1, 2, 3];          // [int; 3]
+let b: [int; 3] = [0, 0, 0];
+a[1] = 9;                   // element assign only
+```
+
+| Rule | Behavior |
+|------|----------|
+| Literal `[e, …]` | Infers `[T; N]` with `N =` element count |
+| Literal where `Vec<T>` is expected | Builds the `Vec` (`let v: Vec<int> = [1, 2]`, `sum([1, 2])`) |
+| Annotation `[T]` | **Error** (`E0119`), in params and returns too — use `[T; N]` or `Vec<T>` |
+| Empty `[]` | Only under `Vec<T>` or `[T; 0]` |
+| Growth | **Forbidden** — no `arr[] =`; use `Vec` |
+
+Locals of type `[T; N]` (`N ≥ 1`) are laid out as **N consecutive frame slots**.
+Each slot holds one `Value`:
+
+| Element `T` | Slot contents |
+|-------------|---------------|
+| `int` / `float` / `bool` / `byte` | Immediate bits (fully on the stack) |
+| `string`, class, enum, `Vec`, … | Heap pointer |
+| Nested `[U; M]` | Heap pointer to an `ObjArray` row (nested data is **not** flattened) |
+
+Escaping into a single-value context (call, return, store into a heap object)
+boxes the spine into a non-growable heap array. Copying or assigning one stack
+array local into another copies slots without boxing (forward per-element
+`STORE`, so values never pile into the destination slot range).
+
+`[T; 0]` stays a single empty heap array. Params/returns of `[T; N]` still pass
+one heap pointer at the call boundary today, so a parameter aliases the
+caller's array: a callee's `a[0] = 0` is seen by the caller. Copy into a local
+first (`let b = a;`) when the callee must not change the caller's array.
+
+`x.len()` is the one length spelling (the free `len(x)` was removed; calling it is `E0101`). Structural array / `Vec` / tuple / string `.len()` lowers to `ArrayLen`, or a constant for a fixed size. Element-wise zip / LA helpers
+still require fixed lengths.
+
+## `Vec<T>` — growable heap vector
+
+```coil
+let v: Vec<int> = Vec::new();
+v.push(1);
+v.push(2);
+let x = v[0];
+v[0] = 7;
+match v.pop() {
+    Option::Some(n) => { /* … */ },
+    Option::None => { /* … */ },
+};
+```
+
+### Methods
+
+| Method | Notes |
+|--------|--------|
+| `Vec::new()` | Empty vector |
+| `Vec::with_capacity(n)` | Empty with reserved capacity |
+| `Vec::from(arr)` | Copy a fixed `[T; N]` into a `Vec` |
+| `v.push(x)` | Append |
+| `v.pop()` | `Option<T>` |
+| `v.insert(i, x)` | Insert at index (panics if `i` is out of range) |
+| `v.remove(i)` | `Option<T>` |
+| `v.clear()` | Drop all elements |
+| `v.reserve(n)` | Ensure capacity for `len + n` |
+| `v.capacity()` / `v.len()` | Ints |
+| `v[i]` / `v[i] = x` | Index get/set (see [Out-of-range index](#out-of-range-index)) |
+| `(0..n).to_vec()` | Collect a numeric `Range` / `RangeInclusive` into `Vec<T>` |
+
+Rest parameters `T... xs` pack into `Vec<T>`. Spread accepts `[T; N]` anywhere
+in the arguments. A `Vec<T>` spread must be the last argument and fill a
+`T... xs` rest parameter: `f(...v)` passes `v` itself as the pack, which is how
+a rest pack is forwarded. A `Vec` has no static length, so spreading one into
+fixed parameters is error E0119.
+
+Numeric ranges (`int` / `byte` / `float`) expose inherent `.to_vec()` — same
+step and empty-decreasing rule as `for`. See [Ranges](/docs/language/syntax#ranges-lazy).
+
+IO buffers (`to_bytes`, `read`/`write`) use `Vec<byte>`.
+
+## Out-of-range index
+
+Runtime `a[i]` / `v[i]` **panics** on a negative or too-large index, or a
+non-array target. A write `v[i] = x` with a bad index also panics. The
+expression type stays `T` (not `Result`). Literal OOB on `[T; N]` and
+tuples is a compile error.
+
+Proven counted-loop reads/writes rewrite to unchecked / pin opcodes
+(archive minor 12–13). Prefer `i < a.len()` in loops.
+
+---
+
+## Related
+
+- [Types](/docs/language/types)
+- [Syntax](/docs/language/syntax)
+- Example: `examples/vec.hy`

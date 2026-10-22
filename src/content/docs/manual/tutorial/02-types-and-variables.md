@@ -1,466 +1,270 @@
 ---
-title: Chapter 2 — Types and Variables
-description: Chapter 1 showed how to write programs; this chapter explains how coil reasons about those programs. Every expression has a type. The compiler checks types before your program…
+title: Chapter 2 — Types and variables
+description: "Coil's built-in types, how inference and annotations work, conversions with as, strings, tuples, records, constants and readonly values."
 ---
 
-# Chapter 2 — Types and Variables
+# Chapter 2 — Types and variables
 
-Chapter 1 showed how to write programs; this chapter explains how coil **reasons about** those programs. Every expression has a type. The compiler checks types before your program runs, catching mistakes like passing a string where an integer is expected or calling an unknown function.
+Every value in Coil has a type that is known when the program compiles. You
+rarely have to write types down, because the compiler infers them, but
+knowing them helps you read error messages and design your own types.
 
----
+## The built-in types
 
-## Type annotations
+| Type | Values | Example |
+|------|--------|---------|
+| `int` | 64-bit signed integers | `42`, `-7`, `1000000` |
+| `float` | 64-bit floating point | `3.14`, `-0.5`, `1.0` |
+| `bool` | `true` or `false` | `x > 3` |
+| `string` | UTF-8 text | `"héllo"`, `"tab\there"` |
+| `byte` | integers from 0 to 255 | `let b: byte = 200;` |
+| `unit` | "nothing", the result of a function with no return type | `()` |
 
-Types can appear in three main places.
+A few rules that differ from some other languages:
 
-### On `let` bindings
+- `int` arithmetic that overflows stops the program with a panic instead of
+  wrapping around silently. `byte` arithmetic wraps modulo 256, and the
+  compiler warns where it does.
+- Integer division rounds toward zero: `7 / 2` is `3` and `-7 / 2` is `-3`.
+  Use floats for fractions: `7.0 / 2.0` is `3.5`.
+- A float literal needs a decimal point: `1.0`, not `1`. `int` and `float`
+  never mix silently, so `1 + 0.5` is an error; convert one side first.
+- Conditions must be `bool`. There is no "truthy" `0` or empty string.
+
+Each type has a reference page with its operations: [`int`](/docs/reference/types/int),
+[`float`](/docs/reference/types/float), [`string`](/docs/reference/types/string),
+[`bool`](/docs/reference/types/bool), [`byte`](/docs/reference/types/byte).
+
+## Inference and annotations
+
+The compiler works out the type of each variable from its value and from how
+it is used. Annotations are optional, but you can add one wherever it makes
+the code clearer:
 
 ```coil
-let x: int = 5;
-let name: string = "coil";
-let flag: bool = false;
+let count = 10;            // int
+let ratio = 0.75;          // float
+let label: string = "ok";  // annotated
 ```
 
-When you omit the annotation, the compiler infers the type from the initializer:
+Function parameters and return types are always written out, so a
+function's signature tells you exactly what it takes and gives back.
 
-```coil
-let x = 5;        // inferred as int
-let pi = 3.14;    // inferred as float
-```
+When types do not fit, the compiler says so before the program runs:
 
-Explicit annotations are useful when the initializer is ambiguous, when you want readable documentation, or when inference would pick a type you did not intend.
-
-### On function parameters
-
-```coil
-fn distance(int x, int y) -> int {
-    return x + y;
+```coil fail
+fn main() {
+    let count = 5;
+    count = "five";
 }
 ```
 
-Each parameter requires a type name before the parameter name: `Type param`.
-
-### On return types
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn add(int a, int b) -> int {
-    return a + b;
-}
-
-fn greet() {
-    write_all(stdout(), to_bytes("hello"));
-}
+```text
+Error: [E0102] Type mismatch: expected `int`, found `string`
 ```
 
-The `-> RetType` clause is optional. Functions with no meaningful return value may omit it (they effectively return unit).
+Every error has a code like `E0102`; the [error code list](/docs/language/error-codes)
+explains each one.
 
-From `examples/aliases.hy`, annotations on both parameter and `let`:
+## Converting between types
+
+`as` converts between the numeric types and `bool`:
 
 ```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-type Point = (int, int);
-
-fn distance(Point p) -> int {
-    let dx = p[0];
-    let dy = p[1];
-    return dx + dy;
-}
+use io::sync::{println};
+use string::{format};
 
 fn main() {
-    let p: Point = (3, 4);
-    write_all(stdout(), to_bytes(format("%i", distance(p))));
+    let apples = 7;
+    let people = 2;
+    let share = apples as float / people as float;
+    println(format("each gets %f apples", share))?;
+
+    let rounded_down = 3.99 as int;          // 3: `as` truncates toward zero
+    println(format("%i", rounded_down))?;
 }
 ```
 
----
+Output:
 
-## Primitive types
-
-coil provides five primitive type names used in everyday programs:
-
-| Type     | Literal examples   | Notes                                      |
-|----------|--------------------|--------------------------------------------|
-| `int`    | `0`, `-42`, `100`  | Signed 64-bit integer; `+ - * / % **` panic with `integer overflow` instead of wrapping (wrapping / checked / saturating helpers live in coil-stdlib's `arith`) |
-| `float`  | `1.0`, `3.14`      | IEEE-style floating point                  |
-| `byte`   | `0`…`255` (as `int` literal with annotation) | `0..=255`, arithmetic wraps modulo 256; used for IO buffers (`Vec<byte>`) |
-| `string` | `"hello"`          | Immutable string data                      |
-| `bool`   | `true`, `false`    | Boolean                                    |
-| `void`   | (no literal)       | **FFI only** — marks functions that return nothing to C/host code |
-
-Built-in primitive names are matched **case-insensitively** at typecheck time: `int`, `Int`, and `INT` are equivalent. The same applies to `string` / `String`, etc.
-
-`void` appears primarily in foreign-function signatures:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn main() -> void {
-    write_all(stdout(), to_bytes("Hello, World!"));
-}
+```text
+each gets 3.5 apples
+3
 ```
 
-For ordinary coil functions, omit the return type instead of writing `-> void`.
+Strings are not converted with `as`. Use `format` or `show` to turn a value
+into text, and [`conv::parse_int`](/docs/reference/conv/parse_int) or
+[`conv::parse_float`](/docs/reference/conv/parse_float) to read a number
+from text. Parsing can fail, so those return a `Result`, which chapter 6
+covers. The [casts page](/docs/language/casts) lists every conversion.
 
----
+## Strings
 
-## Type inference
-
-coil uses a constraint-based typechecker. Generics are explicit (`fn f<T>`, `class C<T>`); `let` bindings are not generalized. You do not need to annotate every name — the compiler deduces types by analyzing how values flow through your program.
-
-### What inference handles well
-
-**Literals** — each literal form maps to a fixed primitive type:
-
-```coil
-let n = 42;           // int
-let pi = 3.14;        // float
-let msg = "hi";       // string
-let ok = true;        // bool
-```
-
-**Binary operations** — operand types are unified. Adding two ints yields int; adding two floats yields float. Mixing incompatible types (e.g. `int + string`) is an error.
-
-**Function calls** — the checker verifies arity and unifies argument types with parameter types:
+Strings are immutable UTF-8 text. `+` joins them, `==` compares contents and
+`<` orders them. `len()` counts bytes, which is the number of characters
+only for ASCII text:
 
 ```coil
-fn add(int a, int b) -> int { return a + b; }
+use io::sync::{println};
+use string::{format};
+use text::{contains, starts_with};
 
 fn main() {
-    let sum = add(2, 2);   // sum : int
+    let first = "Ada";
+    let full = first + " Lovelace";
+    println(full)?;
+    println(format("%i bytes", "héllo".len()))?;
+    println(format("%z %z", contains(full, "Love"), starts_with(full, "Bob")))?;
 }
 ```
 
-**Return paths** — every `return expr;` in a function must agree with the declared return type (or with other return paths when inference fills in the return type).
+Output:
 
-**Generic calls** — calling a generic function (`fn id<T>(T x) -> T`) instantiates `T` from the arguments at each call site. A `let` binding itself is monomorphic: it gets one type, fixed by its initializer and later uses.
-
-### When to annotate anyway
-
-- Public or exported APIs where readers need the contract spelled out.
-- Empty or minimal initializers where inference has little to go on.
-- Tuple, array, and alias types where the shape matters (see [Aggregates](/docs/manual/tutorial/05-aggregates)).
-- Disambiguating numeric literals when you need `float` but wrote an expression that looks integral.
-
-Inference is not magic: it reports all type errors it finds in one pass, with source locations, so you can fix multiple issues before recompiling.
-
----
-
-## Type errors and what they mean
-
-The typechecker emits diagnostics anchored to your source. Common messages:
-
-### `Cannot find value 'x' in this scope`
-
-You referenced a name that was never bound, or it is out of scope (e.g. a `let` inside an inner block):
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn main() {
-    write_all(stdout(), to_bytes(format("%i", x)));   // error: x not declared
-}
+```text
+Ada Lovelace
+6 bytes
+true false
 ```
 
-**Fix:** Add `let x = ...;` above the use, or move the use into the block where `x` is defined.
+The stdlib module [`text`](/docs/reference/text) has the everyday string
+functions: `split`, `trim`, `replace`, `to_upper`, `find`, `join` and more.
+Some of them return a `Result`; you will see how to use those in chapter 6.
 
-### `Cannot find function 'foo'`
+## Tuples
 
-No function with that name is visible (typo, wrong module import, or missing declaration):
-
-```coil
-fn main() {
-    bar(1);   // error if bar is not declared
-}
-```
-
-**Fix:** Declare `fn bar(...) { ... }` or import the correct module (see the modules tutorial when available).
-
-### `Type mismatch: expected 'int', found 'string'`
-
-Two types that must be the same were incompatible:
+A tuple groups a fixed number of values, possibly of different types. Index
+it with a constant, or unpack it with `let`:
 
 ```coil
-let x: int = "hello";   // error
-return "text";          // inside fn f() -> int { ... }
-```
+use io::sync::{println};
+use string::{format};
 
-**Fix:** Change the expression, or change the annotation/return type to match reality.
-
-### Format specifier errors
-
-`string::format` validates each `%` specifier against the corresponding argument:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-write_all(stdout(), to_bytes(format("%i", "hello")));   // %i requires int
-write_all(stdout(), to_bytes(format("%s", 42)));        // %s requires string
-write_all(stdout(), to_bytes(format("%f", 1)));         // %f requires float — use 1.0
-write_all(stdout(), to_bytes(format("%z", 1)));         // %z requires bool
-```
-
-**Fix:** Use the correct specifier or convert/coerce the value to the expected type.
-
-### `Cannot assign to undeclared variable 'x'`
-
-Assignment (`x = expr;`) requires an existing binding from `let`:
-
-```coil
-fn main() {
-    x = 10;   // error: x was never declared with let
-}
-```
-
-**Fix:** `let x = 0;` before assigning.
-
-### Assignment and immutability of binding targets
-
-Only simple variables and certain l-values (e.g. field access on records) are valid assignment targets. Assigning to literals or malformed left-hand sides produces a targeted error with a help message.
-
----
-
-## `let` binding semantics
-
-At run time, a `let x = expr;` binding:
-
-1. Evaluates `expr` and pushes the result on the operand stack.
-2. Writes that value into the **slot** reserved for `x` (via the `STORE` instruction).
-3. Advances the stack cursor so later expressions do not overwrite the slot accidentally.
-
-This matters when you bind several variables in sequence:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-let x = 5;
-let y = 10;
-write_all(stdout(), to_bytes(format("%i", x + y)));   // 15 — x's slot is preserved
-```
-
-**Reassignment** (`x = expr;`) uses the same slot-write path: the old value is replaced.
-
-### `const` bindings
-
-`const` forbids **rebinding** the name — the slot cannot be reassigned with `x = …`:
-
-```coil
-const VERSION = "1.0";
-// VERSION = "2.0";   // error: cannot assign to const binding
-```
-
-`const` is **shallow**: if the initializer is heap-mutable (`Vec<T>`, a class instance, a record, or a fixed `[T; N]` array, whatever its element type: `const a = [1, 2, 3];` warns because `a[0] = 9;` still succeeds), the compiler emits a warning that interior mutation (fields, indices) still succeeds. Scalars, strings, tuples, and enums without interior paths do not warn, and neither does a `readonly` value (`const p = readonly new Point(1, 2);`), which is sealed all the way down. Opaque handles (an IO `Stream` such as `const OUT = stdout();`, and the `thread` handles `Thread`, `Sender`, `Receiver`, `Mutex`, `RwLock`) do not warn either: they have no fields or indices to write through.
-
-### Module `const` and `static let`
-
-At the top of a module, `const` names a value that cannot be rebound, and `static let` a variable the whole program shares:
-
-```coil
-const VERSION = "1.0";          // known at compile time: inlined
-const PRIMES = [2, 3, 5, 7];    // computed once at startup
-static let hits = 0;            // reassignable
-```
-
-A `const` whose value is not known at compile time (an array, a function call) is computed once in the program prologue (before `main`), in module dependency order, as is every `static let`. Other modules import the item name via `use` like ordinary functions. The old `static const` spelling still compiles with a warning; write `const`.
-
-Write a lookup table as a `const` set to a `readonly` array. Nothing can change its elements, so a read at an index known at compile time (`SBOX[3]`, `SBOX.len()`) is replaced by the value, and a read with a variable index is one load. Inside a function, a `const` table of literals is built on the first call and reused after that, instead of a new array on every call:
-
-```coil
-const SQUARES = readonly [0, 1, 4, 9, 16, 25];
-
-fn nibble_bits(int x) -> int {
-    const BITS = readonly [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
-    return BITS[x & 15] + BITS[(x >> 4) & 15];
-}
-```
-
-Class statics use `ClassName::field` / `ClassName::method(...)` — see [Types — Static slots](/docs/references/types#static-slots) and `examples/static_singleton.hy`.
-
-A `const` or `static` that holds a function is called like one, by its bare name, through another module's path, or as a class static field:
-
-```coil
-fn twice(int x) -> int {
-    return x * 2;
-}
-
-const TWICE = twice;
-
-class Ops {
-    pub static triple: fn(int) -> int = fn (int x) => x * 3,
-}
-
-let a = TWICE(4);          // 8
-let b = Ops::triple(4);    // 12
-// from another module: `ops::TWICE(4)`
-```
-
-### `readonly` values
-
-`readonly` seals a value: nothing reachable through it can be changed, by a write or by a method that mutates `self`:
-
-```coil
-let xs = readonly [1, 2, 3];
-let p = readonly new Point(1, 2);
-```
-
-Rebinding the variable is allowed; writing through it (`p.x = …`, `xs[i] = …`) is rejected, and so is calling a method that mutates `self` (`p.shift()`); methods that only read work as usual. The seal is deep: fields, elements, loop variables and matched payloads read from a readonly value are readonly too, and a readonly value cannot be passed, stored or returned where a plain (non-readonly) type is expected.
-
-`readonly T` is also a type, so a function that only reads says so, and accepts both kinds of value:
-
-```coil
-fn total(readonly Point p) -> int {
-    return p.x + p.y;   // `p.x = 0;` would not compile
-}
-
-let a = new Point(1, 2);
-let b = readonly new Point(3, 4);
-let sum = total(a) + total(b);
-let c: readonly Point = a;   // `readonly e` works on any expression too: `readonly a`
-```
-
-`const` and `readonly` are independent: `const` locks the **name**, `readonly` locks the **value**.
-
-|  | mutable value | `readonly` value |
-|---|---|---|
-| `let` | `let p = new Point(1, 2);` | `let p: readonly Point = …;` / `let p = readonly new Point(1, 2);` |
-| `const` | `const p = new Point(1, 2);` (warns: the value is still mutable) | `const p = readonly new Point(1, 2);` fully frozen, no warning |
-
-See `examples/readonly_seal.hy` and [Types — Readonly](/docs/references/types#readonly-types).
-
-**Reading** a variable emits a load from that slot. The typechecker ensures you only assign types compatible with the binding's declared or inferred type.
-
-Implications for you as a programmer:
-
-- Each `let` introduces a **new** slot in the current frame (function activation).
-- Order matters: use `let` before reading the name.
-- Shadowing inner names is allowed by the parser, but inner bindings hide outer ones for the duration of the inner block — prefer distinct names when learning.
-
----
-
-## Classes (brief overview)
-
-coil supports class declarations and `impl` blocks for methods. From `examples/classes.hy`:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-class Point {
-    pub x: int,
-    pub y: int,
-}
-
-impl Point {
-    pub fn sum() -> int {
-        return self.x + self.y;
+fn min_max(int a, int b) -> (int, int) {
+    if a < b {
+        return (a, b);
     }
-
-    pub fn set_x(int n) {
-        self.x = n;
-    }
+    return (b, a);
 }
 
 fn main() {
-    let p = new Point(1, 3);
-    write_all(stdout(), to_bytes(format("%i", p.sum())));   // 4
-    p.set_x(5);
-    write_all(stdout(), to_bytes(format("%i", p.x)));       // 5
+    let pair = min_max(9, 4);
+    println(format("smallest %i", pair[0]))?;
+    let (low, high) = min_max(9, 4);
+    println(format("%i..%i", low, high))?;
 }
 ```
 
-Key points today:
+Output:
 
-- **`class Name { field: Type, ... }`** declares fields. Fields and methods are private to the class unless marked `pub`.
-- **`impl Name { fn method(...) -> Ret { ... } }`** attaches methods; `self` is the receiver.
-- **`new Point(1, 3)`** allocates an instance on the heap, taking one argument per field in declaration order.
+```text
+smallest 4
+4..9
+```
 
-See `examples/classes.hy`, `examples/static_ctor.hy` and [Types](/docs/references/types) for static members, generic classes and traits.
+## Records
 
----
+A record is a set of named fields, written in braces. It needs no
+declaration, which makes it handy for small, local groupings:
+
+```coil
+use io::sync::{println};
+use string::{format};
+
+fn main() {
+    let book = { title: "Dune", year: 1965 };
+    book.year = 1966;
+    println(format("%s (%i)", book.title, book.year))?;
+    println(format("%v", book))?;
+}
+```
+
+Output:
+
+```text
+Dune (1966)
+{ title: Dune, year: 1966 }
+```
+
+For anything with behaviour or a name of its own, declare a class
+(chapter 4) or an enum (chapter 5).
 
 ## Type aliases
 
-Give a readable name to an existing type:
+`type` gives an existing type a second name. It is the same type, only
+easier to read:
 
 ```coil
-type Point = (int, int);
+type Point = (float, float);
 
-fn length(Point p) -> int {
-    return p[0] + p[1];
+fn midpoint(Point a, Point b) -> Point {
+    return ((a[0] + b[0]) / 2.0, (a[1] + b[1]) / 2.0);
 }
 ```
 
-Aliases are **purely compile-time**: they expand during typechecking and have **zero run-time cost**. They do not create a new distinct type in the nominal sense — two names for the same structure unify structurally.
+## Constants and shared variables
 
-Rules of thumb:
-
-- Declare aliases where they are used: `type Name = T;`
-- The right-hand side can be any type annotation form: primitives, tuples, arrays, fixed arrays, or class names.
-- Inner blocks may shadow outer aliases; duplicate aliases in the same scope are rejected.
-
-Full treatment of aliases alongside tuples and arrays appears in [Chapter 5 — Aggregates](/docs/manual/tutorial/05-aggregates). See `examples/aliases.hy` for a runnable example.
-
----
-
-## Putting it together
-
-A small program that combines annotations, inference, and checked output:
+At the top of a file, `const` names a value that never changes and
+`static let` declares a variable the whole program shares:
 
 ```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn clamp(int lo, int hi, int v) -> int {
-    if v < lo {
-        return lo;
-    }
-    if v > hi {
-        return hi;
-    }
-    return v;
+use io::sync::{println};
+use string::{format};
+
+const MAX_RETRIES = 3;
+static let attempts = 0;
+
+fn try_once() -> bool {
+    attempts += 1;
+    return attempts >= 2;
 }
 
 fn main() {
-    let x = clamp(0, 100, 150);   // inferred int
-    write_all(stdout(), to_bytes(format("%i", x)));                 // 100
-    write_all(stdout(), to_bytes(format("%z", x == 100)));          // true
+    while attempts < MAX_RETRIES {
+        if try_once() {
+            break;
+        }
+    }
+    println(format("succeeded after %i attempts", attempts))?;
 }
 ```
 
-If you change `clamp` to return `"100"` (string), the checker reports a `Type mismatch` on `return` before you run the program.
+Output:
 
----
+```text
+succeeded after 2 attempts
+```
+
+`const` also works inside a function, for a local that must not be
+reassigned. Assigning to a constant is a compile error.
+
+## Readonly values
+
+`const` stops a *name* from being reassigned, but the value behind it can
+still change: a constant array's elements can be written. `readonly` seals
+the *value* instead, all the way down:
+
+```coil fail
+fn main() {
+    let primes = readonly [2, 3, 5, 7];
+    primes[0] = 1;
+}
+```
+
+```text
+Error: [E0107] Cannot mutate a `readonly` value
+```
+
+`readonly T` is a type too, so a function can promise it only reads its
+argument: `fn total(readonly Vec<int> xs) -> int`. Both readonly and
+ordinary values can be passed to it.
 
 ## Exercises
 
-1. Add explicit types to every binding in `examples/let_test.hy` without changing behavior.
+1. Write `fn average(int a, int b, int c) -> float` and print the average
+   of 1, 2 and 4.
+2. Make a record for a city with a name and a population, increase the
+   population, and print it with `%v`.
+3. What does `format("%i", 255 as byte as int + 1)` produce, and why is
+   `(255 as byte) + 1 as byte` different?
 
-2. Write a function `max(int a, int b) -> int` and a `main` that writes the result. Remove the return type and confirm inference still accepts the program.
-
-3. Introduce deliberate errors (one at a time) and record the diagnostic text:
-   - unknown variable
-   - wrong `format` specifier
-   - assignment without `let`
-
-4. Declare `type UserId = int;` and write `fn fetch(UserId id) -> int` that returns `id * 2`. Call it from `main`.
-
-5. Remove `pub` from `Point::sum` in `examples/classes.hy` and read the diagnostic the call in `main` now produces.
-
----
-
-## See also
-
-- [Chapter 1 — Basics](/docs/manual/tutorial/01-basics) — syntax, control flow, and stdout
-- [Chapter 5 — Aggregates](/docs/manual/tutorial/05-aggregates) — tuples, arrays, records, and aliases in depth
-- [Operator reference](/docs/references/operators) — operators and operand types
-- `examples/let_test.hy` — binding and reassignment
-- `examples/aliases.hy` — type alias end-to-end
-- `examples/classes.hy` — class syntax snapshot
+Next: [Chapter 3 — Collections](/docs/manual/tutorial/03-collections).

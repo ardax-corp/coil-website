@@ -1,0 +1,35 @@
+---
+slug: "macro/Field/attr_str"
+title: "Field::attr_str"
+description: "#[attr(key = \"value\")] on this field, or fallback."
+module: "macro"
+kind: "method"
+name: "attr_str"
+parent: "Field"
+signature: "pub fn attr_str(string attr, string key, string fallback) -> string"
+import: "use macro::{Field};"
+origin: "embedded"
+source: "https://github.com/ardax-corp/coil-lang/blob/cba8e48ffdc03a4068234e57b347406c4b478e0f/compiler/src/prelude/macro.hy#L337"
+order: 1
+---
+
+`#[attr(key = "value")]` on this field, or `fallback`.
+
+Called on a `Field` value as `value.attr_str(…)`.
+
+## Parameters
+
+| Name | Type |
+|------|------|
+| `attr` | `string` |
+| `key` | `string` |
+| `fallback` | `string` |
+
+## Returns
+
+`string`
+
+## See also
+
+- [`Field`](/docs/reference/macro/Field): A class field, or a field of a record enum variant.
+- [`Field::has_attr`](/docs/reference/macro/Field/has_attr): True when the field carries #[name(...)].

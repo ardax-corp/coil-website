@@ -69,7 +69,6 @@ export const categories: PackageCategory[] = [
       {
         name: "tls",
         repo: `${ORG}/coil-tls`,
-        docs: "/docs/references/tls",
         use: "use tls::{client, server};",
         summary: "TLS streams on rustls.",
         detail: 'A native library loaded with dload("tls") that attaches to ordinary io streams.',
@@ -79,7 +78,6 @@ export const categories: PackageCategory[] = [
       {
         name: "crypto",
         repo: `${ORG}/coil-crypto`,
-        docs: "/docs/references/crypto",
         use: "use crypto::{sha256, random_bytes, ct_eq};",
         summary: "Hashing and secure randomness.",
         detail: "sha256, random_bytes and constant-time ct_eq, backed by a native library loaded with dload.",
@@ -94,7 +92,6 @@ export const categories: PackageCategory[] = [
       {
         name: "regex",
         repo: `${ORG}/coil-regex`,
-        docs: "/docs/references/regex",
         use: "use regex::{compile, find_all, Regex};",
         summary: "PCRE2 regular expressions.",
         detail: "PCRE2 bindings loaded through FFI: compile a pattern once, then match and find_all.",
@@ -111,7 +108,6 @@ export const categories: PackageCategory[] = [
       {
         name: "time",
         repo: `${ORG}/coil-time`,
-        docs: "/docs/references/time",
         use: "use time::{timestamp};",
         summary: "Calendar and monotonic time.",
         detail: "UTC timestamps, calendar periods, chrono-style format/parse and Instant for elapsed time.",

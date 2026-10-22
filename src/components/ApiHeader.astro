@@ -1,0 +1,158 @@
+---
+// Title block of an API reference page: kind, path, signature, import line
+// and a link to the source the page was generated from.
+import type { CollectionEntry } from "astro:content";
+import CodeSample from "./CodeSample.astro";
+
+type Props = {
+  data: CollectionEntry<"reference">["data"];
+  moduleHref?: string;
+  parentHref?: string;
+};
+const { data, moduleHref, parentHref } = Astro.props;
+
+const KIND: Record<string, string> = {
+  module: "Module",
+  fn: "Function",
+  method: "Method",
+  "static method": "Associated function",
+  macro: "Macro",
+  class: "Class",
+  enum: "Enum",
+  trait: "Trait",
+  type: "Type alias",
+  const: "Constant",
+  primitive: "Primitive type",
+  keyword: "Keyword",
+};
+const ORIGIN: Record<string, string> = { builtin: "compiler", embedded: "compiler", stdlib: "coil-stdlib" };
+
+const isModule = data.kind === "module";
+const pseudo = data.module === "types" || data.module === "keywords";
+const heading = data.kind === "macro" ? `${data.name}!` : data.parent ? `${data.parent}::${data.name}` : data.name;
+const signatures = data.signatures ?? (data.signature ? [data.signature] : []);
+const sourceFile = data.source?.match(/\/blob\/[0-9a-f]+\/(.+?)(#L\d+)?$/)?.[1];
+---
+
+<header class="api-head">
+  <div class="api-meta">
+    <span class="api-kind">{KIND[data.kind] ?? data.kind}</span>
+    {
+      !isModule && !pseudo && (
+        <span class="api-path">
+          in{" "}
+          {moduleHref ? (
+            <a href={moduleHref}>
+              <code>{data.module}</code>
+            </a>
+          ) : (
+            <code>{data.module}</code>
+          )}
+          {data.parent && parentHref && (
+            <>
+              {" · "}
+              <a href={parentHref}>
+                <code>{data.parent}</code>
+              </a>
+            </>
+          )}
+        </span>
+      )
+    }
+    <span class="api-origin">{data.auto ? "auto-imported" : ORIGIN[data.origin]}</span>
+  </div>
+  <h1>{isModule ? <code>{data.title}</code> : <code>{heading}</code>}</h1>
+  {signatures.map((s) => <CodeSample code={s} class="api-sig" />)}
+  {
+    data.import && (
+      <div class="api-import">
+        <span class="api-label">Import</span>
+        <CodeSample code={data.import} class="api-sig" />
+      </div>
+    )
+  }
+  {
+    data.source && (
+      <a class="api-source" href={data.source}>
+        Source: <code>{sourceFile}</code>
+      </a>
+    )
+  }
+</header>
+
+<style>
+  .api-head {
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .api-meta {
+    align-items: center;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 0.86rem;
+    gap: 0.4rem 0.9rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .api-kind {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .api-origin {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    padding: 0.05rem 0.55rem;
+  }
+
+  .api-path a {
+    color: inherit;
+  }
+
+  .api-head h1 {
+    margin-bottom: 1rem;
+    overflow-wrap: anywhere;
+  }
+
+  .api-head h1 code {
+    background: none;
+    border: 0;
+    font-size: inherit;
+    padding: 0;
+  }
+
+  .api-head :global(.api-sig) {
+    margin: 0.5rem 0;
+  }
+
+  .api-import {
+    align-items: baseline;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .api-label {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  .api-source {
+    color: var(--muted);
+    display: inline-block;
+    font-size: 0.82rem;
+    margin-top: 0.5rem;
+  }
+
+  .api-source:hover {
+    color: var(--accent);
+  }
+</style>

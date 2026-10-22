@@ -1,0 +1,26 @@
+---
+slug: "encoding/index"
+title: "encoding"
+description: "Base64 encoding and decoding."
+module: "encoding"
+kind: "module"
+name: "encoding"
+origin: "stdlib"
+auto: false
+order: 30
+---
+
+Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; with plain `coil`, pass `--root ~/.coil/stdlib/src`.
+
+Import what you use (`use path::*` is not allowed):
+
+```coil
+use encoding::{encode, decode};
+```
+
+## Functions
+
+| Name | Description |
+|------|-------------|
+| [`encode`](/docs/reference/encoding/encode) | Encodes `data` as standard Base64 (RFC 4648 alphabet, with `=` padding). |
+| [`decode`](/docs/reference/encoding/decode) | Decodes standard Base64 text into bytes. |
