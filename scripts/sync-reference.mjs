@@ -469,9 +469,6 @@ function typePage(mod, ty, order) {
   const body = [];
   if (parts.summary) body.push(renderDocs(parts.summary, ctx, mentions), "");
   if (parts.body) body.push(renderDocs(parts.body, ctx, mentions), "");
-  if (ty.invariants?.length) {
-    body.push("## Invariants", "", "```coil", ...ty.invariants.map((i) => `invariant ${i}`), "```", "");
-  }
   const variants = members.filter((m) => m.kind === "variant");
   if (variants.length) {
     body.push("## Variants", "");
@@ -503,6 +500,9 @@ function typePage(mod, ty, order) {
       body.push(`- ${href ? `[\`${t.trait}\`](${href})` : `\`${t.trait}\``} for \`${t.target}\``);
     }
     body.push("");
+  }
+  if (ty.invariants?.length) {
+    body.push("## Invariants", "", "Checked according to `--contracts` (see [Contracts](/docs/language/contracts)).", "", "```coil", ...ty.invariants.map((i) => `invariant ${i}`), "```", "");
   }
   body.push(...trailingSections(parts, ctx, mentions));
   body.push(...seeAlso(parts, ctx, mentions, siblings(mod, ty)));

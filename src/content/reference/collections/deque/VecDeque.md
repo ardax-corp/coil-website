@@ -17,14 +17,6 @@ A double-ended queue: constant-time push and pop at both ends.
 Backed by a ring buffer that doubles when full. Use it as a FIFO queue
 ([`push_back`](/docs/reference/collections/deque/VecDeque/push_back) + [`pop_front`](/docs/reference/collections/deque/VecDeque/pop_front)) or a stack at either end.
 
-## Invariants
-
-```coil
-invariant self.len >= 0 && self.len <= self.cap
-invariant self.head >= 0 && self.head < self.cap
-invariant self.buf.len() == self.cap
-```
-
 ## Associated functions
 
 | Name | Description |
@@ -47,6 +39,16 @@ invariant self.buf.len() == self.cap
 | [`pop_back`](/docs/reference/collections/deque/VecDeque/pop_back) | Removes and returns the back value, or None when the deque is empty. |
 | [`clear`](/docs/reference/collections/deque/VecDeque/clear) | Removes every value, keeping the capacity. |
 | [`to_vec`](/docs/reference/collections/deque/VecDeque/to_vec) | Returns the values front to back as a new Vec. |
+
+## Invariants
+
+Checked according to `--contracts` (see [Contracts](/docs/language/contracts)).
+
+```coil
+invariant self.len >= 0 && self.len <= self.cap
+invariant self.head >= 0 && self.head < self.cap
+invariant self.buf.len() == self.cap
+```
 
 ## Examples
 

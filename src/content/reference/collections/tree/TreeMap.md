@@ -19,15 +19,6 @@ and [`min_key`](/docs/reference/collections/tree/TreeMap/min_key) / [`max_key`](
 keys that are already sorted makes lookups linear, so prefer `HashMap` when you
 do not need the order.
 
-## Invariants
-
-```coil
-invariant self.len >= 0 && self.len <= self.keys.len()
-invariant self.vals.len() == self.keys.len()
-invariant self.left.len() == self.keys.len() && self.right.len() == self.keys.len()
-invariant (self.root < 0) == (self.len == 0)
-```
-
 ## Fields
 
 | Field | Type | Description |
@@ -63,6 +54,17 @@ invariant (self.root < 0) == (self.len == 0)
 ## Trait implementations
 
 - [`IntoIterator`](/docs/reference/prelude/IntoIterator) for `TreeMap<K, V>`
+
+## Invariants
+
+Checked according to `--contracts` (see [Contracts](/docs/language/contracts)).
+
+```coil
+invariant self.len >= 0 && self.len <= self.keys.len()
+invariant self.vals.len() == self.keys.len()
+invariant self.left.len() == self.keys.len() && self.right.len() == self.keys.len()
+invariant (self.root < 0) == (self.len == 0)
+```
 
 ## Examples
 

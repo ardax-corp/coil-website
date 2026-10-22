@@ -18,12 +18,6 @@ A singly-linked list with constant-time push and pop at the front.
 [`collections::deque::VecDeque`](/docs/reference/collections/deque/VecDeque) when you need both ends to be fast.
 `for x in list` visits the values front to back.
 
-## Invariants
-
-```coil
-invariant self.len >= 0
-```
-
 ## Associated functions
 
 | Name | Description |
@@ -48,6 +42,14 @@ invariant self.len >= 0
 ## Trait implementations
 
 - [`IntoIterator`](/docs/reference/prelude/IntoIterator) for `List<T>`
+
+## Invariants
+
+Checked according to `--contracts` (see [Contracts](/docs/language/contracts)).
+
+```coil
+invariant self.len >= 0
+```
 
 ## Examples
 

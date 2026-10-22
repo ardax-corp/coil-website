@@ -22,15 +22,6 @@ insertion order, skipping removed ones.
 [`get`](/docs/reference/collections/map/HashMap/get) takes a fallback instead of returning an [`Option`](/docs/reference/prelude/Option); use [`contains`](/docs/reference/collections/map/HashMap/contains) first
 when the fallback could be a real value.
 
-## Invariants
-
-```coil
-invariant self.len >= 0 && self.len <= self.keys.len()
-invariant self.cap >= 8 && self.heads.len() == self.cap
-invariant self.vals.len() == self.keys.len() && self.next.len() == self.keys.len()
-invariant self.live.len() == self.keys.len()
-```
-
 ## Fields
 
 | Field | Type | Description |
@@ -65,6 +56,17 @@ invariant self.live.len() == self.keys.len()
 ## Trait implementations
 
 - [`IntoIterator`](/docs/reference/prelude/IntoIterator) for `HashMap<K, V>`
+
+## Invariants
+
+Checked according to `--contracts` (see [Contracts](/docs/language/contracts)).
+
+```coil
+invariant self.len >= 0 && self.len <= self.keys.len()
+invariant self.cap >= 8 && self.heads.len() == self.cap
+invariant self.vals.len() == self.keys.len() && self.next.len() == self.keys.len()
+invariant self.live.len() == self.keys.len()
+```
 
 ## Examples
 

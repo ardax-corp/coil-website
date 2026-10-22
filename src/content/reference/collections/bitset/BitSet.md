@@ -18,12 +18,6 @@ Much smaller than a `HashSet<int>` when the values are dense, such as indices
 or flags. Storage grows to fit the largest value inserted; capacities are
 counted in bits. Each [`int`](/docs/reference/types/int) word holds 63 bits.
 
-## Invariants
-
-```coil
-invariant self.count >= 0 && self.count <= self.words.len() * WORD_BITS
-```
-
 ## Associated functions
 
 | Name | Description |
@@ -42,6 +36,14 @@ invariant self.count >= 0 && self.count <= self.words.len() * WORD_BITS
 | [`contains`](/docs/reference/collections/bitset/BitSet/contains) | True when index i is set. |
 | [`remove`](/docs/reference/collections/bitset/BitSet/remove) | Clear index i; returns true when a bit was unset. |
 | [`clear`](/docs/reference/collections/bitset/BitSet/clear) | Unset every bit; keeps allocated word capacity. |
+
+## Invariants
+
+Checked according to `--contracts` (see [Contracts](/docs/language/contracts)).
+
+```coil
+invariant self.count >= 0 && self.count <= self.words.len() * WORD_BITS
+```
 
 ## Examples
 
