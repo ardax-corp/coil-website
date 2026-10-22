@@ -232,7 +232,21 @@ addModule("keywords", { origin: "builtin", auto: true, items: keywords, files: [
 
 const modSlug = (path) => path.split("::").join("/");
 const slugName = (name) => name.replace(/[^A-Za-z0-9_]/g, (c) => `_${c.charCodeAt(0).toString(16)}`);
-const itemSlug = (mod, name) => `${modSlug(mod)}/${slugName(name)}`;
+// Items whose names differ only in case (`Channel` and `channel`) would get
+// paths that clash on case-insensitive file systems, so the one that is not
+// a type gets its kind as a prefix: `task/fn.channel`.
+const TYPE_KINDS = new Set(["class", "enum", "trait", "type", "primitive"]);
+const caseClash = new Map(); // `${module}::${name}` -> prefix
+for (const mod of modules.values()) {
+  const types = new Set(mod.items.filter((it) => TYPE_KINDS.has(it.kind)).map((it) => it.name.toLowerCase()));
+  for (const it of mod.items) {
+    if (!TYPE_KINDS.has(it.kind) && types.has(it.name.toLowerCase())) caseClash.set(`${mod.path}::${it.name}`, it.kind);
+  }
+}
+const itemSlug = (mod, name) => {
+  const kind = caseClash.get(`${mod}::${name}`);
+  return `${modSlug(mod)}/${kind ? `${kind}.` : ""}${slugName(name)}`;
+};
 const moduleHref = (path) => `${BASE}/${modSlug(path)}`;
 const itemHref = (item) => `${BASE}/${itemSlug(item.module, item.name)}`;
 const memberHref = (ty, m) => `${itemHref(ty)}/${slugName(m.name)}`;
