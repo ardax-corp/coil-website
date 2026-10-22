@@ -28,7 +28,7 @@ test("reads the config") {
 
 (A case that reaches `open` needs `coil test --allow-read`, like any program; see [Permissions](/docs/language/permissions).) This applies only to the test body itself. Helper functions and lambdas keep their own declared `Result` / `Option` types. A user class without `#[derive(Show)]` or an `impl Show` shows as its type name and an enum as its variant name without the payload (`E::V`), so derive `Show` to get the fields in the message.
 
-Do **not** also define `fn main` in a file that uses `test(...)` cases — the compiler injects a virtual `main` for standalone runs. The `coil test` CLI runs each case in an isolated VM (so a `panic` in one case does not skip later cases) and prints `> Test " " failed` on failure. Pass `--fail-fast` to stop after the first failed case. `env::exit` inside a case ends only that case, not the run: a `test` case that calls it fails whatever the code (the rest of its body never ran), and a file without `test` cases, whose `main` runs as one case, passes on `exit(0)` and fails on any other code. To check a program's real exit status, run it as a subprocess. The code examples in `///` docs also run; see [Doc-tests](#doc-tests).
+Do **not** also define `fn main` in a file that uses `test(...)` cases — the compiler injects a virtual `main` for standalone runs. The `coil test` CLI runs each case in an isolated VM (so a `panic` in one case does not skip later cases). Failing files print `FAILED <file>` as they finish; after the run each failed case is listed with why it failed and what it printed (`stdout:` and `stderr:` apart, a panic message under stderr), then a list of the failed cases and the summary. On a terminal a progress bar counts files (`COIL_PROGRESS=0` turns it off); passing files and their compiler warnings show only with `-v` / `--verbose`, and passing cases' output with `--show-output`. Pass `--fail-fast` to stop after the first failed case. `env::exit` inside a case ends only that case, not the run: a `test` case that calls it fails whatever the code (the rest of its body never ran), and a file without `test` cases, whose `main` runs as one case, passes on `exit(0)` and fails on any other code. To check a program's real exit status, run it as a subprocess. The code examples in `///` docs also run; see [Doc-tests](#doc-tests).
 
 `#[test]` on `fn` is a type error. Tests are the statement form only.
 
@@ -39,10 +39,12 @@ Do **not** also define `fn main` in a file that uses `test(...)` cases — the c
 `coil test` also runs the code examples in `///` doc comments, the way `cargo test` runs Rust doc-tests, so examples in docs cannot rot. Each example is its own program, compiled with the run's `--root` directories, permissions and `-O`, and is reported in the same run as the `test` cases:
 
 ```text
-ok   tests/strings.hy
-doc-tests of 1 project file
-> Test "doc: mathx::double (src/mathx.hy:12)" failed
 FAILED src/mathx.hy
+
+failures:
+
+---- src/mathx.hy: doc: mathx::double (src/mathx.hy:12) ----
+failed: Assertion: 'double(3) == 6' failed
 ```
 
 The name is `doc:`, the item's module path (the file's path under its `--root`, `src` or the test root) and the file and line of the example. Under `--json` the examples are cases of their file's `file` event.
@@ -80,6 +82,34 @@ fn double(int x) -> int {
 | `--doc-tests-only [PATH]` | only the examples of every `.hy` file under PATH; the files are read, not compiled (for example `coil test --doc-tests-only src`, or a dependency's sources) |
 
 ---
+
+## Checking output
+
+`io::capture_begin()` keeps everything the current thread writes to stdout and stderr in memory instead of writing it; `io::capture_end()` ends the capture and returns `(stdout, stderr)` as strings.
+
+```coil
+use io::{capture_begin, capture_end, stderr, stdout, write};
+use string::to_bytes;
+use tests::assert;
+
+fn greet(string name) -> Result<(), IoError> {
+    write(stdout(), to_bytes("hello " + name + "\n"))?;
+    write(stderr(), to_bytes("greeted\n"))?;
+    return;
+}
+
+test("greet prints") {
+    capture_begin();
+    greet("coil")?;
+    let (out, err) = capture_end();
+    assert!(out == "hello coil\n");
+    assert!(err == "greeted\n");
+}
+```
+
+- Captures nest: each `capture_end()` closes the innermost `capture_begin()`. With none open it returns two empty strings.
+- Threads spawned while capturing write to their own output, not the capture.
+- A capture still open when a case ends (an `assert!` failed before `capture_end()`) goes to that case's output, so its failure shows what was printed.
 
 ## Related
 

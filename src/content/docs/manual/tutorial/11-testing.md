@@ -54,17 +54,47 @@ coil test --root ~/.coil/stdlib/src tests
 
 ```text
 running 1 file (seed 0x331d79d4efd8a9c4, 4 jobs)
-ok   tests/fizzbuzz.hy
 
-test result: ok. 2 passed; 0 failed; 2 total
+test result: ok. 2 passed; 0 failed; 2 total; finished in 0.05s
 ```
 
-If a bug made `fizzbuzz(9)` return `"9"`, the failing case would name itself
-and the condition that did not hold:
+On a terminal a progress bar counts files while the run goes; passing files
+print nothing (`-v` lists them). If a bug made `fizzbuzz(9)` return `"9"`,
+the run would end with the failing case, the condition that did not hold,
+and anything the case printed:
 
 ```text
-> Test "multiples of three are Fizz" failed: Assertion: 'fizzbuzz(9) == "Fizz"' failed
+running 1 file (seed 0x331d79d4efd8a9c4, 4 jobs)
 FAILED tests/fizzbuzz.hy
+
+failures:
+
+---- tests/fizzbuzz.hy: multiples of three are Fizz ----
+failed: Assertion: 'fizzbuzz(9) == "Fizz"' failed
+
+failed:
+    tests/fizzbuzz.hy: multiples of three are Fizz
+
+test result: FAILED. 1 passed; 1 failed; 2 total; finished in 0.05s
+```
+
+What a test prints to stdout or stderr never reaches the terminal while the
+run goes: it shows under `stdout:` / `stderr:` in that case's failure
+(`--show-output` prints passing cases' output too). To check what code
+prints, capture it with `io::capture_begin()` and `io::capture_end()`, which
+returns `(stdout, stderr)`:
+
+```coil
+use io::{capture_begin, capture_end, stdout, write};
+use string::to_bytes;
+use tests::assert;
+
+test("greets") {
+    capture_begin();
+    write(stdout(), to_bytes("hello\n"))?;
+    let (out, _) = capture_end();
+    assert!(out == "hello\n");
+}
 ```
 
 Each case runs in its own isolated VM, so one that panics does not stop the
