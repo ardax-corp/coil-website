@@ -28,7 +28,7 @@ fn main() {
     let text = read_text("notes.txt")?;
     println(text)?;
 }
-```coil
+```
 
 To do several IO operations at once, run them as tasks: inside a
 [`task::scope`](/docs/manual/tutorial/13-tasks) a task that waits for IO lets

@@ -306,10 +306,11 @@ function renderDocs(md, ctx, mentions) {
   const out = [];
   let fence = null;
   for (const line of md.split("\n")) {
-    const f = line.match(/^(\s*)```\s*([\w,]*)\s*$/);
+    // Info strings separate attributes with commas or spaces: ```coil,no_run / ```coil no_run.
+    const f = line.match(/^(\s*)```\s*([\w, ]*?)\s*$/);
     if (f) {
       if (fence === null) {
-        const tag = f[2].split(",")[0];
+        const tag = f[2].split(/[,\s]+/)[0];
         fence = tag;
         const lang = ["", "coil", "ignore", "no_run", "should_panic", "compile_fail"].includes(tag) ? "coil" : tag;
         out.push(`${f[1]}\`\`\`${lang}`);
