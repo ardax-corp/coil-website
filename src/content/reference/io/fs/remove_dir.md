@@ -12,7 +12,7 @@ source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a
 order: 11
 ---
 
-Removes the empty directory [`path`](/docs/reference/path).
+Removes the empty directory `path`.
 
 Fails when the directory is not empty; use [`remove_dir_all`](/docs/reference/io/fs/remove_dir_all) for that.
 Needs `--allow-write`.
@@ -47,7 +47,6 @@ assert!(removed && !left);
 
 ## See also
 
-- [`path`](/docs/reference/path)
 - [`io::fs::remove_dir_all`](/docs/reference/io/fs/remove_dir_all)
 - [`copy`](/docs/reference/io/fs/copy): Copies the contents of file from to to, creating or overwriting to.
 - [`create_dir`](/docs/reference/io/fs/create_dir): Creates the directory path.
@@ -55,3 +54,4 @@ assert!(removed && !left);
 - [`exists`](/docs/reference/io/fs/exists): Returns whether anything exists at path.
 - [`is_dir`](/docs/reference/io/fs/is_dir): Returns whether path is a directory, following symbolic links.
 - [`is_file`](/docs/reference/io/fs/is_file): Returns whether path is a regular file, following symbolic links.
+- [`is_symlink`](/docs/reference/io/fs/is_symlink): Returns whether path itself is a symbolic link (the link is not followed).

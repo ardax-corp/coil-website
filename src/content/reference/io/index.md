@@ -76,7 +76,7 @@ use io::{Stream, IoError};
 | [`stdin`](/docs/reference/io/stdin) | Returns a new stream on the process's standard input. |
 | [`stdout`](/docs/reference/io/stdout) | Returns a new stream on the process's standard output. |
 | [`stderr`](/docs/reference/io/stderr) | Returns a new stream on the process's standard error. |
-| [`open`](/docs/reference/io/open) | Opens the file at [`path`](/docs/reference/path) with `mode` and returns a stream on it. |
+| [`open`](/docs/reference/io/open) | Opens the file at `path` with `mode` and returns a stream on it. |
 | [`close`](/docs/reference/io/close) | Closes `s`. |
 | [`read`](/docs/reference/io/fn.read) | Reads bytes from `s` into the front of `buf` without waiting. |
 | [`write`](/docs/reference/io/fn.write) | Writes bytes from `buf` to `s` without waiting and returns how many were written. |

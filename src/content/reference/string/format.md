@@ -12,10 +12,10 @@ source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a
 order: 2
 ---
 
-Builds a string from the literal [`fmt`](/docs/reference/fmt) and the arguments that follow it.
+Builds a string from the literal `fmt` and the arguments that follow it.
 
-`format` takes any number of arguments after [`fmt`](/docs/reference/fmt); each `%` specifier
-in [`fmt`](/docs/reference/fmt) consumes the next one:
+`format` takes any number of arguments after `fmt`; each `%` specifier
+in `fmt` consumes the next one:
 
 - `%i`: an [`int`](/docs/reference/types/int) (or [`byte`](/docs/reference/types/byte)) in decimal.
 - `%f`: a [`float`](/docs/reference/types/float) (`1.5`, `2.0`).
@@ -25,7 +25,7 @@ in [`fmt`](/docs/reference/fmt) consumes the next one:
 - `%x`, `%b`, `%u`: an [`int`](/docs/reference/types/int) in hex, binary, or unsigned decimal.
 - `%%`: a literal `%`.
 
-[`fmt`](/docs/reference/fmt) must be a string literal: the compiler checks every specifier
+`fmt` must be a string literal: the compiler checks every specifier
 against its argument's type, and reports too many or too few arguments.
 `format` is built into the compiler, not a library function.
 
@@ -52,7 +52,6 @@ assert!(format("%v", (1, "a")) == "(1, a)");
 
 ## See also
 
-- [`fmt`](/docs/reference/fmt)
 - [`int`](/docs/reference/types/int)
 - [`byte`](/docs/reference/types/byte)
 - [`float`](/docs/reference/types/float)
@@ -60,3 +59,4 @@ assert!(format("%v", (1, "a")) == "(1, a)");
 - [`bool`](/docs/reference/types/bool)
 - [`Show`](/docs/reference/prelude/ops/Show)
 - [`byte_at`](/docs/reference/string/byte_at): Returns the byte at byte offset i of s, or -1 when i is out of range.
+- [`find_from`](/docs/reference/string/find_from): Returns the byte offset of the first needle in hay at or after start, or -1.

@@ -12,7 +12,7 @@ source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a
 order: 6
 ---
 
-Returns whether [`path`](/docs/reference/path) itself is a symbolic link (the link is not followed).
+Returns whether `path` itself is a symbolic link (the link is not followed).
 
 A missing path is `Ok(false)`. Needs `--allow-read`.
 
@@ -52,7 +52,6 @@ assert!(yes && !no);
 
 ## See also
 
-- [`path`](/docs/reference/path)
 - [`copy`](/docs/reference/io/fs/copy): Copies the contents of file from to to, creating or overwriting to.
 - [`create_dir`](/docs/reference/io/fs/create_dir): Creates the directory path.
 - [`create_dir_all`](/docs/reference/io/fs/create_dir_all): Creates the directory path and any missing parent directories.
@@ -60,3 +59,4 @@ assert!(yes && !no);
 - [`is_dir`](/docs/reference/io/fs/is_dir): Returns whether path is a directory, following symbolic links.
 - [`is_file`](/docs/reference/io/fs/is_file): Returns whether path is a regular file, following symbolic links.
 - [`list_dir`](/docs/reference/io/fs/list_dir): Returns the names of the entries in directory path, sorted.
+- [`metadata`](/docs/reference/io/fs/metadata): Returns facts about path as a record, without following a final symbolic link.

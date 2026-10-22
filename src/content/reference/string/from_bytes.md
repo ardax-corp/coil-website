@@ -12,9 +12,9 @@ source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a
 order: 3
 ---
 
-Decodes [`bytes`](/docs/reference/bytes) as UTF-8 text.
+Decodes `bytes` as UTF-8 text.
 
-Returns `Err(IoError::InvalidInput)` when [`bytes`](/docs/reference/bytes) is not valid UTF-8.
+Returns `Err(IoError::InvalidInput)` when `bytes` is not valid UTF-8.
 The inverse of [`to_bytes`](/docs/reference/string/to_bytes).
 
 ## Parameters
@@ -47,7 +47,6 @@ assert!(bad);
 
 ## See also
 
-- [`bytes`](/docs/reference/bytes)
 - [`string::to_bytes`](/docs/reference/string/to_bytes)
 - [`byte_at`](/docs/reference/string/byte_at): Returns the byte at byte offset i of s, or -1 when i is out of range.
 - [`find_from`](/docs/reference/string/find_from): Returns the byte offset of the first needle in hay at or after start, or -1.

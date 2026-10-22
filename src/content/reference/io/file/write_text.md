@@ -12,7 +12,7 @@ source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becef
 order: 3
 ---
 
-Replaces the contents of the file at [`path`](/docs/reference/path) with [`text`](/docs/reference/text), creating it if needed, and returns the number of bytes written.
+Replaces the contents of the file at `path` with `text`, creating it if needed, and returns the number of bytes written.
 
 Needs `--allow-write`.
 
@@ -40,8 +40,6 @@ fn main() {
 
 ## See also
 
-- [`path`](/docs/reference/path)
-- [`text`](/docs/reference/text)
 - [`read_bytes`](/docs/reference/io/file/read_bytes): Reads the whole file at path.
 - [`write_bytes`](/docs/reference/io/file/write_bytes): Replaces the contents of the file at path with buf, creating it if needed, and returns the number of bytes written.
 - [`read_text`](/docs/reference/io/file/read_text): Reads the whole file at path as UTF-8 text.

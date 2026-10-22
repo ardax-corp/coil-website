@@ -15,7 +15,7 @@ order: 6
 Changes the current working directory of the whole process.
 
 Relative paths opened later, and programs started with [`exec`](/docs/reference/env/exec), use the
-new directory. Returns `Err(EnvError::Other)` if [`path`](/docs/reference/path) does not exist
+new directory. Returns `Err(EnvError::Other)` if `path` does not exist
 or is not an accessible directory. Needs `--allow-env`.
 
 ## Parameters
@@ -41,7 +41,6 @@ let _ = set_cwd(before);
 ## See also
 
 - [`env::exec`](/docs/reference/env/exec)
-- [`path`](/docs/reference/path)
 - [`args`](/docs/reference/env/args): Returns the program's command-line arguments, starting with the program name.
 - [`var`](/docs/reference/env/var): Returns the value of the environment variable name.
 - [`set_var`](/docs/reference/env/set_var): Sets the environment variable name to value for this process.

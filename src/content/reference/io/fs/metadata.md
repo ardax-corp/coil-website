@@ -12,7 +12,7 @@ source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a
 order: 8
 ---
 
-Returns facts about [`path`](/docs/reference/path) as a record, without following a final symbolic link.
+Returns facts about `path` as a record, without following a final symbolic link.
 
 Fields: `size` (bytes), [`is_file`](/docs/reference/io/fs/is_file), [`is_dir`](/docs/reference/io/fs/is_dir), [`is_symlink`](/docs/reference/io/fs/is_symlink), and
 `modified_unix` (last modification time in whole seconds since the
@@ -52,7 +52,6 @@ assert!(size == 4 && file);
 
 ## See also
 
-- [`path`](/docs/reference/path)
 - [`io::fs::is_file`](/docs/reference/io/fs/is_file)
 - [`io::fs::is_dir`](/docs/reference/io/fs/is_dir)
 - [`io::fs::is_symlink`](/docs/reference/io/fs/is_symlink)
@@ -60,3 +59,4 @@ assert!(size == 4 && file);
 - [`create_dir`](/docs/reference/io/fs/create_dir): Creates the directory path.
 - [`create_dir_all`](/docs/reference/io/fs/create_dir_all): Creates the directory path and any missing parent directories.
 - [`exists`](/docs/reference/io/fs/exists): Returns whether anything exists at path.
+- [`list_dir`](/docs/reference/io/fs/list_dir): Returns the names of the entries in directory path, sorted.

@@ -299,6 +299,9 @@ function resolve(code, ctx) {
 }
 
 /** Rewrite doc markdown: example fences, hidden lines, headings, links. */
+/** `ctx` for rendering the docs of `it`, which leaves its parameter names unlinked. */
+const withParams = (ctx, it) => ({ ...ctx, params: new Set((it.params ?? []).map((p) => p.name)) });
+
 function renderDocs(md, ctx, mentions) {
   const out = [];
   let fence = null;
@@ -326,6 +329,8 @@ function renderDocs(md, ctx, mentions) {
     out.push(
       line.replace(/(\[[^\]]*\]\([^)]*\))|`([^`]+)`/g, (whole, link, code) => {
         if (link) return link;
+        // A parameter name (`path`, `text`) is not the module of that name.
+        if (ctx.params?.has(code)) return whole;
         const href = resolve(code, ctx);
         if (!href) return whole;
         mentions?.add(href);
@@ -470,7 +475,7 @@ function memberTable(title, ty, members, ctx) {
   const lines = [`## ${title}`, "", "| Name | Description |", "|------|-------------|"];
   for (const m of members) {
     const s = firstSentence(summaryOf(m));
-    lines.push(`| [\`${m.name}\`](${memberHref(ty, m)}) | ${esc(renderDocs(s, ctx))} |`);
+    lines.push(`| [\`${m.name}\`](${memberHref(ty, m)}) | ${esc(renderDocs(s, withParams(ctx, m)))} |`);
   }
   return [...lines, ""];
 }
@@ -550,7 +555,7 @@ function front(mod, it, parts, order, parent) {
 function memberPage(mod, ty, m, order) {
   const parts = splitDocs(m.docs ?? "");
   const self = memberHref(ty, m);
-  const ctx = { module: mod.path, type: ty.name, self };
+  const ctx = withParams({ module: mod.path, type: ty.name, self }, m);
   const mentions = new Set();
   const body = [];
   if (parts.summary) body.push(renderDocs(parts.summary, ctx, mentions), "");
@@ -571,7 +576,7 @@ function memberPage(mod, ty, m, order) {
 
 function fnPage(mod, fn, order) {
   const parts = splitDocs(fn.docs ?? "");
-  const ctx = { module: mod.path, self: itemHref(fn) };
+  const ctx = withParams({ module: mod.path, self: itemHref(fn) }, fn);
   const mentions = new Set();
   const body = [];
   if (parts.summary) body.push(renderDocs(parts.summary, ctx, mentions), "");
@@ -651,7 +656,7 @@ function modulePage(mod, order) {
     const items = mod.items.filter(test);
     if (!items.length) continue;
     body.push(`## ${title}`, "", "| Name | Description |", "|------|-------------|");
-    for (const it of items) body.push(`| [\`${displayName(it)}\`](${itemHref(it)}) | ${esc(renderDocs(firstSentence(splitDocs(it.docs ?? "").summary), ctx))} |`);
+    for (const it of items) body.push(`| [\`${displayName(it)}\`](${itemHref(it)}) | ${esc(renderDocs(firstSentence(splitDocs(it.docs ?? "").summary), withParams(ctx, it)))} |`);
     body.push("");
   }
   page(`${modSlug(mod.path)}/index`, {

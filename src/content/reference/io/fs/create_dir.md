@@ -12,10 +12,10 @@ source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a
 order: 1
 ---
 
-Creates the directory [`path`](/docs/reference/path).
+Creates the directory `path`.
 
 The parent must already exist (else `Err(IoError::NotFound)`), and
-[`path`](/docs/reference/path) must not (else `Err(IoError::AlreadyExists)`). Use
+`path` must not (else `Err(IoError::AlreadyExists)`). Use
 [`create_dir_all`](/docs/reference/io/fs/create_dir_all) to create missing parents too.
 Needs `--allow-write`.
 
@@ -54,7 +54,6 @@ assert!(made && again && dir_now);
 
 ## See also
 
-- [`path`](/docs/reference/path)
 - [`io::fs::create_dir_all`](/docs/reference/io/fs/create_dir_all)
 - [`copy`](/docs/reference/io/fs/copy): Copies the contents of file from to to, creating or overwriting to.
 - [`exists`](/docs/reference/io/fs/exists): Returns whether anything exists at path.
@@ -62,3 +61,4 @@ assert!(made && again && dir_now);
 - [`is_file`](/docs/reference/io/fs/is_file): Returns whether path is a regular file, following symbolic links.
 - [`is_symlink`](/docs/reference/io/fs/is_symlink): Returns whether path itself is a symbolic link (the link is not followed).
 - [`list_dir`](/docs/reference/io/fs/list_dir): Returns the names of the entries in directory path, sorted.
+- [`metadata`](/docs/reference/io/fs/metadata): Returns facts about path as a record, without following a final symbolic link.

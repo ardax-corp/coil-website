@@ -12,7 +12,7 @@ source: "https://github.com/ardax-corp/coil-stdlib/blob/b5b5517a66f16a51245becef
 order: 5
 ---
 
-Appends [`text`](/docs/reference/text) to the file at [`path`](/docs/reference/path), creating it if needed. Needs `--allow-write`.
+Appends `text` to the file at `path`, creating it if needed. Needs `--allow-write`.
 
 ## Parameters
 
@@ -27,8 +27,6 @@ Appends [`text`](/docs/reference/text) to the file at [`path`](/docs/reference/p
 
 ## See also
 
-- [`text`](/docs/reference/text)
-- [`path`](/docs/reference/path)
 - [`read_bytes`](/docs/reference/io/file/read_bytes): Reads the whole file at path.
 - [`write_bytes`](/docs/reference/io/file/write_bytes): Replaces the contents of the file at path with buf, creating it if needed, and returns the number of bytes written.
 - [`read_text`](/docs/reference/io/file/read_text): Reads the whole file at path as UTF-8 text.

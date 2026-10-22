@@ -14,9 +14,9 @@ order: 19
 
 Installs package IO hooks on `s` in place; the free-function form of [`Stream.attach`](/docs/reference/io/Stream/attach).
 
-`ptr` is the package's session pointer and [`read`](/docs/reference/io/fn.read), [`write`](/docs/reference/io/fn.write), `shutdown`
+`ptr` is the package's session pointer and `read`, `write`, `shutdown`
 and `free` are C function pointers (as [`int`](/docs/reference/types/int), usually looked up through
-`dload`). Afterwards [`read`](/docs/reference/io/fn.read) / [`write`](/docs/reference/io/fn.write) on `s` go through those hooks and
+`dload`). Afterwards `read` / `write` on `s` go through those hooks and
 [`close`](/docs/reference/io/close) calls `shutdown` then `free`. Returns `s`.
 
 Returns `Err(IoError::InvalidInput)` when `ptr` is `0` or `s` is already
@@ -51,10 +51,10 @@ let tls = attach(s, session, rd, wr, sd, fr)?;
 ## See also
 
 - [`Stream::attach`](/docs/reference/io/Stream/attach)
-- [`io::read`](/docs/reference/io/fn.read)
-- [`io::write`](/docs/reference/io/fn.write)
 - [`int`](/docs/reference/types/int)
 - [`io::close`](/docs/reference/io/close)
 - [`stdin`](/docs/reference/io/stdin): Returns a new stream on the process's standard input.
 - [`stdout`](/docs/reference/io/stdout): Returns a new stream on the process's standard output.
 - [`stderr`](/docs/reference/io/stderr): Returns a new stream on the process's standard error.
+- [`open`](/docs/reference/io/open): Opens the file at path with mode and returns a stream on it.
+- [`read`](/docs/reference/io/fn.read): Reads bytes from s into the front of buf without waiting.

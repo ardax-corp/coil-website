@@ -14,7 +14,7 @@ order: 2
 
 Loads a native shared library and returns a handle to it.
 
-[`path`](/docs/reference/path) is a stem (`"sum"` finds `libsum.so`, `libsum.dylib` or `sum.dll`
+`path` is a stem (`"sum"` finds `libsum.so`, `libsum.dylib` or `sum.dll`
 in the `--ffi-search-path` directories), a relative path or an absolute
 path. Every library is gated by its file-name stem: the build needs
 `--allow-dload STEM` (a literal stem without it is error `E0410`, and a
@@ -53,7 +53,6 @@ let lib = match dload("sum") {
 
 ## See also
 
-- [`path`](/docs/reference/path)
 - [`ffi::ErrorKind`](/docs/reference/ffi/ErrorKind)
 - [`declare`](/docs/reference/ffi/declare): Looks up the C function name in a loaded library and records its signature.
 - [`invoke`](/docs/reference/ffi/invoke): Calls a function registered with declare, passing the tuple args.

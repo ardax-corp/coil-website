@@ -15,9 +15,9 @@ order: 0
 
 Installs package IO hooks on this stream in place and returns the same stream.
 
-`ptr` is the package's session pointer and [`read`](/docs/reference/io/fn.read), [`write`](/docs/reference/io/fn.write),
+`ptr` is the package's session pointer and `read`, `write`,
 `shutdown` and `free` are C function pointers (as [`int`](/docs/reference/types/int), usually
-looked up through `dload`). After [`attach`](/docs/reference/io/attach), [`read`](/docs/reference/io/fn.read) / [`write`](/docs/reference/io/fn.write) on the
+looked up through `dload`). After [`attach`](/docs/reference/io/attach), `read` / `write` on the
 stream go through those hooks, [`close`](/docs/reference/io/close) (or a GC drop) calls `shutdown`
 then `free`, and the socket keeps its descriptor. This is how the
 coil-tls package turns a TCP stream into a TLS stream.
@@ -53,8 +53,6 @@ let tls = s.attach(session, rd, wr, sd, fr)?;
 
 ## See also
 
-- [`io::read`](/docs/reference/io/fn.read)
-- [`io::write`](/docs/reference/io/fn.write)
 - [`int`](/docs/reference/types/int)
 - [`io::attach`](/docs/reference/io/attach)
 - [`io::close`](/docs/reference/io/close)

@@ -12,7 +12,7 @@ source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a
 order: 7
 ---
 
-Opens the file at [`path`](/docs/reference/path) with `mode` and returns a stream on it.
+Opens the file at `path` with `mode` and returns a stream on it.
 
 Modes:
 
@@ -75,7 +75,6 @@ assert!(size == 4);
 
 ## See also
 
-- [`path`](/docs/reference/path)
 - [`stdin`](/docs/reference/io/stdin): Returns a new stream on the process's standard input.
 - [`stdout`](/docs/reference/io/stdout): Returns a new stream on the process's standard output.
 - [`stderr`](/docs/reference/io/stderr): Returns a new stream on the process's standard error.
@@ -83,3 +82,4 @@ assert!(size == 4);
 - [`read`](/docs/reference/io/fn.read): Reads bytes from s into the front of buf without waiting.
 - [`write`](/docs/reference/io/fn.write): Writes bytes from buf to s without waiting and returns how many were written.
 - [`write_from`](/docs/reference/io/write_from): Writes buf[offset..] to s without waiting and returns how many bytes were written.
+- [`wait_readable`](/docs/reference/io/wait_readable): Waits until s is readable.
