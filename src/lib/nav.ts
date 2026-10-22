@@ -265,21 +265,7 @@ export const REFERENCE_SECTIONS: { key: string; title: string; blurb: string; pi
   },
 ];
 
-/** Display names of reference page kinds. */
-export const REFERENCE_KINDS: Record<string, string> = {
-  module: "Module",
-  fn: "Function",
-  method: "Method",
-  "static method": "Associated function",
-  macro: "Macro",
-  class: "Class",
-  enum: "Enum",
-  trait: "Trait",
-  type: "Type alias",
-  const: "Constant",
-  primitive: "Primitive type",
-  keyword: "Keyword",
-};
+export { REFERENCE_KINDS } from "./reference-kinds.mjs";
 
 const KIND_RANK: Record<string, number> = { primitive: 0, class: 1, enum: 1, trait: 2, type: 3, const: 4, macro: 5, fn: 6, keyword: 7 };
 

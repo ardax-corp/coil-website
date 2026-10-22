@@ -211,3 +211,143 @@
 .prose img {
   border-radius: var(--radius);
 }
+
+/* "See also" at the end of a docs section (src/lib/remark-see-also.mjs). */
+
+.prose .see-also {
+  align-items: baseline;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.75rem;
+  margin: 1.25rem 0 1.75rem;
+  padding-top: 0.7rem;
+}
+
+.prose .see-also .see-label {
+  color: var(--faint);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.prose .see-also ul {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.prose .see-also li {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.prose .see-also a {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--fg-soft);
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 400;
+  padding: 0.1rem 0.45rem;
+  text-decoration: none;
+  transition: border-color 0.12s, color 0.12s, background 0.12s;
+}
+
+.prose .see-also a:hover,
+.prose .see-also a:focus-visible {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.prose .see-also a code {
+  background: none;
+  border: 0;
+  color: inherit;
+  font-size: inherit;
+  padding: 0;
+}
+
+.prose .see-pop {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  bottom: calc(100% + 0.45rem);
+  box-shadow: var(--shadow-lg);
+  left: 0;
+  max-width: min(34rem, calc(100vw - 2rem));
+  opacity: 0;
+  padding: 0.65rem 0.8rem;
+  pointer-events: none;
+  position: absolute;
+  transform: translateY(4px);
+  transition: opacity 0.12s, transform 0.12s, visibility 0.12s;
+  visibility: hidden;
+  width: max-content;
+  z-index: 20;
+}
+
+/* Set by Docs.astro when the card would leave the viewport. */
+.prose .see-pop.flip {
+  left: auto;
+  right: 0;
+}
+
+.prose .see-also li:hover .see-pop,
+.prose .see-also li:focus-within .see-pop {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+}
+
+.prose .see-pop .see-kind {
+  color: var(--faint);
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+}
+
+.prose .see-pop .see-kind code {
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  padding: 0;
+  text-transform: none;
+}
+
+.prose .see-pop pre.astro-code {
+  background: transparent !important;
+  border: 0;
+  font-size: 0.8rem;
+  margin: 0 0 0.4rem;
+  overflow: visible;
+  padding: 0;
+  white-space: pre-wrap;
+}
+
+.prose .see-pop p {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+@media (hover: none) {
+  .prose .see-pop {
+    display: none;
+  }
+}

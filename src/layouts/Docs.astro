@@ -222,6 +222,19 @@ const pagerLabel = (item: NavLink) => {
   const inner = document.querySelector<HTMLElement>(".sidebar-inner");
   if (current && inner) inner.scrollTop = current.offsetTop - inner.clientHeight / 2;
 
+  // "See also" hover cards: anchor to the right edge of their link when they
+  // would overflow the viewport.
+  document.querySelectorAll<HTMLElement>(".see-also li").forEach((li) => {
+    const pop = li.querySelector<HTMLElement>(".see-pop");
+    if (!pop) return;
+    const place = () => {
+      pop.classList.remove("flip");
+      if (pop.getBoundingClientRect().right > document.documentElement.clientWidth - 8) pop.classList.add("flip");
+    };
+    li.addEventListener("mouseenter", place);
+    li.addEventListener("focusin", place);
+  });
+
   // Mobile drawer.
   const sidebar = document.getElementById("docs-sidebar")!;
   const toggle = document.querySelector<HTMLButtonElement>(".sidebar-toggle")!;

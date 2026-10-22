@@ -3,6 +3,7 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import coilGrammar from "./src/lib/coil.tmLanguage.json" with { type: "json" };
 import { coilDark, coilLight } from "./src/lib/shiki-themes.ts";
 import { redirects } from "./src/lib/redirects.mjs";
+import { remarkSeeAlso } from "./src/lib/remark-see-also.mjs";
 
 function walk(node, fn, parent) {
   fn(node, parent);
@@ -69,6 +70,7 @@ export default defineConfig({
       themes: { light: coilLight, dark: coilDark },
       defaultColor: false,
     },
+    remarkPlugins: [remarkSeeAlso],
     rehypePlugins: [rehypeExplicitHeadingIds, rehypeHeadingIds, rehypeHeadingAnchors, rehypeTableWrap],
   },
 });
