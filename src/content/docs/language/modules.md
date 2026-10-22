@@ -1,351 +1,157 @@
 ---
-title: Modules reference
-description: "This document specifies the syntax and semantics of coil's module system: use imports, mod forward declarations, namespace rules, and path resolution."
+title: Modules
+description: "How Coil maps files to modules, the use and mod syntax, how an import path is resolved against the search roots, the prelude, and the related errors."
 ---
 
-# Modules reference
+# Modules
 
-This document specifies the syntax and semantics of coil's module system: `use` imports, `mod` forward declarations, namespace rules, and path resolution.
+A module is a `.hy` file. Its path below a search root is its name, and
+`use` imports names from it. There are no module declarations, no export
+lists and no wildcard imports. For a gentler introduction, see
+[chapter 9 of the tutorial](/docs/manual/tutorial/09-modules).
 
----
+## Module names
 
-## Syntax
+The name of a module is its file path relative to the search root it was
+found in, without `.hy`, with `/` replaced by `::`:
 
-### `use` statement
+| File (root `src/`) | Module |
+|--------------------|--------|
+| `src/money.hy` | `money` |
+| `src/store/item.hy` | `store::item` |
+| `src/store/item/price.hy` | `store::item::price` |
 
+`store/` and `store.hy` can both exist: `store.hy` is the module `store`,
+and the directory holds its submodules.
+
+The entry file, the one passed to `coil` or named in `[entry]` of
+`coil.toml`, is the root of the program; it is not imported by other
+modules.
+
+## Search roots
+
+Paths are resolved against an ordered list of roots:
+
+1. `src/` under the current working directory, always first;
+2. each `--root DIR`, in the order given.
+
+[spool](/packages/spool) passes `--root` for the project's `[module] roots`,
+the stdlib, and each dependency's `src/`. When running `coil` yourself, pass
+the stdlib with `--root ~/.coil/stdlib/src` (or wherever it is checked out).
+
+The compiler's built-in modules (`io`, `string`, `env`, `thread`, `gc`,
+`clock`, `ffi`, `macro`, `task`, …) do not live on disk and need no root.
+Each is listed in the [reference](/docs/reference#ref-builtin).
+
+## use
+
+```text
+use_stmt  ::= 'use' path '::' '{' item (',' item)* ','? '}' ';'
+            | 'use' path ('as' IDENT)? ';'
+path      ::= IDENT ('::' IDENT)*
+item      ::= IDENT ('as' IDENT)?
 ```
-use_stmt   ::= 'use' use_path ';'
-use_path   ::= IDENT ('::' IDENT)* '::' '{' use_item (',' use_item)* ','? '}'
-             | IDENT ('::' IDENT)* ('as' IDENT)?
-use_item   ::= IDENT ('as' IDENT)?
-```
 
-(`use path::*` is still parsed but always rejected at typecheck with `E0124`.)
-
-Forms:
-
-| Form | Example |
+| Form | Imports |
 |------|---------|
-| Concrete import | `use foo::sadge;` |
-| Aliased import | `use foo::sadge as f;` |
-| Brace group | `use math::{add, mul as product};` |
-| Multi-segment | `use lib::io::read;` |
-
-Rules:
-
-- Every `use` statement ends with `;`.
-- Path segments are identifiers separated by `::`.
-- The last segment is either an identifier (concrete import) or a `{ … }` brace group.
-- Concrete imports and brace-group items may use `as`.
-- A brace group must be the **last** segment.
-- Brace groups desugar to one concrete import per item (same module path).
-- **`use path::*` is banned** for every module (virtual and userland). List names explicitly (`use foo::{a, b}` or `use io::open;`). Prelude is auto-injected via `inject_prelude_scope` — no source `use prelude::*` needed.
-
-### `mod` statement
-
-```
-mod_stmt ::= 'mod' IDENT ';'
-```
-
-Example: `mod foo;`
-
-A `mod` declaration loads a module file but does not bind any names in the current scope.
-
----
-
-## Virtual modules (compiler builtins)
-
-Some `use` paths resolve to **compiler-owned virtual modules**, not `.hy` files on disk. The pipeline skips disk discovery for these paths.
-
-| Module | Exports | Auto-imported? |
-|--------|---------|----------------|
-| `prelude` | `Option`, `Result`, `Iterator`, `IntoIterator`, `ArrayIter` | Yes (every file) |
-| `prelude::ops` | `Add`, `Sub`, `Mul`, `Div`, `Neg`, `Rem`, `Pow`, `Num`, `Shl`, `Shr`, `BitAnd`, `BitOr`, `BitXor`, `BitNot`, `Integral`, `Eq`, `Ord`, `Lt`, `Le`, `Gt`, `Ge`, `Show`, `Length`, `Into` | Yes (every file) |
-| `prelude::test` | `assert` | Yes (every file) |
-| `ffi` | `dload`, `declare`, `invoke` | No — `use ffi::{dload, declare, invoke};` |
-| `ffi::types` | `Int`, `Float`, `String`, `Void`, `Ptr`, `Callback`, … | No — `use ffi::types::{Int, Ptr, …};` |
-| `io` | `Stream`, `IoError`, `Read` / `Write`, `stdin` / `stdout` / `stderr` / `open` / `read` / `write` / `write_from` / `close`, stream timeouts | No — `use io::{stdout, open, …};` (blocking helpers: `io::sync`) |
-| `io::net::tcp` | `connect` / `connect_timeout` / `listen` / `accept` / `accept_wait` / `accept_wait_timeout`, address helpers, `set_nodelay`, `shutdown` | No — `use io::net::tcp::{connect, listen, …};` |
-| `io::net::udp` | `bind` / `connect` / `send_to` / `recv_from` / `recv_from_wait` / `local_port` | No — `use io::net::udp::{bind, send_to, …};` |
-| `io::fs` | Path/metadata helpers (`exists`, `realpath`, `list_dir`, …) | No — `use io::fs::{exists, list_dir, …};` |
-| `env` | `args`, `var`, `cwd`, `exit`, `exec` (argv-only) | No — `use env::{args, var, …};` |
-| `thread` | `spawn`, channels, mutexes | No — `use thread::{spawn, join, channel, …};` |
-| `gc` | `Root` / `Weak`, `root` / `unroot` / `get` / `weak` / `upgrade`, `heap_bytes` / `collect` | No — `use gc::{root, weak, collect, …};` |
-
-TLS for applications is **not** a virtual module named `tls` or `io::net::tls`. Use the [coil-tls](https://github.com/ardax-corp/coil-tls) package (`use tls::{client, server}`); see [tls](/packages/tls). `use tls` / `use io::net::tls` / `use io::__tls` without that package on `[module].roots` is a module-not-found error. Crypto is [coil-crypto](https://github.com/ardax-corp/coil-crypto), not a virtual module. Time is [coil-time](https://github.com/ardax-corp/coil-time), not a virtual module (`use time::{timestamp, Instant}`).
-
-### Prelude rebind / redefine
-
-Short prelude names are bound in scope so `Option::Some` and `T: Eq` work without imports. Bare `Some` / `Ok` is the same sugar; if another enum also declares `Ok`, the bare name is `E0201` and you write `Status::Ok` / `Result::Ok`. To redefine a prelude name:
-
-```coil
-use prelude::ops::Eq as PreludeEq; // frees short `Eq`
-trait Eq<T> { /* your trait */ }   // now allowed
-```
-
-Without the `as` rebind, `trait Eq` / `enum Option` is a conflict diagnostic.
-
-The alias names the builtin: `T: PreludeEq` is the builtin `Eq` bound, and an aliased prelude enum works as a type and constructor head (`use prelude::Option as Opt;` then `Opt<int>`, `Opt::Some(1)`). Your module may then declare its own `trait Eq`; both stay usable side by side. In that module the short name `Eq` (bounds, `where` clauses, `impl Eq for …`) is your trait, `PreludeEq` is still the builtin, and `==` keeps using the builtin. A type with only the builtin `Eq` does not satisfy a bound on your trait.
-
-Prelude functions (`sin`, `sqrt`, `diff`, …) need no rebind. A same-named
-`fn` in the file, or an explicit import of one (`use trig::sin;`), takes the
-short name; to keep the builtin too, import it under another name
-(`use prelude::math::sin as psin;`). Only the names you import are shadowed:
-after `use trig::sin;`, a bare `cos` is still the prelude `cos`.
-
-```coil
-use trig::sin;   // trig.hy defines `fn sin(float x) -> float`
-
-fn main() {
-    let a = sin(0.0);   // trig::sin
-    let b = cos(0.0);   // prelude cos
-}
-```
-
-The implicit prelude (`prelude`, `prelude::ops`, `prelude::test`, `prelude::math`) is compiler-owned and not configurable. Extra disk search paths are `--root DIR` flags (spool passes `[module].roots`).
-
----
-
-## Path resolution algorithm
-
-Given a concrete import `use a::b::c;`:
-
-0. If the path matches a **virtual module** export (see above), bind that export and stop — no disk file is loaded.
-1. Split the path into segments. All segments except the last form the **directory path**; the last segment is the **item name**.
-   - Path: `["a", "b"]`
-   - Item name: `"c"`
-2. For each search root (`src` under the current directory first, then each `--root DIR` in order; spool passes `[module].roots` from `coil.toml` as `--root`):
-   - **One-item-per-file:** `<project_root>/<root>/a/b/c.hy`
-   - If the file exists, **stop** — this is the resolved module file.
-3. If no one-item-per-file candidate exists, try the **module-file** fallback for each root:
-   - `<project_root>/<root>/a/b.hy` (items exported from the module file)
-   - This is what makes `use math::add;` work when `add` lives in `math.hy`.
-4. If no root contains either form, emit a module-not-found diagnostic.
-
-**Shadowing:** when both `<root>/a/b/c.hy` (one-item-per-file) and `<root>/a/b.hy` (module file) exist, the one-item-per-file path always wins. Avoid keeping the same item name in both layouts.
-
-Given a brace-group import `use math::{add, mul};`:
-
-1. Desugar to `use math::add;` + `use math::mul;` (same path, one item each).
-2. Resolve each item with the algorithm above (typically both hit the same `math.hy`).
-
-Given a wildcard import `use a::b::*;`:
-
-1. Discovery may still enqueue `<root>/…/stem.hy` (same path split as before:
-   `use foo::*` → stem `"foo"`; `use a::b::*` → stem `"b"` under prefix `a`).
-2. Typechecking always rejects the import with `E0124` (`WildcardImport`) before
-   names are bound — virtual and userland alike. List exports explicitly.
-
-Given a `mod foo;` declaration:
-
-1. For each search root, check `<project_root>/<root>/foo.hy`.
-2. First existing file wins.
-
-### Resolution examples
-
-| Statement | Resolved file (root = `src/`) |
-|-----------|-------------------------------|
-| `use foo::sadge;` | `src/foo/sadge.hy`, else `src/foo.hy` |
-| `use math::{add, mul};` | `src/math.hy` (module-file fallback) |
-| `use lib::io::read;` | `src/lib/io/read.hy`, else `src/lib/io.hy` |
-| `use foo::*;` | rejected (`E0124`); use brace/concrete imports |
-| `use io::{open, stdout};` | virtual `io` exports (no `.hy`) |
-| `mod foo;` | `src/foo.hy` |
-
-With multiple roots `["./src", "./vendor"]`, the compiler checks `./src/...` first, then `./vendor/...`. The first match wins.
-
-### Userland stdlib
-
-[coil-stdlib](https://github.com/ardax-corp/coil-stdlib) (same org as the language
-and [spool](https://github.com/ardax-corp/spool)) is a separate package. Point a
-`--root` at `./.deps/coil-stdlib/src` or `../coil-stdlib/src`.
-
-How to consume it in other projects, module catalog, HTTP, and IO adapters:
-[coil-stdlib docs](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/README.md).
-
-### Library deps via `spool`
-
-Git/path library dependencies are declared in `coil.toml` `[dependencies]` and
-fetched by **`spool`** (not by the compiler). After install, spool maintains a
-managed root such as `.spool/deps/<package-name>` (symlinks into a shared cache)
-and that directory should be listed in `[module].roots`:
-
-```toml
-[module]
-roots = ["./src", "./.spool/deps"]
-```
-
-`use greet::hello;` then resolves under `.spool/deps/greet/hello.hy` with the same
-algorithm as any other root — first match wins; local `./src` still shadows
-deps. The compiler reads neither `coil.toml` nor `coil.lock`: spool passes the
-roots as `--root` and the lock's `[[package.native]] sha256` pins as
-`--dload-pin` for `dload` stems. Nothing auto-injects `[module].roots`.
-See [Project configuration](/docs/language/project-config) for `[package]` / `[dependencies]` / `[ffi]`
-schema and the **`spool` vs `coil package`** naming distinction (`coil package`
-builds an embedded executable; it is not the library dependency manager).
-
----
-
-## Namespace rules
-
-### Computing a file's namespace
-
-For a resolved file path, the namespace is:
-
-1. Find the **first** search root that contains the file.
-2. Take the path relative to that root.
-3. Strip the `.hy` extension.
-4. Replace path separators with `::`.
-
-Examples (root = `src/`):
-
-| Absolute path | Relative path | Namespace |
-|---------------|---------------|-----------|
-| `src/foo.hy` | `foo.hy` | `foo` |
-| `src/foo/sadge.hy` | `foo/sadge.hy` | `foo::sadge` |
-| `src/lib/io/read.hy` | `lib/io/read.hy` | `lib::io::read` |
-
-If a file is outside all search roots, the namespace falls back to the file's bare stem.
-
-### Entry file
-
-The file passed to the compiler (positional or `--entry FILE`; spool may take it from `[entry].file`) uses the **empty namespace** (`""`). Top-level items in the entry file have unprefixed FQNs.
-
-### Fully qualified names (FQN)
-
-Top-level functions register under:
-
-```
-<namespace>::<function_name>
-```
-
-If the namespace is empty, the FQN is just `<function_name>`.
-
-User **classes** register the same way: `Ty::Con("point::Point")` for `class Point` in `src/point.hy`. `use point::{Point}` (and `as` aliases) bind that constructor so `new Point(...)`, `Point::static(...)`, fields, methods, and `Point<T>` annotations work in the importer. Two modules may both export `class Client`.
-
-The FQN shape depends on **which file** path resolution loaded (see [Path resolution algorithm](#path-resolution-algorithm)):
-
-**Convention A — one-item-per-file** (`use a::b::c;` → `<root>/a/b/c.hy`):
-
-- File namespace: `a::b::c`
-- Function name inside the file: `c`
-- FQN: `a::b::c::c` (last path segment names both the file and the function)
-
-**Convention B — module-file fallback** (`use math::add;` → `<root>/math.hy`):
-
-- File namespace: `math`
-- Function name inside the file: `add`
-- FQN: `math::add` (namespace is the module file stem; item is the bare function name)
-
----
-
-## Wildcard imports (`::*`)
-
-`use path::*;` is **always** a compile error (`E0124`), for virtual modules
-(`io`, `ffi`, `string`, …) and userland disk modules alike. Import concrete
-names or use a brace group.
-
-Prelude (`prelude`, `prelude::ops`, `prelude::test`, `prelude::math`) is
-auto-injected every file via `inject_prelude_scope` — do not write
-`use prelude::*` in source.
-
-Discovery may still resolve a path ending in `*` to `<root>/…/stem.hy` when
-scanning dependencies, but no names are imported from a wildcard `use`.
-
-Brace-group example — `src/foo.hy`:
-
-```coil
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
-fn sadge() { write_all(stdout(), to_bytes(format("%i", 100))); }
-fn greet() { write_all(stdout(), to_bytes(format("%i", 200))); }
-```
-
-After `use foo::{sadge, greet};` in another file, both are callable by those
-local names.
-
----
-
-## Aliasing rules
-
-`use path::name as alias;`:
-
-| Property | Behavior |
-|----------|----------|
-| Local name | `alias` |
-| FQN target | Depends on resolved file (Convention A vs B; see above) |
-| Function expected in file | `fn name()` |
-| Typechecker | Inserts `alias` into the environment with a fresh type variable |
-
-Without `as`, the local name defaults to the last path segment (`name`).
-
-Examples:
-
-```coil
-// Convention A — foo/sadge.hy
-use foo::sadge;           // local: sadge  → FQN foo::sadge::sadge
-use foo::sadge as f;      // local: f      → FQN foo::sadge::sadge
-use lib::io::read as rd;  // local: rd     → FQN lib::io::read::read
-
-// Convention B — math.hy (no math/add.hy)
-use math::add;            // local: add    → FQN math::add
-use math::add as plus;    // local: plus   → FQN math::add
-```
-
-Aliases are **per-file**. They do not propagate to other modules.
-
-A local name can be bound by only one import per file. Importing two different items under the same name is an error (E0133), whether they come from one `use` or two:
-
-```coil
-use math::{add, mul as add};   // error: `add` is imported twice
-use math::{add, mul as times}; // ok
+| `use money::{format_cents};` | `format_cents` from module `money` |
+| `use money::{format_cents, CURRENCY};` | several names |
+| `use text::{trim as strip};` | `trim`, bound locally as `strip` |
+| `use store::item::Item;` | one name, without braces |
+| `use tests::assert;` | a macro (called as `assert!(…)`) |
+
+Any top-level item can be imported: functions, classes, enums, traits,
+type aliases, constants, statics and macros. Imports are local to the file;
+importing a name in one module does not make it visible in another.
+
+`use path::*;` is always an error (`E0124`). List the names.
+
+### Name conflicts
+
+A local name can be bound by one import only. Importing two different items
+under the same name is an error, whether in one `use` or two; rename one
+with `as`:
+
+```coil ignore
+use json::{parse};
+use toml::{parse};              // error E0133: `parse` is imported twice
+use toml::{parse as parse_toml}; // fine
 ```
 
 Importing the same item twice under the same name is allowed.
 
----
+## How a path is resolved
 
-## Discovery and compilation order
+For `use a::b::{c}`, each root is tried in order, and within a root:
 
-The pipeline runs in two passes:
+1. `a/b/c.hy`: a module named `a::b::c`, from which `c` is imported;
+2. `a/b.hy`: the module `a::b`, which declares `c`.
 
-### 1. Discovery pass
+The first file found wins, and a later root is only consulted when an
+earlier one has neither file. Because `src/` comes first, a project module
+shadows a stdlib or dependency module of the same name.
 
-- Start with the entry file on the worklist.
-- Parse each file; walk the AST for `use` and `mod` declarations.
-- Enqueue referenced files (deduplicated).
-- Repeat until the worklist stabilizes (all transitive dependencies found).
-- Cache source text to avoid re-reading from disk.
+| `use` | Files tried (root `src/`) |
+|-------|---------------------------|
+| `use money::{format_cents}` | `src/money/format_cents.hy`, `src/money.hy` |
+| `use store::item::{Item}` | `src/store/item/Item.hy`, `src/store/item.hy` |
+| `use io::{open}` | none: `io` is built in |
 
-### 2. Compilation pass
+Avoid keeping an item both in its own file (`a/b/c.hy`) and inside the
+module file (`a/b.hy`): the separate file wins.
 
-- Drain the worklist in **LIFO** order (dependencies compile before consumers).
-- Each file compiles with its computed namespace.
-- `use` statements in the consumer file resolve local names to FQNs via the alias map.
-- Multi-file programs share **one constant pool** for the whole link (`?` / match / other pool-backed immediates). The pool is cleared only on a fresh compile (prologue-only bytecode), not between modules.
+## mod
 
----
+`mod name;` loads a module without importing any names from it. Its
+functions can then be called with their qualified name:
 
-## Interaction with `coil.toml`
+```coil ignore
+mod money;
 
-Module resolution depends on the `--root` search roots. `coil` does not read `coil.toml`; spool passes its `[module].roots` as `--root` flags. See [Project configuration](/docs/language/project-config) for manifest format and default behavior.
+fn main() {
+    let text = money::format_cents(250);
+}
+```
 
-Without `--root`, the compiler uses a single default root: `src/` under the current directory. With `--root`, `src/` is still searched first.
+Prefer `use`, which says exactly which names a file depends on.
 
-`[package]` and `[dependencies]` are for **`spool`**, but they do not change discovery by themselves — only paths listed in `roots` are searched. Put `./.spool/deps` (or equivalent) in `roots` after `spool install` so dependency packages participate in `use` resolution.
+## The prelude
 
----
+Every file starts with the [prelude](/docs/reference/prelude) in scope:
+`Option`, `Result`, `Vec`, `Range`, iterators, the operator traits from
+[`prelude::ops`](/docs/reference/prelude/ops), and the math functions from
+[`prelude::math`](/docs/reference/prelude/math). Nothing else is implicit.
 
-## Diagnostics
+A name you declare or import takes precedence over a prelude function of
+the same name; to keep both, import the prelude one under another name
+(`use prelude::math::sin as psin;`). To declare your own trait or enum with
+a prelude name such as `Eq` or `Option`, first rebind the prelude one:
 
-Common errors:
+```coil ignore
+use prelude::ops::Eq as PreludeEq;
 
-| Situation | Message (approximate) |
-|-----------|----------------------|
-| File not found | Module not found for `use a::b::c` |
-| Unknown identifier after import | Cannot find function `x` in this scope |
-| Two imports bind one local name | `x` is imported twice: as `a::x` and as `b::y` (E0133) |
-| Function name mismatch | Call fails at link time if FQN not in registry |
+trait Eq<T> {
+    fn same(T a, T b) -> bool;
+}
+```
 
-The typechecker validates that aliased names exist in the environment. The codegen maps local names to FQNs; a missing target surfaces when the call is emitted.
+`==` keeps using the prelude `Eq`.
+
+## Packages
+
+A package is a directory with modules in `src/`. spool fetches packages
+listed in `coil.toml`, links them under `.spool/deps`, and passes each one's
+`src/` as a root, so `use json::{Json}` resolves inside the `json` package
+exactly as a project module would. The compiler itself never reads
+`coil.toml` or `coil.lock`; see [coil.toml](/docs/language/project-config).
+
+## Errors
+
+| Code | When |
+|------|------|
+| `E0900` | No root has a file for the path: ``Module not found: `use a::b::c` `` |
+| `E0100`, `E0101` | The module was found but does not declare the name; reported where the name is used |
+| `E0124` | `use path::*` |
+| `E0133` | Two imports bind the same local name |
+
+See [error codes](/docs/language/error-codes) for the full list.
