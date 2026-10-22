@@ -53,7 +53,10 @@ A `static let` with a pure initializer is computed while compiling too, but
 silently: if it fails or takes too long it is computed at startup as before.
 At `-O2` and above, a call to a pure function with constant arguments
 (`fib(20)`) may be replaced by its result the same way. `black_box(x)`
-stops that, which benchmarks use.
+stops that, which benchmarks use. A call that would take longer than
+automatic folding allows (`fib(32)`) stays a call, and the compiler says so
+with an info (E0138): write `comptime fib(32)` to compute it while
+compiling, which makes the build take longer.
 
 ## `comptime` expressions
 
@@ -243,7 +246,8 @@ raise:
 | `--comptime-timeout SECS` | wall-clock time of one evaluation | 300 s |
 
 Code the compiler computes on its own (a pure `static let`, call folding at
-`-O2`) has much smaller limits and gives up quietly.
+`-O2`) has much smaller limits and gives up without failing the build; a
+call that ran out of steps gets the E0138 info.
 
 ## Seeing what ran
 
