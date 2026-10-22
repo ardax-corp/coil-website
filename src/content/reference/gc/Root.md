@@ -8,11 +8,11 @@ name: "Root"
 signature: "class Root<T>"
 import: "use gc::{Root};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/gc.hy#L23"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/gc.hy#L23"
 order: 0
 ---
 
-A strong pin that keeps a value alive, made by [`root`](/docs/reference/gc/root).
+A strong pin that keeps a value alive, made by [`root`](/docs/reference/gc/fn.root).
 
 While the `Root` itself is reachable, the garbage collector keeps its
 value alive, even when nothing else refers to it. The usual use is FFI:
@@ -35,7 +35,7 @@ assert!(n == 3);
 
 ## See also
 
-- [`gc::root`](/docs/reference/gc/root)
+- [`gc::root`](/docs/reference/gc/fn.root)
 - [`gc::get`](/docs/reference/gc/get)
 - [`gc::unroot`](/docs/reference/gc/unroot)
 - [`Weak`](/docs/reference/gc/Weak): A handle that refers to a value without keeping it alive, made by weak.

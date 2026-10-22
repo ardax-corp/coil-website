@@ -7,7 +7,7 @@ kind: "module"
 name: "path"
 origin: "stdlib"
 auto: false
-order: 33
+order: 35
 ---
 
 Part of [coil-stdlib](/packages/stdlib): add it with `spool add coil-stdlib` or pass `--root path/to/coil-stdlib/src`.

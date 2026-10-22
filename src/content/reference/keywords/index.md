@@ -7,7 +7,7 @@ kind: "module"
 name: "keywords"
 origin: "builtin"
 auto: true
-order: 39
+order: 41
 ---
 
 Keywords are recognized by position. Contextual keywords such as `self`,

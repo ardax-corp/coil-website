@@ -8,13 +8,13 @@ name: "write_from"
 signature: "fn write_from(Stream s, Vec<byte> buf, int offset) -> Result<int, IoError>"
 import: "use io::{write_from};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/io.hy#L455"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/io.hy#L455"
 order: 11
 ---
 
 Writes `buf[offset..]` to `s` without waiting and returns how many bytes were written.
 
-Like [`write`](/docs/reference/io/write), but starts at `offset` without copying the rest of the
+Like [`write`](/docs/reference/io/fn.write), but starts at `offset` without copying the rest of the
 buffer, which suits a loop that resumes after a partial write.
 `offset == buf.len()` writes nothing and returns `Ok(0)`; a negative
 offset or one past the end returns `Err(IoError::InvalidInput)`.
@@ -47,11 +47,11 @@ assert!(n == 6);
 
 ## See also
 
-- [`io::write`](/docs/reference/io/write)
+- [`io::write`](/docs/reference/io/fn.write)
 - [`stdin`](/docs/reference/io/stdin): Returns a new stream on the process's standard input.
 - [`stdout`](/docs/reference/io/stdout): Returns a new stream on the process's standard output.
 - [`stderr`](/docs/reference/io/stderr): Returns a new stream on the process's standard error.
 - [`open`](/docs/reference/io/open): Opens the file at path with mode and returns a stream on it.
 - [`close`](/docs/reference/io/close): Closes s.
-- [`read`](/docs/reference/io/read): Reads bytes from s into the front of buf without waiting.
+- [`read`](/docs/reference/io/fn.read): Reads bytes from s into the front of buf without waiting.
 - [`wait_readable`](/docs/reference/io/wait_readable): Waits until s is readable.

@@ -8,14 +8,14 @@ name: "to_bytes"
 signature: "fn to_bytes(string s) -> Vec<byte>"
 import: "use string::{to_bytes};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/string.hy#L165"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/string.hy#L165"
 order: 7
 ---
 
 Encodes `s` as UTF-8 into a new [`Vec<byte>`](/docs/reference/prelude/Vec).
 
 Always succeeds; the result has `s.len()` bytes. Use it to pass text to
-[`io::write`](/docs/reference/io/write) and the other byte-based IO functions.
+[`io::write`](/docs/reference/io/fn.write) and the other byte-based IO functions.
 
 ## Parameters
 
@@ -40,7 +40,7 @@ assert!(b[0] == 72 as byte && b[1] == 105 as byte);
 ## See also
 
 - [`Vec`](/docs/reference/prelude/Vec)
-- [`io::write`](/docs/reference/io/write)
+- [`io::write`](/docs/reference/io/fn.write)
 - [`byte_at`](/docs/reference/string/byte_at): Returns the byte at byte offset i of s, or -1 when i is out of range.
 - [`find_from`](/docs/reference/string/find_from): Returns the byte offset of the first needle in hay at or after start, or -1.
 - [`format`](/docs/reference/string/format): Builds a string from the literal fmt and the arguments that follow it.

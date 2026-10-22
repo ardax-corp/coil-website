@@ -7,7 +7,7 @@ kind: "module"
 name: "conv"
 origin: "stdlib"
 auto: false
-order: 27
+order: 29
 ---
 
 Parsing returns a [`Result`](/docs/reference/prelude/Result) with a short error message. For building text from several values, [`string::format`](/docs/reference/string/format) is usually simpler.

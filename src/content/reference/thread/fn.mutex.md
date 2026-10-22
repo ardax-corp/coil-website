@@ -1,5 +1,5 @@
 ---
-slug: "thread/mutex"
+slug: "thread/fn.mutex"
 title: "mutex"
 description: "Creates a mutex holding a copy of initial."
 module: "thread"
@@ -8,7 +8,7 @@ name: "mutex"
 signature: "fn mutex<T>(T initial) -> Result<Mutex, ThreadError>"
 import: "use thread::{mutex};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/thread.hy#L451"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/thread.hy#L451"
 order: 15
 ---
 

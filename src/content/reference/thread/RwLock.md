@@ -8,11 +8,11 @@ name: "RwLock"
 signature: "class RwLock"
 import: "use thread::{RwLock};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/thread.hy#L128"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/thread.hy#L128"
 order: 4
 ---
 
-A readers-writer lock that owns a value, made by [`rwlock`](/docs/reference/thread/rwlock).
+A readers-writer lock that owns a value, made by [`rwlock`](/docs/reference/thread/fn.rwlock).
 
 Many readers ([`with_read`](/docs/reference/thread/with_read), [`try_read`](/docs/reference/thread/try_read)) or one writer ([`with_write`](/docs/reference/thread/with_write),
 [`try_write`](/docs/reference/thread/try_write)) at a time. Like [`Mutex`](/docs/reference/thread/Mutex), the handle can be passed to other
@@ -37,7 +37,7 @@ assert!(seen == 2);
 
 ## See also
 
-- [`thread::rwlock`](/docs/reference/thread/rwlock)
+- [`thread::rwlock`](/docs/reference/thread/fn.rwlock)
 - [`thread::with_read`](/docs/reference/thread/with_read)
 - [`thread::try_read`](/docs/reference/thread/try_read)
 - [`thread::with_write`](/docs/reference/thread/with_write)

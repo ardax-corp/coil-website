@@ -8,7 +8,7 @@ name: "Stream"
 signature: "class Stream"
 import: "use io::{Stream};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/io.hy#L47"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/io.hy#L47"
 order: 0
 ---
 
@@ -16,7 +16,7 @@ An open file, socket or standard stream.
 
 A `Stream` is an opaque heap handle made by [`open`](/docs/reference/io/open), [`stdin`](/docs/reference/io/stdin) / [`stdout`](/docs/reference/io/stdout) /
 [`stderr`](/docs/reference/io/stderr), or the socket functions in [`io::net::tcp`](/docs/reference/io/net/tcp) and [`io::net::udp`](/docs/reference/io/net/udp).
-Every stream is non-blocking: [`read`](/docs/reference/io/read), [`write`](/docs/reference/io/write) and the socket calls never
+Every stream is non-blocking: [`read`](/docs/reference/io/fn.read), [`write`](/docs/reference/io/fn.write) and the socket calls never
 wait, they return `Err(IoError::WouldBlock)` when the OS is not ready.
 Use [`wait_readable`](/docs/reference/io/wait_readable) / [`wait_writable`](/docs/reference/io/wait_writable) to wait, or the blocking adapters in
 [`io::sync`](/docs/reference/io/sync) (`write_all`, `read_to_end`, ...).
@@ -73,8 +73,8 @@ assert!(text == "hello");
 - [`io::stderr`](/docs/reference/io/stderr)
 - [`io::net::tcp`](/docs/reference/io/net/tcp)
 - [`io::net::udp`](/docs/reference/io/net/udp)
-- [`io::read`](/docs/reference/io/read)
-- [`io::write`](/docs/reference/io/write)
+- [`io::read`](/docs/reference/io/fn.read)
+- [`io::write`](/docs/reference/io/fn.write)
 - [`io::wait_readable`](/docs/reference/io/wait_readable)
 - [`io::wait_writable`](/docs/reference/io/wait_writable)
 - [`io::sync`](/docs/reference/io/sync)

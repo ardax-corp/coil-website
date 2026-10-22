@@ -8,13 +8,13 @@ name: "Write"
 signature: "trait Write<S>"
 import: "use io::{Write};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/io.hy#L230"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/io.hy#L230"
 order: 3
 ---
 
 Types that bytes can be written to; implemented for [`Stream`](/docs/reference/io/Stream).
 
-[`write`](/docs/reference/io/Write/write) behaves like the free function [`io::write`](/docs/reference/io/write).
+[`write`](/docs/reference/io/Write/write) behaves like the free function [`io::write`](/docs/reference/io/fn.write).
 
 ## Required methods
 
@@ -39,5 +39,5 @@ assert!(n == 3);
 
 - [`io::Stream`](/docs/reference/io/Stream)
 - [`Write::write`](/docs/reference/io/Write/write)
-- [`io::write`](/docs/reference/io/write)
+- [`io::write`](/docs/reference/io/fn.write)
 - [`Read`](/docs/reference/io/Read): Types that bytes can be read from; implemented for Stream.

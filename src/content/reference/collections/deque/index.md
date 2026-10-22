@@ -7,7 +7,7 @@ kind: "module"
 name: "collections::deque"
 origin: "stdlib"
 auto: false
-order: 21
+order: 23
 ---
 
 Part of [coil-stdlib](/packages/stdlib): add it with `spool add coil-stdlib` or pass `--root path/to/coil-stdlib/src`.

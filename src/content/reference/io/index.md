@@ -11,8 +11,8 @@ order: 3
 ---
 
 Everything in `io` is a [`Stream`](/docs/reference/io/Stream): a handle to a file, a standard stream or a
-socket. The functions here are the low-level, non-blocking layer. [`read`](/docs/reference/io/read) and
-[`write`](/docs/reference/io/write) move as many bytes as are ready and never spin; buffers are
+socket. The functions here are the low-level, non-blocking layer. [`read`](/docs/reference/io/fn.read) and
+[`write`](/docs/reference/io/fn.write) move as many bytes as are ready and never spin; buffers are
 [`Vec<byte>`](/docs/reference/prelude/Vec). Errors are [`IoError`](/docs/reference/io/IoError) values in a [`Result`](/docs/reference/prelude/Result).
 
 Most programs use the blocking helpers on top of this layer from coil-stdlib:
@@ -78,8 +78,8 @@ use io::{Stream, IoError};
 | [`stderr`](/docs/reference/io/stderr) | Returns a new stream on the process's standard error. |
 | [`open`](/docs/reference/io/open) | Opens the file at [`path`](/docs/reference/path) with `mode` and returns a stream on it. |
 | [`close`](/docs/reference/io/close) | Closes `s`. |
-| [`read`](/docs/reference/io/read) | Reads bytes from `s` into the front of `buf` without waiting. |
-| [`write`](/docs/reference/io/write) | Writes bytes from `buf` to `s` without waiting and returns how many were written. |
+| [`read`](/docs/reference/io/fn.read) | Reads bytes from `s` into the front of `buf` without waiting. |
+| [`write`](/docs/reference/io/fn.write) | Writes bytes from `buf` to `s` without waiting and returns how many were written. |
 | [`write_from`](/docs/reference/io/write_from) | Writes `buf[offset..]` to `s` without waiting and returns how many bytes were written. |
 | [`wait_readable`](/docs/reference/io/wait_readable) | Waits until `s` is readable. |
 | [`wait_writable`](/docs/reference/io/wait_writable) | Waits until `s` is writable. |

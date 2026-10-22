@@ -8,13 +8,13 @@ name: "Read"
 signature: "trait Read<S>"
 import: "use io::{Read};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/io.hy#L209"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/io.hy#L209"
 order: 2
 ---
 
 Types that bytes can be read from; implemented for [`Stream`](/docs/reference/io/Stream).
 
-[`read`](/docs/reference/io/Read/read) behaves like the free function [`io::read`](/docs/reference/io/read).
+[`read`](/docs/reference/io/Read/read) behaves like the free function [`io::read`](/docs/reference/io/fn.read).
 
 ## Required methods
 
@@ -54,5 +54,5 @@ assert!(n == 3);
 
 - [`io::Stream`](/docs/reference/io/Stream)
 - [`Read::read`](/docs/reference/io/Read/read)
-- [`io::read`](/docs/reference/io/read)
+- [`io::read`](/docs/reference/io/fn.read)
 - [`Write`](/docs/reference/io/Write): Types that bytes can be written to; implemented for Stream.

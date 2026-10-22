@@ -7,7 +7,7 @@ kind: "module"
 name: "collections::set"
 origin: "stdlib"
 auto: false
-order: 24
+order: 26
 ---
 
 Part of [coil-stdlib](/packages/stdlib): add it with `spool add coil-stdlib` or pass `--root path/to/coil-stdlib/src`.

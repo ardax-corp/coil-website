@@ -54,6 +54,6 @@ Built into the compiler.
 | [`dot`](/docs/reference/prelude/math/dot) | Returns the dot product of two vectors of the same length. |
 | [`cross`](/docs/reference/prelude/math/cross) | Returns the cross product of two 3-element vectors. |
 | [`matmul`](/docs/reference/prelude/math/matmul) | Multiplies two matrices written as nested fixed-length arrays. |
-| [`matrix`](/docs/reference/prelude/math/matrix) | Wraps nested fixed-length rows as a [`Matrix`](/docs/reference/prelude/math/Matrix). |
+| [`matrix`](/docs/reference/prelude/math/fn.matrix) | Wraps nested fixed-length rows as a [`Matrix`](/docs/reference/prelude/math/Matrix). |
 | [`intersect`](/docs/reference/prelude/math/intersect) | Returns a [`byte`](/docs/reference/types/byte) mask that is `1` where both matrices have a non-zero cell. |
 | [`diff`](/docs/reference/prelude/math/diff) | Returns a [`byte`](/docs/reference/types/byte) mask that is `1` where `a` has a non-zero cell and `b` has `0`. |

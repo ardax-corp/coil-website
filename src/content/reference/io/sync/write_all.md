@@ -14,7 +14,7 @@ order: 0
 
 Writes all of `buf` to `s`, waiting whenever the stream is not ready.
 
-[`io::write`](/docs/reference/io/write) may write only part of a buffer; this keeps going until every
+[`io::write`](/docs/reference/io/fn.write) may write only part of a buffer; this keeps going until every
 byte is out, then returns `Ok(0)`. Inside a task, the waits let other
 tasks run.
 
@@ -42,7 +42,7 @@ assert!(written.is_ok());
 
 ## See also
 
-- [`io::write`](/docs/reference/io/write)
+- [`io::write`](/docs/reference/io/fn.write)
 - [`read_exact`](/docs/reference/io/sync/read_exact): Fills all of buf from s, waiting whenever no data is ready.
 - [`read_to_end`](/docs/reference/io/sync/read_to_end): Reads from s until it ends and returns everything read.
 - [`accept_wait`](/docs/reference/io/sync/accept_wait): Waits for the next connection on a TCP listener and returns its stream.

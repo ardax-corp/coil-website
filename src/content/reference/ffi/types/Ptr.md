@@ -8,7 +8,7 @@ name: "Ptr"
 signature: "class Ptr"
 import: "use ffi::types::{Ptr};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/ffi/types.hy#L94"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/ffi/types.hy#L94"
 order: 12
 ---
 
@@ -20,7 +20,7 @@ means `Ptr`.
 As an argument, an [`int`](/docs/reference/types/int) is passed as the address itself, and a non-empty
 array or tuple of [`int`](/docs/reference/types/int) is passed as a pointer to a temporary
 `int64_t[]` copy whose changes are copied back after the call. Keep a
-value C retains alive with [`gc::root`](/docs/reference/gc/root).
+value C retains alive with [`gc::root`](/docs/reference/gc/fn.root).
 
 ## Examples
 
@@ -38,7 +38,7 @@ let n = invoke(lib, id, ([1, 2, 3, 4, 5], 5))?; // 15
 
 - [`int`](/docs/reference/types/int)
 - [`Vec`](/docs/reference/prelude/Vec)
-- [`gc::root`](/docs/reference/gc/root)
+- [`gc::root`](/docs/reference/gc/fn.root)
 - [`Int`](/docs/reference/ffi/types/Int): FFI tag for a 64-bit signed integer (int64_t), passed from and returned as int.
 - [`Float`](/docs/reference/ffi/types/Float): FFI tag for a 64-bit float (double), passed from and returned as float.
 - [`String`](/docs/reference/ffi/types/String): FFI tag for a NUL-terminated C string (const char *), passed from and returned as string.

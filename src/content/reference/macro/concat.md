@@ -8,7 +8,7 @@ name: "concat"
 signature: "fn concat(Vec<Code> parts) -> Code"
 import: "use macro::{concat};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/prelude/macro.hy#L71"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/prelude/macro.hy#L71"
 order: 16
 ---
 
@@ -30,7 +30,7 @@ Combine several generated item lists.
 - [`lit`](/docs/reference/macro/lit): A string literal: lit("a\"b") splices as "a\"b".
 - [`lit_int`](/docs/reference/macro/lit_int): An integer literal.
 - [`raw`](/docs/reference/macro/raw): Raw source, spliced as is.
-- [`ident`](/docs/reference/macro/ident): A name, for splicing generated identifiers: ${ident("to_" + n)}.
+- [`ident`](/docs/reference/macro/fn.ident): A name, for splicing generated identifiers: ${ident("to_" + n)}.
 - [`decimal`](/docs/reference/macro/decimal): A decimal integer the compiler wrote (- then digits, in range).
 - [`attr_index`](/docs/reference/macro/attr_index): Index of the attribute called name, or -1.
 - [`attr_value`](/docs/reference/macro/attr_value): #[attr(key = "value")] from an attribute list, or fallback.

@@ -8,11 +8,11 @@ name: "Mutex"
 signature: "class Mutex"
 import: "use thread::{Mutex};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/thread.hy#L104"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/thread.hy#L104"
 order: 3
 ---
 
-A mutual-exclusion lock that owns a value, made by [`mutex`](/docs/reference/thread/mutex).
+A mutual-exclusion lock that owns a value, made by [`mutex`](/docs/reference/thread/fn.mutex).
 
 The value is copied into the lock, and [`with_lock`](/docs/reference/thread/with_lock) hands the callback a
 copy and stores the new value it returns. The handle itself can be passed
@@ -37,7 +37,7 @@ assert!(now == 5);
 
 ## See also
 
-- [`thread::mutex`](/docs/reference/thread/mutex)
+- [`thread::mutex`](/docs/reference/thread/fn.mutex)
 - [`thread::with_lock`](/docs/reference/thread/with_lock)
 - [`Thread`](/docs/reference/thread/Thread): A handle to a function running on another OS thread, from spawn.
 - [`Sender`](/docs/reference/thread/Sender): The sending half of a channel made by channel.

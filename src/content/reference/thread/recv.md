@@ -8,14 +8,14 @@ name: "recv"
 signature: "fn recv<T>(Receiver rx) -> Result<T, ThreadError>"
 import: "use thread::{recv};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/thread.hy#L352"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/thread.hy#L352"
 order: 11
 ---
 
 Takes the next value from the channel, waiting until one arrives.
 
 Returns `Err(ThreadError::Disconnected)` when the channel is closed and
-every value has been received. Inside a `task::scope`, only the waiting
+every value has been received. Inside a [`task::scope`](/docs/reference/task/fn.scope), only the waiting
 task is suspended.
 
 ## Parameters
@@ -49,6 +49,7 @@ assert!(done);
 
 ## See also
 
+- [`task::scope`](/docs/reference/task/fn.scope)
 - [`spawn`](/docs/reference/thread/spawn): Runs f(arg) on another OS thread and returns a handle to it.
 - [`join`](/docs/reference/thread/join): Waits for the thread to finish and returns the value its function returned.
 - [`detach`](/docs/reference/thread/detach): Lets the thread run to completion without being joined.
@@ -56,4 +57,3 @@ assert!(done);
 - [`send`](/docs/reference/thread/send): Sends a copy of value on the channel.
 - [`try_send`](/docs/reference/thread/try_send): Sends value without waiting.
 - [`try_recv`](/docs/reference/thread/try_recv): Takes the next value if there is one, without waiting.
-- [`close`](/docs/reference/thread/close): Closes the channel: no more sends.

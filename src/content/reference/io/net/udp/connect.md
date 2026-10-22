@@ -8,15 +8,15 @@ name: "connect"
 signature: "fn connect(string host, int port) -> Result<Stream, IoError>"
 import: "use io::net::udp::{connect};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/io/net/udp.hy#L67"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/io/net/udp.hy#L67"
 order: 1
 ---
 
 Opens a UDP socket whose default peer is `host` on `port`.
 
 The socket is bound to an ephemeral IPv4 port (`0.0.0.0:0`), so the
-peer must be an IPv4 address. Afterwards [`io::write`](/docs/reference/io/write) sends a datagram
-to that peer and [`io::read`](/docs/reference/io/read) receives one from it. Nothing is sent by
+peer must be an IPv4 address. Afterwards [`io::write`](/docs/reference/io/fn.write) sends a datagram
+to that peer and [`io::read`](/docs/reference/io/fn.read) receives one from it. Nothing is sent by
 `connect` itself.
 A program that reaches `connect` compiles only with `--allow-net`.
 
@@ -59,8 +59,8 @@ fn main() {
 
 ## See also
 
-- [`io::write`](/docs/reference/io/write)
-- [`io::read`](/docs/reference/io/read)
+- [`io::write`](/docs/reference/io/fn.write)
+- [`io::read`](/docs/reference/io/fn.read)
 - [`bind`](/docs/reference/io/net/udp/bind): Opens a UDP socket bound to host and port.
 - [`local_port`](/docs/reference/io/net/udp/local_port): Returns the local port a UDP socket is bound to.
 - [`recv_from`](/docs/reference/io/net/udp/recv_from): Receives one datagram into the front of buf without waiting.

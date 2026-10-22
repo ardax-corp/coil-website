@@ -8,7 +8,7 @@ name: "with_read"
 signature: "fn with_read<A, B>(RwLock lock, A -> B f) -> Result<B, ThreadError>"
 import: "use thread::{with_read};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/thread.hy#L592"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/thread.hy#L592"
 order: 21
 ---
 
@@ -16,7 +16,7 @@ Runs `f` on a snapshot of the lock's value and returns what `f` returns.
 
 The read lock is released before `f` runs, so another thread may change
 the value meanwhile. Waits while a writer holds the lock (blocking every
-task of the thread, also inside a `task::scope`).
+task of the thread, also inside a [`task::scope`](/docs/reference/task/fn.scope)).
 
 ## Parameters
 
@@ -47,6 +47,7 @@ assert!(first == 1);
 
 ## See also
 
+- [`task::scope`](/docs/reference/task/fn.scope)
 - [`spawn`](/docs/reference/thread/spawn): Runs f(arg) on another OS thread and returns a handle to it.
 - [`join`](/docs/reference/thread/join): Waits for the thread to finish and returns the value its function returned.
 - [`detach`](/docs/reference/thread/detach): Lets the thread run to completion without being joined.
@@ -54,4 +55,3 @@ assert!(first == 1);
 - [`send`](/docs/reference/thread/send): Sends a copy of value on the channel.
 - [`recv`](/docs/reference/thread/recv): Takes the next value from the channel, waiting until one arrives.
 - [`try_send`](/docs/reference/thread/try_send): Sends value without waiting.
-- [`try_recv`](/docs/reference/thread/try_recv): Takes the next value if there is one, without waiting.

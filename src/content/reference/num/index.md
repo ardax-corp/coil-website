@@ -7,7 +7,7 @@ kind: "module"
 name: "num"
 origin: "stdlib"
 auto: false
-order: 32
+order: 34
 ---
 
 Float functions such as [`sqrt`](/docs/reference/prelude/math/sqrt) and [`sin`](/docs/reference/prelude/math/sin) are auto-imported from [`prelude::math`](/docs/reference/prelude/math); this module adds the rest. Powers are the `**` operator.

@@ -1,5 +1,5 @@
 ---
-slug: "macro/ident"
+slug: "macro/fn.ident"
 title: "ident"
 description: "A name, for splicing generated identifiers: ${ident(\"to_\" + n)}."
 module: "macro"
@@ -8,7 +8,7 @@ name: "ident"
 signature: "fn ident(string name) -> Ident"
 import: "use macro::{ident};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/prelude/macro.hy#L91"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/prelude/macro.hy#L91"
 order: 17
 ---
 

@@ -33,8 +33,8 @@ use thread::{Thread, Sender};
 | [`Thread`](/docs/reference/thread/Thread) | A handle to a function running on another OS thread, from [`spawn`](/docs/reference/thread/spawn). |
 | [`Sender`](/docs/reference/thread/Sender) | The sending half of a channel made by [`channel`](/docs/reference/thread/channel). |
 | [`Receiver`](/docs/reference/thread/Receiver) | The receiving half of a channel made by [`channel`](/docs/reference/thread/channel). |
-| [`Mutex`](/docs/reference/thread/Mutex) | A mutual-exclusion lock that owns a value, made by [`mutex`](/docs/reference/thread/mutex). |
-| [`RwLock`](/docs/reference/thread/RwLock) | A readers-writer lock that owns a value, made by [`rwlock`](/docs/reference/thread/rwlock). |
+| [`Mutex`](/docs/reference/thread/Mutex) | A mutual-exclusion lock that owns a value, made by [`mutex`](/docs/reference/thread/fn.mutex). |
+| [`RwLock`](/docs/reference/thread/RwLock) | A readers-writer lock that owns a value, made by [`rwlock`](/docs/reference/thread/fn.rwlock). |
 | [`ThreadError`](/docs/reference/thread/ThreadError) | The error of every `thread` function. |
 
 ## Functions
@@ -50,12 +50,12 @@ use thread::{Thread, Sender};
 | [`try_send`](/docs/reference/thread/try_send) | Sends `value` without waiting. |
 | [`try_recv`](/docs/reference/thread/try_recv) | Takes the next value if there is one, without waiting. |
 | [`close`](/docs/reference/thread/close) | Closes the channel: no more sends. |
-| [`mutex`](/docs/reference/thread/mutex) | Creates a mutex holding a copy of `initial`. |
+| [`mutex`](/docs/reference/thread/fn.mutex) | Creates a mutex holding a copy of `initial`. |
 | [`with_lock`](/docs/reference/thread/with_lock) | Locks `m`, runs `f` on its value, stores the new value and returns the result. |
 | [`lock`](/docs/reference/thread/lock) | Locks `m` until [`unlock`](/docs/reference/thread/unlock), waiting while another thread holds it. |
 | [`try_lock`](/docs/reference/thread/try_lock) | Locks `m` if it is free, without waiting. |
 | [`unlock`](/docs/reference/thread/unlock) | Releases a mutex this thread locked with [`lock`](/docs/reference/thread/lock) or [`try_lock`](/docs/reference/thread/try_lock). |
-| [`rwlock`](/docs/reference/thread/rwlock) | Creates a readers-writer lock holding a copy of `initial`. |
+| [`rwlock`](/docs/reference/thread/fn.rwlock) | Creates a readers-writer lock holding a copy of `initial`. |
 | [`with_read`](/docs/reference/thread/with_read) | Runs `f` on a snapshot of the lock's value and returns what `f` returns. |
 | [`with_write`](/docs/reference/thread/with_write) | Takes the write lock, runs `f` and stores the new value it returns. |
 | [`try_read`](/docs/reference/thread/try_read) | Like [`with_read`](/docs/reference/thread/with_read), but returns `Err(ThreadError::WouldBlock)` instead of waiting when a writer holds the lock. |

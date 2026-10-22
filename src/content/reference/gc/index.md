@@ -11,8 +11,8 @@ order: 9
 ---
 
 Coil's heap is garbage collected; most programs never touch this module. Use
-it when native code holds on to a Coil value ([`root`](/docs/reference/gc/root) it), when a registry
-should not keep its entries alive ([`weak`](/docs/reference/gc/weak) and [`upgrade`](/docs/reference/gc/upgrade)), or to measure memory
+it when native code holds on to a Coil value ([`root`](/docs/reference/gc/fn.root) it), when a registry
+should not keep its entries alive ([`weak`](/docs/reference/gc/fn.weak) and [`upgrade`](/docs/reference/gc/upgrade)), or to measure memory
 ([`heap_bytes`](/docs/reference/gc/heap_bytes), [`collect`](/docs/reference/gc/collect)).
 
 A class or enum can define `fn drop()` to release a native resource when its
@@ -33,17 +33,17 @@ use gc::{Root, Weak};
 
 | Name | Description |
 |------|-------------|
-| [`Root`](/docs/reference/gc/Root) | A strong pin that keeps a value alive, made by [`root`](/docs/reference/gc/root). |
-| [`Weak`](/docs/reference/gc/Weak) | A handle that refers to a value without keeping it alive, made by [`weak`](/docs/reference/gc/weak). |
+| [`Root`](/docs/reference/gc/Root) | A strong pin that keeps a value alive, made by [`root`](/docs/reference/gc/fn.root). |
+| [`Weak`](/docs/reference/gc/Weak) | A handle that refers to a value without keeping it alive, made by [`weak`](/docs/reference/gc/fn.weak). |
 
 ## Functions
 
 | Name | Description |
 |------|-------------|
-| [`root`](/docs/reference/gc/root) | Pins `value` so the garbage collector keeps it alive while the returned [`Root`](/docs/reference/gc/Root) is reachable. |
+| [`root`](/docs/reference/gc/fn.root) | Pins `value` so the garbage collector keeps it alive while the returned [`Root`](/docs/reference/gc/Root) is reachable. |
 | [`get`](/docs/reference/gc/get) | Returns the pinned value, leaving the pin in place. |
 | [`unroot`](/docs/reference/gc/unroot) | Releases the pin and returns the value it held. |
-| [`weak`](/docs/reference/gc/weak) | Makes a handle to `value` that does not keep it alive. |
+| [`weak`](/docs/reference/gc/fn.weak) | Makes a handle to `value` that does not keep it alive. |
 | [`upgrade`](/docs/reference/gc/upgrade) | Returns the value while it is still alive, `None` once it was collected. |
 | [`heap_bytes`](/docs/reference/gc/heap_bytes) | Returns the size of the managed heap in bytes. |
 | [`collect`](/docs/reference/gc/collect) | Runs a full garbage collection now and returns the number of bytes freed. |

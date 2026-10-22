@@ -7,7 +7,7 @@ kind: "module"
 name: "fmt"
 origin: "stdlib"
 auto: false
-order: 29
+order: 31
 ---
 
 Part of [coil-stdlib](/packages/stdlib): add it with `spool add coil-stdlib` or pass `--root path/to/coil-stdlib/src`.

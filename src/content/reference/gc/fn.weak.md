@@ -1,5 +1,5 @@
 ---
-slug: "gc/weak"
+slug: "gc/fn.weak"
 title: "weak"
 description: "Makes a handle to value that does not keep it alive."
 module: "gc"
@@ -8,7 +8,7 @@ name: "weak"
 signature: "fn weak<T>(T value) -> Weak<T>"
 import: "use gc::{weak};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/47561bdcc2da2f012b9401977345a7770403a398/compiler/src/builtin_docs/gc.hy#L107"
+source: "https://github.com/ardax-corp/coil-lang/blob/398a75756bed65b1ece7801a7a0f96154af4c6fb/compiler/src/builtin_docs/gc.hy#L107"
 order: 5
 ---
 
@@ -45,5 +45,5 @@ assert!(match upgrade(w) { Option::Some(n) => n == 5, Option::None => false });
 - [`gc::Weak`](/docs/reference/gc/Weak)
 - [`Option`](/docs/reference/prelude/Option)
 - [`Result`](/docs/reference/prelude/Result)
-- [`root`](/docs/reference/gc/root): Pins value so the garbage collector keeps it alive while the returned Root is reachable.
+- [`root`](/docs/reference/gc/fn.root): Pins value so the garbage collector keeps it alive while the returned Root is reachable.
 - [`get`](/docs/reference/gc/get): Returns the pinned value, leaving the pin in place.
