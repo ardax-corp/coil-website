@@ -50,16 +50,6 @@ const nav: { href: string; label: string; key: Section }[] = [
         const t = localStorage.getItem("theme");
         if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
       } catch {}
-      // Brand preview (src/lib/brand.ts): ?logo=ID&bg=ID, remembered; ?logo=&bg= resets.
-      const q = new URLSearchParams(location.search);
-      for (const k of ["logo", "bg"]) {
-        let v = q.get(k);
-        try {
-          if (v !== null) v ? localStorage.setItem("brand-" + k, v) : localStorage.removeItem("brand-" + k);
-          else v = localStorage.getItem("brand-" + k);
-        } catch {}
-        if (v) document.documentElement.dataset[k] = v;
-      }
     </script>
   </head>
   <body>
