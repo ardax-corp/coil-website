@@ -29,7 +29,7 @@ inventory/
 
 `src/money.hy` holds a function and a constant:
 
-```coil
+```coil file=src/money.hy
 const CURRENCY = "EUR";
 
 fn format_cents(int cents) -> string {
@@ -39,7 +39,7 @@ fn format_cents(int cents) -> string {
 
 `src/store/item.hy` holds a class:
 
-```coil
+```coil file=src/store/item.hy
 class Item {
     pub name: string,
     pub price_cents: int,
@@ -55,7 +55,7 @@ impl Item {
 
 `src/main.hy` imports what it needs from both:
 
-```coil ignore
+```coil file=src/main.hy
 use io::sync::{println};
 use money::{format_cents};
 use store::item::{Item};
