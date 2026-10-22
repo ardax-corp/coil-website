@@ -1,7 +1,7 @@
 ---
 slug: "types/index"
-title: "types"
-description: "The types module."
+title: "Primitive types"
+description: "int, float, bool, byte, string and unit: the built-in value types."
 module: "types"
 kind: "module"
 name: "types"
@@ -9,6 +9,15 @@ origin: "builtin"
 auto: true
 order: 28
 ---
+
+The primitive types are always in scope. Arithmetic on [`int`](/docs/reference/types/int) is checked:
+overflow, division by zero and out-of-range shifts panic in every build.
+[`float`](/docs/reference/types/float) follows IEEE-754 and never panics. [`byte`](/docs/reference/types/byte) arithmetic wraps modulo 256
+(the compiler warns, `E0130`). Convert between them with `as`; see
+[Casts](/docs/language/casts).
+
+Compound types (tuples, arrays, records, classes, enums, function types) are
+described in the [type system](/docs/language/types) page.
 
 Built into the compiler.
 

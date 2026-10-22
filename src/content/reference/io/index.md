@@ -1,7 +1,7 @@
 ---
 slug: "io/index"
 title: "io"
-description: "The io module."
+description: "Files, standard streams, TCP and UDP as non-blocking streams of bytes."
 module: "io"
 kind: "module"
 name: "io"
@@ -9,6 +9,34 @@ origin: "builtin"
 auto: false
 order: 3
 ---
+
+Everything in `io` is a [`Stream`](/docs/reference/io/Stream): a handle to a file, a standard stream or a
+socket. The functions here are the low-level, non-blocking layer. [`read`](/docs/reference/io/read) and
+[`write`](/docs/reference/io/write) move as many bytes as are ready and never spin; buffers are
+[`Vec<byte>`](/docs/reference/prelude/Vec). Errors are [`IoError`](/docs/reference/io/IoError) values in a [`Result`](/docs/reference/prelude/Result).
+
+Most programs use the blocking helpers on top of this layer from coil-stdlib:
+[`io::sync`](/docs/reference/io/sync) (`println`, `write_all`,
+`read_to_end`, `read_line`) and [`io::file`](/docs/reference/io/file)
+(`read_text`, `write_text`):
+
+```coil no_run
+use io::sync::{println};
+use io::file::{read_text};
+
+fn main() {
+    let text = read_text("notes.txt")?;
+    println(text)?;
+}
+```coil
+
+To do several IO operations at once, run them as tasks: inside a
+[`task::scope`](/docs/manual/tutorial/12-tasks) a task that waits for IO lets
+the others run. Text conversion is in [`string`](/docs/reference/string)
+(`to_bytes`, `from_bytes`). File and network access needs a grant when the
+program runs (`--allow-read`, `--allow-write`, `--allow-net`); see
+[Permissions](/docs/language/permissions). TLS is the
+[coil-tls](/packages/tls) package.
 
 Built into the compiler.
 
@@ -22,10 +50,10 @@ use io::{Stream, IoError};
 
 | Module | Description |
 |--------|-------------|
-| [`io::fs`](/docs/reference/io/fs) |  |
+| [`io::fs`](/docs/reference/io/fs) | Paths and the file system: metadata, directories, rename, copy, symlinks. |
 | [`io::file`](/docs/reference/io/file) |  |
 | [`io::sync`](/docs/reference/io/sync) |  |
-| [`io::net`](/docs/reference/io/net) |  |
+| [`io::net`](/docs/reference/io/net) | TCP and UDP sockets. |
 
 ## Types
 

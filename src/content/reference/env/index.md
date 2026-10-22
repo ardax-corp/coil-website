@@ -1,7 +1,7 @@
 ---
 slug: "env/index"
 title: "env"
-description: "The env module."
+description: "Command-line arguments, environment variables, working directory, exit and exec."
 module: "env"
 kind: "module"
 name: "env"
@@ -9,6 +9,12 @@ origin: "builtin"
 auto: false
 order: 10
 ---
+
+[`args`](/docs/reference/env/args) and [`cwd`](/docs/reference/env/cwd) need no grant. Reading or changing variables and [`set_cwd`](/docs/reference/env/set_cwd)
+need `--allow-env`, [`exec`](/docs/reference/env/exec) needs `--allow-exec` and [`exit`](/docs/reference/env/exit) needs
+`--allow-exit`; see [Permissions](/docs/language/permissions). [`exec`](/docs/reference/env/exec) runs a
+program with an argument vector, without a shell, in the current working
+directory and environment.
 
 Built into the compiler.
 

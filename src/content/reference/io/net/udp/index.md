@@ -1,7 +1,7 @@
 ---
 slug: "io/net/udp/index"
 title: "io::net::udp"
-description: "The io::net::udp module."
+description: "UDP sockets: bind, send_to, recv_from."
 module: "io::net::udp"
 kind: "module"
 name: "io::net::udp"
@@ -9,6 +9,10 @@ origin: "builtin"
 auto: false
 order: 6
 ---
+
+A UDP socket is a [`Stream`](/docs/reference/io/Stream) bound with [`bind`](/docs/reference/io/net/udp/bind).
+[`connect`](/docs/reference/io/net/udp/connect) fixes a default peer for `write`; [`send_to`](/docs/reference/io/net/udp/send_to) and [`recv_from`](/docs/reference/io/net/udp/recv_from) name the
+peer on each datagram.
 
 Built into the compiler.
 

@@ -1,7 +1,7 @@
 ---
 slug: "thread/index"
 title: "thread"
-description: "The thread module."
+description: "OS threads, channels, mutexes and read-write locks."
 module: "thread"
 kind: "module"
 name: "thread"
@@ -9,6 +9,14 @@ origin: "builtin"
 auto: false
 order: 8
 ---
+
+[`spawn`](/docs/reference/thread/spawn) runs a function on a new OS thread with its own VM and heap. Values
+cross between threads by copy through [`send`](/docs/reference/thread/send)/[`recv`](/docs/reference/thread/recv) on a channel or through a
+[`Mutex`](/docs/reference/thread/Mutex) / [`RwLock`](/docs/reference/thread/RwLock); heap handles such as [`gc::Root`](/docs/reference/gc/Root) cannot be sent.
+
+For concurrent IO on one thread, [tasks](/docs/manual/tutorial/12-tasks) are
+lighter. Threads pay off for CPU-bound work. See the
+[threads tutorial](/docs/manual/tutorial/11-threads).
 
 Built into the compiler.
 

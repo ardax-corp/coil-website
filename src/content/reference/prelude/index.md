@@ -1,7 +1,7 @@
 ---
 slug: "prelude/index"
 title: "prelude"
-description: "The prelude module."
+description: "Option, Result, Vec, ranges and iteration: in scope in every file."
 module: "prelude"
 kind: "module"
 name: "prelude"
@@ -10,14 +10,25 @@ auto: true
 order: 0
 ---
 
+The prelude is imported into every file for you, so nothing here needs a
+`use`. It holds the types almost every program touches: [`Option`](/docs/reference/prelude/Option) and [`Result`](/docs/reference/prelude/Result)
+for values that may be missing or may have failed, [`Vec`](/docs/reference/prelude/Vec) for growable lists,
+the [`Range`](/docs/reference/prelude/Range) types behind `a..b`, and the [`Iterator`](/docs/reference/prelude/Iterator) traits that `for x in`
+loops are built on.
+
+Operator traits live in [`prelude::ops`](/docs/reference/prelude/ops) and
+float math in [`prelude::math`](/docs/reference/prelude/math); both are
+auto-imported too. The primitive types ([`int`](/docs/reference/types/int), [`string`](/docs/reference/string), …) are listed under
+[types](/docs/reference/types).
+
 Built into the compiler.
 
 ## Modules
 
 | Module | Description |
 |--------|-------------|
-| [`prelude::ops`](/docs/reference/prelude/ops) |  |
-| [`prelude::math`](/docs/reference/prelude/math) |  |
+| [`prelude::ops`](/docs/reference/prelude/ops) | Operator traits (Add, Eq, Ord, Show, …): implement them to use operators on your types. |
+| [`prelude::math`](/docs/reference/prelude/math) | Float math (sqrt, sin, ln, …) and small linear algebra (dot, cross, matmul, Matrix). Auto-imported. |
 
 ## Types
 

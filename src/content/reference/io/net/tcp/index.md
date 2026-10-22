@@ -1,7 +1,7 @@
 ---
 slug: "io/net/tcp/index"
 title: "io::net::tcp"
-description: "The io::net::tcp module."
+description: "TCP clients and servers: connect, listen, accept."
 module: "io::net::tcp"
 kind: "module"
 name: "io::net::tcp"
@@ -9,6 +9,11 @@ origin: "builtin"
 auto: false
 order: 5
 ---
+
+[`connect`](/docs/reference/io/net/tcp/connect) and [`connect_timeout`](/docs/reference/io/net/tcp/connect_timeout) try every address the host name resolves to
+under one deadline; [`listen`](/docs/reference/io/net/tcp/listen) uses the first. A timeout of `0` or less waits
+forever. Prefer an explicit IP such as `127.0.0.1` for servers when the
+address family matters.
 
 Built into the compiler.
 

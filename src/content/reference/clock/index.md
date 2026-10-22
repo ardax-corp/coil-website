@@ -1,7 +1,7 @@
 ---
 slug: "clock/index"
 title: "clock"
-description: "The clock module."
+description: "Wall-clock and monotonic time in nanoseconds, and sleeping."
 module: "clock"
 kind: "module"
 name: "clock"
@@ -9,6 +9,10 @@ origin: "builtin"
 auto: false
 order: 11
 ---
+
+Use [`mono_nanos`](/docs/reference/clock/mono_nanos) to measure durations and [`wall_nanos`](/docs/reference/clock/wall_nanos) for the time of day.
+For dates, time zones and formatting, use the [coil-time](/packages/time)
+package.
 
 Built into the compiler.
 
