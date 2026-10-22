@@ -25,6 +25,8 @@
 </dialog>
 
 <script>
+  import { track } from "@vercel/analytics";
+
   type Entry = { t: string; u: string; s: string; h: [string, string][] };
   type Hit = { title: string; url: string; section: string; parent?: string; score: number };
 
@@ -121,6 +123,16 @@
     if (input.value) update();
   }
 
+  // Custom events: what people search for, and which queries find nothing.
+  function trackPick(url: string) {
+    track("Search", { query: input.value.trim().slice(0, 100), result: url });
+  }
+
+  dialog.addEventListener("close", () => {
+    const q = input.value.trim();
+    if (q && hits.length === 0) track("Search no results", { query: q.slice(0, 100) });
+  });
+
   document.querySelectorAll("[data-search-open]").forEach((el) => el.addEventListener("click", open));
 
   document.addEventListener("keydown", (e) => {
@@ -140,6 +152,7 @@
       render();
     } else if (e.key === "Enter" && hits[active]) {
       e.preventDefault();
+      trackPick(hits[active].url);
       dialog.close();
       location.href = hits[active].url;
     }
@@ -148,7 +161,11 @@
   // Close when clicking the backdrop, and when following a same-page anchor.
   dialog.addEventListener("click", (e) => {
     if (e.target === dialog) dialog.close();
-    if ((e.target as HTMLElement).closest("a")) dialog.close();
+    const link = (e.target as HTMLElement).closest("a");
+    if (link) {
+      trackPick(link.getAttribute("href") ?? "");
+      dialog.close();
+    }
   });
 </script>
 

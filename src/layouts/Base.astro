@@ -5,6 +5,8 @@ import "../styles/tokens.css";
 import "../styles/prose.css";
 import Logo from "../components/Logo.astro";
 import Search from "../components/Search.astro";
+import Analytics from "@vercel/analytics/astro";
+import SpeedInsights from "@vercel/speed-insights/astro";
 import { REPO, RELEASES, SPOOL, STDLIB, INTERNALS } from "../lib/nav";
 
 export type Section = "home" | "docs" | "learn" | "reference" | "packages" | "blog" | "none";
@@ -51,6 +53,8 @@ const nav: { href: string; label: string; key: Section }[] = [
         if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
       } catch {}
     </script>
+    <Analytics />
+    <SpeedInsights />
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
@@ -156,6 +160,15 @@ const nav: { href: string; label: string; key: Section }[] = [
     <Search />
 
     <script>
+      import { track } from "@vercel/analytics";
+
+      // Outbound links (GitHub, releases, ...): one custom event per click.
+      document.addEventListener("click", (e) => {
+        const a = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[href]");
+        if (!a || a.host === location.host || !a.protocol.startsWith("http")) return;
+        track("Outbound link", { href: a.href, from: location.pathname });
+      });
+
       // Theme toggle: flips between light/dark and remembers the explicit choice.
       const root = document.documentElement;
       document.querySelector(".theme-toggle")?.addEventListener("click", () => {
@@ -199,6 +212,7 @@ const nav: { href: string; label: string; key: Section }[] = [
         btn.textContent = "Copy";
         btn.addEventListener("click", async () => {
           await navigator.clipboard.writeText(pre.innerText.replace(/\n$/, ""));
+          track("Copy code", { lang: lang ?? "plaintext", page: location.pathname });
           btn.textContent = "Copied";
           btn.dataset.copied = "";
           setTimeout(() => {
