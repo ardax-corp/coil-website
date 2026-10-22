@@ -48,7 +48,7 @@ function wrap(code) {
       uses.push(line);
       continue;
     }
-    if (depth === 0 && DECL.test(line)) inDecl = true;
+    if (depth === 0 && (DECL.test(line) || /^\/\/\//.test(line))) inDecl = true;
     (inDecl ? decls : body).push(line);
     for (const c of line.replace(/"(\\.|[^"\\])*"/g, "").replace(/\/\/.*$/, "")) {
       if (c === "{") depth++;
