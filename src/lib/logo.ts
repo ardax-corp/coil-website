@@ -1,34 +1,19 @@
 /**
  * The Coil mark and the home-page circuit-trace background.
  *
- * The mark ("Bus") is two nested Cs routed like circuit-board traces, with
- * 45° corners and a pad at each end. Classes: mark-tile (graphite tile),
- * mark-ink (copper), mark-ink2 (patina), mark-pad (pad ring); Logo.astro
- * colours them, and public/favicon.svg repeats the same shapes inline.
+ * The mark is the schematic symbol for an inductor (a coil): a lead, three
+ * windings, a lead, in copper on a graphite tile. Classes: mark-tile
+ * (graphite tile), mark-ink (copper); Logo.astro colours them. The same
+ * shape is exported as files in public/brand/ and public/favicon.svg.
  */
 
-/** An angular C: square bounds [m, 32-m] with 45° corners of size c, open to the right at x = right. */
-function traceC(m: number, c: number, right: number): string {
-  const [t, b] = [m, 32 - m];
-  return `M${right} ${t}L${m + c} ${t}L${m} ${t + c}L${m} ${b - c}L${m + c} ${b}L${right} ${b}`;
-}
-
-const pad = (x: number, y: number, r: number) => `<circle cx="${x}" cy="${y}" r="${r}" class="mark-pad"/>`;
+/** The inductor symbol on a 32-unit grid. */
+export const COIL_PATH = "M2.5 18.5H4A4 4 0 0 1 12 18.5A4 4 0 0 1 20 18.5A4 4 0 0 1 28 18.5H29.5";
 
 /** Inner SVG of the mark on a 32×32 viewBox. */
 export const MARK_SVG =
   `<rect width="32" height="32" rx="8" class="mark-tile"/>` +
-  [
-    [6, 5, 22],
-    [11.5, 3, 19],
-  ]
-    .map(
-      ([m, c, r], i) =>
-        `<path d="${traceC(m, c, r)}" fill="none" class="${i === 1 ? "mark-ink2" : "mark-ink"}" stroke-width="2.2" stroke-linejoin="round"/>` +
-        pad(r + 1.6, m, 1.9) +
-        pad(r + 1.6, 32 - m, 1.9),
-    )
-    .join("");
+  `<path d="${COIL_PATH}" fill="none" class="mark-ink" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>`;
 
 // ------------------------------------------------------------- background
 
