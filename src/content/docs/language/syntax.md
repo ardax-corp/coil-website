@@ -443,10 +443,12 @@ Inside `{ ... }` blocks:
 
 ```
 statement ::= while_stmt
+            | while_let_stmt
             | for_stmt
             | break_stmt
             | continue_stmt
             | if_stmt
+            | if_let_stmt
             | block
             | let_stmt
             | const_stmt
@@ -468,7 +470,9 @@ statement ::= while_stmt
 | `for` | `for IDENT in expr block` — via prelude `IntoIterator` / `Iterator` (arrays, homogeneous tuples, ranges, coroutines, or user `impl`s — not records; see [Built-ins](/docs/reference/prelude/Iterator)). C-style `for (init; cond; step)` is a parse error. |
 | `break` | `break ';'` (innermost loop) |
 | `continue` | `continue ';'` (jumps to the `while` condition / next for-in iteration) |
-| `if` | `if expr block ('else' (block \| if_stmt))?` |
+| `if` | `if expr block ('else' (block \| if_stmt \| if_let_stmt))?` |
+| `if let` | `if let pattern '=' expr block ('else' (block \| if_stmt \| if_let_stmt))?` — runs the block when the value matches the pattern, with its bindings in scope; the same patterns as a `match` arm |
+| `while let` | `while let pattern '=' expr block` — repeats while the value matches the pattern; stops at the first value that does not |
 | Block | `'{' statement* '}'` |
 
 ### `let` desugaring
