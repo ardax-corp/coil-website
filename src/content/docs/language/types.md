@@ -1,24 +1,24 @@
 ---
 title: Types reference
-description: coil uses Hindley–Milner (Algorithm W) type inference with optional annotations. Types are checked once per program before codegen; the compiler caches (NodeId → Ty) for opcode…
+description: coil's types, from primitives to enums, generics and traits. Types are inferred, annotations are optional, and every program is type-checked before it runs.
 ---
 
 # Types reference
 
-coil uses **Hindley–Milner (Algorithm W)** type inference with optional annotations. Types are checked once per program before codegen; the compiler caches `(NodeId → Ty)` for opcode selection (e.g. `ADD` vs `ADDF`).
+coil infers types (Hindley–Milner), so annotations are optional. Every program is type-checked before it runs. How values are laid out at run time is not part of the language; the compiler's notes are in [coil-lang's internals docs](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals).
 
 ---
 
 ## Primitive types
 
-| Name | `Ty` representation | Notes |
-|------|---------------------|-------|
-| `int` | `Ty::Con("int")` | 64-bit signed integer at runtime; `+ - * / % **` and unary `-` panic on overflow (and `/ %` on division by zero) in every build — see [Operators](/docs/language/operators#arithmetic) |
-| `float` | `Ty::Con("float")` | IEEE double |
-| `byte` | `Ty::Con("byte")` | Integer in `0..=255`; same immediate `Value` shape as `int`; `+ - * ** <<` and unary `-` wrap modulo 256 (warning `E0130`) — see [Operators](/docs/language/operators#arithmetic) |
-| `string` | `Ty::Con("string")` | Heap-allocated UTF-8 string; `==` by content, `<` / `<=` / `>` / `>=` by UTF-8 bytes — see [Operators](/docs/language/operators#comparison) |
-| `bool` | `Ty::Con("bool")` | `true` / `false` |
-| `void` / `unit` | `Ty::Con("unit")` | Used for statements with no value; FFI `void` return |
+| Name | Notes |
+|------|-------|
+| `int` | 64-bit signed integer at runtime; `+ - * / % **` and unary `-` panic on overflow (and `/ %` on division by zero) in every build — see [Operators](/docs/language/operators#arithmetic) |
+| `float` | IEEE double |
+| `byte` | Integer in `0..=255`; same immediate `Value` shape as `int`; `+ - * ** <<` and unary `-` wrap modulo 256 (warning `E0130`) — see [Operators](/docs/language/operators#arithmetic) |
+| `string` | Heap-allocated UTF-8 string; `==` by content, `<` / `<=` / `>` / `>=` by UTF-8 bytes — see [Operators](/docs/language/operators#comparison) |
+| `bool` | `true` / `false` |
+| `void` / `unit` | Used for statements with no value; FFI `void` return |
 
 Primitive names in annotations are matched **case-insensitively** (`Int` ≡ `int`). So a user `class` or `enum` cannot take a primitive name in any spelling: `class String`, `enum Bool` or `class INT` is `E0200` (`Cannot redeclare built-in type`).
 
@@ -49,15 +49,15 @@ fn find_byte(string s, byte c) -> int {
 }
 ```
 
-Opaque **`Stream`** (`Ty::Con("Stream")`) is the handle type for the virtual [`io`](/docs/reference/io) module — not constructible in userland.
+Opaque **`Stream`** is the handle type for the virtual [`io`](/docs/reference/io) module — not constructible in userland.
 
 ---
 
-## Type constructors (`Ty::Con`)
+## Named types
 
-Any identifier that is not a primitive becomes an opaque type constructor. User-defined **class** names register as `Ty::Con(name)` in the entry file and `Ty::Con("module::Name")` when declared in a named module, so `use lib::{Foo}` binds the class type (not a dummy var) and two packages can both export `class Client`.
+Any identifier that is not a primitive names a type. A class declared in a module is that module's type, so `use lib::{Foo}` binds the class type and two packages can both export `class Client`.
 
-Recursive enum references use isorecursive `Con(name)` inside variant payloads (not unfolded `Sum`), so recursive types like `Tree` are expressible without infinite-type errors during inference.
+An enum may refer to itself in its payloads, so recursive types like `Tree` need no indirection.
 
 ---
 
@@ -80,23 +80,15 @@ Payload types are inferred at use sites (`Option::Some(1)` → `Option` of `int`
 
 **Result mode:** a function that uses `raise` or Result-`?` (or is annotated `-> Result<…>`) has return type `Result<T, E>`; success `return` values are implicitly wrapped as `Ok`. Explicit `return Result::Ok(v)` / `return Result::Err(e)` are also accepted. One `E` per function.
 
-### Option / Result runtime ABI
+### Runtime representation of `Option` and `Result`
 
-User code always sees `Option<T>` / `Result<T, E>`. Codegen picks one of three representations; conversions happen at the boundary. **Decision:** keep this matrix — unifying would either box every ground `Option<string>` or invent a niche for `int` / nested / FFI payloads.
-
-| Shape | Representation | When |
-|-------|----------------|------|
-| Ground `Option<T>` whose `T` is a non-null heap pointer (`string`, class, heap aggregate) | Pointer niche: `0` = `None`, payload pointer = `Some` | Locals and direct values at a known ground type |
-| Statically known unary `Option` / `Result` **call return** | Two-slot `[payload, tag]` (`ReturnPair`) | Callee and caller both see a unary enum return; not a coroutine; not a pointer-niche `Option` |
-| Everything else | Boxed heap enum | Generic / nested-nullable / stack-shaped / coroutine / FFI / `CallIndirect` / unknown host |
-
-Cross a niche ↔ boxed boundary with `OptionNicheToHeap` / `HeapOptionToNiche`. `Vec::pop` / `Vec::remove` use allocation-free `HostInvokeNiche` when the item type is heap-only; other host results stay on `HostInvoke` and convert at the boundary.
+The compiler picks how an `Option` or `Result` is stored from its static type (a pointer niche, a two-word value or a heap object); see [layout.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/layout.md). It is not observable from Coil code.
 
 Do not match on raw `0` vs pointer in user code — `match` / `?` / `??` are the API.
 
 ---
 
-## Function types (`Ty::Fun`)
+## Function types
 
 Curried internally: `int -> int -> int` means `(int, int) -> int`.
 
@@ -125,7 +117,7 @@ function taking no arguments is `fn() -> int`, the same type as `unit -> int`. S
 
 ---
 
-## Sum types / enums (`Ty::Sum`)
+## Sum types / enums
 
 Declared with `enum Name { variants }`:
 
@@ -136,27 +128,15 @@ enum Tree {
 }
 ```
 
-Internal shape (illustrative):
-
-```
-Ty::Sum {
-    name: "Tree",
-    variants: [
-        ("Leaf", Unit),
-        ("Node", Tuple([int, Con("Tree"), Con("Tree")])),
-    ],
-}
-```
-
 ### Runtime representation
 
-User code always sees constructors and `match`. **Payload** enums (unit, tuple, or record variants) are heap objects (`MakeEnum`). Codegen may skip that allocation only for a discarded constructor (`MakeEnum; POP`) or a unary variant immediately consumed by `Unpack` / `LoadField(0)`. Wider payloads, values that escape, and control-flow joins stay heap-backed — a DCE ceiling, not a second enum ABI. Named-local class unboxing is a different rule. Builtin `Option` / `Result` have their own niche / pair / boxed matrix ([Option / Result runtime ABI](#option--result-runtime-abi)).
+User code always sees constructors and `match`. **Payload** enums (unit, tuple, or record variants) are heap values; `Option` and `Result` have their own representations ([above](#runtime-representation-of-option-and-result)).
 
-**Scalar-backed** enums ([below](#scalar-backed-enums)) are not heap `MakeEnum` values. Each case is the backing word (`int`, `string`, `float`, or `bool`) while the static type stays the enum name.
+**Scalar-backed** enums ([below](#scalar-backed-enums)) are not heap values. Each case is the backing word (`int`, `string`, `float`, or `bool`) while the static type stays the enum name.
 
-### Generic enums (`Ty::App`)
+### Generic enums
 
-User enums may take type parameters. Annotations and construct/match use the same `Ty::App` machinery as builtin `Option` / `Result`:
+User enums may take type parameters. Annotations, construction and `match` work as they do for the builtin `Option` / `Result`:
 
 ```coil
 enum Box<T> {
@@ -174,13 +154,13 @@ fn unwrap(Box<int> b) -> int {
 
 `Box::Full(7)` has type `Box<int>`. Payload types are freshened per construct/match site from the enum's schema (type-param placeholders in the registry).
 
-### Variant payload shapes (`EnumVariantPayloadTy`)
+### Variant payload shapes
 
-| Shape | Syntax example | Internal |
-|-------|----------------|----------|
-| Unit | `None` or `None()` | `Unit` |
-| Tuple | `Some(int)` | `Tuple([int])` |
-| Record | `Point { x: int, y: int }` | `Record([("x", int), ("y", int)])` |
+| Shape | Syntax example |
+|-------|----------------|
+| Unit | `None` or `None()` |
+| Tuple | `Some(int)` |
+| Record | `Point { x: int, y: int }` |
 
 Constructors in expressions and patterns use **`Enum::Variant`** (`::`). That is the form the parser and language tests accept (`Status::Ok`, `Option::Some(x)`, `Color::Red`). Dot field access (`expr.field`) is a different production; `Status.Ok` is not a constructor.
 
@@ -229,17 +209,16 @@ let mode: string = Mode::Fast;    // "fast"
 
 Payload enums (`Color::Red`, `Option::Some(x)`) remain heap-backed. See `examples/scalar_enum.hy` and `tests/positive/scalar_enums.hy` in coil-lang.
 
-### Constructor types (`Ty::Constructor`)
+### Constructor types
 
 Applying a variant yields a constructor type carrying tag and arity. Unification
-joins constructors with their parent sum (or applied `Ty::App` for polymorphic
-enums). Distinct tags of the same enum also join at the owner, and binding a
+joins constructors with their parent enum (applied, for a generic enum). Distinct tags of the same enum also join at the owner, and binding a
 type variable peels the refinement — so `min(Rank::Mid, Rank::Low)` and
 `[Rank::Low, Rank::Mid]` type-check as the parent enum without annotations.
 
 ---
 
-## Tuples (`Ty::Tuple`)
+## Tuples
 
 Heterogeneous fixed-length products:
 
@@ -261,7 +240,7 @@ broadcast / unary `-`). See [Operators](/docs/language/operators).
 
 ---
 
-## Arrays (`Ty::Array`) — `[T; N]` only
+## Arrays — `[T; N]` only
 
 Homogeneous **fixed-length** arrays. Length `N` is part of the type and is
 inferred from literals when possible; otherwise write it explicitly.
@@ -334,7 +313,7 @@ Proven counted-loop `Index` / `StoreIndex` rewrite to unchecked opcodes ([#192](
 
 ---
 
-## Records (`Ty::Record`)
+## Records
 
 Anonymous structurally typed records:
 
@@ -645,34 +624,6 @@ Bare `[T]` (no `; N`) is rejected at typecheck (`E0119`).
 
 ---
 
-## Unification rules (summary)
-
-Unification is structural (Robinson) with an occurs check.
-
-| Left | Right | Result |
-|------|-------|--------|
-| Same `Ty::Var` | | Success |
-| Same `Ty::Con` name | | Success |
-| `Ty::Con(n)` | `Ty::Sum { name: n, .. }` | Isorecursive expand-and-unify |
-| `Ty::Fun` | `Ty::Fun` | Unify args, then returns |
-| `Ty::Tuple` | `Ty::Tuple` | Same length; unify each element |
-| `Ty::Array` | `Ty::Array` | Unify elements; lengths compatible if either is `Dynamic` or both `Static` with same N |
-| `Ty::Record` | `Ty::Record` | Same fields (sorted by name); unify each field type |
-| `Ty::Sum` | `Ty::Sum` | Same enum name; same variant names, shapes, arities; unify payload types |
-| `Ty::Constructor` | `Ty::Sum` / other constructor | Owner must unify; distinct tags of the same enum join at the parent (refinements peel when binding a `Ty::Var`) |
-| `Ty::Var` | anything | Bind variable (if occurs check passes) |
-| Otherwise | | `Type mismatch` error |
-
-### Length compatibility (arrays)
-
-```
-Dynamic  ~  Static(N)   ✓
-Dynamic  ~  Dynamic     ✓
-Static(N) ~ Static(M)    ✓ (element types must unify; N and M need not match for unification of annotation vs literal in all cases — mismatched static lengths error when both static)
-```
-
----
-
 ## Coroutine types (`coroutine<Y, S>`)
 
 `gen fn` bodies return a handle typed as `coroutine<Y, S>`:
@@ -841,7 +792,7 @@ One calling convention, two ways to name the callee. **`CALL`** packs arity and 
 
 ### Dictionary passing
 
-Constrained calls that are not monomorphized append one dictionary per trait constraint after the value arguments. Each dictionary is a `MakeTuple` of method code offsets in declaration order. The callee reserves trailing locals `__dict0`, `__dict1`, …, loads the matching method slot with `Index`, and invokes it with `CallIndirect`. A generic calling another generic with the same open bound forwards its existing dictionary. Builtin classes use compiler-generated primitive method thunks through this same ABI; ground monomorphization remains an optimization.
+A generic function with a trait bound that is not specialized for its argument types receives the trait's methods at run time, one dictionary per bound. The calling convention is in [dictionary-passing.md](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/dictionary-passing.md).
 
 **Flattened superclass layout.** When a unary class declares a param bound
 (`trait Ordered<T: Equal>`), those bounds are stored as *superclasses*.
@@ -1371,7 +1322,7 @@ Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`, plu
 | Area | Limitation |
 |------|------------|
 | Type aliases | Lexically scoped (stack of frames); duplicate names in the same frame are rejected; inner scopes may shadow outer; parametric aliases (`type Pair<T> = …`) expand on application |
-| Classes | Nominal `Ty::Con`; ctor args / fields / methods supported — no inheritance or virtual dispatch |
+| Classes | Nominal types; ctor args / fields / methods supported — no inheritance or virtual dispatch |
 | FFI | Broad scalar/Ptr/struct/callback tags via `ffi::types` / `extern struct` — see [FFI tutorial](/docs/manual/tutorial/16-ffi) |
 | Generics | Generic functions/enums/aliases/classes, `T: Class` bounds, multi-param `where` constraints, `forall` annotations, user `trait`/`impl`, superclasses, orphan/coherence checks, associated types, and GATs are supported |
 | Trait runtime | **Decided:** ground instance methods use `CALL`; dictionaries stay in generic bodies. Only ground `Num`/`Ord`/`Eq` (and operator supertraits) monomorphize to opcodes. See [Call-site dispatch](#call-site-dispatch). |

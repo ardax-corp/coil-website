@@ -8,7 +8,7 @@ name: "hex_val"
 signature: "fn hex_val(byte c) -> int"
 import: "use ascii::{hex_val};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/ascii.hy#L77"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/ascii.hy#L77"
 order: 10
 ---
 

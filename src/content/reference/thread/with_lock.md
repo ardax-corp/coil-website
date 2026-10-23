@@ -5,10 +5,10 @@ description: "Locks m, runs f on its value, stores the new value and returns the
 module: "thread"
 kind: "fn"
 name: "with_lock"
-signature: "fn with_lock<A, B>(Mutex m, A -> (A, B) f) -> Result<B, ThreadError>"
+signature: "fn with_lock<A, B>(Mutex<A> m, A -> (A, B) f) -> Result<B, ThreadError>"
 import: "use thread::{with_lock};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L477"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L482"
 order: 16
 ---
 
@@ -24,7 +24,7 @@ safe way to use a [`Mutex`](/docs/reference/thread/Mutex); prefer it over [`lock
 
 | Name | Type |
 |------|------|
-| `m` | `Mutex` |
+| `m` | `Mutex<A>` |
 | `f` | `A -> (A, B)` |
 
 ## Returns

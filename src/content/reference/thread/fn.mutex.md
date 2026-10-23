@@ -5,10 +5,10 @@ description: "Creates a mutex holding a copy of initial."
 module: "thread"
 kind: "fn"
 name: "mutex"
-signature: "fn mutex<T>(T initial) -> Result<Mutex, ThreadError>"
+signature: "fn mutex<T>(T initial) -> Result<Mutex<T>, ThreadError>"
 import: "use thread::{mutex};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L451"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L456"
 order: 15
 ---
 
@@ -25,7 +25,7 @@ The value must be sendable (see [`spawn`](/docs/reference/thread/spawn)), or the
 
 ## Returns
 
-`Result<Mutex, ThreadError>`
+`Result<Mutex<T>, ThreadError>`
 
 ## Examples
 

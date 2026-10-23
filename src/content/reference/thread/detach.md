@@ -5,10 +5,10 @@ description: "Lets the thread run to completion without being joined."
 module: "thread"
 kind: "fn"
 name: "detach"
-signature: "fn detach(Thread t) -> Result<unit, ThreadError>"
+signature: "fn detach<T>(Thread<T> t) -> Result<unit, ThreadError>"
 import: "use thread::{detach};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L269"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L274"
 order: 8
 ---
 
@@ -22,7 +22,7 @@ as is detaching a thread that was already joined.
 
 | Name | Type |
 |------|------|
-| `t` | `Thread` |
+| `t` | `Thread<T>` |
 
 ## Returns
 

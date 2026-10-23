@@ -8,7 +8,7 @@ name: "send_to_wait"
 signature: "fn send_to_wait(Stream s, Vec<byte> buf, string host, int port) -> Result<int, IoError>"
 import: "use io::sync::{send_to_wait};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/io/sync.hy#L186"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/io/sync.hy#L186"
 order: 5
 ---
 

@@ -5,10 +5,10 @@ description: "The sending half of a channel made by channel."
 module: "thread"
 kind: "class"
 name: "Sender"
-signature: "class Sender"
+signature: "class Sender<T>"
 import: "use thread::{Sender};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L55"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L60"
 order: 1
 ---
 

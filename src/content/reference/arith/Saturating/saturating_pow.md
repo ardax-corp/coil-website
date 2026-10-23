@@ -9,7 +9,7 @@ parent: "Saturating"
 signature: "fn saturating_pow(S a, int exp) -> S"
 import: "use arith::{Saturating};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/arith.hy#L124"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/arith.hy#L124"
 order: 3
 ---
 

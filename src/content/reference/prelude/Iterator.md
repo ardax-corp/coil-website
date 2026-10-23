@@ -8,7 +8,7 @@ name: "Iterator"
 signature: "trait Iterator<I>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/prelude.hy#L378"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/prelude.hy#L370"
 order: 5
 ---
 
@@ -16,8 +16,8 @@ A source of values that `for` loops pull from one at a time.
 
 Implementations define the associated type `Item` (the element type) and
 [`next`](/docs/reference/prelude/Iterator/next), which returns `Some(item)` for each value and `None` when the sequence is
-exhausted. `for x in e` first converts `e` with [`IntoIterator`](/docs/reference/prelude/IntoIterator), then calls
-[`next`](/docs/reference/prelude/Iterator/next) until it returns `None`. Arrays, [`Vec`](/docs/reference/prelude/Vec), homogeneous tuples,
+exhausted. `for x in e` calls [`next`](/docs/reference/prelude/Iterator/next) until it returns `None`, on `e` itself
+when `e` is an `Iterator`, or on what its [`IntoIterator`](/docs/reference/prelude/IntoIterator) returns. Arrays, [`Vec`](/docs/reference/prelude/Vec), homogeneous tuples,
 coroutines and numeric ranges are iterable without an `impl`; a record
 is not iterable (use [`collections::map::HashMap`](/docs/reference/collections/map/HashMap) for keys to iterate).
 
@@ -47,14 +47,6 @@ impl Iterator for Countdown {
         }
         c.n = c.n - 1;
         return Option::Some(c.n + 1);
-    }
-}
-
-impl IntoIterator for Countdown {
-    type Item = int;
-    type IntoIter = Countdown;
-    pub fn into_iter(Countdown c) -> Countdown {
-        return c;
     }
 }
 

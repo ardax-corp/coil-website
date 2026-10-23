@@ -5,10 +5,10 @@ description: "Like with_write, but returns Err(ThreadError::WouldBlock) instead 
 module: "thread"
 kind: "fn"
 name: "try_write"
-signature: "fn try_write<A, B>(RwLock lock, A -> (A, B) f) -> Result<B, ThreadError>"
+signature: "fn try_write<A, B>(RwLock<A> lock, A -> (A, B) f) -> Result<B, ThreadError>"
 import: "use thread::{try_write};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L649"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L654"
 order: 24
 ---
 
@@ -18,7 +18,7 @@ Like [`with_write`](/docs/reference/thread/with_write), but returns `Err(ThreadE
 
 | Name | Type |
 |------|------|
-| `lock` | `RwLock` |
+| `lock` | `RwLock<A>` |
 | `f` | `A -> (A, B)` |
 
 ## Returns

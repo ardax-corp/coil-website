@@ -8,8 +8,8 @@ name: "to_bytes"
 signature: "fn to_bytes(string s) -> Vec<byte>"
 import: "use string::{to_bytes};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/string.hy#L165"
-order: 7
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/string.hy#L101"
+order: 3
 ---
 
 Encodes `s` as UTF-8 into a new [`Vec<byte>`](/docs/reference/prelude/Vec).
@@ -41,9 +41,6 @@ assert!(b[0] == 72 as byte && b[1] == 105 as byte);
 
 - [`Vec`](/docs/reference/prelude/Vec)
 - [`io::write`](/docs/reference/io/fn.write)
-- [`byte_at`](/docs/reference/string/byte_at): Returns the byte at byte offset `i` of `s`, or `-1` when `i` is out of range.
-- [`find_from`](/docs/reference/string/find_from): Returns the byte offset of the first `needle` in `hay` at or after `start`, or `-1`.
 - [`format`](/docs/reference/string/format): Builds a string from the literal `fmt` and the arguments that follow it.
 - [`from_bytes`](/docs/reference/string/from_bytes): Decodes `bytes` as UTF-8 text.
-- [`match_at`](/docs/reference/string/match_at): Returns whether `needle` occurs in `s` starting exactly at byte offset `at`.
-- [`rfind`](/docs/reference/string/rfind): Returns the byte offset of the last `needle` in `hay`, or `-1`.
+- [`slice_bytes`](/docs/reference/string/slice_bytes): Returns the part of `s` between byte offsets `start` (inclusive) and `end` (exclusive).

@@ -8,7 +8,7 @@ name: "parse_int_radix"
 signature: "fn parse_int_radix(string s, int radix) -> Result<int, string>"
 import: "use conv::{parse_int_radix};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/conv.hy#L146"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/conv.hy#L147"
 order: 3
 ---
 
@@ -31,8 +31,8 @@ digits may be either case; there is no `0x` prefix.
 ## Errors
 
 `Err("invalid integer")` for empty or non-digit text and `Err("invalid radix")`
-for any other `radix`. A value that does not fit in an [`int`](/docs/reference/types/int) currently panics
-instead of returning an error (coil-stdlib#53).
+for any other `radix`; `Err("overflow")` when the value does not fit in an
+[`int`](/docs/reference/types/int).
 
 ## Examples
 

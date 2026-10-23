@@ -5,10 +5,10 @@ description: "Waits for the thread to finish and returns the value its function 
 module: "thread"
 kind: "fn"
 name: "join"
-signature: "fn join<T>(Thread t) -> Result<T, ThreadError>"
+signature: "fn join<T>(Thread<T> t) -> Result<T, ThreadError>"
 import: "use thread::{join};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L239"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L244"
 order: 7
 ---
 
@@ -23,7 +23,7 @@ keep running.
 
 | Name | Type |
 |------|------|
-| `t` | `Thread` |
+| `t` | `Thread<T>` |
 
 ## Returns
 

@@ -5,10 +5,10 @@ description: "Takes the write lock, runs f and stores the new value it returns."
 module: "thread"
 kind: "fn"
 name: "with_write"
-signature: "fn with_write<A, B>(RwLock lock, A -> (A, B) f) -> Result<B, ThreadError>"
+signature: "fn with_write<A, B>(RwLock<A> lock, A -> (A, B) f) -> Result<B, ThreadError>"
 import: "use thread::{with_write};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L616"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L621"
 order: 22
 ---
 
@@ -22,7 +22,7 @@ update. Waits while the lock is held.
 
 | Name | Type |
 |------|------|
-| `lock` | `RwLock` |
+| `lock` | `RwLock<A>` |
 | `f` | `A -> (A, B)` |
 
 ## Returns

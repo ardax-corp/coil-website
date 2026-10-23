@@ -46,7 +46,9 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0117` | `ConflictingErrorType` | Mixed Option/Result modes in one function. A conflicting `E` (`raise "s"` then `raise 1`, or `?` on a `Result` with another `E`) reports `E0102` |
 | `E0118` | `UnreachableCode` | Code after a diverging statement (warning) |
 | `E0119` | `GenericTypeError` | Other type error (includes rejected dynamic `[T]` — use `[T; N]` or `Vec<T>`) |
-| `E0120`–`E0122` | Overload family | Wrong arity / duplicate / ambiguous overload |
+| `E0120` | `WrongArity` | No overload of the function takes that many arguments |
+| `E0121` | `DuplicateOverload` | Two overloads (of a function or a macro) take the same number of arguments |
+| `E0122` | `AmbiguousOverload` | A call or a function value matches more than one overload; annotate the value or the arguments |
 | `E0123` | `DeferNeverRuns` | `defer` never runs on function exit (warning) |
 | `E0124` | `WildcardImport` | `use path::*` is banned (virtual and userland) — list names explicitly; prelude is auto-injected |
 | `E0125` | `ExpressionNestingTooDeep` | A single expression recursed past the compiler's internal depth limit during typecheck or codegen (not the compiled program's own call stack, which the VM grows at run time) |
@@ -62,7 +64,16 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0135` | `ComptimeResultChanged` | Info: `--comptime-refresh` computed a different result than the one in the compile-time result cache |
 | `E0136` | `UnusedResult` | Warning: an expression statement drops a `Result` (`Err("bad");`, or `f(x);` where `f` returns one), and with it any error it holds. Handle it with `?` or `match`, or discard it on purpose with `let _ = f(x);`. `f(x)?;`, an assignment (`x = r;`) and a block's tail value do not warn. Inside a `test("…") { … }` body it is an error, since a dropped `Result` there (an `assert!` helper called as `helper();`) would hide a failed assert: write `helper()?;` to fail the test, or `let _ = helper();`. A `fn` or lambda written inside a test body keeps the warning |
 | `E0138` | `ComptimeFoldBudget` | Info: at `-O2` and above, a pure call with constant arguments (`fib(32)`) ran longer than automatic compile-time folding allows, so it stays a call. Write `comptime fib(32)` (or bind it to a `const`) to compute it while compiling; that makes compilation take longer, and the help says how long the call ran before it was stopped |
-| `E0200`–`E0216` | Enum / match family | Duplicate enum, ambiguous / duplicate constructor, unknown variant, non-exhaustive match, scalar `#[repr]`, `default` catch-all, … |
+| `E0202` | `UnknownEnum` | Cannot find the enum (or type or trait) named before `::` |
+| `E0203` | `UnknownVariant` | `Enum::Case` names a case the enum does not declare |
+| `E0204` | `ConstructorArity` | A constructor or constructor pattern has the wrong number of payload values |
+| `E0205` | `PayloadShapeMismatch` | A pattern uses a tuple payload for a record case or the reverse |
+| `E0206` | `MissingField` | A record constructor or record pattern leaves out a field |
+| `E0207` | `UnknownField` | A record constructor or pattern names a field the case does not declare |
+| `E0209` | `NonExhaustiveMatch` | The arms do not cover every value of the scrutinee: add the missing cases or a `default` arm. Literal arms on `int` / `string` always need `default` |
+| `E0210` | `UnreachableArm` | An arm that the earlier arms already cover |
+| `E0211` | `UnknownConstructorPattern` | A bare `Name(..)` pattern that no enum in scope declares |
+| `E0212` | `AmbiguousField` | Reserved; not emitted today |
 | `E0213` | `InvalidEnumRepr` | Invalid scalar enum (`#[repr]` / `=`): mixed backing, missing `=`, or `=` mixed with a payload |
 | `E0214` | `DuplicateEnumDiscriminant` | Two scalar cases share the same backing value |
 | `E0215` | `MultipleMatchCatchall` | More than one `default` arm in a `match` |

@@ -8,7 +8,7 @@ name: "copy"
 signature: "fn copy(string from, string to) -> Result<unit, IoError>"
 import: "use io::fs::{copy};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/io/fs.hy#L27"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/io/fs.hy#L27"
 order: 0
 ---
 

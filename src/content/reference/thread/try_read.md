@@ -5,10 +5,10 @@ description: "Like with_read, but returns Err(ThreadError::WouldBlock) instead o
 module: "thread"
 kind: "fn"
 name: "try_read"
-signature: "fn try_read<A, B>(RwLock lock, A -> B f) -> Result<B, ThreadError>"
+signature: "fn try_read<A, B>(RwLock<A> lock, A -> B f) -> Result<B, ThreadError>"
 import: "use thread::{try_read};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L632"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L637"
 order: 23
 ---
 
@@ -18,7 +18,7 @@ Like [`with_read`](/docs/reference/thread/with_read), but returns `Err(ThreadErr
 
 | Name | Type |
 |------|------|
-| `lock` | `RwLock` |
+| `lock` | `RwLock<A>` |
 | `f` | `A -> B` |
 
 ## Returns

@@ -9,7 +9,7 @@ parent: "Partitioned"
 signature: "pub fn rest() -> Vec<T>"
 import: "use collections::vec::{Partitioned};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/collections/vec.hy#L342"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/collections/vec.hy#L342"
 order: 1
 ---
 

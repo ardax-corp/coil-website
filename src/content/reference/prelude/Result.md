@@ -8,7 +8,7 @@ name: "Result"
 signature: "enum Result<T, E>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/prelude.hy#L82"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/prelude.hy#L82"
 order: 1
 ---
 
@@ -48,6 +48,10 @@ The operation failed with an error of type `E`.
 | [`map_err`](/docs/reference/prelude/Result/map_err) | The same value, or `Err(f(error))`. |
 | [`and_then`](/docs/reference/prelude/Result/and_then) | `f(value)` (itself a `Result`), or the same error. |
 | [`or_else`](/docs/reference/prelude/Result/or_else) | This result if it is [`Ok`](/docs/reference/prelude/Result#variant-ok), otherwise `f(error)`. |
+
+## Trait implementations
+
+- `Hash` for `Result<T: Hash, E: Hash>`
 
 ## Examples
 

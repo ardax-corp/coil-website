@@ -5,10 +5,10 @@ description: "Locks m if it is free, without waiting."
 module: "thread"
 kind: "fn"
 name: "try_lock"
-signature: "fn try_lock(Mutex m) -> Result<unit, ThreadError>"
+signature: "fn try_lock<T>(Mutex<T> m) -> Result<unit, ThreadError>"
 import: "use thread::{try_lock};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L524"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L529"
 order: 18
 ---
 
@@ -21,7 +21,7 @@ this thread). On success, release it with [`unlock`](/docs/reference/thread/unlo
 
 | Name | Type |
 |------|------|
-| `m` | `Mutex` |
+| `m` | `Mutex<T>` |
 
 ## Returns
 

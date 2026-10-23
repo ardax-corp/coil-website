@@ -8,15 +8,15 @@ name: "IntoIterator"
 signature: "trait IntoIterator<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/prelude.hy#L426"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/prelude.hy#L418"
 order: 6
 ---
 
 A type that can be turned into an [`Iterator`](/docs/reference/prelude/Iterator), which makes it usable in `for x in value`.
 
 [`into_iter`](/docs/reference/prelude/IntoIterator/into_iter) returns the iterator (`IntoIter`), whose `Item` must match.
-A class that is its own iterator returns itself. See [`Iterator`](/docs/reference/prelude/Iterator) for a full
-example.
+A class that is its own iterator can return itself, though an [`Iterator`](/docs/reference/prelude/Iterator)
+needs no `IntoIterator` to be used in `for`.
 
 ## Associated types
 
