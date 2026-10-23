@@ -13,7 +13,7 @@ knowing them helps you read error messages and design your own types.
 
 | Type | Values | Example |
 |------|--------|---------|
-| `int` | 64-bit signed integers | `42`, `-7`, `1000000` |
+| `int` | 64-bit signed integers | `42`, `-7`, `1_000_000`, `0xff` |
 | `float` | 64-bit floating point | `3.14`, `-0.5`, `1.0` |
 | `bool` | `true` or `false` | `x > 3` |
 | `string` | UTF-8 text | `"héllo"`, `"tab\there"` |
@@ -27,6 +27,9 @@ A few rules that differ from some other languages:
   compiler warns where it does.
 - Integer division rounds toward zero: `7 / 2` is `3` and `-7 / 2` is `-3`.
   Use floats for fractions: `7.0 / 2.0` is `3.5`.
+- Integer literals can be written in hex (`0xff`), octal (`0o17`) or binary
+  (`0b1010`), and `_` can separate digits: `1_000_000`, `0b1111_0000`. A `_`
+  goes between two digits only, so `0x_ff` and `1_` are errors.
 - A float literal needs a decimal point: `1.0`, not `1`. `int` and `float`
   never mix silently, so `1 + 0.5` is an error; convert one side first.
 - Conditions must be `bool`. There is no "truthy" `0` or empty string.

@@ -89,10 +89,9 @@ use io::sync::{println};
 use string::{format};
 use thread::{spawn, join, channel, send, recv, close, Sender, Receiver};
 
-fn squarer((Receiver, Sender) ends) {
+fn squarer((Receiver<int>, Sender<int>) ends) {
     while let Ok(job) = recv(ends[0]) {
-        let n: int = job;
-        send(ends[1], n * n)?;
+        send(ends[1], job * job)?;
     }
 }
 
@@ -108,7 +107,7 @@ fn sum_of_squares() -> Result<int, ThreadError> {
     for i in 0..3 {
         total += recv(results[1])?;
     }
-    join(t)?;
+    (join(t)?)?;
     return Ok(total);
 }
 
@@ -123,8 +122,15 @@ Output:
 Ok(14)
 ```
 
-Channels carry any value that can be copied between threads; the
-annotation `let n: int = job;` tells the compiler what this one carries.
+Handles carry the type of value they hold: `Sender<int>` and
+`Receiver<int>` move `int`s, `Thread<T>` joins as the `T` its function
+returned, and `Mutex<T>` guards a `T`. A bare `Sender` or `Thread` lets the
+compiler infer `T` from how the handle is used. Channels carry any value that
+can be copied between threads.
+
+`squarer` uses `?`, so it returns a `Result` of its own. `join(t)?` gives back
+that `Result`, and the second `?` passes on an error the thread hit:
+`(join(t)?)?`. Dropping it would be warning `E0136`.
 
 ## Mutex
 
@@ -137,7 +143,7 @@ use io::sync::{println};
 use string::{format};
 use thread::{spawn, join, mutex, with_lock, Mutex};
 
-fn add_thousand(Mutex counter) {
+fn add_thousand(Mutex<int> counter) {
     for i in 0..1000 {
         with_lock(counter, fn (int n) => (n + 1, 0))?;
     }
@@ -147,8 +153,8 @@ fn count() -> Result<int, ThreadError> {
     let counter = mutex(0)?;
     let a = spawn(add_thousand, counter)?;
     let b = spawn(add_thousand, counter)?;
-    join(a)?;
-    join(b)?;
+    (join(a)?)?;
+    (join(b)?)?;
     return Ok(with_lock(counter, fn (int n) => (n, n))?);
 }
 
