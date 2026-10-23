@@ -1,19 +1,19 @@
 ---
 slug: "collections/map/HashMap/get"
 title: "HashMap::get"
-description: "Returns the value stored under k, or fallback when there is none."
+description: "Returns the value stored under k, or None when there is none."
 module: "collections::map"
 kind: "method"
 name: "get"
 parent: "HashMap"
-signature: "pub fn get(K k, V fallback) -> V"
+signature: "pub fn get(K k) -> Option<V>"
 import: "use collections::map::{HashMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d009ba27df1ee081c0600ed3f72b1abd6282db85/src/collections/map.hy#L377"
-order: 11
+source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/collections/map.hy#L397"
+order: 12
 ---
 
-Returns the value stored under `k`, or `fallback` when there is none.
+Returns the value stored under `k`, or `None` when there is none.
 
 Called on a `HashMap` value as `value.get(…)`.
 
@@ -22,11 +22,10 @@ Called on a `HashMap` value as `value.get(…)`.
 | Name | Type |
 |------|------|
 | `k` | `K` |
-| `fallback` | `V` |
 
 ## Returns
 
-`V`
+`Option<V>`
 
 ## Examples
 
@@ -35,8 +34,8 @@ use collections::map::{HashMap};
 use tests::assert;
 let m: HashMap<string, int> = HashMap::new();
 m.insert("a", 1);
-assert!(m.get("a", 0) == 1);
-assert!(m.get("b", 0) == 0);
+assert!((m.get("a") ?? 0) == 1);
+assert!(m.get("b").is_none());
 ```
 
 ## See also

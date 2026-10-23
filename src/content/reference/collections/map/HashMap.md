@@ -8,7 +8,7 @@ name: "HashMap"
 signature: "class HashMap<K, V>"
 import: "use collections::map::{HashMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d009ba27df1ee081c0600ed3f72b1abd6282db85/src/collections/map.hy#L40"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/collections/map.hy#L40"
 order: 1
 ---
 
@@ -50,7 +50,8 @@ when the fallback could be a real value.
 | [`iter`](/docs/reference/collections/map/HashMap/iter) | Returns an iterator over the entries, in insertion order. |
 | [`insert`](/docs/reference/collections/map/HashMap/insert) | Stores `v` under `k`, replacing any value already there. |
 | [`contains`](/docs/reference/collections/map/HashMap/contains) | Returns `true` when the map has an entry for `k`. |
-| [`get`](/docs/reference/collections/map/HashMap/get) | Returns the value stored under `k`, or `fallback` when there is none. |
+| [`get_or`](/docs/reference/collections/map/HashMap/get_or) | Returns the value stored under `k`, or `fallback` when there is none. |
+| [`get`](/docs/reference/collections/map/HashMap/get) | Returns the value stored under `k`, or `None` when there is none. |
 | [`remove`](/docs/reference/collections/map/HashMap/remove) | Removes the entry for `k`. |
 
 ## Trait implementations
@@ -78,8 +79,8 @@ ages.insert("ada", 36);
 ages.insert("alan", 41);
 ages.insert("ada", 37);
 assert!(ages.size() == 2);
-assert!(ages.get("ada", 0) == 37);
-assert!(ages.get("grace", -1) == -1);
+assert!(ages.get_or("ada", 0) == 37);
+assert!(ages.get_or("grace", -1) == -1);
 
 let total = 0;
 for e in ages {

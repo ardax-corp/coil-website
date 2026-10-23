@@ -8,7 +8,7 @@ name: "write_text"
 signature: "fn write_text(string path, string text) -> Result<int, IoError>"
 import: "use io::file::{write_text};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d009ba27df1ee081c0600ed3f72b1abd6282db85/src/io/file.hy#L91"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/io/file.hy#L91"
 order: 3
 ---
 

@@ -9,7 +9,7 @@ parent: "BitNot"
 signature: "fn bitnot(T a) -> T"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/f3e0c941bdbea312cda5f6550d0d24ed00c93f2d/compiler/src/builtin_docs/prelude/ops.hy#L427"
+source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/prelude/ops.hy#L427"
 order: 0
 ---
 

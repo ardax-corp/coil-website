@@ -8,7 +8,7 @@ name: "Buf"
 signature: "class Buf"
 import: "use fmt::{Buf};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d009ba27df1ee081c0600ed3f72b1abd6282db85/src/fmt.hy#L18"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/fmt.hy#L18"
 order: 0
 ---
 

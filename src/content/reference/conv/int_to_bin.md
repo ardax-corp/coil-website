@@ -8,7 +8,7 @@ name: "int_to_bin"
 signature: "fn int_to_bin(int n) -> string"
 import: "use conv::{int_to_bin};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d009ba27df1ee081c0600ed3f72b1abd6282db85/src/conv.hy#L106"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/conv.hy#L106"
 order: 2
 ---
 

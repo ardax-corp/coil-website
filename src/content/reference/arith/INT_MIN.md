@@ -8,7 +8,7 @@ name: "INT_MIN"
 signature: "const INT_MIN = 0 - 9223372036854775807 - 1;"
 import: "use arith::{INT_MIN};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d009ba27df1ee081c0600ed3f72b1abd6282db85/src/arith.hy#L18"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/arith.hy#L18"
 order: 5
 ---
 

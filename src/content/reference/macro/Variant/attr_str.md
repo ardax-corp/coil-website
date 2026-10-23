@@ -9,7 +9,7 @@ parent: "Variant"
 signature: "pub fn attr_str(string attr, string key, string fallback) -> string"
 import: "use macro::{Variant};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/f3e0c941bdbea312cda5f6550d0d24ed00c93f2d/compiler/src/prelude/macro.hy#L380"
+source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/prelude/macro.hy#L380"
 order: 5
 ---
 
