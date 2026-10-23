@@ -160,6 +160,11 @@ s += "!";
 
 Mixing `string` with a non-string operand is a compile-time type error.
 
+A chain of `+` on strings (`a + b + c`) builds one string from all of its
+parts, without the partial strings in between. Each part still runs once,
+left to right, however the chain is grouped. A loop that grows a string with
+`out = out + piece + sep` copies `out` once per iteration, not once per `+`.
+
 ---
 
 ## Bitwise
