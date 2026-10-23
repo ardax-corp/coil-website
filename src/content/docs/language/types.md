@@ -34,6 +34,21 @@ The builtin error enums (`IoError`, `ThreadError`, `EnvError`, ffi `ErrorKind`) 
 
 Strings support `+` / `+=` with other strings. `string::format(...)` returns `string` and validates literal format specifiers (`%i` accepts `byte`).
 
+`s[i]` reads the byte at byte offset `i` (a `byte`; out of range **panics**). Search is plain loops over `s[i]`, as the stdlib [`text`](/docs/reference/text) module writes it; there are no search natives. The compiler runs such loops 64 bytes at a time: a loop that steps `i` by one and, on most iterations, only compares bytes (`s[i] == c`, `s[i] >= 48 && s[i] <= 57`, `s[i] == a && s[i + 1] == b`, `s[i + j] == p[j]`) skips the bytes where nothing happens with SIMD and runs its body only where something does. Panics, side effects and results are the plain loop's.
+
+```coil
+fn find_byte(string s, byte c) -> int {
+    let i = 0;
+    while i < s.len() {
+        if s[i] == c {
+            return i;
+        }
+        i = i + 1;
+    }
+    return -1;
+}
+```
+
 Opaque **`Stream`** (`Ty::Con("Stream")`) is the handle type for the virtual [`io`](/docs/reference/io) module — not constructible in userland.
 
 ---
@@ -311,6 +326,7 @@ Statics: `Vec::new`, `Vec::with_capacity`, `Vec::from`. Methods: `push`, `pop`,
 |--------|-------------------|---------------|
 | Fixed array `[T; N]` | OOB literal → diagnostic | Allowed (no static check); OOB load or store **panics** (`index out of bounds`) |
 | `Vec<T>` | N/A | Allowed (no OOB diagnostic); OOB load or store **panics** |
+| `string` | N/A | `s[i]` reads a `byte` (no store); OOB **panics** |
 | Tuple | OOB literal → diagnostic | — |
 | Non-aggregate | Error | — |
 
