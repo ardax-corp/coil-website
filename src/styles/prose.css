@@ -351,3 +351,111 @@
     display: none;
   }
 }
+
+/* Henry's challenges at the end of tutorial chapters (src/lib/remark-henry.mjs). */
+
+.prose .henry-says {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  margin: 1.25rem 0 1.5rem;
+}
+
+.prose .henry-says .henry-art {
+  border-radius: 0;
+  flex: none;
+  height: auto;
+  width: 8.5rem;
+}
+
+.prose .henry-bubble {
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: var(--radius-lg);
+  color: var(--fg-soft);
+  flex: 1;
+  padding: 0.85rem 1.1rem;
+  position: relative;
+}
+
+/* The bubble's tail, pointing back at Henry. */
+.prose .henry-bubble::before {
+  background: inherit;
+  border: inherit;
+  border-right: 0;
+  border-top: 0;
+  content: "";
+  height: 0.9rem;
+  left: -0.5rem;
+  position: absolute;
+  top: calc(50% - 0.45rem);
+  transform: rotate(45deg);
+  width: 0.9rem;
+}
+
+.prose .henry-bubble > :last-child {
+  margin-bottom: 0;
+}
+
+.prose .henry-hint {
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  margin: 0.6rem 0 1rem;
+}
+
+.prose .henry-hint summary {
+  align-items: center;
+  color: var(--accent);
+  cursor: pointer;
+  display: flex;
+  font-size: 0.88rem;
+  font-weight: 600;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0.35rem 0.75rem;
+}
+
+.prose .henry-hint summary::-webkit-details-marker {
+  display: none;
+}
+
+.prose .henry-hint summary::after {
+  color: var(--faint);
+  content: "show";
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.prose .henry-hint[open] summary::after {
+  content: "hide";
+}
+
+.prose .henry-hint .henry-hint-art {
+  border-radius: 0;
+  height: auto;
+  width: 2.25rem;
+}
+
+.prose .henry-hint-body {
+  border-top: 1px dashed var(--border);
+  color: var(--fg-soft);
+  padding: 0.7rem 0.9rem;
+}
+
+.prose .henry-hint-body > :last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 34rem) {
+  .prose .henry-says {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .prose .henry-bubble::before {
+    left: 2.5rem;
+    top: -0.5rem;
+    transform: rotate(135deg);
+  }
+}
