@@ -2,6 +2,11 @@
 
 Public site for Coil.
 
+Henry the nautilus is Coil's mascot. The sticker art is in `public/brand/henry/`
+(served at `/brand/henry/…`): `henry-neutral`, `-happy` (success), `-confused`
+(errors, the 404 page) and `-sleeping` (empty states), as SVGs with a
+transparent background, plus a 2339×1878 `henry-neutral.png`.
+
 ```bash
 npm install
 npm run build
