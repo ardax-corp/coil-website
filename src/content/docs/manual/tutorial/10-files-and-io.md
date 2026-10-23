@@ -74,7 +74,7 @@ echo or Enter. `read_timeout` waits for input up to a number of
 milliseconds, which is how a program tells a lone Esc from the start of an
 arrow key's escape sequence. No flag is needed.
 
-```coil
+```coil no_run
 use io::{stdin, stdout, IoError};
 use io::sync::{println};
 use io::tty::{enter_raw, is_tty, leave_raw, read_timeout, size};
