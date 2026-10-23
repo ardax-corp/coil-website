@@ -185,13 +185,46 @@ The compiler can also parallelise some pure recursive functions on its own;
 `coil dissect --effects` shows what it decided and why. See
 [effects](/docs/language/effects).
 
-## Exercises
+## Henry's challenges
 
-1. Split `count_primes(200000)` into four threads that each count a quarter
-   of the range, and add up their results.
+> [!henry]
+> One nautilus, one shell: each thread keeps its own memory, and values
+> are copied on the way in. Use `spawn`, `join`, channels and mutexes.
+
+1. Count the primes below 200000 with four threads that each count a
+   quarter of the range, and add up their results. Check the total against
+   a single-threaded count.
+
+   > [!hint]
+   > `count_primes` always starts at 2, so write a version that counts in
+   > a range. `spawn(f, arg)` passes one argument; a tuple `(lo, hi)`
+   > carries two. Remember that 0 and 1 are not primes.
+
 2. Write a worker pool: three threads reading jobs from one channel and
-   writing results to another.
-3. Use a mutex holding a `Vec<string>` to collect log lines from several
+   writing results to another. Send nine jobs and add up the results.
+
+   > [!hint]
+   > All three workers can take the same receiving end, `jobs[1]`. Close
+   > the jobs channel once every job is sent, or the workers' `recv` loops
+   > never end and `join` waits for ever.
+
+3. Use a mutex holding a `Vec<string>` to collect log lines from two
    threads, then print them.
+
+   > [!hint]
+   > `with_lock` stores the first element of what the lambda returns, so
+   > push onto the vector and return `(lines, 0)`. Keep that lambda free
+   > of `use (…)` captures for now: a capturing lambda currently makes
+   > `with_lock` fail
+   > ([coil-lang#1979](https://github.com/ardax-corp/coil-lang/issues/1979)),
+   > so give each thread its own function with its own text.
+
+4. Check something: pass a `Counter` object from chapter 4 to a thread
+   that adds one to it and returns the new value. After `join`, what does
+   the thread return, and what is the caller's `c.value`? Compare with
+   `bump` in chapter 4.
+
+5. Check something: in `sum_of_squares`, write `join(t)?;` instead of
+   `(join(t)?)?;`. What does the compiler say?
 
 Next: [Chapter 15 — Macros](/docs/manual/tutorial/15-macros).

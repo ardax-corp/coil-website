@@ -186,11 +186,54 @@ Output:
 This is handy with `map`: `map(readings, clamp(0, 100))`. It is why
 parameters that change least often usually come first.
 
-## Exercises
+## Henry's challenges
 
-1. Write `fn count_if(Vec<int> xs, int -> bool pred) -> int`.
-2. Use `sort_by` to sort a list of words by their last letter.
+> [!henry]
+> A nautilus carries its home wherever it swims, and a lambda carries its
+> captures. Pass functions around, capture with `use (…)`, and apply them
+> a piece at a time.
+
+1. Write `fn count_if(Vec<int> xs, int -> bool pred) -> int` and count
+   the numbers above 4 in `[1, 5, 8, 12]`.
+
+2. Use [`sort_by`](/docs/reference/collections/sort_by) to sort a list of
+   words from shortest to longest.
+
+   > [!hint]
+   > `sort_by` takes a *key* function rather than a comparison: give it
+   > `fn (string w) => w.len()` and it sorts by that key.
+
 3. Write `make_counter()` that returns a `fn() -> int` which returns 1, 2,
    3, … on successive calls.
+
+   > [!hint]
+   > Capture a plain `int` and every call starts again from the copy taken
+   > when the lambda was made, so it returns `1, 1, 1`. The value has to
+   > live in something shared: a `Ref`.
+
+4. Check something: predict what this prints, then run it.
+
+   ```coil
+   use io::sync::{println};
+
+   fn main() {
+       let limit = 50;
+       let below = fn (int s) use (limit) => s < limit;
+       limit = 10;
+       println(show(below(30)))?;
+   }
+   ```
+
+5. Write `fn compose(int -> int f, int -> int g) -> int -> int` that
+   returns a function running `f` and then `g`. What is
+   `compose(inc, double)(5)`?
+
+   > [!hint]
+   > The returned lambda calls `f` and `g`, so it has to capture both:
+   > `use (f, g)`.
+
+6. Write `fn between(int lo, int hi, int x) -> bool` and use partial
+   application to `filter` the readings that lie between 0 and 100,
+   next to `map(readings, clamp(0, 100))`.
 
 Next: [Chapter 9 — Modules and packages](/docs/manual/tutorial/09-modules).

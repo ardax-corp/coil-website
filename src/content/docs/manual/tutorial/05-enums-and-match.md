@@ -299,12 +299,51 @@ code 404
 See [scalar-backed enums](/docs/language/types#scalar-backed-enums) for the
 rules.
 
-## Exercises
+## Henry's challenges
+
+> [!henry]
+> A nautilus is one of a few things at any moment: drifting, hunting or
+> hiding. Enums say the same about values. Use `match`, `Option`,
+> `if let` and what came before.
 
 1. Add a `Triangle { base: float, height: float }` case to `Shape` and fix
    the compile errors it causes.
-2. Extend the calculator with `Neg(Expr)` and `Sub(Expr, Expr)`.
-3. Write `fn first_even(Vec<int> xs) -> Option<int>` and print its result
-   for `[1, 3, 4, 5]` and for `[1, 3]`.
+
+   > [!hint]
+   > Let the compiler find the places for you: every `match` on `Shape`
+   > that misses the new case fails with `E0209`. A `default` arm would
+   > have hidden this, which is why it is best kept rare.
+
+2. Extend the calculator with `Neg(Expr)` and `Sub(Expr, Expr)`, then check
+   that `10 - -(3 * 4)` evaluates to 22.
+
+   > [!hint]
+   > Order matters for `Sub`: `Sub(a, b)` is `eval(a) - eval(b)`, and
+   > swapping them still compiles.
+
+3. Write `fn render(Expr e) -> string` that turns an expression back into
+   text with parentheses, such as `(2 + (3 * 4))`.
+
+   > [!hint]
+   > It has the same shape as `eval`: one arm per case, calling itself for
+   > the parts. `format("(%s + %s)", render(a), render(b))` does the rest.
+
+4. Write `fn first_even(Vec<int> xs) -> Option<int>` and print its result
+   for `[1, 3, 4, 5]` and for `[1, 3]` with `%v`.
+
+5. Go back to `Stack<T>` from chapter 4 and give it a
+   `peek() -> Option<T>` method that returns the top element without
+   removing it.
+
+   > [!hint]
+   > An empty stack has no top. Check `len()` first and return `None`;
+   > otherwise wrap the last element in `Some(…)`.
+
+6. Write `fn turn_right(Direction d) -> Direction` and check that four
+   right turns bring you back to `North`, printing the heading in degrees
+   after each turn.
+
+7. Check something: put the `default` arm *first* in `http_text`. What
+   does the compiler say about the arms below it?
 
 Next: [Chapter 6 — Error handling](/docs/manual/tutorial/06-error-handling).

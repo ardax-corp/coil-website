@@ -188,14 +188,50 @@ ran. `spool infect` (or `coil mutate`) goes further: it makes small changes
 to your code, such as turning `<` into `<=`, and reports the ones no test
 noticed. Each of those points at a missing test.
 
-## Exercises
+## Henry's challenges
+
+> [!henry]
+> Before a nautilus dives, it checks the gas in every chamber. Check your
+> code the same way, with test cases, documentation examples and
+> contracts. Put the code under test in `src/` and the tests in `tests/`,
+> as chapter 9 set out.
 
 1. Write tests for the `Stack<T>` class from chapter 4: popping an empty
    stack returns `None`, and items come out in reverse order.
+
+   > [!hint]
+   > `Option` compares with `==`, so `assert!(s.pop() == Some(2));` works,
+   > and so does `assert!(s.pop().is_none());`.
+
 2. Add an example to the documentation of a function you wrote earlier and
-   run it with `coil test`.
+   run it with `coil test`. Then break the example on purpose and watch it
+   fail.
+
 3. Give `average(Vec<int> xs) -> int` a `requires` that rules out empty
    input, and an `ensures` that the result is between the smallest and the
    largest element. Let `coil test` check it.
+
+   > [!hint]
+   > A contract clause can call your own functions, so write `smallest` and
+   > `largest` helpers and use them in `ensures`. Integer division rounds
+   > toward zero, which keeps the average inside that range even for
+   > negative numbers.
+
+4. Check something: the two FizzBuzz tests in this chapter pass. Run
+   `coil mutate` on them. Which changes to `fizzbuzz` go unnoticed? Add
+   tests until none survive.
+
+   > [!hint]
+   > No case ever checks a multiple of 5 or of 15, so the mutants in those
+   > two lines survive. A `fizzbuzz(10) == "Buzz"` and a
+   > `fizzbuzz(30) == "FizzBuzz"` case are enough to catch them all.
+
+5. Check something: write a `greet(string name)` function that prints its
+   greeting, and test what it prints with `io::capture_begin()` and
+   `io::capture_end()`.
+
+   > [!hint]
+   > `capture_end()` returns `(stdout, stderr)`, and the output still ends
+   > in the newline `println` wrote.
 
 Next: [Chapter 12 — Generators](/docs/manual/tutorial/12-generators).

@@ -163,13 +163,40 @@ Write a `///` comment on everything others will use. The examples in those
 comments run as tests (chapter 11), so they double as checked
 documentation.
 
-## Exercises
+## Henry's challenges
+
+> [!henry]
+> My shell is a row of chambers, each sealed off from the next, and a
+> project is a row of modules. Work in the `inventory` project from this
+> chapter.
 
 1. Move `fizzbuzz` from chapter 1 into `src/fizz.hy` and call it from
    `src/main.hy`.
+
 2. Add a `store/cart.hy` module with a `Cart` class that holds a
-   `Vec<Item>` and has a `total_cents()` method.
-3. Rename an import with `as` to avoid a clash between two modules that
-   both export a function called `parse`.
+   `Vec<Item>` and has `add(Item item)` and `total_cents()` methods. Print
+   the total of a cart with three lamps and four bulbs through
+   `format_cents`.
+
+   > [!hint]
+   > `cart.hy` uses `Item`, so it needs its own
+   > `use store::item::{Item};`. Imports are per file; the one in
+   > `main.hy` does not reach it.
+
+3. Make two modules that both declare `fn parse(string s) -> int`, import
+   both into `main.hy`, and rename them on import with `as` so they do not
+   clash.
+
+4. Check something: what does `format_cents(-150)` print? Fix it so that a
+   negative amount comes out as `-1.50 EUR`.
+
+   > [!hint]
+   > Division rounds toward zero and the remainder keeps the sign
+   > (chapter 2), so `-150 % 100` is `-50` and each digit comes out
+   > negative. Handle the sign first, then format the positive amount.
+
+5. Check something: misspell a module in a `use` line and read the error.
+   Then put `use store::item::{Itme};` with the item name misspelled
+   instead. Does the compiler tell the two mistakes apart?
 
 Next: [Chapter 10 — Files and input/output](/docs/manual/tutorial/10-files-and-io).

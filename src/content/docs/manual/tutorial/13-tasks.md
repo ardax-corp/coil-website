@@ -210,14 +210,46 @@ echo: world
 Run it with `--allow-net`. A real server would loop on `accept_wait` for
 ever instead of twice; each connection costs one task, not one thread.
 
-## Exercises
+## Henry's challenges
 
-1. Start ten tasks that each sleep a random time between 10 and 100 ms
-   (see [`random`](/docs/reference/random)) and print their numbers in the
-   order they finish.
+> [!henry]
+> A nautilus spends its day waiting: for the tide, for the dark, for
+> dinner to drift by. Tasks are good at waiting too. Work with `scope`,
+> `spawn`, channels and `timeout`.
+
+1. Start ten tasks numbered 0 to 9, where task `i` sleeps `(10 - i) * 10`
+   ms, and have each print its number when it wakes. In which order do the
+   numbers appear?
+
+   > [!hint]
+   > Each lambda needs `use (i)` to see its own number. A task that only
+   > prints has nothing to hand back through `?`, so print with
+   > `let _ = println(…);`.
+
 2. Build a pipeline of three tasks connected by two channels: one produces
-   numbers, one squares them, one prints them.
-3. Change the echo server to close a connection that sends nothing for two
-   seconds, using `timeout`.
+   the numbers 1 to 5, one squares them, one prints them.
+
+   > [!hint]
+   > Each stage must `close` the channel it writes to when it is done.
+   > The next stage's `while let Ok(…) = ch.recv()` only ends when its
+   > channel is closed and empty.
+
+3. Check something: take the `close` out of the squaring stage in your
+   pipeline and run it again. What does Coil report instead of hanging?
+
+4. Change the echo server to serve three clients, and add a third client
+   that sends `again`.
+
+5. Check something: spawn one task that prints `busy 0`, `busy 1`,
+   `busy 2` in a loop and a second task that prints `other`. Where does
+   `other` appear? Now call `task::yield_now()` after each `busy` line.
+
+   > [!hint]
+   > Tasks switch only where one of them waits, and printing to the
+   > terminal does not wait. `yield_now()` is a deliberate wait.
+
+6. Check something: in one scope, spawn a task that sleeps 50 ms and then
+   prints, and another that sleeps 10 ms and panics. Does the sleeper ever
+   print? What does `scope` return?
 
 Next: [Chapter 14 — Threads](/docs/manual/tutorial/14-threads).

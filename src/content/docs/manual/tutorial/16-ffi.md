@@ -163,14 +163,44 @@ in the natives cache `~/.coil/natives`); `--check-native` makes
 `[[ffi.native]]` entries and `spool download` automate this for packages
 that use native code.
 
-## Exercises
+## Henry's challenges
+
+> [!henry]
+> The last chamber, and the deepest water: C runs outside Coil's checks.
+> Work with `geom.c` from this chapter, and rebuild the library after
+> every change to it.
 
 1. Add `int64_t triple(int64_t x)` to `geom.c` and call it through the
    `extern` block.
-2. Write a Coil function `safe_count(string s, string ch) -> int` that
-   checks `ch` is one byte long before calling `count_char`.
-3. Declare `add` with the wrong number of arguments through `declare` and
-   look at the `Err` it returns.
+
+   > [!hint]
+   > The new function is only in the library once you run the `cc`
+   > command again. If you pinned the library with `--dload-pin`, its hash
+   > changed too.
+
+2. Write a Coil function `safe_count(string s, string ch) -> Result<int, string>`
+   that checks `ch` is one byte long before calling `count_char`, and
+   returns an `Err` otherwise. Try it with `"a"` and with `"é"`.
+
+   > [!hint]
+   > `len()` counts bytes (chapter 2), so `"é"` has length 2.
+   > `count_char` wants the byte as an `int`: `to_bytes(ch)[0] as int`
+   > (from `string`, as in chapter 10's streams) gives it to you.
+
+3. Check something: using `declare` and `invoke`, declare `add` with
+   three `Int` parameters and call it with two arguments. Then declare a
+   function `subtract` that the library does not have. Print each `Err`'s
+   `message`.
+
+   > [!hint]
+   > `ffi::Error` has no `%v`. `match` on the `Result` and read
+   > `e.message`. Notice which mistake can be caught: `declare` cannot
+   > see C's real signature, only whether what you invoke fits what you
+   > declared.
+
+4. Check something: run the `extern` example without `--allow-dload`,
+   then with `--allow-dload geom` and a `--dload-pin` of 64 zeros. What
+   does each run report?
 
 That is the end of the tutorial. From here, the [reference](/docs/reference)
 has a page for every module, type and function, and the

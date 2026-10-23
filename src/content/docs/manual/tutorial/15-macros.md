@@ -341,14 +341,48 @@ Two cautions. A macro's arguments are code, so `square!(next_id())` calls
 side effects. And an attribute macro that forgets to emit `t.source` or the
 renamed function deletes the item it was meant to decorate.
 
-## Exercises
+## Henry's challenges
+
+> [!henry]
+> My shell builds itself from a pattern, chamber after chamber. Macros are
+> patterns that build code. Add these to `src/my_macros.hy` and use them
+> from `src/main.hy`.
 
 1. Write `check_eq!(a, b)` that evaluates each side once and panics with
    both sides as written and their values, such as
    `check failed: x + 1 == 3 (2 vs 3)`.
+
+   > [!hint]
+   > Pasting `${a}` twice evaluates it twice. Bind each side with `let`
+   > inside a `quote stmts { … }`; the template's own variables are renamed,
+   > so they cannot clash with the caller's. `a.str()` is the source text
+   > and `show(left)` the value.
+
 2. Write `#[derive(FieldCount)]` adding `static fn field_count() -> int`.
-   `lit_int` turns an `int` into code.
+
+   > [!hint]
+   > `t.fields().len()` is an `int` while the macro runs, and the generated
+   > code needs it as a literal. `lit_int` turns an `int` into code, the
+   > way `lit` does for strings; add it to the provider's `use macro::{…}`
+   > line.
+
 3. Make `Columns` leave out fields marked `#[column(skip = true)]`.
+
+   > [!hint]
+   > `attr_str` reads any key as text, with a fallback when it is missing:
+   > `f.attr_str("column", "skip", "false") == "true"`.
+
+4. Check something: give your program a `static let calls = 0;` and a
+   `next_id()` function that adds one to it and returns it. What do
+   `square!(next_id())` and `calls` come out as? Would a plain function do
+   better here?
+
+5. Check something: remove `${raw(t.source)}` from the `table` attribute
+   macro and build `main.hy` again. What does the compiler report, and why
+   does that error point at the `Account` class?
+
+6. Run `coil dissect --expand` on `main.hy` and find the variable that
+   `swap!` declared. What was it renamed to?
 
 The [macros reference](/docs/language/macros) lists every declaration form,
 template hole and `macro` module function.
