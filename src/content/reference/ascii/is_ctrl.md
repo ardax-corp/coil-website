@@ -8,7 +8,7 @@ name: "is_ctrl"
 signature: "fn is_ctrl(byte c) -> bool"
 import: "use ascii::{is_ctrl};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d009ba27df1ee081c0600ed3f72b1abd6282db85/src/ascii.hy#L43"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/ascii.hy#L43"
 order: 6
 ---
 

@@ -35,7 +35,7 @@ package (`use json::{Json, JsonValue, JsonError};`). There is no in-tree
 | `fmt` | `use fmt::{Buf, pad_left, …};` | Incremental string builder (`Buf`) and padding helpers |
 | `collections` | `use collections::{sort, sort_by, reverse, …};` | Stable mergesort / `sort_by` (`T -> K` with `K: Ord`) / `reverse` / `collect_ints`; strings sort by UTF-8 bytes |
 | `collections::vec` | `use collections::vec::{map, filter, chunks, windows, partition, …};` | `Vec<T>` helpers: `map` / `filter` / `chunks` / `windows` / `partition` / `first` / `contains` / … |
-| `collections::map` | `use collections::map::{HashMap};` | Chaining hash map (`Eq`+`Hash`); `get(k, fallback)` |
+| `collections::map` | `use collections::map::{HashMap};` | Chaining hash map (`Eq`+`Hash`); `get(k) -> Option<V>`, `get_or(k, fallback)` |
 | `collections::set` | `use collections::set::{HashSet};` | Unique-value set backed by `HashMap<T, bool>` |
 | `collections::list` | `use collections::list::{List};` | Mutable deque (singly-linked); `peek_*` / `pop_*` → `Option` |
 | `collections::deque` | `use collections::deque::{VecDeque};` | Ring-buffer deque over growable `Vec`; O(1) push/pop at both ends |
@@ -56,8 +56,6 @@ package (`use json::{Json, JsonValue, JsonError};`). There is no in-tree
 - Collections that are type-tied should be **methods** (`m.insert(k, v)`).
   Cross-module user classes are still limited in the language
  .
-- Generic `HashMap::get` returns a fallback value (not `Option<V>`) due to a
-  compiler limitation on generic class methods returning `Option`.
 - `collections::vec::map` / `filter` / `partition` accept open-`T` lambdas; `fold` is
   currently available for `Vec<int>` only.
 - `chunks` is the only name (no `chunk` alias). `windows` is overlapping

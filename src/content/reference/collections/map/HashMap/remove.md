@@ -9,8 +9,8 @@ parent: "HashMap"
 signature: "pub fn remove(K k) -> bool"
 import: "use collections::map::{HashMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d009ba27df1ee081c0600ed3f72b1abd6282db85/src/collections/map.hy#L400"
-order: 12
+source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/collections/map.hy#L420"
+order: 13
 ---
 
 Removes the entry for `k`.

@@ -135,7 +135,8 @@ covers them; for now, read it as "given `s`, return `s + 5`".
 ## Maps
 
 A [`HashMap`](/docs/reference/collections/map/HashMap) stores values under
-keys. `get` takes a fallback that it returns when the key is missing:
+keys. `get` returns an `Option`: `Some(value)` when the key is there, `None`
+when it is missing. `get_or` takes a fallback to return instead:
 
 ```coil
 use io::sync::{println};
@@ -146,10 +147,10 @@ fn main() {
     let stock: HashMap<string, int> = HashMap::new();
     stock.insert("apples", 12);
     stock.insert("pears", 4);
-    stock.insert("apples", stock.get("apples", 0) + 6);   // replace a value
+    stock.insert("apples", stock.get_or("apples", 0) + 6);   // replace a value
 
-    println(format("apples: %i", stock.get("apples", 0)))?;
-    println(format("plums: %i", stock.get("plums", 0)))?;
+    println(format("apples: %i", stock.get("apples") ?? 0))?;
+    println(format("plums: %z", stock.get("plums").is_some()))?;
     println(format("have pears: %z", stock.contains("pears")))?;
 
     for entry in stock {
@@ -162,7 +163,7 @@ Output:
 
 ```text
 apples: 18
-plums: 0
+plums: false
 have pears: true
 apples -> 18
 pears -> 4

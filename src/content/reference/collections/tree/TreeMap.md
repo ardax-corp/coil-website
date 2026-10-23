@@ -8,7 +8,7 @@ name: "TreeMap"
 signature: "class TreeMap<K, V>"
 import: "use collections::tree::{TreeMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d009ba27df1ee081c0600ed3f72b1abd6282db85/src/collections/tree.hy#L34"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/collections/tree.hy#L34"
 order: 1
 ---
 
@@ -46,7 +46,8 @@ do not need the order.
 | [`iter`](/docs/reference/collections/tree/TreeMap/iter) | Returns an iterator over the entries in ascending key order. |
 | [`insert`](/docs/reference/collections/tree/TreeMap/insert) | Stores `v` under `k`, replacing any value already there. |
 | [`contains`](/docs/reference/collections/tree/TreeMap/contains) | Returns `true` when the map has an entry for `k`. |
-| [`get`](/docs/reference/collections/tree/TreeMap/get) | Returns the value stored under `k`, or `fallback` when there is none. |
+| [`get_or`](/docs/reference/collections/tree/TreeMap/get_or) | Returns the value stored under `k`, or `fallback` when there is none. |
+| [`get`](/docs/reference/collections/tree/TreeMap/get) | Returns the value stored under `k`, or `None` when there is none. |
 | [`remove`](/docs/reference/collections/tree/TreeMap/remove) | Removes the entry for `k`. |
 | [`min_key`](/docs/reference/collections/tree/TreeMap/min_key) | Returns the smallest key, or `fallback` when the map is empty. |
 | [`max_key`](/docs/reference/collections/tree/TreeMap/max_key) | Returns the largest key, or `fallback` when the map is empty. |

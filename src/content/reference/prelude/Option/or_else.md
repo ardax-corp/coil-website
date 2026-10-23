@@ -9,7 +9,7 @@ parent: "Option"
 signature: "pub fn or_else(fn() -> Option<T> f) -> Option<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/f3e0c941bdbea312cda5f6550d0d24ed00c93f2d/compiler/src/prelude/core.hy#L95"
+source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/prelude/core.hy#L95"
 order: 8
 ---
 
