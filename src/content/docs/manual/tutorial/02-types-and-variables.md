@@ -47,8 +47,10 @@ let ratio = 0.75;          // float
 let label: string = "ok";  // annotated
 ```
 
-Function parameters and return types are always written out, so a
-function's signature tells you exactly what it takes and gives back.
+Function parameters always carry their types. The return type can be left
+out when the body settles it (`fn twice(int n) { return n * 2; }` returns an
+`int`), but writing it keeps the signature a complete statement of what the
+function takes and gives back.
 
 When types do not fit, the compiler says so before the program runs:
 
