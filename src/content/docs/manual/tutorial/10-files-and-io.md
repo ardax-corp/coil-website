@@ -82,15 +82,18 @@ fn main() {
 
     let body = read_text("todo.txt")?;
     let todo = lines(body) ?? Vec::new();
-    println(format("first: %s, then: %s", todo[0], todo[1]))?;
+    println(format("%i things to do, first: %s", todo.len(), todo[0]))?;
 }
 ```
 
 Output:
 
 ```text
-first: buy milk, then: call Ada
+2 things to do, first: buy milk
 ```
+
+`lines` splits at each line ending. The newline at the end of the file
+finishes the last line; it does not add an empty one.
 
 `write_text` replaces the file, `append_text` adds to its end, and both
 create it when it does not exist. `read_bytes` and `write_bytes` do the
