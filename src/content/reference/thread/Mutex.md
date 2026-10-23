@@ -5,10 +5,10 @@ description: "A mutual-exclusion lock that owns a value, made by mutex."
 module: "thread"
 kind: "class"
 name: "Mutex"
-signature: "class Mutex"
+signature: "class Mutex<T>"
 import: "use thread::{Mutex};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L104"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L109"
 order: 3
 ---
 

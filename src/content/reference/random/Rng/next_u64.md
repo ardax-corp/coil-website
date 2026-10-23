@@ -1,7 +1,7 @@
 ---
 slug: "random/Rng/next_u64"
 title: "Rng::next_u64"
-description: "Returns the next raw value from the generator, a non-negative int."
+description: "Returns the next 64 raw bits from the generator as an int, so about half the values are negative (splitmix64)."
 module: "random"
 kind: "method"
 name: "next_u64"
@@ -9,11 +9,11 @@ parent: "Rng"
 signature: "pub fn next_u64() -> int"
 import: "use random::{Rng};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/random.hy#L56"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/random.hy#L63"
 order: 2
 ---
 
-Returns the next raw value from the generator, a non-negative [`int`](/docs/reference/types/int).
+Returns the next 64 raw bits from the generator as an [`int`](/docs/reference/types/int), so about half the values are negative (splitmix64).
 
 Called on a `Rng` value as `value.next_u64(…)`.
 

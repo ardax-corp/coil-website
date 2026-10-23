@@ -5,10 +5,10 @@ description: "Takes the next value if there is one, without waiting."
 module: "thread"
 kind: "fn"
 name: "try_recv"
-signature: "fn try_recv<T>(Receiver rx) -> Result<T, ThreadError>"
+signature: "fn try_recv<T>(Receiver<T> rx) -> Result<T, ThreadError>"
 import: "use thread::{try_recv};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L395"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L400"
 order: 13
 ---
 
@@ -21,7 +21,7 @@ open, and `Err(ThreadError::Disconnected)` when it is empty and closed.
 
 | Name | Type |
 |------|------|
-| `rx` | `Receiver` |
+| `rx` | `Receiver<T>` |
 
 ## Returns
 

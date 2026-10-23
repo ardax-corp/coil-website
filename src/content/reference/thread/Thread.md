@@ -5,10 +5,10 @@ description: "A handle to a function running on another OS thread, from spawn."
 module: "thread"
 kind: "class"
 name: "Thread"
-signature: "class Thread"
+signature: "class Thread<T>"
 import: "use thread::{Thread};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L29"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L34"
 order: 0
 ---
 
@@ -16,6 +16,11 @@ A handle to a function running on another OS thread, from [`spawn`](/docs/refere
 
 Pass it to [`join`](/docs/reference/thread/join) to wait for the result, or to [`detach`](/docs/reference/thread/detach) to let the
 thread finish on its own. A `Thread` cannot be sent to another thread.
+
+`T` is what the thread's function returns, so [`join`](/docs/reference/thread/join) gives back that
+type. A bare `Thread` in a type infers its `T`; the channel and lock
+handles ([`Sender<T>`](/docs/reference/thread/Sender), [`Receiver<T>`](/docs/reference/thread/Receiver), [`Mutex<T>`](/docs/reference/thread/Mutex), [`RwLock<T>`](/docs/reference/thread/RwLock)) carry
+their value type the same way.
 
 ## Examples
 
@@ -27,7 +32,7 @@ fn double(int n) -> int {
 }
 
 fn main() {
-    let t: Thread = match spawn(double, 21) {
+    let t: Thread<int> = match spawn(double, 21) {
         Result::Ok(t) => t,
         Result::Err(_) => panic "spawn failed",
     };
@@ -44,7 +49,7 @@ fn main() {
 - [`thread::spawn`](/docs/reference/thread/spawn)
 - [`thread::join`](/docs/reference/thread/join)
 - [`thread::detach`](/docs/reference/thread/detach)
-- [`Sender`](/docs/reference/thread/Sender): The sending half of a channel made by `channel`.
-- [`Receiver`](/docs/reference/thread/Receiver): The receiving half of a channel made by `channel`.
-- [`Mutex`](/docs/reference/thread/Mutex): A mutual-exclusion lock that owns a value, made by `mutex`.
-- [`RwLock`](/docs/reference/thread/RwLock): A readers-writer lock that owns a value, made by `rwlock`.
+- [`thread::Sender`](/docs/reference/thread/Sender)
+- [`thread::Receiver`](/docs/reference/thread/Receiver)
+- [`thread::Mutex`](/docs/reference/thread/Mutex)
+- [`thread::RwLock`](/docs/reference/thread/RwLock)

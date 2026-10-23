@@ -5,10 +5,10 @@ description: "Creates an unbounded channel and returns its (Sender, Receiver) en
 module: "thread"
 kind: "fn"
 name: "channel"
-signature: "fn channel() -> Result<(Sender, Receiver), ThreadError>"
+signature: "fn channel<T>() -> Result<(Sender<T>, Receiver<T>), ThreadError>"
 import: "use thread::{channel};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L302"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L307"
 order: 9
 ---
 
@@ -19,7 +19,7 @@ in order. The channel has no capacity limit, so [`send`](/docs/reference/thread/
 
 ## Returns
 
-`Result<(Sender, Receiver), ThreadError>`
+`Result<(Sender<T>, Receiver<T>), ThreadError>`
 
 ## Examples
 

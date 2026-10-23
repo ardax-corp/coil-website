@@ -8,7 +8,7 @@ name: "concat"
 signature: "fn concat(Vec<Code> parts) -> Code"
 import: "use macro::{concat};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/prelude/macro.hy#L71"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/prelude/macro.hy#L71"
 order: 16
 ---
 

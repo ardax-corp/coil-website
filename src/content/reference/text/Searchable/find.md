@@ -9,7 +9,7 @@ parent: "Searchable"
 signature: "fn find<P: Pattern>(T hay, P pat) -> Option<Span>"
 import: "use text::{Searchable};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/text.hy#L518"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/text.hy#L583"
 order: 3
 ---
 

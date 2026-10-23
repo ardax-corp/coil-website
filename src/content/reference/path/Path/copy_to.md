@@ -9,7 +9,7 @@ parent: "Path"
 signature: "pub fn copy_to(Path dst) -> Result<int, IoError>"
 import: "use path::{Path};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/path.hy#L460"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/path.hy#L460"
 order: 18
 ---
 

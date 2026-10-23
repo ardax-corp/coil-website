@@ -5,10 +5,10 @@ description: "Releases a mutex this thread locked with lock or try_lock."
 module: "thread"
 kind: "fn"
 name: "unlock"
-signature: "fn unlock(Mutex m) -> Result<unit, ThreadError>"
+signature: "fn unlock<T>(Mutex<T> m) -> Result<unit, ThreadError>"
 import: "use thread::{unlock};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L547"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L552"
 order: 19
 ---
 
@@ -20,7 +20,7 @@ Returns `Err(ThreadError::Other)` if this thread does not hold `m`.
 
 | Name | Type |
 |------|------|
-| `m` | `Mutex` |
+| `m` | `Mutex<T>` |
 
 ## Returns
 

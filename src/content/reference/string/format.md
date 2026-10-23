@@ -8,8 +8,8 @@ name: "format"
 signature: "fn format(string fmt) -> string"
 import: "use string::{format};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/string.hy#L63"
-order: 2
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/string.hy#L30"
+order: 0
 ---
 
 Builds a string from the literal `fmt` and the arguments that follow it.
@@ -58,5 +58,5 @@ assert!(format("%v", (1, "a")) == "(1, a)");
 - [`string`](/docs/reference/types/string)
 - [`bool`](/docs/reference/types/bool)
 - [`Show`](/docs/reference/prelude/ops/Show)
-- [`byte_at`](/docs/reference/string/byte_at): Returns the byte at byte offset `i` of `s`, or `-1` when `i` is out of range.
-- [`find_from`](/docs/reference/string/find_from): Returns the byte offset of the first `needle` in `hay` at or after `start`, or `-1`.
+- [`from_bytes`](/docs/reference/string/from_bytes): Decodes `bytes` as UTF-8 text.
+- [`slice_bytes`](/docs/reference/string/slice_bytes): Returns the part of `s` between byte offsets `start` (inclusive) and `end` (exclusive).

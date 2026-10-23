@@ -5,10 +5,10 @@ description: "Creates a readers-writer lock holding a copy of initial."
 module: "thread"
 kind: "fn"
 name: "rwlock"
-signature: "fn rwlock<T>(T initial) -> Result<RwLock, ThreadError>"
+signature: "fn rwlock<T>(T initial) -> Result<RwLock<T>, ThreadError>"
 import: "use thread::{rwlock};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L569"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L574"
 order: 20
 ---
 
@@ -25,7 +25,7 @@ The value must be sendable (see [`spawn`](/docs/reference/thread/spawn)), or the
 
 ## Returns
 
-`Result<RwLock, ThreadError>`
+`Result<RwLock<T>, ThreadError>`
 
 ## Examples
 

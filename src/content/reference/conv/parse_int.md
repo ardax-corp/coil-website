@@ -8,7 +8,7 @@ name: "parse_int"
 signature: "fn parse_int(string s) -> Result<int, string>"
 import: "use conv::{parse_int};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/6386d3482335236362f6c39ca75d10e20186dfa8/src/conv.hy#L207"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/conv.hy#L213"
 order: 4
 ---
 
@@ -27,7 +27,7 @@ Parses a decimal integer, such as `"42"`, `" -7 "` or `"+3"`.
 ## Errors
 
 `Err("invalid integer")` when `s` is empty or has a character that is not a
-digit. See [`parse_int_radix`](/docs/reference/conv/parse_int_radix) for the overflow caveat.
+digit, and `Err("overflow")` when the value does not fit in an [`int`](/docs/reference/types/int).
 
 ## Examples
 
@@ -44,8 +44,9 @@ assert!(bad == "invalid integer");
 
 ## See also
 
-- [`conv::parse_int_radix`](/docs/reference/conv/parse_int_radix)
+- [`int`](/docs/reference/types/int)
 - [`int_to_dec`](/docs/reference/conv/int_to_dec): Formats `n` in decimal; the same as `format("%i", n)`.
 - [`int_to_hex`](/docs/reference/conv/int_to_hex): Formats `n` in lowercase hexadecimal without a prefix; a negative `n` gets a leading `-`.
 - [`int_to_bin`](/docs/reference/conv/int_to_bin): Formats `n` in binary without a prefix; a negative `n` gets a leading `-`.
+- [`parse_int_radix`](/docs/reference/conv/parse_int_radix): Parses an integer written in base `radix`, which must be 10 or 16.
 - [`parse_float`](/docs/reference/conv/parse_float): Parses a decimal float such as `"3.5"`, `"-0.25"`, `"1e3"` or `"42"`.

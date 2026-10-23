@@ -9,7 +9,7 @@ parent: "Result"
 signature: "pub fn or_else<F>(E -> Result<T, F> f) -> Result<T, F>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/prelude/core.hy#L197"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/prelude/core.hy#L197"
 order: 9
 ---
 

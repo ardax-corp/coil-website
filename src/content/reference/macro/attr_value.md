@@ -8,7 +8,7 @@ name: "attr_value"
 signature: "fn attr_value(Vec<Attr> attrs, string attr, string key, string fallback) -> string"
 import: "use macro::{attr_value};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/prelude/macro.hy#L312"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/prelude/macro.hy#L312"
 order: 20
 ---
 

@@ -5,10 +5,10 @@ description: "Closes the channel: no more sends."
 module: "thread"
 kind: "fn"
 name: "close"
-signature: "fn close(Sender tx) -> Result<unit, ThreadError>"
+signature: "fn close<T>(Sender<T> tx) -> Result<unit, ThreadError>"
 import: "use thread::{close};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/builtin_docs/thread.hy#L418"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/thread.hy#L423"
 order: 14
 ---
 
@@ -21,7 +21,7 @@ get the values already queued, then `Disconnected`. Closing twice is fine.
 
 | Name | Type |
 |------|------|
-| `tx` | `Sender` |
+| `tx` | `Sender<T>` |
 
 ## Returns
 

@@ -9,7 +9,7 @@ parent: "Reader"
 signature: "pub fn ident() -> Ident"
 import: "use macro::{Reader};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/2fd31a884e4b837b7e70c36633a1a9547b1407c9/compiler/src/prelude/macro.hy#L695"
+source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/prelude/macro.hy#L695"
 order: 5
 ---
 
