@@ -215,8 +215,10 @@ Point { x: 1, y: 2 } equals Point { x: 1, y: 2 }: true
 visited (1, 2): true
 ```
 
-Without `Eq`, `==` on two objects does not compile. Chapter 7 shows how to
-write these by hand when the derived version is not what you want.
+Without `Eq`, `==` on two objects compares identity: it is true only when
+both sides are the same object, so two separate `new Point(1, 2)` are not
+equal. Chapter 7 shows how to write these by hand when the derived version
+is not what you want.
 
 ## Generic classes
 
@@ -266,13 +268,63 @@ undo: Some(delete line), 1 left
 `Stack<string>` and `Stack<int>` are different types, and the compiler
 checks that you only push what the stack holds.
 
-## Exercises
+## Henry's challenges
+
+> [!henry]
+> A shell is a home with a door, and a class decides who gets through it.
+> Build on `Account` and `Stack` from this chapter.
 
 1. Add a `withdraw(int amount) -> bool` method to `Account` that refuses to
    go below zero.
-2. Write a `Temperature` class that stores Celsius privately and has
-   `celsius()` and `fahrenheit()` methods.
-3. Give `Stack<T>` a `peek() -> Option<T>` method that returns the top
-   element without removing it.
+
+   > [!hint]
+   > Check the sign as well as the balance. Without it, `withdraw(-50)`
+   > quietly turns into a deposit.
+
+2. Write a `Temperature` class that stores Celsius in a private field and
+   has `celsius()` and `fahrenheit()` methods, plus a static
+   `Temperature::from_fahrenheit(float f)` constructor.
+
+   > [!hint]
+   > `9 / 5` is integer division and gives `1`. Write the formula with
+   > float literals: `self.celsius * 9.0 / 5.0 + 32.0`.
+
+3. Give `Stack<T>` an `is_empty() -> bool` method and a `clear()` method,
+   and check that a cleared stack pops `None`.
+
+4. Give a `Card` class a `rank: int` and a `suit: string`, derive `Show`,
+   `Eq` and `Ord`, and sort a hand of cards with `sort` from chapter 3.
+
+   > [!hint]
+   > A derived `Ord` compares fields in the order they are declared, so the
+   > field that matters most goes first.
+
+5. Check something: build a `Vec<Counter>` that holds the *same* counter
+   twice (`[c, c]`), add one to `counters[0].value`, and print
+   `counters[1].value`. Before you run it, decide what you expect.
+
+6. Check something: which of these behave like values, and which are
+   shared like objects? Copy each one with `let b = a;`, change `b`, and
+   print `a`.
+
+   ```coil ignore
+   let t = (1, 2);           // a tuple
+   let r = { x: 1 };         // a record
+   let v: Vec<int> = [1];    // a vector
+   let s = "a";              // a string
+   ```
+
+   > [!hint]
+   > Only numbers, booleans, strings and tuples are copied. Records,
+   > vectors and maps are shared, exactly like objects, so a function you
+   > pass a `Vec` to can push onto yours.
+
+7. Check something: take `Point` without its `#[derive(…)]` line and
+   compare `new Point(1, 2) == new Point(1, 2)`, then `a == a`. Add
+   `#[derive(Eq)]` back and compare again.
+
+   > [!hint]
+   > Without `Eq`, `==` asks "is this the same object?" rather than "do
+   > the fields match?".
 
 Next: [Chapter 5 — Enums and match](/docs/manual/tutorial/05-enums-and-match).

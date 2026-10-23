@@ -269,14 +269,50 @@ The [type system page](/docs/language/types#generics-and-traits) goes much
 further: traits with several type parameters, associated types,
 higher-kinded parameters and more.
 
-## Exercises
+## Henry's challenges
 
-1. Write `fn sum<T: Num>(Vec<T> xs, T zero) -> T` and call it with ints and
-   floats.
+> [!henry]
+> Every nautilus shell follows the same spiral, whatever its size. Write
+> code that way too: once, for every type that fits. Generics, traits and
+> bounds are your tools here.
+
+1. Write `fn sum<T: Num>(Vec<T> xs, T zero) -> T` and call it with ints
+   and with floats.
+
+   > [!hint]
+   > Inside a generic function there is no literal for "zero of `T`":
+   > `0` is an `int` and `0.0` a `float`. That is why the caller passes
+   > `zero` in.
+
 2. Add a `Triangle` class to the floor plan and implement `Shape` for it.
+
 3. Implement `Eq` by hand for a `Version` class so that two versions are
-   equal when their major and minor numbers match, ignoring a `label` field.
-   (`Eq` needs `fn eq(Version a, Version b) -> bool` and
-   `fn ne(Version a, Version b) -> bool`.)
+   equal when their major and minor numbers match, ignoring a `label`
+   field.
+
+   > [!hint]
+   > `Eq` needs both `fn eq(Version a, Version b) -> bool` and
+   > `fn ne(Version a, Version b) -> bool`. `ne` can simply return
+   > `!(a == b)`.
+
+4. Check something: call `largest` with an empty `Vec<int>`. What
+   happens? Then change it to return `Option<T>` so that an empty input
+   gives `None`.
+
+   > [!hint]
+   > `items[0]` on an empty vector is the index-out-of-bounds panic from
+   > chapter 3. Look at `len()` before you read it.
+
+5. Give `Vec2` a `-` operator by implementing `Sub`, and `==` by
+   implementing `Eq`, then check that `⟨3, 1⟩ - ⟨1, 1⟩ == ⟨2, 0⟩`.
+
+   > [!hint]
+   > `Sub` follows the same pattern as `Add`, with
+   > `fn sub(Vec2 a, Vec2 b) -> Vec2`. The
+   > [`ops` reference page](/docs/reference/prelude/ops) lists every
+   > operator's trait.
+
+6. Check something: `Pair<T>.max()` is only defined when `T: Ord`. Call
+   it on a `Pair` of strings, then on a `Pair` of `Vec2`s. Which compiles?
 
 Next: [Chapter 8 — Functions as values](/docs/manual/tutorial/08-closures).

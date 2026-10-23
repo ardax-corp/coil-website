@@ -93,7 +93,7 @@ for (const file of files) {
     }
     // Expected output: a ```text block directly after, introduced by "Output".
     let expected;
-    const after = lines.slice(j + 1, j + 4).join("\n");
+    const after = lines.slice(j + 1, j + 6).join("\n");
     const out = after.match(/^(?:\s*\n)?(?:\*\*)?Output(?:\*\*)?:?\s*\n+```text\n/);
     if (out) {
       let k = j + 1;

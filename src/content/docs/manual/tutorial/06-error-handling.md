@@ -216,13 +216,45 @@ The rule of thumb: return a `Result` when the failure depends on the outside
 world (a missing file, bad user input, a network error), and panic when it
 means the program itself is wrong.
 
-## Exercises
+## Henry's challenges
+
+> [!henry]
+> When a nautilus meets trouble it pulls into its shell and lets the
+> current carry it home. `?` does the same with errors. Practise with
+> `Result`, `raise`, `?` and `??`.
 
 1. Write `fn parse_point(string s) -> Result<(int, int), string>` that
-   accepts text like `"3,4"`, using `.split`, `parse_int` and `?`.
+   accepts text like `"3,4"`, using `.split`, `trim`, `parse_int` and `?`.
+   Make `"3;4"` an error with a message of your own.
+
+   > [!hint]
+   > `split` hands back however many pieces there are. Check for exactly
+   > two with `len()` and `raise` your message before you index them, or
+   > `"3"` alone panics instead of returning an `Err`.
+
 2. Change `divide` to return `Option<int>` instead, and use `??` to print
    `0` when dividing by zero.
+
 3. Write a `main` that calls `parse_point` on a bad input and prints
-   `error: …` to standard error.
+   `error: …` to standard error with `eprintln`.
+
+   > [!hint]
+   > `?` in `main` already deals in `println`'s `IoError`s, so a `string`
+   > error cannot go through it. `match` on the result, as `run()` does in
+   > this chapter.
+
+4. Change `sum_csv` so that empty fields are skipped instead of failing:
+   `"3,,4"` and `"3, 4,"` should both give `Ok(7)`.
+
+5. Write `fn last_len(Vec<string> words) -> Option<int>` using `?` on
+   `words.pop()`, and try it on an empty vector.
+
+6. Check something: write a function returning `Result<int, string>` that
+   uses `?` on both `parse_int(…)` and `println(…)`. Read the compiler's
+   error, then fix it with `map_err`.
+
+   > [!hint]
+   > The error names the two types that disagree. To turn the `IoError`
+   > into a `string`: `println(…).map_err(fn (IoError e) => show(e))?`.
 
 Next: [Chapter 7 — Traits and generics](/docs/manual/tutorial/07-traits-and-generics).

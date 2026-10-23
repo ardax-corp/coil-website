@@ -251,12 +251,48 @@ loops by implementing the [`Iterator`](/docs/reference/prelude/Iterator)
 trait, which is sometimes simpler than a generator when the state is
 already in an object.
 
-## Exercises
+## Henry's challenges
+
+> [!henry]
+> A nautilus adds one chamber at a time and never builds ahead. Generators
+> work the same way. Use `gen fn`, `yield`, `resume` and `yield from`.
 
 1. Write `gen fn fibonacci()` and print the Fibonacci numbers below 1000.
+
+   > [!hint]
+   > Let the generator run for ever and stop in the consumer: the `for`
+   > loop `break`s at the first number that reaches 1000.
+
 2. Write `gen fn lines_of(string text)` that yields one line at a time, and
-   use it with `take` from above.
+   use it with a `take` like the one above to print the first two lines.
+
+   > [!hint]
+   > `take` above accepts a `coroutine<int>`. Lines are strings, so your
+   > copy takes a `coroutine<string>`.
+
 3. Write a generator that receives words with `resume … with` and yields
    how many distinct words it has seen so far.
+
+   > [!hint]
+   > The first `resume` only starts the generator and runs it to its first
+   > `yield`; the words you send after that arrive one per `yield`. A
+   > `HashSet` (chapter 3) does the counting.
+
+4. Check something: add `let _ = println("made " + show(n));` before the
+   `yield` in `naturals`, and run `take(naturals(), 3)`. How many numbers
+   does `naturals` make? Change `take` so it makes exactly three.
+
+   > [!hint]
+   > `take` asks its source for the next value before checking whether it
+   > still needs one. Checking `left` right after the `yield` stops the
+   > loop before it pulls one value too many.
+
+5. Check something: print the value of the very first `resume avg` in the
+   running average. What is `0.0 / 0.0`? Make the generator yield `0.0`
+   until it has seen a number.
+
+6. Check something: make a generator that yields once, then `resume` it
+   three times, printing `done(g)` after each. When does `done` turn
+   `true`, and what happens on the third `resume`?
 
 Next: [Chapter 13 — Tasks](/docs/manual/tutorial/13-tasks).

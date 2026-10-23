@@ -346,11 +346,64 @@ Fizz
 FizzBuzz
 ```
 
-## Exercises
+## Henry's challenges
 
-1. Write `fn max(int a, int b) -> int` and print `max(3, 9)`.
-2. Print the first 10 Fibonacci numbers with a `while` loop.
-3. Change FizzBuzz to read the upper limit from a variable, and print
-   `Fizz` for multiples of 7 instead of 3.
+> [!henry]
+> Hello, I'm Henry. My shell grew one chamber at a time, and programs grow
+> the same way. Everything below can be solved with what this chapter
+> showed you: printing, variables, functions, `if`, loops and `defer`.
+
+1. Write `fn max(int a, int b) -> int` and print `max(3, 9)` and
+   `max(-2, -7)`.
+
+   > [!hint]
+   > The compiler checks that a function returns on every path. After
+   > `if a > b { return a; }` there still has to be a `return` for the
+   > other case.
+
+2. Print the first 10 Fibonacci numbers (0, 1, 1, 2, 3, 5, …) with a
+   `while` loop.
+
+   > [!hint]
+   > Keep the last two numbers in two variables. Work out the next one
+   > before you overwrite either of them: `let next = a + b;` inside the
+   > loop is fine, it only lives until the end of that round.
+
+3. Change FizzBuzz to read the upper limit from a variable, and print `Fizz`
+   for multiples of 7 instead of 3. Run it up to 35 and check the last line.
+
+   > [!hint]
+   > The checks run top to bottom and the first `return` wins. The
+   > "both" case is now multiples of 35, and it has to come first.
+
+4. Every number in the Collatz loop from this chapter eventually reaches 1.
+   Move the loop into `fn steps(int n) -> int` and find the number below
+   100 that takes the most steps.
+
+5. Check something: predict what this prints, then run it.
+
+   ```coil
+   use io::sync::{println};
+
+   fn main() {
+       for n in 3..3 {
+           println("a")?;
+       }
+       for n in 3..=3 {
+           println("b")?;
+       }
+       for n in 5..1 {
+           println("c")?;
+       }
+   }
+   ```
+
+   > [!hint]
+   > `a..b` stops *before* `b`, so a range whose end is not past its start
+   > is simply empty. Ranges never count down.
+
+6. Check something: write a function with three `defer` blocks that print
+   `one`, `two` and `three`, and a line after them that prints `working`.
+   In which order do the four lines appear?
 
 Next: [Chapter 2 — Types and variables](/docs/manual/tutorial/02-types-and-variables).

@@ -82,14 +82,14 @@ fn main() {
 
     let body = read_text("todo.txt")?;
     let todo = lines(body) ?? Vec::new();
-    println(format("%i things to do, first: %s", todo.len(), todo[0]))?;
+    println(format("first: %s, then: %s", todo[0], todo[1]))?;
 }
 ```
 
 Output:
 
 ```text
-2 things to do, first: buy milk
+first: buy milk, then: call Ada
 ```
 
 `write_text` replaces the file, `append_text` adds to its end, and both
@@ -213,13 +213,46 @@ usually handles many connections at once, which is what tasks are for:
 chapter 13 builds a small concurrent server. For HTTP, TLS and other
 protocols, see the [packages](/packages).
 
-## Exercises
+## Henry's challenges
+
+> [!henry]
+> A nautilus only opens its shell to what it trusts, and a Coil program
+> only reaches the outside world with your permission. Bring `-A` (or
+> the exact flags) to these.
 
 1. Write a program that counts the lines, words and bytes of a file, like
-   `wc`.
+   `wc`. Try it on a file with two spaces between some words, and compare
+   with `wc` itself.
+
+   > [!hint]
+   > `line.split(" ")` turns two spaces into an empty word between them.
+   > Count only the pieces that are not `""`. The byte count is the
+   > string's `len()`.
+
 2. Read numbers from standard input, one per line, and print their sum.
    Skip lines that are not numbers (`conv::parse_int`) and report how many
    were skipped on standard error.
+
+   > [!hint]
+   > Matching on `parse_int(line)` gives you an `Ok(n)` to add and an
+   > `Err(_)` to count. An empty line is not a number either.
+
 3. Copy every `.txt` file in a directory into a `backup/` subdirectory.
+
+   > [!hint]
+   > `list_dir` returns bare names, not paths: join them with the directory
+   > yourself (`dir + "/" + name`). Create `backup/` before the loop, and
+   > note that it shows up in `list_dir` too.
+
+4. Change the greeting program to greet every name it is given:
+   `coil … greet.hy -- Ada Grace` prints two lines.
+
+   > [!hint]
+   > `args()` starts with the program's own name, so the names start at
+   > index 1.
+
+5. Check something: run the file-reading example from this chapter without
+   `-A`. Which flag does the error ask for, and which chain of calls does
+   it show?
 
 Next: [Chapter 11 — Testing](/docs/manual/tutorial/11-testing).

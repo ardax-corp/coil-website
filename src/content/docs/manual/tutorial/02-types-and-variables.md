@@ -266,13 +266,56 @@ Error: [E0107] Cannot mutate a `readonly` value
 argument: `fn total(readonly Vec<int> xs) -> int`. Both readonly and
 ordinary values can be passed to it.
 
-## Exercises
+## Henry's challenges
+
+> [!henry]
+> Types are the chambers values live in, and a value stays in its own.
+> These use only what this chapter and the last one covered.
 
 1. Write `fn average(int a, int b, int c) -> float` and print the average
    of 1, 2 and 4.
-2. Make a record for a city with a name and a population, increase the
-   population, and print it with `%v`.
-3. What does `format("%i", 255 as byte as int + 1)` produce, and why is
-   `(255 as byte) + 1 as byte` different?
+
+   > [!hint]
+   > `(a + b + c) / 3` divides two `int`s, so it rounds toward zero before
+   > you ever get a `float`. Convert first: `(a + b + c) as float / 3.0`.
+   > Writing `/ 3` after the conversion is an error too, because `int` and
+   > `float` never mix.
+
+2. Make a record for a city with a name and a population, add 1500 people,
+   and print it with `%v`.
+
+3. Write `fn stats(int a, int b, int c) -> (int, int, float)` that returns
+   the smallest, the largest and the average, and unpack the result with
+   `let (low, high, mean) = …`.
+
+4. Check something: predict each value, then print them with `%i`.
+
+   ```coil ignore
+   -7 / 2
+   -7 % 2
+   3.99 as int
+   -3.99 as int
+   ```
+
+   > [!hint]
+   > Division and `as` both round toward zero, so the negative cases are
+   > not one less than you might expect. The remainder takes the sign of the
+   > number being divided.
+
+5. Check something: what does `format("%i", 255 as byte as int + 1)`
+   produce, and why does `(255 as byte) + 1 as byte` give something
+   different? Read the warning the compiler prints for the second one.
+
+   > [!hint]
+   > `as` binds tighter than `+`. In the first expression the `byte` turns
+   > back into an `int` before the addition; in the second both sides are
+   > `byte`s, and `byte` arithmetic wraps modulo 256.
+
+6. Check something: an `int` does not wrap. Start from the largest `int`,
+   `9223372036854775807`, add one, and see what happens.
+
+7. Check something: declare an array with `const`, assign to one of its
+   elements, and compile it. Then do the same with `readonly`. Which one
+   compiles, and what does the compiler tell you about the other?
 
 Next: [Chapter 3 — Collections](/docs/manual/tutorial/03-collections).

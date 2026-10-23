@@ -6,6 +6,12 @@ Henry the nautilus is Coil's mascot. The sticker art is in `public/brand/henry/`
 (served at `/brand/henry/…`): `henry-neutral`, `-happy` (success), `-confused`
 (errors, the 404 page) and `-sleeping` (empty states), as SVGs with a
 transparent background, plus a 2339×1878 `henry-neutral.png`.
+`henry-scholar` (mortarboard) and `henry-scholar-hint` (mortarboard and light
+bulb) present the challenges at the end of each tutorial chapter; they are
+generated from the neutral sticker by `node scripts/henry-scholar.mjs`.
+In docs markdown, a blockquote starting with `[!henry]` shows Henry with a
+speech bubble and one starting with `[!hint]` a folded hint
+(`src/lib/remark-henry.mjs`).
 
 ```bash
 npm install

@@ -216,13 +216,50 @@ The stdlib has a few more, each with its own reference page:
 | [`List`](/docs/reference/collections/list/List) | A singly-linked list |
 | [`BitSet`](/docs/reference/collections/bitset/BitSet) | A compact set of small non-negative integers |
 
-## Exercises
+## Henry's challenges
 
-1. Read a list of temperatures from an array and print the highest and the
-   average.
+> [!henry]
+> A nautilus keeps everything it owns in neat chambers, and so do these
+> collections. Arrays, vectors, maps and sets are all you need here.
+
+1. Keep a week of temperatures in an array and print the highest and the
+   average. Try it with a week where every day is below zero.
+
+   > [!hint]
+   > Starting `highest` at `0` gives the wrong answer for a cold week.
+   > Start it at the first element instead. For the average, convert both
+   > the total and `len()` with `as float`.
+
 2. Count how many times each word occurs in
-   `["a", "b", "a", "c", "b", "a"]` with a `HashMap<string, int>`.
+   `["a", "b", "a", "c", "b", "a"]` with a `HashMap<string, int>`, and
+   print each word with its count.
+
+   > [!hint]
+   > `counts.get_or(w, 0) + 1` is the new count whether or not the word has
+   > been seen yet, and `insert` replaces the old one.
+
 3. Remove duplicates from a `Vec<int>` while keeping the original order,
    using a `HashSet`.
+
+   > [!hint]
+   > Looping over the set would lose the order. Use the set only to answer
+   > "seen it already?", and push each new value onto a fresh `Vec`.
+
+4. Build a reversed copy of a `Vec<int>` with a loop over its indexes.
+
+   > [!hint]
+   > The last index is `len() - 1`, not `len()`. Reading `xs[xs.len()]` is
+   > one past the end and panics.
+
+5. Check something: after `let ranked = sort(scores);`, print both
+   `scores` and `ranked` with `%v`. Did `sort` change `scores`?
+
+6. Check something: what happens when you read `names[2]` from a
+   two-element `Vec`? And `primes[4]` from the fixed array `[2, 3, 5, 7]`?
+   One fails while the program runs, the other before it starts. Which is
+   which?
+
+7. Check something: call `pop()` and `remove(3)` on an empty
+   `Vec<int>` and print what they return with `%v`.
 
 Next: [Chapter 4 — Classes](/docs/manual/tutorial/04-classes).
