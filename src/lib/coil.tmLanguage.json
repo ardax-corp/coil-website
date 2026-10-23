@@ -72,6 +72,10 @@
           "match": "\\b0x[0-9A-Fa-f_]+\\b"
         },
         {
+          "name": "constant.numeric.octal.coil",
+          "match": "\\b0o[0-7_]+\\b"
+        },
+        {
           "name": "constant.numeric.binary.coil",
           "match": "\\b0b[01_]+\\b"
         },
