@@ -7,7 +7,7 @@ kind: "module"
 name: "arith"
 origin: "stdlib"
 auto: false
-order: 17
+order: 18
 ---
 
 Plain `+`, `-`, `*` and `**` on [`int`](/docs/reference/types/int) panic when the result does not fit. Import one of these traits to say what should happen instead: [`Checked`](/docs/reference/arith/Checked) gives an [`Option`](/docs/reference/prelude/Option), [`Wrapping`](/docs/reference/arith/Wrapping) wraps modulo 2^64, [`Saturating`](/docs/reference/arith/Saturating) clamps, and [`Overflowing`](/docs/reference/arith/Overflowing) returns the wrapped value with a flag.

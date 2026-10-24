@@ -8,7 +8,7 @@ name: "eq"
 signature: "macro eq(Expr lhs, Expr rhs) -> Code"
 import: "use tests::{eq};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/tests.hy#L25"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/tests.hy#L25"
 order: 1
 ---
 

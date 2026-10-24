@@ -8,7 +8,7 @@ name: "trim_end"
 signature: "fn trim_end(string s) -> Result<string, string>"
 import: "use text::{trim_end};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/text.hy#L150"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/text.hy#L153"
 order: 6
 ---
 

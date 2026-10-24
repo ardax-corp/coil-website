@@ -7,7 +7,7 @@ kind: "module"
 name: "ffi"
 origin: "builtin"
 auto: false
-order: 12
+order: 13
 ---
 
 [`dload`](/docs/reference/ffi/dload) loads a shared library, [`declare`](/docs/reference/ffi/declare) describes a C function's signature

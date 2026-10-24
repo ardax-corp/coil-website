@@ -7,7 +7,7 @@ kind: "module"
 name: "cell"
 origin: "stdlib"
 auto: false
-order: 20
+order: 21
 ---
 
 Lambdas, `defer` blocks and tasks capture copies of locals. Put state that several of them must update in a [`Ref`](/docs/reference/cell/Ref).

@@ -7,7 +7,7 @@ kind: "module"
 name: "bytes"
 origin: "stdlib"
 auto: false
-order: 19
+order: 20
 ---
 
 Byte buffers are [`Vec<byte>`](/docs/reference/prelude/Vec). Offsets are byte offsets, and nothing here knows about UTF-8; use [`text`](/docs/reference/text) for strings. A string literal can be passed where a [`Vec<byte>`](/docs/reference/prelude/Vec) is expected.

@@ -8,7 +8,7 @@ name: "Float"
 signature: "class Float"
 import: "use ffi::types::{Float};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/ffi/types.hy#L25"
+source: "https://github.com/ardax-corp/coil-lang/blob/62e75718cb75a68f2a80f051fe8180e7a5f6cde9/compiler/src/builtin_docs/ffi/types.hy#L25"
 order: 1
 ---
 

@@ -7,7 +7,7 @@ kind: "module"
 name: "clock"
 origin: "builtin"
 auto: false
-order: 11
+order: 12
 ---
 
 Use [`mono_nanos`](/docs/reference/clock/mono_nanos) to measure durations and [`wall_nanos`](/docs/reference/clock/wall_nanos) for the time of day.

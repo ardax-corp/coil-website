@@ -8,7 +8,7 @@ name: "to_lower"
 signature: "fn to_lower(byte c) -> byte"
 import: "use ascii::{to_lower};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/ascii.hy#L51"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/ascii.hy#L51"
 order: 7
 ---
 

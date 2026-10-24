@@ -8,7 +8,7 @@ name: "Wrapping"
 signature: "trait Wrapping<S>"
 import: "use arith::{Wrapping};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/arith.hy#L75"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/arith.hy#L75"
 order: 1
 ---
 

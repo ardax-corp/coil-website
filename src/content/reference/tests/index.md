@@ -7,7 +7,7 @@ kind: "module"
 name: "tests"
 origin: "stdlib"
 auto: false
-order: 37
+order: 38
 ---
 
 Tests are `test("name") { … }` blocks run by `coil test`; see [Tests](/docs/language/test-harness). [`assert!`](/docs/reference/tests/assert) raises an error rather than panicking, so it works in any function that returns a [`Result`](/docs/reference/prelude/Result).

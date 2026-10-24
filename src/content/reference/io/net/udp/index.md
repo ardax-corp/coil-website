@@ -7,7 +7,7 @@ kind: "module"
 name: "io::net::udp"
 origin: "builtin"
 auto: false
-order: 6
+order: 7
 ---
 
 A UDP socket is a [`Stream`](/docs/reference/io/Stream) bound with [`bind`](/docs/reference/io/net/udp/bind).
