@@ -9,7 +9,7 @@ parent: "Rng"
 signature: "pub fn float() -> float"
 import: "use random::{Rng};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/random.hy#L107"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/random.hy#L107"
 order: 4
 ---
 

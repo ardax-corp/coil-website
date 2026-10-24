@@ -43,7 +43,8 @@ computed at run time needs both. Any other mode is `Err(IoError::InvalidInput)`.
 
 Stream IO on something already open (`read_to_end`, `write_all`, a socket's
 `send`) needs no flag: the grant is checked where the file or socket is
-opened.
+opened. The terminal calls in [`io::tty`](/docs/reference/io/tty)
+(`is_tty`, `size`, raw mode, `read_timeout`) need none either.
 
 ## What counts
 

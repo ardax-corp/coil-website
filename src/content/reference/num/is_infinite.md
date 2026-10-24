@@ -8,7 +8,7 @@ name: "is_infinite"
 signature: "fn is_infinite(float x) -> bool"
 import: "use num::{is_infinite};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/num.hy#L210"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/num.hy#L210"
 order: 14
 ---
 

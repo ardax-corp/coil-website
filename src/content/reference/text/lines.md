@@ -1,18 +1,18 @@
 ---
 slug: "text/lines"
 title: "lines"
-description: "Splits s into lines at each LF, dropping one CR before it (so CRLF works too)."
+description: "Splits s into lines at each LF, dropping one CR before it (so CRLF works too). A final LF ends the last line rather than starting an empty one, so \"a\\nb\\n\" and \"a\\nb\" both give two lines, and \"\" gives none."
 module: "text"
 kind: "fn"
 name: "lines"
 signature: "fn lines(string s) -> Result<Vec<string>, string>"
 import: "use text::{lines};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/text.hy#L340"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/text.hy#L345"
 order: 14
 ---
 
-Splits `s` into lines at each LF, dropping one CR before it (so CRLF works too).
+Splits `s` into lines at each LF, dropping one CR before it (so CRLF works too). A final LF ends the last line rather than starting an empty one, so `"a\nb\n"` and `"a\nb"` both give two lines, and `""` gives none.
 
 ## Parameters
 

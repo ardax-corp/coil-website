@@ -7,7 +7,7 @@ kind: "module"
 name: "env"
 origin: "builtin"
 auto: false
-order: 10
+order: 11
 ---
 
 [`args`](/docs/reference/env/args) and [`cwd`](/docs/reference/env/cwd) need no grant. Reading or changing variables and [`set_cwd`](/docs/reference/env/set_cwd)

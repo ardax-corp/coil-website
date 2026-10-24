@@ -8,7 +8,7 @@ name: "result_unit_probe"
 signature: "fn result_unit_probe(int n) -> Result<unit, IoError>"
 import: "use io::{result_unit_probe};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/77fade5c3d914df2d977d52981e180deb6bea0e4/compiler/src/builtin_docs/io.hy#L644"
+source: "https://github.com/ardax-corp/coil-lang/blob/62e75718cb75a68f2a80f051fe8180e7a5f6cde9/compiler/src/builtin_docs/io.hy#L646"
 order: 20
 ---
 

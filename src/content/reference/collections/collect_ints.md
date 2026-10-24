@@ -8,7 +8,7 @@ name: "collect_ints"
 signature: "fn collect_ints(Range<int> r) -> Vec<int>"
 import: "use collections::{collect_ints};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/collections.hy#L211"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/collections.hy#L211"
 order: 3
 ---
 

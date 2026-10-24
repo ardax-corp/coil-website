@@ -65,6 +65,47 @@ Run it with input piped in, `printf 'a\nb\n' | coil … number.hy`:
 2 lines
 ```
 
+### Raw keys and the window size
+
+[`io::tty`](/docs/reference/io/tty) talks to the terminal itself: whether a
+stream is one (`is_tty`, to decide on colours or a progress bar), its size
+as `(columns, rows)`, and raw mode, where keys arrive one at a time without
+echo or Enter. `read_timeout` waits for input up to a number of
+milliseconds, which is how a program tells a lone Esc from the start of an
+arrow key's escape sequence. No flag is needed.
+
+```coil no_run
+use io::{stdin, stdout, IoError};
+use io::sync::{println};
+use io::tty::{enter_raw, is_tty, leave_raw, read_timeout, size};
+use string::{format, to_bytes};
+
+fn main() -> Result<(), IoError> {
+    let input = stdin();
+    if !is_tty(input) {
+        println("not a terminal")?;
+        return;
+    }
+    let (cols, rows) = size(stdout())?;
+    println(format("%i x %i, press a key", cols, rows))?;
+    enter_raw(input, true, true)?;
+    let buf = to_bytes("        ");
+    let got = read_timeout(input, buf, 5000)?;
+    leave_raw(input)?;
+    match got {
+        Option::Some(0) => println("no key within 5 s")?,
+        Option::Some(n) => println(format("%i byte(s), first %i", n, buf[0] as int))?,
+        Option::None => println("end of input")?,
+    }
+}
+```
+
+`keep_signals` (the first `true`) keeps Ctrl-C working; `keep_output` keeps
+`"\n"` moving to the start of the next line. If the program ends while
+still raw, the terminal is restored for it. `resized()` reports a window
+resize once; a `read_timeout` that is waiting returns `Some(0)` when it
+happens.
+
 ## Reading and writing files
 
 For whole files, [`io::file`](/docs/reference/io/file) has one-call

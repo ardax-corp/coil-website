@@ -8,7 +8,7 @@ name: "find_from"
 signature: "fn find_from(Vec<byte> hay, Vec<byte> needle, int start) -> int"
 import: "use bytes::{find_from};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/bytes.hy#L176"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/bytes.hy#L176"
 order: 7
 ---
 

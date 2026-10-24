@@ -8,7 +8,7 @@ name: "concat"
 signature: "fn concat(string a, string b) -> string"
 import: "use text::{concat};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/text.hy#L356"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/text.hy#L363"
 order: 15
 ---
 

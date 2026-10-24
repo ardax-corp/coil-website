@@ -7,7 +7,7 @@ kind: "module"
 name: "collections::bitset"
 origin: "stdlib"
 auto: false
-order: 22
+order: 23
 ---
 
 Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; with plain `coil`, pass `--root ~/.coil/stdlib/src`.

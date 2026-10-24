@@ -9,7 +9,7 @@ parent: "Pattern"
 signature: "fn expand(P pat, string template) -> string"
 import: "use text::{Pattern};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/59fa621e476425113f44db5753bef7abf7977a40/src/text.hy#L497"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/text.hy#L504"
 order: 3
 ---
 

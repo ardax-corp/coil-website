@@ -7,7 +7,7 @@ kind: "module"
 name: "encoding"
 origin: "stdlib"
 auto: false
-order: 30
+order: 31
 ---
 
 Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; with plain `coil`, pass `--root ~/.coil/stdlib/src`.

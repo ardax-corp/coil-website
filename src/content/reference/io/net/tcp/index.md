@@ -7,7 +7,7 @@ kind: "module"
 name: "io::net::tcp"
 origin: "builtin"
 auto: false
-order: 5
+order: 6
 ---
 
 [`connect`](/docs/reference/io/net/tcp/connect) and [`connect_timeout`](/docs/reference/io/net/tcp/connect_timeout) try every address the host name resolves to
