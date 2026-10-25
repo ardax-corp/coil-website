@@ -42,30 +42,26 @@ grep " spool-$TRIPLE.tar.gz\$" SHA256SUMS | sha256sum -c -    # macOS: shasum -a
 tar xzf "spool-$TRIPLE.tar.gz" -C ~/.local/bin spool
 ```
 
-**2. coil.** The spool binary does not download coil. Get the toolkit from the
-[coil edge release](https://github.com/ardax-corp/coil-lang/releases/tag/edge)
-and unpack it into `~/.coil/bin`. Keep the helper binaries (`coil-fmt`,
-`coil-test`, …) next to `coil`:
+**2. coil and the standard library.** spool fetches both into `~/.coil`,
+where it looks for them:
 
 ```bash
-BASE=https://github.com/ardax-corp/coil-lang/releases/download/edge
-mkdir -p ~/.coil/bin && cd "$(mktemp -d)"
-curl -fLO "$BASE/coil-$TRIPLE.tar.gz" -O "$BASE/SHA256SUMS"
-grep " coil-$TRIPLE.tar.gz\$" SHA256SUMS | sha256sum -c -     # macOS: shasum -a 256 -c -
-tar xzf "coil-$TRIPLE.tar.gz" -C ~/.coil/bin --strip-components=1
+~/.local/bin/spool setup --channel edge
 ```
+
+It downloads the coil toolkit for your platform from the
+[coil edge release](https://github.com/ardax-corp/coil-lang/releases/tag/edge),
+refuses it unless it matches the release's `SHA256SUMS`, and unpacks it into
+`~/.coil/bin` with its helpers (`coil-fmt`, `coil-test`, …) next to `coil`.
+Then it clones the standard library into `~/.coil/stdlib`. Run it again to
+update. `--coil-only` and `--stdlib-only` do one half.
 
 On Windows, the coil release has an x86-64 build
 (`coil-x86_64-pc-windows-gnu.zip`), but spool does not run there yet. The
-release also has a musl build of coil for Linux (`x86_64-unknown-linux-musl`).
+release also has a musl build of coil for Linux (`x86_64-unknown-linux-musl`),
+which `spool setup` does not install; unpack it by hand.
 
-**3. The standard library.** It is plain source code:
-
-```bash
-git clone https://github.com/ardax-corp/coil-stdlib.git ~/.coil/stdlib
-```
-
-**4. Check.** Put both directories on your `PATH`:
+**3. Check.** Put both directories on your `PATH`:
 
 ```bash
 export PATH="$HOME/.coil/bin:$HOME/.local/bin:$PATH"
@@ -76,10 +72,6 @@ spool doctor
 `spool doctor` checks that it can find coil, the stdlib, git and curl. spool
 looks for coil in `$COIL`, then on `PATH`, then in `~/.coil/bin/coil`, and for
 the stdlib in `~/.coil/stdlib` unless its config says otherwise.
-
-Steps 2 and 3 are manual for now. A spool command that does them for you is
-planned ([spool#51](https://github.com/ardax-corp/spool/issues/51)) but does
-not exist yet.
 
 ### With the bootstrap script
 
@@ -94,7 +86,7 @@ cd spool
 
 That builds spool, downloads the prebuilt coil from the edge release, and
 installs `coil` to `~/.coil/bin`, the stdlib to `~/.coil/stdlib` and `spool`
-to `~/.local/bin`. Then set `PATH` and run `spool doctor` as in step 4.
+to `~/.local/bin`. Then set `PATH` and run `spool doctor` as in step 3.
 
 Without `--channel edge`, or on a platform without a prebuilt coil, the
 script builds coil from source, which needs a Rust toolchain, libffi and
