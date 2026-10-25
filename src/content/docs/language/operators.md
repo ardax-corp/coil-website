@@ -316,6 +316,25 @@ Desugared to `match` / `return` / `MakeEnum` — no new opcodes. See [Tutorial: 
 | Optional access | `a?.field` | `Option<R>` with field `U` | `Option<U>` | Option-only; Result → E0116 |
 | Coalesce | `a ?? b` | `Option<T>` or `Result<T,E>` | `T` | RHS must unify with `T`; **`??` on Result swallows `Err`** (document / prefer `?` when failure matters) |
 
+`?` never converts errors: every `?` and `raise` in a function must produce
+the function's own error type (`E` in its `Result<T, E>`). To pass on an error
+of another type, convert it first with `map_err`:
+
+```coil
+use io::sync::{println};
+use conv::{parse_int};
+
+fn load(string s) -> Result<int, string> {
+    // println's error is an IoError; turn it into this function's string error.
+    println("loading " + s).map_err(fn (IoError e) => show(e))?;
+    return parse_int(s);
+}
+```
+
+A `main` that both prints and parses either converts like this or keeps the
+work in a `run() -> Result<…, E>` it calls (see
+[One error type per function](/docs/manual/tutorial/06-error-handling#one-error-type-per-function)).
+
 Precedence sketch:
 
 ```
