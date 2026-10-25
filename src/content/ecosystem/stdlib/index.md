@@ -1,7 +1,7 @@
 ---
 title: "coil-stdlib"
 description: "Userland standard library for Coil. Compiler virtual modules cover systems primitives (io, string, thread, …); this package layers .hy helpers on top."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/025245d29473d7d259d47c02dbc05ccea1109bb1/README.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/aa579cb79b3ee1b4d11c6b53fb73a950ca3ca37e/README.md"
 ---
 # coil-stdlib
 
@@ -29,6 +29,7 @@ Virtual-module host primitives (`io::read`) stay as free fns.
 ```text
 coil.toml
 src/ascii.hy          # use ascii::…
+src/cell.hy           # use cell::{Ref}
 src/collections/      # map, set, list, deque, bitset, tree, vec
 src/path.hy           # use path::{Path, …}
 tests/                # coil test
