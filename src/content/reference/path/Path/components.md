@@ -26,7 +26,7 @@ Called on a `Path` value as `value.components(…)`.
 ```coil
 use path::{Path};
 use tests::assert;
-let parts = Path::from("/usr/local/../bin").components() ?? Vec::new();
+let parts = Path::from("/usr/local/../bin").components().ok() ?? Vec::new();
 assert!(parts.len() == 2);
 assert!(parts[0] == "usr" && parts[1] == "bin");
 ```

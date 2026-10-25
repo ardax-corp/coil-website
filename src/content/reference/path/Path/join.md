@@ -35,9 +35,9 @@ Called on a `Path` value as `value.join(…)`.
 ```coil
 use path::{Path};
 use tests::assert;
-let p = Path::from("logs/").join(Path::from("/today.txt")) ?? Path::from("");
+let p = Path::from("logs/").join(Path::from("/today.txt")).ok() ?? Path::from("");
 assert!(p.as_str() == "logs/today.txt");
-assert!((Path::from("a").join(Path::from("b")) ?? Path::from("")).as_str() == "a/b");
+assert!((Path::from("a").join(Path::from("b")).ok() ?? Path::from("")).as_str() == "a/b");
 ```
 
 ## See also

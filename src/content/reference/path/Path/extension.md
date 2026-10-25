@@ -26,8 +26,8 @@ Called on a `Path` value as `value.extension(…)`.
 ```coil
 use path::{Path};
 use tests::assert;
-assert!((Path::from("archive.tar.gz").extension() ?? "") == "gz");
-assert!((Path::from("Makefile").extension() ?? "") == "");
+assert!((Path::from("archive.tar.gz").extension().ok() ?? "") == "gz");
+assert!((Path::from("Makefile").extension().ok() ?? "") == "");
 ```
 
 ## See also

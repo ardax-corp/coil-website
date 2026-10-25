@@ -41,7 +41,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0112` | `YieldOutsideAsync` | `yield` outside `gen fn` |
 | `E0113` | `ResumeTypeMismatch` | Reserved; not emitted today. A `resume h with v` whose `v` does not match the send type reports `E0102` |
 | `E0114` | `InvalidTry` | `?` on non-Option/non-Result, or outside a function |
-| `E0115` | `InvalidCoalesce` | `??` on non-Option/non-Result |
+| `E0115` | `InvalidCoalesce` | `??` on anything but an `Option` (a `Result` takes `.unwrap_or(..)` or `.ok() ??`) |
 | `E0116` | `InvalidOptionalAccess` | `?.` on non-Option (e.g. Result) |
 | `E0117` | `ConflictingErrorType` | Mixed Option/Result modes in one function. A conflicting `E` (`raise "s"` then `raise 1`, or `?` on a `Result` with another `E`) reports `E0102` |
 | `E0118` | `UnreachableCode` | Code after a diverging statement (warning) |

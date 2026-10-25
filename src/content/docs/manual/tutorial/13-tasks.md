@@ -33,9 +33,9 @@ fn main() {
     let result = scope(fn (Scope s) {
         let slow = s.spawn(fn () => fetch("slow", 50));
         let fast = s.spawn(fn () => fetch("fast", 10));
-        return (fast.join() ?? "?") + " finished before " + (slow.join() ?? "?");
+        return fast.join().unwrap_or("?") + " finished before " + slow.join().unwrap_or("?");
     });
-    println(result ?? "failed")?;
+    println(result.unwrap_or("failed"))?;
 }
 ```
 
@@ -95,7 +95,7 @@ fn main() {
         }
         return sum;
     });
-    println(format("sum of squares %i", total ?? -1))?;
+    println(format("sum of squares %i", total.unwrap_or(-1)))?;
 }
 ```
 
@@ -189,12 +189,12 @@ fn main() {
         // Two clients, running at the same time as the server.
         let a = s.spawn(fn () use (port) => ask(port, "hello"));
         let b = s.spawn(fn () use (port) => ask(port, "world"));
-        let ra = a.join() ?? Err(IoError::Other);
-        let rb = b.join() ?? Err(IoError::Other);
-        return [ra ?? "no reply", rb ?? "no reply"];
+        let ra = a.join().unwrap_or(Err(IoError::Other));
+        let rb = b.join().unwrap_or(Err(IoError::Other));
+        return [ra.unwrap_or("no reply"), rb.unwrap_or("no reply")];
     });
 
-    for reply in replies ?? ["failed", "failed"] {
+    for reply in replies.unwrap_or(["failed", "failed"]) {
         println(reply)?;
     }
 }

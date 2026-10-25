@@ -59,11 +59,11 @@ the same `--allow-read` / `--allow-write` grants.
 ```coil
 use path::{Path};
 use tests::assert;
-let p = Path::from("/srv/app/../data/report.csv").normalize() ?? Path::from("");
+let p = Path::from("/srv/app/../data/report.csv").normalize().ok() ?? Path::from("");
 assert!(p.as_str() == "/srv/data/report.csv");
-assert!((p.basename() ?? "") == "report.csv");
-assert!((p.extension() ?? "") == "csv");
-assert!((p.dirname() ?? p).as_str() == "/srv/data");
+assert!((p.basename().ok() ?? "") == "report.csv");
+assert!((p.extension().ok() ?? "") == "csv");
+assert!((p.dirname().ok() ?? p).as_str() == "/srv/data");
 ```
 
 ## See also

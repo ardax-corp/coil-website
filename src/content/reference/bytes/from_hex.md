@@ -33,7 +33,7 @@ Returns `Err` when `s` has an odd length or a character that is not a hex digit.
 ```coil
 use bytes::{from_hex};
 use tests::assert;
-let b = from_hex("00AbfF") ?? Vec::new();
+let b = from_hex("00AbfF").ok() ?? Vec::new();
 assert!(b.len() == 3 && b[1] == 171 as byte);
 assert!(from_hex("abc").is_err());
 ```

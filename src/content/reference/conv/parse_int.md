@@ -34,7 +34,7 @@ digit, and `Err("overflow")` when the value does not fit in an [`int`](/docs/ref
 ```coil
 use conv::{parse_int};
 use tests::assert;
-assert!((parse_int(" 42 ") ?? 0) == 42);
+assert!((parse_int(" 42 ").ok() ?? 0) == 42);
 let bad = match parse_int("4x2") {
     Result::Err(e) => e,
     Result::Ok(_) => "",

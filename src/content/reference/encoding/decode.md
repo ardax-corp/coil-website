@@ -33,7 +33,7 @@ Returns `Err` when `s` has a character outside the Base64 alphabet or a length t
 ```coil
 use encoding::{decode, encode};
 use tests::assert;
-let bytes = decode("aGVsbG8=") ?? Vec::new();
+let bytes = decode("aGVsbG8=").ok() ?? Vec::new();
 assert!(bytes.len() == 5);
 assert!(encode(bytes) == "aGVsbG8=");
 ```
