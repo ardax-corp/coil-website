@@ -8,7 +8,7 @@ name: "parse_int"
 signature: "fn parse_int(string s) -> Result<int, string>"
 import: "use conv::{parse_int};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/conv.hy#L213"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/conv.hy#L213"
 order: 4
 ---
 
@@ -34,7 +34,7 @@ digit, and `Err("overflow")` when the value does not fit in an [`int`](/docs/ref
 ```coil
 use conv::{parse_int};
 use tests::assert;
-assert!((parse_int(" 42 ") ?? 0) == 42);
+assert!((parse_int(" 42 ").ok() ?? 0) == 42);
 let bad = match parse_int("4x2") {
     Result::Err(e) => e,
     Result::Ok(_) => "",

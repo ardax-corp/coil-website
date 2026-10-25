@@ -8,7 +8,7 @@ name: "Checked"
 signature: "trait Checked<S>"
 import: "use arith::{Checked};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/arith.hy#L34"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/arith.hy#L34"
 order: 0
 ---
 

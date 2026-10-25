@@ -8,7 +8,7 @@ name: "decode"
 signature: "fn decode(string s) -> Result<Vec<byte>, string>"
 import: "use encoding::{decode};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/encoding.hy#L101"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/encoding.hy#L101"
 order: 1
 ---
 
@@ -33,7 +33,7 @@ Returns `Err` when `s` has a character outside the Base64 alphabet or a length t
 ```coil
 use encoding::{decode, encode};
 use tests::assert;
-let bytes = decode("aGVsbG8=") ?? Vec::new();
+let bytes = decode("aGVsbG8=").ok() ?? Vec::new();
 assert!(bytes.len() == 5);
 assert!(encode(bytes) == "aGVsbG8=");
 ```

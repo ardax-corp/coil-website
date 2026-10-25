@@ -8,7 +8,7 @@ name: "from_hex"
 signature: "fn from_hex(string s) -> Result<Vec<byte>, string>"
 import: "use bytes::{from_hex};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/bytes.hy#L91"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/bytes.hy#L91"
 order: 3
 ---
 
@@ -33,7 +33,7 @@ Returns `Err` when `s` has an odd length or a character that is not a hex digit.
 ```coil
 use bytes::{from_hex};
 use tests::assert;
-let b = from_hex("00AbfF") ?? Vec::new();
+let b = from_hex("00AbfF").ok() ?? Vec::new();
 assert!(b.len() == 3 && b[1] == 171 as byte);
 assert!(from_hex("abc").is_err());
 ```
@@ -45,6 +45,6 @@ assert!(from_hex("abc").is_err());
 - [`slice`](/docs/reference/bytes/slice): Returns a copy of `src[start..end]` (end exclusive), with both offsets clamped to the buffer.
 - [`concat`](/docs/reference/bytes/concat): Returns a new buffer holding `a` followed by `b`.
 - [`eq`](/docs/reference/bytes/eq): Returns `true` when `a` and `b` have the same length and the same bytes.
-- [`find_from`](/docs/reference/bytes/find_from): Returns the offset of the first `needle` in `hay` at or after `start`, or `-1`.
-- [`find`](/docs/reference/bytes/find): Returns the offset of the first `needle` in `hay`, or `-1`.
-- [`rfind`](/docs/reference/bytes/rfind): Returns the offset of the last `needle` in `hay`, or `-1`.
+- [`find_from`](/docs/reference/bytes/find_from): Returns the offset of the first `needle` in `hay` at or after `start`, or `None`.
+- [`find`](/docs/reference/bytes/find): Returns the offset of the first `needle` in `hay`, or `None`.
+- [`rfind`](/docs/reference/bytes/rfind): Returns the offset of the last `needle` in `hay`, or `None`.

@@ -8,7 +8,7 @@ name: "not"
 signature: "macro not(Expr expression) -> Code"
 import: "use tests::{not};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/tests.hy#L11"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/tests.hy#L11"
 order: 0
 ---
 

@@ -9,7 +9,7 @@ parent: "Pattern"
 signature: "fn find_in(P pat, string hay, int from) -> Option<Span>"
 import: "use text::{Pattern};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/text.hy#L492"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/text.hy#L449"
 order: 0
 ---
 

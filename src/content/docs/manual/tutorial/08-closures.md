@@ -47,12 +47,12 @@ is one expression; with braces it is a block with `return`:
 
 ```coil
 use io::sync::{println};
-use collections::vec::{map, filter};
+use collections::vec::{VecOps};
 
 fn main() {
     let prices: Vec<int> = [120, 45, 300, 80];
-    let cheap = filter(prices, fn (int p) => p < 100);
-    let with_tax = map(prices, fn (int p) {
+    let cheap = prices.filter(fn (int p) => p < 100);
+    let with_tax = prices.map(fn (int p) {
         let tax = p / 5;
         return p + tax;
     });
@@ -68,8 +68,8 @@ Output:
 144
 ```
 
-Lambdas are most often passed straight to functions like `map`, `filter`
-and [`sort_by`](/docs/reference/collections/sort_by).
+Lambdas are most often passed straight to methods like `map` and `filter`,
+and to functions like [`sort_by`](/docs/reference/collections/sort_by).
 
 ## Capturing variables
 
@@ -78,12 +78,12 @@ A lambda does not see the variables around it unless it asks for them with
 
 ```coil
 use io::sync::{println};
-use collections::vec::{filter};
+use collections::vec::{VecOps};
 
 fn main() {
     let limit = 50;
     let scores: Vec<int> = [20, 75, 40, 90];
-    let low = filter(scores, fn (int s) use (limit) => s < limit);
+    let low = scores.filter(fn (int s) use (limit) => s < limit);
     println(show(low.len()))?;
 }
 ```
@@ -183,7 +183,7 @@ Output:
 100 42
 ```
 
-This is handy with `map`: `map(readings, clamp(0, 100))`. It is why
+This is handy with `map`: `readings.map(clamp(0, 100))`. It is why
 parameters that change least often usually come first.
 
 ## Henry's challenges
@@ -234,6 +234,6 @@ parameters that change least often usually come first.
 
 6. Write `fn between(int lo, int hi, int x) -> bool` and use partial
    application to `filter` the readings that lie between 0 and 100,
-   next to `map(readings, clamp(0, 100))`.
+   next to `readings.map(clamp(0, 100))`.
 
 Next: [Chapter 9 — Modules and packages](/docs/manual/tutorial/09-modules).

@@ -83,13 +83,13 @@ value it returns takes its place:
 
 ```coil
 use io::file::read_text;
-use text::lines;
+use text::{Text};
 
 fn main() {
     // needs --comptime-read names.txt
     let count = comptime {
         let text = read_text("names.txt") ?? "";
-        let names: Vec<string> = lines(text) ?? [];
+        let names: Vec<string> = text.lines();
         let n = 0;
         for name in names {
             if name != "" {
@@ -102,8 +102,7 @@ fn main() {
 ```
 
 The block may call functions of its own module. It always gives one value;
-a block that only has side effects (`return;`) does not compile yet
-(coil-lang#1798).
+a block that only has side effects ends with `return;` and gives `()`.
 
 ## `comptime` blocks that generate code
 
@@ -124,7 +123,7 @@ comptime {
   with a help line about this.
 - `return` must give `Code` (from `quote`, `raw`, `lit` and the other
   [macro helpers](/docs/language/macros#the-macro-module)). `?` does not
-  apply here, so use `??` or `match` on a `Result`.
+  apply here, so use `.unwrap_or(..)` or `match` on a `Result`.
 - Errors in the block's body are reported where they are in your file. A
   panic shows the block's own lines in its backtrace.
 - The generated code may declare macros and derives and use them. They run

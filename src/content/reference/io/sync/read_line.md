@@ -8,7 +8,7 @@ name: "read_line"
 signature: "fn read_line(Stream s) -> Result<Option<string>, IoError>"
 import: "use io::sync::{read_line};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/io/sync.hy#L290"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/io/sync.hy#L290"
 order: 10
 ---
 

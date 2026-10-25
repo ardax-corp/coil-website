@@ -8,7 +8,7 @@ name: "HashMap"
 signature: "class HashMap<K, V>"
 import: "use collections::map::{HashMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/collections/map.hy#L40"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/collections/map.hy#L40"
 order: 1
 ---
 
@@ -41,7 +41,7 @@ when the fallback could be a real value.
 
 | Name | Description |
 |------|-------------|
-| [`size`](/docs/reference/collections/map/HashMap/size) | Returns the number of entries. |
+| [`len`](/docs/reference/collections/map/HashMap/len) | Returns the number of entries. |
 | [`is_empty`](/docs/reference/collections/map/HashMap/is_empty) | Returns `true` when the map has no entries. |
 | [`capacity`](/docs/reference/collections/map/HashMap/capacity) | Returns the number of buckets. |
 | [`clear`](/docs/reference/collections/map/HashMap/clear) | Removes every entry, keeping the bucket count. |
@@ -78,7 +78,7 @@ let ages: HashMap<string, int> = HashMap::new();
 ages.insert("ada", 36);
 ages.insert("alan", 41);
 ages.insert("ada", 37);
-assert!(ages.size() == 2);
+assert!(ages.len() == 2);
 assert!(ages.get_or("ada", 0) == 37);
 assert!(ages.get_or("grace", -1) == -1);
 

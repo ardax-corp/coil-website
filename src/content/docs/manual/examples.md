@@ -593,7 +593,7 @@ fn double_pos(int n, int is_neg) {
 
 ### `examples/coalesce.hy`
 
-**Demonstrates:** `??` on `Option` and `Result` (`Err` is swallowed on Result).
+**Demonstrates:** `??` on `Option`; a `Result` takes `.ok()` first, which drops its error on purpose.
 
 | | |
 |---|---|

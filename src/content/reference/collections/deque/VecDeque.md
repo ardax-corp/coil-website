@@ -8,7 +8,7 @@ name: "VecDeque"
 signature: "class VecDeque<T>"
 import: "use collections::deque::{VecDeque};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/collections/deque.hy#L21"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/collections/deque.hy#L21"
 order: 0
 ---
 
@@ -28,7 +28,7 @@ Backed by a ring buffer that doubles when full. Use it as a FIFO queue
 
 | Name | Description |
 |------|-------------|
-| [`size`](/docs/reference/collections/deque/VecDeque/size) | Returns the number of values. |
+| [`len`](/docs/reference/collections/deque/VecDeque/len) | Returns the number of values. |
 | [`is_empty`](/docs/reference/collections/deque/VecDeque/is_empty) | Returns `true` when the deque has no values. |
 | [`capacity`](/docs/reference/collections/deque/VecDeque/capacity) | Returns how many values fit before the ring buffer grows. |
 | [`push_back`](/docs/reference/collections/deque/VecDeque/push_back) | Adds `v` at the back. |
@@ -61,7 +61,7 @@ q.push_back("second");
 q.push_front("zeroth");
 assert!((q.pop_front() ?? "") == "zeroth");
 assert!((q.pop_back() ?? "") == "second");
-assert!(q.size() == 1);
+assert!(q.len() == 1);
 ```
 
 ## See also

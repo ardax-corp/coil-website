@@ -8,7 +8,7 @@ name: "BitSet"
 signature: "class BitSet"
 import: "use collections::bitset::{BitSet};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/collections/bitset.hy#L45"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/collections/bitset.hy#L45"
 order: 0
 ---
 
@@ -29,7 +29,7 @@ counted in bits. Each [`int`](/docs/reference/types/int) word holds 63 bits.
 
 | Name | Description |
 |------|-------------|
-| [`size`](/docs/reference/collections/bitset/BitSet/size) | Number of set bits (cardinality). |
+| [`len`](/docs/reference/collections/bitset/BitSet/len) | Number of set bits (cardinality). |
 | [`is_empty`](/docs/reference/collections/bitset/BitSet/is_empty) | Returns `true` when no bit is set. |
 | [`capacity`](/docs/reference/collections/bitset/BitSet/capacity) | Current bit capacity (`words.len() * 63`); grows when inserting past it. |
 | [`insert`](/docs/reference/collections/bitset/BitSet/insert) | Insert index `i`; returns `true` when newly set. |
@@ -55,7 +55,7 @@ seen.insert(3);
 seen.insert(200);
 assert!(seen.contains(200));
 assert!(!seen.contains(4));
-assert!(seen.size() == 2);
+assert!(seen.len() == 2);
 ```
 
 ## See also

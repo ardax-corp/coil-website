@@ -9,7 +9,7 @@ parent: "Path"
 signature: "pub fn components() -> Result<Vec<string>, IoError>"
 import: "use path::{Path};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/path.hy#L376"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/path.hy#L376"
 order: 8
 ---
 
@@ -26,7 +26,7 @@ Called on a `Path` value as `value.components(…)`.
 ```coil
 use path::{Path};
 use tests::assert;
-let parts = Path::from("/usr/local/../bin").components() ?? Vec::new();
+let parts = Path::from("/usr/local/../bin").components().ok() ?? Vec::new();
 assert!(parts.len() == 2);
 assert!(parts[0] == "usr" && parts[1] == "bin");
 ```

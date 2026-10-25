@@ -72,13 +72,13 @@ on `Err(e)` it returns `Err(e)` from the current function straight away:
 use io::sync::{println};
 use string::{format};
 use conv::{parse_int};
-use text::{Searchable, trim};
+use text::{Searchable, Text};
 
 // "3, 4, 5" → 12
 fn sum_csv(string line) -> Result<int, string> {
     let total = 0;
     for field in line.split(",") {
-        total += parse_int(trim(field)?)?;
+        total += parse_int(field.trim())?;
     }
     return Ok(total);
 }
@@ -151,8 +151,10 @@ listed on their reference pages: [`Result`](/docs/reference/prelude/Result),
 
 ## ?? gives a fallback
 
-`value ?? fallback` takes the success value, or `fallback` when there is
-none. It works on both `Option` and `Result`, and discards the error:
+`value ?? fallback` takes the value inside an `Option`, or `fallback` when
+there is none. It takes an `Option` only: on a `Result` it would throw the
+error away without a word, so a `Result` spells that out with
+`.unwrap_or(fallback)` (or `.ok() ?? fallback`):
 
 ```coil
 use io::sync::{println};
@@ -160,7 +162,7 @@ use string::{format};
 use conv::{parse_int};
 
 fn main() {
-    let retries = parse_int("not a number") ?? 3;
+    let retries = parse_int("not a number").unwrap_or(3);
     let names: Vec<string> = [];
     let last = names.pop() ?? "nobody";
     println(format("%i retries, last name %s", retries, last))?;
@@ -173,8 +175,8 @@ Output:
 3 retries, last name nobody
 ```
 
-Use `??` when a default is genuinely fine. When the user should hear about
-the problem, use `?` or `match`.
+Use a fallback when a default is genuinely fine. When the user should hear
+about the problem, use `?` or `match`.
 
 ## When main fails
 

@@ -8,7 +8,7 @@ name: "type"
 signature: "macro type(Expr ty) -> Code"
 import: "use tests::{type};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/tests.hy#L53"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/tests.hy#L53"
 order: 3
 ---
 

@@ -9,7 +9,7 @@ parent: "Rng"
 signature: "pub fn next_u64() -> int"
 import: "use random::{Rng};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/random.hy#L63"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/random.hy#L63"
 order: 2
 ---
 

@@ -9,7 +9,7 @@ parent: "TreeMap"
 signature: "pub fn min_key(K fallback) -> K"
 import: "use collections::tree::{TreeMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/collections/tree.hy#L371"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/collections/tree.hy#L371"
 order: 11
 ---
 
@@ -44,7 +44,7 @@ assert!(m.min_key(-1) == 2);
 - [`TreeMap`](/docs/reference/collections/tree/TreeMap): An ordered map from keys of type `K` to values of type `V`.
 - [`TreeMap::new`](/docs/reference/collections/tree/TreeMap/new): Creates an empty map.
 - [`TreeMap::empty`](/docs/reference/collections/tree/TreeMap/empty): Creates an empty map; the same as `TreeMap::new`.
-- [`TreeMap::size`](/docs/reference/collections/tree/TreeMap/size): Returns the number of entries.
+- [`TreeMap::len`](/docs/reference/collections/tree/TreeMap/len): Returns the number of entries.
 - [`TreeMap::is_empty`](/docs/reference/collections/tree/TreeMap/is_empty): Returns `true` when the map has no entries.
 - [`TreeMap::clear`](/docs/reference/collections/tree/TreeMap/clear): Removes every entry.
 - [`TreeMap::iter`](/docs/reference/collections/tree/TreeMap/iter): Returns an iterator over the entries in ascending key order.

@@ -9,7 +9,7 @@ parent: "Path"
 signature: "pub fn extension() -> Result<string, IoError>"
 import: "use path::{Path};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/path.hy#L228"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/path.hy#L228"
 order: 5
 ---
 
@@ -26,8 +26,8 @@ Called on a `Path` value as `value.extension(…)`.
 ```coil
 use path::{Path};
 use tests::assert;
-assert!((Path::from("archive.tar.gz").extension() ?? "") == "gz");
-assert!((Path::from("Makefile").extension() ?? "") == "");
+assert!((Path::from("archive.tar.gz").extension().ok() ?? "") == "gz");
+assert!((Path::from("Makefile").extension().ok() ?? "") == "");
 ```
 
 ## See also

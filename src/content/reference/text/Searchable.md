@@ -8,7 +8,7 @@ name: "Searchable"
 signature: "trait Searchable<T: Show>"
 import: "use text::{Searchable};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/text.hy#L573"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/text.hy#L530"
 order: 2
 ---
 
@@ -75,3 +75,4 @@ assert!("a-b-c".replace_all("-", "+") == "a+b+c");
 - [`Show`](/docs/reference/prelude/ops/Show)
 - [`string`](/docs/reference/types/string)
 - [`text::Pattern`](/docs/reference/text/Pattern)
+- [`Text`](/docs/reference/text/Text): String methods on `string`: trimming, case mapping, padding, line splitting, repeating and byte slicing.

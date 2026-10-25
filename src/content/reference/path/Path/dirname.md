@@ -9,7 +9,7 @@ parent: "Path"
 signature: "pub fn dirname() -> Result<Path, IoError>"
 import: "use path::{Path};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/path.hy#L134"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/path.hy#L134"
 order: 3
 ---
 
@@ -29,9 +29,9 @@ Called on a `Path` value as `value.dirname(…)`.
 ```coil
 use path::{Path};
 use tests::assert;
-assert!((Path::from("a/b/c.txt").dirname() ?? Path::from("")).as_str() == "a/b");
-assert!((Path::from("/top").dirname() ?? Path::from("")).as_str() == "/");
-assert!((Path::from("file").dirname() ?? Path::from("")).as_str() == ".");
+assert!((Path::from("a/b/c.txt").dirname().ok() ?? Path::from("")).as_str() == "a/b");
+assert!((Path::from("/top").dirname().ok() ?? Path::from("")).as_str() == "/");
+assert!((Path::from("file").dirname().ok() ?? Path::from("")).as_str() == ".");
 ```
 
 ## See also

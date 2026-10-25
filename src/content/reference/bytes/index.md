@@ -36,9 +36,9 @@ use bytes::{Bytes, region_eq};
 | [`slice`](/docs/reference/bytes/slice) | Returns a copy of `src[start..end]` (end exclusive), with both offsets clamped to the buffer. |
 | [`concat`](/docs/reference/bytes/concat) | Returns a new buffer holding `a` followed by `b`. |
 | [`eq`](/docs/reference/bytes/eq) | Returns `true` when `a` and `b` have the same length and the same bytes. |
-| [`find_from`](/docs/reference/bytes/find_from) | Returns the offset of the first `needle` in `hay` at or after `start`, or `-1`. |
-| [`find`](/docs/reference/bytes/find) | Returns the offset of the first `needle` in `hay`, or `-1`. |
-| [`rfind`](/docs/reference/bytes/rfind) | Returns the offset of the last `needle` in `hay`, or `-1`. |
+| [`find_from`](/docs/reference/bytes/find_from) | Returns the offset of the first `needle` in `hay` at or after `start`, or `None`. |
+| [`find`](/docs/reference/bytes/find) | Returns the offset of the first `needle` in `hay`, or `None`. |
+| [`rfind`](/docs/reference/bytes/rfind) | Returns the offset of the last `needle` in `hay`, or `None`. |
 | [`contains`](/docs/reference/bytes/contains) | Returns `true` when `needle` occurs in `hay`. |
 | [`starts_with`](/docs/reference/bytes/starts_with) | Returns `true` when `buf` begins with `prefix`. |
 | [`ends_with`](/docs/reference/bytes/ends_with) | Returns `true` when `buf` ends with `suffix`. |

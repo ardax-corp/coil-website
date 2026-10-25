@@ -114,7 +114,7 @@ functions:
 ```coil
 use io::sync::{println};
 use io::file::{read_text, write_text, append_text};
-use text::{lines};
+use text::{Text};
 use string::{format};
 
 fn main() {
@@ -122,7 +122,7 @@ fn main() {
     append_text("todo.txt", "call Ada\n")?;
 
     let body = read_text("todo.txt")?;
-    let todo = lines(body) ?? Vec::new();
+    let todo = body.lines();
     println(format("%i things to do, first: %s", todo.len(), todo[0]))?;
 }
 ```
@@ -235,12 +235,12 @@ use io::sync::{println, eprintln};
 use env::{args, var, exit};
 
 fn main() {
-    let argv = args() ?? Vec::new();
+    let argv = args().unwrap_or(Vec::new());
     if argv.len() < 2 {
         eprintln("usage: greet NAME")?;
         exit(2);
     }
-    let greeting = var("GREETING") ?? "Hello";
+    let greeting = var("GREETING").unwrap_or("Hello");
     println(greeting + ", " + argv[1])?;
 }
 ```
