@@ -123,7 +123,7 @@ comptime {
   with a help line about this.
 - `return` must give `Code` (from `quote`, `raw`, `lit` and the other
   [macro helpers](/docs/language/macros#the-macro-module)). `?` does not
-  apply here, so use `??` or `match` on a `Result`.
+  apply here, so use `.unwrap_or(..)` or `match` on a `Result`.
 - Errors in the block's body are reported where they are in your file. A
   panic shows the block's own lines in its backtrace.
 - The generated code may declare macros and derives and use them. They run

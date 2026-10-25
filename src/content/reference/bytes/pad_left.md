@@ -42,7 +42,7 @@ ensures ends_with(result, src)
 use bytes::{pad_left, to_string};
 use tests::assert;
 let zero: byte = "0";
-assert!((to_string(pad_left("42", 5, zero)) ?? "") == "00042");
+assert!((to_string(pad_left("42", 5, zero)).ok() ?? "") == "00042");
 ```
 
 ## See also

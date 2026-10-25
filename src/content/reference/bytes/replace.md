@@ -43,7 +43,7 @@ ensures old.len() == 0 || contains(hay, old) || eq(result, hay)
 use bytes::{replace, to_string};
 use tests::assert;
 let out = replace("a-b-c", "-", "+");
-assert!((to_string(out) ?? "") == "a+b+c");
+assert!((to_string(out).ok() ?? "") == "a+b+c");
 ```
 
 ## See also

@@ -29,8 +29,8 @@ Called on a `Path` value as `value.normalize(…)`.
 ```coil
 use path::{Path};
 use tests::assert;
-assert!((Path::from("a/./b//../c").normalize() ?? Path::from("")).as_str() == "a/c");
-assert!((Path::from("/../x").normalize() ?? Path::from("")).as_str() == "/x");
+assert!((Path::from("a/./b//../c").normalize().ok() ?? Path::from("")).as_str() == "a/c");
+assert!((Path::from("/../x").normalize().ok() ?? Path::from("")).as_str() == "/x");
 ```
 
 ## See also

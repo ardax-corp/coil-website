@@ -45,7 +45,7 @@ Shift and bitwise operators follow Rust: `1 << 2 | 1` is `(1 << 2) | 1`,
 | **Equality** | `==`, `!=` | Left-associative; operands same type → `bool` |
 | **Logical AND** | `&&` | Both operands `bool` → `bool` |
 | **Logical OR** | `\|\|` | Both operands `bool` → `bool` |
-| **Coalesce** | `??` | Right-associative; Option / Result only (see below) |
+| **Coalesce** | `??` | Right-associative; Option only (see below) |
 | **Assignment** | `=`, `+=`, `-=`, … | Lowest — right-associative |
 
 Forms **not** in the Pratt table but still tight-binding:
@@ -314,7 +314,7 @@ Desugared to `match` / `return` / `MakeEnum` — no new opcodes. See [Tutorial: 
 |----------|------|---------|-------------|-------|
 | Try | `x?` | `Result<T,E>` or `Option<T>` | `T` | Propagates `Err` / `None` via early `return`; hard error otherwise (E0114) |
 | Optional access | `a?.field` | `Option<R>` with field `U` | `Option<U>` | Option-only; Result → E0116 |
-| Coalesce | `a ?? b` | `Option<T>` or `Result<T,E>` | `T` | RHS must unify with `T`; **`??` on Result swallows `Err`** (document / prefer `?` when failure matters) |
+| Coalesce | `a ?? b` | `Option<T>` | `T` | RHS must unify with `T`; on a `Result` it is E0115 (it would discard the error): write `.unwrap_or(b)` or `.ok() ?? b` |
 
 `?` never converts errors: every `?` and `raise` in a function must produce
 the function's own error type (`E` in its `Result<T, E>`). To pass on an error

@@ -26,8 +26,8 @@ Called on a `Path` value as `value.basename(…)`.
 ```coil
 use path::{Path};
 use tests::assert;
-assert!((Path::from("a/b/c.txt").basename() ?? "") == "c.txt");
-assert!((Path::from("a/b/").basename() ?? "") == "b");
+assert!((Path::from("a/b/c.txt").basename().ok() ?? "") == "c.txt");
+assert!((Path::from("a/b/").basename().ok() ?? "") == "b");
 ```
 
 ## See also

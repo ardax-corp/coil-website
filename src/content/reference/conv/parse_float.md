@@ -35,8 +35,8 @@ Surrounding ASCII whitespace, a sign and an exponent (`e` or `E`) are accepted.
 ```coil
 use conv::{parse_float};
 use tests::assert;
-assert!((parse_float("2.5") ?? 0.0) == 2.5);
-assert!((parse_float("1e3") ?? 0.0) == 1000.0);
+assert!((parse_float("2.5").ok() ?? 0.0) == 2.5);
+assert!((parse_float("1e3").ok() ?? 0.0) == 1000.0);
 assert!(parse_float("abc").is_err());
 ```
 
