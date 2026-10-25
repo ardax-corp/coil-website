@@ -72,13 +72,13 @@ on `Err(e)` it returns `Err(e)` from the current function straight away:
 use io::sync::{println};
 use string::{format};
 use conv::{parse_int};
-use text::{Searchable, trim};
+use text::{Searchable, Text};
 
 // "3, 4, 5" → 12
 fn sum_csv(string line) -> Result<int, string> {
     let total = 0;
     for field in line.split(",") {
-        total += parse_int(trim(field)?)?;
+        total += parse_int(field.trim())?;
     }
     return Ok(total);
 }

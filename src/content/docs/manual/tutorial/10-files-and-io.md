@@ -114,7 +114,7 @@ functions:
 ```coil
 use io::sync::{println};
 use io::file::{read_text, write_text, append_text};
-use text::{lines};
+use text::{Text};
 use string::{format};
 
 fn main() {
@@ -122,7 +122,7 @@ fn main() {
     append_text("todo.txt", "call Ada\n")?;
 
     let body = read_text("todo.txt")?;
-    let todo = lines(body) ?? Vec::new();
+    let todo = body.lines();
     println(format("%i things to do, first: %s", todo.len(), todo[0]))?;
 }
 ```
