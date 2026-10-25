@@ -143,7 +143,10 @@ Output:
 1920 cells
 ```
 
-To turn one error type into another, use the `map_err` method:
+When both error types are your own, an `impl Into<MyError> for ParseError` in
+the same module lets `?` do the conversion itself (see
+[`?` and errors](/docs/language/operators)). Otherwise, to turn one error type
+into another, use the `map_err` method:
 `parse_int(s).map_err(fn (string e) => MyError::BadNumber(e))?`. `Result` and
 `Option` have more methods like it (`map`, `and_then`, `unwrap_or`, …), all
 listed on their reference pages: [`Result`](/docs/reference/prelude/Result),
