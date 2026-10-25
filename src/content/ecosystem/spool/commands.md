@@ -37,6 +37,7 @@ Dependencies:
   spool allow-include <name>
 
 Tooling:
+  spool setup [--channel stable|edge|TAG] [--coil-only | --stdlib-only]
   spool doctor
   spool cache dir | spool cache clean
   spool version
@@ -45,7 +46,7 @@ Tooling:
 
 ## Getting spool
 
-spool is written in Coil and shipped as one executable built with `coil package`. Build it from a checkout:
+spool is written in Coil and shipped as one executable built with `coil package`. The [edge release](https://github.com/ardax-corp/spool/releases/tag/edge) has it prebuilt for Linux (x86-64, ARM64) and Apple-silicon macOS; `spool setup --channel edge` then fetches coil (checked against the release's `SHA256SUMS`) into `~/.coil/bin` and the stdlib into `~/.coil/stdlib` (see [Getting started](/docs/manual/getting-started)). To build it from a checkout instead:
 
 ```bash
 git clone https://github.com/ardax-corp/spool.git
