@@ -4,7 +4,8 @@ description: "Terminals: is a stream a terminal, its size, raw mode, a key read 
 These work on any `Stream` and need no permission flag, like printing and
 reading `stdin`. On a file, pipe or socket they report "not a terminal":
 `is_tty` is `false` and `size` / `enter_raw` return
-`Err(IoError::NotATerminal)`.
+`Err(TtyError::NotATerminal)`. A failure of the stream itself is
+`TtyError::Io(IoError)`.
 
 Raw mode belongs to the terminal, and the program puts it back: whatever is
 still raw is restored when the program ends normally, through `env::exit`,
