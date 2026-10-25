@@ -77,28 +77,38 @@ arrow key's escape sequence. No flag is needed.
 ```coil no_run
 use io::{stdin, stdout, IoError};
 use io::sync::{println};
-use io::tty::{enter_raw, is_tty, leave_raw, read_timeout, size};
+use io::tty::{enter_raw, is_tty, leave_raw, read_timeout, size, TtyError};
 use string::{format, to_bytes};
 
-fn main() -> Result<(), IoError> {
+// The terminal calls fail with `TtyError`; a plain write fails with
+// `IoError`, which `TtyError::Io` wraps.
+fn say(string line) -> Result<(), TtyError> {
+    println(line).map_err(fn (IoError e) => TtyError::Io(e))?;
+    return;
+}
+
+fn main() -> Result<(), TtyError> {
     let input = stdin();
     if !is_tty(input) {
-        println("not a terminal")?;
+        say("not a terminal")?;
         return;
     }
     let (cols, rows) = size(stdout())?;
-    println(format("%i x %i, press a key", cols, rows))?;
+    say(format("%i x %i, press a key", cols, rows))?;
     enter_raw(input, true, true)?;
     let buf = to_bytes("        ");
     let got = read_timeout(input, buf, 5000)?;
     leave_raw(input)?;
     match got {
-        Option::Some(0) => println("no key within 5 s")?,
-        Option::Some(n) => println(format("%i byte(s), first %i", n, buf[0] as int))?,
-        Option::None => println("end of input")?,
+        Option::Some(0) => say("no key within 5 s")?,
+        Option::Some(n) => say(format("%i byte(s), first %i", n, buf[0] as int))?,
+        Option::None => say("end of input")?,
     }
 }
 ```
+
+`TtyError::NotATerminal` is what `size` and `enter_raw` return on a file,
+pipe or socket.
 
 `keep_signals` (the first `true`) keeps Ctrl-C working; `keep_output` keeps
 `"\n"` moving to the start of the next line. If the program ends while
