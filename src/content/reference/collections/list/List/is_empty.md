@@ -9,7 +9,7 @@ parent: "List"
 signature: "pub fn is_empty() -> bool"
 import: "use collections::list::{List};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/collections/list.hy#L58"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/collections/list.hy#L58"
 order: 2
 ---
 
@@ -25,7 +25,7 @@ Called on a `List` value as `value.is_empty(…)`.
 
 - [`List`](/docs/reference/collections/list/List): A singly-linked list with constant-time push and pop at the front.
 - [`List::new`](/docs/reference/collections/list/List/new): Creates an empty list.
-- [`List::size`](/docs/reference/collections/list/List/size): Returns the number of values.
+- [`List::len`](/docs/reference/collections/list/List/len): Returns the number of values.
 - [`List::push_front`](/docs/reference/collections/list/List/push_front): Adds `v` at the front.
 - [`List::push_back`](/docs/reference/collections/list/List/push_back): Adds `v` at the back.
 - [`List::peek_front`](/docs/reference/collections/list/List/peek_front): Returns the front value without removing it, or `None` when the list is empty.

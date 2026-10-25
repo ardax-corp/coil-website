@@ -8,11 +8,11 @@ name: "Partitioned"
 signature: "class Partitioned<T>"
 import: "use collections::vec::{Partitioned};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/collections/vec.hy#L330"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/collections/vec.hy#L9"
 order: 0
 ---
 
-Two-bucket result of [`partition`](/docs/reference/collections/vec/partition) ([`matched`](/docs/reference/collections/vec/Partitioned/matched) = pred true, [`rest`](/docs/reference/collections/vec/Partitioned/rest) = pred false). Named pair instead of `Vec<Vec<T>>` so callers do not index `[0]`/`[1]`.
+Two-bucket result of `partition` ([`matched`](/docs/reference/collections/vec/Partitioned/matched) = pred true, [`rest`](/docs/reference/collections/vec/Partitioned/rest) = pred false). Named pair instead of `Vec<Vec<T>>` so callers do not index `[0]`/`[1]`.
 
 ## Methods
 
@@ -23,6 +23,5 @@ Two-bucket result of [`partition`](/docs/reference/collections/vec/partition) ([
 
 ## See also
 
-- [`collections::vec::partition`](/docs/reference/collections/vec/partition)
 - [`Partitioned::matched`](/docs/reference/collections/vec/Partitioned/matched)
 - [`Partitioned::rest`](/docs/reference/collections/vec/Partitioned/rest)

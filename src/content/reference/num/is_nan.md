@@ -8,7 +8,7 @@ name: "is_nan"
 signature: "fn is_nan(float x) -> bool"
 import: "use num::{is_nan};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/num.hy#L205"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/num.hy#L205"
 order: 13
 ---
 

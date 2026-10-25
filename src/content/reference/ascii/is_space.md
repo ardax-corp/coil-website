@@ -8,7 +8,7 @@ name: "is_space"
 signature: "fn is_space(byte c) -> bool"
 import: "use ascii::{is_space};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/ascii.hy#L4"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/ascii.hy#L4"
 order: 0
 ---
 

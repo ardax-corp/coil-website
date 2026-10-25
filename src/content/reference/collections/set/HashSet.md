@@ -8,7 +8,7 @@ name: "HashSet"
 signature: "class HashSet<T>"
 import: "use collections::set::{HashSet};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/collections/set.hy#L20"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/collections/set.hy#L20"
 order: 0
 ---
 
@@ -27,7 +27,7 @@ Values need [`Eq`](/docs/reference/prelude/ops/Eq) and `Hash`. Backed by a `Hash
 
 | Name | Description |
 |------|-------------|
-| [`size`](/docs/reference/collections/set/HashSet/size) | Number of elements. |
+| [`len`](/docs/reference/collections/set/HashSet/len) | Number of elements. |
 | [`is_empty`](/docs/reference/collections/set/HashSet/is_empty) | Returns `true` when the set has no values. |
 | [`clear`](/docs/reference/collections/set/HashSet/clear) | Remove all elements. |
 | [`insert`](/docs/reference/collections/set/HashSet/insert) | Insert `x`; returns `true` when newly added. |
@@ -43,7 +43,7 @@ let tags: HashSet<string> = HashSet::new();
 assert!(tags.insert("red"));
 assert!(!tags.insert("red"));
 assert!(tags.contains("red"));
-assert!(tags.size() == 1);
+assert!(tags.len() == 1);
 ```
 
 ## See also

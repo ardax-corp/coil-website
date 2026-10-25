@@ -9,7 +9,7 @@ parent: "List"
 signature: "pub fn to_vec() -> Vec<T>"
 import: "use collections::list::{List};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/collections/list.hy#L220"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/collections/list.hy#L220"
 order: 9
 ---
 
@@ -34,7 +34,7 @@ ensures result.len() == self.len
 - [`Vec`](/docs/reference/prelude/Vec)
 - [`List`](/docs/reference/collections/list/List): A singly-linked list with constant-time push and pop at the front.
 - [`List::new`](/docs/reference/collections/list/List/new): Creates an empty list.
-- [`List::size`](/docs/reference/collections/list/List/size): Returns the number of values.
+- [`List::len`](/docs/reference/collections/list/List/len): Returns the number of values.
 - [`List::is_empty`](/docs/reference/collections/list/List/is_empty): Returns `true` when the list has no values.
 - [`List::push_front`](/docs/reference/collections/list/List/push_front): Adds `v` at the front.
 - [`List::push_back`](/docs/reference/collections/list/List/push_back): Adds `v` at the back.

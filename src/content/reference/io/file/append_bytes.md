@@ -8,7 +8,7 @@ name: "append_bytes"
 signature: "fn append_bytes(string path, Vec<byte> buf) -> Result<int, IoError>"
 import: "use io::file::{append_bytes};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/io/file.hy#L97"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/io/file.hy#L97"
 order: 4
 ---
 

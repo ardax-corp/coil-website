@@ -246,7 +246,7 @@ impl Stack<T> {
         return self.items.pop();
     }
 
-    pub fn size() -> int {
+    pub fn len() -> int {
         return self.items.len();
     }
 }
@@ -255,7 +255,7 @@ fn main() {
     let undo: Stack<string> = Stack::new();
     undo.push("type a");
     undo.push("delete line");
-    println(format("undo: %v, %i left", undo.pop(), undo.size()))?;
+    println(format("undo: %v, %i left", undo.pop(), undo.len()))?;
 }
 ```
 

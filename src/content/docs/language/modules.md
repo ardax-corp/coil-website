@@ -56,7 +56,7 @@ item      ::= IDENT ('as' IDENT)?
 |------|---------|
 | `use money::{format_cents};` | `format_cents` from module `money` |
 | `use money::{format_cents, CURRENCY};` | several names |
-| `use text::{trim as strip};` | `trim`, bound locally as `strip` |
+| `use conv::{parse_int as to_int};` | `parse_int`, bound locally as `to_int` |
 | `use store::item::Item;` | one name, without braces |
 | `use tests::assert;` | a macro (called as `assert!(…)`) |
 

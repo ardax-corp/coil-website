@@ -8,7 +8,7 @@ name: "slice"
 signature: "fn slice(Vec<byte> src, int start, int end) -> Vec<byte>"
 import: "use bytes::{slice};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/bytes.hy#L128"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/bytes.hy#L128"
 order: 4
 ---
 
@@ -52,6 +52,6 @@ assert!(slice(b, 3, 99).len() == 2);
 - [`from_hex`](/docs/reference/bytes/from_hex): Decodes hexadecimal text (either case) into bytes.
 - [`concat`](/docs/reference/bytes/concat): Returns a new buffer holding `a` followed by `b`.
 - [`eq`](/docs/reference/bytes/eq): Returns `true` when `a` and `b` have the same length and the same bytes.
-- [`find_from`](/docs/reference/bytes/find_from): Returns the offset of the first `needle` in `hay` at or after `start`, or `-1`.
-- [`find`](/docs/reference/bytes/find): Returns the offset of the first `needle` in `hay`, or `-1`.
-- [`rfind`](/docs/reference/bytes/rfind): Returns the offset of the last `needle` in `hay`, or `-1`.
+- [`find_from`](/docs/reference/bytes/find_from): Returns the offset of the first `needle` in `hay` at or after `start`, or `None`.
+- [`find`](/docs/reference/bytes/find): Returns the offset of the first `needle` in `hay`, or `None`.
+- [`rfind`](/docs/reference/bytes/rfind): Returns the offset of the last `needle` in `hay`, or `None`.

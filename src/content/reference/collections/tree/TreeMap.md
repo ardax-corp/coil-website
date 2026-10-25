@@ -8,7 +8,7 @@ name: "TreeMap"
 signature: "class TreeMap<K, V>"
 import: "use collections::tree::{TreeMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/collections/tree.hy#L34"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/collections/tree.hy#L34"
 order: 1
 ---
 
@@ -40,7 +40,7 @@ do not need the order.
 
 | Name | Description |
 |------|-------------|
-| [`size`](/docs/reference/collections/tree/TreeMap/size) | Returns the number of entries. |
+| [`len`](/docs/reference/collections/tree/TreeMap/len) | Returns the number of entries. |
 | [`is_empty`](/docs/reference/collections/tree/TreeMap/is_empty) | Returns `true` when the map has no entries. |
 | [`clear`](/docs/reference/collections/tree/TreeMap/clear) | Removes every entry. |
 | [`iter`](/docs/reference/collections/tree/TreeMap/iter) | Returns an iterator over the entries in ascending key order. |

@@ -8,7 +8,7 @@ name: "Path"
 signature: "class Path"
 import: "use path::{Path};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/path.hy#L40"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/path.hy#L40"
 order: 0
 ---
 

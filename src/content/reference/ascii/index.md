@@ -33,7 +33,7 @@ use ascii::{is_space, is_digit};
 | [`is_ctrl`](/docs/reference/ascii/is_ctrl) | True for an ASCII control byte (below space, excluding DEL). |
 | [`to_lower`](/docs/reference/ascii/to_lower) | ASCII lower-case for `A`..=`Z`; other bytes unchanged. |
 | [`to_upper`](/docs/reference/ascii/to_upper) | ASCII upper-case for `a`..=`z`; other bytes unchanged. |
-| [`digit_val`](/docs/reference/ascii/digit_val) | Numeric value of an ASCII decimal digit, or `-1` for another byte. |
-| [`hex_val`](/docs/reference/ascii/hex_val) | Numeric value of an ASCII hex digit, or `-1` for another byte. |
+| [`digit_val`](/docs/reference/ascii/digit_val) | Numeric value of an ASCII decimal digit, or `None` for another byte. |
+| [`hex_val`](/docs/reference/ascii/hex_val) | Numeric value of an ASCII hex digit, or `None` for another byte. |
 | [`hex_digit`](/docs/reference/ascii/hex_digit) | Lowercase hex digit for `0..=15`. |
 | [`digit_char`](/docs/reference/ascii/digit_char) | Decimal digit as a one-byte string. |

@@ -8,7 +8,7 @@ name: "hex_digit"
 signature: "fn hex_digit(int n) -> byte"
 import: "use ascii::{hex_digit};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/ascii.hy#L92"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/ascii.hy#L91"
 order: 11
 ---
 

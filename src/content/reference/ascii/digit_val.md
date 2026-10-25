@@ -1,18 +1,18 @@
 ---
 slug: "ascii/digit_val"
 title: "digit_val"
-description: "Numeric value of an ASCII decimal digit, or -1 for another byte."
+description: "Numeric value of an ASCII decimal digit, or None for another byte."
 module: "ascii"
 kind: "fn"
 name: "digit_val"
-signature: "fn digit_val(byte c) -> int"
+signature: "fn digit_val(byte c) -> Option<int>"
 import: "use ascii::{digit_val};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/ascii.hy#L69"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/ascii.hy#L69"
 order: 9
 ---
 
-Numeric value of an ASCII decimal digit, or `-1` for another byte.
+Numeric value of an ASCII decimal digit, or `None` for another byte.
 
 ## Parameters
 
@@ -22,7 +22,7 @@ Numeric value of an ASCII decimal digit, or `-1` for another byte.
 
 ## Returns
 
-`int`
+`Option<int>`
 
 ## See also
 

@@ -8,7 +8,7 @@ name: "Rng"
 signature: "class Rng"
 import: "use random::{Rng};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/random.hy#L28"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/random.hy#L28"
 order: 0
 ---
 

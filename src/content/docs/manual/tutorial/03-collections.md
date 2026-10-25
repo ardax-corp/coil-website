@@ -100,24 +100,24 @@ Output:
 
 The stdlib module [`collections`](/docs/reference/collections) has `sort`,
 and [`collections::vec`](/docs/reference/collections/vec) has functional
-helpers such as `map`, `filter`, `contains` and `index_of`. They return new
+methods such as `map`, `filter`, `contains` and `index_of`. They return new
 vectors and leave the original unchanged:
 
 ```coil
 use io::sync::{println};
 use string::{format};
 use collections::{sort};
-use collections::vec::{map, filter, contains};
+use collections::vec::{VecOps, VecEq};
 
 fn main() {
     let scores: Vec<int> = [70, 95, 82, 60];
     let ranked = sort(scores);
-    let curved = map(scores, fn (int s) => s + 5);
-    let passed = filter(scores, fn (int s) => s >= 70);
+    let curved = scores.map(fn (int s) => s + 5);
+    let passed = scores.filter(fn (int s) => s >= 70);
 
     println(format("lowest %i, highest %i", ranked[0], ranked[3]))?;
     println(format("first curved score %i", curved[0]))?;
-    println(format("%i passed, anyone at 95: %z", passed.len(), contains(scores, 95)))?;
+    println(format("%i passed, anyone at 95: %z", passed.len(), scores.contains(95)))?;
 }
 ```
 
@@ -195,7 +195,7 @@ fn main() {
         }
         seen.insert(w);
     }
-    println(format("%i distinct, %i repeated", seen.size(), repeats))?;
+    println(format("%i distinct, %i repeated", seen.len(), repeats))?;
 }
 ```
 
