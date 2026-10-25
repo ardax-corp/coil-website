@@ -8,7 +8,7 @@ name: "int_to_dec"
 signature: "fn int_to_dec(int n) -> string"
 import: "use conv::{int_to_dec};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/conv.hy#L49"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/conv.hy#L49"
 order: 0
 ---
 

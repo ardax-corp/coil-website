@@ -17,30 +17,20 @@ Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; wi
 Import what you use (`use path::*` is not allowed):
 
 ```coil
-use collections::vec::{Partitioned, fold_int};
+use collections::vec::{Partitioned, VecOps};
 ```
 
 ## Types
 
 | Name | Description |
 |------|-------------|
-| [`Partitioned`](/docs/reference/collections/vec/Partitioned) | Two-bucket result of [`partition`](/docs/reference/collections/vec/partition) (`matched` = pred true, `rest` = pred false). |
+| [`Partitioned`](/docs/reference/collections/vec/Partitioned) | Two-bucket result of `partition` (`matched` = pred true, `rest` = pred false). |
 
-## Functions
+## Traits
 
 | Name | Description |
 |------|-------------|
-| [`fold_int`](/docs/reference/collections/vec/fold_int) | The same as [`fold`](/docs/reference/collections/vec/fold); kept for older code. |
-| [`contains`](/docs/reference/collections/vec/contains) | Returns `true` when `needle` is in `xs`. |
-| [`index_of`](/docs/reference/collections/vec/index_of) | Returns the index of the first `needle` in `xs`, or `-1`. |
-| [`binary_search`](/docs/reference/collections/vec/binary_search) | Finds `needle` in the ascending vector `xs` by halving, and returns an index holding it. |
-| [`dedup`](/docs/reference/collections/vec/dedup) | Returns `xs` with runs of equal neighbours collapsed to one value. |
-| [`map`](/docs/reference/collections/vec/map) | Returns a new vector with `mapper` applied to each element, in order. |
-| [`filter`](/docs/reference/collections/vec/filter) | Returns the elements for which `pred` is `true`, in order. |
-| [`first`](/docs/reference/collections/vec/first) | Returns the first element, or `None` when `xs` is empty. |
-| [`last`](/docs/reference/collections/vec/last) | Returns the last element, or `None` when `xs` is empty. |
-| [`concat`](/docs/reference/collections/vec/concat) | Returns a new vector holding the elements of `a` followed by those of `b`. |
-| [`chunks`](/docs/reference/collections/vec/chunks) | Consecutive non-overlapping slices of `size` (last slice may be short). |
-| [`windows`](/docs/reference/collections/vec/windows) | Overlapping sliding windows of exact `size`. |
-| [`partition`](/docs/reference/collections/vec/partition) | Split `xs` into (`matched`, `rest`) by `pred`. |
-| [`fold`](/docs/reference/collections/vec/fold) | Combines the elements left to right: starts from `init` and replaces the accumulator with `folder(acc)(x)` for each `x`. |
+| [`VecOps`](/docs/reference/collections/vec/VecOps) | Methods on any [`Vec<T>`](/docs/reference/prelude/Vec). |
+| [`VecEq`](/docs/reference/collections/vec/VecEq) | Methods on a [`Vec<T>`](/docs/reference/prelude/Vec) whose elements are [[`Eq`](/docs/reference/prelude/ops/Eq)]. |
+| [`VecOrd`](/docs/reference/collections/vec/VecOrd) | Methods on a [`Vec<T>`](/docs/reference/prelude/Vec) whose elements are [[`Ord`](/docs/reference/prelude/ops/Ord)]. |
+| [`VecSum`](/docs/reference/collections/vec/VecSum) | `xs.sum()` on [`Vec<int>`](/docs/reference/prelude/Vec) and [`Vec<float>`](/docs/reference/prelude/Vec); an empty vector sums to zero. |

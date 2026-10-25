@@ -9,7 +9,7 @@ parent: "HashSet"
 signature: "pub static fn with_capacity(int cap) -> HashSet<T>"
 import: "use collections::set::{HashSet};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/collections/set.hy#L26"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/collections/set.hy#L26"
 order: 0
 ---
 
@@ -29,7 +29,7 @@ Create a set with bucket count rounded up to the next power of two (min 8).
 
 - [`HashSet`](/docs/reference/collections/set/HashSet): A set of unique values.
 - [`HashSet::new`](/docs/reference/collections/set/HashSet/new): Empty set with default capacity 8.
-- [`HashSet::size`](/docs/reference/collections/set/HashSet/size): Number of elements.
+- [`HashSet::len`](/docs/reference/collections/set/HashSet/len): Number of elements.
 - [`HashSet::is_empty`](/docs/reference/collections/set/HashSet/is_empty): Returns `true` when the set has no values.
 - [`HashSet::clear`](/docs/reference/collections/set/HashSet/clear): Remove all elements.
 - [`HashSet::insert`](/docs/reference/collections/set/HashSet/insert): Insert `x`; returns `true` when newly added.

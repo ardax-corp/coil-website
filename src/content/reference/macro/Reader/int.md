@@ -9,7 +9,7 @@ parent: "Reader"
 signature: "pub fn int() -> int"
 import: "use macro::{Reader};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/62e75718cb75a68f2a80f051fe8180e7a5f6cde9/compiler/src/prelude/macro.hy#L660"
+source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/prelude/macro.hy#L660"
 order: 2
 ---
 

@@ -8,7 +8,7 @@ name: "round"
 signature: "fn round(float x) -> float"
 import: "use num::{round};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/num.hy#L90"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/num.hy#L90"
 order: 6
 ---
 

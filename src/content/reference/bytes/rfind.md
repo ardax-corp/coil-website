@@ -1,18 +1,18 @@
 ---
 slug: "bytes/rfind"
 title: "rfind"
-description: "Returns the offset of the last needle in hay, or -1. An empty needle matches at hay.len()."
+description: "Returns the offset of the last needle in hay, or None. An empty needle matches at hay.len()."
 module: "bytes"
 kind: "fn"
 name: "rfind"
-signature: "fn rfind(Vec<byte> hay, Vec<byte> needle) -> int"
+signature: "fn rfind(Vec<byte> hay, Vec<byte> needle) -> Option<int>"
 import: "use bytes::{rfind};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/bytes.hy#L229"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/bytes.hy#L268"
 order: 9
 ---
 
-Returns the offset of the last `needle` in `hay`, or `-1`. An empty `needle` matches at `hay.len()`.
+Returns the offset of the last `needle` in `hay`, or `None`. An empty `needle` matches at `hay.len()`.
 
 ## Parameters
 
@@ -23,23 +23,14 @@ Returns the offset of the last `needle` in `hay`, or `-1`. An empty `needle` mat
 
 ## Returns
 
-`int`
-
-## Contracts
-
-Checked according to `--contracts` (see [Contracts](/docs/language/contracts)).
-
-```coil
-ensures result >= -1 && result <= hay.len()
-ensures result < 0 || (result + needle.len() <= hay.len() && region_eq(hay, result, needle, 0, needle.len()))
-```
+`Option<int>`
 
 ## Examples
 
 ```coil
 use bytes::{rfind};
 use tests::assert;
-assert!(rfind("a,b,c", ",") == 3);
+assert!(rfind("a,b,c", ",") == Option::Some(3));
 ```
 
 ## See also
@@ -50,5 +41,5 @@ assert!(rfind("a,b,c", ",") == 3);
 - [`slice`](/docs/reference/bytes/slice): Returns a copy of `src[start..end]` (end exclusive), with both offsets clamped to the buffer.
 - [`concat`](/docs/reference/bytes/concat): Returns a new buffer holding `a` followed by `b`.
 - [`eq`](/docs/reference/bytes/eq): Returns `true` when `a` and `b` have the same length and the same bytes.
-- [`find_from`](/docs/reference/bytes/find_from): Returns the offset of the first `needle` in `hay` at or after `start`, or `-1`.
-- [`find`](/docs/reference/bytes/find): Returns the offset of the first `needle` in `hay`, or `-1`.
+- [`find_from`](/docs/reference/bytes/find_from): Returns the offset of the first `needle` in `hay` at or after `start`, or `None`.
+- [`find`](/docs/reference/bytes/find): Returns the offset of the first `needle` in `hay`, or `None`.

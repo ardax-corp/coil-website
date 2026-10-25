@@ -8,7 +8,7 @@ name: "Pattern"
 signature: "trait Pattern<P>"
 import: "use text::{Pattern};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/text.hy#L490"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/text.hy#L447"
 order: 1
 ---
 
@@ -40,3 +40,5 @@ assert!(at.start == 3 && at.end == 4);
 
 - [`text::Searchable`](/docs/reference/text/Searchable)
 - [`string`](/docs/reference/types/string)
+- [`Text`](/docs/reference/text/Text): String methods on `string`: trimming, case mapping, padding, line splitting, repeating and byte slicing.
+- [`Joined`](/docs/reference/text/Joined): `parts.join(sep)` on `Vec<string>`.

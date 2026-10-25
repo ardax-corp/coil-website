@@ -9,7 +9,7 @@ parent: "VecDeque"
 signature: "pub fn capacity() -> int"
 import: "use collections::deque::{VecDeque};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/bbab8785eee1ff5cde1ade831f952993476bad73/src/collections/deque.hy#L67"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/collections/deque.hy#L67"
 order: 4
 ---
 
@@ -26,7 +26,7 @@ Called on a `VecDeque` value as `value.capacity(…)`.
 - [`VecDeque`](/docs/reference/collections/deque/VecDeque): A double-ended queue: constant-time push and pop at both ends.
 - [`VecDeque::with_capacity`](/docs/reference/collections/deque/VecDeque/with_capacity): Empty deque with ring capacity rounded up to the next power of two (min 8).
 - [`VecDeque::new`](/docs/reference/collections/deque/VecDeque/new): Empty deque with default capacity 8.
-- [`VecDeque::size`](/docs/reference/collections/deque/VecDeque/size): Returns the number of values.
+- [`VecDeque::len`](/docs/reference/collections/deque/VecDeque/len): Returns the number of values.
 - [`VecDeque::is_empty`](/docs/reference/collections/deque/VecDeque/is_empty): Returns `true` when the deque has no values.
 - [`VecDeque::push_back`](/docs/reference/collections/deque/VecDeque/push_back): Adds `v` at the back.
 - [`VecDeque::push_front`](/docs/reference/collections/deque/VecDeque/push_front): Adds `v` at the front.

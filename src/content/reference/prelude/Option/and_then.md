@@ -9,7 +9,7 @@ parent: "Option"
 signature: "pub fn and_then<U>(T -> Option<U> f) -> Option<U>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/62e75718cb75a68f2a80f051fe8180e7a5f6cde9/compiler/src/prelude/core.hy#L79"
+source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/prelude/core.hy#L79"
 order: 6
 ---
 
