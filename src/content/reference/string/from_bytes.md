@@ -8,7 +8,7 @@ name: "from_bytes"
 signature: "fn from_bytes(Vec<byte> bytes) -> Result<string, StringError>"
 import: "use string::{from_bytes};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/string.hy#L63"
+source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/string.hy#L63"
 order: 2
 ---
 

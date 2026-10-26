@@ -1,7 +1,7 @@
 ---
 slug: "env/index"
 title: "env"
-description: "Command-line arguments, environment variables, working directory, exit and exec."
+description: "Command-line arguments, environment variables, working directory and exit."
 module: "env"
 kind: "module"
 name: "env"
@@ -11,10 +11,11 @@ order: 11
 ---
 
 [`args`](/docs/reference/env/args) and [`cwd`](/docs/reference/env/cwd) need no grant. Reading or changing variables and [`set_cwd`](/docs/reference/env/set_cwd)
-need `--allow-env`, [`exec`](/docs/reference/env/exec) needs `--allow-exec` and [`exit`](/docs/reference/env/exit) needs
-`--allow-exit`; see [Permissions](/docs/language/permissions). [`exec`](/docs/reference/env/exec) runs a
-program with an argument vector, without a shell, in the current working
-directory and environment.
+need `--allow-env`, and [`exit`](/docs/reference/env/exit) needs `--allow-exit`; see
+[Permissions](/docs/language/permissions). To run another program, use the
+[coil-process](https://github.com/ardax-corp/coil-process) package: `process::exec(program, argv)`
+waits for it and returns its exit code, and `command` adds pipes, captured
+output, environment and working directory.
 
 Built into the compiler.
 
@@ -41,4 +42,3 @@ use env::{EnvError, args};
 | [`cwd`](/docs/reference/env/cwd) | Returns the current working directory as an absolute path. |
 | [`set_cwd`](/docs/reference/env/set_cwd) | Changes the current working directory of the whole process. |
 | [`exit`](/docs/reference/env/exit) | Ends the process at once with exit status `code`. |
-| [`exec`](/docs/reference/env/exec) | Runs `program` with the arguments `argv` and waits for it to finish. |

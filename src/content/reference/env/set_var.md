@@ -8,13 +8,13 @@ name: "set_var"
 signature: "fn set_var(string name, string value) -> Result<unit, EnvError>"
 import: "use env::{set_var};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/env.hy#L83"
+source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/env.hy#L80"
 order: 3
 ---
 
 Sets the environment variable `name` to `value` for this process.
 
-Programs started later with [`exec`](/docs/reference/env/exec) inherit it. A name or value with a
+Programs started later (coil-process) inherit it. A name or value with a
 NUL byte is `Err(EnvError::InvalidInput)`. Needs `--allow-env`.
 
 ## Parameters
@@ -40,7 +40,6 @@ let _ = remove_var("COIL_DOC_MODE");
 
 ## See also
 
-- [`env::exec`](/docs/reference/env/exec)
 - [`args`](/docs/reference/env/args): Returns the program's command-line arguments, starting with the program name.
 - [`var`](/docs/reference/env/var): Returns the value of the environment variable `name`.
 - [`remove_var`](/docs/reference/env/remove_var): Removes the environment variable `name` from this process.

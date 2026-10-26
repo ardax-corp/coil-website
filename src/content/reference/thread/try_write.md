@@ -8,7 +8,7 @@ name: "try_write"
 signature: "fn try_write<A, B>(RwLock<A> lock, A -> (A, B) f) -> Result<B, LockError>"
 import: "use thread::{try_write};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L716"
+source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/thread.hy#L716"
 order: 26
 ---
 
