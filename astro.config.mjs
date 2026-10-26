@@ -4,6 +4,7 @@ import coilGrammar from "./src/lib/coil.tmLanguage.json" with { type: "json" };
 import { coilDark, coilLight } from "./src/lib/shiki-themes.ts";
 import { redirects } from "./src/lib/redirects.mjs";
 import { remarkHenry } from "./src/lib/remark-henry.mjs";
+import { remarkChallenges } from "./src/lib/remark-challenges.mjs";
 import { remarkSeeAlso } from "./src/lib/remark-see-also.mjs";
 
 function walk(node, fn, parent) {
@@ -63,6 +64,15 @@ function rehypeTableWrap() {
   };
 }
 
+// Keeps a code fence's info after the language (```coil no_run file=x.hy) as
+// data-meta on the <pre>, for the Run buttons (src/lib/playground/).
+const fenceMeta = {
+  pre(node) {
+    const meta = this.options.meta?.__raw;
+    if (meta) node.properties["data-meta"] = meta;
+  },
+};
+
 export default defineConfig({
   redirects,
   markdown: {
@@ -70,8 +80,9 @@ export default defineConfig({
       langs: [coilGrammar],
       themes: { light: coilLight, dark: coilDark },
       defaultColor: false,
+      transformers: [fenceMeta],
     },
-    remarkPlugins: [remarkHenry, remarkSeeAlso],
+    remarkPlugins: [remarkHenry, remarkChallenges, remarkSeeAlso],
     rehypePlugins: [rehypeExplicitHeadingIds, rehypeHeadingIds, rehypeHeadingAnchors, rehypeTableWrap],
   },
 });
