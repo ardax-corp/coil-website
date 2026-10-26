@@ -7,7 +7,7 @@ kind: "keyword"
 name: "comptime"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/keywords.md#L377"
+source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/keywords.md#L377"
 order: 16
 ---
 
@@ -17,7 +17,7 @@ Computes an expression while compiling; the program gets its value.
 write `comptime (a + b)` for a whole expression. The expression follows the
 rules of a `const`: it may call any function, but must not read or change a
 `static let`, may do IO only as `--comptime-read`, `--comptime-write`,
-`--comptime-env`, `--comptime-exec` and `--comptime-net` allow, and cannot
+`--comptime-env` and `--comptime-net` allow, and cannot
 use local variables or parameters. A panic or a value with no compile-time
 form (a function, a handle) is a compile error. Each `comptime` expression is computed once and shared by every use.
 

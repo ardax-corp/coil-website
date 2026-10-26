@@ -8,7 +8,7 @@ name: "EnvError"
 signature: "enum EnvError"
 import: "use env::{EnvError};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/env.hy#L18"
+source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/env.hy#L18"
 order: 0
 ---
 
@@ -26,11 +26,6 @@ contains a NUL byte.
 ### `NotFound` {#variant-notfound}
 
 [`var`](/docs/reference/env/var) asked for a variable that is not set.
-
-### `ExecFailed` {#variant-execfailed}
-
-[`exec`](/docs/reference/env/exec) could not start the program, or the program was ended by a
-signal and has no exit code.
 
 ### `Other` {#variant-other}
 
@@ -54,4 +49,3 @@ assert!(missing);
 - [`env`](/docs/reference/env)
 - [`Show`](/docs/reference/prelude/ops/Show)
 - [`env::var`](/docs/reference/env/var)
-- [`env::exec`](/docs/reference/env/exec)

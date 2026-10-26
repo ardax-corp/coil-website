@@ -8,7 +8,7 @@ name: "remove_var"
 signature: "fn remove_var(string name) -> Result<unit, EnvError>"
 import: "use env::{remove_var};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/env.hy#L102"
+source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/env.hy#L99"
 order: 4
 ---
 
@@ -48,4 +48,3 @@ assert!(gone);
 - [`cwd`](/docs/reference/env/cwd): Returns the current working directory as an absolute path.
 - [`set_cwd`](/docs/reference/env/set_cwd): Changes the current working directory of the whole process.
 - [`exit`](/docs/reference/env/exit): Ends the process at once with exit status `code`.
-- [`exec`](/docs/reference/env/exec): Runs `program` with the arguments `argv` and waits for it to finish.

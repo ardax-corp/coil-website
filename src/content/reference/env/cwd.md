@@ -8,7 +8,7 @@ name: "cwd"
 signature: "fn cwd() -> Result<string, EnvError>"
 import: "use env::{cwd};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/env.hy#L120"
+source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/env.hy#L117"
 order: 5
 ---
 
@@ -41,4 +41,3 @@ assert!(dir.len() > 0);
 - [`remove_var`](/docs/reference/env/remove_var): Removes the environment variable `name` from this process.
 - [`set_cwd`](/docs/reference/env/set_cwd): Changes the current working directory of the whole process.
 - [`exit`](/docs/reference/env/exit): Ends the process at once with exit status `code`.
-- [`exec`](/docs/reference/env/exec): Runs `program` with the arguments `argv` and waits for it to finish.

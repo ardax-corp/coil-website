@@ -170,7 +170,6 @@ repeats, and `MODULE=` limits a grant to one module and the modules under it
 | `--comptime-read [MODULE=]PATH` | reading files under `PATH` (a file or a directory) |
 | `--comptime-write [MODULE=]PATH` | writing files under `PATH` |
 | `--comptime-env [MODULE=]NAME` | reading the environment variable `NAME` |
-| `--comptime-exec [MODULE=]NAME` | running the program `NAME` (matched by file name, without extension) |
 | `--comptime-net [MODULE=]HOST[:PORT]` | TCP connections to `HOST` (any port) or `HOST:PORT` |
 
 ```

@@ -33,7 +33,7 @@ other, not both. The clause comes after `where`, when there is one:
 | `write` | Writes a file or a stream |
 | `net` | Opens or uses a socket |
 | `env` | Reads or changes arguments, environment variables or the working directory |
-| `exec` | Runs another program or ends this one |
+| `exec` | Ends this program (`env::exit`) or calls an FFI process-exec symbol |
 | `ffi` | Calls foreign code |
 | `thread` | Spawns, joins or locks across threads |
 | `suspend` | May park until IO is ready (`io::sync` helpers do) |

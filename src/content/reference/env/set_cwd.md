@@ -8,13 +8,13 @@ name: "set_cwd"
 signature: "fn set_cwd(string path) -> Result<unit, EnvError>"
 import: "use env::{set_cwd};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/env.hy#L137"
+source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/env.hy#L134"
 order: 6
 ---
 
 Changes the current working directory of the whole process.
 
-Relative paths opened later, and programs started with [`exec`](/docs/reference/env/exec), use the
+Relative paths opened later, and programs started later, use the
 new directory. Returns `Err(EnvError::Other)` if `path` does not exist
 or is not an accessible directory. Needs `--allow-env`.
 
@@ -40,7 +40,6 @@ let _ = set_cwd(before);
 
 ## See also
 
-- [`env::exec`](/docs/reference/env/exec)
 - [`args`](/docs/reference/env/args): Returns the program's command-line arguments, starting with the program name.
 - [`var`](/docs/reference/env/var): Returns the value of the environment variable `name`.
 - [`set_var`](/docs/reference/env/set_var): Sets the environment variable `name` to `value` for this process.

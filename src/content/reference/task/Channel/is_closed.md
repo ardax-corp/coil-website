@@ -9,7 +9,7 @@ parent: "Channel"
 signature: "pub fn is_closed() -> bool"
 import: "use task::{Channel};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/prelude/task.hy#L417"
+source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/prelude/task.hy#L417"
 order: 7
 ---
 
