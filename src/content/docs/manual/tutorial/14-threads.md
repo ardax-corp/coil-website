@@ -12,7 +12,9 @@ when they move between threads, so two threads can never change the same
 object at the same time.
 
 Everything here comes from the built-in [`thread`](/docs/reference/thread)
-module. Its functions return `Result<…, ThreadError>`.
+module. Its functions report failures in three error sets: `spawn`, `join`
+and `detach` return a `ThreadError`, channel functions a `ChannelError`,
+and lock functions a `LockError`.
 
 ## spawn and join
 
@@ -87,7 +89,7 @@ get answers back, use two channels:
 ```coil
 use io::sync::{println};
 use string::{format};
-use thread::{spawn, join, channel, send, recv, close, Sender, Receiver};
+use thread::{spawn, join, channel, send, recv, close, Sender, Receiver, ChannelError};
 
 fn squarer((Receiver<int>, Sender<int>) ends) {
     while let Ok(job) = recv(ends[0]) {
@@ -95,10 +97,13 @@ fn squarer((Receiver<int>, Sender<int>) ends) {
     }
 }
 
-fn sum_of_squares() -> Result<int, ThreadError> {
+fn sum_of_squares() -> Result<int, ChannelError> {
     let jobs = channel()?;
     let results = channel()?;
-    let t = spawn(squarer, (jobs[1], results[0]))?;
+    let t = match spawn(squarer, (jobs[1], results[0])) {
+        Ok(t) => t,
+        Err(e) => panic "spawn failed: " + show(e),
+    };
     for n in 1..=3 {
         send(jobs[0], n)?;
     }
@@ -107,7 +112,10 @@ fn sum_of_squares() -> Result<int, ThreadError> {
     for i in 0..3 {
         total += recv(results[1])?;
     }
-    (join(t)?)?;
+    match join(t) {
+        Ok(done) => done?,
+        Err(e) => panic "join failed: " + show(e),
+    }
     return Ok(total);
 }
 
@@ -128,9 +136,12 @@ returned, and `Mutex<T>` guards a `T`. A bare `Sender` or `Thread` lets the
 compiler infer `T` from how the handle is used. Channels carry any value that
 can be copied between threads.
 
-`squarer` uses `?`, so it returns a `Result` of its own. `join(t)?` gives back
-that `Result`, and the second `?` passes on an error the thread hit:
-`(join(t)?)?`. Dropping it would be warning `E0136`.
+`sum_of_squares` returns a `Result<…, ChannelError>`, because, as chapter 6
+explained, one function uses `?` with one error type. Its channel calls take
+`?`, and `spawn` and `join`, which report a `ThreadError`, are matched
+instead. `squarer` uses `?` too, so it returns a `Result` of its own: `join`
+gives back that `Result`, and `done?` passes on an error the thread hit.
+Dropping it would be warning `E0136`.
 
 ## Mutex
 
@@ -141,7 +152,7 @@ first element of what `f` returns, and gives you the second:
 ```coil
 use io::sync::{println};
 use string::{format};
-use thread::{spawn, join, mutex, with_lock, Mutex};
+use thread::{spawn, join, mutex, with_lock, Mutex, ThreadError, LockError};
 
 fn add_thousand(Mutex<int> counter) {
     for i in 0..1000 {
@@ -149,13 +160,24 @@ fn add_thousand(Mutex<int> counter) {
     }
 }
 
-fn count() -> Result<int, ThreadError> {
-    let counter = mutex(0)?;
+fn run_both(Mutex<int> counter) -> Result<unit, ThreadError> {
     let a = spawn(add_thousand, counter)?;
     let b = spawn(add_thousand, counter)?;
-    (join(a)?)?;
-    (join(b)?)?;
-    return Ok(with_lock(counter, fn (int n) => (n, n))?);
+    let added_a = join(a)?;
+    let added_b = join(b)?;
+    if added_a.is_err() || added_b.is_err() {
+        panic "a thread could not lock the counter";
+    }
+    return Ok(());
+}
+
+fn count() -> Result<int, LockError> {
+    let counter = mutex(0)?;
+    match run_both(counter) {
+        Ok(_) => {},
+        Err(e) => panic "thread failed: " + show(e),
+    }
+    return with_lock(counter, fn (int n) => (n, n));
 }
 
 fn main() {
@@ -170,7 +192,8 @@ Ok(2000)
 ```
 
 The lock is held only while `f` runs, so no update is lost and no lock is
-ever left held. For data that is read often and written rarely,
+ever left held. Lock calls report a `LockError`, so `count` keeps them and
+`run_both` keeps the thread calls, each with its own `?`. For data that is read often and written rarely,
 `rwlock` with `with_read` and `with_write` lets many readers in at once.
 
 ## Tasks or threads?
@@ -225,6 +248,6 @@ The compiler can also parallelise some pure recursive functions on its own;
    `bump` in chapter 4.
 
 5. Check something: in `sum_of_squares`, write `join(t)?;` instead of
-   `(join(t)?)?;`. What does the compiler say?
+   the `match` on `join(t)`. What does the compiler say?
 
 Next: [Chapter 15 — Macros](/docs/manual/tutorial/15-macros).
