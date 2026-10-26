@@ -263,18 +263,20 @@ The compiler can also parallelise some pure recursive functions on its own;
    > [!hint]
    > All three workers can take the same receiving end, `jobs[1]`. Close
    > the jobs channel once every job is sent, or the workers' `recv` loops
-   > never end and `join` waits for ever.
+   > never end and `join` waits for ever. `spawn` and `join` fail with
+   > `ThreadError` while the channel calls fail with `ChannelError`, so
+   > start and join the workers in a helper that matches on them.
 
    ```coil challenge=c14-2
    use io::sync::{println};
    use string::{format};
-   use thread::{spawn, join, channel, send, recv, close, Sender, Receiver};
+   use thread::{spawn, join, channel, send, recv, close, Sender, Receiver, Thread};
 
    // Each job is a number; a worker sends back ten times it.
    fn worker((Receiver<int>, Sender<int>) ends) {
    }
 
-   fn run() -> Result<int, ThreadError> {
+   fn run() -> Result<int, ChannelError> {
        let jobs = channel()?;
        let results = channel()?;
        let total = 0;
