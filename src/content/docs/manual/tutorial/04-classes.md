@@ -281,6 +281,73 @@ checks that you only push what the stack holds.
    > Check the sign as well as the balance. Without it, `withdraw(-50)`
    > quietly turns into a deposit.
 
+   ```coil challenge=c04-1
+   use io::sync::{println};
+   use string::{format};
+
+   class Account {
+       owner: string,
+       balance: int,
+   }
+
+   impl Account {
+       pub static fn open(string owner) -> Account {
+           return new Account(owner, 0);
+       }
+
+       pub fn deposit(int amount) -> bool {
+           if amount <= 0 {
+               return false;
+           }
+           self.balance += amount;
+           return true;
+       }
+
+       pub fn balance() -> int {
+           return self.balance;
+       }
+   }
+
+   fn main() {
+       let acct = Account::open("Ada");
+       acct.deposit(100);
+       println(format("balance %i", acct.balance()))?;
+   }
+   ```
+
+   ```coil check=c04-1
+   use tests::assert;
+   use solution::{Account};
+
+   test("withdrawing part of the balance works") {
+       let a = Account::open("Ada");
+       a.deposit(100);
+       assert!(a.withdraw(30), "withdraw(30) from 100 should succeed");
+       assert!(a.balance() == 70, "balance is " + show(a.balance()));
+   }
+
+   test("withdrawing more than the balance is refused") {
+       let a = Account::open("Ada");
+       a.deposit(100);
+       assert!(!a.withdraw(500));
+       assert!(a.balance() == 100, "balance is " + show(a.balance()));
+   }
+
+   test("the whole balance can be withdrawn") {
+       let a = Account::open("Ada");
+       a.deposit(100);
+       assert!(a.withdraw(100));
+       assert!(a.balance() == 0);
+   }
+
+   test("a negative withdrawal is refused") {
+       let a = Account::open("Ada");
+       a.deposit(100);
+       assert!(!a.withdraw(-50));
+       assert!(a.balance() == 100, "balance is " + show(a.balance()));
+   }
+   ```
+
 2. Write a `Temperature` class that stores Celsius in a private field and
    has `celsius()` and `fahrenheit()` methods, plus a static
    `Temperature::from_fahrenheit(float f)` constructor.
@@ -289,8 +356,111 @@ checks that you only push what the stack holds.
    > `9 / 5` is integer division and gives `1`. Write the formula with
    > float literals: `self.celsius * 9.0 / 5.0 + 32.0`.
 
+   ```coil challenge=c04-2
+   use io::sync::{println};
+   use string::{format};
+
+   class Temperature {
+       celsius: float,
+   }
+
+   impl Temperature {
+       // celsius(), fahrenheit() and a static from_fahrenheit(float f)
+   }
+
+   fn main() {
+       let boiling = Temperature::from_fahrenheit(212.0);
+       println(format("%f °C, %f °F", boiling.celsius(), boiling.fahrenheit()))?;
+   }
+   ```
+
+   ```coil check=c04-2
+   use tests::assert;
+   use solution::{Temperature};
+
+   test("212 °F is 100 °C") {
+       let t = Temperature::from_fahrenheit(212.0);
+       assert!(t.celsius() > 99.999 && t.celsius() < 100.001, "got " + show(t.celsius()));
+   }
+
+   test("32 °F is 0 °C and back to 32 °F") {
+       let t = Temperature::from_fahrenheit(32.0);
+       assert!(t.celsius() > -0.001 && t.celsius() < 0.001, "got " + show(t.celsius()));
+       assert!(t.fahrenheit() > 31.999 && t.fahrenheit() < 32.001, "got " + show(t.fahrenheit()));
+   }
+
+   test("-40 is the same on both scales") {
+       let t = Temperature::from_fahrenheit(-40.0);
+       assert!(t.celsius() > -40.001 && t.celsius() < -39.999, "got " + show(t.celsius()));
+   }
+
+   test("98.6 °F is 37 °C") {
+       let t = Temperature::from_fahrenheit(98.6);
+       assert!(t.celsius() > 36.999 && t.celsius() < 37.001, "got " + show(t.celsius()));
+   }
+   ```
+
 3. Give `Stack<T>` an `is_empty() -> bool` method and a `clear()` method,
    and check that a cleared stack pops `None`.
+
+   ```coil challenge=c04-3
+   use io::sync::{println};
+   use string::{format};
+
+   class Stack<T> {
+       items: Vec<T>,
+   }
+
+   impl Stack<T> {
+       pub static fn new() -> Stack<T> {
+           return new Stack(Vec::new());
+       }
+
+       pub fn push(T item) {
+           self.items.push(item);
+       }
+
+       pub fn pop() -> Option<T> {
+           return self.items.pop();
+       }
+
+       pub fn len() -> int {
+           return self.items.len();
+       }
+   }
+
+   fn main() {
+       let s: Stack<int> = Stack::new();
+       s.push(1);
+       s.push(2);
+       println(format("%i on the stack", s.len()))?;
+   }
+   ```
+
+   ```coil check=c04-3
+   use tests::assert;
+   use solution::{Stack};
+
+   test("a new stack is empty") {
+       let s: Stack<int> = Stack::new();
+       assert!(s.is_empty());
+   }
+
+   test("a stack with items is not empty") {
+       let s: Stack<int> = Stack::new();
+       s.push(1);
+       assert!(!s.is_empty());
+   }
+
+   test("a cleared stack is empty and pops None") {
+       let s: Stack<int> = Stack::new();
+       s.push(1);
+       s.push(2);
+       s.clear();
+       assert!(s.is_empty());
+       assert!(s.pop().is_none());
+   }
+   ```
 
 4. Give a `Card` class a `rank: int` and a `suit: string`, derive `Show`,
    `Eq` and `Ord`, and sort a hand of cards with `sort` from chapter 3.
@@ -299,9 +469,63 @@ checks that you only push what the stack holds.
    > A derived `Ord` compares fields in the order they are declared, so the
    > field that matters most goes first.
 
+   ```coil challenge=c04-4
+   use io::sync::{println};
+   use string::{format};
+   use collections::{sort};
+
+   class Card {
+       pub suit: string,
+   }
+
+   fn main() {
+       let hand: Vec<Card> = [];
+       println(format("%v", sort(hand)))?;
+   }
+   ```
+
+   ```coil check=c04-4
+   use tests::assert;
+   use solution::{Card};
+   use collections::{sort};
+
+   test("cards with the same rank and suit are equal") {
+       assert!(new Card(3, "spades") == new Card(3, "spades"));
+       assert!(new Card(3, "spades") != new Card(4, "spades"));
+   }
+
+   test("a hand sorts by rank first") {
+       let hand: Vec<Card> = [new Card(12, "hearts"), new Card(3, "spades"), new Card(7, "clubs")];
+       let sorted = sort(hand);
+       assert!(sorted[0].rank == 3 && sorted[1].rank == 7 && sorted[2].rank == 12, "got " + show(sorted));
+   }
+
+   test("cards of the same rank sort by suit") {
+       let hand: Vec<Card> = [new Card(12, "hearts"), new Card(12, "clubs")];
+       let sorted = sort(hand);
+       assert!(sorted[0].suit == "clubs", "got " + show(sorted));
+   }
+   ```
+
 5. Check something: build a `Vec<Counter>` that holds the *same* counter
    twice (`[c, c]`), add one to `counters[0].value`, and print
    `counters[1].value`. Before you run it, decide what you expect.
+
+   ```coil challenge=c04-5
+   use io::sync::{println};
+   use string::{format};
+
+   class Counter {
+       pub value: int,
+   }
+
+   fn main() {
+       let c = new Counter(0);
+       let counters: Vec<Counter> = [c, c];
+       counters[0].value++;
+       println(format("%i", counters[1].value))?;
+   }
+   ```
 
 6. Check something: which of these behave like values, and which are
    shared like objects? Copy each one with `let b = a;`, change `b`, and
@@ -319,6 +543,33 @@ checks that you only push what the stack holds.
    > vectors and maps are shared, exactly like objects, so a function you
    > pass a `Vec` to can push onto yours.
 
+   ```coil challenge=c04-6
+   use io::sync::{println};
+   use string::{format};
+
+   fn main() {
+       let t = (1, 2);
+       let t2 = t;
+       t2 = (9, 2);
+       println(format("tuple %v", t))?;
+
+       let r = { x: 1 };
+       let r2 = r;
+       r2.x = 9;
+       println(format("record %v", r))?;
+
+       let v: Vec<int> = [1];
+       let v2 = v;
+       v2.push(9);
+       println(format("vector %v", v))?;
+
+       let s = "a";
+       let s2 = s;
+       s2 = s2 + "9";
+       println(format("string %s", s))?;
+   }
+   ```
+
 7. Check something: take `Point` without its `#[derive(…)]` line and
    compare `new Point(1, 2) == new Point(1, 2)`, then `a == a`. Add
    `#[derive(Eq)]` back and compare again.
@@ -326,5 +577,21 @@ checks that you only push what the stack holds.
    > [!hint]
    > Without `Eq`, `==` asks "is this the same object?" rather than "do
    > the fields match?".
+
+   ```coil challenge=c04-7
+   use io::sync::{println};
+   use string::{format};
+
+   class Point {
+       pub x: int,
+       pub y: int,
+   }
+
+   fn main() {
+       let a = new Point(1, 2);
+       println(format("%z", new Point(1, 2) == new Point(1, 2)))?;
+       println(format("%z", a == a))?;
+   }
+   ```
 
 Next: [Chapter 5 — Enums and match](/docs/manual/tutorial/05-enums-and-match).
