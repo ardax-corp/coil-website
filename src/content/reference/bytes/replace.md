@@ -8,7 +8,7 @@ name: "replace"
 signature: "fn replace(Vec<byte> hay, Vec<byte> old, Vec<byte> new) -> Vec<byte>"
 import: "use bytes::{replace};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/bytes.hy#L336"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/bytes.hy#L336"
 order: 14
 ---
 

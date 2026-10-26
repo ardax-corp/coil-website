@@ -8,8 +8,8 @@ name: "enable_vt"
 signature: "fn enable_vt(Stream s) -> bool"
 import: "use io::tty::{enable_vt};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/io/tty.hy#L154"
-order: 7
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/io/tty.hy#L179"
+order: 8
 ---
 
 Makes the output console `s` interpret ANSI escape sequences. Needed on Windows consoles, where it returns `false` when `s` is not a console; elsewhere terminals already do and it returns `true`.

@@ -8,8 +8,8 @@ name: "yield_now"
 signature: "fn yield_now()"
 import: "use task::{yield_now};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/prelude/task.hy#L186"
-order: 7
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/prelude/task.hy#L186"
+order: 6
 ---
 
 Lets other ready tasks run before the current one continues.

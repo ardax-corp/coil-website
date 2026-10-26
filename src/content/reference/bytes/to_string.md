@@ -8,7 +8,7 @@ name: "to_string"
 signature: "fn to_string(Vec<byte> b) -> Result<string, string>"
 import: "use bytes::{to_string};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/bytes.hy#L442"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/bytes.hy#L442"
 order: 18
 ---
 
@@ -27,7 +27,7 @@ Decodes `b` as UTF-8.
 ## Errors
 
 Returns `Err("utf8")` when `b` is not valid UTF-8. [`string::from_bytes`](/docs/reference/string/from_bytes) does
-the same with an `IoError`.
+the same with a `StringError`.
 
 ## See also
 

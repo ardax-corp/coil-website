@@ -5,18 +5,18 @@ description: "Sends a copy of value on the channel."
 module: "thread"
 kind: "fn"
 name: "send"
-signature: "fn send<T>(Sender<T> tx, T value) -> Result<unit, ThreadError>"
+signature: "fn send<T>(Sender<T> tx, T value) -> Result<unit, ChannelError>"
 import: "use thread::{send};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L331"
-order: 10
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L393"
+order: 12
 ---
 
 Sends a copy of `value` on the channel.
 
 Never waits, since channels are unbounded. Returns
-`Err(ThreadError::Disconnected)` once the channel is closed and
-`Err(ThreadError::NotSendable)` for a value that cannot cross threads.
+`Err(ChannelError::Closed)` once the channel is closed. The value must be
+sendable (see [`spawn`](/docs/reference/thread/spawn)); the typechecker rejects one that is not.
 
 ## Parameters
 
@@ -27,7 +27,7 @@ Never waits, since channels are unbounded. Returns
 
 ## Returns
 
-`Result<unit, ThreadError>`
+`Result<unit, ChannelError>`
 
 ## Examples
 
@@ -48,7 +48,7 @@ assert!(v[2] == 3);
 
 ## See also
 
-- [`spawn`](/docs/reference/thread/spawn): Runs `f(arg)` on another OS thread and returns a handle to it.
+- [`thread::spawn`](/docs/reference/thread/spawn)
 - [`join`](/docs/reference/thread/join): Waits for the thread to finish and returns the value its function returned.
 - [`detach`](/docs/reference/thread/detach): Lets the thread run to completion without being joined.
 - [`channel`](/docs/reference/thread/channel): Creates an unbounded channel and returns its `(Sender, Receiver)` ends.

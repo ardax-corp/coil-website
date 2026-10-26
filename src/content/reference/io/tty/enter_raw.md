@@ -5,11 +5,11 @@ description: "Puts the terminal s in raw mode: input is not echoed and arrives b
 module: "io::tty"
 kind: "fn"
 name: "enter_raw"
-signature: "fn enter_raw(Stream s, bool keep_signals, bool keep_output) -> Result<(), IoError>"
+signature: "fn enter_raw(Stream s, bool keep_signals, bool keep_output) -> Result<(), TtyError>"
 import: "use io::tty::{enter_raw};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/io/tty.hy#L71"
-order: 2
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/io/tty.hy#L96"
+order: 3
 ---
 
 Puts the terminal `s` in raw mode: input is not echoed and arrives byte by byte, without waiting for Enter.
@@ -24,7 +24,7 @@ The terminal's settings are saved the first time and restored by
 through [`env::exit`](/docs/reference/env/exit), on an uncaught panic, and on SIGINT / SIGTERM /
 SIGHUP / SIGQUIT (Ctrl-C or closing the window on Windows). Calling it
 again changes the flags; [`leave_raw`](/docs/reference/io/tty/leave_raw) still restores the first settings.
-Returns `Err(IoError::NotATerminal)` when `s` is not a terminal.
+Returns `Err(TtyError::NotATerminal)` when `s` is not a terminal.
 
 ## Parameters
 
@@ -36,20 +36,20 @@ Returns `Err(IoError::NotATerminal)` when `s` is not a terminal.
 
 ## Returns
 
-`Result<(), IoError>`
+`Result<(), TtyError>`
 
 ## Examples
 
 ```coil
-use io::{stdin, IoError};
-use io::tty::{enter_raw, leave_raw};
-fn main() -> Result<(), IoError> {
+use io::{stdin};
+use io::tty::{enter_raw, leave_raw, TtyError};
+fn main() -> Result<(), TtyError> {
     match enter_raw(stdin(), true, true) {
         Result::Ok(_) => {
             // ... read keys ...
             leave_raw(stdin())?;
         },
-        Result::Err(IoError::NotATerminal) => {},
+        Result::Err(TtyError::NotATerminal) => {},
         Result::Err(e) => raise e,
     }
     return;

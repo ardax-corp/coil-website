@@ -9,7 +9,7 @@ parent: "Joined"
 signature: "fn join(V parts, string sep) -> string"
 import: "use text::{Joined};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/text.hy#L946"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/text.hy#L969"
 order: 0
 ---
 

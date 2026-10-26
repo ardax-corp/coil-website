@@ -8,8 +8,8 @@ name: "is_tty"
 signature: "fn is_tty(Stream s) -> bool"
 import: "use io::tty::{is_tty};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/io/tty.hy#L15"
-order: 0
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/io/tty.hy#L40"
+order: 1
 ---
 
 Returns whether `s` is a terminal (`isatty`; a console on Windows).

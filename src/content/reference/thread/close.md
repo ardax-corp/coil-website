@@ -5,17 +5,17 @@ description: "Closes the channel: no more sends."
 module: "thread"
 kind: "fn"
 name: "close"
-signature: "fn close<T>(Sender<T> tx) -> Result<unit, ThreadError>"
+signature: "fn close<T>(Sender<T> tx) -> Result<unit, ChannelError>"
 import: "use thread::{close};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L423"
-order: 14
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L485"
+order: 16
 ---
 
 Closes the channel: no more sends.
 
-Later [`send`](/docs/reference/thread/send) / [`try_send`](/docs/reference/thread/try_send) calls fail with `Disconnected`. Receivers still
-get the values already queued, then `Disconnected`. Closing twice is fine.
+Later [`send`](/docs/reference/thread/send) / [`try_send`](/docs/reference/thread/try_send) calls fail with `Closed`. Receivers still get
+the values already queued, then `Closed`. Closing twice is fine.
 
 ## Parameters
 
@@ -25,12 +25,12 @@ get the values already queued, then `Disconnected`. Closing twice is fine.
 
 ## Returns
 
-`Result<unit, ThreadError>`
+`Result<unit, ChannelError>`
 
 ## Examples
 
 ```coil
-use thread::{channel, close, send, ThreadError};
+use thread::{channel, close, send, ChannelError};
 use tests::assert;
 let (tx, rx) = match channel() {
     Result::Ok(pair) => pair,
@@ -38,7 +38,7 @@ let (tx, rx) = match channel() {
 };
 assert!(match close(tx) { Result::Ok(_) => true, Result::Err(_) => false });
 let refused = match send(tx, 1) {
-    Result::Err(ThreadError::Disconnected) => true,
+    Result::Err(ChannelError::Closed) => true,
     default => false,
 };
 assert!(refused);

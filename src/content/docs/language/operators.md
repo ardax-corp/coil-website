@@ -316,9 +316,35 @@ Desugared to `match` / `return` / `MakeEnum` — no new opcodes. See [Tutorial: 
 | Optional access | `a?.field` | `Option<R>` with field `U` | `Option<U>` | Option-only; Result → E0116 |
 | Coalesce | `a ?? b` | `Option<T>` | `T` | RHS must unify with `T`; on a `Result` it is E0115 (it would discard the error): write `.unwrap_or(b)` or `.ok() ?? b` |
 
-`?` never converts errors: every `?` and `raise` in a function must produce
-the function's own error type (`E` in its `Result<T, E>`). To pass on an error
-of another type, convert it first with `map_err`:
+Every `?` and `raise` in a function must produce the function's own error
+type (`E` in its `Result<T, E>`). `?` converts an error of another type `D`
+only when the module has an `impl Into<E> for D`, and then it calls that
+`into` before returning:
+
+```coil
+enum ParseError { Empty }
+enum ConfigError { Parse(ParseError), Missing }
+
+impl Into<ConfigError> for ParseError {
+    pub fn into(ParseError e) -> ConfigError {
+        return ConfigError::Parse(e);
+    }
+}
+
+fn digit(string s) -> Result<int, ParseError> {
+    if s == "" {
+        raise ParseError::Empty;
+    }
+    return Ok(1);
+}
+
+fn load(string s) -> Result<int, ConfigError> {
+    return Ok(digit(s)? + 1); // a ParseError returns as ConfigError::Parse
+}
+```
+
+The orphan rule still applies, so both types must be declared in the module
+with the `impl`. For any other error, convert it first with `map_err`:
 
 ```coil
 use io::sync::{println};

@@ -8,7 +8,7 @@ name: "digit_char"
 signature: "fn digit_char(int d) -> string"
 import: "use ascii::{digit_char};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/ascii.hy#L103"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/ascii.hy#L103"
 order: 12
 ---
 

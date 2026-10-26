@@ -8,7 +8,7 @@ name: "read_to_end"
 signature: "fn read_to_end(Stream s) -> Result<Vec<byte>, IoError>"
 import: "use io::sync::{read_to_end};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/io/sync.hy#L101"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/io/sync.hy#L101"
 order: 2
 ---
 

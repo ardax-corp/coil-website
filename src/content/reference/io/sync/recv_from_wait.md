@@ -8,7 +8,7 @@ name: "recv_from_wait"
 signature: "fn recv_from_wait(Stream s, Vec<byte> buf) -> Result<(int, string, int), IoError>"
 import: "use io::sync::{recv_from_wait};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/io/sync.hy#L161"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/io/sync.hy#L161"
 order: 4
 ---
 

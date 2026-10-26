@@ -8,7 +8,7 @@ name: "listen"
 signature: "fn listen(string host, int port) -> Result<Stream, IoError>"
 import: "use io::net::tcp::{listen};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/io/net/tcp.hy#L146"
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/io/net/tcp.hy#L146"
 order: 3
 ---
 
@@ -41,7 +41,7 @@ use io::{IoError};
 use io::net::tcp::{connect, listen, local_addr};
 use io::sync::{accept_wait, read_to_end, write_all};
 use io::net::tcp::{shutdown};
-use string::{from_bytes, to_bytes};
+use string::{from_bytes, to_bytes, StringError};
 use tests::assert;
 fn run() -> Result<string, IoError> {
     let listener = listen("127.0.0.1", 0)?;
@@ -50,7 +50,7 @@ fn run() -> Result<string, IoError> {
     let server = accept_wait(listener)?;
     write_all(client, to_bytes("hello"))?;
     shutdown(client, 1)?;
-    return from_bytes(read_to_end(server)?)?;
+    return from_bytes(read_to_end(server)?).map_err(fn (StringError e) => IoError::InvalidInput)?;
 }
 
 fn main() {

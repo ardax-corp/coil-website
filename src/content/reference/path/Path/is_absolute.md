@@ -9,7 +9,7 @@ parent: "Path"
 signature: "pub fn is_absolute() -> bool"
 import: "use path::{Path};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/path.hy#L256"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/path.hy#L264"
 order: 6
 ---
 

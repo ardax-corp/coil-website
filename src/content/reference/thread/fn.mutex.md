@@ -5,17 +5,17 @@ description: "Creates a mutex holding a copy of initial."
 module: "thread"
 kind: "fn"
 name: "mutex"
-signature: "fn mutex<T>(T initial) -> Result<Mutex<T>, ThreadError>"
+signature: "fn mutex<T>(T initial) -> Result<Mutex<T>, LockError>"
 import: "use thread::{mutex};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L456"
-order: 15
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L518"
+order: 17
 ---
 
 Creates a mutex holding a copy of `initial`.
 
-The value must be sendable (see [`spawn`](/docs/reference/thread/spawn)), or the result is
-`Err(ThreadError::NotSendable)`. Read and change it with [`with_lock`](/docs/reference/thread/with_lock).
+The value must be sendable (see [`spawn`](/docs/reference/thread/spawn)); the typechecker rejects one
+that is not. Read and change it with [`with_lock`](/docs/reference/thread/with_lock).
 
 ## Parameters
 
@@ -25,7 +25,7 @@ The value must be sendable (see [`spawn`](/docs/reference/thread/spawn)), or the
 
 ## Returns
 
-`Result<Mutex<T>, ThreadError>`
+`Result<Mutex<T>, LockError>`
 
 ## Examples
 

@@ -5,17 +5,17 @@ description: "Takes the next value if there is one, without waiting."
 module: "thread"
 kind: "fn"
 name: "try_recv"
-signature: "fn try_recv<T>(Receiver<T> rx) -> Result<T, ThreadError>"
+signature: "fn try_recv<T>(Receiver<T> rx) -> Result<T, ChannelError>"
 import: "use thread::{try_recv};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L400"
-order: 13
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L462"
+order: 15
 ---
 
 Takes the next value if there is one, without waiting.
 
-Returns `Err(ThreadError::WouldBlock)` when the channel is empty but
-open, and `Err(ThreadError::Disconnected)` when it is empty and closed.
+Returns `Err(ChannelError::Empty)` when the channel is empty but
+open, and `Err(ChannelError::Closed)` when it is empty and closed.
 
 ## Parameters
 
@@ -25,19 +25,19 @@ open, and `Err(ThreadError::Disconnected)` when it is empty and closed.
 
 ## Returns
 
-`Result<T, ThreadError>`
+`Result<T, ChannelError>`
 
 ## Examples
 
 ```coil
-use thread::{channel, send, try_recv, ThreadError};
+use thread::{channel, send, try_recv, ChannelError};
 use tests::assert;
 let (tx, rx) = match channel() {
     Result::Ok(pair) => pair,
     Result::Err(_) => panic "channel failed",
 };
 let empty = match try_recv(rx) {
-    Result::Err(ThreadError::WouldBlock) => true,
+    Result::Err(ChannelError::Empty) => true,
     default => false,
 };
 assert!(empty);

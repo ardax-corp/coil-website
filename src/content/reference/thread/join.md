@@ -8,8 +8,8 @@ name: "join"
 signature: "fn join<T>(Thread<T> t) -> Result<T, ThreadError>"
 import: "use thread::{join};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L244"
-order: 7
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L306"
+order: 9
 ---
 
 Waits for the thread to finish and returns the value its function returned.

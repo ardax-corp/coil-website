@@ -8,7 +8,7 @@ name: "and"
 signature: "macro and(Expr lhs, Expr rhs) -> Code"
 import: "use tests::{and};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/tests.hy#L60"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/tests.hy#L60"
 order: 4
 ---
 

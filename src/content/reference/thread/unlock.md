@@ -5,16 +5,16 @@ description: "Releases a mutex this thread locked with lock or try_lock."
 module: "thread"
 kind: "fn"
 name: "unlock"
-signature: "fn unlock<T>(Mutex<T> m) -> Result<unit, ThreadError>"
+signature: "fn unlock<T>(Mutex<T> m) -> Result<unit, LockError>"
 import: "use thread::{unlock};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L552"
-order: 19
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L614"
+order: 21
 ---
 
 Releases a mutex this thread locked with [`lock`](/docs/reference/thread/lock) or [`try_lock`](/docs/reference/thread/try_lock).
 
-Returns `Err(ThreadError::Other)` if this thread does not hold `m`.
+Returns `Err(LockError::NotHeld)` if this thread does not hold `m`.
 
 ## Parameters
 
@@ -24,12 +24,12 @@ Returns `Err(ThreadError::Other)` if this thread does not hold `m`.
 
 ## Returns
 
-`Result<unit, ThreadError>`
+`Result<unit, LockError>`
 
 ## Examples
 
 ```coil
-use thread::{mutex, lock, unlock, ThreadError};
+use thread::{mutex, lock, unlock, LockError};
 use tests::assert;
 let m = match mutex(0) {
     Result::Ok(m) => m,
@@ -38,7 +38,7 @@ let m = match mutex(0) {
 let _ = lock(m);
 assert!(match unlock(m) { Result::Ok(_) => true, Result::Err(_) => false });
 let not_held = match unlock(m) {
-    Result::Err(ThreadError::Other) => true,
+    Result::Err(LockError::NotHeld) => true,
     default => false,
 };
 assert!(not_held);

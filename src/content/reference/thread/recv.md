@@ -5,16 +5,16 @@ description: "Takes the next value from the channel, waiting until one arrives."
 module: "thread"
 kind: "fn"
 name: "recv"
-signature: "fn recv<T>(Receiver<T> rx) -> Result<T, ThreadError>"
+signature: "fn recv<T>(Receiver<T> rx) -> Result<T, ChannelError>"
 import: "use thread::{recv};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L357"
-order: 11
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L419"
+order: 13
 ---
 
 Takes the next value from the channel, waiting until one arrives.
 
-Returns `Err(ThreadError::Disconnected)` when the channel is closed and
+Returns `Err(ChannelError::Closed)` when the channel is closed and
 every value has been received. Inside a [`task::scope`](/docs/reference/task/fn.scope), only the waiting
 task is suspended.
 
@@ -26,12 +26,12 @@ task is suspended.
 
 ## Returns
 
-`Result<T, ThreadError>`
+`Result<T, ChannelError>`
 
 ## Examples
 
 ```coil
-use thread::{channel, send, recv, close, ThreadError};
+use thread::{channel, send, recv, close, ChannelError};
 use tests::assert;
 let (tx, rx) = match channel() {
     Result::Ok(pair) => pair,
@@ -41,7 +41,7 @@ let _ = send(tx, "last");
 let _ = close(tx);
 assert!(match recv(rx) { Result::Ok(s) => s == "last", Result::Err(_) => false });
 let done = match recv(rx) {
-    Result::Err(ThreadError::Disconnected) => true,
+    Result::Err(ChannelError::Closed) => true,
     default => false,
 };
 assert!(done);

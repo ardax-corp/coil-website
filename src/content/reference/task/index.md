@@ -34,7 +34,6 @@ use task::{TaskError, Scope};
 | [`TaskError`](/docs/reference/task/TaskError) | Why a task or a [`scope`](/docs/reference/task/fn.scope) did not produce its value. |
 | [`Scope`](/docs/reference/task/Scope) | A running [`scope`](/docs/reference/task/fn.scope), used to start child tasks with `spawn`. |
 | [`Task`](/docs/reference/task/Task) | A handle to a child task started with [`Scope::spawn`](/docs/reference/task/Scope/spawn). |
-| [`ChannelError`](/docs/reference/task/ChannelError) | Why a channel operation failed. |
 | [`Channel`](/docs/reference/task/Channel) | A bounded queue for passing values between tasks. |
 
 ## Functions
