@@ -24,6 +24,8 @@
   --accent-ink: #ffffff;
   --patina: #1f7565;
   --patina-soft: #dcefe9;
+  --danger: #c0392b;
+  --warning: #a8701a;
 
   --code-bg: #f7f3ec;
   --code-border: #e7e0d3;
@@ -67,6 +69,8 @@
   --accent-ink: #1a0f07;
   --patina: #7fc8b6;
   --patina-soft: #12261f;
+  --danger: #f07167;
+  --warning: #e0b050;
 
   --code-bg: #16130f;
   --code-border: #29241d;
@@ -99,6 +103,8 @@
     --accent-ink: #1a0f07;
     --patina: #7fc8b6;
     --patina-soft: #12261f;
+  --danger: #f07167;
+  --warning: #e0b050;
 
     --code-bg: #16130f;
     --code-border: #29241d;

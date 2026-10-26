@@ -91,6 +91,63 @@
   color: var(--accent-strong);
 }
 
+/* Inspect panel (coil dissect) */
+.pg-inspect {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  min-height: 3rem;
+  overflow: hidden;
+}
+
+.pg-inspect[hidden] {
+  display: none;
+}
+
+.pg-inspect-bar {
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  gap: 0.4rem;
+  padding: 0.45rem 0.6rem;
+}
+
+.pg-inspect-bar select {
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--fg-soft);
+  font: inherit;
+  max-width: 12rem;
+  padding: 0.2rem 0.35rem;
+}
+
+.pg-inspect-bar label {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.3rem;
+}
+
+.pg-inspect-body {
+  background: none;
+  border: 0;
+  color: var(--fg);
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  margin: 0;
+  overflow: auto;
+  padding: 0.6rem 0.9rem;
+  tab-size: 4;
+  white-space: pre;
+}
+
 .pg-status {
   white-space: pre-wrap;
   color: var(--muted);

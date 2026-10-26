@@ -35,7 +35,12 @@ const examples = playgroundExamples();
           <summary>Standard input</summary>
           <textarea spellcheck="false" placeholder="Text the program reads from stdin"></textarea>
         </details>
+        <div class="pg-side-tabs" role="tablist" aria-label="Results">
+          <button type="button" role="tab" class="pg-side-tab" data-pane="out" aria-selected="true">Output</button>
+          <button type="button" role="tab" class="pg-side-tab" data-pane="inspect" aria-selected="false" title="Bytecode, HIR, MIR, IL and effects from coil dissect">Inspect</button>
+        </div>
         <div class="pg-out"></div>
+        <div class="pg-insp" hidden></div>
       </div>
     </div>
     <p class="pg-note">
@@ -173,9 +178,36 @@ const examples = playgroundExamples();
     width: 100%;
   }
 
-  .pg-out {
+  .pg-out,
+  .pg-insp {
     flex: 1;
     min-height: 0;
+  }
+
+  .pg-insp[hidden] {
+    display: none;
+  }
+
+  .pg-side-tabs {
+    display: flex;
+    gap: 0.2rem;
+  }
+
+  .pg-side-tab {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    color: var(--muted);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .pg-side-tab[aria-selected="true"] {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--fg);
   }
 
   .pg-out:empty::before {
@@ -202,7 +234,8 @@ const examples = playgroundExamples();
     .pg-editor {
       height: 60vh;
     }
-    .pg-out {
+    .pg-out,
+    .pg-insp {
       min-height: 12rem;
     }
     .pg-btn kbd {
@@ -216,7 +249,9 @@ const examples = playgroundExamples();
   import { OutputPanel, runInto } from "../lib/playground/output.mjs";
   import { decodeShare, encodeShare } from "../lib/playground/share.mjs";
   import { planRun } from "../lib/playground/plan.mjs";
-  import { stop, warmUp } from "../lib/playground/client.mjs";
+  import { analysis, stop, warmUp } from "../lib/playground/client.mjs";
+  import { diagnose } from "../lib/playground/diagnostics.mjs";
+  import { InspectPanel } from "../lib/playground/inspect.mjs";
 
   type Files = Record<string, string>;
   type Example = { id: string; label: string; chapter: string; files: Files };
@@ -233,6 +268,18 @@ const examples = playgroundExamples();
   const chapterLink = root.querySelector<HTMLAnchorElement>(".pg-chapter")!;
   const panel = new OutputPanel(root.querySelector(".pg-out")!);
   const STORE = "coil-playground";
+  const outBox = root.querySelector<HTMLElement>(".pg-out")!;
+  const inspectBox = root.querySelector<HTMLElement>(".pg-insp")!;
+  const inspect = new InspectPanel(inspectBox, () => files);
+  const inspecting = () => !inspectBox.hidden;
+
+  function showPane(pane: string) {
+    for (const tab of root.querySelectorAll<HTMLElement>(".pg-side-tab")) tab.setAttribute("aria-selected", String(tab.dataset.pane === pane));
+    outBox.hidden = pane !== "out";
+    inspectBox.hidden = pane !== "inspect";
+    if (pane === "inspect") inspect.refresh();
+  }
+  for (const tab of root.querySelectorAll<HTMLElement>(".pg-side-tab")) tab.addEventListener("click", () => showPane(tab.dataset.pane!));
 
   let files: Files = {};
   let active = "main.hy";
@@ -240,10 +287,16 @@ const examples = playgroundExamples();
 
   const editor = createEditor(root.querySelector(".pg-editor")!, {
     onRun: () => run(),
+    diagnostics: async () => {
+      const name = active;
+      const found = await diagnose({ ...files });
+      return found && (found[name] ?? []);
+    },
     onChange: (text: string) => {
       files[active] = text;
       save();
       updateRunLabel();
+      if (inspecting()) inspect.changed();
     },
   });
 
@@ -270,6 +323,7 @@ const examples = playgroundExamples();
     panel.clear();
     updateRunLabel();
     save();
+    if (inspecting()) inspect.refresh();
   }
 
   function renderTabs() {
@@ -337,6 +391,7 @@ const examples = playgroundExamples();
       return;
     }
     running = true;
+    showPane("out");
     runLabel.textContent = "Stop";
     try {
       await runInto(panel, { files, stdin: stdinBox.value });
@@ -383,4 +438,5 @@ const examples = playgroundExamples();
   }
   start();
   warmUp();
+  analysis.warmUp();
 </script>

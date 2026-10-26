@@ -127,6 +127,7 @@ function setup(box, onSolved) {
       return;
     }
     const { createEditor } = await import("./editor.mjs");
+    const { diagnose } = await import("./diagnostics.mjs");
     editorHost.className = "challenge-editor";
     editor = createEditor(editorHost, {
       doc: files[active],
@@ -134,6 +135,11 @@ function setup(box, onSolved) {
       onChange: (text) => {
         files[active] = text;
         save();
+      },
+      diagnostics: async () => {
+        const name = active;
+        const found = await diagnose({ ...files });
+        return found && (found[name] ?? []);
       },
     });
     renderTabs();

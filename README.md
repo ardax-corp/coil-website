@@ -25,6 +25,12 @@ the tutorial challenges all run the coil compiler in the browser, built for
 `wasm32-wasip1`, in a Web Worker over an in-memory file system
 (`src/lib/playground/`). Nothing runs on a server.
 
+A second worker checks the code as you type: it runs `coil compile --log-lsp`
+and the playground and challenge editors underline what it reports
+(`diagnostics.mjs`). The playground's Inspect tab shows `coil dissect` output
+(bytecode, HIR, MIR, IL, effects, AST, macro expansion) from the same worker
+(`inspect.mjs`); it needs a compiler built after coil-lang#2040.
+
 `npm run build` first runs `scripts/sync-playground.mjs`, which downloads the
 compiler from coil-lang's `edge` release (`coil-wasm32-wasip1.wasm`) and the
 stdlib sources from coil-stdlib `main` into `public/playground/` (not
