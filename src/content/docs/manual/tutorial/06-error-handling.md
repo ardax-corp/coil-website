@@ -234,8 +234,72 @@ means the program itself is wrong.
    > two with `len()` and `raise` your message before you index them, or
    > `"3"` alone panics instead of returning an `Err`.
 
+   ```coil challenge=c06-1
+   use conv::{parse_int};
+   use text::{Searchable, Text};
+
+   fn parse_point(string s) -> Result<(int, int), string> {
+       // Split at ",", make sure there are two parts, then parse each one.
+       raise "not written yet";
+   }
+   ```
+
+   ```coil check=c06-1
+   use tests::assert;
+   use solution::{parse_point};
+
+   test("\"3,4\" is the point (3, 4)") {
+       let p = parse_point("3,4")?;
+       assert!(p[0] == 3 && p[1] == 4, "expected (3, 4)");
+   }
+
+   test("spaces around the numbers are fine") {
+       let p = parse_point(" 3 , 4 ")?;
+       assert!(p[0] == 3 && p[1] == 4, "expected (3, 4)");
+   }
+
+   test("\"3;4\" is an error") {
+       assert!(parse_point("3;4").is_err());
+   }
+
+   test("a lone \"3\" is an error, not a panic") {
+       assert!(parse_point("3").is_err());
+   }
+
+   test("\"3,4,5\" is an error") {
+       assert!(parse_point("3,4,5").is_err());
+   }
+
+   test("\"3,x\" is an error") {
+       assert!(parse_point("3,x").is_err());
+   }
+   ```
+
 2. Change `divide` to return `Option<int>` instead, and use `??` to print
    `0` when dividing by zero.
+
+   ```coil challenge=c06-2
+   fn divide(int a, int b) -> Result<int, string> {
+       if b == 0 {
+           return Err("division by zero");
+       }
+       return Ok(a / b);
+   }
+   ```
+
+   ```coil check=c06-2
+   use tests::assert;
+   use solution::{divide};
+
+   test("10 / 2 is Some(5)") {
+       assert!((divide(10, 2) ?? -1) == 5);
+   }
+
+   test("1 / 0 is None, so ?? gives 0") {
+       assert!(divide(1, 0).is_none());
+       assert!((divide(1, 0) ?? 0) == 0);
+   }
+   ```
 
 3. Write a `main` that calls `parse_point` on a bad input and prints
    `error: …` to standard error with `eprintln`.
@@ -245,11 +309,83 @@ means the program itself is wrong.
    > error cannot go through it. `match` on the result, as `run()` does in
    > this chapter.
 
+   ```coil challenge=c06-3
+   use io::sync::{println, eprintln};
+
+   // A stand-in: use your own parse_point from the first challenge.
+   fn parse_point(string s) -> Result<(int, int), string> {
+       raise "expected two numbers separated by a comma";
+   }
+
+   fn main() {
+       let p = parse_point("3;4");
+   }
+   ```
+
+   ```text expect=c06-3 stream=stderr match=prefix
+   error: 
+   ```
+
 4. Change `sum_csv` so that empty fields are skipped instead of failing:
    `"3,,4"` and `"3, 4,"` should both give `Ok(7)`.
 
+   ```coil challenge=c06-4
+   use conv::{parse_int};
+   use text::{Searchable, Text};
+
+   fn sum_csv(string line) -> Result<int, string> {
+       let total = 0;
+       for field in line.split(",") {
+           total += parse_int(field.trim())?;
+       }
+       return Ok(total);
+   }
+   ```
+
+   ```coil check=c06-4
+   use tests::assert;
+   use solution::{sum_csv};
+
+   test("\"3,,4\" is 7") {
+       assert!(sum_csv("3,,4")? == 7);
+   }
+
+   test("\"3, 4,\" is 7") {
+       assert!(sum_csv("3, 4,")? == 7);
+   }
+
+   test("\"3, 4, 5\" is still 12") {
+       assert!(sum_csv("3, 4, 5")? == 12);
+   }
+
+   test("\"3, four\" is still an error") {
+       assert!(sum_csv("3, four").is_err());
+   }
+   ```
+
 5. Write `fn last_len(Vec<string> words) -> Option<int>` using `?` on
    `words.pop()`, and try it on an empty vector.
+
+   ```coil challenge=c06-5
+   fn last_len(Vec<string> words) -> Option<int> {
+       // Use ? on words.pop().
+       return None;
+   }
+   ```
+
+   ```coil check=c06-5
+   use tests::assert;
+   use solution::{last_len};
+
+   test("the last word of [\"a\", \"abc\"] has length 3") {
+       assert!((last_len(["a", "abc"]) ?? -1) == 3);
+   }
+
+   test("an empty vector gives None") {
+       let words: Vec<string> = [];
+       assert!(last_len(words).is_none());
+   }
+   ```
 
 6. Check something: write a function returning `Result<int, string>` that
    uses `?` on both `parse_int(…)` and `println(…)`. Read the compiler's
@@ -258,5 +394,20 @@ means the program itself is wrong.
    > [!hint]
    > The error names the two types that disagree. To turn the `IoError`
    > into a `string`: `println(…).map_err(fn (IoError e) => show(e))?`.
+
+   ```coil challenge=c06-6
+   use io::sync::{println};
+   use conv::{parse_int};
+
+   fn run() -> Result<int, string> {
+       let n = parse_int("5")?;
+       println("got it")?;
+       return Ok(n);
+   }
+
+   fn main() {
+       let _ = run();
+   }
+   ```
 
 Next: [Chapter 7 — Traits and generics](/docs/manual/tutorial/07-traits-and-generics).

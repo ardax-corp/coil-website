@@ -281,12 +281,89 @@ ordinary values can be passed to it.
    > Writing `/ 3` after the conversion is an error too, because `int` and
    > `float` never mix.
 
+   ```coil challenge=c02-1
+   use io::sync::{println};
+   use string::{format};
+
+   fn average(int a, int b, int c) -> float {
+       return 0.0;
+   }
+
+   fn main() {
+       println(format("%f", average(1, 2, 4)))?;
+   }
+   ```
+
+   ```coil check=c02-1
+   use tests::assert;
+   use solution::{average};
+
+   test("the average of 1, 2 and 4 is 2.333…") {
+       let a = average(1, 2, 4);
+       assert!(a > 2.333 && a < 2.334, "got " + show(a));
+   }
+
+   test("the average of 1, 2 and 3 is 2.0") {
+       assert!(average(1, 2, 3) == 2.0);
+   }
+
+   test("the average of -1, -2 and -4 is -2.333…") {
+       let a = average(-1, -2, -4);
+       assert!(a < -2.333 && a > -2.334, "got " + show(a));
+   }
+   ```
+
 2. Make a record for a city with a name and a population, add 1500 people,
    and print it with `%v`.
+
+   ```coil challenge=c02-2
+   use io::sync::{println};
+   use string::{format};
+
+   fn main() {
+       // A record with a name and a population; add 1500 people; print it with %v.
+   }
+   ```
 
 3. Write `fn stats(int a, int b, int c) -> (int, int, float)` that returns
    the smallest, the largest and the average, and unpack the result with
    `let (low, high, mean) = …`.
+
+   ```coil challenge=c02-3
+   use io::sync::{println};
+   use string::{format};
+
+   fn stats(int a, int b, int c) -> (int, int, float) {
+       return (0, 0, 0.0);
+   }
+
+   fn main() {
+       let (low, high, mean) = stats(4, 9, 2);
+       println(format("low %i, high %i, mean %f", low, high, mean))?;
+   }
+   ```
+
+   ```coil check=c02-3
+   use tests::assert;
+   use solution::{stats};
+
+   test("stats(4, 9, 2) is (2, 9, 5.0)") {
+       let (low, high, mean) = stats(4, 9, 2);
+       assert!(low == 2 && high == 9 && mean == 5.0, "got " + show(stats(4, 9, 2)));
+   }
+
+   test("the smallest and largest can come in any position") {
+       let (low, high, _) = stats(9, 2, 4);
+       assert!(low == 2 && high == 9);
+       let (low2, high2, _) = stats(2, 4, 9);
+       assert!(low2 == 2 && high2 == 9);
+   }
+
+   test("the mean keeps its fraction") {
+       let (_, _, mean) = stats(1, 2, 4);
+       assert!(mean > 2.333 && mean < 2.334, "got " + show(mean));
+   }
+   ```
 
 4. Check something: predict each value, then print them with `%i`.
 
@@ -302,6 +379,18 @@ ordinary values can be passed to it.
    > not one less than you might expect. The remainder takes the sign of the
    > number being divided.
 
+   ```coil challenge=c02-4
+   use io::sync::{println};
+   use string::{format};
+
+   fn main() {
+       println(format("%i", -7 / 2))?;
+       println(format("%i", -7 % 2))?;
+       println(format("%i", 3.99 as int))?;
+       println(format("%i", -3.99 as int))?;
+   }
+   ```
+
 5. Check something: what does `format("%i", 255 as byte as int + 1)`
    produce, and why does `(255 as byte) + 1 as byte` give something
    different? Read the warning the compiler prints for the second one.
@@ -311,11 +400,42 @@ ordinary values can be passed to it.
    > back into an `int` before the addition; in the second both sides are
    > `byte`s, and `byte` arithmetic wraps modulo 256.
 
+   ```coil challenge=c02-5
+   use io::sync::{println};
+   use string::{format};
+
+   fn main() {
+       println(format("%i", 255 as byte as int + 1))?;
+       println(format("%i", ((255 as byte) + 1 as byte) as int))?;
+   }
+   ```
+
 6. Check something: an `int` does not wrap. Start from the largest `int`,
    `9223372036854775807`, add one, and see what happens.
+
+   ```coil challenge=c02-6
+   use io::sync::{println};
+   use string::{format};
+
+   fn main() {
+       let big = 9223372036854775807;
+       println(format("%i", big + 1))?;
+   }
+   ```
 
 7. Check something: declare an array with `const`, assign to one of its
    elements, and compile it. Then do the same with `readonly`. Which one
    compiles, and what does the compiler tell you about the other?
+
+   ```coil challenge=c02-7
+   use io::sync::{println};
+   use string::{format};
+
+   fn main() {
+       const primes = [2, 3, 5, 7];
+       primes[0] = 1;
+       println(format("%v", primes))?;
+   }
+   ```
 
 Next: [Chapter 3 — Collections](/docs/manual/tutorial/03-collections).

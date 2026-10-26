@@ -203,9 +203,69 @@ noticed. Each of those points at a missing test.
    > `Option` compares with `==`, so `assert!(s.pop() == Some(2));` works,
    > and so does `assert!(s.pop().is_none());`.
 
+   ```coil challenge=c11-1 file=tests/stack.hy
+   use stack::{Stack};
+   use tests::assert;
+
+   test("popping an empty stack gives None") {
+       raise "write this test";
+   }
+
+   test("items come out in reverse order") {
+       raise "write this test";
+   }
+   ```
+
+   ```coil challenge=c11-1 file=src/stack.hy
+   class Stack<T> {
+       items: Vec<T>,
+   }
+
+   impl Stack<T> {
+       pub static fn new() -> Stack<T> {
+           return new Stack(Vec::new());
+       }
+
+       pub fn push(T item) {
+           self.items.push(item);
+       }
+
+       pub fn pop() -> Option<T> {
+           return self.items.pop();
+       }
+   }
+   ```
+
+   ```text expect=c11-1 stream=stderr match=contains
+   test result: ok. 2 passed
+   ```
+
 2. Add an example to the documentation of a function you wrote earlier and
    run it with `coil test`. Then break the example on purpose and watch it
    fail.
+
+   ```coil challenge=c11-2 file=src/mathx.hy
+   /// Returns the larger of `a` and `b`.
+   fn larger(int a, int b) -> int {
+       if a > b {
+           return a;
+       }
+       return b;
+   }
+   ```
+
+   ```coil challenge=c11-2 file=tests/mathx.hy
+   use mathx::{larger};
+   use tests::assert;
+
+   test("larger picks the larger one") {
+       assert!(larger(3, 9) == 9);
+   }
+   ```
+
+   ```text expect=c11-2 stream=stderr match=contains
+   test result: ok. 2 passed
+   ```
 
 3. Give `average(Vec<int> xs) -> int` a `requires` that rules out empty
    input, and an `ensures` that the result is between the smallest and the
@@ -216,6 +276,29 @@ noticed. Each of those points at a missing test.
    > `largest` helpers and use them in `ensures`. Integer division rounds
    > toward zero, which keeps the average inside that range even for
    > negative numbers.
+
+   ```coil challenge=c11-3 file=src/stats.hy
+   fn average(Vec<int> xs) -> int {
+       let total = 0;
+       for x in xs {
+           total += x;
+       }
+       return total / xs.len();
+   }
+   ```
+
+   ```coil challenge=c11-3 file=tests/stats.hy
+   use stats::{average};
+   use tests::assert;
+
+   test("the average of 2, 4 and 9 is 5") {
+       assert!(average([2, 4, 9]) == 5);
+   }
+   ```
+
+   ```text expect=c11-3 stream=stderr match=contains
+   test result: ok. 2 passed
+   ```
 
 4. Check something: the two FizzBuzz tests in this chapter pass. Run
    `coil mutate` on them. Which changes to `fizzbuzz` go unnoticed? Add
@@ -233,5 +316,27 @@ noticed. Each of those points at a missing test.
    > [!hint]
    > `capture_end()` returns `(stdout, stderr)`, and the output still ends
    > in the newline `println` wrote.
+
+   ```coil challenge=c11-5 file=src/greet.hy
+   use io::sync::{println};
+
+   fn greet(string name) {
+       let _ = println("Hello, " + name);
+   }
+   ```
+
+   ```coil challenge=c11-5 file=tests/greet.hy
+   use io::{capture_begin, capture_end};
+   use greet::{greet};
+   use tests::assert;
+
+   test("greet prints Hello, Ada") {
+       raise "capture what greet(\"Ada\") prints and check it";
+   }
+   ```
+
+   ```text expect=c11-5 stream=stderr match=contains
+   test result: ok. 1 passed
+   ```
 
 Next: [Chapter 12 — Generators](/docs/manual/tutorial/12-generators).

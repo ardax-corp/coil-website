@@ -358,6 +358,37 @@ renamed function deletes the item it was meant to decorate.
    > so they cannot clash with the caller's. `a.str()` is the source text
    > and `show(left)` the value.
 
+   ```coil challenge=c15-1 file=src/my_macros.hy
+   use macro::{Expr, Code, lit, raw};
+
+   /// `check!(cond)`: panics with the condition as written when it is false.
+   macro check(Expr cond) -> Code {
+       return quote stmts {
+           if !${cond} {
+               panic "check failed: " + ${lit(cond.str())};
+           }
+       };
+   }
+
+   // check_eq!(a, b) goes here.
+   ```
+
+   ```coil challenge=c15-1 file=src/main.hy
+   use io::sync::{println};
+   use my_macros::{check, check_eq};
+
+   fn main() {
+       let x = 1;
+       check_eq!(x + 2, 3);
+       println("first check passed")?;
+       check_eq!(x + 1, 3);
+   }
+   ```
+
+   ```text expect=c15-1 stream=stderr match=contains
+   check failed: x + 1 == 3 (2 vs 3)
+   ```
+
 2. Write `#[derive(FieldCount)]` adding `static fn field_count() -> int`.
 
    > [!hint]
@@ -366,20 +397,154 @@ renamed function deletes the item it was meant to decorate.
    > way `lit` does for strings; add it to the provider's `use macro::{…}`
    > line.
 
+   ```coil challenge=c15-2 file=src/my_macros.hy
+   use macro::{TypeDecl, Code, lit, raw};
+
+   // derive FieldCount goes here.
+   ```
+
+   ```coil challenge=c15-2 file=src/main.hy
+   use io::sync::{println};
+   use string::{format};
+   use my_macros::{FieldCount};
+
+   #[derive(FieldCount)]
+   class User {
+       pub id: int,
+       pub name: string,
+       pub active: bool,
+   }
+
+   #[derive(FieldCount)]
+   class Point {
+       pub x: int,
+       pub y: int,
+   }
+
+   fn main() {
+       println(format("User %i, Point %i", User::field_count(), Point::field_count()))?;
+   }
+   ```
+
+   ```text expect=c15-2
+   User 3, Point 2
+   ```
+
 3. Make `Columns` leave out fields marked `#[column(skip = true)]`.
 
    > [!hint]
    > `attr_str` reads any key as text, with a fallback when it is missing:
    > `f.attr_str("column", "skip", "false") == "true"`.
 
+   ```coil challenge=c15-3 file=src/my_macros.hy
+   use macro::{TypeDecl, Code, lit, raw};
+
+   /// `T::columns()`: the field names; `#[column(name = "…")]` renames one.
+   derive Columns(TypeDecl t) -> Code attrs(column) {
+       let names: Vec<Code> = Vec::new();
+       for f in t.fields() {
+           names.push(lit(f.attr_str("column", "name", f.name.str())));
+       }
+       return quote items {
+           impl ${t.name} {
+               pub static fn columns() -> Vec<string> {
+                   let out: Vec<string> = Vec::from([$(names),*]);
+                   return out;
+               }
+           }
+       };
+   }
+   ```
+
+   ```coil challenge=c15-3 file=src/main.hy
+   use io::sync::{println};
+   use string::{format};
+   use my_macros::{Columns};
+
+   #[derive(Columns)]
+   class User {
+       pub id: int,
+       #[column(name = "user_name")]
+       pub name: string,
+       #[column(skip = true)]
+       pub password: string,
+       pub active: bool,
+   }
+
+   fn main() {
+       println(format("%v", User::columns()))?;
+   }
+   ```
+
+   ```text expect=c15-3
+   [id, user_name, active]
+   ```
+
 4. Check something: give your program a `static let calls = 0;` and a
    `next_id()` function that adds one to it and returns it. What do
    `square!(next_id())` and `calls` come out as? Would a plain function do
    better here?
 
+   ```coil challenge=c15-4 file=src/main.hy
+   use io::sync::{println};
+   use string::{format};
+   use my_macros::{square};
+
+   static let calls = 0;
+
+   fn next_id() -> int {
+       calls += 1;
+       return calls;
+   }
+
+   fn main() {
+       let s = square!(next_id());
+       println(format("square %i, calls %i", s, calls))?;
+   }
+   ```
+
+   ```coil challenge=c15-4 file=src/my_macros.hy
+   use macro::{Expr, Code};
+
+   /// `square!(e)`: `e * e`.
+   macro square(Expr e) -> Code {
+       return quote expr { ${e} * ${e} };
+   }
+   ```
+
 5. Check something: remove `${raw(t.source)}` from the `table` attribute
    macro and build `main.hy` again. What does the compiler report, and why
    does that error point at the `Account` class?
+
+   ```coil challenge=c15-5 file=src/main.hy
+   use io::sync::{println};
+   use my_macros::{table};
+
+   #[table(name = "accounts")]
+   class Account {
+       pub id: int,
+   }
+
+   fn main() {
+       println(Account::table())?;
+   }
+   ```
+
+   ```coil challenge=c15-5 file=src/my_macros.hy
+   use macro::{TypeDecl, Code, lit, raw};
+
+   /// Keeps the class and adds `T::table()`.
+   attr table(TypeDecl t, string name) -> Code {
+       return quote items {
+           ${raw(t.source)}
+           impl ${t.name} {
+               pub static fn table() -> string {
+                   return ${lit(name)};
+               }
+           }
+       };
+   }
+   ```
 
 6. Run `coil dissect --expand` on `main.hy` and find the variable that
    `swap!` declared. What was it renamed to?

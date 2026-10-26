@@ -4,16 +4,25 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/sync-playground.mjs && astro build",
+    "sync:playground": "node scripts/sync-playground.mjs",
     "preview": "astro preview",
     "sync:packages": "node scripts/sync-packages.mjs",
     "sync:reference": "node scripts/sync-reference.mjs"
   },
   "dependencies": {
+    "@bjorn3/browser_wasi_shim": "^0.4.2",
+    "@codemirror/commands": "^6.11.1",
+    "@codemirror/language": "^6.13.1",
+    "@codemirror/lint": "^6.9.7",
+    "@codemirror/state": "^6.7.6",
+    "@codemirror/view": "^6.43.15",
     "@fontsource-variable/geist": "^5.3.0",
     "@fontsource-variable/geist-mono": "^5.3.0",
+    "@lezer/highlight": "^1.2.5",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
-    "astro": "^5.13.7"
+    "astro": "^5.13.7",
+    "codemirror": "^6.0.2"
   }
 }
