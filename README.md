@@ -18,6 +18,41 @@ npm install
 npm run build
 ```
 
+## Playground
+
+`/playground`, the Run and Edit buttons under docs examples, and the editors on
+the tutorial challenges all run the coil compiler in the browser, built for
+`wasm32-wasip1`, in a Web Worker over an in-memory file system
+(`src/lib/playground/`). Nothing runs on a server.
+
+`npm run build` first runs `scripts/sync-playground.mjs`, which downloads the
+compiler from coil-lang's `edge` release (`coil-wasm32-wasip1.wasm`) and the
+stdlib sources from coil-stdlib `main` into `public/playground/` (not
+committed). If the download fails the build still succeeds and the playground
+says it is unavailable. With local builds:
+
+```bash
+node scripts/sync-playground.mjs --wasm ../coil-lang/target/wasm32-wasip1/release/coil.wasm \
+  --stdlib ../coil-stdlib/src
+```
+
+`COIL_PLAYGROUND_TAG` picks another coil-lang release than `edge`.
+
+The challenges at the end of each tutorial chapter are code blocks with
+`challenge=ID` (starter files), `check=ID` (hidden test cases) and
+`expect=ID` (hidden expected output); `src/lib/remark-challenges.mjs` lists
+the forms. Every challenge with a check has a reference solution in
+`scripts/challenges/`, and `scripts/check-challenges.mjs` makes sure each one
+passes and each starter does not yet:
+
+```bash
+node scripts/check-challenges.mjs --coil ../coil-lang/target/release/coil \
+  --stdlib ../coil-stdlib/src src/content/docs/manual/tutorial/*.md
+```
+
+Both checkers also take `--coil scripts/coil-wasm.mjs`, a stand-in for `coil`
+that runs the synced WebAssembly build the way the browser does.
+
 ## Brand assets
 
 The Coil mark is the schematic symbol for an inductor, in copper on graphite.
