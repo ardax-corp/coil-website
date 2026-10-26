@@ -5,11 +5,11 @@ description: "Returns the size of the terminal s as (columns, rows)."
 module: "io::tty"
 kind: "fn"
 name: "size"
-signature: "fn size(Stream s) -> Result<(int, int), IoError>"
+signature: "fn size(Stream s) -> Result<(int, int), TtyError>"
 import: "use io::tty::{size};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/io/tty.hy#L37"
-order: 1
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/io/tty.hy#L62"
+order: 2
 ---
 
 Returns the size of the terminal `s` as `(columns, rows)`.
@@ -17,7 +17,7 @@ Returns the size of the terminal `s` as `(columns, rows)`.
 For `stdin()`, `stdout()` or `stderr()` that is not a terminal, the other
 standard streams are asked too, so a program whose output is piped still
 learns the size of the terminal it runs in. Returns
-`Err(IoError::NotATerminal)` when none is a terminal.
+`Err(TtyError::NotATerminal)` when none is a terminal.
 
 ## Parameters
 
@@ -27,7 +27,7 @@ learns the size of the terminal it runs in. Returns
 
 ## Returns
 
-`Result<(int, int), IoError>`
+`Result<(int, int), TtyError>`
 
 ## Examples
 

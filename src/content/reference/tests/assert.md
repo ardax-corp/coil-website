@@ -8,7 +8,7 @@ name: "assert"
 signature: "macro assert(Expr condition) -> Code"
 import: "use tests::{assert};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/tests.hy#L91"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/tests.hy#L91"
 order: 5
 ---
 

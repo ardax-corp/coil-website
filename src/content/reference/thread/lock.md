@@ -5,11 +5,11 @@ description: "Locks m until unlock, waiting while another thread holds it."
 module: "thread"
 kind: "fn"
 name: "lock"
-signature: "fn lock<T>(Mutex<T> m) -> Result<unit, ThreadError>"
+signature: "fn lock<T>(Mutex<T> m) -> Result<unit, LockError>"
 import: "use thread::{lock};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L503"
-order: 17
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L565"
+order: 19
 ---
 
 Locks `m` until [`unlock`](/docs/reference/thread/unlock), waiting while another thread holds it.
@@ -17,7 +17,7 @@ Locks `m` until [`unlock`](/docs/reference/thread/unlock), waiting while another
 This gives no access to the value (use [`with_lock`](/docs/reference/thread/with_lock) for that); it only
 excludes other `lock` / [`with_lock`](/docs/reference/thread/with_lock) callers. A thread can hold one mutex
 through `lock` at a time: a second `lock` before [`unlock`](/docs/reference/thread/unlock) is
-`Err(ThreadError::Other)`.
+`Err(LockError::AlreadyHeld)`.
 
 ## Parameters
 
@@ -27,7 +27,7 @@ through `lock` at a time: a second `lock` before [`unlock`](/docs/reference/thre
 
 ## Returns
 
-`Result<unit, ThreadError>`
+`Result<unit, LockError>`
 
 ## Examples
 

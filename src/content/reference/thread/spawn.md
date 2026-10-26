@@ -8,8 +8,8 @@ name: "spawn"
 signature: "fn spawn<A, B>(A -> B f, A arg) -> Result<Thread<B>, ThreadError>"
 import: "use thread::{spawn};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L213"
-order: 6
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L275"
+order: 8
 ---
 
 Runs `f(arg)` on another OS thread and returns a handle to it.
@@ -20,7 +20,8 @@ its own heap: `arg` and the `use` captures of a closure are deep-copied
 to it, and the result is copied back by [`join`](/docs/reference/thread/join). Sendable values are
 numbers, strings, tuples, arrays, records, enums and class instances made
 of them, plus [`Sender`](/docs/reference/thread/Sender), [`Receiver`](/docs/reference/thread/Receiver), [`Mutex`](/docs/reference/thread/Mutex) and [`RwLock`](/docs/reference/thread/RwLock) handles, which
-stay shared. Anything else is `Err(ThreadError::NotSendable)`.
+stay shared. The typechecker rejects anything else; a value of a generic
+type that turns out not to be sendable is `Err(ThreadError::NotSendable)`.
 
 `spawn(f)` with no argument runs a function that takes none. When `main`
 returns, the program still waits for threads that were neither joined

@@ -8,8 +8,8 @@ name: "is_raw"
 signature: "fn is_raw(Stream s) -> bool"
 import: "use io::tty::{is_raw};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/io/tty.hy#L99"
-order: 4
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/io/tty.hy#L124"
+order: 5
 ---
 
 Returns whether the terminal `s` is in raw mode ([`enter_raw`](/docs/reference/io/tty/enter_raw)).

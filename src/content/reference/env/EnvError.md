@@ -8,7 +8,7 @@ name: "EnvError"
 signature: "enum EnvError"
 import: "use env::{EnvError};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/env.hy#L18"
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/env.hy#L18"
 order: 0
 ---
 
@@ -26,11 +26,6 @@ contains a NUL byte.
 ### `NotFound` {#variant-notfound}
 
 [`var`](/docs/reference/env/var) asked for a variable that is not set.
-
-### `ExecDisabled` {#variant-execdisabled}
-
-Reserved; no [`env`](/docs/reference/env) function returns it today (a missing
-`--allow-exec` / `--allow-exit` grant is a compile error instead).
 
 ### `ExecFailed` {#variant-execfailed}
 

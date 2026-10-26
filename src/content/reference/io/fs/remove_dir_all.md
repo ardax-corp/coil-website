@@ -8,7 +8,7 @@ name: "remove_dir_all"
 signature: "fn remove_dir_all(string path) -> Result<unit, IoError>"
 import: "use io::fs::{remove_dir_all};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/io/fs.hy#L330"
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/io/fs.hy#L330"
 order: 12
 ---
 

@@ -9,7 +9,7 @@ parent: "Stream"
 signature: "pub fn fd() -> Result<int, IoError>"
 import: "use io::{Stream};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/io.hy#L128"
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/io.hy#L128"
 order: 2
 ---
 

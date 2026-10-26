@@ -8,8 +8,8 @@ name: "blocking_with"
 signature: "fn blocking_with<A, T>(A -> T work, A arg) -> Result<T, ThreadError>"
 import: "use task::{blocking_with};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/prelude/task.hy#L446"
-order: 12
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/prelude/task.hy#L436"
+order: 11
 ---
 
 Like [`blocking`](/docs/reference/task/blocking), passing `arg` to `work` (it is copied to the other thread, like `thread::spawn(work, arg)`).

@@ -35,7 +35,9 @@ use thread::{Thread, Sender};
 | [`Receiver`](/docs/reference/thread/Receiver) | The receiving half of a channel made by [`channel`](/docs/reference/thread/channel). |
 | [`Mutex`](/docs/reference/thread/Mutex) | A mutual-exclusion lock that owns a value, made by [`mutex`](/docs/reference/thread/fn.mutex). |
 | [`RwLock`](/docs/reference/thread/RwLock) | A readers-writer lock that owns a value, made by [`rwlock`](/docs/reference/thread/fn.rwlock). |
-| [`ThreadError`](/docs/reference/thread/ThreadError) | The error of every `thread` function. |
+| [`ThreadError`](/docs/reference/thread/ThreadError) | Why starting, joining or detaching a thread failed. |
+| [`ChannelError`](/docs/reference/thread/ChannelError) | Why a channel operation failed. |
+| [`LockError`](/docs/reference/thread/LockError) | Why a [`Mutex`](/docs/reference/thread/Mutex) or [`RwLock`](/docs/reference/thread/RwLock) operation failed. |
 
 ## Functions
 
@@ -58,5 +60,5 @@ use thread::{Thread, Sender};
 | [`rwlock`](/docs/reference/thread/fn.rwlock) | Creates a readers-writer lock holding a copy of `initial`. |
 | [`with_read`](/docs/reference/thread/with_read) | Runs `f` on a snapshot of the lock's value and returns what `f` returns. |
 | [`with_write`](/docs/reference/thread/with_write) | Takes the write lock, runs `f` and stores the new value it returns. |
-| [`try_read`](/docs/reference/thread/try_read) | Like [`with_read`](/docs/reference/thread/with_read), but returns `Err(ThreadError::WouldBlock)` instead of waiting when a writer holds the lock. |
-| [`try_write`](/docs/reference/thread/try_write) | Like [`with_write`](/docs/reference/thread/with_write), but returns `Err(ThreadError::WouldBlock)` instead of waiting when the lock is held. |
+| [`try_read`](/docs/reference/thread/try_read) | Like [`with_read`](/docs/reference/thread/with_read), but returns `Err(LockError::WouldBlock)` instead of waiting when a writer holds the lock. |
+| [`try_write`](/docs/reference/thread/try_write) | Like [`with_write`](/docs/reference/thread/with_write), but returns `Err(LockError::WouldBlock)` instead of waiting when the lock is held. |

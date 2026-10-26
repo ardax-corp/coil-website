@@ -1,18 +1,18 @@
 ---
 slug: "thread/try_write"
 title: "try_write"
-description: "Like with_write, but returns Err(ThreadError::WouldBlock) instead of waiting when the lock is held."
+description: "Like with_write, but returns Err(LockError::WouldBlock) instead of waiting when the lock is held."
 module: "thread"
 kind: "fn"
 name: "try_write"
-signature: "fn try_write<A, B>(RwLock<A> lock, A -> (A, B) f) -> Result<B, ThreadError>"
+signature: "fn try_write<A, B>(RwLock<A> lock, A -> (A, B) f) -> Result<B, LockError>"
 import: "use thread::{try_write};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L654"
-order: 24
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L716"
+order: 26
 ---
 
-Like [`with_write`](/docs/reference/thread/with_write), but returns `Err(ThreadError::WouldBlock)` instead of waiting when the lock is held.
+Like [`with_write`](/docs/reference/thread/with_write), but returns `Err(LockError::WouldBlock)` instead of waiting when the lock is held.
 
 ## Parameters
 
@@ -23,7 +23,7 @@ Like [`with_write`](/docs/reference/thread/with_write), but returns `Err(ThreadE
 
 ## Returns
 
-`Result<B, ThreadError>`
+`Result<B, LockError>`
 
 ## Examples
 

@@ -8,7 +8,7 @@ name: "Error"
 signature: "enum Error"
 import: "use ffi::{Error};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/ffi.hy#L62"
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/ffi.hy#L62"
 order: 1
 ---
 

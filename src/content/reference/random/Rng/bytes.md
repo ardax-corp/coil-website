@@ -9,7 +9,7 @@ parent: "Rng"
 signature: "pub fn bytes(int n) -> Vec<byte>"
 import: "use random::{Rng};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/random.hy#L124"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/random.hy#L124"
 order: 5
 ---
 

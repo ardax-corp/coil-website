@@ -8,7 +8,7 @@ name: "collect_ints_inclusive"
 signature: "fn collect_ints_inclusive(RangeInclusive<int> r) -> Vec<int>"
 import: "use collections::{collect_ints_inclusive};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/collections.hy#L220"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/collections.hy#L220"
 order: 4
 ---
 

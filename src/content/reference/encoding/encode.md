@@ -8,7 +8,7 @@ name: "encode"
 signature: "fn encode(Vec<byte> data) -> string"
 import: "use encoding::{encode};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/534e3d9afcabefedc5f1aaeedc5f294cae0a64d6/src/encoding.hy#L49"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/encoding.hy#L49"
 order: 0
 ---
 

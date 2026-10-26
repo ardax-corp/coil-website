@@ -26,8 +26,14 @@ Built into the compiler.
 Import what you use (`use path::*` is not allowed):
 
 ```coil
-use string::{format, from_bytes};
+use string::{StringError, format};
 ```
+
+## Types
+
+| Name | Description |
+|------|-------------|
+| [`StringError`](/docs/reference/string/StringError) | The error of [`from_bytes`](/docs/reference/string/from_bytes) and [`slice_bytes`](/docs/reference/string/slice_bytes). |
 
 ## Functions
 

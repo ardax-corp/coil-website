@@ -5,16 +5,16 @@ description: "Locks m if it is free, without waiting."
 module: "thread"
 kind: "fn"
 name: "try_lock"
-signature: "fn try_lock<T>(Mutex<T> m) -> Result<unit, ThreadError>"
+signature: "fn try_lock<T>(Mutex<T> m) -> Result<unit, LockError>"
 import: "use thread::{try_lock};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L529"
-order: 18
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L591"
+order: 20
 ---
 
 Locks `m` if it is free, without waiting.
 
-Returns `Err(ThreadError::WouldBlock)` when the mutex is held (also by
+Returns `Err(LockError::WouldBlock)` when the mutex is held (also by
 this thread). On success, release it with [`unlock`](/docs/reference/thread/unlock).
 
 ## Parameters
@@ -25,12 +25,12 @@ this thread). On success, release it with [`unlock`](/docs/reference/thread/unlo
 
 ## Returns
 
-`Result<unit, ThreadError>`
+`Result<unit, LockError>`
 
 ## Examples
 
 ```coil
-use thread::{mutex, lock, try_lock, unlock, ThreadError};
+use thread::{mutex, lock, try_lock, unlock, LockError};
 use tests::assert;
 let m = match mutex(0) {
     Result::Ok(m) => m,
@@ -38,7 +38,7 @@ let m = match mutex(0) {
 };
 let _ = lock(m);
 let busy = match try_lock(m) {
-    Result::Err(ThreadError::WouldBlock) => true,
+    Result::Err(LockError::WouldBlock) => true,
     default => false,
 };
 assert!(busy);

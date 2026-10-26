@@ -5,19 +5,19 @@ description: "Returns the part of s between byte offsets start (inclusive) and e
 module: "string"
 kind: "fn"
 name: "slice_bytes"
-signature: "fn slice_bytes(string s, int start, int end) -> Result<string, IoError>"
+signature: "fn slice_bytes(string s, int start, int end) -> Result<string, StringError>"
 import: "use string::{slice_bytes};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/string.hy#L85"
-order: 2
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/string.hy#L93"
+order: 3
 ---
 
 Returns the part of `s` between byte offsets `start` (inclusive) and `end` (exclusive).
 
 Offsets are clamped to `0..=s.len()`, and `end` to at least `start`, so
 out-of-range offsets give a shorter (possibly empty) string rather than
-an error. Returns `Err(IoError::InvalidInput)` when an offset falls
-inside a multi-byte UTF-8 character.
+an error. Returns `Err(StringError::NotCharBoundary)` when an offset
+falls inside a multi-byte UTF-8 character.
 
 ## Parameters
 
@@ -29,13 +29,12 @@ inside a multi-byte UTF-8 character.
 
 ## Returns
 
-`Result<string, IoError>`
+`Result<string, StringError>`
 
 ## Examples
 
 ```coil
-use io::{IoError};
-use string::{slice_bytes};
+use string::{slice_bytes, StringError};
 use tests::assert;
 let mid = match slice_bytes("hello", 1, 4) {
     Result::Ok(s) => s,
@@ -48,7 +47,7 @@ let clamped = match slice_bytes("hello", 3, 100) {
 };
 assert!(clamped == "lo");
 let split_char = match slice_bytes("é", 0, 1) {
-    Result::Err(IoError::InvalidInput) => true,
+    Result::Err(StringError::NotCharBoundary) => true,
     default => false,
 };
 assert!(split_char);

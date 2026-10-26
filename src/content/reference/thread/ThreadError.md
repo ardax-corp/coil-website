@@ -1,32 +1,24 @@
 ---
 slug: "thread/ThreadError"
 title: "ThreadError"
-description: "The error of every thread function."
+description: "Why starting, joining or detaching a thread failed."
 module: "thread"
 kind: "enum"
 name: "ThreadError"
 signature: "enum ThreadError"
 import: "use thread::{ThreadError};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L155"
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L163"
 order: 5
 ---
 
-The error of every [`thread`](/docs/reference/thread) function.
+Why starting, joining or detaching a thread failed.
 
-It implements [`Show`](/docs/reference/prelude/ops/Show), so `format("%v", e)` gives the variant name.
+Channel functions report a [`ChannelError`](/docs/reference/thread/ChannelError) and lock functions a
+[`LockError`](/docs/reference/thread/LockError) instead. It implements [`Show`](/docs/reference/prelude/ops/Show), so `format("%v", e)` gives the
+variant name.
 
 ## Variants
-
-### `WouldBlock` {#variant-wouldblock}
-
-The operation would have to wait: [`try_recv`](/docs/reference/thread/try_recv) on an empty channel, or
-[`try_lock`](/docs/reference/thread/try_lock) / [`try_read`](/docs/reference/thread/try_read) / [`try_write`](/docs/reference/thread/try_write) on a lock that is held.
-
-### `Disconnected` {#variant-disconnected}
-
-The channel is closed: [`send`](/docs/reference/thread/send) after [`close`](/docs/reference/thread/close), or [`recv`](/docs/reference/thread/recv) / [`try_recv`](/docs/reference/thread/try_recv)
-on a closed channel with no values left.
 
 ### `JoinFailed` {#variant-joinfailed}
 
@@ -35,50 +27,39 @@ panicked instead of returning a value.
 
 ### `NotSendable` {#variant-notsendable}
 
-A value cannot cross to another thread: it is or contains a stream, a
-[`Thread`](/docs/reference/thread/Thread), a coroutine, a [`gc`](/docs/reference/gc) handle, a partially applied function, or
-a cycle.
-
-### `Poisoned` {#variant-poisoned}
-
-A readers-writer lock was poisoned by a thread that panicked while
-holding it.
-
-### `Other` {#variant-other}
-
-Any other failure: an [`unlock`](/docs/reference/thread/unlock) of a mutex this thread does not hold, a
-second [`lock`](/docs/reference/thread/lock) while one is held, or a lock callback that does not
-return a pair.
+A [`spawn`](/docs/reference/thread/spawn) argument or capture cannot cross to another thread: it is or
+contains a stream, a [`Thread`](/docs/reference/thread/Thread), a coroutine, a [`gc`](/docs/reference/gc) handle, a partially
+applied function, or a cycle. The typechecker rejects most of these,
+so this is left for values of a generic type.
 
 ## Examples
 
 ```coil
-use thread::{channel, close, send, ThreadError};
+use thread::{spawn, join, detach, ThreadError};
 use tests::assert;
-let (tx, rx) = match channel() {
-    Result::Ok(pair) => pair,
-    Result::Err(_) => panic "channel failed",
-};
-let _ = close(tx);
-let closed = match send(tx, 1) {
-    Result::Err(ThreadError::Disconnected) => true,
-    default => false,
-};
-assert!(closed);
+fn one() -> int {
+    return 1;
+}
+
+fn main() {
+    let t = match spawn(one) {
+        Result::Ok(t) => t,
+        Result::Err(_) => panic "spawn failed",
+    };
+    let _ = detach(t);
+    let refused = match join(t) {
+        Result::Err(ThreadError::JoinFailed) => true,
+        default => false,
+    };
+    assert!(refused);
+}
 ```
 
 ## See also
 
-- [`thread`](/docs/reference/thread)
+- [`thread::ChannelError`](/docs/reference/thread/ChannelError)
+- [`thread::LockError`](/docs/reference/thread/LockError)
 - [`Show`](/docs/reference/prelude/ops/Show)
-- [`thread::try_recv`](/docs/reference/thread/try_recv)
-- [`thread::try_lock`](/docs/reference/thread/try_lock)
-- [`thread::try_read`](/docs/reference/thread/try_read)
-- [`thread::try_write`](/docs/reference/thread/try_write)
-- [`thread::send`](/docs/reference/thread/send)
-- [`thread::close`](/docs/reference/thread/close)
-- [`thread::recv`](/docs/reference/thread/recv)
+- [`thread::spawn`](/docs/reference/thread/spawn)
 - [`thread::Thread`](/docs/reference/thread/Thread)
 - [`gc`](/docs/reference/gc)
-- [`thread::unlock`](/docs/reference/thread/unlock)
-- [`thread::lock`](/docs/reference/thread/lock)

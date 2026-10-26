@@ -5,11 +5,11 @@ description: "Restores the settings enter_raw saved for the terminal s. Does not
 module: "io::tty"
 kind: "fn"
 name: "leave_raw"
-signature: "fn leave_raw(Stream s) -> Result<(), IoError>"
+signature: "fn leave_raw(Stream s) -> Result<(), TtyError>"
 import: "use io::tty::{leave_raw};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/io/tty.hy#L85"
-order: 3
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/io/tty.hy#L110"
+order: 4
 ---
 
 Restores the settings [`enter_raw`](/docs/reference/io/tty/enter_raw) saved for the terminal `s`. Does nothing when it is not in raw mode (or not a terminal).
@@ -22,7 +22,7 @@ Restores the settings [`enter_raw`](/docs/reference/io/tty/enter_raw) saved for 
 
 ## Returns
 
-`Result<(), IoError>`
+`Result<(), TtyError>`
 
 ## Examples
 

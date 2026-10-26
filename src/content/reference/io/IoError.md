@@ -8,7 +8,7 @@ name: "IoError"
 signature: "enum IoError"
 import: "use io::{IoError};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/io.hy#L151"
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/io.hy#L151"
 order: 1
 ---
 
@@ -60,17 +60,11 @@ A deadline or OS timeout passed (distinct from [`WouldBlock`](/docs/reference/io
 
 The data ended early (the OS reported an unexpected end of file).
 
-### `Certificate` {#variant-certificate}
+### `Protocol` {#variant-protocol}
 
-A TLS certificate was rejected (reported by attached packages such as coil-tls).
-
-### `Handshake` {#variant-handshake}
-
-A TLS handshake failed (reported by attached packages such as coil-tls).
-
-### `NotATerminal` {#variant-notaterminal}
-
-The stream is not a terminal ([`io::tty`](/docs/reference/io/tty) calls on a file, pipe or socket).
+An attached package stream (such as coil-tls) reported a failure of
+its own protocol, for example a TLS alert; the package's API says
+which.
 
 ## Examples
 
@@ -95,4 +89,3 @@ assert!(format("%v", IoError::TimedOut) == "TimedOut");
 - [`Show`](/docs/reference/prelude/ops/Show)
 - [`io::wait_readable`](/docs/reference/io/wait_readable)
 - [`io::wait_writable`](/docs/reference/io/wait_writable)
-- [`io::tty`](/docs/reference/io/tty)

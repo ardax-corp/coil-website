@@ -8,7 +8,7 @@ name: "Into"
 signature: "trait Into<S, T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/prelude/ops.hy#L733"
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/prelude/ops.hy#L737"
 order: 23
 ---
 
@@ -19,6 +19,10 @@ Call it as a method where the target type is known:
 primitive conversions. Both `S` and `T` must be types defined in the
 current module (an instance with a builtin type such as [`int`](/docs/reference/types/int) on either
 side is rejected as an orphan).
+
+`?` uses it for errors: on a [`Result<_, E>`](/docs/reference/prelude/Result) inside a function returning
+[`Result<_, F>`](/docs/reference/prelude/Result), an `impl Into<F> for E` converts the error before it
+returns. Without one, `E` and `F` must be the same type.
 
 ## Required methods
 
@@ -53,10 +57,10 @@ fn main() {
 ## See also
 
 - [`int`](/docs/reference/types/int)
+- [`Result`](/docs/reference/prelude/Result)
 - [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.
 - [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator `-`.
 - [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator `*`.
 - [`Div`](/docs/reference/prelude/ops/Div): The division operator `/`.
 - [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator `-x`.
 - [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator `%`.
-- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator `**`.

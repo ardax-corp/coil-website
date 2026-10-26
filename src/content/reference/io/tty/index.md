@@ -13,7 +13,8 @@ order: 5
 These work on any `Stream` and need no permission flag, like printing and
 reading `stdin`. On a file, pipe or socket they report "not a terminal":
 [`is_tty`](/docs/reference/io/tty/is_tty) is `false` and [`size`](/docs/reference/io/tty/size) / [`enter_raw`](/docs/reference/io/tty/enter_raw) return
-`Err(IoError::NotATerminal)`.
+`Err(TtyError::NotATerminal)`. A failure of the stream itself is
+`TtyError::Io(IoError)`.
 
 Raw mode belongs to the terminal, and the program puts it back: whatever is
 still raw is restored when the program ends normally, through [`env::exit`](/docs/reference/env/exit),
@@ -28,8 +29,14 @@ Built into the compiler.
 Import what you use (`use path::*` is not allowed):
 
 ```coil
-use io::tty::{is_tty, size};
+use io::tty::{TtyError, is_tty};
 ```
+
+## Types
+
+| Name | Description |
+|------|-------------|
+| [`TtyError`](/docs/reference/io/tty/TtyError) | The error of the fallible `io::tty` functions. |
 
 ## Functions
 

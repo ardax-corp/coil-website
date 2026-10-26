@@ -5,17 +5,17 @@ description: "Sends value without waiting."
 module: "thread"
 kind: "fn"
 name: "try_send"
-signature: "fn try_send<T>(Sender<T> tx, T value) -> Result<unit, ThreadError>"
+signature: "fn try_send<T>(Sender<T> tx, T value) -> Result<unit, ChannelError>"
 import: "use thread::{try_send};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L376"
-order: 12
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L438"
+order: 14
 ---
 
 Sends `value` without waiting.
 
 Channels are unbounded, so this behaves exactly like [`send`](/docs/reference/thread/send): it fails
-only with `Disconnected` (closed channel) or `NotSendable`.
+only with `Closed`, never `Full`.
 
 ## Parameters
 
@@ -26,7 +26,7 @@ only with `Disconnected` (closed channel) or `NotSendable`.
 
 ## Returns
 
-`Result<unit, ThreadError>`
+`Result<unit, ChannelError>`
 
 ## Examples
 

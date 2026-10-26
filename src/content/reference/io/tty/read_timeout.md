@@ -5,11 +5,11 @@ description: "Waits up to timeout_ms milliseconds for input on s (a negative tim
 module: "io::tty"
 kind: "fn"
 name: "read_timeout"
-signature: "fn read_timeout(Stream s, Vec<byte> buf, int timeout_ms) -> Result<Option<int>, IoError>"
+signature: "fn read_timeout(Stream s, Vec<byte> buf, int timeout_ms) -> Result<Option<int>, TtyError>"
 import: "use io::tty::{read_timeout};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/io/tty.hy#L127"
-order: 5
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/io/tty.hy#L152"
+order: 6
 ---
 
 Waits up to `timeout_ms` milliseconds for input on `s` (a negative timeout waits for ever), then reads what is there into `buf`.
@@ -31,15 +31,15 @@ stream; files are always ready.
 
 ## Returns
 
-`Result<Option<int>, IoError>`
+`Result<Option<int>, TtyError>`
 
 ## Examples
 
 ```coil
-use io::{stdin, IoError};
-use io::tty::{read_timeout};
+use io::{stdin};
+use io::tty::{read_timeout, TtyError};
 use string::{to_bytes};
-fn main() -> Result<(), IoError> {
+fn main() -> Result<(), TtyError> {
     let buf = to_bytes("        ");
     match read_timeout(stdin(), buf, 10)? {
         Option::Some(0) => {}, // nothing yet

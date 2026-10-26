@@ -5,11 +5,11 @@ description: "Runs f on a snapshot of the lock's value and returns what f return
 module: "thread"
 kind: "fn"
 name: "with_read"
-signature: "fn with_read<A, B>(RwLock<A> lock, A -> B f) -> Result<B, ThreadError>"
+signature: "fn with_read<A, B>(RwLock<A> lock, A -> B f) -> Result<B, LockError>"
 import: "use thread::{with_read};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/builtin_docs/thread.hy#L597"
-order: 21
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/builtin_docs/thread.hy#L659"
+order: 23
 ---
 
 Runs `f` on a snapshot of the lock's value and returns what `f` returns.
@@ -27,7 +27,7 @@ task of the thread, also inside a [`task::scope`](/docs/reference/task/fn.scope)
 
 ## Returns
 
-`Result<B, ThreadError>`
+`Result<B, LockError>`
 
 ## Examples
 

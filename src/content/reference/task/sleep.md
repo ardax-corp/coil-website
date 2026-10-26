@@ -8,8 +8,8 @@ name: "sleep"
 signature: "fn sleep(int ms)"
 import: "use task::{sleep};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/8d0a3c16e6cbbb1b1f3fe264f1cb8be4f8bb9019/compiler/src/prelude/task.hy#L178"
-order: 6
+source: "https://github.com/ardax-corp/coil-lang/blob/12901b3580d5c7df098353b1e92eedcb7e41f91d/compiler/src/prelude/task.hy#L178"
+order: 5
 ---
 
 Suspends the current task for at least `ms` milliseconds; other tasks run meanwhile.
