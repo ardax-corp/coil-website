@@ -114,7 +114,6 @@ that is `true` into the matching `coil` flag on every compile, run and test.
 | `write` | bool | `--allow-write` |
 | `net` | bool | `--allow-net` |
 | `env` | bool | `--allow-env` |
-| `exec` | bool | `--allow-exec` |
 | `exit` | bool | `--allow-exit` |
 | `attach` | bool | `--allow-attach` |
 | `all` | bool | `--allow-all` |
@@ -138,7 +137,6 @@ for every module of the project. See [Compile-time code](/docs/language/comptime
 | `read` | array of paths | `--comptime-read` |
 | `write` | array of paths | `--comptime-write` |
 | `env` | array of names | `--comptime-env` |
-| `exec` | array of program names | `--comptime-exec` |
 | `net` | array of `HOST[:PORT]` | `--comptime-net` |
 | `cache` | path | `--comptime-cache` (default `.comptime`) |
 

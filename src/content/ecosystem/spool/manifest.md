@@ -147,7 +147,8 @@ Paths must be relative to the project root, without `..` segments. Unknown keys 
 What the project's programs and tests may do on the host. spool passes each
 key that is `true` to `coil` as a flag (`read = true` becomes `--allow-read`)
 on every `coil` command it runs (`build`, `run`, `check`, `test`, `debug`, `lsp`, …). Keys: `read`, `write`, `net`, `env`,
-`exec`, `exit`, `attach`, and `all` for everything. Left out means denied.
+`exit`, `attach`, and `all` for everything (`exec` was removed with
+`env::exec`; programs run through coil-process). Left out means denied.
 
 ```toml
 [permissions]

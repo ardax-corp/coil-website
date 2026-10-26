@@ -23,7 +23,7 @@ Error: [E0414] `io::open` requires `--allow-read`: reached from `main` → `io::
 ```
 
 The flags are `--allow-read`, `--allow-write`, `--allow-net`,
-`--allow-env`, `--allow-exec` and `--allow-exit`; `-A` allows them all. In a
+`--allow-env` and `--allow-exit`; `-A` allows them all. In a
 spool project, list them in `coil.toml` under `[permissions]`. Printing and
 reading standard input need no permission. The details are on the
 [permissions page](/docs/language/permissions).

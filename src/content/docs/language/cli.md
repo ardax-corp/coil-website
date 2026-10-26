@@ -36,7 +36,7 @@ subcommand they go after it: `coil compile --root ../coil-stdlib/src app.hy`.
 | Flag | Meaning |
 |------|---------|
 | `--root DIR` | Add a directory that `use` paths resolve against (repeatable). The [stdlib](/docs/reference#ref-stdlib) is one: `--root ~/.coil/stdlib/src`. See [Modules](/docs/language/modules). |
-| `-A`, `--allow-read`, `--allow-write`, `--allow-net`, `--allow-env`, `--allow-exec`, `--allow-exit`, `--allow-attach` | Grant host access. A program gets none by default, and the compiler names the flag it is missing. See [Permissions](/docs/language/permissions). |
+| `-A`, `--allow-read`, `--allow-write`, `--allow-net`, `--allow-env`, `--allow-exit`, `--allow-attach` | Grant host access. A program gets none by default, and the compiler names the flag it is missing. See [Permissions](/docs/language/permissions). |
 | `--allow-dload STEM` with `--dload-pin STEM=SHA256` or `--dload-trusted STEM` | Allow loading a native library at run time. See [Calling C](/docs/manual/tutorial/16-ffi). |
 | `-O0` … `-O3`, `-Os`, `-Og` | Optimization level; `-O2` by default. |
 | `-g0`, `-g1`, `-g2` | How much debug information to keep. `-g2` (the default) gives panics full locations and is needed by `coil debug` and coverage. `--strip-debug` is `-g0`. |

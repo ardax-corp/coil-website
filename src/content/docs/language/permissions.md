@@ -26,13 +26,15 @@ $ coil --allow-read load.hy
 | `--allow-write` | Create, change and remove files | `io::open` for writing, `io::fs::create_dir` / `create_dir_all` / `remove_file` / `remove_dir` / `remove_dir_all` / `rename` / `symlink`, `io::fs::copy` |
 | `--allow-net` | Open sockets | `io::net::tcp::connect` / `connect_timeout` / `listen`, `io::net::udp::bind` / `connect` / `send_to` |
 | `--allow-env` | Environment variables and the working directory | `env::var` / `set_var` / `remove_var` / `set_cwd` |
-| `--allow-exec` | Run other programs | `env::exec` (error `E0406`) |
 | `--allow-exit` | End the process early | `env::exit` (error `E0407`) |
 | `--allow-attach` | Hand a raw descriptor to a stream | `Stream.attach` (error `E0408`) |
 | `--allow-ffi-exec` | Process-exec symbols through FFI | `system`, `execve`, … |
 | `-A`, `--allow-all` | All of the above | |
 
-Read, write, net and env report `E0414`. `dload` is separate: each library
+Read, write, net and env report `E0414`. There is no flag for running other
+programs: the language has no `env::exec`. Programs run through the
+[coil-process](https://github.com/ardax-corp/coil-process) package, so what gates them is that
+package's `--allow-dload process` (with its pin or trust). `dload` is separate: each library
 needs `--allow-dload STEM` (see [FFI](/docs/reference/ffi)), and `-A` does
 not grant it. At run time the stem also needs `--dload-pin STEM=SHA256` or
 `--dload-trusted STEM`, or the load is denied.
@@ -50,7 +52,7 @@ opened. The terminal calls in [`io::tty`](/docs/reference/io/tty)
 
 Only calls the program can reach count. The compiler follows calls from
 `main`, from each `test("…")` case under `coil test`, and from static
-initializers. Importing a module that has an `env::exec` helper you never
+initializers. Importing a module that has an `env::exit` helper you never
 call needs no grant. When a call is reached, the error names the chain of
 functions that reaches it, so you can see why.
 
