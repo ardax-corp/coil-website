@@ -11,10 +11,11 @@
 // WebAssembly build.
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { parseInfo } from "../src/lib/examples.mjs";
+import { planRun } from "../src/lib/playground/plan.mjs";
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => {
@@ -45,9 +46,15 @@ function challenges(file) {
       .join("\n");
     const info = parseInfo(m[3]);
     const line = text.slice(0, m.index).split("\n").length;
-    if (m[2] === "coil" && info.challenge) Object.assign(get(info.challenge), { starter: body, where: `${file}:${line}` });
+    if (info.challenge) {
+      const c = get(info.challenge);
+      c.where ??= `${file}:${line}`;
+      if (info.attrs.args) c.args = ["--", ...info.attrs.args.split(",")];
+      if (info.mode === "stdin") c.stdin = body;
+      else (c.starter ??= {})[info.file ?? "main.hy"] = body;
+    }
     if (m[2] === "coil" && info.check) get(info.check).check = body;
-    if (m[2] === "text" && info.attrs.expect) Object.assign(get(info.attrs.expect), { expect: body, stream: info.attrs.stream ?? "stdout", prefix: info.attrs.match === "prefix" });
+    if (m[2] === "text" && info.attrs.expect) Object.assign(get(info.attrs.expect), { expect: body, stream: info.attrs.stream ?? "stdout", match: info.attrs.match ?? "all" });
   }
   return [...found.values()];
 }
@@ -56,13 +63,44 @@ const dir = mkdtempSync(join(tmpdir(), "coil-challenges-"));
 const failures = [];
 let pass = 0;
 
-function run(files, argv) {
+const matches = (c, out) => {
+  const got = out.trim();
+  const want = c.expect.trim();
+  return c.match === "prefix" ? got.startsWith(want) : c.match === "contains" ? got.includes(want) : got === want;
+};
+
+/** A solution is scripts/challenges/<id>.hy (main.hy) or a <id>/ directory. */
+function readSolution(id) {
+  const one = join(solutions, `${id}.hy`);
+  if (existsSync(one)) return { "main.hy": readFileSync(one, "utf8") };
+  const dir = join(solutions, id);
+  if (!existsSync(dir)) return undefined;
+  const files = {};
+  const walk = (d, base) => {
+    for (const name of readdirSync(d)) {
+      const path = join(d, name);
+      if (statSync(path).isDirectory()) walk(path, `${base}${name}/`);
+      else files[`${base}${name}`] = readFileSync(path, "utf8");
+    }
+  };
+  walk(dir, "");
+  return files;
+}
+
+/** The command line the site uses for a set of files (see plan.mjs). */
+function programRun(files, c) {
+  const plan = planRun(files);
+  const argv = plan.args.map((a) => (a === "/stdlib" ? stdlib : a));
+  return run(plan.files, [...argv, ...(c.args ?? [])], c.stdin);
+}
+
+function run(files, argv, input = "") {
   rmSync(join(dir, "w"), { recursive: true, force: true });
   for (const [path, body] of Object.entries(files)) {
     mkdirSync(join(dir, "w", path, ".."), { recursive: true });
     writeFileSync(join(dir, "w", path), `${body}\n`);
   }
-  return spawnSync(coil, argv, { encoding: "utf8", timeout: 30000, input: "", cwd: join(dir, "w") });
+  return spawnSync(coil, argv, { encoding: "utf8", timeout: 30000, input, cwd: join(dir, "w") });
 }
 
 for (const file of args) {
@@ -73,46 +111,42 @@ for (const file of args) {
       fail("check or expect block without a challenge block");
       continue;
     }
-    const solPath = join(solutions, `${c.id}.hy`);
+    const solution = readSolution(c.id);
     // Explore-and-see challenges (no check) need no reference solution.
-    if (!c.check && c.expect === undefined && !existsSync(solPath)) {
+    if (!c.check && c.expect === undefined && !solution) {
       pass++;
       continue;
     }
-    if (!existsSync(solPath)) {
-      fail(`no reference solution (${solPath})`);
+    if (!solution) {
+      fail(`no reference solution in ${solutions}${c.id}.hy or ${c.id}/`);
       continue;
     }
-    const solution = readFileSync(solPath, "utf8");
-    const runArgs = ["--root", stdlib, "-A", "main.hy"];
     if (c.check) {
-      const r = run({ "src/solution.hy": solution, "tests/check.hy": c.check }, ["test", "--root", stdlib, "-A", "tests"]);
+      const r = run({ "src/solution.hy": solution["main.hy"], "tests/check.hy": c.check }, ["test", "--root", stdlib, "-A", "tests"]);
       if (r.status !== 0) {
         fail("the reference solution fails the check", r);
         continue;
       }
       // The starter as given must not already pass.
-      const s = run({ "src/solution.hy": c.starter, "tests/check.hy": c.check }, ["test", "--root", stdlib, "-A", "tests"]);
+      const s = run({ "src/solution.hy": c.starter["main.hy"], "tests/check.hy": c.check }, ["test", "--root", stdlib, "-A", "tests"]);
       if (s.status === 0) {
         fail("the starter already passes the check", s);
         continue;
       }
     } else if (c.expect !== undefined) {
-      const r = run({ "main.hy": solution }, runArgs);
-      const s = run({ "main.hy": c.starter }, runArgs);
-      const starterOut = (c.stream === "stderr" ? s.stderr : s.stdout).trim();
-      if (c.prefix ? starterOut.startsWith(c.expect.trim()) : starterOut === c.expect.trim()) {
+      const out = (r) => (c.stream === "stderr" ? r.stderr : r.stdout);
+      const s = programRun(c.starter, c);
+      if (s.status !== null && matches(c, out(s))) {
         fail("the starter already prints the expected text", s);
         continue;
       }
-      const got = (c.stream === "stderr" ? r.stderr : r.stdout).trim();
-      const ok = c.prefix ? got.startsWith(c.expect.trim()) : got === c.expect.trim();
-      if (r.status === null || !ok) {
-        fail(`the reference solution's ${c.stream} is not the expected text:\n--- expected\n${c.expect.trim()}\n--- got\n${got}`, r);
+      const r = programRun({ ...c.starter, ...solution }, c);
+      if (r.status === null || !matches(c, out(r))) {
+        fail(`the reference solution's ${c.stream} does not match (${c.match}):\n--- expected\n${c.expect.trim()}\n--- got\n${out(r).trim()}`, r);
         continue;
       }
     } else {
-      const r = run({ "main.hy": solution }, runArgs);
+      const r = programRun({ ...c.starter, ...solution }, c);
       if (r.status === null) {
         fail("the reference solution does not finish", r);
         continue;

@@ -5,6 +5,7 @@
 // The data comes from src/lib/remark-challenges.mjs.
 
 import { OutputPanel, runInto } from "./output.mjs";
+import { planRun } from "./plan.mjs";
 import { warmUp } from "./client.mjs";
 import { encodeShare } from "./share.mjs";
 
@@ -55,7 +56,14 @@ function testEvents(text) {
 function setup(box, onSolved) {
   const id = box.dataset.challenge;
   const part = (name) => box.querySelector(`textarea[data-part="${name}"]`);
-  const starter = part("starter").value;
+  // The starter files, main.hy first; stdin shows as one more tab.
+  // Files end in a newline, as written to disk by scripts/check-challenges.mjs.
+  const starter = Object.fromEntries(
+    [...box.querySelectorAll('textarea[data-part="starter"]')].map((t) => [t.dataset.file, t.value.replace(/\n?$/, "\n")]),
+  );
+  const STDIN = "standard input";
+  if (part("stdin")) starter[STDIN] = part("stdin").value;
+  const programArgs = box.dataset.args ? ["--", ...box.dataset.args.split(",")] : [];
   const check = part("check")?.value;
   const expect = part("expect");
 
@@ -75,20 +83,60 @@ function setup(box, onSolved) {
     onSolved();
   };
 
+  // Drafts: the whole file set; older drafts were a single main.hy string.
+  const draft = store.get(DRAFT + id);
+  let files = { ...starter, ...(typeof draft === "string" ? { "main.hy": draft } : (draft ?? {})) };
+  let active = Object.keys(files)[0];
+  const program = () => {
+    const out = { ...files };
+    delete out[STDIN];
+    return out;
+  };
+  const save = () => {
+    const changed = Object.keys(files).some((k) => files[k] !== starter[k]);
+    store.set(DRAFT + id, changed ? files : undefined);
+  };
+
   let editor;
+  const tabs = document.createElement("div");
+  tabs.className = "challenge-tabs";
+  const renderTabs = () => {
+    tabs.hidden = Object.keys(files).length < 2;
+    tabs.replaceChildren(
+      ...Object.keys(files).map((name) => {
+        const t = document.createElement("button");
+        t.type = "button";
+        t.className = "challenge-tab";
+        t.textContent = name;
+        t.setAttribute("aria-pressed", String(name === active));
+        t.addEventListener("click", () => {
+          active = name;
+          editor.value = files[name];
+          renderTabs();
+        });
+        return t;
+      }),
+    );
+  };
+
   open.addEventListener("pointerenter", warmUp, { once: true });
   open.addEventListener("click", async () => {
     if (editor) {
       work.hidden = !work.hidden;
+      open.textContent = work.hidden ? "Show the editor" : "Hide the editor";
       return;
     }
     const { createEditor } = await import("./editor.mjs");
     editorHost.className = "challenge-editor";
     editor = createEditor(editorHost, {
-      doc: store.get(DRAFT + id) ?? starter,
+      doc: files[active],
       onRun: () => run.click(),
-      onChange: (text) => store.set(DRAFT + id, text === starter ? undefined : text),
+      onChange: (text) => {
+        files[active] = text;
+        save();
+      },
     });
+    renderTabs();
     work.hidden = false;
     open.textContent = "Hide the editor";
     editor.focus();
@@ -109,7 +157,7 @@ function setup(box, onSolved) {
   const results = document.createElement("ul");
   results.className = "challenge-results";
   results.hidden = true;
-  work.append(editorHost, actions, outHost, results);
+  work.append(tabs, editorHost, actions, outHost, results);
   box.append(work);
   const panel = new OutputPanel(outHost);
   outHost.hidden = true;
@@ -125,10 +173,16 @@ function setup(box, onSolved) {
     }
   };
 
-  run.addEventListener("click", () => busy(() => runInto(panel, { files: { "main.hy": editor.value } })));
+  const runProgramInto = (opts = {}) => {
+    const plan = planRun(program());
+    return runInto(panel, { ...opts, files: plan.files, args: [...plan.args, ...programArgs], mode: plan.mode, stdin: files[STDIN] ?? "" });
+  };
+
+  run.addEventListener("click", () => busy(() => runProgramInto()));
 
   reset.addEventListener("click", () => {
-    editor.value = starter;
+    files = { ...starter };
+    editor.value = files[active];
     store.set(DRAFT + id, undefined);
     panel.clear();
     outHost.hidden = true;
@@ -136,7 +190,8 @@ function setup(box, onSolved) {
   });
 
   playground.addEventListener("click", async () => {
-    window.open(`/playground#${await encodeShare({ files: { "main.hy": editor.value } })}`, "_blank", "noopener");
+    const hash = await encodeShare({ files: program(), stdin: files[STDIN] });
+    window.open(`/playground#${hash}`, "_blank", "noopener");
   });
 
   verify.addEventListener("click", () =>
@@ -147,25 +202,30 @@ function setup(box, onSolved) {
       }
       if (expect) {
         const stream = expect.dataset.stream;
-        let captured = "";
-        const { result } = await runInto(panel, { files: { "main.hy": editor.value } });
-        captured = stream === "stderr" ? [...panel.body.children].filter((s) => s.dataset.stream === "stderr").map((s) => s.textContent).join("") : panel.stdout;
+        const { result } = await runProgramInto();
+        const captured =
+          stream === "stderr"
+            ? [...panel.body.children].filter((s) => s.dataset.stream === "stderr").map((s) => s.textContent).join("")
+            : panel.stdout;
         if (result.code === undefined) return;
         const want = expect.value.trim();
-        const ok = expect.dataset.match === "prefix" ? captured.trim().startsWith(want) : captured.trim() === want;
+        const match = expect.dataset.match;
+        const got = captured.trim();
+        const ok = match === "prefix" ? got.startsWith(want) : match === "contains" ? got.includes(want) : got === want;
+        const what = stream === "stderr" ? "standard error" : "the output";
         if (ok) {
-          panel.status(`Solved: the ${stream === "stderr" ? "error output" : "output"} is what Henry expected.`, "ok");
+          panel.status(`Solved: ${what} is what Henry expected.`, "ok");
           markSolved();
         } else {
-          const how = expect.dataset.match === "prefix" ? "to start with" : "to be";
-          panel.status(`Not yet: Henry expected ${stream === "stderr" ? "standard error" : "the output"} ${how}:\n${want}`, "fail");
+          const how = match === "prefix" ? "to start with" : match === "contains" ? "to contain" : "to be";
+          panel.status(`Not yet: Henry expected ${what} ${how}:\n${want}`, "fail");
         }
         return;
       }
-      const files = { "src/solution.hy": editor.value, "tests/check.hy": check };
+      const testFiles = { "src/solution.hy": files["main.hy"], "tests/check.hy": check };
       const args = ["test", "--json", "--root", "/stdlib", "-A", "tests"];
       panel.clear();
-      const { result, stdout } = await runInto(panel, { files, args, mode: "test", quiet: true });
+      const { result, stdout } = await runInto(panel, { files: testFiles, args, mode: "test", quiet: true });
       if (result.code === undefined) {
         panel.status(result.timedOut ? "Stopped: the check ran longer than the time limit. Is there an endless loop?" : "The check could not run.", "fail");
         return;

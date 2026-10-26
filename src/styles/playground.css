@@ -255,3 +255,30 @@
 .henry-progress strong {
   color: var(--patina);
 }
+
+.challenge-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+}
+
+.challenge-tabs[hidden] {
+  display: none;
+}
+
+.challenge-tab {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  padding: 0.3rem 0.55rem;
+}
+
+.challenge-tab[aria-pressed="true"] {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--fg);
+}
