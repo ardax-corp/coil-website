@@ -111,6 +111,47 @@
   }
 }
 
+/* Syntax colours for the playground editor; the same palette as the
+   Shiki themes in src/lib/shiki-themes.ts. */
+
+:root {
+  --syn-fg: #28231c;
+  --syn-comment: #8d8474;
+  --syn-keyword: #b14b12;
+  --syn-fn: #8a5800;
+  --syn-type: #1f7565;
+  --syn-string: #53771b;
+  --syn-number: #9b3a8d;
+  --syn-operator: #6d6050;
+  --syn-attribute: #634fb0;
+}
+
+:root[data-theme="dark"] {
+  --syn-fg: #e9e2d4;
+  --syn-comment: #7d7466;
+  --syn-keyword: #eb8a52;
+  --syn-fn: #f1cf94;
+  --syn-type: #7fc8b6;
+  --syn-string: #bfd08a;
+  --syn-number: #d9a0d0;
+  --syn-operator: #b8aa95;
+  --syn-attribute: #ac9ee0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --syn-fg: #e9e2d4;
+    --syn-comment: #7d7466;
+    --syn-keyword: #eb8a52;
+    --syn-fn: #f1cf94;
+    --syn-type: #7fc8b6;
+    --syn-string: #bfd08a;
+    --syn-number: #d9a0d0;
+    --syn-operator: #b8aa95;
+    --syn-attribute: #ac9ee0;
+  }
+}
+
 /* ---------------------------------------------------------------- base */
 
 *,

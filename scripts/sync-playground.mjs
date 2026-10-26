@@ -7,6 +7,8 @@
 //   node scripts/sync-playground.mjs                       download both
 //   node scripts/sync-playground.mjs --wasm PATH --stdlib DIR   use local builds
 //
+// The module is gzipped under a made-up extension (.wasm-gz), so no server
+// adds a Content-Encoding header that would hide the gzip from the worker.
 // File names carry a content hash so browsers may cache them forever;
 // manifest.json names the current pair. When the download fails the build
 // still succeeds and the playground says it is unavailable.
@@ -65,7 +67,7 @@ try {
   const wasm = opt("wasm") ? readFileSync(opt("wasm")) : await download(WASM_URL);
   const stdlib = Buffer.from(JSON.stringify(await stdlibSources()));
   const gz = gzipSync(wasm, { level: 9 });
-  const manifest = { wasm: `coil-${hash(wasm)}.wasm.gz`, stdlib: `stdlib-${hash(stdlib)}.json`, source: opt("wasm") ? "local" : TAG };
+  const manifest = { wasm: `coil-${hash(wasm)}.wasm-gz`, stdlib: `stdlib-${hash(stdlib)}.json`, source: opt("wasm") ? "local" : TAG };
   writeFileSync(join(OUT, manifest.wasm), gz);
   writeFileSync(join(OUT, manifest.stdlib), stdlib);
   writeFileSync(join(OUT, "manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
