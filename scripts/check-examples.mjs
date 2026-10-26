@@ -5,11 +5,12 @@
 //   node scripts/check-examples.mjs --coil ../coil-lang/target/release/coil \
 //     --stdlib ../coil-stdlib/src src/content/docs/manual/**/*.md
 //
-// Fence info decides what happens:
+// Fence info decides what happens (see src/lib/examples.mjs):
 //   ```coil            compiled and run
 //   ```coil no_run     compiled only (servers, programs that wait for input)
 //   ```coil ignore     skipped (fragments, deliberate errors)
 //   ```coil fail       must fail to compile
+// Challenge blocks (challenge=, check=) are checked by check-challenges.mjs.
 // A block of `test("…") { … }` cases runs under `coil test` instead.
 // `file=src/x.hy` after the tag writes the block into a per-page project; the
 // block with `fn main` runs that project.
@@ -21,6 +22,7 @@ import { spawnSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
+import { hasMain, isTestBlock, parseInfo, wrap } from "../src/lib/examples.mjs";
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => {
@@ -36,33 +38,6 @@ const coil = coilArg.includes("/") ? resolve(coilArg) : coilArg;
 const stdlib = resolve(opt("stdlib", "../coil-stdlib/src"));
 const files = args;
 
-const DECL = /^(pub\s+|pure\s+|gen\s+|async\s+|static\s+|readonly\s+|#\[)*(fn|class|enum|trait|impl|type|const|macro|extern|static|mod)\b|^#\[/;
-
-/** Split an example into top-level declarations and loose statements. */
-function wrap(code) {
-  const lines = code.split("\n");
-  if (/^\s*(pub\s+)?fn\s+main\s*\(/m.test(code)) return code;
-  const uses = [];
-  const decls = [];
-  const body = [];
-  let depth = 0;
-  let inDecl = false;
-  for (const line of lines) {
-    if (depth === 0 && /^use\s/.test(line)) {
-      uses.push(line);
-      continue;
-    }
-    if (depth === 0 && (DECL.test(line) || /^\/\/\//.test(line))) inDecl = true;
-    (inDecl ? decls : body).push(line);
-    for (const c of line.replace(/"(\\.|[^"\\])*"/g, "").replace(/\/\/.*$/, "")) {
-      if (c === "{") depth++;
-      else if (c === "}") depth--;
-    }
-    if (depth === 0 && inDecl && /[};]\s*$/.test(line) && !/^#\[/.test(line.trim())) inDecl = false;
-  }
-  return [...uses, ...decls, "fn main() {", ...body.map((l) => `    ${l}`), "}"].join("\n");
-}
-
 const dir = mkdtempSync(join(tmpdir(), "coil-examples-"));
 let pass = 0;
 const failures = [];
@@ -76,20 +51,18 @@ for (const file of files) {
   for (let i = 0; i < lines.length; i++) {
     const m = lines[i].match(/^```coil\b\s*(.*)$/);
     if (!m) continue;
-    const info = m[1].trim().split(/\s+/).filter(Boolean);
-    const target = info.find((t) => t.startsWith("file="))?.slice(5);
-    const mode = info.find((t) => !t.includes("=")) || "run";
+    const { mode, file: target, challenge, check } = parseInfo(m[1]);
     const start = i + 1;
     let j = start;
     while (j < lines.length && !/^```\s*$/.test(lines[j])) j++;
     const code = lines.slice(start, j).join("\n");
     i = j;
-    if (mode === "ignore") continue;
+    if (mode === "ignore" || challenge || check) continue;
     if (target) {
       const path = join(project, target);
       mkdirSync(join(path, ".."), { recursive: true });
       writeFileSync(path, `${code}\n`, { flag: "a" });
-      if (!/^\s*fn\s+main\s*\(/m.test(code)) continue;
+      if (!hasMain(code)) continue;
     }
     // Expected output: a ```text block directly after, introduced by "Output".
     let expected;
@@ -103,7 +76,7 @@ for (const file of files) {
       expected = lines.slice(k + 1, e).join("\n");
     }
     // A file of `test("…") { … }` cases runs under `coil test`.
-    const isTest = !target && /^test\(/m.test(code);
+    const isTest = !target && isTestBlock(code);
     const src = isTest ? join(dir, "tests", "example.hy") : join(dir, "example.hy");
     if (isTest) mkdirSync(join(dir, "tests"), { recursive: true });
     if (!target) writeFileSync(src, isTest ? `${code}\n` : `${wrap(code)}\n`);

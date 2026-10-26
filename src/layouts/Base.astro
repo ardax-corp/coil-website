@@ -9,7 +9,7 @@ import Analytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
 import { REPO, RELEASES, SPOOL, STDLIB, INTERNALS } from "../lib/nav";
 
-export type Section = "home" | "docs" | "learn" | "reference" | "packages" | "blog" | "none";
+export type Section = "home" | "docs" | "learn" | "reference" | "packages" | "playground" | "blog" | "none";
 
 type Props = {
   title: string;
@@ -28,6 +28,7 @@ const nav: { href: string; label: string; key: Section }[] = [
   { href: "/docs/manual/getting-started", label: "Learn", key: "learn" },
   { href: "/docs/reference", label: "Reference", key: "reference" },
   { href: "/packages", label: "Packages", key: "packages" },
+  { href: "/playground", label: "Playground", key: "playground" },
   { href: "/blog", label: "Blog", key: "blog" },
 ];
 ---
@@ -132,6 +133,7 @@ const nav: { href: string; label: string; key: Section }[] = [
           <a href="/docs/manual/getting-started">Getting started</a>
           <a href="/docs/manual/tutorial/01-basics">Tutorial</a>
           <a href="/docs/manual/examples">Examples</a>
+          <a href="/playground">Playground</a>
           <a href="/docs/overview">Overview</a>
         </div>
         <div>

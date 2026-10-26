@@ -263,12 +263,110 @@ already in an object.
    > Let the generator run for ever and stop in the consumer: the `for`
    > loop `break`s at the first number that reaches 1000.
 
+   ```coil challenge=c12-1
+   use io::sync::{println};
+
+   gen fn fibonacci() {
+       yield 0;
+   }
+
+   fn main() {
+       for f in fibonacci() {
+           if f >= 1000 {
+               break;
+           }
+           println(show(f))?;
+       }
+   }
+   ```
+
+   ```coil check=c12-1
+   use tests::assert;
+   use solution::{fibonacci};
+
+   test("the first ten are 0, 1, 1, 2, 3, 5, 8, 13, 21, 34") {
+       let got: Vec<int> = [];
+       for f in fibonacci() {
+           if got.len() == 10 {
+               break;
+           }
+           got.push(f);
+       }
+       assert!(show(got) == "[0, 1, 1, 2, 3, 5, 8, 13, 21, 34]", "got " + show(got));
+   }
+
+   test("there are 17 below 1000, the last is 987") {
+       let below: Vec<int> = [];
+       for f in fibonacci() {
+           if f >= 1000 {
+               break;
+           }
+           below.push(f);
+       }
+       assert!(below.len() == 17 && below[16] == 987, "got " + show(below));
+   }
+   ```
+
 2. Write `gen fn lines_of(string text)` that yields one line at a time, and
    use it with a `take` like the one above to print the first two lines.
 
    > [!hint]
    > `take` above accepts a `coroutine<int>`. Lines are strings, so your
    > copy takes a `coroutine<string>`.
+
+   ```coil challenge=c12-2
+   use io::sync::{println};
+
+   gen fn lines_of(string text) {
+       // Yield one line at a time.
+   }
+
+   gen fn naturals() {
+       let n = 1;
+       while true {
+           yield n;
+           n++;
+       }
+   }
+
+   gen fn take(coroutine<int> source, int count) {
+       let left = count;
+       for x in source {
+           if left == 0 {
+               break;
+           }
+           yield x;
+           left--;
+       }
+   }
+
+   fn main() {
+       for line in take(lines_of("one\ntwo\nthree\nfour"), 2) {
+           println(line)?;
+       }
+   }
+   ```
+
+   ```coil check=c12-2
+   use tests::assert;
+   use solution::{lines_of, take};
+
+   test("lines_of yields every line") {
+       let got: Vec<string> = [];
+       for line in lines_of("one\ntwo\nthree") {
+           got.push(line);
+       }
+       assert!(show(got) == show(["one", "two", "three"]), "got " + show(got));
+   }
+
+   test("take(lines_of(…), 2) gives the first two lines") {
+       let got: Vec<string> = [];
+       for line in take(lines_of("one\ntwo\nthree\nfour"), 2) {
+           got.push(line);
+       }
+       assert!(show(got) == show(["one", "two"]), "got " + show(got));
+   }
+   ```
 
 3. Write a generator that receives words with `resume … with` and yields
    how many distinct words it has seen so far.
@@ -277,6 +375,51 @@ already in an object.
    > The first `resume` only starts the generator and runs it to its first
    > `yield`; the words you send after that arrive one per `yield`. A
    > `HashSet` (chapter 3) does the counting.
+
+   ```coil challenge=c12-3
+   use io::sync::{println};
+   use string::{format};
+   use collections::set::{HashSet};
+
+   gen fn distinct_words() {
+       // Receive words with `let w = yield …;` and yield how many distinct
+       // words came in so far.
+       yield 0;
+   }
+
+   fn main() {
+       let d = distinct_words();
+       resume d;
+       resume d with "a";
+       resume d with "b";
+       let n = resume d with "a";
+       println(format("%i distinct", n))?;
+   }
+   ```
+
+   ```coil check=c12-3
+   use tests::assert;
+   use solution::{distinct_words};
+
+   test("a, b, a are two distinct words") {
+       let d = distinct_words();
+       resume d;
+       let one = resume d with "a";
+       let two = resume d with "b";
+       let still_two = resume d with "a";
+       assert!(one == 1 && two == 2 && still_two == 2, "got " + show((one, two, still_two)));
+   }
+
+   test("each generator counts on its own") {
+       let d = distinct_words();
+       let e = distinct_words();
+       resume d;
+       resume e;
+       resume d with "x";
+       let n = resume e with "y";
+       assert!(n == 1);
+   }
+   ```
 
 4. Check something: add `let _ = println("made " + show(n));` before the
    `yield` in `naturals`, and run `take(naturals(), 3)`. How many numbers
@@ -287,12 +430,94 @@ already in an object.
    > still needs one. Checking `left` right after the `yield` stops the
    > loop before it pulls one value too many.
 
+   ```coil challenge=c12-4
+   use io::sync::{println};
+
+   gen fn naturals() {
+       let n = 1;
+       while true {
+           yield n;
+           n++;
+       }
+   }
+
+   gen fn take(coroutine<int> source, int count) {
+       let left = count;
+       for x in source {
+           if left == 0 {
+               break;
+           }
+           yield x;
+           left--;
+       }
+   }
+
+   fn main() {
+       for x in take(naturals(), 3) {
+           println(show(x))?;
+       }
+   }
+   ```
+
 5. Check something: print the value of the very first `resume avg` in the
    running average. What is `0.0 / 0.0`? Make the generator yield `0.0`
    until it has seen a number.
 
+   ```coil challenge=c12-5
+   use io::sync::{println};
+   use string::{format};
+
+   gen fn running_average() {
+       let total = 0.0;
+       let count = 0.0;
+       while true {
+           let x = yield total / count;
+           total += x;
+           count += 1.0;
+       }
+   }
+
+   fn main() {
+       let avg = running_average();
+       let first = resume avg;
+       println(format("first %f", first))?;
+   }
+   ```
+
+   ```coil check=c12-5
+   use tests::assert;
+   use solution::{running_average};
+
+   test("the first resume gives 0.0") {
+       let avg = running_average();
+       let first = resume avg;
+       assert!(first == 0.0, "got " + show(first));
+   }
+
+   test("then it averages: 10 and 20 give 15") {
+       let avg = running_average();
+       resume avg;
+       resume avg with 10.0;
+       let now = resume avg with 20.0;
+       assert!(now == 15.0, "got " + show(now));
+   }
+   ```
+
 6. Check something: make a generator that yields once, then `resume` it
    three times, printing `done(g)` after each. When does `done` turn
    `true`, and what happens on the third `resume`?
+
+   ```coil challenge=c12-6
+   use io::sync::{println};
+
+   gen fn once() {
+       yield 1;
+   }
+
+   fn main() {
+       let g = once();
+       // resume it three times, printing done(g) after each
+   }
+   ```
 
 Next: [Chapter 13 — Tasks](/docs/manual/tutorial/13-tasks).

@@ -283,6 +283,32 @@ protocols, see the [packages](/packages).
    > Count only the pieces that are not `""`. The byte count is the
    > string's `len()`.
 
+   ```coil challenge=c10-1
+   use io::sync::{println};
+   use io::file::{read_text};
+   use text::{Searchable, Text};
+   use string::{format};
+
+   fn main() {
+       let body = read_text("poem.txt")?;
+       let lines = 0;
+       let words = 0;
+       let bytes = 0;
+       // Count them.
+       println(format("%i lines, %i words, %i bytes", lines, words, bytes))?;
+   }
+   ```
+
+   ```text challenge=c10-1 file=poem.txt
+   The chambered  nautilus
+   spirals out,  one room
+   at a time.
+   ```
+
+   ```text expect=c10-1
+   3 lines, 10 words, 58 bytes
+   ```
+
 2. Read numbers from standard input, one per line, and print their sum.
    Skip lines that are not numbers (`conv::parse_int`) and report how many
    were skipped on standard error.
@@ -291,6 +317,34 @@ protocols, see the [packages](/packages).
    > Matching on `parse_int(line)` gives you an `Ok(n)` to add and an
    > `Err(_)` to count. An empty line is not a number either.
 
+   ```coil challenge=c10-2
+   use io::{stdin};
+   use io::sync::{println, eprintln, read_line};
+   use conv::{parse_int};
+   use string::{format};
+
+   fn main() {
+       let input = stdin();
+       let total = 0;
+       while let Some(line) = read_line(input)? {
+           // Add the numbers; count the lines that are not numbers.
+       }
+       println(format("%i", total))?;
+   }
+   ```
+
+   ```text challenge=c10-2 stdin
+   10
+   20
+   twelve
+
+   5
+   ```
+
+   ```text expect=c10-2
+   35
+   ```
+
 3. Copy every `.txt` file in a directory into a `backup/` subdirectory.
 
    > [!hint]
@@ -298,12 +352,65 @@ protocols, see the [packages](/packages).
    > yourself (`dir + "/" + name`). Create `backup/` before the loop, and
    > note that it shows up in `list_dir` too.
 
+   ```coil challenge=c10-3
+   use io::sync::{println};
+   use io::fs::{create_dir_all, list_dir, copy};
+   use text::{Searchable};
+   use collections::{sort};
+
+   fn main() {
+       let dir = "notes";
+       // Copy every .txt file in notes/ into notes/backup/.
+
+       for name in sort(list_dir(dir + "/backup")?) {
+           println(name)?;
+       }
+   }
+   ```
+
+   ```text challenge=c10-3 file=notes/monday.txt
+   water the plants
+   ```
+
+   ```text challenge=c10-3 file=notes/tuesday.txt
+   call Ada
+   ```
+
+   ```text challenge=c10-3 file=notes/ideas.md
+   # not a .txt file
+   ```
+
+   ```text expect=c10-3
+   monday.txt
+   tuesday.txt
+   ```
+
 4. Change the greeting program to greet every name it is given:
    `coil … greet.hy -- Ada Grace` prints two lines.
 
    > [!hint]
    > `args()` starts with the program's own name, so the names start at
    > index 1.
+
+   ```coil challenge=c10-4 args=Ada,Grace
+   use io::sync::{println, eprintln};
+   use env::{args, var, exit};
+
+   fn main() {
+       let argv = args().unwrap_or(Vec::new());
+       if argv.len() < 2 {
+           eprintln("usage: greet NAME")?;
+           exit(2);
+       }
+       let greeting = var("GREETING").unwrap_or("Hello");
+       println(greeting + ", " + argv[1])?;
+   }
+   ```
+
+   ```text expect=c10-4
+   Hello, Ada
+   Hello, Grace
+   ```
 
 5. Check something: run the file-reading example from this chapter without
    `-A`. Which flag does the error ask for, and which chain of calls does

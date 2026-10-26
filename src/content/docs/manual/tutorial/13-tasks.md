@@ -226,6 +226,31 @@ ever instead of twice; each connection costs one task, not one thread.
    > prints has nothing to hand back through `?`, so print with
    > `let _ = println(…);`.
 
+   ```coil challenge=c13-1
+   use io::sync::{println};
+   use task::{scope, Scope, sleep};
+
+   fn main() {
+       let r = scope(fn (Scope s) {
+           // Spawn ten tasks; task i sleeps (10 - i) * 10 ms, then prints i.
+           return 0;
+       });
+   }
+   ```
+
+   ```text expect=c13-1
+   9
+   8
+   7
+   6
+   5
+   4
+   3
+   2
+   1
+   0
+   ```
+
 2. Build a pipeline of three tasks connected by two channels: one produces
    the numbers 1 to 5, one squares them, one prints them.
 
@@ -234,8 +259,54 @@ ever instead of twice; each connection costs one task, not one thread.
    > The next stage's `while let Ok(…) = ch.recv()` only ends when its
    > channel is closed and empty.
 
+   ```coil challenge=c13-2
+   use io::sync::{println};
+   use task::{scope, Scope, channel, Channel};
+
+   fn main() {
+       let numbers: Channel<int> = channel(2);
+       let squares: Channel<int> = channel(2);
+       let r = scope(fn (Scope s) use (numbers, squares) {
+           // Three tasks: produce 1 to 5, square them, print them.
+           return 0;
+       });
+   }
+   ```
+
+   ```text expect=c13-2
+   1
+   4
+   9
+   16
+   25
+   ```
+
 3. Check something: take the `close` out of the squaring stage in your
    pipeline and run it again. What does Coil report instead of hanging?
+
+   ```coil challenge=c13-3
+   use io::sync::{println};
+   use task::{scope, Scope, channel, Channel};
+
+   fn main() {
+       let numbers: Channel<int> = channel(2);
+       let r = scope(fn (Scope s) use (numbers) {
+           s.spawn(fn () use (numbers) {
+               for n in 1..=5 {
+                   let _ = numbers.send(n);
+               }
+               // numbers.close();
+           });
+           s.spawn(fn () use (numbers) {
+               while let Ok(n) = numbers.recv() {
+                   let _ = println(show(n));
+               }
+           });
+           return 0;
+       });
+       println(show(r))?;
+   }
+   ```
 
 4. Change the echo server to serve three clients, and add a third client
    that sends `again`.
@@ -248,8 +319,47 @@ ever instead of twice; each connection costs one task, not one thread.
    > Tasks switch only where one of them waits, and printing to the
    > terminal does not wait. `yield_now()` is a deliberate wait.
 
+   ```coil challenge=c13-5
+   use io::sync::{println};
+   use task::{scope, Scope, yield_now};
+
+   fn main() {
+       let r = scope(fn (Scope s) {
+           s.spawn(fn () {
+               for i in 0..3 {
+                   let _ = println("busy " + show(i));
+               }
+           });
+           s.spawn(fn () {
+               let _ = println("other");
+           });
+           return 0;
+       });
+   }
+   ```
+
 6. Check something: in one scope, spawn a task that sleeps 50 ms and then
    prints, and another that sleeps 10 ms and panics. Does the sleeper ever
    print? What does `scope` return?
+
+   ```coil challenge=c13-6
+   use io::sync::{println};
+   use task::{scope, Scope, sleep};
+
+   fn main() {
+       let r = scope(fn (Scope s) {
+           s.spawn(fn () {
+               sleep(50);
+               let _ = println("the sleeper woke up");
+           });
+           s.spawn(fn () {
+               sleep(10);
+               panic "something broke";
+           });
+           return 0;
+       });
+       println(show(r))?;
+   }
+   ```
 
 Next: [Chapter 14 — Threads](/docs/manual/tutorial/14-threads).

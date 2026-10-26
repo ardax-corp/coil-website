@@ -1,6 +1,7 @@
 ---
 import type { MarkdownHeading } from "astro";
 import Base from "./Base.astro";
+import "../styles/playground.css";
 import NavTree from "../components/NavTree.astro";
 import {
   inlineCode,
@@ -26,6 +27,8 @@ const { href, title, description, headings, groups, source } = Astro.props;
 const here = locate(groups, href);
 const sourceRepo = source?.match(/github\.com\/[^/]+\/([^/]+)\/blob\/[0-9a-f]+\/(.+)$/);
 const track: Track = here?.group.track ?? "reference";
+// Pages whose examples the example checker runs get Run buttons.
+const runnable = /^\/docs\/(manual|language)\//.test(href);
 const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 const tutorial = groups.find((g) => g.key === "tutorial");
 
@@ -138,7 +141,7 @@ const pagerLabel = (item: NavLink) => {
         )
       }
 
-      <article class="prose">
+      <article class="prose" data-runnable={runnable ? "" : undefined}>
         <slot />
       </article>
 
@@ -273,6 +276,23 @@ const pagerLabel = (item: NavLink) => {
     );
     mark();
   }
+</script>
+
+<script>
+  // Run buttons and challenges load only on pages that have them.
+  const article = document.querySelector<HTMLElement>("article.prose[data-runnable]");
+  const init = async () => {
+    if (!article) return;
+    const { enhanceExamples } = await import("../lib/playground/docs-examples.mjs");
+    enhanceExamples(article);
+    if (article.querySelector(".challenge")) {
+      const { enhanceChallenges } = await import("../lib/playground/challenges.mjs");
+      enhanceChallenges(article);
+    }
+  };
+  // After DOMContentLoaded, so the code blocks already sit in their frames.
+  if (document.readyState === "complete") init();
+  else addEventListener("DOMContentLoaded", init, { once: true });
 </script>
 
 <style>

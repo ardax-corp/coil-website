@@ -173,6 +173,39 @@ documentation.
 1. Move `fizzbuzz` from chapter 1 into `src/fizz.hy` and call it from
    `src/main.hy`.
 
+   ```coil challenge=c09-1 file=src/main.hy
+   use io::sync::{println};
+   use fizz::{fizzbuzz};
+
+   fn main() {
+       for n in 1..=15 {
+           println(fizzbuzz(n))?;
+       }
+   }
+   ```
+
+   ```coil challenge=c09-1 file=src/fizz.hy
+   // fizzbuzz from chapter 1 goes here.
+   ```
+
+   ```text expect=c09-1
+   1
+   2
+   Fizz
+   4
+   Buzz
+   Fizz
+   7
+   8
+   Fizz
+   Buzz
+   11
+   Fizz
+   13
+   14
+   FizzBuzz
+   ```
+
 2. Add a `store/cart.hy` module with a `Cart` class that holds a
    `Vec<Item>` and has `add(Item item)` and `total_cents()` methods. Print
    the total of a cart with three lamps and four bulbs through
@@ -183,9 +216,81 @@ documentation.
    > `use store::item::{Item};`. Imports are per file; the one in
    > `main.hy` does not reach it.
 
+   ```coil challenge=c09-2 file=src/main.hy
+   use io::sync::{println};
+   use money::{format_cents};
+   use store::item::{Item};
+   use store::cart::{Cart};
+
+   fn main() {
+       let cart = Cart::new();
+       cart.add(new Item("lamp", 1999, 3));
+       cart.add(new Item("bulb", 250, 4));
+       println(format_cents(cart.total_cents()))?;
+   }
+   ```
+
+   ```coil challenge=c09-2 file=src/store/cart.hy
+   // The Cart class goes here.
+   ```
+
+   ```coil challenge=c09-2 file=src/money.hy
+   const CURRENCY = "EUR";
+
+   fn format_cents(int cents) -> string {
+       return show(cents / 100) + "." + show(cents % 100 / 10) + show(cents % 10) + " " + CURRENCY;
+   }
+   ```
+
+   ```coil challenge=c09-2 file=src/store/item.hy
+   class Item {
+       pub name: string,
+       pub price_cents: int,
+       pub quantity: int,
+   }
+
+   impl Item {
+       pub fn total_cents() -> int {
+           return self.price_cents * self.quantity;
+       }
+   }
+   ```
+
+   ```text expect=c09-2
+   69.97 EUR
+   ```
+
 3. Make two modules that both declare `fn parse(string s) -> int`, import
    both into `main.hy`, and rename them on import with `as` so they do not
    clash.
+
+   ```coil challenge=c09-3 file=src/main.hy
+   use io::sync::{println};
+   use csvish::{parse};
+   use kv::{parse};
+
+   fn main() {
+       println(show(parse("a,b,c")))?;
+       println(show(parse("a=1")))?;
+   }
+   ```
+
+   ```coil challenge=c09-3 file=src/csvish.hy
+   // How many comma-separated fields.
+   fn parse(string s) -> int {
+       return s.split(",").len();
+   }
+   ```
+
+   ```coil challenge=c09-3 file=src/kv.hy
+   // The value of a "key=number" pair.
+   use conv::{parse_int};
+
+   fn parse(string s) -> int {
+       let parts = s.split("=");
+       return parse_int(parts[1]).unwrap_or(0);
+   }
+   ```
 
 4. Check something: what does `format_cents(-150)` print? Fix it so that a
    negative amount comes out as `-1.50 EUR`.
@@ -195,8 +300,65 @@ documentation.
    > (chapter 2), so `-150 % 100` is `-50` and each digit comes out
    > negative. Handle the sign first, then format the positive amount.
 
+   ```coil challenge=c09-4 file=src/main.hy
+   use io::sync::{println};
+   use money::{format_cents};
+
+   fn main() {
+       println(format_cents(-150))?;
+       println(format_cents(150))?;
+       println(format_cents(-5))?;
+   }
+   ```
+
+   ```coil challenge=c09-4 file=src/money.hy
+   const CURRENCY = "EUR";
+
+   fn format_cents(int cents) -> string {
+       return show(cents / 100) + "." + show(cents % 100 / 10) + show(cents % 10) + " " + CURRENCY;
+   }
+   ```
+
+   ```text expect=c09-4
+   -1.50 EUR
+   1.50 EUR
+   -0.05 EUR
+   ```
+
 5. Check something: misspell a module in a `use` line and read the error.
    Then put `use store::item::{Itme};` with the item name misspelled
    instead. Does the compiler tell the two mistakes apart?
+
+   ```coil challenge=c09-5 file=src/main.hy
+   use io::sync::{println};
+   use money::{format_cents};
+   use store::item::{Itme};
+
+   fn main() {
+       println(format_cents(1999))?;
+   }
+   ```
+
+   ```coil challenge=c09-5 file=src/money.hy
+   const CURRENCY = "EUR";
+
+   fn format_cents(int cents) -> string {
+       return show(cents / 100) + "." + show(cents % 100 / 10) + show(cents % 10) + " " + CURRENCY;
+   }
+   ```
+
+   ```coil challenge=c09-5 file=src/store/item.hy
+   class Item {
+       pub name: string,
+       pub price_cents: int,
+       pub quantity: int,
+   }
+
+   impl Item {
+       pub fn total_cents() -> int {
+           return self.price_cents * self.quantity;
+       }
+   }
+   ```
 
 Next: [Chapter 10 — Files and input/output](/docs/manual/tutorial/10-files-and-io).
