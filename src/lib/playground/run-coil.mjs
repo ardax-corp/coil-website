@@ -3,9 +3,10 @@
 // playground, so both run programs the same way.
 //
 // The program's files sit at the root of an in-memory file system, which is
-// also the working directory, next to /stdlib (the standard library) and /tmp.
+// also the working directory, next to the standard library (STDLIB) and /tmp.
 // Nothing is persisted.
 
+import { STDLIB } from "./plan.mjs";
 import { ConsoleStdout, Directory, File, OpenFile, PreopenDirectory, WASI, WASIProcExit, strace, wasi as defs } from "@bjorn3/browser_wasi_shim";
 
 const encoder = new TextEncoder();
@@ -40,7 +41,7 @@ export function tree(files) {
  *   module   a compiled WebAssembly.Module
  *   stdlib   { "path.hy": source } of the standard library
  *   files    { "main.hy": source } of the program, at the root
- *   args     arguments after `coil`, e.g. ["--root", "/stdlib", "-A", "main.hy"]
+ *   args     arguments after `coil`, e.g. ["--root", STDLIB, "-A", "main.hy"]
  *   stdin    text the program reads from standard input
  *   onStdout, onStderr  called with each chunk of output text
  *
@@ -48,7 +49,8 @@ export function tree(files) {
  */
 export async function runCoil({ module, stdlib, files, args, stdin = "", onStdout, onStderr }) {
   const root = tree(files);
-  for (const [name, dir] of [["stdlib", tree(stdlib)], ["tmp", new Directory(new Map())]]) {
+  const lib = tree(Object.fromEntries(Object.entries(stdlib).map(([p, t]) => [`${STDLIB.slice(1)}/${p}`, t])));
+  for (const [name, dir] of [...lib.contents, ["tmp", new Directory(new Map())]]) {
     dir.parent = root;
     root.contents.set(name, dir);
   }

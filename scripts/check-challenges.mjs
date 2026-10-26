@@ -15,7 +15,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, 
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { parseInfo } from "../src/lib/examples.mjs";
-import { planRun } from "../src/lib/playground/plan.mjs";
+import { STDLIB, planRun } from "../src/lib/playground/plan.mjs";
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => {
@@ -90,7 +90,7 @@ function readSolution(id) {
 /** The command line the site uses for a set of files (see plan.mjs). */
 function programRun(files, c) {
   const plan = planRun(files);
-  const argv = plan.args.map((a) => (a === "/stdlib" ? stdlib : a));
+  const argv = plan.args.map((a) => (a === STDLIB ? stdlib : a));
   return run(plan.files, [...argv, ...(c.args ?? [])], c.stdin);
 }
 

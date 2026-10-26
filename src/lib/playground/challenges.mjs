@@ -5,7 +5,7 @@
 // The data comes from src/lib/remark-challenges.mjs.
 
 import { OutputPanel, runInto } from "./output.mjs";
-import { planRun } from "./plan.mjs";
+import { STDLIB, planRun } from "./plan.mjs";
 import { warmUp } from "./client.mjs";
 import { encodeShare } from "./share.mjs";
 
@@ -223,7 +223,7 @@ function setup(box, onSolved) {
         return;
       }
       const testFiles = { "src/solution.hy": files["main.hy"], "tests/check.hy": check };
-      const args = ["test", "--json", "--root", "/stdlib", "-A", "tests"];
+      const args = ["test", "--json", "--root", STDLIB, "-A", "tests"];
       panel.clear();
       const { result, stdout } = await runInto(panel, { files: testFiles, args, mode: "test", quiet: true });
       if (result.code === undefined) {

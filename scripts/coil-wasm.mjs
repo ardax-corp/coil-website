@@ -6,7 +6,7 @@
 //   node scripts/check-examples.mjs --coil scripts/coil-wasm.mjs …
 //
 // The working directory is copied in (it must be small), absolute paths under
-// it are made relative, and `--root DIR` becomes the in-memory /stdlib.
+// it are made relative, and `--root DIR` becomes the in-memory standard library.
 // The module comes from COIL_WASM, or the one sync-playground.mjs fetched.
 
 import { readdirSync, readFileSync, statSync } from "node:fs";
@@ -14,6 +14,7 @@ import { gunzipSync } from "node:zlib";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { runCoil } from "../src/lib/playground/run-coil.mjs";
+import { STDLIB } from "../src/lib/playground/plan.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -32,7 +33,7 @@ let stdlib = {};
 const i = args.indexOf("--root");
 if (i >= 0) {
   stdlib = walk(resolve(args[i + 1]));
-  args[i + 1] = "/stdlib";
+  args[i + 1] = STDLIB;
 }
 const mapped = args.map((a) => (a.startsWith(`${cwd}/`) ? relative(cwd, a) : a));
 
