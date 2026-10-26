@@ -361,6 +361,36 @@ FizzBuzz
    > `if a > b { return a; }` there still has to be a `return` for the
    > other case.
 
+   ```coil challenge=c01-1
+   use io::sync::{println};
+   use string::{format};
+
+   fn max(int a, int b) -> int {
+       return a;
+   }
+
+   fn main() {
+       println(format("%i %i", max(3, 9), max(-2, -7)))?;
+   }
+   ```
+
+   ```coil check=c01-1
+   use tests::assert;
+   use solution::{max};
+
+   test("max(3, 9) is 9") {
+       assert!(max(3, 9) == 9);
+   }
+
+   test("max(-2, -7) is -2") {
+       assert!(max(-2, -7) == -2);
+   }
+
+   test("max(5, 5) is 5") {
+       assert!(max(5, 5) == 5);
+   }
+   ```
+
 2. Print the first 10 Fibonacci numbers (0, 1, 1, 2, 3, 5, …) with a
    `while` loop.
 
@@ -369,6 +399,27 @@ FizzBuzz
    > before you overwrite either of them: `let next = a + b;` inside the
    > loop is fine, it only lives until the end of that round.
 
+   ```coil challenge=c01-2
+   use io::sync::{println};
+
+   fn main() {
+       // Print each number on its own line: 0, 1, 1, 2, 3, …
+   }
+   ```
+
+   ```text expect=c01-2
+   0
+   1
+   1
+   2
+   3
+   5
+   8
+   13
+   21
+   34
+   ```
+
 3. Change FizzBuzz to read the upper limit from a variable, and print `Fizz`
    for multiples of 7 instead of 3. Run it up to 35 and check the last line.
 
@@ -376,13 +427,116 @@ FizzBuzz
    > The checks run top to bottom and the first `return` wins. The
    > "both" case is now multiples of 35, and it has to come first.
 
+   ```coil challenge=c01-3
+   use io::sync::{println};
+   use string::{format};
+
+   fn fizzbuzz(int n) -> string {
+       if n % 15 == 0 {
+           return "FizzBuzz";
+       }
+       if n % 3 == 0 {
+           return "Fizz";
+       }
+       if n % 5 == 0 {
+           return "Buzz";
+       }
+       return format("%i", n);
+   }
+
+   fn main() {
+       for n in 1..=15 {
+           println(fizzbuzz(n))?;
+       }
+   }
+   ```
+
+   ```text expect=c01-3
+   1
+   2
+   3
+   4
+   Buzz
+   6
+   Fizz
+   8
+   9
+   Buzz
+   11
+   12
+   13
+   Fizz
+   Buzz
+   16
+   17
+   18
+   19
+   Buzz
+   Fizz
+   22
+   23
+   24
+   Buzz
+   26
+   27
+   Fizz
+   29
+   Buzz
+   31
+   32
+   33
+   34
+   FizzBuzz
+   ```
+
 4. Every number in the Collatz loop from this chapter eventually reaches 1.
    Move the loop into `fn steps(int n) -> int` and find the number below
    100 that takes the most steps.
 
+   ```coil challenge=c01-4
+   use io::sync::{println};
+   use string::{format};
+
+   fn steps(int n) -> int {
+       // Move the Collatz loop here and return how many steps it took.
+       return 0;
+   }
+
+   fn main() {
+       println(format("27 reaches 1 after %i steps", steps(27)))?;
+   }
+   ```
+
+   ```coil check=c01-4
+   use tests::assert;
+   use solution::{steps};
+
+   test("27 takes 111 steps") {
+       assert!(steps(27) == 111);
+   }
+
+   test("1 takes no steps") {
+       assert!(steps(1) == 0);
+   }
+
+   test("6 takes 8 steps") {
+       assert!(steps(6) == 8);
+   }
+
+   test("below 100, 97 takes the most steps (118)") {
+       let best = 1;
+       for n in 1..100 {
+           if steps(n) > steps(best) {
+               best = n;
+           }
+       }
+       assert!(best == 97 && steps(97) == 118);
+   }
+   ```
+
 5. Check something: predict what this prints, then run it.
 
-   ```coil
+   ```coil challenge=c01-5
    use io::sync::{println};
 
    fn main() {
@@ -405,5 +559,17 @@ FizzBuzz
 6. Check something: write a function with three `defer` blocks that print
    `one`, `two` and `three`, and a line after them that prints `working`.
    In which order do the four lines appear?
+
+   ```coil challenge=c01-6
+   use io::sync::{println};
+
+   fn work() {
+       // Three defer blocks printing one, two and three, then print working.
+   }
+
+   fn main() {
+       work();
+   }
+   ```
 
 Next: [Chapter 2 — Types and variables](/docs/manual/tutorial/02-types-and-variables).

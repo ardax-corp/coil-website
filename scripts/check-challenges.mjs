@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 // Check the tutorial challenges (see src/lib/remark-challenges.mjs): every
-// challenge needs a reference solution in scripts/challenges/<id>.hy, and the
-// solution must pass the challenge's hidden check the way the site runs it.
+// challenge with a check or expected output needs a reference solution in
+// scripts/challenges/<id>.hy that passes it the way the site runs it, and a
+// starter that does not pass it yet.
 //
 //   node scripts/check-challenges.mjs --coil ../coil-lang/target/release/coil \
 //     --stdlib ../coil-stdlib/src src/content/docs/manual/tutorial/*.md
 //
 // Pass `--coil scripts/coil-wasm.mjs` to check with the playground's own
-// WebAssembly build. Also checks that each starter compiles or fails only
-// where it should (a starter may leave a function body for the reader).
+// WebAssembly build.
 
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -74,6 +74,11 @@ for (const file of args) {
       continue;
     }
     const solPath = join(solutions, `${c.id}.hy`);
+    // Explore-and-see challenges (no check) need no reference solution.
+    if (!c.check && c.expect === undefined && !existsSync(solPath)) {
+      pass++;
+      continue;
+    }
     if (!existsSync(solPath)) {
       fail(`no reference solution (${solPath})`);
       continue;
