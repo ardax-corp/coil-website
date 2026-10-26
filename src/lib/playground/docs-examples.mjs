@@ -75,7 +75,7 @@ function enhance(pre, info, program) {
       }
       if (expected !== undefined && result.code === 0 && !editor) {
         const same = stdout.trimEnd() === expected.trimEnd();
-        panel.status(same ? "Finished: the output matches the expected output above." : "Finished, but the output differs from the expected output.", same ? "ok" : "fail");
+        panel.status(same ? "Finished: the output matches the expected output below." : "Finished, but the output differs from the expected output below.", same ? "ok" : "fail");
       }
     } finally {
       run.disabled = false;

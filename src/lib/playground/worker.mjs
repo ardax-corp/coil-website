@@ -7,7 +7,9 @@ import { runCoil } from "./run-coil.mjs";
 let loaded;
 
 async function load() {
-  const manifest = await (await fetch("/playground/manifest.json")).json();
+  const res = await fetch("/playground/manifest.json");
+  if (!res.ok) throw new Error("the compiler is not part of this build of the site");
+  const manifest = await res.json();
   const wasm = fetch(`/playground/${manifest.wasm}`).then(async (res) => {
     if (!res.ok) throw new Error(`compiler download failed (HTTP ${res.status})`);
     // Gzipped by sync-playground.mjs; a server that already undid that (by
