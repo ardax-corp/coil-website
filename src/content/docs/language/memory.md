@@ -178,16 +178,20 @@ few objects still alive. Most objects die young, so a minor collection
 touches little memory, and the full collector runs far less often.
 Regions are built on it. The nursery is on by default. Programs that make many short-lived objects run faster with it;
 programs that keep large structures alive across many collections can run
-slower, and `COIL_NURSERY=0` turns it off (regions then run as plain
+slower, and `--nursery off` turns it off (regions then run as plain
 blocks).
 
 ## Switches
 
-These environment variables change the behaviour at run time, for
-measuring and debugging:
+Early freeing follows the optimization level: on at `-O1` and above, off
+at `-O0` and `-Og`, where frames should match the source for the debugger.
+Two flags change the defaults, for measuring and debugging:
 
-| Variable | Effect |
+| Flag | Effect |
 | --- | --- |
-| `COIL_EARLY_FREE=0` | Compile no early frees and free nothing early at run time |
-| `COIL_EARLY_FREE=check` | Compile the frees but free nothing; at the next collection, abort if a freed object was still reachable |
-| `COIL_NURSERY=0` / `=1` | Turn the nursery off or on |
+| `--early-free on` / `off` | Compile the early frees, or not, whatever the `-O` level |
+| `--early-free check` | Compile the frees, but free nothing when the program runs; at the next collection, abort if a freed object was still reachable |
+| `--nursery on` / `off` | Turn the nursery on (the default) or off for `coil FILE`, `coil run` and `coil test` |
+
+`coil FILE` and `coil test` take both flags. `coil compile`, `coil package`
+and `coil dissect` take `--early-free`, and `coil run` takes `--nursery`.

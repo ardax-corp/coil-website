@@ -41,7 +41,7 @@ A stated fact that stops holding after a later change fails the build with
 
 ## Early freeing
 
-With the facts in hand, the compiler frees:
+With the facts in hand, the compiler frees (at `-O1` and above):
 
 - a local nothing else can reach, where its block ends or before a `return`;
 - a call's fresh result right after the call, when the callee kept none of it;
@@ -100,7 +100,7 @@ build with the nursery off and on:
 The nursery is not free. Programs that keep large structures alive across
 many collections pay for copying them before they settle, up to about 20%
 on our benches. We kept it on by default because short-lived garbage is
-the common case, and it can be turned off.
+the common case; `--nursery off` turns it off.
 
 ## What we did not do
 
