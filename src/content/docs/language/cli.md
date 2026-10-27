@@ -41,6 +41,8 @@ subcommand they go after it: `coil compile --root ../coil-stdlib/src app.hy`.
 | `-O0` … `-O3`, `-Os`, `-Og` | Optimization level; `-O2` by default. |
 | `-g0`, `-g1`, `-g2` | How much debug information to keep. `-g2` (the default) gives panics full locations and is needed by `coil debug` and coverage. `--strip-debug` is `-g0`. |
 | `--contracts all\|requires\|off` | Which [contract](/docs/language/contracts) checks run. |
+| `--auto-par on\|off` | Automatic fork-join of pure recursive calls and counted loops (`on` by default). `off` keeps a program sequential, for example for fair benchmark timing. |
+| `--fold-calls on\|off` | Compute pure calls with constant arguments at compile time (`on` by default at `-O2` and above). |
 | `--comptime-read PATH`, `--comptime-net HOST`, … | What [compile-time code](/docs/language/comptime) may touch. |
 | `--no-build-cache` | Compile even if the [build cache](#build-cache) holds the program. |
 
