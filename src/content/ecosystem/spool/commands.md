@@ -136,8 +136,7 @@ Allow dependency `<name>`'s [include hook](/packages/spool#include-hooks) to run
 | `COIL_STDLIB_REPO` | The coil-stdlib URL `spool new` / `spool init` write into new projects (default `https://github.com/ardax-corp/coil-stdlib.git`) |
 | `SPOOL_PROJECT` | The project root. Otherwise the nearest directory upward holding `coil.toml`. Scripts and include hooks see it set to the consumer |
 | `SPOOL_IGNORE_SCRIPTS` | `0` opts in to scripts like `--enable-scripts`; default `1` (off) |
-| `COIL_CACHE_DIR` | Git cache root. Otherwise `[cache] dir` in `~/.config/coil/config.toml`, then `$XDG_CACHE_HOME/coil` or `~/.cache/coil` |
-| `COIL_NATIVES_DIR` | Native library cache root (default `~/.coil/natives`) |
+| `XDG_CACHE_HOME` | Git cache root is `$XDG_CACHE_HOME/coil` (else `~/.cache/coil`), unless `[cache] dir` in `~/.config/coil/config.toml` sets it |
 | `GIT_SSH_COMMAND`, `GIT_ASKPASS`, `SSH_ASKPASS` | Passed through to `git` for [private repositories](/packages/spool#private-git) |
 
 ---

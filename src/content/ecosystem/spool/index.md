@@ -56,7 +56,7 @@ exe) are fetched into a content-addressed cache:
 ~/.coil/natives/cache/<package>/<version>/<sha256_16>/<filename>
 ```
 
-Override the root with `COIL_NATIVES_DIR`. Only **direct** `dload` targets are
+A packaged app looks for its libraries there too. Only **direct** `dload` targets are
 downloaded; transitive sonames (`requires`) must come from the OS.
 
 ```bash
@@ -277,10 +277,7 @@ This path does not fetch a `.so` or write `[ffi] search_paths`.
 
 Default root: `$XDG_CACHE_HOME/coil` or `~/.cache/coil`.
 
-Override:
-
-- Env: `COIL_CACHE_DIR` (wins)
-- File: `~/.config/coil/config.toml` → `[cache] dir = "…"`
+Override: `~/.config/coil/config.toml` → `[cache] dir = "…"`.
 
 Layout:
 

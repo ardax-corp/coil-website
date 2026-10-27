@@ -244,7 +244,7 @@ rm -rf ~/.cache/coil          # spool's shared git cache (or $XDG_CACHE_HOME/coi
 rm -rf ~/.config/coil         # spool's config file, if you created one
 ```
 
-If you moved any of these with `COIL_HOME`, `COIL_CACHE_DIR` or
-`COIL_NATIVES_DIR`, remove those directories instead, and drop the `PATH`
+If you moved any of these with `COIL_HOME` or `XDG_CACHE_HOME`, remove
+those directories instead, and drop the `PATH`
 lines from your shell's startup file. Inside projects, `spool clean --all`
 removes `target/` and `.spool/`.

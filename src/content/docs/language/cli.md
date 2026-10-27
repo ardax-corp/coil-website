@@ -69,8 +69,7 @@ Test blocks (`test("…") { … }`) are left out of `coil compile` and
 ## Build cache {#build-cache}
 
 `coil <file.hy>` and `coil compile` keep each compiled program in
-`~/.cache/coil/build` (or `$COIL_CACHE_DIR/build`, or
-`$XDG_CACHE_HOME/coil/build`). When you run or compile the same file again
+`~/.cache/coil/build` (or `$XDG_CACHE_HOME/coil/build`). When you run or compile the same file again
 and nothing it was built from changed, coil loads the stored program
 instead of compiling. A small program that uses the stdlib reruns in a few
 milliseconds.
