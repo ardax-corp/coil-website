@@ -29,9 +29,9 @@ musl Linux and Windows), tagged releases, updating and uninstalling.
 ### From the release binaries
 
 Set `TRIPLE` to your platform: `x86_64-unknown-linux-gnu`,
-`aarch64-unknown-linux-gnu` or `aarch64-apple-darwin`. On Alpine and other
-musl systems, macOS on Intel or Windows, follow the matching section of
-[Installing spool](/packages/spool/install#platforms) instead.
+`aarch64-unknown-linux-gnu`, `x86_64-unknown-linux-musl` (Alpine) or
+`aarch64-apple-darwin`. On macOS on Intel or Windows, follow the matching
+section of [Installing spool](/packages/spool/install#platforms) instead.
 
 **1. spool.** Download it from the
 [spool edge release](https://github.com/ardax-corp/spool/releases/tag/edge),
@@ -60,8 +60,8 @@ It downloads the coil toolkit for your platform from the
 refuses it unless it matches the release's `SHA256SUMS`, and unpacks it into
 `~/.coil/bin` with its helpers (`coil-fmt`, `coil-test`, …) next to `coil`.
 Then it clones the standard library into `~/.coil/stdlib`. Run it again to
-update coil and the stdlib. `--channel edge` is needed until coil has a
-tagged release: the default channel, `stable`, is the newest tagged release.
+update coil and the stdlib. Without `--channel`, spool uses the newest
+tagged release (`stable`), and falls back to `edge` while coil has none.
 
 **3. Check.** Put both directories on your `PATH`:
 
