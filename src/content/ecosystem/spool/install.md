@@ -31,9 +31,9 @@ Both spool and coil-lang publish two kinds of release:
   `…/releases/latest/download/<archive>` always points at the newest one.
 
 **Neither spool nor coil-lang has a tagged release yet**, so today every
-install comes from `edge`. In particular `spool setup` defaults to the
-`stable` channel (the newest tagged coil-lang release) and fails with a 404
-until one exists; pass `--channel edge` as shown below.
+install comes from `edge`. `spool setup` defaults to the `stable` channel
+(the newest tagged coil-lang release); while there is none, it says so and
+uses `edge` instead. The steps below pass `--channel edge` explicitly.
 
 Every release also carries a `SHA256SUMS` file listing the checksum of each
 archive. Check your download against it; `spool setup` refuses a coil archive
@@ -45,7 +45,7 @@ that does not match.
 |----------|---------------|--------------|---------------|
 | Linux x86-64, glibc | `spool-x86_64-unknown-linux-gnu.tar.gz` | `coil-x86_64-unknown-linux-gnu.tar.gz` | yes |
 | Linux ARM64, glibc | `spool-aarch64-unknown-linux-gnu.tar.gz` | `coil-aarch64-unknown-linux-gnu.tar.gz` | yes |
-| Linux x86-64, musl (Alpine) | `spool-x86_64-unknown-linux-musl.tar.gz` | `coil-x86_64-unknown-linux-musl.tar.gz` | stdlib only; coil [by hand](#linux-musl-alpine) |
+| Linux x86-64, musl (Alpine) | `spool-x86_64-unknown-linux-musl.tar.gz` | `coil-x86_64-unknown-linux-musl.tar.gz` | yes |
 | macOS, Apple silicon | `spool-aarch64-apple-darwin.tar.gz` | `coil-aarch64-apple-darwin.tar.gz` | yes |
 | macOS, Intel | none | none | build [from source](#from-source) |
 | Windows x86-64 | none, use [WSL](#windows) | `coil-x86_64-pc-windows-gnu.zip` | no |
@@ -58,7 +58,7 @@ beside its own executable. Each coil archive holds one directory,
 Not sure which Linux you have? `ldd --version 2>&1 | head -n 1` mentions
 `musl` on a musl system; anything else is glibc.
 
-## Linux (glibc) and macOS
+## Linux and macOS
 
 You need `curl`, `tar` and `git` (spool clones the stdlib and your git
 dependencies with it).
@@ -66,14 +66,15 @@ dependencies with it).
 **1. Download and check spool.** Set `TRIPLE` to your row of the table:
 
 ```bash
-TRIPLE=x86_64-unknown-linux-gnu   # or aarch64-unknown-linux-gnu, aarch64-apple-darwin
+TRIPLE=x86_64-unknown-linux-gnu   # or aarch64-unknown-linux-gnu, x86_64-unknown-linux-musl, aarch64-apple-darwin
 BASE=https://github.com/ardax-corp/spool/releases/download/edge
 cd "$(mktemp -d)"
 curl -fLO "$BASE/spool-$TRIPLE.tar.gz" -O "$BASE/SHA256SUMS"
 grep " spool-$TRIPLE.tar.gz\$" SHA256SUMS | sha256sum -c -
 ```
 
-On macOS, use `shasum -a 256 -c -` in place of `sha256sum -c -`. The check
+On macOS, use `shasum -a 256 -c -` in place of `sha256sum -c -`. On Alpine,
+install the tools first with `apk add curl tar git`. The check
 prints `spool-<triple>.tar.gz: OK`; stop if it does not.
 
 **2. Unpack it onto your `PATH`.** Unpack the whole archive, so `libprocess`
@@ -90,7 +91,8 @@ tar xzf "spool-$TRIPLE.tar.gz" -C ~/.local/bin
 ~/.local/bin/spool setup --channel edge
 ```
 
-`spool setup` picks the coil archive for your machine from the coil-lang
+`spool setup` picks the coil archive for your machine (the musl one on a
+musl system) from the coil-lang
 release of that channel, checks it against the release's `SHA256SUMS`,
 unpacks it into `~/.coil/bin`, and runs `coil --version` on it before
 swapping it in. It then shallow-clones coil-stdlib's default branch and puts
@@ -100,7 +102,7 @@ complete, so a failed download leaves your previous install working.
 | Option | Effect |
 |--------|--------|
 | `--channel edge` | the rolling coil-lang `edge` release |
-| `--channel stable` (default) | the newest tagged coil-lang release (none exists yet) |
+| `--channel stable` (default) | the newest tagged coil-lang release; with no `--channel` or `COIL_CHANNEL` it falls back to `edge` while none exists |
 | `--channel v0.3.0` | that tagged release |
 | `--coil-only` / `--stdlib-only` | do one half |
 | `COIL_CHANNEL=edge` | the channel, when `--channel` is not given |
@@ -108,42 +110,11 @@ complete, so a failed download leaves your previous install working.
 
 **4. Put it on your `PATH`** and [verify](#verify) the install.
 
-## Linux (musl, Alpine)
-
-The musl spool runs on Alpine and other musl distributions, but
-`spool setup` does not yet pick the musl coil archive, so fetch coil by hand
-and let spool do the stdlib. With `curl`, `tar` and `git` installed
-(`apk add curl tar git`):
-
-```bash
-TRIPLE=x86_64-unknown-linux-musl
-SPOOL=https://github.com/ardax-corp/spool/releases/download/edge
-COIL=https://github.com/ardax-corp/coil-lang/releases/download/edge
-cd "$(mktemp -d)"
-
-# spool
-curl -fLO "$SPOOL/spool-$TRIPLE.tar.gz" -o spool.sums "$SPOOL/SHA256SUMS"
-grep " spool-$TRIPLE.tar.gz\$" spool.sums | sha256sum -c -
-mkdir -p ~/.local/bin && tar xzf "spool-$TRIPLE.tar.gz" -C ~/.local/bin
-
-# coil
-curl -fLO "$COIL/coil-$TRIPLE.tar.gz" -o coil.sums "$COIL/SHA256SUMS"
-grep " coil-$TRIPLE.tar.gz\$" coil.sums | sha256sum -c -
-mkdir -p ~/.coil/bin && tar xzf "coil-$TRIPLE.tar.gz" -C ~/.coil/bin --strip-components=1
-
-# stdlib
-~/.local/bin/spool setup --stdlib-only
-```
-
-`--strip-components=1` drops the archive's `coil-<triple>/` directory, so
-`coil` ends up at `~/.coil/bin/coil`, where spool looks for it. Then set your
-[`PATH`](#path) and [verify](#verify).
-
 ## Windows
 
 spool does not run natively on Windows yet: it drives `git` and other tools
 through a POSIX `sh`. Use [WSL](https://learn.microsoft.com/windows/wsl/install)
-and follow the [Linux (glibc)](#linux-glibc-and-macos) steps inside it; that
+and follow the [Linux](#linux-and-macos) steps inside it; that
 gives you the full toolchain.
 
 The coil toolkit itself does have a Windows build,
@@ -163,9 +134,10 @@ git clone --depth 1 https://github.com/ardax-corp/coil-stdlib.git stdlib
 
 Add `%USERPROFILE%\.coil\bin` to your user `PATH` (Settings → System → About
 → Advanced system settings → Environment Variables). Without spool, pass the
-stdlib yourself: `coil --root $HOME\.coil\stdlib\src hello.hy`. Use
-`tar -xf` rather than Explorer's "Extract all": the archive unpacks with
-Windows' built-in `tar` whichever way it is packed.
+stdlib yourself: `coil --root $HOME\.coil\stdlib\src hello.hy`.
+`tar -xf` is Windows' built-in `tar`; use it rather than Explorer's
+"Extract all", since edge archives built before coil-lang#2051 are a tar
+under the `.zip` name.
 
 ## From source
 
@@ -241,12 +213,11 @@ depending on what you want newer:
 | To update | Run |
 |-----------|-----|
 | coil and the stdlib | `spool setup --channel edge` again (`--coil-only` / `--stdlib-only` for one half) |
-| spool itself | repeat [steps 1 and 2](#linux-glibc-and-macos): download the new archive and unpack it over the old one |
+| spool itself | repeat [steps 1 and 2](#linux-and-macos): download the new archive and unpack it over the old one |
 | a project's dependencies | `spool update` (or `spool update NAME`) inside the project; see [Commands](/packages/spool/commands) |
 
 `spool setup` always downloads again, so re-running it moves you to the
-current `edge` snapshot (or to whichever tag you name). On musl, update coil
-by repeating the manual download. `spool outdated` shows which dependencies
+current `edge` snapshot (or to whichever tag you name). `spool outdated` shows which dependencies
 have newer versions; it does not check spool or coil.
 
 ## Custom locations
