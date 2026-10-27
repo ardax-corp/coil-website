@@ -20,18 +20,24 @@ Coil comes in three parts:
 - **spool**, the project manager. It creates projects, fetches dependencies
   and runs `coil` with the right flags.
 
-The binaries come from the `edge` releases. Coil has no stable release yet;
+The binaries come from the `edge` releases. Coil has no tagged release yet;
 `edge` is a snapshot rebuilt from the main branch after every green CI run.
+The steps below are the short version for Linux and macOS.
+[Installing spool](/packages/spool/install) has every platform (including
+musl Linux and Windows), tagged releases, updating and uninstalling.
 
 ### From the release binaries
 
 Set `TRIPLE` to your platform: `x86_64-unknown-linux-gnu`,
-`aarch64-unknown-linux-gnu` or `aarch64-apple-darwin`. spool has no build for
-macOS on Intel, musl Linux or Windows yet.
+`aarch64-unknown-linux-gnu` or `aarch64-apple-darwin`. On Alpine and other
+musl systems, macOS on Intel or Windows, follow the matching section of
+[Installing spool](/packages/spool/install#platforms) instead.
 
 **1. spool.** Download it from the
 [spool edge release](https://github.com/ardax-corp/spool/releases/tag/edge),
-check it against `SHA256SUMS` and put it on your `PATH`:
+check it against `SHA256SUMS` and unpack it onto your `PATH`. The archive
+holds `spool` and the `libprocess` library it loads from beside itself, so
+unpack both:
 
 ```bash
 TRIPLE=x86_64-unknown-linux-gnu
@@ -39,7 +45,7 @@ BASE=https://github.com/ardax-corp/spool/releases/download/edge
 mkdir -p ~/.local/bin && cd "$(mktemp -d)"
 curl -fLO "$BASE/spool-$TRIPLE.tar.gz" -O "$BASE/SHA256SUMS"
 grep " spool-$TRIPLE.tar.gz\$" SHA256SUMS | sha256sum -c -    # macOS: shasum -a 256 -c -
-tar xzf "spool-$TRIPLE.tar.gz" -C ~/.local/bin spool
+tar xzf "spool-$TRIPLE.tar.gz" -C ~/.local/bin
 ```
 
 **2. coil and the standard library.** spool fetches both into `~/.coil`,
@@ -54,12 +60,8 @@ It downloads the coil toolkit for your platform from the
 refuses it unless it matches the release's `SHA256SUMS`, and unpacks it into
 `~/.coil/bin` with its helpers (`coil-fmt`, `coil-test`, …) next to `coil`.
 Then it clones the standard library into `~/.coil/stdlib`. Run it again to
-update. `--coil-only` and `--stdlib-only` do one half.
-
-On Windows, the coil release has an x86-64 build
-(`coil-x86_64-pc-windows-gnu.zip`), but spool does not run there yet. The
-release also has a musl build of coil for Linux (`x86_64-unknown-linux-musl`),
-which `spool setup` does not install; unpack it by hand.
+update coil and the stdlib. `--channel edge` is needed until coil has a
+tagged release: the default channel, `stable`, is the newest tagged release.
 
 **3. Check.** Put both directories on your `PATH`:
 
