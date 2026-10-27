@@ -290,6 +290,12 @@ Layout:
     <tree-id>/               # detached worktree
 ```
 
+Checkouts are keyed by git tree id, so each version of a package gets its own checkout and every project that locks the same content shares one. Each project links `.spool/deps/<name>` to the checkout its `coil.lock` names, so projects on different versions of a dependency (the stdlib included, when it is [declared as one](/packages/spool/manifest#pinning-the-stdlib)) never see each other's.
+
+Several projects can install at the same time. spool holds `<host>/<owner>/<repo>.lock` while it fetches into a bare clone or adds a checkout, and moves each checkout into place only once it is complete. A lock left behind by a spool that was killed is taken over; a waiter gives up after ten minutes.
+
+`spool cache clean` removes the whole git cache, including checkouts other projects link to; run `spool install` in those projects afterwards.
+
 ## Develop
 
 ```bash

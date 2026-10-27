@@ -123,9 +123,20 @@ diamond conflict for msgpack: app requires ^0.1, wrap requires latest
 
 ## `[module].roots`
 
-spool passes each `[module].roots` entry (default `./src`) to `coil` as `--root`. It links every dependency under `.spool/deps/<name>` (to the package's `src/`) plus `.spool/deps/<name>.hy` when that file exists, and passes `--root .spool/deps` once dependencies are linked, then the stdlib unless a root already is one, then each dependency's `src/`. `use toml::{Toml}` resolves through the file link and `use greet::hello` through the directory link. The `src/` roots resolve a package's own modules the way it does in its own repo: `use tls::client` (`src/tls/client.hy`), `use http::url`, and second top-level modules such as coil-sdl's `use simd`. They come after the stdlib, so a dependency never shadows a stdlib module.
+spool passes each `[module].roots` entry (default `./src`) to `coil` as `--root`. It links every dependency under `.spool/deps/<name>` (to the package's `src/`) plus `.spool/deps/<name>.hy` when that file exists, and passes `--root .spool/deps` once dependencies are linked, then the stdlib (see [Pinning the stdlib](#pinning-the-stdlib)), then each dependency's `src/`. `use toml::{Toml}` resolves through the file link and `use greet::hello` through the directory link. The `src/` roots resolve a package's own modules the way it does in its own repo: `use tls::client` (`src/tls/client.hy`), `use http::url`, and second top-level modules such as coil-sdl's `use simd`. They come after the stdlib, so a dependency never shadows a stdlib module.
 
 Do not add `.spool/deps/<name>` to `[module].roots` for this; an existing entry like that still works but is no longer needed. spool never edits `coil.toml`.
+
+### Pinning the stdlib
+
+By default every project compiles against the one global stdlib: `COIL_STDLIB_DIR`, `COIL_STDLIB`, `[stdlib] dir` in `~/.config/coil/config.toml`, or `~/.coil/stdlib` (what `spool setup` installs). To give a project its own stdlib version, declare it like any other git dependency:
+
+```toml
+[dependencies]
+stdlib = { git = "https://github.com/ardax-corp/coil-stdlib.git", rev = "<full commit sha>" }
+```
+
+spool locks it in `coil.lock`, checks it out into the shared cache, and passes that checkout as the project's stdlib instead of the global one. Two projects that pin different versions each build against their own; projects on the same commit share one checkout. A `[module].roots` entry that is a stdlib still takes precedence over both.
 
 ---
 
