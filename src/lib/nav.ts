@@ -104,7 +104,7 @@ export const groups: NavGroup[] = [
       { id: "language/comptime", label: "Compile-time code", hint: "Computed `const`s, `comptime` and IO grants." },
       { id: "language/effects", label: "Effects", hint: "`pure fn`, `uses {…}` and inferred effects." },
       { id: "language/contracts", label: "Contracts", hint: "`requires`, `ensures`, invariants and `--contracts` levels." },
-      { id: "language/memory", label: "Memory", hint: "Early freeing, escape facts and `region` blocks." },
+      { id: "language/memory", label: "Memory", hint: "The collector, the nursery, early freeing and `region` blocks." },
       { id: "language/permissions", label: "Permissions", hint: "`--allow-read`, `--allow-net` and the reachability check." },
       { id: "language/panic", label: "Panics", hint: "`panic` and what aborts a program." },
       { id: "language/done", label: "done", hint: "Has a coroutine finished?" },

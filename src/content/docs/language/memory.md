@@ -1,18 +1,55 @@
 ---
-title: "Memory: early freeing and regions"
-description: "Coil frees memory with a tracing garbage collector, and the compiler frees what it can prove dead sooner. region blocks free a unit of work in one go, checked by the compiler."
+title: "Memory management"
+description: "How Coil manages memory: a tracing garbage collector as the backstop, a nursery for young objects, early freeing the compiler proves safe, and checked region blocks."
 ---
 
-# Memory: early freeing and regions
+# Memory management
 
-Coil programs never free memory by hand. A tracing garbage collector
-reclaims whatever the program can no longer reach, and it stays the
-backstop for everything. On top of it the compiler frees objects it can
-prove dead as soon as they are, and a `region` block lets you mark a unit
-of work whose garbage goes in one go.
+Coil programs never free memory by hand. Four layers share the work, each
+one cheaper than the one below it:
+
+1. **The compiler frees early.** Objects it can prove dead are freed where
+   they die: at the end of their scope, right after a call, or when an
+   assignment replaces them.
+2. **`region` blocks** free everything a unit of work made, in one go,
+   checked by the compiler.
+3. **The nursery** holds new objects and empties itself with a quick
+   minor collection that copies out the few still alive.
+4. **The tracing collector** reclaims whatever the program can no longer
+   reach. It is the backstop for everything the other three miss.
 
 None of this changes what a program computes. It changes when memory comes
 back, and with it how often the collector has to run.
+
+## Values and objects
+
+Most values never touch the heap. An `int`, `float`, `bool` or `byte`, a
+scalar `#[repr]` enum, and many `Option` and `Result` values live in a
+single word, in a local or a register. The compiler also takes small
+tuples and enums apart into locals when they do not outlive a function.
+
+Class instances, strings, vectors, records, tuples and enums with payloads
+that do outlive that are *objects*: they live on the heap and a value is a
+pointer to them.
+
+Each thread has its own heap. [`thread::spawn`](/docs/reference/thread/spawn)
+starts a thread with a fresh one, and values cross between threads by copy,
+so no collector ever waits on another thread.
+
+## The collector
+
+When the heap has grown enough since the last collection, an allocation
+starts one. The collector marks every object reachable from the program's
+locals, statics and [`gc::Root`](/docs/reference/gc/Root) pins. It then runs
+the `fn drop()` of each unreachable object that has one (at most once per
+object) and clears the [`gc::Weak`](/docs/reference/gc/Weak) handles whose
+object is gone. Then it frees the rest, a little at each later allocation
+rather than all at once. Between collections it may move objects out of
+nearly empty memory pages so the pages can go back to the system.
+
+The [`gc`](/docs/reference/gc) module is the program's handle on all this:
+`root` and `weak` for native code and registries, `heap_bytes` and
+`collect` for measuring.
 
 ## What the compiler frees early
 
@@ -135,10 +172,11 @@ Regions nest; only the outermost one frees its garbage at its end.
 
 ## The nursery
 
-The runtime can allocate new objects in a *nursery*: memory it fills by
+The runtime allocates new objects in a *nursery*: memory it fills by
 bumping a pointer and empties with a minor collection that copies out the
-few objects still alive. Regions are built on it. The nursery is on by
-default. Programs that make many short-lived objects run faster with it;
+few objects still alive. Most objects die young, so a minor collection
+touches little memory, and the full collector runs far less often.
+Regions are built on it. The nursery is on by default. Programs that make many short-lived objects run faster with it;
 programs that keep large structures alive across many collections can run
 slower, and `COIL_NURSERY=0` turns it off (regions then run as plain
 blocks).
