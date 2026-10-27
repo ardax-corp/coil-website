@@ -12,7 +12,7 @@ order: 35
 
 Float functions such as [`sqrt`](/docs/reference/prelude/math/sqrt) and [`sin`](/docs/reference/prelude/math/sin) are auto-imported from [`prelude::math`](/docs/reference/prelude/math); this module adds the rest. Powers are the `**` operator.
 
-Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; with plain `coil`, pass `--root ~/.coil/stdlib/src`.
+Part of [coil-stdlib](/packages/stdlib). spool projects declare it as their `stdlib` dependency (`spool new` adds it); with plain `coil`, pass `--root` with the `src` of a coil-stdlib checkout.
 
 Import what you use (`use path::*` is not allowed):
 

@@ -49,7 +49,7 @@ is a message to show when it fails.
 Run every test with `spool test`, or with `coil test`:
 
 ```bash
-coil test --root ~/.coil/stdlib/src tests
+coil test --root ~/coil-stdlib/src tests
 ```
 
 ```text

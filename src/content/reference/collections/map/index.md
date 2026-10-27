@@ -12,7 +12,7 @@ order: 26
 
 Keys need [`Eq`](/docs/reference/prelude/ops/Eq) and `Hash`. For keys in sorted order, use [`TreeMap`](/docs/reference/collections/tree/TreeMap).
 
-Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; with plain `coil`, pass `--root ~/.coil/stdlib/src`.
+Part of [coil-stdlib](/packages/stdlib). spool projects declare it as their `stdlib` dependency (`spool new` adds it); with plain `coil`, pass `--root` with the `src` of a coil-stdlib checkout.
 
 Import what you use (`use path::*` is not allowed):
 

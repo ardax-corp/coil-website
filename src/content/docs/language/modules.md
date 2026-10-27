@@ -37,7 +37,7 @@ Paths are resolved against an ordered list of roots:
 
 [spool](/packages/spool) passes `--root` for the project's `[module] roots`,
 the stdlib, and each dependency's `src/`. When running `coil` yourself, pass
-the stdlib with `--root ~/.coil/stdlib/src` (or wherever it is checked out).
+the stdlib with `--root ~/coil-stdlib/src` (or wherever it is checked out).
 
 The compiler's built-in modules (`io`, `string`, `env`, `thread`, `gc`,
 `clock`, `ffi`, `macro`, `task`, …) do not live on disk and need no root.
