@@ -137,9 +137,11 @@ Regions nest; only the outermost one frees its garbage at its end.
 
 The runtime can allocate new objects in a *nursery*: memory it fills by
 bumping a pointer and empties with a minor collection that copies out the
-few objects still alive. Regions are built on it. Programs that make many
-short-lived objects run faster with it; programs that keep large
-structures alive across many collections can run slower.
+few objects still alive. Regions are built on it. The nursery is on by
+default. Programs that make many short-lived objects run faster with it;
+programs that keep large structures alive across many collections can run
+slower, and `COIL_NURSERY=0` turns it off (regions then run as plain
+blocks).
 
 ## Switches
 
