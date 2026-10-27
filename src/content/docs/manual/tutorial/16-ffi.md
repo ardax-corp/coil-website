@@ -87,11 +87,11 @@ either the library's SHA-256 hash, so a swapped file is refused, or an
 explicit statement that you trust it:
 
 ```bash
-coil --root ~/.coil/stdlib/src --ffi-search-path . \
+coil --root ~/coil-stdlib/src --ffi-search-path . \
   --allow-dload geom --dload-pin geom=$(sha256sum libgeom.so | cut -c1-64) main.hy
 
 # while developing:
-coil --root ~/.coil/stdlib/src --ffi-search-path . \
+coil --root ~/coil-stdlib/src --ffi-search-path . \
   --allow-dload geom --dload-trusted geom main.hy
 ```
 

@@ -41,8 +41,9 @@ compiler already understands via `[module].roots`.
 
 - Coil toolchain (`coil` on `PATH`, or set `COIL`) — needs `coil natives dump` for native downloads
 - Host `git`, `sh`, `curl`, and `sha256sum`
-- Coil stdlib: default `../coil-stdlib/src` relative to this repo
-  ([coil-stdlib](https://github.com/ardax-corp/coil-stdlib))
+- No global stdlib: each project declares
+  [coil-stdlib](https://github.com/ardax-corp/coil-stdlib) as its `stdlib`
+  dependency (see [The stdlib](/packages/spool/manifest#the-stdlib))
 - coil-toml: default `../coil-toml/src` for `coil.toml` decode
   ([coil-toml](https://github.com/ardax-corp/coil-toml))
 
@@ -290,7 +291,7 @@ Layout:
     <tree-id>/               # detached worktree
 ```
 
-Checkouts are keyed by git tree id, so each version of a package gets its own checkout and every project that locks the same content shares one. Each project links `.spool/deps/<name>` to the checkout its `coil.lock` names, so projects on different versions of a dependency (the stdlib included, when it is [declared as one](/packages/spool/manifest#pinning-the-stdlib)) never see each other's.
+Checkouts are keyed by git tree id, so each version of a package gets its own checkout and every project that locks the same content shares one. Each project links `.spool/deps/<name>` to the checkout its `coil.lock` names, so projects on different versions of a dependency (the stdlib included, see [The stdlib](/packages/spool/manifest#the-stdlib)) never see each other's.
 
 Several projects can install at the same time. spool holds `<host>/<owner>/<repo>.lock` while it fetches into a bare clone or adds a checkout, and moves each checkout into place only once it is complete. A lock left behind by a spool that was killed is taken over; a waiter gives up after ten minutes.
 

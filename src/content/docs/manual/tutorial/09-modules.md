@@ -73,7 +73,7 @@ lamp: 59.97 EUR
 ```
 
 Run it with `spool run` from the project root, or with
-`coil --root ~/.coil/stdlib/src src/main.hy`. The compiler looks for
+`coil --root ~/coil-stdlib/src src/main.hy`. The compiler looks for
 modules in `src/` under the directory you run it from, plus every `--root`.
 
 ## use

@@ -12,7 +12,7 @@ order: 20
 
 Byte buffers are [`Vec<byte>`](/docs/reference/prelude/Vec). Offsets are byte offsets, and nothing here knows about UTF-8; use [`text`](/docs/reference/text) for strings. A string literal can be passed where a [`Vec<byte>`](/docs/reference/prelude/Vec) is expected.
 
-Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; with plain `coil`, pass `--root ~/.coil/stdlib/src`.
+Part of [coil-stdlib](/packages/stdlib). spool projects declare it as their `stdlib` dependency (`spool new` adds it); with plain `coil`, pass `--root` with the `src` of a coil-stdlib checkout.
 
 Import what you use (`use path::*` is not allowed):
 
