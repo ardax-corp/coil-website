@@ -39,7 +39,7 @@ Dependencies:
 Tooling:
   spool setup [--channel stable|edge|TAG]
   spool doctor
-  spool cache dir | spool cache clean
+  spool cache dir | spool cache gc [--dry-run] | spool cache clean
   spool version
   spool help
 ```
@@ -111,7 +111,7 @@ Only libraries loaded directly with `dload` are fetched; their own shared-librar
 
 ## `spool doctor` / `spool cache`
 
-`doctor` checks coil, the stdlib, `git`, `sh`, `curl`, the cache and the project roots. `cache dir` prints the shared git cache root; `cache clean` clears it.
+`doctor` checks coil, the stdlib, `git`, `sh`, `curl`, the cache and the project roots. `cache dir` prints the shared git cache root. `cache gc` removes the checkouts and clones that no known project's `coil.lock` uses any more (`--dry-run` lists them; see [Cache](/packages/spool#cache)). `cache clean` clears the whole cache, including checkouts other projects still link to.
 
 ## `spool allow-include <name>`
 
