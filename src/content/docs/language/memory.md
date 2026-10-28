@@ -1,6 +1,6 @@
 ---
 title: "Memory management"
-description: "How Coil manages memory: a tracing garbage collector as the backstop, a nursery for young objects, early freeing the compiler proves safe, and checked region blocks."
+description: "How Coil manages memory: copy-on-write values, a tracing garbage collector as the backstop, a nursery for young objects, early freeing the compiler proves safe, and checked region blocks."
 ---
 
 # Memory management
@@ -18,8 +18,13 @@ one cheaper than the one below it:
 4. **The tracing collector** reclaims whatever the program can no longer
    reach. It is the backstop for everything the other three miss.
 
-None of this changes what a program computes. It changes when memory comes
-back, and with it how often the collector has to run.
+None of these layers changes what a program computes. They change when
+memory comes back, and with it how often the collector has to run.
+
+What a program computes depends on one rule that sits above all four:
+class instances, vectors and maps are values, shared until written and
+copied on write. That rule is what lets the compiler know when an object
+has a single owner, and so when it can free it.
 
 ## Values and objects
 
@@ -35,6 +40,122 @@ pointer to them.
 Each thread has its own heap. [`thread::spawn`](/docs/reference/thread/spawn)
 starts a thread with a fresh one, and values cross between threads by copy,
 so no collector ever waits on another thread.
+
+## Copy-on-write
+
+Class instances, vectors (`Vec<T>` and fixed arrays) and maps behave like
+values. `let b = a;` gives `b` a value of its own: a change through `b`
+never shows up in `a`. Copying on every assignment would be slow, so Coil
+does not. Both names point at the same object until one of them writes
+to it, and only then is the object copied. An object that only one name
+holds is written in place, with no copy.
+
+```coil
+use tests::assert;
+
+class Counter {
+    pub value: int,
+}
+
+fn main() {
+    let a = new Counter(1);
+    let b = a;          // no copy: `a` and `b` share one object
+    b.value = 5;        // `b` is copied here, then changed
+    assert!(a.value == 1 && b.value == 5);
+}
+```
+
+Copies are shallow: copying a class copies its fields, and a field that
+holds a vector stays shared until that vector is written in its turn.
+
+Records, strings, tuples and enums are not affected. Strings, tuples and
+enums cannot be changed in place anyway; records are still shared by
+reference.
+
+### Calls
+
+Passing an argument does not copy it. A function that changes its
+parameter changes the caller's variable:
+
+```coil
+use tests::assert;
+
+fn grow(Vec<int> v) {
+    v.push(1);
+}
+
+fn main() {
+    let v: Vec<int> = Vec::new();
+    grow(v);
+    assert!(v.len() == 1);
+}
+```
+
+A method changes the object it is called on in the same way. When the
+caller's variable shares its object with another name, the caller copies
+it before the call, so the other name keeps its value. The compiler knows
+from each function's [escape facts](#what-the-compiler-frees-early)
+whether it writes or keeps an argument, and checks only where one does.
+
+### Asking for a shared object
+
+Write `mut` where a second name should reach the same object instead of
+a copy:
+
+- `let c = mut a.config;` makes `c` another name for `a.config`, so
+  `c.port = 80` changes `a`.
+- `for mut item in items { … }` changes each element in place.
+- `fn () use (mut list) { … }` lets a lambda change the outer `list`.
+
+`mut` is a borrow: the name lives in its own scope and is never stored.
+State that must be shared beyond that goes in one of two places:
+
+- **`Ref<T>`** from [`cell`](/docs/reference/cell) holds one shared value.
+  Every copy of a `Ref` reaches the same value, so a closure that keeps
+  a counter between calls captures a `Ref<int>`.
+- **`shared class`** declares a type whose instances are identities, not
+  values: they are never copied. Use it for things that stand for one
+  resource or one place in the program, such as a connection, a window,
+  a logger or a registry.
+
+```coil
+use tests::assert;
+
+shared class Log {
+    pub lines: int,
+}
+
+fn main() {
+    let log = new Log(0);
+    let alias = log;
+    alias.lines += 1;
+    assert!(log.lines == 1);
+}
+```
+
+A class with a `fn drop()` and a `readonly class` are never copied
+either: the first because it owns an outside resource, the second
+because it never changes.
+
+### Seeing the copies
+
+The compiler warns where a write will copy:
+
+- `E0141`: a write copies an object that a variable shares with another
+  name. The help suggests `let x = mut …` when the change was meant for
+  the original.
+- `E0142`: a method changes a temporary copy, as in `shelf.top().bump()`
+  where `top` returns an element the shelf still holds, and the change is
+  lost.
+
+At run time, `coil FILE --cow-report` prints how many copies each source
+line made when the program exits, and hints at a `mut` borrow or a `Ref`
+for lines that copy over and over.
+
+### Threads and tasks
+
+Values that cross to a thread or a task were always copied, and still
+are. A value sent on a channel arrives as the receiver's own copy.
 
 ## The collector
 
@@ -192,6 +313,7 @@ Two flags change the defaults, for measuring and debugging:
 | `--early-free on` / `off` | Compile the early frees, or not, whatever the `-O` level |
 | `--early-free check` | Compile the frees, but free nothing when the program runs; at the next collection, abort if a freed object was still reachable |
 | `--nursery on` / `off` | Turn the nursery on (the default) or off for `coil FILE`, `coil run` and `coil test` |
+| `--cow-report` | At exit, print the copies copy-on-write made, per source line, for `coil FILE` |
 
-`coil FILE` and `coil test` take both flags. `coil compile`, `coil package`
+`coil FILE` and `coil test` take `--early-free` and `--nursery`. `coil compile`, `coil package`
 and `coil dissect` take `--early-free`, and `coil run` takes `--nursery`.

@@ -130,11 +130,15 @@
         },
         {
           "name": "storage.modifier.coil",
-          "match": "\\bpure(?=\\s+fn\\b)|\\buses(?=\\s*\\{)"
+          "match": "\\bpure(?=\\s+fn\\b)|\\buses(?=\\s*\\{)|\\bshared(?=\\s+(?:readonly\\s+)?class\\b)|\\bmut(?=\\s+(?!in\\b)[A-Za-z_])"
         },
         {
           "name": "keyword.other.coil",
           "match": "\\b(use|mod|as|new|typeof|test)\\b"
+        },
+        {
+          "name": "keyword.control.coil",
+          "match": "\\bregion(?=\\s*\\{)"
         },
         {
           "name": "constant.language.coil",

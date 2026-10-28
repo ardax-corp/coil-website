@@ -141,10 +141,10 @@ Reading `acct.balance` from `main` would be a compile error
 object, so it has no `self` and is called as `Account::open(…)`. Static
 functions are the usual way to write constructors with defaults or checks.
 
-## Objects are shared
+## Objects behave like values
 
-Assigning an object to another variable, or passing it to a function, does
-not copy it. Both names refer to the same object:
+Assigning an object to another variable gives that variable its own value.
+Changing one of them leaves the other as it was:
 
 ```coil
 use io::sync::{println};
@@ -163,6 +163,39 @@ fn main() {
     let b = a;
     bump(a);
     bump(b);
+    println(format("a %i, b %i", a.value, b.value))?;
+}
+```
+
+Output:
+
+```text
+a 1, b 1
+```
+
+Nothing is copied when you write `let b = a;`. Both names point at the
+same object until one of them changes it; only then does Coil copy it
+(*copy-on-write*). The compiler warns (`E0141`) at a write that will copy,
+so a copy never happens without you seeing it.
+
+A function changes the variable you pass it: `bump(a)` raises `a.value`,
+as above. The same holds for vectors and maps.
+
+When you do want a second name for the same object, ask for it with
+`mut`:
+
+```coil
+use io::sync::{println};
+use string::{format};
+
+class Counter {
+    pub value: int,
+}
+
+fn main() {
+    let a = new Counter(0);
+    let c = mut a;
+    c.value = 5;
     println(format("%i", a.value))?;
 }
 ```
@@ -170,12 +203,21 @@ fn main() {
 Output:
 
 ```text
-2
+5
 ```
 
-Numbers, booleans, strings and tuples behave like values: a function that
-gets an `int` cannot change the caller's variable. If a function must not
-change an object, take it as `readonly`: `fn print_balance(readonly Account a)`.
+`for mut item in list { … }` changes the items in place, and a lambda
+written `use (mut list)` changes the outer `list`. For an object that is
+meant to be shared (a connection, a logger, a window), declare it
+`shared class`: its instances are never copied. A plain value that several
+parts of a program must see change goes in a `Ref<T>` from `cell`. The
+[Memory management](/docs/language/memory#copy-on-write) page has the
+details.
+
+Numbers, booleans, strings and tuples are values too. Records are the
+exception: they are shared, so `let r2 = r; r2.x = 9;` changes `r` as
+well. If a function must not change an object, take it as `readonly`:
+`fn print_balance(readonly Account a)`.
 
 ## Printing and comparing: derive
 
@@ -539,9 +581,9 @@ checks that you only push what the stack holds.
    ```
 
    > [!hint]
-   > Only numbers, booleans, strings and tuples are copied. Records,
-   > vectors and maps are shared, exactly like objects, so a function you
-   > pass a `Vec` to can push onto yours.
+   > Tuples, strings, vectors and maps behave like values:
+   > changing `b` leaves `a` alone. Records are shared, so changing `r2`
+   > changes `r` too.
 
    ```coil challenge=c04-6
    use io::sync::{println};

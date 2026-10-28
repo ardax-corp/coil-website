@@ -46,6 +46,11 @@ const coil = StreamLanguage.define({
     if (word) {
       const w = word[0];
       if (KEYWORDS.has(w)) return "keyword";
+      // Contextual: `region {`, `shared class`, `mut place` (`for mut x`, `use (mut x)`).
+      const rest = stream.string.slice(stream.pos);
+      if (w === "region" && /^\s*\{/.test(rest)) return "keyword";
+      if (w === "shared" && /^\s+(readonly\s+)?class\b/.test(rest)) return "keyword";
+      if (w === "mut" && /^\s+(?!in\b)[A-Za-z_]/.test(rest)) return "keyword";
       if (STORAGE.has(w)) return "definitionKeyword";
       if (ATOMS.has(w)) return "atom";
       if (w.endsWith("!")) return "macroName";
