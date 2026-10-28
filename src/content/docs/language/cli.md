@@ -35,12 +35,14 @@ subcommand they go after it: `coil compile --root ../coil-stdlib/src app.hy`.
 
 | Flag | Meaning |
 |------|---------|
-| `--root DIR` | Add a directory that `use` paths resolve against (repeatable). The [stdlib](/docs/reference#ref-stdlib) is one: `--root ~/.coil/stdlib/src`. See [Modules](/docs/language/modules). |
+| `--root DIR` | Add a directory that `use` paths resolve against (repeatable). The [stdlib](/docs/reference#ref-stdlib) is one: `--root ~/coil-stdlib/src`. See [Modules](/docs/language/modules). |
 | `-A`, `--allow-read`, `--allow-write`, `--allow-net`, `--allow-env`, `--allow-exit`, `--allow-attach` | Grant host access. A program gets none by default, and the compiler names the flag it is missing. See [Permissions](/docs/language/permissions). |
 | `--allow-dload STEM` with `--dload-pin STEM=SHA256` or `--dload-trusted STEM` | Allow loading a native library at run time. See [Calling C](/docs/manual/tutorial/16-ffi). |
 | `-O0` … `-O3`, `-Os`, `-Og` | Optimization level; `-O2` by default. |
 | `-g0`, `-g1`, `-g2` | How much debug information to keep. `-g2` (the default) gives panics full locations and is needed by `coil debug` and coverage. `--strip-debug` is `-g0`. |
 | `--contracts all\|requires\|off` | Which [contract](/docs/language/contracts) checks run. |
+| `--auto-par on\|off` | Automatic fork-join of pure recursive calls and counted loops (`on` by default). `off` keeps a program sequential, for example for fair benchmark timing. |
+| `--fold-calls on\|off` | Compute pure calls with constant arguments at compile time (`on` by default at `-O2` and above). |
 | `--comptime-read PATH`, `--comptime-net HOST`, … | What [compile-time code](/docs/language/comptime) may touch. |
 | `--no-build-cache` | Compile even if the [build cache](#build-cache) holds the program. |
 
@@ -48,18 +50,18 @@ subcommand they go after it: `coil compile --root ../coil-stdlib/src app.hy`.
 
 ```bash
 # Run a file that uses the stdlib and reads files
-coil --root ~/.coil/stdlib/src --allow-read wc.hy notes.txt
+coil --root ~/coil-stdlib/src --allow-read wc.hy notes.txt
 
 # Compile once, run many times
-coil compile --root ~/.coil/stdlib/src app.hy -o app.hyc
+coil compile --root ~/coil-stdlib/src app.hy -o app.hyc
 coil run app.hyc
 
 # Ship a single executable
-coil package --root ~/.coil/stdlib/src app.hy -o app
+coil package --root ~/coil-stdlib/src app.hy -o app
 ./app
 
 # Tests, formatting
-coil test --root ~/.coil/stdlib/src tests
+coil test --root ~/coil-stdlib/src tests
 coil fmt --check src tests
 ```
 
@@ -69,8 +71,7 @@ Test blocks (`test("…") { … }`) are left out of `coil compile` and
 ## Build cache {#build-cache}
 
 `coil <file.hy>` and `coil compile` keep each compiled program in
-`~/.cache/coil/build` (or `$COIL_CACHE_DIR/build`, or
-`$XDG_CACHE_HOME/coil/build`). When you run or compile the same file again
+`~/.cache/coil/build` (or `$XDG_CACHE_HOME/coil/build`). When you run or compile the same file again
 and nothing it was built from changed, coil loads the stored program
 instead of compiling. A small program that uses the stdlib reruns in a few
 milliseconds.

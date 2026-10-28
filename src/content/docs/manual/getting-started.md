@@ -48,8 +48,7 @@ grep " spool-$TRIPLE.tar.gz\$" SHA256SUMS | sha256sum -c -    # macOS: shasum -a
 tar xzf "spool-$TRIPLE.tar.gz" -C ~/.local/bin
 ```
 
-**2. coil and the standard library.** spool fetches both into `~/.coil`,
-where it looks for them:
+**2. coil.** spool fetches it into `~/.coil`, where it looks for it:
 
 ```bash
 ~/.local/bin/spool setup --channel edge
@@ -59,8 +58,9 @@ It downloads the coil toolkit for your platform from the
 [coil edge release](https://github.com/ardax-corp/coil-lang/releases/tag/edge),
 refuses it unless it matches the release's `SHA256SUMS`, and unpacks it into
 `~/.coil/bin` with its helpers (`coil-fmt`, `coil-test`, …) next to `coil`.
-Then it clones the standard library into `~/.coil/stdlib`. Run it again to
-update coil and the stdlib. Without `--channel`, spool uses the newest
+Run it again to update coil. There is no global standard library: each
+project declares it as a dependency, and `spool new` adds it (see
+[A project with spool](#a-project-with-spool)). Without `--channel`, spool uses the newest
 tagged release (`stable`), and falls back to `edge` while coil has none.
 
 **3. Check.** Put both directories on your `PATH`:
@@ -71,9 +71,8 @@ coil -V
 spool doctor
 ```
 
-`spool doctor` checks that it can find coil, the stdlib, git and curl. spool
-looks for coil in `$COIL`, then on `PATH`, then in `~/.coil/bin/coil`, and for
-the stdlib in `~/.coil/stdlib` unless its config says otherwise.
+`spool doctor` checks that it can find coil, git and curl. spool looks for
+coil in `$COIL`, then on `PATH`, then in `~/.coil/bin/coil`.
 
 ### With the bootstrap script
 
@@ -87,8 +86,7 @@ cd spool
 ```
 
 That builds spool, downloads the prebuilt coil from the edge release, and
-installs `coil` to `~/.coil/bin`, the stdlib to `~/.coil/stdlib` and `spool`
-to `~/.local/bin`. Then set `PATH` and run `spool doctor` as in step 3.
+installs `coil` to `~/.coil/bin` and `spool` to `~/.local/bin`. Then set `PATH` and run `spool doctor` as in step 3.
 
 Without `--channel edge`, or on a platform without a prebuilt coil, the
 script builds coil from source, which needs a Rust toolchain, libffi and
@@ -125,17 +123,20 @@ Output:
 Hello, world!
 ```
 
-`coil` compiles the file in memory and runs it. This is what spool runs for
-you, minus the project setup:
+`coil` compiles the file in memory and runs it. Plain `coil` needs a copy of
+the standard library to compile against; clone it once:
 
 ```bash
-coil --root ~/.coil/stdlib/src hello.hy
+git clone https://github.com/ardax-corp/coil-stdlib.git ~/coil-stdlib
+coil --root ~/coil-stdlib/src hello.hy
 ```
 
 `--root` tells the compiler where to find modules: `println` lives in the
 stdlib module `io::sync`, and the stdlib is source code in
-`~/.coil/stdlib/src`. `coil` does not look for the stdlib on its own. spool
-adds that root, and your project's `src/`, for you.
+`~/coil-stdlib/src`. `coil` does not look for the stdlib on its own. In a
+spool project the stdlib is a dependency like any other, locked to a version
+in `coil.lock`, and spool adds its root, and your project's `src/`, for
+you.
 
 A few things to notice:
 
@@ -172,6 +173,21 @@ hello/
 `target/hello` and runs it. spool adds the stdlib root and your project's
 `src/` for you, so `use` paths just work.
 
+The standard library is a dependency of the project, declared in
+`coil.toml` like any other:
+
+```toml
+[dependencies]
+stdlib = { git = "https://github.com/ardax-corp/coil-stdlib.git", version = "latest" }
+```
+
+`latest` follows the stdlib's newest commit, and the first build locks the
+commit it got in `coil.lock`. spool warns about it on every install, because
+`spool update` can then move you onto breaking changes: once the project
+works, pin it with `rev = "<commit>"` (the commit in `coil.lock`). Each
+project has its own stdlib version, so projects on different versions never
+interfere.
+
 The other commands you will use daily:
 
 | Command | What it does |
@@ -199,7 +215,7 @@ test("double doubles") {
 }
 ```
 
-`spool test` (or `coil test --root ~/.coil/stdlib/src tests`) runs every case
+`spool test` (or `coil test --root ~/coil-stdlib/src tests`) runs every case
 and reports the ones that fail. The examples in your `///` documentation
 comments run as tests too. [Chapter 11](/docs/manual/tutorial/11-testing)
 covers testing in detail.
@@ -218,7 +234,7 @@ other processes unless you allow it. If `notes.hy` reads a file, running it
 without permission fails at compile time and tells you which flag it needs:
 
 ```bash
-coil --root ~/.coil/stdlib/src --allow-read notes.hy
+coil --root ~/coil-stdlib/src --allow-read notes.hy
 ```
 
 `-A` allows everything. In a spool project, grants go in `coil.toml`. See

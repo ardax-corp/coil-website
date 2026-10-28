@@ -227,7 +227,7 @@ read the environment, run a program or connect again:
   without it. Use it in CI to build from a committed cache.
 - `--comptime-cache DIR` keeps the cache in `DIR`, for example in the
   project, to commit it. Without it the cache is in the user cache
-  (`$COIL_CACHE_DIR`, `$XDG_CACHE_HOME/coil` or `~/.cache/coil`), under
+  (`$XDG_CACHE_HOME/coil` or `~/.cache/coil`), under
   `comptime/`.
 - Environment values are never written to the cache, only their names.
 

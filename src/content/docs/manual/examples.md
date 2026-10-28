@@ -345,7 +345,7 @@ fn main() {
 Cross-language CPU baselines (mandelbrot / tak / nsieve / binary trees / fib)
 live under `examples/perf/` with matching `benchmarks/*.{lua,js}` ports. For
 timing, prefer `coil compile … -o x.hyc` then `coil run x.hyc` (see
-`./scripts/poop_baseline.sh`). Compile `perf/fib.hy` with `COIL_AUTO_PAR=0` so
+`./scripts/poop_baseline.sh`). Compile `perf/fib.hy` with `--auto-par off` so
 the naive recursion stays sequential like the Lua/Node ports.
 
 ---
@@ -380,11 +380,11 @@ the naive recursion stays sequential like the Lua/Node ports.
 
 | | |
 |---|---|
-| **Run** | `COIL_AUTO_PAR=0 cargo run --release -- examples/perf/fib.hy` |
+| **Run** | `cargo run --release -- --auto-par off examples/perf/fib.hy` |
 | **Output** | `2178309` |
 | **Ports** | `benchmarks/fib.lua`, `benchmarks/fib.js` |
 
-Compile with `COIL_AUTO_PAR=0` for fair sequential timing (default auto-par would
+Compile with `--auto-par off` for fair sequential timing (default auto-par would
 fork-join the binary recursion).
 
 ---

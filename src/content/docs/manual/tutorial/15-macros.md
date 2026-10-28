@@ -292,7 +292,7 @@ owns is an error, so a typo such as `#[colum(…)]` is caught.
 `coil dissect --expand FILE` prints a file with every macro expanded:
 
 ```bash
-coil dissect --expand --root ~/.coil/stdlib/src src/main.hy
+coil dissect --expand --root ~/coil-stdlib/src src/main.hy
 ```
 
 ```coil ignore

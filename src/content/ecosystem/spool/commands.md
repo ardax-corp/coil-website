@@ -37,22 +37,22 @@ Dependencies:
   spool allow-include <name>
 
 Tooling:
-  spool setup [--channel stable|edge|TAG] [--coil-only | --stdlib-only]
+  spool setup [--channel stable|edge|TAG]
   spool doctor
-  spool cache dir | spool cache clean
+  spool cache dir | spool cache gc [--dry-run] | spool cache clean
   spool version
   spool help
 ```
 
 ## Getting spool
 
-spool is written in Coil and shipped as one executable built with `coil package`, plus the `libprocess` library it loads from beside itself. The [edge release](https://github.com/ardax-corp/spool/releases/tag/edge) has it prebuilt for Linux (x86-64 and ARM64 glibc, x86-64 musl) and Apple-silicon macOS; `spool setup --channel edge` then fetches coil (checked against the release's `SHA256SUMS`) into `~/.coil/bin` and the stdlib into `~/.coil/stdlib`. [Install](/packages/spool/install) has the steps for every platform, updating and uninstalling. To build it from a checkout instead:
+spool is written in Coil and shipped as one executable built with `coil package`, plus the `libprocess` library it loads from beside itself. The [edge release](https://github.com/ardax-corp/spool/releases/tag/edge) has it prebuilt for Linux (x86-64 and ARM64 glibc, x86-64 musl) and Apple-silicon macOS; `spool setup --channel edge` then fetches coil (checked against the release's `SHA256SUMS`) into `~/.coil/bin`. There is no global stdlib: each project declares its own (see [The stdlib](/packages/spool/manifest#the-stdlib)). [Install](/packages/spool/install) has the steps for every platform, updating and uninstalling. To build it from a checkout instead:
 
 ```bash
 git clone https://github.com/ardax-corp/spool.git
 cd spool
 ./bootstrap.sh              # → target/spool
-./bootstrap.sh --install    # also ~/.local/bin/spool + libprocess and ~/.coil/stdlib
+./bootstrap.sh --install    # also ~/.local/bin/spool + libprocess (and coil, if bootstrap fetched it)
 ```
 
 `bootstrap.sh` finds a usable `coil` (`COIL`, `PATH`, `~/.coil/bin/coil`), else downloads a release or builds coil-lang from source, and fetches coil-stdlib, coil-toml and coil-json. At run time spool needs host `git` and `sh`, plus `curl` for `download`.
@@ -111,7 +111,7 @@ Only libraries loaded directly with `dload` are fetched; their own shared-librar
 
 ## `spool doctor` / `spool cache`
 
-`doctor` checks coil, the stdlib, `git`, `sh`, `curl`, the cache and the project roots. `cache dir` prints the shared git cache root; `cache clean` clears it.
+`doctor` checks coil, the stdlib, `git`, `sh`, `curl`, the cache and the project roots. `cache dir` prints the shared git cache root. `cache gc` removes the checkouts and clones that no known project's `coil.lock` uses any more (`--dry-run` lists them; see [Cache](/packages/spool#cache)). `cache clean` clears the whole cache, including checkouts other projects still link to.
 
 ## `spool allow-include <name>`
 
@@ -133,11 +133,10 @@ Allow dependency `<name>`'s [include hook](/packages/spool#include-hooks) to run
 | Variable | Effect |
 |----------|--------|
 | `COIL` | The `coil` binary to use (then `coil` on `PATH`, then `~/.coil/bin/coil`). Its `--version` is the engine version. |
-| `COIL_STDLIB_DIR`, `COIL_STDLIB` | The stdlib root passed as `--root`. Otherwise `[stdlib] dir` in `~/.config/coil/config.toml`, then `~/.coil/stdlib` |
+| `COIL_STDLIB_REPO` | The coil-stdlib URL `spool new` / `spool init` write into new projects (default `https://github.com/ardax-corp/coil-stdlib.git`) |
 | `SPOOL_PROJECT` | The project root. Otherwise the nearest directory upward holding `coil.toml`. Scripts and include hooks see it set to the consumer |
 | `SPOOL_IGNORE_SCRIPTS` | `0` opts in to scripts like `--enable-scripts`; default `1` (off) |
-| `COIL_CACHE_DIR` | Git cache root. Otherwise `[cache] dir` in `~/.config/coil/config.toml`, then `$XDG_CACHE_HOME/coil` or `~/.cache/coil` |
-| `COIL_NATIVES_DIR` | Native library cache root (default `~/.coil/natives`) |
+| `XDG_CACHE_HOME` | Git cache root is `$XDG_CACHE_HOME/coil` (else `~/.cache/coil`), unless `[cache] dir` in `~/.config/coil/config.toml` sets it |
 | `GIT_SSH_COMMAND`, `GIT_ASKPASS`, `SSH_ASKPASS` | Passed through to `git` for [private repositories](/packages/spool#private-git) |
 
 ---

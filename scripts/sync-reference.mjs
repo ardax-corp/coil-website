@@ -631,7 +631,7 @@ const GROUPS = [
 const ORIGIN_NOTE = {
   builtin: "Built into the compiler.",
   embedded: "Written in Coil and shipped inside the compiler.",
-  stdlib: "Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; with plain `coil`, pass `--root ~/.coil/stdlib/src`.",
+  stdlib: "Part of [coil-stdlib](/packages/stdlib). spool projects declare it as their `stdlib` dependency (`spool new` adds it); with plain `coil`, pass `--root` with the `src` of a coil-stdlib checkout.",
 };
 
 function modulePage(mod, order) {

@@ -41,8 +41,9 @@ compiler already understands via `[module].roots`.
 
 - Coil toolchain (`coil` on `PATH`, or set `COIL`) — needs `coil natives dump` for native downloads
 - Host `git`, `sh`, `curl`, and `sha256sum`
-- Coil stdlib: default `../coil-stdlib/src` relative to this repo
-  ([coil-stdlib](https://github.com/ardax-corp/coil-stdlib))
+- No global stdlib: each project declares
+  [coil-stdlib](https://github.com/ardax-corp/coil-stdlib) as its `stdlib`
+  dependency (see [The stdlib](/packages/spool/manifest#the-stdlib))
 - coil-toml: default `../coil-toml/src` for `coil.toml` decode
   ([coil-toml](https://github.com/ardax-corp/coil-toml))
 
@@ -55,7 +56,7 @@ exe) are fetched into a content-addressed cache:
 ~/.coil/natives/cache/<package>/<version>/<sha256_16>/<filename>
 ```
 
-Override the root with `COIL_NATIVES_DIR`. Only **direct** `dload` targets are
+A packaged app looks for its libraries there too. Only **direct** `dload` targets are
 downloaded; transitive sonames (`requires`) must come from the OS.
 
 ```bash
@@ -276,10 +277,7 @@ This path does not fetch a `.so` or write `[ffi] search_paths`.
 
 Default root: `$XDG_CACHE_HOME/coil` or `~/.cache/coil`.
 
-Override:
-
-- Env: `COIL_CACHE_DIR` (wins)
-- File: `~/.config/coil/config.toml` → `[cache] dir = "…"`
+Override: `~/.config/coil/config.toml` → `[cache] dir = "…"`.
 
 Layout:
 
@@ -288,7 +286,17 @@ Layout:
   <host>/<owner>/<repo>/     # bare clone
   checkouts/
     <tree-id>/               # detached worktree
+  projects/
+    <hash>                   # a project that uses the cache (holds its root)
 ```
+
+Checkouts are keyed by git tree id, so each version of a package gets its own checkout and every project that locks the same content shares one. Each project links `.spool/deps/<name>` to the checkout its `coil.lock` names, so projects on different versions of a dependency (the stdlib included, see [The stdlib](/packages/spool/manifest#the-stdlib)) never see each other's.
+
+Several projects can install at the same time. spool holds `<host>/<owner>/<repo>.lock` while it fetches into a bare clone or adds a checkout, and moves each checkout into place only once it is complete. A lock left behind by a spool that was killed is taken over; a waiter gives up after ten minutes.
+
+`spool cache gc` frees what no project needs any more. Every install and every compiling command records its project under `projects/`. gc keeps each checkout and bare clone that a recorded project's `coil.lock` names, forgets projects whose `coil.lock` is gone, and removes the rest; `--dry-run` lists what it would remove. Anything fetched in the last hour (`SPOOL_CACHE_GC_GRACE_MIN`) and any clone whose lock is held is kept, so an install in progress is safe. A project spool has not run in since it started recording is unknown to gc; if its checkouts go, `spool install` there fetches them again.
+
+`spool cache clean` removes the whole git cache, including checkouts other projects link to; run `spool install` in those projects afterwards.
 
 ## Develop
 

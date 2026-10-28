@@ -31,7 +31,7 @@ reading standard input need no permission. The details are on the
 The examples in this chapter need `-A` (or the specific flags):
 
 ```bash
-coil --root ~/.coil/stdlib/src -A example.hy
+coil --root ~/coil-stdlib/src -A example.hy
 ```
 
 ## The terminal

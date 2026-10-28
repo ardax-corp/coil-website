@@ -1,21 +1,24 @@
 ---
 title: "Install"
-description: "Install spool on Linux (glibc or musl), macOS or Windows, fetch coil and the stdlib with it, keep everything up to date, and uninstall."
+description: "Install spool on Linux (glibc or musl), macOS or Windows, fetch coil with it, keep everything up to date, and uninstall."
 order: 0
 ---
 
 # Installing spool
 
 spool is one executable plus a small native library, `libprocess`, that it
-uses to run programs. It needs a coil toolchain and the standard library at
-run time, and it can fetch both for you with `spool setup`. A full install
-puts three things on your machine:
+uses to run programs. It needs a coil toolchain at run time, and it can fetch
+it for you with `spool setup`. A full install puts two things on your
+machine:
 
 | What | Where | Comes from |
 |------|-------|------------|
 | `spool` and `libprocess` | `~/.local/bin` (any directory on `PATH`) | a [spool release](https://github.com/ardax-corp/spool/releases) |
 | `coil` and its helpers (`coil-fmt`, `coil-test`, `coil-lsp`, `coil-debug`, `coil-dissect`, `coil-embed`) | `~/.coil/bin` | a [coil-lang release](https://github.com/ardax-corp/coil-lang/releases), via `spool setup` |
-| the standard library | `~/.coil/stdlib` | [coil-stdlib](https://github.com/ardax-corp/coil-stdlib), via `spool setup` |
+
+There is no global standard library. Each project declares coil-stdlib as a
+dependency (`spool new` adds it), and spool fetches the version that project
+locks into its shared cache. See [The stdlib](/packages/spool/manifest#the-stdlib).
 
 ## Releases: edge and tagged
 
@@ -85,7 +88,7 @@ mkdir -p ~/.local/bin
 tar xzf "spool-$TRIPLE.tar.gz" -C ~/.local/bin
 ```
 
-**3. Fetch coil and the stdlib:**
+**3. Fetch coil:**
 
 ```bash
 ~/.local/bin/spool setup --channel edge
@@ -95,8 +98,7 @@ tar xzf "spool-$TRIPLE.tar.gz" -C ~/.local/bin
 musl system) from the coil-lang
 release of that channel, checks it against the release's `SHA256SUMS`,
 unpacks it into `~/.coil/bin`, and runs `coil --version` on it before
-swapping it in. It then shallow-clones coil-stdlib's default branch and puts
-its `src` at `~/.coil/stdlib`. Each piece replaces the old one only once it is
+swapping it in. The new toolkit replaces the old one only once it is
 complete, so a failed download leaves your previous install working.
 
 | Option | Effect |
@@ -104,7 +106,6 @@ complete, so a failed download leaves your previous install working.
 | `--channel edge` | the rolling coil-lang `edge` release |
 | `--channel stable` (default) | the newest tagged coil-lang release; with no `--channel` or `COIL_CHANNEL` it falls back to `edge` while none exists |
 | `--channel v0.3.0` | that tagged release |
-| `--coil-only` / `--stdlib-only` | do one half |
 | `COIL_CHANNEL=edge` | the channel, when `--channel` is not given |
 | `COIL_HOME=DIR` | install into `DIR` instead of `~/.coil` (see [Custom locations](#custom-locations)) |
 
@@ -152,8 +153,7 @@ cd spool
 
 That builds spool and `libprocess`, downloads coil from the coil-lang `edge`
 release when there is an archive for your machine, and installs `spool` and
-`libprocess` to `~/.local/bin`, coil to `~/.coil/bin` and the stdlib to
-`~/.coil/stdlib`. Where there is no coil archive (or with `--from-source`),
+`libprocess` to `~/.local/bin` and coil to `~/.coil/bin`. Where there is no coil archive (or with `--from-source`),
 it builds coil from source, which needs a Rust toolchain plus libffi and
 PCRE2 development files (`libffi-dev libpcre2-dev` on Debian and Ubuntu,
 `brew install libffi pcre2 pkg-config` on macOS). `./bootstrap.sh` without
@@ -185,7 +185,7 @@ coil --version       # coil 0.1.0
 spool doctor
 ```
 
-`spool doctor` reports which coil and stdlib it found and whether `git`,
+`spool doctor` reports which coil it found and whether `git`,
 `sh`, `curl` and `tar` are there, plus the features of your coil that spool
 uses (`coil mutate`, `coil test --json`). Every line should say `ok`:
 
@@ -193,7 +193,6 @@ uses (`coil mutate`, `coil test --json`). Every line should say `ok`:
   [ok     ] coil /home/you/.coil/bin/coil (coil 0.1.0)
   [ok     ] coil mutate (spool infect)
   [ok     ] coil test --json (rendered spool test / coverage)
-  [ok     ] coil-stdlib /home/you/.coil/stdlib/src
   [ok     ] git /usr/bin/git
   …
 ```
@@ -212,9 +211,9 @@ depending on what you want newer:
 
 | To update | Run |
 |-----------|-----|
-| coil and the stdlib | `spool setup --channel edge` again (`--coil-only` / `--stdlib-only` for one half) |
+| coil | `spool setup --channel edge` again |
 | spool itself | repeat [steps 1 and 2](#linux-and-macos): download the new archive and unpack it over the old one |
-| a project's dependencies | `spool update` (or `spool update NAME`) inside the project; see [Commands](/packages/spool/commands) |
+| a project's dependencies, the stdlib included | `spool update` (or `spool update stdlib`) inside the project; see [Commands](/packages/spool/commands) |
 
 `spool setup` always downloads again, so re-running it moves you to the
 current `edge` snapshot (or to whichever tag you name). `spool outdated` shows which dependencies
@@ -227,14 +226,12 @@ itself only looks in `~/.coil`, so point it at the result:
 
 ```bash
 export COIL="$DIR/bin/coil"
-export COIL_STDLIB_DIR="$DIR/stdlib"
 ```
 
 The lookup order is: coil from `$COIL`, then `coil` on `PATH`, then
-`~/.coil/bin/coil`; the stdlib from `COIL_STDLIB_DIR`, `COIL_STDLIB`,
-`[stdlib] dir` in `~/.config/coil/config.toml`, then `~/.coil/stdlib`.
-`COIL_LANG_URL` and `COIL_STDLIB_REPO` make `spool setup` download from other
-repositories (a fork or a mirror).
+`~/.coil/bin/coil`. `COIL_LANG_URL` makes `spool setup` download from another
+repository (a fork or a mirror), and `COIL_STDLIB_REPO` changes the stdlib URL
+`spool new` writes into new projects.
 
 ## Uninstalling
 
@@ -242,12 +239,12 @@ Remove the binaries, the toolchain and the caches:
 
 ```bash
 rm -f ~/.local/bin/spool ~/.local/bin/libprocess.so ~/.local/bin/libprocess.dylib
-rm -rf ~/.coil                # coil, the stdlib and the natives cache
+rm -rf ~/.coil                # coil and the natives cache
 rm -rf ~/.cache/coil          # spool's shared git cache (or $XDG_CACHE_HOME/coil)
 rm -rf ~/.config/coil         # spool's config file, if you created one
 ```
 
-If you moved any of these with `COIL_HOME`, `COIL_CACHE_DIR` or
-`COIL_NATIVES_DIR`, remove those directories instead, and drop the `PATH`
+If you moved any of these with `COIL_HOME` or `XDG_CACHE_HOME`, remove
+those directories instead, and drop the `PATH`
 lines from your shell's startup file. Inside projects, `spool clean --all`
 removes `target/` and `.spool/`.

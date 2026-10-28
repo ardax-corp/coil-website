@@ -12,7 +12,7 @@ order: 38
 
 Tests are `test("name") { … }` blocks run by `coil test`; see [Tests](/docs/language/test-harness). [`assert!`](/docs/reference/tests/assert) raises an error rather than panicking, so it works in any function that returns a [`Result`](/docs/reference/prelude/Result).
 
-Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; with plain `coil`, pass `--root ~/.coil/stdlib/src`.
+Part of [coil-stdlib](/packages/stdlib). spool projects declare it as their `stdlib` dependency (`spool new` adds it); with plain `coil`, pass `--root` with the `src` of a coil-stdlib checkout.
 
 Import what you use (`use path::*` is not allowed):
 

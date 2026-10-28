@@ -12,7 +12,7 @@ order: 33
 
 Each function opens the file, does the whole job and closes it. Reading needs `--allow-read` and writing `--allow-write`. For large files or streaming, open a [`Stream`](/docs/reference/io/Stream) with [`io::open`](/docs/reference/io/open) and use [`io::sync`](/docs/reference/io/sync).
 
-Part of [coil-stdlib](/packages/stdlib). spool projects get it automatically; with plain `coil`, pass `--root ~/.coil/stdlib/src`.
+Part of [coil-stdlib](/packages/stdlib). spool projects declare it as their `stdlib` dependency (`spool new` adds it); with plain `coil`, pass `--root` with the `src` of a coil-stdlib checkout.
 
 Import what you use (`use path::*` is not allowed):
 
