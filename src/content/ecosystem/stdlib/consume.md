@@ -1,7 +1,7 @@
 ---
 title: "Consume coil-stdlib"
-description: "Every spool project declares coil-stdlib as a dependency (spool new adds it); spool passes the locked checkout's src/ as a module root."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/025245d29473d7d259d47c02dbc05ccea1109bb1/docs/consume.md"
+description: "Every spool project declares the stdlib as a dependency; there is no global copy. spool new and spool init write it for you. spool passes the locked checkout's src/ as a module…"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/docs/consume.md"
 ---
 # Consume coil-stdlib
 
@@ -49,5 +49,5 @@ not follow `[module] roots` or path deps for discovery). Do not pass
 Clone it as a sibling (`../coil-stdlib`) or under `coil-lang/.deps/coil-stdlib`.
 Its workspace `coil.toml` lists those roots for spool; with plain `coil`, pass `--root ../coil-stdlib/src`.
 
-Manifest schema (read by spool, not by `coil`): [project config](/docs/language/project-config).
+Manifest schema (read by spool, not by `coil`): [project config](/docs/references/project-config).
 `spool` vs `coil package`: [spool README](https://github.com/ardax-corp/spool).

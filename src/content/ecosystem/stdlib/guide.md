@@ -1,13 +1,13 @@
 ---
 title: "coil-stdlib docs"
 description: "Userland .hy library for Coil. Language builtins and virtual modules stay in the Coil references."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/025245d29473d7d259d47c02dbc05ccea1109bb1/docs/README.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/docs/README.md"
 ---
 # coil-stdlib docs
 
 Userland `.hy` library for [Coil](https://github.com/ardax-corp/coil-lang).
 Language builtins and virtual modules stay in the
-[Coil references](https://github.com/ardax-corp/coil-website/tree/main/src/content/docs/reference).
+[Coil references](https://github.com/ardax-corp/coil-website/tree/main/src/content/docs/references).
 
 | Page | Contents |
 |------|----------|
@@ -20,4 +20,4 @@ HTTP is [coil-http](https://github.com/ardax-corp/coil-http) — install via spo
 JSON is [coil-json](https://github.com/ardax-corp/coil-json) — `spool add json --git … --rev …` or a sibling `--root`; see [JSON](/packages/stdlib/codec).
 
 Language tutorials that *use* these modules (virtual `io` + adapters):
-[IO streams](/docs/manual/tutorial/10-files-and-io).
+[IO streams](/docs/manual/tutorial/10-io-streams).

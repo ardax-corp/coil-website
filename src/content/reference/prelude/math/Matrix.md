@@ -8,7 +8,7 @@ name: "Matrix"
 signature: "class Matrix<D>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/prelude/math.hy#L354"
+source: "https://github.com/ardax-corp/coil-lang/blob/d4c48479d5e180ae21c28947bc6cd256a880ce80/compiler/src/builtin_docs/prelude/math.hy#L137"
 order: 0
 ---
 

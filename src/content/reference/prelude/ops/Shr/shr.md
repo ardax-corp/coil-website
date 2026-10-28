@@ -9,7 +9,7 @@ parent: "Shr"
 signature: "fn shr(T a, int n) -> T"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/prelude/ops.hy#L311"
+source: "https://github.com/ardax-corp/coil-lang/blob/d4c48479d5e180ae21c28947bc6cd256a880ce80/compiler/src/builtin_docs/prelude/ops.hy#L311"
 order: 0
 ---
 

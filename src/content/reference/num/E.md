@@ -8,15 +8,14 @@ name: "E"
 signature: "const E = 2.718281828459045;"
 import: "use num::{E};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/num.hy#L15"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/src/num.hy#L16"
 order: 1
 ---
 
-Euler's number e, the base of [`ln`](/docs/reference/prelude/math/ln), as a [`float`](/docs/reference/types/float).
+Euler's number e, the base of `ln`, as a [`float`](/docs/reference/types/float).
 
 ## See also
 
-- [`ln`](/docs/reference/prelude/math/ln)
 - [`float`](/docs/reference/types/float)
 - [`PI`](/docs/reference/num/PI): The circle constant π, as a `float`.
 - [`TAU`](/docs/reference/num/TAU): A full turn τ = 2π, as a `float`.
