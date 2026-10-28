@@ -323,6 +323,7 @@ let n = d.x;              // field access
 ```
 
 - Two record literals with the same field names and compatible field types unify structurally.
+- There is no record *type annotation* yet: `{ x: int }` is a value form only, so a record lives in `let` bindings and in the values a function builds. A parameter, return type, alias or generic argument spelled `{ x: int }` is a parse error, even though diagnostics print record types that way ([coil-lang#2095](https://github.com/ardax-corp/coil-lang/issues/2095)).
 - A record is a heap object with one slot per field, like a class instance: its slots are the fields sorted by name, so `{ y: 9, x: 8 }` and `{ x: 8, y: 9 }` have the same layout. Field reads and writes are slot loads and stores (`LoadField` / `SetField`), not keyed lookups. Records are shared by reference: `let b = a; b.x = 5;` changes `a.x` too.
 - `r.len()` is the number of fields, a compile-time constant.
 - `==` / `!=` compare records field by field, as tuples compare element-wise: `{ a: 1, s: "x" } == { s: "x", a: 1 }` holds, and so do records nested in each other or inside arrays, tuples, `Option`s and enums. A `float` field compares by IEEE 754. Records have no `Eq` or `Hash` instance yet, so a `T: Eq` bound (and a `HashMap` key) does not accept one.
