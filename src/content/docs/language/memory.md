@@ -106,6 +106,9 @@ a copy:
   `c.port = 80` changes `a`.
 - `for mut item in items { … }` changes each element in place.
 - `fn () use (mut list) { … }` lets a lambda change the outer `list`.
+  It shares `list`'s object, not the variable: assigning the capture
+  (`n += 1` on a captured `int`) changes only the lambda's copy, and the
+  compiler warns (E0143). Use a `Ref<int>` for a counter.
 
 `mut` is a borrow: the name lives in its own scope and is never stored.
 State that must be shared beyond that goes in one of two places:
