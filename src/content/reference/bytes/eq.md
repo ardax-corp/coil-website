@@ -8,7 +8,7 @@ name: "eq"
 signature: "fn eq(Vec<byte> a, Vec<byte> b) -> bool"
 import: "use bytes::{eq};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/bytes.hy#L166"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/src/bytes.hy#L166"
 order: 6
 ---
 

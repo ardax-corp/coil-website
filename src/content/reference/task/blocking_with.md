@@ -8,7 +8,7 @@ name: "blocking_with"
 signature: "fn blocking_with<A, T>(A -> T work, A arg) -> Result<T, ThreadError>"
 import: "use task::{blocking_with};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/prelude/task.hy#L436"
+source: "https://github.com/ardax-corp/coil-lang/blob/d4c48479d5e180ae21c28947bc6cd256a880ce80/compiler/src/prelude/task.hy#L436"
 order: 11
 ---
 

@@ -8,7 +8,7 @@ name: "word_mask"
 signature: "fn word_mask(int b) -> int"
 import: "use collections::bitset::{word_mask};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/collections/bitset.hy#L12"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/src/collections/bitset.hy#L12"
 order: 1
 ---
 

@@ -1,12 +1,12 @@
 ---
 title: "IO adapters (io::sync, io::file)"
 description: "Non-blocking streams are the compiler virtual module io. This package adds blocking loops and whole-file helpers on top."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/025245d29473d7d259d47c02dbc05ccea1109bb1/docs/io.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/docs/io.md"
 ---
 # IO adapters (`io::sync`, `io::file`)
 
 Non-blocking streams are the compiler virtual module
-[`io`](/docs/reference/io).
+[`io`](/docs/references/io).
 This package adds blocking loops and whole-file helpers on top.
 
 ```coil
@@ -17,7 +17,7 @@ use io::file::{read_text, write_text};
 
 Structure concurrent IO with `task::scope` / `spawn` (IO inside a task parks it).
 For a one-off generator, `task::block_on` resumes it to completion.
-Tutorials: [IO streams](/docs/manual/tutorial/10-files-and-io), [Tasks](/docs/manual/tutorial/13-tasks).
+Tutorials: [IO streams](/docs/manual/tutorial/10-io-streams), [Tasks](/docs/manual/tutorial/12-tasks).
 
 ## `io::sync`
 

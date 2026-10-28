@@ -8,7 +8,7 @@ name: "lcm"
 signature: "fn lcm(int a, int b) -> int"
 import: "use num::{lcm};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/num.hy#L169"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/src/num.hy#L170"
 order: 10
 ---
 

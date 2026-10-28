@@ -8,7 +8,7 @@ name: "float"
 signature: "type float"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/types.hy#L69"
+source: "https://github.com/ardax-corp/coil-lang/blob/d4c48479d5e180ae21c28947bc6cd256a880ce80/compiler/src/builtin_docs/types.hy#L69"
 order: 1
 ---
 
@@ -25,7 +25,7 @@ infinities saturate). There is no direct cast between `float` and [`byte`](/docs
 go through [`int`](/docs/reference/types/int). Mixing [`int`](/docs/reference/types/int) and `float` in one operator is a type error.
 
 `float` implements [`Num`](/docs/reference/prelude/ops/Num), [`Ord`](/docs/reference/prelude/ops/Ord), [`Eq`](/docs/reference/prelude/ops/Eq) and [`Show`](/docs/reference/prelude/ops/Show), but not [`Integral`](/docs/reference/prelude/ops/Integral).
-Math functions such as [`sqrt`](/docs/reference/prelude/math/sqrt) and [`sin`](/docs/reference/prelude/math/sin) are in [`prelude::math`](/docs/reference/prelude/math).
+Math functions such as `sqrt` and `sin` are in [`prelude::math`](/docs/reference/prelude/math).
 
 ## Examples
 
@@ -49,6 +49,4 @@ assert!(show(x) == "2.5");
 - [`Eq`](/docs/reference/prelude/ops/Eq)
 - [`Show`](/docs/reference/prelude/ops/Show)
 - [`Integral`](/docs/reference/prelude/ops/Integral)
-- [`sqrt`](/docs/reference/prelude/math/sqrt)
-- [`sin`](/docs/reference/prelude/math/sin)
 - [`prelude::math`](/docs/reference/prelude/math)

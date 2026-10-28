@@ -119,12 +119,14 @@ Prefer `use`, which says exactly which names a file depends on.
 
 Every file starts with the [prelude](/docs/reference/prelude) in scope:
 `Option`, `Result`, `Vec`, `Range`, iterators, the operator traits from
-[`prelude::ops`](/docs/reference/prelude/ops), and the math functions from
-[`prelude::math`](/docs/reference/prelude/math). Nothing else is implicit.
+[`prelude::ops`](/docs/reference/prelude/ops), and the linear-algebra helpers
+from [`prelude::math`](/docs/reference/prelude/math). Nothing else is implicit:
+float functions such as `sin` come from the standard library's
+[`math`](/docs/reference/math) module (`use math::{sin};`).
 
 A name you declare or import takes precedence over a prelude function of
 the same name; to keep both, import the prelude one under another name
-(`use prelude::math::sin as psin;`). To declare your own trait or enum with
+(`use prelude::math::dot as pdot;`). To declare your own trait or enum with
 a prelude name such as `Eq` or `Option`, first rebind the prelude one:
 
 ```coil ignore

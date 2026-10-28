@@ -8,8 +8,8 @@ name: "matmul"
 signature: "fn matmul<A, B, C>(A a, B b) -> C"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/prelude/math.hy#L267"
-order: 21
+source: "https://github.com/ardax-corp/coil-lang/blob/d4c48479d5e180ae21c28947bc6cd256a880ce80/compiler/src/builtin_docs/prelude/math.hy#L50"
+order: 3
 ---
 
 Multiplies two matrices written as nested fixed-length arrays.
@@ -43,10 +43,7 @@ assert!(p[1][1] == 50);
 ## See also
 
 - [`matrix`](/docs/reference/prelude/math/fn.matrix)
-- [`sin`](/docs/reference/prelude/math/sin): Returns the sine of `x` (in radians).
-- [`cos`](/docs/reference/prelude/math/cos): Returns the cosine of `x` (in radians).
-- [`tan`](/docs/reference/prelude/math/tan): Returns the tangent of `x` (in radians).
-- [`sqrt`](/docs/reference/prelude/math/sqrt): Returns the square root of `x`.
-- [`floor`](/docs/reference/prelude/math/floor): Returns the largest whole number less than or equal to `x`, as a `float`.
-- [`ceil`](/docs/reference/prelude/math/ceil): Returns the smallest whole number greater than or equal to `x`, as a `float`.
-- [`exp`](/docs/reference/prelude/math/exp): Returns `e` raised to the power `x`.
+- [`dot`](/docs/reference/prelude/math/dot): Returns the dot product of two vectors of the same length.
+- [`cross`](/docs/reference/prelude/math/cross): Returns the cross product of two 3-element vectors.
+- [`intersect`](/docs/reference/prelude/math/intersect): Returns a `byte` mask that is `1` where both matrices have a non-zero cell.
+- [`diff`](/docs/reference/prelude/math/diff): Returns a `byte` mask that is `1` where `a` has a non-zero cell and `b` has `0`.

@@ -9,7 +9,7 @@ parent: "Path"
 signature: "pub fn read_bytes() -> Result<Vec<byte>, IoError>"
 import: "use path::{Path};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/path.hy#L484"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/src/path.hy#L484"
 order: 21
 ---
 

@@ -1,16 +1,18 @@
 ---
 title: "Module catalog"
 description: "use path:: is banned (E0124). List names explicitly."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/aa579cb79b3ee1b4d11c6b53fb73a950ca3ca37e/docs/modules.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/docs/modules.md"
 ---
 # Module catalog
 
 `use path::*` is banned (`E0124`). List names explicitly.
 
-IEEE float math is auto-imported from virtual `prelude::math` in the
-compiler — not this package: `sin`/`cos`/`tan`/`sqrt`/`floor`/`ceil`/
-`exp`/`ln`, `atan`/`atan2`/`asin`/`acos`, `log10`/`log2`/`cbrt`, and
-`sinh`/`cosh`/`tanh`. `num` does not re-export those. Float power and
+IEEE float math is the userland `math` module, written in Coil rather than
+host natives: `sin`/`cos`/`tan`/`sqrt`/`floor`/`ceil`/`exp`/`ln`,
+`atan`/`atan2`/`asin`/`acos`, `log10`/`log2`/`cbrt`, and `sinh`/`cosh`/`tanh`
+(`use math::{sin, sqrt};`). They used to be host natives auto-imported from
+the compiler's `prelude::math`; calling one without the `use` is now a compile
+error that names the import. `num` does not re-export them. Float power and
 remainder are the `**` and `%` operators (`num` has no `pow`; overflow-aware
 int powers are `arith`'s `checked_pow` and friends). Named float constants `PI`,
 `E`, and `TAU` live on `num` as compile-time `const`s (not HostInvoke).
@@ -42,6 +44,7 @@ package (`use json::{Json, JsonValue, JsonError};`). There is no in-tree
 | `collections::deque` | `use collections::deque::{VecDeque};` | Ring-buffer deque over growable `Vec`; O(1) push/pop at both ends |
 | `collections::bitset` | `use collections::bitset::{BitSet};` | Dense bit set of non-negative `int` indices; 63 bits per `int` word |
 | `collections::tree` | `use collections::tree::{TreeMap};` | Mutable BST map over `Ord`+`Eq`; remove / min / max / iter |
+| `math` | `use math::{sin, cos, sqrt, exp, ln, atan2, …};` | IEEE-754 double functions in pure Coil (ports of FreeBSD msun / musl, ARM optimized-routines `exp`, CORE-MATH `cbrt`). `sqrt`, `floor`, `ceil` and `cbrt` are correctly rounded; the rest stay within 2 ulp of the host libm in `tests/math.hy`. Huge trig arguments use a Payne-Hanek reduction |
 | `num` | `use num::{PI, E, TAU, abs, min, signum, gcd, …};` | Float constants `PI`/`E`/`TAU`; helpers: `abs`, `min`/`max`/`clamp` over `Ord`, `round`, `signum`, `gcd`/`lcm`, `trunc`/`fract`, NaN/inf checks, euclidean div/rem, `hypot` |
 | `random` | `use random::{Rng};` | Seeded `Rng` PRNG (`from_time` mixes [coil-time](https://github.com/ardax-corp/coil-time) timestamps as ints) |
 | `path` | `use path::{Path};` | `Path` value: join / normalize / components / FS + file I/O |
@@ -70,11 +73,9 @@ package (`use json::{Json, JsonValue, JsonError};`). There is no in-tree
 - `sort_by<T, K: Ord>` uses the same `T -> K` / `K: Ord` story as `map` + `sort`.
 - `BitSet::with_capacity` / `capacity` are in **bits**. Storage is `Vec<int>`
   with 63 usable bits per word (Coil `int` is signed 64-bit; sign bit unused).
-- `sort` on a `Vec<string>` orders byte-wise (UTF-8, case-sensitive: `"B"`
-  before `"a"`, a prefix first), as `<` on strings does.
 - Lambda, `defer` and task `use (x)` captures copy the local, so assigning to
   it inside the closure is not seen outside. Capture a `cell::Ref` instead and
   call `set` / `update` on it.
 
 What the **compiler** does *not* provide as builtins:
-[not-builtins](/docs/language/not-builtins).
+[not-builtins](/docs/references/not-builtins).

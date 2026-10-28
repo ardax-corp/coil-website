@@ -7,10 +7,10 @@ kind: "module"
 name: "num"
 origin: "stdlib"
 auto: false
-order: 35
+order: 36
 ---
 
-Float functions such as [`sqrt`](/docs/reference/prelude/math/sqrt) and [`sin`](/docs/reference/prelude/math/sin) are auto-imported from [`prelude::math`](/docs/reference/prelude/math); this module adds the rest. Powers are the `**` operator.
+Float functions such as `sqrt` and `sin` are in [`math`](/docs/reference/math); this module adds the rest. Powers are the `**` operator.
 
 Part of [coil-stdlib](/packages/stdlib). spool projects declare it as their `stdlib` dependency (`spool new` adds it); with plain `coil`, pass `--root` with the `src` of a coil-stdlib checkout.
 
@@ -25,7 +25,7 @@ use num::{PI, E};
 | Name | Description |
 |------|-------------|
 | [`PI`](/docs/reference/num/PI) | The circle constant π, as a [`float`](/docs/reference/types/float). |
-| [`E`](/docs/reference/num/E) | Euler's number e, the base of [`ln`](/docs/reference/prelude/math/ln), as a [`float`](/docs/reference/types/float). |
+| [`E`](/docs/reference/num/E) | Euler's number e, the base of `ln`, as a [`float`](/docs/reference/types/float). |
 | [`TAU`](/docs/reference/num/TAU) | A full turn τ = 2π, as a [`float`](/docs/reference/types/float). |
 
 ## Functions
