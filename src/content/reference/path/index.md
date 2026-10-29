@@ -7,7 +7,7 @@ kind: "module"
 name: "path"
 origin: "stdlib"
 auto: false
-order: 37
+order: 36
 ---
 
 Part of [coil-stdlib](/packages/stdlib). spool projects declare it as their `stdlib` dependency (`spool new` adds it); with plain `coil`, pass `--root` with the `src` of a coil-stdlib checkout.

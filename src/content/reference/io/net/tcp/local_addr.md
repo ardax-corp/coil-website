@@ -8,7 +8,7 @@ name: "local_addr"
 signature: "fn local_addr(Stream s) -> Result<(string, int), IoError>"
 import: "use io::net::tcp::{local_addr};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/io/net/tcp.hy#L170"
+source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/builtin_docs/io/net/tcp.hy#L170"
 order: 4
 ---
 

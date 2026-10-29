@@ -7,7 +7,7 @@ kind: "module"
 name: "random"
 origin: "stdlib"
 auto: false
-order: 38
+order: 37
 ---
 
 Not for secrets: use `crypto::random_bytes` from [coil-crypto](/packages/crypto) for keys and tokens.

@@ -7,7 +7,7 @@ kind: "module"
 name: "keywords"
 origin: "builtin"
 auto: true
-order: 43
+order: 42
 ---
 
 Keywords are recognized by position. Contextual keywords such as `self`,
@@ -23,6 +23,7 @@ Built into the compiler.
 |------|-------------|
 | [`fn`](/docs/reference/keywords/fn) | Declares a function, a method, or (written in an expression) an anonymous function. |
 | [`let`](/docs/reference/keywords/let) | Declares a mutable local variable. |
+| [`mut`](/docs/reference/keywords/mut) | Borrows a place instead of copying it: the new name reaches the same object. |
 | [`const`](/docs/reference/keywords/const) | Declares a binding that cannot be reassigned: a local, a module constant, or a class field that is set only by `new`. |
 | [`static`](/docs/reference/keywords/static) | Declares a module-level or class-level slot shared by the whole program, or a method without `self`. |
 | [`readonly`](/docs/reference/keywords/readonly) | A read-only view of a value: nothing reachable through it can be changed. |
@@ -47,10 +48,12 @@ Built into the compiler.
 | [`mod`](/docs/reference/keywords/mod) | Loads a module file without importing any of its names: `mod name;`. |
 | [`extern`](/docs/reference/keywords/extern) | Binds C functions from a native library at compile time: `extern "lib" { fn …; }`. |
 | [`class`](/docs/reference/keywords/class) | Declares a class: a named heap type with fields, constructed with `new`. |
+| [`shared`](/docs/reference/keywords/shared) | Declares a `shared class`: a class whose instances are never copied. |
 | [`impl`](/docs/reference/keywords/impl) | Adds methods to a type (`impl Type { … }`) or implements a trait for it (`impl Trait for Type { … }`). |
 | [`pub`](/docs/reference/keywords/pub) | Makes a class field or method accessible from outside the type. |
 | [`new`](/docs/reference/keywords/new) | Constructs a class instance: `new Class(args)`. |
 | [`defer`](/docs/reference/keywords/defer) | Schedules a block to run when the enclosing function exits. |
+| [`region`](/docs/reference/keywords/region) | Runs a block whose garbage is freed in one go when the block ends. |
 | [`true`](/docs/reference/keywords/true) | The [`bool`](/docs/reference/types/bool) value true. |
 | [`false`](/docs/reference/keywords/false) | The [`bool`](/docs/reference/types/bool) value false. |
 | [`gen`](/docs/reference/keywords/gen) | Declares a generator function (a coroutine): `gen fn name(…) { … }`. |

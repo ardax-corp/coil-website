@@ -8,7 +8,7 @@ name: "sqrt"
 signature: "fn sqrt(float x) -> float"
 import: "use math::{sqrt};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/src/math.hy#L710"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/math.hy#L710"
 order: 2
 ---
 

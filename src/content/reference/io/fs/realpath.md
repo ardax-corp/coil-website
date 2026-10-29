@@ -8,7 +8,7 @@ name: "realpath"
 signature: "fn realpath(string path) -> Result<string, IoError>"
 import: "use io::fs::{realpath};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/io/fs.hy#L280"
+source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/builtin_docs/io/fs.hy#L280"
 order: 10
 ---
 

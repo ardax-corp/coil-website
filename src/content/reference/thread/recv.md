@@ -8,14 +8,14 @@ name: "recv"
 signature: "fn recv<T>(Receiver<T> rx) -> Result<T, ChannelError>"
 import: "use thread::{recv};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/thread.hy#L419"
+source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/builtin_docs/thread.hy#L419"
 order: 13
 ---
 
 Takes the next value from the channel, waiting until one arrives.
 
 Returns `Err(ChannelError::Closed)` when the channel is closed and
-every value has been received. Inside a [`task::scope`](/docs/reference/task/fn.scope), only the waiting
+every value has been received. Inside a [`task::scope`](/docs/reference/task/scope), only the waiting
 task is suspended.
 
 ## Parameters
@@ -49,7 +49,7 @@ assert!(done);
 
 ## See also
 
-- [`task::scope`](/docs/reference/task/fn.scope)
+- [`task::scope`](/docs/reference/task/scope)
 - [`spawn`](/docs/reference/thread/spawn): Runs `f(arg)` on another OS thread and returns a handle to it.
 - [`join`](/docs/reference/thread/join): Waits for the thread to finish and returns the value its function returned.
 - [`detach`](/docs/reference/thread/detach): Lets the thread run to completion without being joined.

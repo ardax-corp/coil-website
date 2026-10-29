@@ -7,7 +7,7 @@ kind: "module"
 name: "collections::map"
 origin: "stdlib"
 auto: false
-order: 26
+order: 25
 ---
 
 Keys need [`Eq`](/docs/reference/prelude/ops/Eq) and `Hash`. For keys in sorted order, use [`TreeMap`](/docs/reference/collections/tree/TreeMap).

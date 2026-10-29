@@ -1,5 +1,5 @@
 ---
-slug: "task/fn.channel"
+slug: "task/channel"
 title: "channel"
 description: "Creates a channel that holds up to capacity values."
 module: "task"
@@ -8,8 +8,8 @@ name: "channel"
 signature: "fn channel<T>(int capacity) -> Channel<T>"
 import: "use task::{channel};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/prelude/task.hy#L304"
-order: 9
+source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/prelude/task.hy#L304"
+order: 6
 ---
 
 Creates a channel that holds up to `capacity` values.
@@ -30,7 +30,7 @@ Panics when `capacity` is less than 1.
 
 ## See also
 
-- [`scope`](/docs/reference/task/fn.scope): Runs `body` with a `Scope` for starting child tasks, and returns its value once `body` and every child have finished.
+- [`scope`](/docs/reference/task/scope): Runs `body` with a `Scope` for starting child tasks, and returns its value once `body` and every child have finished.
 - [`sleep`](/docs/reference/task/sleep): Suspends the current task for at least `ms` milliseconds; other tasks run meanwhile.
 - [`yield_now`](/docs/reference/task/yield_now): Lets other ready tasks run before the current one continues.
 - [`timeout`](/docs/reference/task/timeout): Runs `body` as a task and cancels it if it has not finished after `ms` milliseconds.

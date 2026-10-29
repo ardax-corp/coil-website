@@ -8,7 +8,7 @@ name: "read_timeout"
 signature: "fn read_timeout(Stream s, Vec<byte> buf, int timeout_ms) -> Result<Option<int>, TtyError>"
 import: "use io::tty::{read_timeout};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/io/tty.hy#L152"
+source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/builtin_docs/io/tty.hy#L152"
 order: 6
 ---
 
@@ -18,7 +18,7 @@ Returns `Ok(Some(n))` with the number of bytes read, `Ok(Some(0))` when
 the time passed or the wait was cut short by a window resize (check
 [`resized`](/docs/reference/io/tty/resized)), and `Ok(None)` at the end of the input. The wait is what
 tells a lone Esc key from the start of an escape sequence. It blocks the
-thread (inside a [`task::scope`](/docs/reference/task/fn.scope), other tasks wait too). Works on any
+thread (inside a [`task::scope`](/docs/reference/task/scope), other tasks wait too). Works on any
 stream; files are always ready.
 
 ## Parameters
@@ -53,7 +53,7 @@ fn main() -> Result<(), TtyError> {
 ## See also
 
 - [`io::tty::resized`](/docs/reference/io/tty/resized)
-- [`task::scope`](/docs/reference/task/fn.scope)
+- [`task::scope`](/docs/reference/task/scope)
 - [`is_tty`](/docs/reference/io/tty/is_tty): Returns whether `s` is a terminal (`isatty`; a console on Windows).
 - [`size`](/docs/reference/io/tty/size): Returns the size of the terminal `s` as `(columns, rows)`.
 - [`enter_raw`](/docs/reference/io/tty/enter_raw): Puts the terminal `s` in raw mode: input is not echoed and arrives byte by byte, without waiting for Enter.

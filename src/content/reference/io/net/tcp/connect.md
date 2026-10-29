@@ -8,7 +8,7 @@ name: "connect"
 signature: "fn connect(string host, int port) -> Result<Stream, IoError>"
 import: "use io::net::tcp::{connect};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/io/net/tcp.hy#L76"
+source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/builtin_docs/io/net/tcp.hy#L76"
 order: 1
 ---
 

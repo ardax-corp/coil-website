@@ -8,7 +8,7 @@ name: "spawn"
 signature: "fn spawn<A, B>(A -> B f, A arg) -> Result<Thread<B>, ThreadError>"
 import: "use thread::{spawn};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/thread.hy#L275"
+source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/builtin_docs/thread.hy#L275"
 order: 8
 ---
 

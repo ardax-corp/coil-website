@@ -8,14 +8,14 @@ name: "wait_ready"
 signature: "fn wait_ready() -> int"
 import: "use io::{wait_ready};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/io.hy#L622"
+source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/builtin_docs/io.hy#L622"
 order: 19
 ---
 
 Deprecated: waits until any registered IO waiter is ready and returns how many became ready.
 
 Calling it gives warning `E0129`. Run concurrent IO as tasks instead
-([`task::scope`](/docs/reference/task/fn.scope) with `spawn` and `join`): an IO wait inside a task
+([`task::scope`](/docs/reference/task/scope) with `spawn` and `join`): an IO wait inside a task
 suspends only that task.
 
 ## Returns
@@ -31,7 +31,7 @@ let ready = wait_ready(); // warning E0129: `wait_ready` is deprecated
 
 ## See also
 
-- [`task::scope`](/docs/reference/task/fn.scope)
+- [`task::scope`](/docs/reference/task/scope)
 - [`stdin`](/docs/reference/io/stdin): Returns a new stream on the process's standard input.
 - [`stdout`](/docs/reference/io/stdout): Returns a new stream on the process's standard output.
 - [`stderr`](/docs/reference/io/stderr): Returns a new stream on the process's standard error.
