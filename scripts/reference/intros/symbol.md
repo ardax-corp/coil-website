@@ -23,6 +23,8 @@ fn main() {
 }
 ```
 
-A generic function has one key for all the types it is called with, and
-inlining never changes a key. `fn_key()` outside a function body, such as in
+A generic function has a key per instantiation (`ident(1)` and `ident(2)`
+share one, `ident("a")` has another), and inlining never changes a key. A
+generic function that calls `fn_key()` cannot be used as a function value
+(error `E0145`). `fn_key()` outside a function body, such as in
 a `const` initializer, is error `E0144`.
