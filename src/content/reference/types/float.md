@@ -25,7 +25,8 @@ infinities saturate). There is no direct cast between `float` and [`byte`](/docs
 go through [`int`](/docs/reference/types/int). Mixing [`int`](/docs/reference/types/int) and `float` in one operator is a type error.
 
 `float` implements [`Num`](/docs/reference/prelude/ops/Num), [`Ord`](/docs/reference/prelude/ops/Ord), [`Eq`](/docs/reference/prelude/ops/Eq) and [`Show`](/docs/reference/prelude/ops/Show), but not [`Integral`](/docs/reference/prelude/ops/Integral).
-Math functions such as `sqrt` and `sin` are in [`prelude::math`](/docs/reference/prelude/math).
+Math functions such as `sqrt` and `sin` are in the standard library's
+[`math`](/docs/reference/math) module (`use math::{sqrt};`).
 
 ## Examples
 
@@ -49,4 +50,4 @@ assert!(show(x) == "2.5");
 - [`Eq`](/docs/reference/prelude/ops/Eq)
 - [`Show`](/docs/reference/prelude/ops/Show)
 - [`Integral`](/docs/reference/prelude/ops/Integral)
-- [`prelude::math`](/docs/reference/prelude/math)
+- [`math`](/docs/reference/math)
