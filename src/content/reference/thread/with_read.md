@@ -8,7 +8,7 @@ name: "with_read"
 signature: "fn with_read<A, B>(RwLock<A> lock, A -> B f) -> Result<B, LockError>"
 import: "use thread::{with_read};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d4c48479d5e180ae21c28947bc6cd256a880ce80/compiler/src/builtin_docs/thread.hy#L659"
+source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/thread.hy#L659"
 order: 23
 ---
 
