@@ -8,7 +8,7 @@ name: "to_upper"
 signature: "fn to_upper(byte c) -> byte"
 import: "use ascii::{to_upper};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/ascii.hy#L60"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/src/ascii.hy#L60"
 order: 8
 ---
 

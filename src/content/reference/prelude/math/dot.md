@@ -8,8 +8,8 @@ name: "dot"
 signature: "fn dot<V, T>(V a, V b) -> T"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/prelude/math.hy#L234"
-order: 19
+source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/prelude/math.hy#L17"
+order: 1
 ---
 
 Returns the dot product of two vectors of the same length.
@@ -43,8 +43,8 @@ assert!(dot([1.5, 2.0], [2.0, 4.0]) == 11.0);
 - [`int`](/docs/reference/types/int)
 - [`float`](/docs/reference/types/float)
 - [`byte`](/docs/reference/types/byte)
-- [`sin`](/docs/reference/prelude/math/sin): Returns the sine of `x` (in radians).
-- [`cos`](/docs/reference/prelude/math/cos): Returns the cosine of `x` (in radians).
-- [`tan`](/docs/reference/prelude/math/tan): Returns the tangent of `x` (in radians).
-- [`sqrt`](/docs/reference/prelude/math/sqrt): Returns the square root of `x`.
-- [`floor`](/docs/reference/prelude/math/floor): Returns the largest whole number less than or equal to `x`, as a `float`.
+- [`cross`](/docs/reference/prelude/math/cross): Returns the cross product of two 3-element vectors.
+- [`matmul`](/docs/reference/prelude/math/matmul): Multiplies two matrices written as nested fixed-length arrays.
+- [`matrix`](/docs/reference/prelude/math/fn.matrix): Wraps nested fixed-length rows as a `Matrix`.
+- [`intersect`](/docs/reference/prelude/math/intersect): Returns a `byte` mask that is `1` where both matrices have a non-zero cell.
+- [`diff`](/docs/reference/prelude/math/diff): Returns a `byte` mask that is `1` where `a` has a non-zero cell and `b` has `0`.

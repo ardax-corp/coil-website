@@ -9,7 +9,7 @@ parent: "Wrapping"
 signature: "fn wrapping_shr(S a, int n) -> S"
 import: "use arith::{Wrapping};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/a5615b7cd941dfa56fc0e1f42de4832c354630a3/src/arith.hy#L96"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/src/arith.hy#L96"
 order: 6
 ---
 

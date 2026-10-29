@@ -8,7 +8,7 @@ name: "block_on"
 signature: "fn block_on<Y>(coroutine<Y> handle) -> Y"
 import: "use task::{block_on};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/prelude/task.hy#L444"
+source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/prelude/task.hy#L444"
 order: 12
 ---
 

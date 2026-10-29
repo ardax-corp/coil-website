@@ -8,7 +8,7 @@ name: "Neg"
 signature: "trait Neg<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/builtin_docs/prelude/ops.hy#L160"
+source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/prelude/ops.hy#L160"
 order: 4
 ---
 

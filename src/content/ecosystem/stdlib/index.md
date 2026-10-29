@@ -1,7 +1,7 @@
 ---
 title: "coil-stdlib"
 description: "Userland standard library for Coil. Compiler virtual modules cover systems primitives (io, string, thread, …); this package layers .hy helpers on top."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/aa579cb79b3ee1b4d11c6b53fb73a950ca3ca37e/README.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/README.md"
 ---
 # coil-stdlib
 
@@ -31,6 +31,7 @@ coil.toml
 src/ascii.hy          # use ascii::…
 src/cell.hy           # use cell::{Ref}
 src/collections/      # map, set, list, deque, bitset, tree, vec
+src/math.hy           # use math::{sin, sqrt, …} — float math in Coil
 src/path.hy           # use path::{Path, …}
 tests/                # coil test
 docs/                 # package documentation

@@ -9,7 +9,7 @@ parent: "Option"
 signature: "pub fn is_none() -> bool"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/fc46180d7eca01b66211d0caab301eae32c93c41/compiler/src/prelude/core.hy#L39"
+source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/prelude/core.hy#L39"
 order: 1
 ---
 
