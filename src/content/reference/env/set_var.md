@@ -8,7 +8,7 @@ name: "set_var"
 signature: "fn set_var(string name, string value) -> Result<unit, EnvError>"
 import: "use env::{set_var};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d4c48479d5e180ae21c28947bc6cd256a880ce80/compiler/src/builtin_docs/env.hy#L80"
+source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/env.hy#L80"
 order: 3
 ---
 

@@ -8,7 +8,7 @@ name: "Div"
 signature: "trait Div<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d4c48479d5e180ae21c28947bc6cd256a880ce80/compiler/src/builtin_docs/prelude/ops.hy#L128"
+source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/prelude/ops.hy#L128"
 order: 3
 ---
 

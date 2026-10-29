@@ -1,7 +1,7 @@
 ---
 slug: "prelude/ops/Eq/ne"
 title: "Eq::ne"
-description: "Returns true when a and b are not equal."
+description: "Returns true when a and b are not equal. Defaults to !(a == b)."
 module: "prelude::ops"
 kind: "method"
 name: "ne"
@@ -9,11 +9,11 @@ parent: "Eq"
 signature: "fn ne(T a, T b) -> bool"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d4c48479d5e180ae21c28947bc6cd256a880ce80/compiler/src/builtin_docs/prelude/ops.hy#L486"
+source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/prelude/ops.hy#L485"
 order: 1
 ---
 
-Returns `true` when `a` and `b` are not equal.
+Returns `true` when `a` and `b` are not equal. Defaults to `!(a == b)`.
 
 ## Parameters
 

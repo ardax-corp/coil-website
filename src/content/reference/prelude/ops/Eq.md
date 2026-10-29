@@ -8,7 +8,7 @@ name: "Eq"
 signature: "trait Eq<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d4c48479d5e180ae21c28947bc6cd256a880ce80/compiler/src/builtin_docs/prelude/ops.hy#L482"
+source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/prelude/ops.hy#L480"
 order: 15
 ---
 
@@ -19,7 +19,8 @@ The equality operators `==` and `!=`.
 content). Arrays, [`Vec`](/docs/reference/prelude/Vec)s, tuples, records and enums compare structurally,
 and an element with an `Eq` instance (a class's too) compares with it.
 Classes without an instance compare by identity. `#[derive(Eq)]`
-generates a field-by-field instance.
+generates a field-by-field instance. An `impl Eq` writes [`eq`](/docs/reference/prelude/ops/Eq/eq) only:
+[`ne`](/docs/reference/prelude/ops/Eq/ne) defaults to `!(a == b)`, and an impl may still write its own.
 
 ## Required methods
 
@@ -40,9 +41,6 @@ impl Eq for Money {
     pub fn eq(Money a, Money b) -> bool {
         return a.cents == b.cents;
     }
-    pub fn ne(Money a, Money b) -> bool {
-        return a.cents != b.cents;
-    }
 }
 
 fn main() {
@@ -54,10 +52,10 @@ fn main() {
 ## See also
 
 - [`Vec`](/docs/reference/prelude/Vec)
+- [`Eq::eq`](/docs/reference/prelude/ops/Eq/eq)
+- [`Eq::ne`](/docs/reference/prelude/ops/Eq/ne)
 - [`Add`](/docs/reference/prelude/ops/Add): The addition operator `+`.
 - [`Sub`](/docs/reference/prelude/ops/Sub): The subtraction operator `-`.
 - [`Mul`](/docs/reference/prelude/ops/Mul): The multiplication operator `*`.
 - [`Div`](/docs/reference/prelude/ops/Div): The division operator `/`.
 - [`Neg`](/docs/reference/prelude/ops/Neg): The unary negation operator `-x`.
-- [`Rem`](/docs/reference/prelude/ops/Rem): The remainder operator `%`.
-- [`Pow`](/docs/reference/prelude/ops/Pow): The exponentiation operator `**`.

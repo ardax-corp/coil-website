@@ -8,7 +8,7 @@ name: "with_lock"
 signature: "fn with_lock<A, B>(Mutex<A> m, A -> (A, B) f) -> Result<B, LockError>"
 import: "use thread::{with_lock};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d4c48479d5e180ae21c28947bc6cd256a880ce80/compiler/src/builtin_docs/thread.hy#L544"
+source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/thread.hy#L544"
 order: 18
 ---
 
