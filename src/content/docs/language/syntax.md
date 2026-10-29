@@ -99,7 +99,7 @@ quote_expr    ::= 'quote' ('items' | 'expr' | 'stmts' | 'type') '{' template '}'
 program ::= declaration*
 ```
 
-Every runnable program needs `fn main() { ... }` (spool can take the entry file from `[entry]` in `coil.toml`).
+Every runnable program needs `fn main() { ... }`, which takes no parameters (read arguments with `env::args()`) (spool can take the entry file from `[entry]` in `coil.toml`).
 
 ---
 

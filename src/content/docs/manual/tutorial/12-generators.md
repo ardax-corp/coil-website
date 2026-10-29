@@ -45,7 +45,8 @@ liftoff
 
 Calling `countdown(3)` does not run any of its code. It returns a paused
 generator; each round of the loop resumes it until the next `yield`, and the
-loop ends when the function returns.
+loop ends when the function returns. A bare `return;` anywhere in a `gen fn`
+finishes the generator early, whatever type it yields.
 
 ## Endless sequences
 

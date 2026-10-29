@@ -386,9 +386,8 @@ higher-kinded parameters and more.
    field.
 
    > [!hint]
-   > `Eq` needs both `fn eq(Version a, Version b) -> bool` and
-   > `fn ne(Version a, Version b) -> bool`. `ne` can simply return
-   > `!(a == b)`.
+   > `Eq` needs only `fn eq(Version a, Version b) -> bool`. `ne` has a
+   > default, `!(a == b)`, so `!=` works without writing it.
 
    ```coil challenge=c07-3
    use io::sync::{println};
