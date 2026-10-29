@@ -7,8 +7,8 @@ kind: "keyword"
 name: "yield"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/keywords.md#L777"
-order: 34
+source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/builtin_docs/keywords.md#L869"
+order: 37
 ---
 
 Suspends a generator and hands a value to the code that resumed it.
@@ -34,9 +34,9 @@ fn main() {
 
 - [`fn`](/docs/reference/keywords/fn): Declares a function, a method, or (written in an expression) an anonymous function.
 - [`let`](/docs/reference/keywords/let): Declares a mutable local variable.
+- [`mut`](/docs/reference/keywords/mut): Borrows a place instead of copying it: the new name reaches the same object.
 - [`const`](/docs/reference/keywords/const): Declares a binding that cannot be reassigned: a local, a module constant, or a class field that is set only by `new`.
 - [`static`](/docs/reference/keywords/static): Declares a module-level or class-level slot shared by the whole program, or a method without `self`.
 - [`readonly`](/docs/reference/keywords/readonly): A read-only view of a value: nothing reachable through it can be changed.
 - [`if`](/docs/reference/keywords/if): Runs a block when a `bool` condition is true.
 - [`else`](/docs/reference/keywords/else): Introduces the branch of an `if` that runs when its condition is false (or its pattern does not match).
-- [`while`](/docs/reference/keywords/while): Repeats a block while a `bool` condition is true.

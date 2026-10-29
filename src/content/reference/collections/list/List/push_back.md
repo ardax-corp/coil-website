@@ -1,7 +1,7 @@
 ---
 slug: "collections/list/List/push_back"
 title: "List::push_back"
-description: "Adds v at the back. Walks the list, so it takes time proportional to its length."
+description: "Adds v at the back. Rebuilds the list, so it takes time proportional to its length."
 module: "collections::list"
 kind: "method"
 name: "push_back"
@@ -9,11 +9,11 @@ parent: "List"
 signature: "pub fn push_back(T v)"
 import: "use collections::list::{List};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/src/collections/list.hy#L95"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/collections/list.hy#L95"
 order: 4
 ---
 
-Adds `v` at the back. Walks the list, so it takes time proportional to its length.
+Adds `v` at the back. Rebuilds the list, so it takes time proportional to its length.
 
 Called on a `List` value as `value.push_back(…)`.
 

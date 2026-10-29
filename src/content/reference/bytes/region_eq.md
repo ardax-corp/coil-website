@@ -8,7 +8,7 @@ name: "region_eq"
 signature: "fn region_eq(Vec<byte> a, int ao, Vec<byte> b, int bo, int n) -> bool"
 import: "use bytes::{region_eq};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/src/bytes.hy#L26"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/bytes.hy#L26"
 order: 1
 ---
 

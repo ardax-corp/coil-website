@@ -9,7 +9,7 @@ parent: "Read"
 signature: "fn read(S s, Vec<byte> buf) -> Result<Option<int>, IoError>"
 import: "use io::{Read};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/io.hy#L211"
+source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/builtin_docs/io.hy#L211"
 order: 0
 ---
 

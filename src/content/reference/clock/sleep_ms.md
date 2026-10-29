@@ -8,13 +8,13 @@ name: "sleep_ms"
 signature: "fn sleep_ms(int ms)"
 import: "use clock::{sleep_ms};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/builtin_docs/clock.hy#L51"
+source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/builtin_docs/clock.hy#L51"
 order: 2
 ---
 
 Pauses for at least `ms` milliseconds.
 
-Zero or a negative value returns at once. Outside a [`task::scope`](/docs/reference/task/fn.scope) this
+Zero or a negative value returns at once. Outside a [`task::scope`](/docs/reference/task/scope) this
 blocks the thread; inside one it suspends only the calling task, so
 other tasks keep running.
 
@@ -36,6 +36,6 @@ assert!(mono_nanos() - start >= 10000000);
 
 ## See also
 
-- [`task::scope`](/docs/reference/task/fn.scope)
+- [`task::scope`](/docs/reference/task/scope)
 - [`wall_nanos`](/docs/reference/clock/wall_nanos): Returns the current wall-clock time in nanoseconds since the Unix epoch (UTC).
 - [`mono_nanos`](/docs/reference/clock/mono_nanos): Returns monotonic nanoseconds from a process-local starting point.

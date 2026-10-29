@@ -1,5 +1,5 @@
 ---
-slug: "task/fn.scope"
+slug: "task/scope"
 title: "scope"
 description: "Runs body with a Scope for starting child tasks, and returns its value once body and every child have finished."
 module: "task"
@@ -8,11 +8,11 @@ name: "scope"
 signature: "fn scope<T>(Scope -> T body) -> Result<T, TaskError>"
 import: "use task::{scope};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/e553eda99b575bb4f78c04622508caa036a1a01b/compiler/src/prelude/task.hy#L162"
-order: 4
+source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/prelude/task.hy#L162"
+order: 1
 ---
 
-Runs `body` with a [`Scope`](/docs/reference/task/Scope) for starting child tasks, and returns its value once `body` and every child have finished.
+Runs `body` with a `Scope` for starting child tasks, and returns its value once `body` and every child have finished.
 
 Tasks run on the current thread and share the heap; they take turns at
 suspension points, so ordinary IO functions overlap without callbacks. This
@@ -55,11 +55,11 @@ assert!((order ?? "") == "fast,slow");
 
 ## See also
 
-- [`task::Scope`](/docs/reference/task/Scope)
 - [`sleep`](/docs/reference/task/sleep): Suspends the current task for at least `ms` milliseconds; other tasks run meanwhile.
 - [`yield_now`](/docs/reference/task/yield_now): Lets other ready tasks run before the current one continues.
 - [`timeout`](/docs/reference/task/timeout): Runs `body` as a task and cancels it if it has not finished after `ms` milliseconds.
 - [`shield`](/docs/reference/task/shield): Runs `body` so that a cancel waits for it to finish instead of interrupting it.
-- [`channel`](/docs/reference/task/fn.channel): Creates a channel that holds up to `capacity` values.
+- [`channel`](/docs/reference/task/channel): Creates a channel that holds up to `capacity` values.
 - [`blocking`](/docs/reference/task/blocking): Runs `work` on another OS thread and waits for its result; only the current task waits, the others keep running.
 - [`blocking_with`](/docs/reference/task/blocking_with): Like `blocking`, passing `arg` to `work` (it is copied to the other thread, like `thread::spawn(work, arg)`).
+- [`block_on`](/docs/reference/task/block_on): Resumes the coroutine `handle` until it is done and returns its completion value; values it yields are discarded.

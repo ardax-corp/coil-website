@@ -9,7 +9,7 @@ parent: "HashMap"
 signature: "pub fn iter() -> HashMapIter<K, V>"
 import: "use collections::map::{HashMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/src/collections/map.hy#L245"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/collections/map.hy#L245"
 order: 8
 ---
 

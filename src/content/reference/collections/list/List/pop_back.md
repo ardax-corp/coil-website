@@ -9,13 +9,13 @@ parent: "List"
 signature: "pub fn pop_back() -> Option<T>"
 import: "use collections::list::{List};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/src/collections/list.hy#L163"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/collections/list.hy#L153"
 order: 7
 ---
 
 Removes and returns the back value, or `None` when the list is empty.
 
-Walks the list, so it takes time proportional to its length.
+Rebuilds the list, so it takes time proportional to its length.
 
 Called on a `List` value as `value.pop_back(…)`.
 

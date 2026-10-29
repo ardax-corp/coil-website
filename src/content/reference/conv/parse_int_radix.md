@@ -8,7 +8,7 @@ name: "parse_int_radix"
 signature: "fn parse_int_radix(string s, int radix) -> Result<int, string>"
 import: "use conv::{parse_int_radix};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/src/conv.hy#L147"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/conv.hy#L147"
 order: 3
 ---
 
