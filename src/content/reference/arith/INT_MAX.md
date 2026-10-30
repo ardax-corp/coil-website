@@ -8,7 +8,7 @@ name: "INT_MAX"
 signature: "const INT_MAX = 9223372036854775807;"
 import: "use arith::{INT_MAX};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/arith.hy#L15"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/861c7aeb486ced606d1bcfb819f42cb6f6934441/src/arith.hy#L15"
 order: 4
 ---
 

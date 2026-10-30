@@ -9,7 +9,7 @@ parent: "VecOps"
 signature: "fn any(V xs, Item -> bool pred) -> bool"
 import: "use collections::vec::{VecOps};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/collections/vec.hy#L61"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/861c7aeb486ced606d1bcfb819f42cb6f6934441/src/collections/vec.hy#L61"
 order: 5
 ---
 

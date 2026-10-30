@@ -89,7 +89,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0216` | `UnderscoreMatchArm` | Whole-arm `_ =>` — catch-all is `default` only. Nested `_` (`Err(_)`, `Some(_)`) is allowed |
 | `E0300`–`E0301` | Format family | Specifier / arity mismatch |
 | `E0400`–`E0405` | Aggregate / FFI family | Index OOB, array element mismatch, `declare`/`invoke` arity, … |
-| `E0406` | `HostExecDenied` | Retired: `env::exec` moved to the [coil-process](https://github.com/ardax-corp/coil-process) package |
+| `E0406` | `HostExecDenied` | Starting a program (the [`process`](/docs/reference/process) module) without `--allow-exec` |
 | `E0407`–`E0408` | `HostExitDenied` / `HostAttachDenied` | `env::exit` or `Stream.attach` reached without `--allow-exit` / `--allow-attach`; see [Permissions](/docs/language/permissions) |
 | `E0409`–`E0411` | `HostFfiExecDenied` / `HostDloadDenied` / `HostDloadNonConst` | An FFI process-exec symbol without `--allow-ffi-exec`, `dload` of a stem without `--allow-dload` (or a libc alias), or a non-literal `dload` path |
 | `E0412` | `FixedArrayGrow` | Length-changing method (`push` / `insert` / …) on a fixed `[T; N]` |

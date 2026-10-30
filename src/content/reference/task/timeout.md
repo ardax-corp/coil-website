@@ -8,7 +8,7 @@ name: "timeout"
 signature: "fn timeout<T>(int ms, unit -> T body) -> Result<T, TaskError>"
 import: "use task::{timeout};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/a0f9a69de421abd1c20672ef88c619ca2a88a976/compiler/src/prelude/task.hy#L221"
+source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/prelude/task.hy#L221"
 order: 4
 ---
 
@@ -44,7 +44,7 @@ let timed_out = match r {
     default => false,
 };
 assert!(timed_out);
-assert!((timeout(1000, fn () => 7) ?? 0) == 7);
+assert!(timeout(1000, fn () => 7).unwrap_or(0) == 7);
 ```
 
 ## See also

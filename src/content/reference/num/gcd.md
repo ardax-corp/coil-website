@@ -8,7 +8,7 @@ name: "gcd"
 signature: "fn gcd(int a, int b) -> int"
 import: "use num::{gcd};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/num.hy#L150"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/861c7aeb486ced606d1bcfb819f42cb6f6934441/src/num.hy#L150"
 order: 9
 ---
 

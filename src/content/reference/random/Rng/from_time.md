@@ -9,7 +9,7 @@ parent: "Rng"
 signature: "pub static fn from_time() -> Rng"
 import: "use random::{Rng};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/random.hy#L43"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/861c7aeb486ced606d1bcfb819f42cb6f6934441/src/random.hy#L43"
 order: 1
 ---
 

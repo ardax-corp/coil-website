@@ -8,7 +8,7 @@ name: "accept"
 signature: "fn accept(Stream listener) -> Result<Stream, IoError>"
 import: "use io::net::tcp::{accept};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/a0f9a69de421abd1c20672ef88c619ca2a88a976/compiler/src/builtin_docs/io/net/tcp.hy#L38"
+source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io/net/tcp.hy#L38"
 order: 0
 ---
 

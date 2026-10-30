@@ -9,7 +9,7 @@ parent: "Text"
 signature: "fn codepoints(T s) -> Vec<int>"
 import: "use text::{Text};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/text.hy#L730"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/861c7aeb486ced606d1bcfb819f42cb6f6934441/src/text.hy#L730"
 order: 6
 ---
 

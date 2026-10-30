@@ -8,7 +8,7 @@ name: "try_send"
 signature: "fn try_send<T>(Sender<T> tx, T value) -> Result<unit, ChannelError>"
 import: "use thread::{try_send};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/a0f9a69de421abd1c20672ef88c619ca2a88a976/compiler/src/builtin_docs/thread.hy#L438"
+source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/thread.hy#L438"
 order: 14
 ---
 

@@ -7,7 +7,7 @@ kind: "keyword"
 name: "defer"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/a0f9a69de421abd1c20672ef88c619ca2a88a976/compiler/src/builtin_docs/keywords.md#L753"
+source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/keywords.md#L753"
 order: 31
 ---
 
@@ -17,6 +17,19 @@ Deferred blocks run on every return, on falling off the end, and while a
 panic or task cancellation unwinds, in reverse order of the `defer`
 statements that were reached. The block sees outer locals only when they
 are listed in `defer use (…)`.
+
+A `defer` belongs to its function, not to the block or loop it sits in.
+Each `defer` statement is queued at most once per call: inside a loop it
+runs once, when the function exits, however many iterations reached it
+(warning E0147). For cleanup per iteration, move the loop body into a
+function with its own `defer`.
+
+A deferred block cannot choose another way out: `return`, `raise`, `?`, and
+a `break` or `continue` that would leave the block are errors (E0146).
+Handle a failure inside it with `match` or `.unwrap_or(..)`. A `panic`
+inside it starts (or replaces) a panic: the callers' defers still run. If
+the function was already unwinding, its defers that have not run yet are
+skipped.
 
 ```coil
 fn work(Vec<string> log) -> int {

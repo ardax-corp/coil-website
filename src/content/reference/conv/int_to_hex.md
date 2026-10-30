@@ -8,7 +8,7 @@ name: "int_to_hex"
 signature: "fn int_to_hex(int n) -> string"
 import: "use conv::{int_to_hex};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/conv.hy#L78"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/861c7aeb486ced606d1bcfb819f42cb6f6934441/src/conv.hy#L78"
 order: 1
 ---
 

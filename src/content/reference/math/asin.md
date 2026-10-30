@@ -8,7 +8,7 @@ name: "asin"
 signature: "fn asin(float x) -> float"
 import: "use math::{asin};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/math.hy#L1760"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/861c7aeb486ced606d1bcfb819f42cb6f6934441/src/math.hy#L1760"
 order: 13
 ---
 
