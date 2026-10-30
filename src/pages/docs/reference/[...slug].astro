@@ -19,7 +19,7 @@ type Props = { page: CollectionEntry<"reference"> };
 const { page } = Astro.props;
 const { Content, headings } = await render(page);
 const all = await getCollection("reference");
-const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), all);
+const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), all, await getCollection("api"));
 const parentPage = page.data.parent
   ? all.find((e) => e.data.module === page.data.module && e.data.name === page.data.parent && !e.data.parent)
   : undefined;

@@ -115,6 +115,20 @@ export const categories: PackageCategory[] = [
       },
     ],
   },
+  {
+    title: "Terminal",
+    blurb: "Command-line and full-screen programs.",
+    packages: [
+      {
+        name: "cli",
+        repo: `${ORG}/coil-cli`,
+        use: "use cli::style::{Painter, fg, red};",
+        summary: "Terminal building blocks.",
+        detail: "Styled output, colour detection, key and mouse input, a line editor and prompts, argument parsing, progress bars and a diffing cell buffer.",
+        native: false,
+      },
+    ],
+  },
 ];
 
 export const packages: Package[] = categories.flatMap((c) => c.packages);

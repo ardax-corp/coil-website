@@ -15,6 +15,8 @@ import { REFERENCE_KINDS } from "./reference-kinds.mjs";
 
 const ROOT = new URL("../../", import.meta.url).pathname;
 const REFERENCE_DIR = join(ROOT, "src/content/reference");
+// coil-stdlib and package API pages: src/content/api/<package>/...
+const API_DIR = join(ROOT, "src/content/api");
 const DOCS_DIR = join(ROOT, "src/content/docs");
 
 
@@ -54,6 +56,11 @@ function fullPath(d) {
 
 /** "io/fs/index" → "/docs/reference/io/fs"; "io/open" → "/docs/reference/io/open". */
 const referenceHref = (id) => `/docs/reference/${id.replace(/(^|\/)index$/, "")}`.replace(/\/$/, "");
+/** "stdlib/io/sync/println" → "/packages/stdlib/reference/io/sync/println" (see apiHref in nav.ts). */
+const apiHref = (id) => {
+  const [pkg, ...rest] = id.split("/");
+  return `/packages/${pkg}/reference/${rest.join("/")}`.replace(/(^|\/)index$/, "").replace(/\/$/, "");
+};
 
 let index;
 
@@ -62,12 +69,17 @@ function buildIndex() {
   const byPath = new Map();
   const byAlias = new Map();
   const auto = new Set();
-  for (const file of markdownFiles(REFERENCE_DIR)) {
-    const d = frontmatter(readFileSync(file, "utf8"));
-    if (!d.kind || d.kind === "keyword") continue;
-    d.id = d.slug ?? relative(REFERENCE_DIR, file).split(sep).join("/").replace(/\.md$/, "");
-    byPath.set(fullPath(d), d);
-    if (d.kind === "module" && d.auto) auto.add(d.module);
+  // The language first: a path it documents wins over a library's.
+  for (const [dir, href] of [[REFERENCE_DIR, referenceHref], [API_DIR, apiHref]]) {
+    for (const file of markdownFiles(dir)) {
+      const d = frontmatter(readFileSync(file, "utf8"));
+      if (!d.kind || d.kind === "keyword") continue;
+      d.id = d.slug ?? relative(dir, file).split(sep).join("/").replace(/\.md$/, "");
+      d.href = href(d.id);
+      if (byPath.has(fullPath(d))) continue;
+      byPath.set(fullPath(d), d);
+      if (d.kind === "module" && d.auto) auto.add(d.module);
+    }
   }
   const alias = (key, d) => {
     if (byPath.has(key)) return;
@@ -158,7 +170,7 @@ function block(paths) {
       ...(d.description ? [el("p", null, [text(d.description)])] : []),
     ];
     return el("li", null, [
-      el("a", null, [{ type: "inlineCode", value: label }], { href: referenceHref(d.id) }),
+      el("a", null, [{ type: "inlineCode", value: label }], { href: d.href }),
       el("div", "see-pop", card, { role: "tooltip", dataPlainCode: "" }),
     ]);
   });

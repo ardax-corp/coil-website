@@ -34,6 +34,7 @@ const REPOS = {
   regex: "coil-regex",
   deflate: "coil-deflate",
   time: "coil-time",
+  cli: "coil-cli",
   greet: "coil-greet",
 };
 

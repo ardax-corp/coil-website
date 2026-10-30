@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 type Props = { page: CollectionEntry<"ecosystem"> };
 const { page } = Astro.props;
 const { Content, headings } = await render(page);
-const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), await getCollection("reference"));
+const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), await getCollection("reference"), await getCollection("api"));
 ---
 
 <Docs
