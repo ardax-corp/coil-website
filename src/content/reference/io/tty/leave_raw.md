@@ -8,7 +8,7 @@ name: "leave_raw"
 signature: "fn leave_raw(Stream s) -> Result<(), TtyError>"
 import: "use io::tty::{leave_raw};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io/tty.hy#L110"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/io/tty.hy#L110"
 order: 4
 ---
 

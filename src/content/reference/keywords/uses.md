@@ -7,13 +7,13 @@ kind: "keyword"
 name: "uses"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/keywords.md#L989"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/keywords.md#L989"
 order: 42
 ---
 
 Declares the effects a function may have: `uses {read, write}`.
 
-The effects are `read`, `write`, [`net`](/docs/reference/io/net), [`env`](/docs/reference/env), `exec`, [`ffi`](/docs/reference/ffi), [`thread`](/docs/reference/thread),
+The effects are `read`, `write`, [`net`](/packages/stdlib/reference/net), [`env`](/docs/reference/env), `exec`, [`ffi`](/docs/reference/ffi), [`thread`](/docs/reference/thread),
 `suspend` and `mutate`. The compiler checks the list against what the body
 does (error `E0413`); `uses {}` means the same as `pure`. Contextual: only a
 keyword after the signature (and its `where` clause).
@@ -28,7 +28,7 @@ fn bump() uses {read, mutate} {
 
 ## See also
 
-- [`io::net`](/docs/reference/io/net)
+- [`net`](/packages/stdlib/reference/net)
 - [`env`](/docs/reference/env)
 - [`ffi`](/docs/reference/ffi)
 - [`thread`](/docs/reference/thread)

@@ -8,7 +8,7 @@ name: "join"
 signature: "fn join(Vec<Code> xs, string sep) -> string"
 import: "use macro::{join};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/prelude/macro.hy#L30"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/prelude/macro.hy#L30"
 order: 12
 ---
 

@@ -1,0 +1,34 @@
+---
+slug: "cli/cli/progress/Bar/line"
+package: "cli"
+title: "Bar::line"
+description: "Method Bar::line."
+module: "cli::progress"
+kind: "method"
+name: "line"
+parent: "Bar"
+signature: "pub fn line() -> string"
+import: "use cli::progress::{Bar};"
+origin: "package"
+source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/progress.hy#L267"
+order: 4
+---
+
+*No documentation yet.*
+
+Called on a `Bar` value as `value.line(…)`.
+
+## Returns
+
+`string`
+
+## See also
+
+- [`Bar`](/packages/cli/reference/cli/progress/Bar): A redrawing progress bar.
+- [`Bar::set_label`](/packages/cli/reference/cli/progress/Bar/set_label)
+- [`Bar::inc`](/packages/cli/reference/cli/progress/Bar/inc)
+- [`Bar::set`](/packages/cli/reference/cli/progress/Bar/set)
+- [`Bar::elapsed_ms`](/packages/cli/reference/cli/progress/Bar/elapsed_ms)
+- [`Bar::draw`](/packages/cli/reference/cli/progress/Bar/draw): Redraw now if enough time passed (or `force`).
+- [`Bar::finish`](/packages/cli/reference/cli/progress/Bar/finish): Final draw and newline; `message` replaces the bar when not "".
+- [`Bar::clear`](/packages/cli/reference/cli/progress/Bar/clear): Remove the bar's line.

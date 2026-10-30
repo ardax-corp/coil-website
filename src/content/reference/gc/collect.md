@@ -8,7 +8,7 @@ name: "collect"
 signature: "fn collect() -> int"
 import: "use gc::{collect};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/gc.hy#L168"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/gc.hy#L168"
 order: 8
 ---
 

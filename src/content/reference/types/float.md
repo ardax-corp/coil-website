@@ -8,7 +8,7 @@ name: "float"
 signature: "type float"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/types.hy#L70"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/types.hy#L70"
 order: 1
 ---
 
@@ -26,7 +26,7 @@ go through [`int`](/docs/reference/types/int). Mixing [`int`](/docs/reference/ty
 
 `float` implements [`Num`](/docs/reference/prelude/ops/Num), [`Ord`](/docs/reference/prelude/ops/Ord), [`Eq`](/docs/reference/prelude/ops/Eq) and [`Show`](/docs/reference/prelude/ops/Show), but not [`Integral`](/docs/reference/prelude/ops/Integral).
 Math functions such as `sqrt` and `sin` are in the standard library's
-[`math`](/docs/reference/math) module (`use math::{sqrt};`).
+[`math`](/packages/stdlib/reference/math) module (`use math::{sqrt};`).
 
 ## Examples
 
@@ -50,4 +50,4 @@ assert!(show(x) == "2.5");
 - [`Eq`](/docs/reference/prelude/ops/Eq)
 - [`Show`](/docs/reference/prelude/ops/Show)
 - [`Integral`](/docs/reference/prelude/ops/Integral)
-- [`math`](/docs/reference/math)
+- [`math`](/packages/stdlib/reference/math)

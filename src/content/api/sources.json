@@ -1,0 +1,9 @@
+{
+  "coil-stdlib": "d13f986e7f57ab90d877b04e276aa1184c83b015",
+  "coil-json": "6ccd5778fa8274febae9671020f18968540571de",
+  "coil-toml": "9123082b0a6374c00503b61dd222a68283b706f1",
+  "coil-msgpack": "28282558ca88aab4179bd52d695227e467bf08d3",
+  "coil-http": "4cea6047613f2f18cd911bd6bd6b25025f5fa8b5",
+  "coil-deflate": "553f55df4e433cd6f0cde585b01ebc764668cdfd",
+  "coil-cli": "7fca76ae9903c83fee5bbfd43777ed6b46f538c4"
+}

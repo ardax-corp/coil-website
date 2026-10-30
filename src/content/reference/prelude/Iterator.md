@@ -8,7 +8,7 @@ name: "Iterator"
 signature: "trait Iterator<I>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/prelude.hy#L370"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/prelude.hy#L370"
 order: 5
 ---
 
@@ -19,7 +19,7 @@ Implementations define the associated type `Item` (the element type) and
 exhausted. `for x in e` calls [`next`](/docs/reference/prelude/Iterator/next) until it returns `None`, on `e` itself
 when `e` is an `Iterator`, or on what its [`IntoIterator`](/docs/reference/prelude/IntoIterator) returns. Arrays, [`Vec`](/docs/reference/prelude/Vec), homogeneous tuples,
 coroutines and numeric ranges are iterable without an `impl`; a record
-is not iterable (use [`collections::map::HashMap`](/docs/reference/collections/map/HashMap) for keys to iterate).
+is not iterable (use [`collections::map::HashMap`](/packages/stdlib/reference/collections/map/HashMap) for keys to iterate).
 
 ## Associated types
 
@@ -64,4 +64,4 @@ fn main() {
 - [`Iterator::next`](/docs/reference/prelude/Iterator/next)
 - [`IntoIterator`](/docs/reference/prelude/IntoIterator)
 - [`Vec`](/docs/reference/prelude/Vec)
-- [`collections::map::HashMap`](/docs/reference/collections/map/HashMap)
+- [`collections::map::HashMap`](/packages/stdlib/reference/collections/map/HashMap)

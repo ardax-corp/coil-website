@@ -8,7 +8,7 @@ name: "attr_index"
 signature: "fn attr_index(Vec<Attr> attrs, string name) -> int"
 import: "use macro::{attr_index};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/prelude/macro.hy#L300"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/prelude/macro.hy#L300"
 order: 19
 ---
 

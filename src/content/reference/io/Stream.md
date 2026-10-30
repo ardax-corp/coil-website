@@ -8,7 +8,7 @@ name: "Stream"
 signature: "class Stream"
 import: "use io::{Stream};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io.hy#L47"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/io.hy#L47"
 order: 0
 ---
 
@@ -19,7 +19,7 @@ A `Stream` is an opaque heap handle made by [`open`](/docs/reference/io/open), [
 Every stream is non-blocking: [`read`](/docs/reference/io/fn.read), [`write`](/docs/reference/io/fn.write) and the socket calls never
 wait, they return `Err(IoError::WouldBlock)` when the OS is not ready.
 Use [`wait_readable`](/docs/reference/io/wait_readable) / [`wait_writable`](/docs/reference/io/wait_writable) to wait, or the blocking adapters in
-[`io::sync`](/docs/reference/io/sync) (`write_all`, `read_to_end`, ...).
+[`io::sync`](/packages/stdlib/reference/io/sync) (`write_all`, `read_to_end`, ...).
 
 The handle is closed by [`close`](/docs/reference/io/close), or when the garbage collector drops it.
 `Stream` implements [`Read`](/docs/reference/io/Read) and [`Write`](/docs/reference/io/Write), so `s.read(buf)` and
@@ -77,7 +77,7 @@ assert!(text == "hello");
 - [`io::write`](/docs/reference/io/fn.write)
 - [`io::wait_readable`](/docs/reference/io/wait_readable)
 - [`io::wait_writable`](/docs/reference/io/wait_writable)
-- [`io::sync`](/docs/reference/io/sync)
+- [`io::sync`](/packages/stdlib/reference/io/sync)
 - [`io::close`](/docs/reference/io/close)
 - [`io::Read`](/docs/reference/io/Read)
 - [`io::Write`](/docs/reference/io/Write)

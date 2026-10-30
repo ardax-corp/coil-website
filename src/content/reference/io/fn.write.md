@@ -8,7 +8,7 @@ name: "write"
 signature: "fn write(Stream s, Vec<byte> buf) -> Result<int, IoError>"
 import: "use io::{write};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io.hy#L470"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/io.hy#L470"
 order: 12
 ---
 
@@ -16,7 +16,7 @@ Writes bytes from `buf` to `s` without waiting and returns how many were written
 
 The count may be less than `buf.len()` when the OS accepts only part of
 it, and `Err(IoError::WouldBlock)` means nothing could be written yet;
-call `wait_writable(s)` and retry. [`io::sync::write_all`](/docs/reference/io/sync/write_all) loops until
+call `wait_writable(s)` and retry. [`io::sync::write_all`](/packages/stdlib/reference/io/sync/write_all) loops until
 everything is written. Writing to a closed stream returns
 `Err(IoError::AlreadyClosed)`.
 
@@ -46,7 +46,7 @@ assert!(n == 3);
 
 ## See also
 
-- [`io::sync::write_all`](/docs/reference/io/sync/write_all)
+- [`io::sync::write_all`](/packages/stdlib/reference/io/sync/write_all)
 - [`stdin`](/docs/reference/io/stdin): Returns a new stream on the process's standard input.
 - [`stdout`](/docs/reference/io/stdout): Returns a new stream on the process's standard output.
 - [`stderr`](/docs/reference/io/stderr): Returns a new stream on the process's standard error.

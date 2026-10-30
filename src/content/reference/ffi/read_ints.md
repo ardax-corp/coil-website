@@ -8,7 +8,7 @@ name: "read_ints"
 signature: "fn read_ints(int lib, int ptr, int count) -> Result<Vec<int>, Error>"
 import: "use ffi::{read_ints};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/ffi.hy#L163"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/ffi.hy#L163"
 order: 5
 ---
 

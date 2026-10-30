@@ -8,7 +8,7 @@ name: "rwlock"
 signature: "fn rwlock<T>(T initial) -> Result<RwLock<T>, LockError>"
 import: "use thread::{rwlock};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/thread.hy#L636"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/thread.hy#L636"
 order: 22
 ---
 

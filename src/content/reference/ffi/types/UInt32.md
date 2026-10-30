@@ -8,7 +8,7 @@ name: "UInt32"
 signature: "class UInt32"
 import: "use ffi::types::{UInt32};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/ffi/types.hy#L66"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/ffi/types.hy#L66"
 order: 10
 ---
 

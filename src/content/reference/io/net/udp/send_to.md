@@ -8,14 +8,14 @@ name: "send_to"
 signature: "fn send_to(Stream s, Vec<byte> buf, string host, int port) -> Result<int, IoError>"
 import: "use io::net::udp::{send_to};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io/net/udp.hy#L158"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/io/net/udp.hy#L158"
 order: 4
 ---
 
 Sends `buf` as one datagram to `host` on `port` and returns how many bytes were sent.
 
 Does not wait: returns `Err(IoError::WouldBlock)` when the OS send
-buffer is full ([`io::sync::send_to_wait`](/docs/reference/io/sync/send_to_wait) waits and retries). `host` is
+buffer is full ([`io::sync::send_to_wait`](/packages/stdlib/reference/io/sync/send_to_wait) waits and retries). `host` is
 resolved like in [`bind`](/docs/reference/io/net/udp/bind). Returns `Err(IoError::InvalidInput)` for a port
 outside `0..=65535`.
 A program that reaches `send_to` compiles only with `--allow-net`.
@@ -58,7 +58,7 @@ fn main() {
 
 ## See also
 
-- [`io::sync::send_to_wait`](/docs/reference/io/sync/send_to_wait)
+- [`io::sync::send_to_wait`](/packages/stdlib/reference/io/sync/send_to_wait)
 - [`io::net::udp::bind`](/docs/reference/io/net/udp/bind)
 - [`connect`](/docs/reference/io/net/udp/connect): Opens a UDP socket whose default peer is `host` on `port`.
 - [`local_port`](/docs/reference/io/net/udp/local_port): Returns the local port a UDP socket is bound to.

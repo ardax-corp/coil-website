@@ -8,7 +8,7 @@ name: "join"
 signature: "fn join<T>(Thread<T> t) -> Result<T, ThreadError>"
 import: "use thread::{join};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/thread.hy#L306"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/thread.hy#L306"
 order: 9
 ---
 
@@ -16,7 +16,7 @@ Waits for the thread to finish and returns the value its function returned.
 
 Returns `Err(ThreadError::JoinFailed)` if the thread was already joined
 or detached, or if its function panicked (the panic message is printed to
-stderr). Inside a [`task::scope`](/docs/reference/task/scope), only the joining task waits; other tasks
+stderr). Inside a [`task::scope`](/docs/reference/task/fn.scope), only the joining task waits; other tasks
 keep running.
 
 ## Parameters
@@ -54,7 +54,7 @@ fn main() {
 
 ## See also
 
-- [`task::scope`](/docs/reference/task/scope)
+- [`task::scope`](/docs/reference/task/fn.scope)
 - [`spawn`](/docs/reference/thread/spawn): Runs `f(arg)` on another OS thread and returns a handle to it.
 - [`detach`](/docs/reference/thread/detach): Lets the thread run to completion without being joined.
 - [`channel`](/docs/reference/thread/channel): Creates an unbounded channel and returns its `(Sender, Receiver)` ends.

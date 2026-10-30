@@ -1,0 +1,37 @@
+---
+slug: "http/http/request/Request/header"
+package: "http"
+title: "Request::header"
+description: "Method Request::header."
+module: "http::request"
+kind: "method"
+name: "header"
+parent: "Request"
+signature: "pub fn header(string name, string value)"
+import: "use http::request::{Request};"
+origin: "package"
+source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/request.hy#L40"
+order: 3
+---
+
+*No documentation yet.*
+
+Called on a `Request` value as `value.header(…)`.
+
+## Parameters
+
+| Name | Type |
+|------|------|
+| `name` | `string` |
+| `value` | `string` |
+
+## See also
+
+- [`Request`](/packages/http/reference/http/request/Request): Outbound HTTP request (method, URL string, headers, body).
+- [`Request::new`](/packages/http/reference/http/request/Request/new)
+- [`Request::method`](/packages/http/reference/http/request/Request/method)
+- [`Request::url`](/packages/http/reference/http/request/Request/url)
+- [`Request::body`](/packages/http/reference/http/request/Request/body)
+- [`Request::method_val`](/packages/http/reference/http/request/Request/method_val)
+- [`Request::url_val`](/packages/http/reference/http/request/Request/url_val)
+- [`Request::headers_val`](/packages/http/reference/http/request/Request/headers_val)

@@ -8,13 +8,13 @@ name: "ChannelError"
 signature: "enum ChannelError"
 import: "use thread::{ChannelError};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/thread.hy#L194"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/thread.hy#L194"
 order: 6
 ---
 
 Why a channel operation failed.
 
-[`thread`](/docs/reference/thread) channels and `task::Channel` share it. It implements [`Show`](/docs/reference/prelude/ops/Show).
+[`thread`](/docs/reference/thread) channels and [`task::Channel`](/docs/reference/task/Channel) share it. It implements [`Show`](/docs/reference/prelude/ops/Show).
 
 ## Variants
 
@@ -29,7 +29,7 @@ on a closed channel with no values left.
 
 ### `Full` {#variant-full}
 
-[`try_send`](/docs/reference/thread/try_send) on a full channel (bounded `task::Channel` only; [`thread`](/docs/reference/thread)
+[`try_send`](/docs/reference/thread/try_send) on a full channel (bounded [`task::Channel`](/docs/reference/task/Channel) only; [`thread`](/docs/reference/thread)
 channels are unbounded).
 
 ## Examples
@@ -52,10 +52,10 @@ assert!(closed);
 ## See also
 
 - [`thread`](/docs/reference/thread)
+- [`task::Channel`](/docs/reference/task/Channel)
 - [`Show`](/docs/reference/prelude/ops/Show)
 - [`thread::send`](/docs/reference/thread/send)
 - [`thread::close`](/docs/reference/thread/close)
 - [`thread::recv`](/docs/reference/thread/recv)
 - [`thread::try_recv`](/docs/reference/thread/try_recv)
 - [`thread::try_send`](/docs/reference/thread/try_send)
-- [`ThreadError`](/docs/reference/thread/ThreadError): Why starting, joining or detaching a thread failed.

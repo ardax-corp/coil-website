@@ -7,7 +7,7 @@ kind: "keyword"
 name: "mut"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/keywords.md#L43"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/keywords.md#L43"
 order: 2
 ---
 
@@ -17,7 +17,7 @@ Class instances, vectors and maps are values: `let b = a;` gives `b` a
 copy, made only when one side writes (copy-on-write). `mut` asks for the
 original instead. `let c = mut a.config;` makes `c` another name for
 `a.config`, `for mut item in items` changes each element in place, and
-`fn () use (mut list) { … }` lets a lambda change the outer [`list`](/docs/reference/collections/list).
+`fn () use (mut list) { … }` lets a lambda change the outer [`list`](/packages/stdlib/reference/collections/list).
 
 ```coil
 use tests::assert;
@@ -42,7 +42,7 @@ fn main() {
 
 ## See also
 
-- [`collections::list`](/docs/reference/collections/list)
+- [`collections::list`](/packages/stdlib/reference/collections/list)
 - [`fn`](/docs/reference/keywords/fn): Declares a function, a method, or (written in an expression) an anonymous function.
 - [`let`](/docs/reference/keywords/let): Declares a mutable local variable.
 - [`const`](/docs/reference/keywords/const): Declares a binding that cannot be reassigned: a local, a module constant, or a class field that is set only by `new`.

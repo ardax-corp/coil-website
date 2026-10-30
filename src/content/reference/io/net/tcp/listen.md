@@ -8,7 +8,7 @@ name: "listen"
 signature: "fn listen(string host, int port) -> Result<Stream, IoError>"
 import: "use io::net::tcp::{listen};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io/net/tcp.hy#L146"
+source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/io/net/tcp.hy#L146"
 order: 3
 ---
 
@@ -17,7 +17,7 @@ Opens a TCP socket listening on `host` and `port`.
 `port` may be `0` to let the OS pick a free port; read it back with
 [`local_addr`](/docs/reference/io/net/tcp/local_addr). A host name is resolved and only the first address is
 used, so prefer an explicit IP such as `"127.0.0.1"` or `"0.0.0.0"`.
-Take connections with [`accept`](/docs/reference/io/net/tcp/accept) (or [`io::sync::accept_wait`](/docs/reference/io/sync/accept_wait)).
+Take connections with [`accept`](/docs/reference/io/net/tcp/accept) (or [`io::sync::accept_wait`](/packages/stdlib/reference/io/sync/accept_wait)).
 
 Returns `Err(IoError::InvalidInput)` for a port outside `0..=65535`;
 an address already in use is reported as an OS error.
@@ -66,7 +66,7 @@ fn main() {
 
 - [`io::net::tcp::local_addr`](/docs/reference/io/net/tcp/local_addr)
 - [`io::net::tcp::accept`](/docs/reference/io/net/tcp/accept)
-- [`io::sync::accept_wait`](/docs/reference/io/sync/accept_wait)
+- [`io::sync::accept_wait`](/packages/stdlib/reference/io/sync/accept_wait)
 - [`connect`](/docs/reference/io/net/tcp/connect): Opens a TCP connection to `host` on `port`.
 - [`connect_timeout`](/docs/reference/io/net/tcp/connect_timeout): Opens a TCP connection to `host` on `port`, giving up after `ms` milliseconds.
 - [`peer_addr`](/docs/reference/io/net/tcp/peer_addr): Returns the remote `(host, port)` of a connected TCP stream.

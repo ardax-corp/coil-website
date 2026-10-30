@@ -7,11 +7,11 @@ kind: "module"
 name: "io::net"
 origin: "builtin"
 auto: false
-order: 42
+order: 20
 ---
 
 Sockets are ordinary [`Stream`](/docs/reference/io/Stream)s: read and write
-them with the [`io`](/docs/reference/io) functions or the [`io::sync`](/docs/reference/io/sync)
+them with the [`io`](/docs/reference/io) functions or the [`io::sync`](/packages/stdlib/reference/io/sync)
 helpers. Every network call needs `--allow-net` (optionally limited to hosts);
 see [Permissions](/docs/language/permissions).
 
