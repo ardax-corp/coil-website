@@ -46,13 +46,13 @@ Tooling:
 
 ## Getting spool
 
-spool is written in Coil and shipped as one executable built with `coil package`, plus the `libprocess` library it loads from beside itself. The [edge release](https://github.com/ardax-corp/spool/releases/tag/edge) has it prebuilt for Linux (x86-64 and ARM64 glibc, x86-64 musl) and Apple-silicon macOS; `spool setup --channel edge` then fetches coil (checked against the release's `SHA256SUMS`) into `~/.coil/bin`. There is no global stdlib: each project declares its own (see [The stdlib](/packages/spool/manifest#the-stdlib)). [Install](/packages/spool/install) has the steps for every platform, updating and uninstalling. To build it from a checkout instead:
+spool is written in Coil and shipped as one executable built with `coil package`. The [edge release](https://github.com/ardax-corp/spool/releases/tag/edge) has it prebuilt for Linux (x86-64 and ARM64 glibc, x86-64 musl) and Apple-silicon macOS; `spool setup --channel edge` then fetches coil (checked against the release's `SHA256SUMS`) into `~/.coil/bin`. There is no global stdlib: each project declares its own (see [The stdlib](/packages/spool/manifest#the-stdlib)). [Install](/packages/spool/install) has the steps for every platform, updating and uninstalling. To build it from a checkout instead:
 
 ```bash
 git clone https://github.com/ardax-corp/spool.git
 cd spool
 ./bootstrap.sh              # → target/spool
-./bootstrap.sh --install    # also ~/.local/bin/spool + libprocess (and coil, if bootstrap fetched it)
+./bootstrap.sh --install    # also ~/.local/bin/spool (and coil, if bootstrap fetched it)
 ```
 
 `bootstrap.sh` finds a usable `coil` (`COIL`, `PATH`, `~/.coil/bin/coil`), else downloads a release or builds coil-lang from source, and fetches coil-stdlib, coil-toml and coil-json. At run time spool needs host `git` and `sh`, plus `curl` for `download`.

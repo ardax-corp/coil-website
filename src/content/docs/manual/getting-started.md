@@ -35,9 +35,7 @@ section of [Installing spool](/packages/spool/install#platforms) instead.
 
 **1. spool.** Download it from the
 [spool edge release](https://github.com/ardax-corp/spool/releases/tag/edge),
-check it against `SHA256SUMS` and unpack it onto your `PATH`. The archive
-holds `spool` and the `libprocess` library it loads from beside itself, so
-unpack both:
+check it against `SHA256SUMS` and unpack it onto your `PATH`:
 
 ```bash
 TRIPLE=x86_64-unknown-linux-gnu
