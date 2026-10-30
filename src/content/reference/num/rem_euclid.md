@@ -8,7 +8,7 @@ name: "rem_euclid"
 signature: "fn rem_euclid(int a, int b) -> int"
 import: "use num::{rem_euclid};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/num.hy#L240"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/861c7aeb486ced606d1bcfb819f42cb6f6934441/src/num.hy#L240"
 order: 16
 ---
 

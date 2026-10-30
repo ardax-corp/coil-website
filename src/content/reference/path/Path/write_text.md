@@ -9,7 +9,7 @@ parent: "Path"
 signature: "pub fn write_text(string text) -> Result<int, IoError>"
 import: "use path::{Path};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/path.hy#L479"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/861c7aeb486ced606d1bcfb819f42cb6f6934441/src/path.hy#L479"
 order: 20
 ---
 

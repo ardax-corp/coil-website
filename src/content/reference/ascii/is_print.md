@@ -8,7 +8,7 @@ name: "is_print"
 signature: "fn is_print(byte c) -> bool"
 import: "use ascii::{is_print};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/47c059804a7a85f79bd400eb26bb1241e7b44441/src/ascii.hy#L38"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/861c7aeb486ced606d1bcfb819f42cb6f6934441/src/ascii.hy#L38"
 order: 5
 ---
 

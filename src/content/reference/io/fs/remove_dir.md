@@ -8,7 +8,7 @@ name: "remove_dir"
 signature: "fn remove_dir(string path) -> Result<unit, IoError>"
 import: "use io::fs::{remove_dir};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/a0f9a69de421abd1c20672ef88c619ca2a88a976/compiler/src/builtin_docs/io/fs.hy#L304"
+source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io/fs.hy#L304"
 order: 11
 ---
 

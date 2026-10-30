@@ -7,7 +7,7 @@ kind: "module"
 name: "collections::vec"
 origin: "stdlib"
 auto: false
-order: 29
+order: 30
 ---
 
 These are free functions that take the vector first: `map(xs, f)`. The methods on [`Vec`](/docs/reference/prelude/Vec) itself (`push`, `pop`, `len`, …) are in the [prelude](/docs/reference/prelude/Vec).

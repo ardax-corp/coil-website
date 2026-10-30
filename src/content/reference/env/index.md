@@ -13,9 +13,7 @@ order: 11
 [`args`](/docs/reference/env/args) and [`cwd`](/docs/reference/env/cwd) need no grant. Reading or changing variables and [`set_cwd`](/docs/reference/env/set_cwd)
 need `--allow-env`, and [`exit`](/docs/reference/env/exit) needs `--allow-exit`; see
 [Permissions](/docs/language/permissions). To run another program, use the
-[coil-process](https://github.com/ardax-corp/coil-process) package: `process::exec(program, argv)`
-waits for it and returns its exit code, and `command` adds pipes, captured
-output, environment and working directory.
+[`process`](/docs/reference/process) module.
 
 Built into the compiler.
 
