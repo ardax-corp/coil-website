@@ -93,7 +93,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0414` | `HostCapDenied` | A host call `main` or a test reaches needs read, write, net or env and the build did not grant it. The message names the flag and the call chain; see [Permissions](/docs/language/permissions) |
 | `E0800`–`E0801` | Codegen family | Unknown expression / codegen error |
 | `E0802`–`E0803` | `UnboundedRecursion` / `StackDepthExceeded` | Retired: no longer emitted (the VM grows its stack and checks depth at run time) |
-| `E0804` | `MonomorphizeCap` | The per-function or total monomorphization cap was hit; extra specializations were not emitted |
+| `E0804` | `MonomorphizeCap` | A ground call to a generic uses its shared body instead of a per-type clone: the generic instantiates itself at a growing type (polymorphic recursion), or the compile reached `--clone-budget` |
 | `E0805` | `ParLockHint` | Auto-parallelization refused a loop because of a shared escape; the hint suggests locking that resource |
 | `E0900` | `IoError` | I/O failure |
 | `E0901` | `ArchiveVersionMismatch` | Stale `.hyc` archive |

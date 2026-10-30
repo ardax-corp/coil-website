@@ -43,6 +43,7 @@ subcommand they go after it: `coil compile --root ../coil-stdlib/src app.hy`.
 | `--contracts all\|requires\|off` | Which [contract](/docs/language/contracts) checks run. |
 | `--auto-par on\|off` | Automatic fork-join of pure recursive calls and counted loops (`on` by default). `off` keeps a program sequential, for example for fair benchmark timing. |
 | `--fold-calls on\|off` | Compute pure calls with constant arguments at compile time (`on` by default at `-O2` and above). |
+| `--clone-budget N` | Most per-type clones of generic code one compile makes (4096 by default). Past it a ground call uses the generic's shared body (warning E0804). |
 | `--comptime-read PATH`, `--comptime-net HOST`, … | What [compile-time code](/docs/language/comptime) may touch. |
 | `--no-build-cache` | Compile even if the [build cache](#build-cache) holds the program. |
 
