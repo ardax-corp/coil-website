@@ -61,8 +61,8 @@ function addModule(path, props) {
 
 // Compiler virtual modules: compiler/src/builtin_docs.rs lists them.
 const docsRs = readFileSync(join(lang.dir, "compiler/src/builtin_docs.rs"), "utf8");
-// Scheduler natives that the `task` module wraps; user code never calls them.
-const INTERNAL = new Set(["prelude::task"]);
+// Natives that the `task` and `process` modules wrap; user code never calls them.
+const INTERNAL = new Set(["prelude::task", "prelude::process"]);
 for (const [, path, file] of docsRs.matchAll(/\("([a-z:_]+)",\s*include_str!\("([^"]+)"\)\)/g)) {
   if (INTERNAL.has(path)) continue;
   const auto = path === "prelude" || path.startsWith("prelude::");
