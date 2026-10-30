@@ -8,7 +8,7 @@ name: "recv_from"
 signature: "fn recv_from(Stream s, Vec<byte> buf) -> Result<(int, string, int), IoError>"
 import: "use io::net::udp::{recv_from};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/builtin_docs/io/net/udp.hy#L126"
+source: "https://github.com/ardax-corp/coil-lang/blob/a0f9a69de421abd1c20672ef88c619ca2a88a976/compiler/src/builtin_docs/io/net/udp.hy#L126"
 order: 3
 ---
 

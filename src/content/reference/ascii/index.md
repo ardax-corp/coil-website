@@ -7,7 +7,7 @@ kind: "module"
 name: "ascii"
 origin: "stdlib"
 auto: false
-order: 19
+order: 20
 ---
 
 Functions here take and return [`byte`](/docs/reference/types/byte). Bytes outside ASCII are never letters or digits, and case conversion leaves them unchanged. For whole strings, see [`text`](/docs/reference/text).

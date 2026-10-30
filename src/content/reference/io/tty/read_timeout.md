@@ -8,7 +8,7 @@ name: "read_timeout"
 signature: "fn read_timeout(Stream s, Vec<byte> buf, int timeout_ms) -> Result<Option<int>, TtyError>"
 import: "use io::tty::{read_timeout};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/builtin_docs/io/tty.hy#L152"
+source: "https://github.com/ardax-corp/coil-lang/blob/a0f9a69de421abd1c20672ef88c619ca2a88a976/compiler/src/builtin_docs/io/tty.hy#L152"
 order: 6
 ---
 

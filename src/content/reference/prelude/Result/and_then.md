@@ -9,7 +9,7 @@ parent: "Result"
 signature: "pub fn and_then<U>(T -> Result<U, E> f) -> Result<U, E>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/prelude/core.hy#L189"
+source: "https://github.com/ardax-corp/coil-lang/blob/a0f9a69de421abd1c20672ef88c619ca2a88a976/compiler/src/prelude/core.hy#L189"
 order: 8
 ---
 

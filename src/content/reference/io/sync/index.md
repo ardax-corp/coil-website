@@ -7,7 +7,7 @@ kind: "module"
 name: "io::sync"
 origin: "stdlib"
 auto: false
-order: 33
+order: 34
 ---
 
 The [`io`](/docs/reference/io) functions return as soon as a stream is not ready. These helpers wait until the whole job is done, which is what most programs want. Inside a task, waiting lets the other tasks run.

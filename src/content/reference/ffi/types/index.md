@@ -7,7 +7,7 @@ kind: "module"
 name: "ffi::types"
 origin: "builtin"
 auto: false
-order: 14
+order: 15
 ---
 
 Each tag stands for one C type. Pass a tuple of tags for the arguments and one
