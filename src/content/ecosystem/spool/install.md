@@ -6,14 +6,13 @@ order: 0
 
 # Installing spool
 
-spool is one executable plus a small native library, `libprocess`, that it
-uses to run programs. It needs a coil toolchain at run time, and it can fetch
+spool is one executable. It needs a coil toolchain at run time, and it can fetch
 it for you with `spool setup`. A full install puts two things on your
 machine:
 
 | What | Where | Comes from |
 |------|-------|------------|
-| `spool` and `libprocess` | `~/.local/bin` (any directory on `PATH`) | a [spool release](https://github.com/ardax-corp/spool/releases) |
+| `spool` | `~/.local/bin` (any directory on `PATH`) | a [spool release](https://github.com/ardax-corp/spool/releases) |
 | `coil` and its helpers (`coil-fmt`, `coil-test`, `coil-lsp`, `coil-debug`, `coil-dissect`, `coil-embed`) | `~/.coil/bin` | a [coil-lang release](https://github.com/ardax-corp/coil-lang/releases), via `spool setup` |
 
 There is no global standard library. Each project declares coil-stdlib as a
@@ -53,9 +52,7 @@ that does not match.
 | macOS, Intel | none | none | build [from source](#from-source) |
 | Windows x86-64 | none, use [WSL](#windows) | `coil-x86_64-pc-windows-gnu.zip` | no |
 
-Each spool archive holds `spool` and `libprocess.so` (`libprocess.dylib` on
-macOS). **Keep the two in the same directory**: spool loads the library from
-beside its own executable. Each coil archive holds one directory,
+Each spool archive holds the `spool` executable. Each coil archive holds one directory,
 `coil-<triple>/`, with `coil` and its helpers.
 
 Not sure which Linux you have? `ldd --version 2>&1 | head -n 1` mentions
@@ -80,8 +77,7 @@ On macOS, use `shasum -a 256 -c -` in place of `sha256sum -c -`. On Alpine,
 install the tools first with `apk add curl tar git`. The check
 prints `spool-<triple>.tar.gz: OK`; stop if it does not.
 
-**2. Unpack it onto your `PATH`.** Unpack the whole archive, so `libprocess`
-lands next to `spool`:
+**2. Unpack it onto your `PATH`:**
 
 ```bash
 mkdir -p ~/.local/bin
@@ -151,9 +147,9 @@ cd spool
 ./bootstrap.sh --channel edge --install
 ```
 
-That builds spool and `libprocess`, downloads coil from the coil-lang `edge`
-release when there is an archive for your machine, and installs `spool` and
-`libprocess` to `~/.local/bin` and coil to `~/.coil/bin`. Where there is no coil archive (or with `--from-source`),
+That builds spool, downloads coil from the coil-lang `edge`
+release when there is an archive for your machine, and installs `spool`
+to `~/.local/bin` and coil to `~/.coil/bin`. Where there is no coil archive (or with `--from-source`),
 it builds coil from source, which needs a Rust toolchain plus libffi and
 PCRE2 development files (`libffi-dev libpcre2-dev` on Debian and Ubuntu,
 `brew install libffi pcre2 pkg-config` on macOS). `./bootstrap.sh` without
@@ -238,7 +234,7 @@ repository (a fork or a mirror), and `COIL_STDLIB_REPO` changes the stdlib URL
 Remove the binaries, the toolchain and the caches:
 
 ```bash
-rm -f ~/.local/bin/spool ~/.local/bin/libprocess.so ~/.local/bin/libprocess.dylib
+rm -f ~/.local/bin/spool
 rm -rf ~/.coil                # coil and the natives cache
 rm -rf ~/.cache/coil          # spool's shared git cache (or $XDG_CACHE_HOME/coil)
 rm -rf ~/.config/coil         # spool's config file, if you created one
