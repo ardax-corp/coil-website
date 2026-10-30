@@ -98,8 +98,8 @@ each gets 3.5 apples
 ```
 
 Strings are not converted with `as`. Use `format` or `show` to turn a value
-into text, and [`conv::parse_int`](/docs/reference/conv/parse_int) or
-[`conv::parse_float`](/docs/reference/conv/parse_float) to read a number
+into text, and [`conv::parse_int`](/packages/stdlib/reference/conv/parse_int) or
+[`conv::parse_float`](/packages/stdlib/reference/conv/parse_float) to read a number
 from text. Parsing can fail, so those return a `Result`, which chapter 6
 covers. The [casts page](/docs/language/casts) lists every conversion.
 
@@ -131,7 +131,7 @@ Ada Lovelace
 true false
 ```
 
-The stdlib module [`text`](/docs/reference/text) has the everyday string
+The stdlib module [`text`](/packages/stdlib/reference/text) has the everyday string
 helpers. Importing its `Searchable` trait gives strings the search methods
 `contains`, `starts_with`, `ends_with`, `find`, `split`, `split_once` and
 `replace_all`; free functions such as `trim`, `to_upper` and `join` cover the

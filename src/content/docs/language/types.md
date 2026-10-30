@@ -34,7 +34,7 @@ The builtin error enums (`IoError`, `TtyError`, `StringError`, `ThreadError`, `C
 
 Strings support `+` / `+=` with other strings. `string::format(...)` returns `string` and validates literal format specifiers (`%i` accepts `byte`).
 
-`s[i]` reads the byte at byte offset `i` (a `byte`; out of range **panics**). Search is plain loops over `s[i]`, as the stdlib [`text`](/docs/reference/text) module writes it; there are no search natives. The compiler runs such loops 64 bytes at a time: a loop that steps `i` by one and, on most iterations, only compares bytes (`s[i] == c`, `s[i] >= 48 && s[i] <= 57`, `s[i] == a && s[i + 1] == b`, `s[i + j] == p[j]`) skips the bytes where nothing happens with SIMD and runs its body only where something does. Panics, side effects and results are the plain loop's.
+`s[i]` reads the byte at byte offset `i` (a `byte`; out of range **panics**). Search is plain loops over `s[i]`, as the stdlib [`text`](/packages/stdlib/reference/text) module writes it; there are no search natives. The compiler runs such loops 64 bytes at a time: a loop that steps `i` by one and, on most iterations, only compares bytes (`s[i] == c`, `s[i] >= 48 && s[i] <= 57`, `s[i] == a && s[i + 1] == b`, `s[i + j] == p[j]`) skips the bytes where nothing happens with SIMD and runs its body only where something does. Panics, side effects and results are the plain loop's.
 
 ```coil
 fn find_byte(string s, byte c) -> Option<int> {
