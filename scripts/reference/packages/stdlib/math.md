@@ -11,4 +11,4 @@ exponentials and logarithms (`exp`, `ln`, `log2`, `log10`), roots (`sqrt`,
 within an ulp or two of the platform libm. Every function takes and returns
 `float` and follows IEEE-754: invalid inputs give NaN and overflow gives
 infinity. Rounding to the nearest whole number, `trunc` and `hypot` are in
-[`num`](/docs/reference/num); powers are the `**` operator.
+[`num`](/packages/stdlib/reference/num); powers are the `**` operator.

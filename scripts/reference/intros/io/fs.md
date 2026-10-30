@@ -7,6 +7,6 @@ Functions that inspect the file system (`exists`, `metadata`, `list_dir`,
 [Permissions](/docs/language/permissions).
 
 There is no whole-file read or write here: use
-[`io::file`](/docs/reference/io/file) (`read_text`, `write_bytes`, …) or open a
+[`io::file`](/packages/stdlib/reference/io/file) (`read_text`, `write_bytes`, …) or open a
 stream with [`io::open`](/docs/reference/io/open). The stdlib
-[`path`](/docs/reference/path) module wraps these functions in a `Path` value.
+[`path`](/packages/stdlib/reference/path) module wraps these functions in a `Path` value.
