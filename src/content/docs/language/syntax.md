@@ -435,6 +435,19 @@ optimization (cleanup must run before leaving the frame). Outer locals must
 be listed in the optional `use (…)` capture list (same explicit-capture rule
 as lambdas); bare `defer { … }` cannot close over enclosing locals.
 
+A `defer` belongs to its function, not to the block or loop it sits in.
+Each `defer` statement is queued at most once per call: inside a loop it
+runs once, when the function exits, however many iterations reached it (the
+compiler warns, `E0147`). For cleanup per iteration, move the loop body into
+a function with its own `defer`.
+
+A deferred block cannot leave by another exit: `return`, `raise`, `?`, and a
+`break` or `continue` that would leave the block are errors (`E0146`). A
+`panic` inside a deferred block starts a panic like any other, or replaces
+the one being unwound: the defers of the callers still run, and the panic
+raised last is the one reported. If the function was already unwinding, its
+defers that have not run yet are skipped.
+
 ---
 
 ## Statements
