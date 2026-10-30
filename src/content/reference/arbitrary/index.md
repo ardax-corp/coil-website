@@ -7,7 +7,7 @@ kind: "module"
 name: "arbitrary"
 origin: "embedded"
 auto: false
-order: 17
+order: 18
 ---
 
 `coil test` uses this module to call functions that have contracts with

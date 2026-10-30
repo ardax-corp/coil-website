@@ -7,7 +7,7 @@ kind: "module"
 name: "collections::deque"
 origin: "stdlib"
 auto: false
-order: 23
+order: 24
 ---
 
 Part of [coil-stdlib](/packages/stdlib). spool projects declare it as their `stdlib` dependency (`spool new` adds it); with plain `coil`, pass `--root` with the `src` of a coil-stdlib checkout.

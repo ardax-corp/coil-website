@@ -8,7 +8,7 @@ name: "exists"
 signature: "fn exists(string path) -> Result<bool, IoError>"
 import: "use io::fs::{exists};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/de4bf4dc9af36e25e72142d3d0ccd454fb0021a4/compiler/src/builtin_docs/io/fs.hy#L105"
+source: "https://github.com/ardax-corp/coil-lang/blob/a0f9a69de421abd1c20672ef88c619ca2a88a976/compiler/src/builtin_docs/io/fs.hy#L105"
 order: 3
 ---
 

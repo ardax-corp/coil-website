@@ -7,7 +7,7 @@ kind: "module"
 name: "task"
 origin: "embedded"
 auto: false
-order: 16
+order: 17
 ---
 
 Tasks are cooperative: they run on the calling thread and switch only at
