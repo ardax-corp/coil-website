@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-time"
 description: "This package is time. use time::{timestamp, Instant} resolves from this repo's src/. Process clocks are HostInvoke clock in coil-lang (archive 4.4+: clockwallnanos /…"
-source: "https://github.com/ardax-corp/coil-time/blob/eba7f01ce0bbae69ae55c9e17e14143efd3b9204/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/docs/consume.md"
 ---
 # Consuming coil-time
 

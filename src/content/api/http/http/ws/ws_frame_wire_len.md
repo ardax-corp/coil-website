@@ -9,7 +9,7 @@ name: "ws_frame_wire_len"
 signature: "fn ws_frame_wire_len(Vec<byte> raw) -> int"
 import: "use http::ws::{ws_frame_wire_len};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/ws.hy#L328"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.hy#L328"
 order: 10
 ---
 

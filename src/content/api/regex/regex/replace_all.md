@@ -9,7 +9,7 @@ name: "replace_all"
 signature: "fn replace_all(Regex re, string subject, string template) -> Result<string, RegexError>"
 import: "use regex::{replace_all};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-regex/blob/3e77f65af30a058a4aaa204c484569ebb6c8ac13/src/regex.hy#L832"
+source: "https://github.com/ardax-corp/coil-regex/blob/3d83b6015655fefd60e8136e2eb9694f7e8a4990/src/regex.hy#L832"
 order: 10
 ---
 

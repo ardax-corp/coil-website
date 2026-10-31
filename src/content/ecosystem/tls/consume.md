@@ -1,13 +1,13 @@
 ---
 title: "Consuming coil-tls"
 description: "This package is tls. use tls::{client, server} and use tls::{alpnprotocol} resolve from this repo's src/. rustls lives in libtls.so / .dylib / tls.dll. client::enable /…"
-source: "https://github.com/ardax-corp/coil-tls/blob/989c3660eb5b3de4a0ebd68a395be45bc626a332/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/docs/consume.md"
 ---
 # Consuming coil-tls
 
 This package is `tls`. `use tls::{client, server}` and `use tls::{alpn_protocol}` resolve from this repo's `src/`. rustls lives in `libtls.so` / `.dylib` / `tls.dll`. `client::enable` / `server::enable` call `dload("tls")` inside the package. Put the built library on the FFI search path (`--ffi-search-path`). Needs coil-lang with `Stream.attach` / `Stream.park` ([coil-lang #204](https://github.com/ardax-corp/coil-lang/pull/204)).
 
-API: [api.md](/packages/tls/api). Handshake demo: [examples/loopback.hy](https://github.com/ardax-corp/coil-tls/blob/989c3660eb5b3de4a0ebd68a395be45bc626a332/examples/loopback.hy).
+API: [api.md](/packages/tls/api). Handshake demo: [examples/loopback.hy](https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/examples/loopback.hy).
 
 ## Sibling checkout
 

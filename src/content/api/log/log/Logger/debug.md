@@ -10,7 +10,7 @@ parent: "Logger"
 signature: "pub fn debug(string msg)"
 import: "use log::{Logger};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-log/blob/17dadae959e85e1d3bf7d7b1904b7e67f50ba247/src/log.hy#L193"
+source: "https://github.com/ardax-corp/coil-log/blob/2a00a5ba1086040c2b5368e33f81c44ed036eb87/src/log.hy#L193"
 order: 6
 ---
 

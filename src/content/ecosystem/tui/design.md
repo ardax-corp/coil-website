@@ -1,7 +1,7 @@
 ---
 title: "coil-tui design"
 description: "coil-tui is a component framework for terminal user interfaces in Coil: build an application out of reusable components, lay them out in rows and columns, and let the framework…"
-source: "https://github.com/ardax-corp/coil-tui/blob/77c5a22802df3416c576f798d69d570535e77c01/docs/design.md"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/docs/design.md"
 ---
 # coil-tui design
 

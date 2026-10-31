@@ -1,7 +1,7 @@
 ---
 title: "spool"
 description: "Project and dependency manager for Coil: the high-level front end over the coil toolchain, shipped as one standalone executable."
-source: "https://github.com/ardax-corp/spool/blob/b7fb88d90d40074bfa273c862b08f4d9554b15a6/README.md"
+source: "https://github.com/ardax-corp/spool/blob/0a132e781a582f7c7a512d655a7777ba50467070/README.md"
 ---
 # spool
 

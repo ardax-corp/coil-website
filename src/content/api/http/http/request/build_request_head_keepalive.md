@@ -9,7 +9,7 @@ name: "build_request_head_keepalive"
 signature: "fn build_request_head_keepalive(string method, Url u, Headers headers, int body_len) -> Result<Vec<byte>, HttpError>"
 import: "use http::request::{build_request_head_keepalive};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/request.hy#L464"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/request.hy#L464"
 order: 2
 ---
 

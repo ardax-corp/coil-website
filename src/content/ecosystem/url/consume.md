@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-url"
 description: "This package is url. use url::{parse, join, Url, UrlError} resolves from src/url.hy. The repo is https://github.com/ardax-corp/coil-url.git. There is no native/FFI dependency."
-source: "https://github.com/ardax-corp/coil-url/blob/d4b1c98a905332959a4b642692ca2cf5afcec1f9/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/docs/consume.md"
 ---
 # Consuming coil-url
 
@@ -26,7 +26,7 @@ coil --root ../coil-stdlib/src --root ../coil-url/src main.hy
 
 ## Call parse / join
 
-Signatures and `///` docs with examples are in [`src/url.hy`](https://github.com/ardax-corp/coil-url/blob/d4b1c98a905332959a4b642692ca2cf5afcec1f9/src/url.hy). Call patterns are in [`tests/parse.hy`](https://github.com/ardax-corp/coil-url/blob/d4b1c98a905332959a4b642692ca2cf5afcec1f9/tests/parse.hy) and [`tests/join.hy`](https://github.com/ardax-corp/coil-url/blob/d4b1c98a905332959a4b642692ca2cf5afcec1f9/tests/join.hy).
+Signatures and `///` docs with examples are in [`src/url.hy`](https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/src/url.hy). Call patterns are in [`tests/parse.hy`](https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/tests/parse.hy) and [`tests/join.hy`](https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/tests/join.hy).
 
 ```coil
 use url::{parse, join, percent_encode, percent_decode, Url, UrlError};

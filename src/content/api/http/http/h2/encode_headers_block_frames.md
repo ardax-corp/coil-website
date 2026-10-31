@@ -9,7 +9,7 @@ name: "encode_headers_block_frames"
 signature: "fn encode_headers_block_frames(int stream_id, Vec<byte> block, int end_stream, int max_payload) -> Vec<byte>"
 import: "use http::h2::{encode_headers_block_frames};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/h2.hy#L526"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.hy#L526"
 order: 53
 ---
 

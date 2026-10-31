@@ -1,7 +1,7 @@
 ---
 title: "coil-uuid"
 description: "RFC 4122 / RFC 9562 UUIDs for coil: generate versions 1, 4, 6 and 7, parse the hyphenated form and format it back. Package name is uuid, so use uuid::{v1, v4, v6, v7, parse,…"
-source: "https://github.com/ardax-corp/coil-uuid/blob/4e332f12010741169f422d8c5d567f0d47e0ea5e/README.md"
+source: "https://github.com/ardax-corp/coil-uuid/blob/07c0a071431e64138c44ec3e6467ab7c9fd93808/README.md"
 ---
 # coil-uuid
 
@@ -81,4 +81,4 @@ Details in [docs/consume.md](/packages/uuid/consume).
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-uuid/tree/4e332f12010741169f422d8c5d567f0d47e0ea5e/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-uuid/tree/07c0a071431e64138c44ec3e6467ab7c9fd93808/LICENSE).

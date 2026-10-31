@@ -1,7 +1,7 @@
 ---
 title: "JSON (coil-json)"
 description: "JSON parse/stringify is not in this package. It lives in coil-json (use json::{Json, JsonValue, JsonError};)."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d13f986e7f57ab90d877b04e276aa1184c83b015/docs/codec.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/docs/codec.md"
 ---
 # JSON (coil-json)
 

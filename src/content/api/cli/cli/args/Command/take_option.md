@@ -10,7 +10,7 @@ parent: "Command"
 signature: "pub fn take_option( Arg a, Matches m, Vec<string> argv, int i, string inline, bool has_inline, ) -> Result<int, ArgError>"
 import: "use cli::args::{Command};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L492"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/args.hy#L492"
 order: 17
 ---
 

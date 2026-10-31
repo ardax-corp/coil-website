@@ -1,7 +1,7 @@
 ---
 title: "coil-gzip"
 description: "Userland RFC 1952 gzip for coil. Package name is gzip, so use gzip::{compress, decompress, crc32, Gzip, GzipError} resolves here."
-source: "https://github.com/ardax-corp/coil-gzip/blob/28a79e639ba5ff86e3de889e4f948878d335a808/README.md"
+source: "https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/README.md"
 ---
 # coil-gzip
 
@@ -59,4 +59,4 @@ No tags yet, so pin a commit. spool also fetches the `deflate` dependency. Witho
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-gzip/tree/28a79e639ba5ff86e3de889e4f948878d335a808/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-gzip/tree/e76ad55603f9a41e6372eec358c524eaa141ef46/LICENSE).

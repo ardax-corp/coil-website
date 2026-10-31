@@ -9,7 +9,7 @@ name: "sort_by"
 signature: "fn sort_by<T, K: Ord>(Vec<T> arr, T -> K key) -> Vec<T>"
 import: "use collections::{sort_by};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d13f986e7f57ab90d877b04e276aa1184c83b015/src/collections.hy#L149"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections.hy#L149"
 order: 1
 ---
 

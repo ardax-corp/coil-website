@@ -9,7 +9,7 @@ name: "date_from_epoch_period"
 signature: "fn date_from_epoch_period(Period p) -> Result<Timestamp, TimeError>"
 import: "use time::{date_from_epoch_period};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-time/blob/eba7f01ce0bbae69ae55c9e17e14143efd3b9204/src/time.hy#L1132"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.hy#L1132"
 order: 18
 ---
 

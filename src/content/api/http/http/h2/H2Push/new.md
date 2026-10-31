@@ -10,7 +10,7 @@ parent: "H2Push"
 signature: "pub static fn new(int promised_id, Vec<byte> block) -> H2Push"
 import: "use http::h2::{H2Push};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/h2.hy#L578"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.hy#L578"
 order: 0
 ---
 

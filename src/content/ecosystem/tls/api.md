@@ -1,12 +1,11 @@
 ---
 title: "API"
 description: "Module: use tls::{client, server, alpnprotocol}; (package name tls from coil.toml). How to depend: consume.md."
-source: "https://github.com/ardax-corp/coil-tls/blob/989c3660eb5b3de4a0ebd68a395be45bc626a332/docs/api.md"
+source: "https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/docs/api.md"
 ---
 # API
 
 Module: `use tls::{client, server, alpn_protocol};` (package name `tls` from `coil.toml`). How to depend: [consume.md](/packages/tls/consume).
-
 
 ## In-place upgrade
 

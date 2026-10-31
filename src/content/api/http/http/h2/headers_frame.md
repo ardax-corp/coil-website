@@ -9,7 +9,7 @@ name: "headers_frame"
 signature: "fn headers_frame(int stream_id, Headers h, int end_stream) -> H2Frame"
 import: "use http::h2::{headers_frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/h2.hy#L470"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.hy#L470"
 order: 48
 ---
 

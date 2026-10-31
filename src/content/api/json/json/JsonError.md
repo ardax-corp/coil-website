@@ -9,7 +9,7 @@ name: "JsonError"
 signature: "enum JsonError"
 import: "use json::{JsonError};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-json/blob/70900ca2e6f10b5a31c57279c1d2e24ce37a0cc1/src/json.hy#L144"
+source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.hy#L144"
 order: 1
 ---
 

@@ -10,7 +10,7 @@ parent: "Url"
 signature: "pub fn join(string reference) -> Result<Url, UrlError>"
 import: "use url::{Url};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-url/blob/d4b1c98a905332959a4b642692ca2cf5afcec1f9/src/url.hy#L1002"
+source: "https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/src/url.hy#L1002"
 order: 5
 ---
 

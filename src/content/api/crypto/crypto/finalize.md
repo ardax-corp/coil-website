@@ -9,7 +9,7 @@ name: "finalize"
 signature: "fn finalize(Hasher h) -> Result<Vec<byte>, CryptoError>"
 import: "use crypto::{finalize};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-crypto/blob/122607a9b54b7743796616c5e54c2e58cee15f38/src/crypto.hy#L376"
+source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.hy#L376"
 order: 7
 ---
 

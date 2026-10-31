@@ -1,12 +1,11 @@
 ---
 title: "coil-crypto"
 description: "Userland cryptography for coil. RustCrypto lives in a cdylib (libcrypto.so / .dylib / .dll) plus Coil wrappers. use crypto::{…} is this package, not a compiler builtin."
-source: "https://github.com/ardax-corp/coil-crypto/blob/122607a9b54b7743796616c5e54c2e58cee15f38/README.md"
+source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/README.md"
 ---
 # coil-crypto
 
 Userland cryptography for [coil](https://github.com/ardax-corp/coil-lang). RustCrypto lives in a cdylib (`libcrypto.so` / `.dylib` / `.dll`) plus Coil wrappers. `use crypto::{…}` is this package, not a compiler builtin.
-
 
 It covers hashing (SHA-256, SHA-512, BLAKE3, and an incremental `Hasher`), HMAC-SHA256/512, OS randomness, AEAD (ChaCha20-Poly1305, AES-256-GCM), Ed25519 signatures, X25519 key agreement, Argon2id password hashing and a constant-time compare. Every fallible call returns `Result<_, CryptoError>`.
 
@@ -68,4 +67,4 @@ Consume with `spool add crypto --git https://github.com/ardax-corp/coil-crypto.g
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-crypto/tree/122607a9b54b7743796616c5e54c2e58cee15f38/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-crypto/tree/d016857a83ab00e5c4f0397570843be1b851a191/LICENSE).

@@ -9,7 +9,7 @@ name: "read_bytes"
 signature: "fn read_bytes(Stream s, int max, int timeout_ms) -> Result<Option<Vec<byte>>, TtyError>"
 import: "use cli::term::{read_bytes};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/term.hy#L140"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/term.hy#L140"
 order: 11
 ---
 

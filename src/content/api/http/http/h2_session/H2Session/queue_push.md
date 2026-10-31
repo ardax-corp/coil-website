@@ -10,7 +10,7 @@ parent: "H2Session"
 signature: "pub fn queue_push(int associated, int promised, string method, string path, string authority)"
 import: "use http::h2_session::{H2Session};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/h2_session.hy#L800"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2_session.hy#L800"
 order: 19
 ---
 

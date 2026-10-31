@@ -1,7 +1,7 @@
 ---
 title: "coil-url"
 description: "RFC 3986 URLs for coil, written in plain Coil (no native library, no FFI): parse, write back, resolve relative references, read and set query parameters, percent-encode and…"
-source: "https://github.com/ardax-corp/coil-url/blob/d4b1c98a905332959a4b642692ca2cf5afcec1f9/README.md"
+source: "https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/README.md"
 ---
 # coil-url
 
@@ -54,7 +54,7 @@ coil --root ../coil-stdlib/src --root ../coil-url/src main.hy
 
 Missing components are `""` and port `0`; the `has_*` flags tell `http://host?` (empty query) from `http://host` (no query). Components stay percent-encoded as written; the scheme is lowercased, and the host too for `http`, `https`, `ws` and `wss`, which also require a non-empty host. Any other scheme parses as generic (`mailto:`, `git://…`), and `file:///path` has an empty host. Bad input returns `UrlError::Invalid`, never a panic.
 
-Every public item has `///` docs with examples in [`src/url.hy`](https://github.com/ardax-corp/coil-url/blob/d4b1c98a905332959a4b642692ca2cf5afcec1f9/src/url.hy).
+Every public item has `///` docs with examples in [`src/url.hy`](https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/src/url.hy).
 
 ## Layout
 
@@ -81,4 +81,4 @@ coil test --root ../coil-stdlib/src src      # doc examples
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-url/tree/d4b1c98a905332959a4b642692ca2cf5afcec1f9/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-url/tree/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/LICENSE).

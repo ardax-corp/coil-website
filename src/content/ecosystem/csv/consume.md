@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-csv"
 description: "This package is csv. use csv::{parse, stringify, Csv, CsvError} resolves from src/csv.hy. The repo is https://github.com/ardax-corp/coil-csv.git. There is no native/FFI dependency."
-source: "https://github.com/ardax-corp/coil-csv/blob/7c76e18041b796df58eec952b149ecc0fa15040c/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/docs/consume.md"
 ---
 # Consuming coil-csv
 
@@ -26,7 +26,7 @@ coil --root ../coil-stdlib/src --root ../coil-csv/src main.hy
 
 ## Call parse / stringify
 
-Signatures and `///` docs with examples are in [`src/csv.hy`](https://github.com/ardax-corp/coil-csv/blob/7c76e18041b796df58eec952b149ecc0fa15040c/src/csv.hy). Call patterns are in [`tests/rfc4180.hy`](https://github.com/ardax-corp/coil-csv/blob/7c76e18041b796df58eec952b149ecc0fa15040c/tests/rfc4180.hy).
+Signatures and `///` docs with examples are in [`src/csv.hy`](https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/src/csv.hy). Call patterns are in [`tests/rfc4180.hy`](https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/tests/rfc4180.hy).
 
 ```coil
 use csv::{parse, stringify, Csv, CsvError};

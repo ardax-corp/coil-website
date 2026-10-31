@@ -9,7 +9,7 @@ name: "clear_screen"
 signature: "fn clear_screen() -> string"
 import: "use cli::ansi::{clear_screen};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/ansi.hy#L135"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L135"
 order: 20
 ---
 

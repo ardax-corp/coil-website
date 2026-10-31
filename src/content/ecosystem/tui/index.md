@@ -1,7 +1,7 @@
 ---
 title: "coil-tui"
 description: "A component framework for terminal user interfaces in Coil, built on the cli package (coil-cli). Package name: tui."
-source: "https://github.com/ardax-corp/coil-tui/blob/77c5a22802df3416c576f798d69d570535e77c01/README.md"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/README.md"
 ---
 # coil-tui
 
@@ -35,7 +35,7 @@ fn main() {
 }
 ```
 
-This is [examples/hello.hy](https://github.com/ardax-corp/coil-tui/blob/77c5a22802df3416c576f798d69d570535e77c01/examples/hello.hy); [examples/todo.hy](https://github.com/ardax-corp/coil-tui/blob/77c5a22802df3416c576f798d69d570535e77c01/examples/todo.hy) is a bigger one (list, dialogs, key hints). Run it from a checkout with coil-stdlib and coil-cli next to it (`run` reads the colour settings, hence `--allow-env`):
+This is [examples/hello.hy](https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/examples/hello.hy); [examples/todo.hy](https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/examples/todo.hy) is a bigger one (list, dialogs, key hints). Run it from a checkout with coil-stdlib and coil-cli next to it (`run` reads the colour settings, hence `--allow-env`):
 
 ```bash
 coil --allow-env --root ../coil-stdlib/src --root ../coil-cli/src --root src examples/hello.hy
@@ -97,4 +97,4 @@ examples drive a UI through `tui::testing`.
 
 ## License
 
-MIT — see [LICENSE](https://github.com/ardax-corp/coil-tui/tree/77c5a22802df3416c576f798d69d570535e77c01/LICENSE).
+MIT — see [LICENSE](https://github.com/ardax-corp/coil-tui/tree/e9b465674e02eee2b78c82c0e7fef33d891c8c82/LICENSE).

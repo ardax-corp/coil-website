@@ -9,7 +9,7 @@ name: "alpn_protocol"
 signature: "fn alpn_protocol(Stream s) -> Result<string, TlsError>"
 import: "use tls::{alpn_protocol};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tls/blob/989c3660eb5b3de4a0ebd68a395be45bc626a332/src/tls.hy#L38"
+source: "https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/src/tls.hy#L38"
 order: 0
 ---
 

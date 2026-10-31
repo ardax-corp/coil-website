@@ -10,7 +10,7 @@ parent: "HpackTable"
 signature: "pub static fn new(int cap) -> HpackTable"
 import: "use http::hpack::{HpackTable};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/hpack.hy#L106"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/hpack.hy#L106"
 order: 0
 ---
 

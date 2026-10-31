@@ -10,7 +10,7 @@ parent: "MsgpackValue"
 signature: "pub fn is_map() -> bool"
 import: "use msgpack::{MsgpackValue};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-msgpack/blob/717fa0fe98bf14f43b00c42cce89eeb1d7f97684/src/msgpack.hy#L479"
+source: "https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/src/msgpack.hy#L479"
 order: 18
 ---
 

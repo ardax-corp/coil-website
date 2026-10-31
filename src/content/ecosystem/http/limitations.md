@@ -1,7 +1,7 @@
 ---
 title: "Limitations (v1)"
 description: "Client: verified TLS only (new ClientOpts(true, ...)). Server: PEM cert/key via Server::tls (new ServerOpts(...)). Requires the coil-tls package (use tls::{client,…"
-source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/docs/limitations.md"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/docs/limitations.md"
 ---
 # Limitations (v1)
 

@@ -1,7 +1,7 @@
 ---
 title: "coil-msgpack"
 description: "Userland MessagePack for coil. Package name is msgpack, so use msgpack::{Msgpack, MsgpackValue, MsgpackError} resolves here."
-source: "https://github.com/ardax-corp/coil-msgpack/blob/717fa0fe98bf14f43b00c42cce89eeb1d7f97684/README.md"
+source: "https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/README.md"
 ---
 # coil-msgpack
 
@@ -101,4 +101,4 @@ This runs `tests/` and the examples in the `///` docs of `src/msgpack.hy`.
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-msgpack/tree/717fa0fe98bf14f43b00c42cce89eeb1d7f97684/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-msgpack/tree/5b073ea8d83d5b051d57bdf030ec80a385e25add/LICENSE).

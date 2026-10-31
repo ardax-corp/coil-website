@@ -1,7 +1,7 @@
 ---
 title: "coil-regex"
 description: "PCRE2 regular expressions for coil. compile a pattern into a Regex, then match, find, capture, split and replace with its methods. Regex is also a text::Pattern, so the…"
-source: "https://github.com/ardax-corp/coil-regex/blob/3e77f65af30a058a4aaa204c484569ebb6c8ac13/README.md"
+source: "https://github.com/ardax-corp/coil-regex/blob/3d83b6015655fefd60e8136e2eb9694f7e8a4990/README.md"
 ---
 # coil-regex
 
@@ -77,4 +77,4 @@ coil --root src --root ../coil-stdlib/src --allow-dload pcre2-8 --dload-pin pcre
 
 ## License
 
-MIT — see [LICENSE](https://github.com/ardax-corp/coil-regex/tree/3e77f65af30a058a4aaa204c484569ebb6c8ac13/LICENSE).
+MIT — see [LICENSE](https://github.com/ardax-corp/coil-regex/tree/3d83b6015655fefd60e8136e2eb9694f7e8a4990/LICENSE).

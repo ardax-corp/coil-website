@@ -10,7 +10,7 @@ parent: "TomlValue"
 signature: "pub static fn from_float(float x) -> TomlValue"
 import: "use toml::{TomlValue};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-toml/blob/ceb0ab800e13abbb0ec43cfc61e9ae1d326d5ccc/src/toml.hy#L338"
+source: "https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/src/toml.hy#L338"
 order: 4
 ---
 

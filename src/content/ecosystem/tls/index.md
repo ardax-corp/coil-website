@@ -1,14 +1,13 @@
 ---
 title: "coil-tls"
 description: "TLS for coil streams. tls::client::enable and tls::server::enable upgrade a TCP Stream to TLS in place, so the same stream's read / write are then encrypted; tls::alpnprotocol…"
-source: "https://github.com/ardax-corp/coil-tls/blob/989c3660eb5b3de4a0ebd68a395be45bc626a332/README.md"
+source: "https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/README.md"
 ---
 # coil-tls
 
 TLS for [coil](https://github.com/ardax-corp/coil-lang) streams. `tls::client::enable` and `tls::server::enable` upgrade a TCP `Stream` to TLS in place, so the same stream's `read` / `write` are then encrypted; `tls::alpn_protocol` reads the negotiated protocol. rustls lives in a Rust cdylib (`libtls.so` / `.dylib` / `.dll`) loaded with `dload("tls")`, not in the interpreter.
 
 Package name is `tls`, so `use tls::{client, server}` and `use tls::alpn_protocol` keep working after the virtual `io::net::tls` module is removed.
-
 
 ## Layout
 
@@ -65,7 +64,7 @@ coil --root ../coil-tls/src --root ../coil-stdlib/src --ffi-search-path ../coil-
   --allow-dload tls --dload-trusted tls --allow-attach --allow-net main.hy
 ```
 
-A client and server handshake over loopback is in [examples/loopback.hy](https://github.com/ardax-corp/coil-tls/blob/989c3660eb5b3de4a0ebd68a395be45bc626a332/examples/loopback.hy).
+A client and server handshake over loopback is in [examples/loopback.hy](https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/examples/loopback.hy).
 
 ## Build
 
@@ -87,4 +86,4 @@ Consume with `spool add tls --git https://github.com/ardax-corp/coil-tls.git --r
 
 ## License
 
-MIT — see [LICENSE](https://github.com/ardax-corp/coil-tls/tree/989c3660eb5b3de4a0ebd68a395be45bc626a332/LICENSE).
+MIT — see [LICENSE](https://github.com/ardax-corp/coil-tls/tree/8eb103338d9385609c0e75d08c5fc5c9b86015a6/LICENSE).

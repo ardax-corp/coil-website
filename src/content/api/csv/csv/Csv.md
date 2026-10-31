@@ -9,7 +9,7 @@ name: "Csv"
 signature: "class Csv"
 import: "use csv::{Csv};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-csv/blob/7c76e18041b796df58eec952b149ecc0fa15040c/src/csv.hy#L78"
+source: "https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/src/csv.hy#L78"
 order: 1
 ---
 

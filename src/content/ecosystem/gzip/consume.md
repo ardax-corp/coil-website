@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-gzip"
 description: "This package is gzip. use gzip::{compress, decompress, crc32, Gzip, GzipError} resolves from src/gzip.hy. The repo is https://github.com/ardax-corp/coil-gzip.git. There is no…"
-source: "https://github.com/ardax-corp/coil-gzip/blob/28a79e639ba5ff86e3de889e4f948878d335a808/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/docs/consume.md"
 ---
 # Consuming coil-gzip
 
@@ -37,11 +37,11 @@ To run this repo's own tests from a checkout with `coil-deflate` as a sibling:
 coil test --root ../coil-deflate/src --root ../coil-stdlib/src
 ```
 
-CI does the same with deflate checked out under `.ci/coil-deflate`. `[module] roots` in `coil.toml` is read by spool, not by coil.
+coil reads no `coil.toml`; spool turns its dependencies into these `--root`s.
 
 ## Call compress / decompress
 
-Signatures are in [`src/gzip.hy`](https://github.com/ardax-corp/coil-gzip/blob/28a79e639ba5ff86e3de889e4f948878d335a808/src/gzip.hy). Call patterns are in [`tests/roundtrip.hy`](https://github.com/ardax-corp/coil-gzip/blob/28a79e639ba5ff86e3de889e4f948878d335a808/tests/roundtrip.hy) and [`tests/vectors.hy`](https://github.com/ardax-corp/coil-gzip/blob/28a79e639ba5ff86e3de889e4f948878d335a808/tests/vectors.hy).
+Signatures are in [`src/gzip.hy`](https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/src/gzip.hy). Call patterns are in [`tests/roundtrip.hy`](https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/tests/roundtrip.hy) and [`tests/vectors.hy`](https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/tests/vectors.hy).
 
 ```coil
 use string::{to_bytes};

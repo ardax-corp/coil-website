@@ -1,7 +1,7 @@
 ---
 title: "coil-regex"
 description: "PCRE2-backed regular expressions for coil. src/regex.hy binds libpcre2-8 directly with extern; there is no C shim."
-source: "https://github.com/ardax-corp/coil-regex/blob/3e77f65af30a058a4aaa204c484569ebb6c8ac13/docs/README.md"
+source: "https://github.com/ardax-corp/coil-regex/blob/3d83b6015655fefd60e8136e2eb9694f7e8a4990/docs/README.md"
 ---
 # coil-regex
 

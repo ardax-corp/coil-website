@@ -9,7 +9,7 @@ name: "format_http_date"
 signature: "fn format_http_date(Timestamp ts) -> Result<string, TimeError>"
 import: "use time::{format_http_date};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-time/blob/eba7f01ce0bbae69ae55c9e17e14143efd3b9204/src/time.hy#L1450"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.hy#L1450"
 order: 29
 ---
 

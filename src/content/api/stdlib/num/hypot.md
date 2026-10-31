@@ -9,7 +9,7 @@ name: "hypot"
 signature: "fn hypot(float a, float b) -> float"
 import: "use num::{hypot};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d13f986e7f57ab90d877b04e276aa1184c83b015/src/num.hy#L269"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/num.hy#L269"
 order: 18
 ---
 

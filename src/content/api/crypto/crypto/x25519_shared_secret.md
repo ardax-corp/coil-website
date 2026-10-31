@@ -9,7 +9,7 @@ name: "x25519_shared_secret"
 signature: "fn x25519_shared_secret(Vec<byte> secret, Vec<byte> public_key) -> Result<Vec<byte>, CryptoError>"
 import: "use crypto::{x25519_shared_secret};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-crypto/blob/122607a9b54b7743796616c5e54c2e58cee15f38/src/crypto.hy#L704"
+source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.hy#L704"
 order: 21
 ---
 

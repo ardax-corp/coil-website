@@ -1,7 +1,7 @@
 ---
 title: "coil-log"
 description: "Leveled line logger for coil. Package name is log, so use log::{Logger, Level} resolves here."
-source: "https://github.com/ardax-corp/coil-log/blob/17dadae959e85e1d3bf7d7b1904b7e67f50ba247/README.md"
+source: "https://github.com/ardax-corp/coil-log/blob/2a00a5ba1086040c2b5368e33f81c44ed036eb87/README.md"
 ---
 # coil-log
 
@@ -52,4 +52,4 @@ There are no tags yet, so pin a commit with `--rev`. spool also fetches the `tim
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-log/tree/17dadae959e85e1d3bf7d7b1904b7e67f50ba247/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-log/tree/2a00a5ba1086040c2b5368e33f81c44ed036eb87/LICENSE).

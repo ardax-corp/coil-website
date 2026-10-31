@@ -9,7 +9,7 @@ name: "parse_key"
 signature: "fn parse_key(string spec) -> Event"
 import: "use tui::testing::{parse_key};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/77c5a22802df3416c576f798d69d570535e77c01/src/tui/testing.hy#L94"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/testing.hy#L94"
 order: 1
 ---
 

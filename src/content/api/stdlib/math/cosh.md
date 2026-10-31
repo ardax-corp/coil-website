@@ -9,7 +9,7 @@ name: "cosh"
 signature: "fn cosh(float x) -> float"
 import: "use math::{cosh};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d13f986e7f57ab90d877b04e276aa1184c83b015/src/math.hy#L1874"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/math.hy#L1874"
 order: 16
 ---
 

@@ -10,7 +10,7 @@ parent: "BitSet"
 signature: "pub fn contains(int i) -> bool"
 import: "use collections::bitset::{BitSet};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d13f986e7f57ab90d877b04e276aa1184c83b015/src/collections/bitset.hy#L130"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/bitset.hy#L130"
 order: 6
 ---
 

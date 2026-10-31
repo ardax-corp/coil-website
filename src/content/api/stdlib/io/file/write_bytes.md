@@ -9,7 +9,7 @@ name: "write_bytes"
 signature: "fn write_bytes(string path, Vec<byte> buf) -> Result<int, IoError>"
 import: "use io::file::{write_bytes};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d13f986e7f57ab90d877b04e276aa1184c83b015/src/io/file.hy#L33"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/file.hy#L33"
 order: 1
 ---
 

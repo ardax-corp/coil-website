@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-msgpack"
 description: "This package is msgpack. use msgpack::{Msgpack, MsgpackValue, MsgpackError} resolves from src/msgpack.hy. One-shot encode/decode ships here. Do not add a native/FFI dep."
-source: "https://github.com/ardax-corp/coil-msgpack/blob/717fa0fe98bf14f43b00c42cce89eeb1d7f97684/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/docs/consume.md"
 ---
 # Consuming coil-msgpack
 
@@ -25,7 +25,7 @@ coil --root ../coil-msgpack/src main.hy
 
 ## Call Msgpack::standard()
 
-Signatures are in [`src/msgpack.hy`](https://github.com/ardax-corp/coil-msgpack/blob/717fa0fe98bf14f43b00c42cce89eeb1d7f97684/src/msgpack.hy). Call patterns are in [`tests/format.hy`](https://github.com/ardax-corp/coil-msgpack/blob/717fa0fe98bf14f43b00c42cce89eeb1d7f97684/tests/format.hy).
+Signatures are in [`src/msgpack.hy`](https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/src/msgpack.hy). Call patterns are in [`tests/format.hy`](https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/tests/format.hy).
 
 ```coil
 use msgpack::{Msgpack, MsgpackValue, MsgpackError};

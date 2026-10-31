@@ -10,7 +10,7 @@ parent: "VecSum"
 signature: "fn sum(V xs) -> Item"
 import: "use collections::vec::{VecSum};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d13f986e7f57ab90d877b04e276aa1184c83b015/src/collections/vec.hy#L474"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.hy#L474"
 order: 0
 ---
 

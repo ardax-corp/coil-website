@@ -1,7 +1,7 @@
 ---
 title: "IO adapters (io::buffered, io::sync, io::file, net)"
 description: "Non-blocking streams are the compiler virtual module io. This package adds blocking loops and whole-file helpers on top."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d13f986e7f57ab90d877b04e276aa1184c83b015/docs/io.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/docs/io.md"
 ---
 # IO adapters (`io::buffered`, `io::sync`, `io::file`, `net`)
 

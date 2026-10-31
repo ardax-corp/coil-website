@@ -9,7 +9,7 @@ name: "sleep_until"
 signature: "fn sleep_until(int deadline)"
 import: "use timer::{sleep_until};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d13f986e7f57ab90d877b04e276aa1184c83b015/src/timer.hy#L22"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/timer.hy#L22"
 order: 1
 ---
 

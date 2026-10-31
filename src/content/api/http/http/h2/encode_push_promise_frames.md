@@ -9,7 +9,7 @@ name: "encode_push_promise_frames"
 signature: "fn encode_push_promise_frames(int stream_id, int promised_id, Headers h, int max_payload) -> Vec<byte>"
 import: "use http::h2::{encode_push_promise_frames};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/h2.hy#L614"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.hy#L614"
 order: 58
 ---
 

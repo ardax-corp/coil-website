@@ -10,7 +10,7 @@ parent: "HashMapIter"
 signature: "pub fn next() -> Option<Entry<K, V>>"
 import: "use collections::map::{HashMapIter};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d13f986e7f57ab90d877b04e276aa1184c83b015/src/collections/map.hy#L449"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/map.hy#L449"
 order: 0
 ---
 

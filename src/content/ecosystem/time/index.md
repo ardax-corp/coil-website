@@ -1,7 +1,7 @@
 ---
 title: "coil-time"
 description: "Userland calendar and monotonic time for coil. Process clocks (wallnanos, mononanos, sleepms) are HostInvoke via virtual clock. This package is calendar, Instant snapshots, and…"
-source: "https://github.com/ardax-corp/coil-time/blob/eba7f01ce0bbae69ae55c9e17e14143efd3b9204/README.md"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/README.md"
 ---
 # coil-time
 
@@ -69,4 +69,4 @@ Consume with `spool add time --git https://github.com/ardax-corp/coil-time.git -
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-time/tree/eba7f01ce0bbae69ae55c9e17e14143efd3b9204/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-time/tree/2373411132e804c05780996e38c8fd0727a80ec0/LICENSE).

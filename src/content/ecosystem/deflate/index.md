@@ -1,7 +1,7 @@
 ---
 title: "coil-deflate"
 description: "Userland RFC 1951 DEFLATE for coil. Package name is deflate, so use deflate::{compress, decompress, Deflate, DeflateError} resolves here."
-source: "https://github.com/ardax-corp/coil-deflate/blob/e562e799729a95ee0116632f1b9a2061e9da51f2/README.md"
+source: "https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/README.md"
 ---
 # coil-deflate
 
@@ -58,4 +58,4 @@ No tags yet, so pin a commit. Without spool, clone this repo next to your projec
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-deflate/tree/e562e799729a95ee0116632f1b9a2061e9da51f2/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-deflate/tree/37456ec7936e9b8736b968aa3d0c702d47c36c56/LICENSE).

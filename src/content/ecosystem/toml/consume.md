@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-toml"
 description: "This package is toml. use toml::{Toml, TomlValue, TomlError} resolves from src/toml.hy. One-shot encode/decode ships here. Do not add a native/FFI dep."
-source: "https://github.com/ardax-corp/coil-toml/blob/ceb0ab800e13abbb0ec43cfc61e9ae1d326d5ccc/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/docs/consume.md"
 ---
 # Consuming coil-toml
 
@@ -25,7 +25,7 @@ coil --root ../coil-toml/src main.hy
 
 ## Call Toml::v1()
 
-Signatures are in [`src/toml.hy`](https://github.com/ardax-corp/coil-toml/blob/ceb0ab800e13abbb0ec43cfc61e9ae1d326d5ccc/src/toml.hy). Call patterns are in [`tests/v1.hy`](https://github.com/ardax-corp/coil-toml/blob/ceb0ab800e13abbb0ec43cfc61e9ae1d326d5ccc/tests/v1.hy).
+Signatures are in [`src/toml.hy`](https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/src/toml.hy). Call patterns are in [`tests/v1.hy`](https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/tests/v1.hy).
 
 ```coil
 use toml::{Toml, TomlValue, TomlError};

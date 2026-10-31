@@ -1,7 +1,7 @@
 ---
 title: "Module catalog"
 description: "use path:: is banned (E0124). List names explicitly."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/d13f986e7f57ab90d877b04e276aa1184c83b015/docs/modules.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/docs/modules.md"
 ---
 # Module catalog
 
@@ -66,8 +66,6 @@ package (`use json::{Json, JsonValue, JsonError};`). There is no in-tree
   `[byte; N]` too (`to_bytes(s)` for a string value).
 - `num` is named so a project `math.hy` does not shadow it.
 - Collections that are type-tied should be **methods** (`m.insert(k, v)`).
-  Cross-module user classes are still limited in the language
- .
 - `xs.fold(init, fn (A acc, T x) => …)` takes any accumulator type `A`.
 - `for (i, x) in xs.enumerate()` walks indices and values together.
 - `xs.chunks(n)` is the only name (no `chunk` alias). `windows` is overlapping

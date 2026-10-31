@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-uuid"
 description: "This package is uuid. use uuid::{v1, v4, v6, v7, parse, Uuid, UuidError} resolves from src/uuid.hy."
-source: "https://github.com/ardax-corp/coil-uuid/blob/4e332f12010741169f422d8c5d567f0d47e0ea5e/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-uuid/blob/07c0a071431e64138c44ec3e6467ab7c9fd93808/docs/consume.md"
 ---
 # Consuming coil-uuid
 
@@ -68,7 +68,7 @@ plus `trusted = true` on a `crypto` dependency (or a `[[package.native]]` `sha25
 
 ## Call it
 
-Signatures are in [`src/uuid.hy`](https://github.com/ardax-corp/coil-uuid/blob/4e332f12010741169f422d8c5d567f0d47e0ea5e/src/uuid.hy). Call patterns are in [`tests/rfc4122.hy`](https://github.com/ardax-corp/coil-uuid/blob/4e332f12010741169f422d8c5d567f0d47e0ea5e/tests/rfc4122.hy).
+Signatures are in [`src/uuid.hy`](https://github.com/ardax-corp/coil-uuid/blob/07c0a071431e64138c44ec3e6467ab7c9fd93808/src/uuid.hy). Call patterns are in [`tests/rfc4122.hy`](https://github.com/ardax-corp/coil-uuid/blob/07c0a071431e64138c44ec3e6467ab7c9fd93808/tests/rfc4122.hy).
 
 ```coil
 use uuid::{v7, parse, Uuid, UuidError};

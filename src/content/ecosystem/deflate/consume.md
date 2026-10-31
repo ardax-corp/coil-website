@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-deflate"
 description: "This package is deflate. use deflate::{compress, decompress, Deflate, DeflateError} resolves from src/deflate.hy. The repo is https://github.com/ardax-corp/coil-deflate.git.…"
-source: "https://github.com/ardax-corp/coil-deflate/blob/e562e799729a95ee0116632f1b9a2061e9da51f2/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/docs/consume.md"
 ---
 # Consuming coil-deflate
 
@@ -26,7 +26,7 @@ coil --root ../coil-deflate/src --root ../coil-stdlib/src main.hy
 
 ## Call compress / decompress
 
-Signatures are in [`src/deflate.hy`](https://github.com/ardax-corp/coil-deflate/blob/e562e799729a95ee0116632f1b9a2061e9da51f2/src/deflate.hy). Call patterns are in [`tests/roundtrip.hy`](https://github.com/ardax-corp/coil-deflate/blob/e562e799729a95ee0116632f1b9a2061e9da51f2/tests/roundtrip.hy) and [`tests/vectors.hy`](https://github.com/ardax-corp/coil-deflate/blob/e562e799729a95ee0116632f1b9a2061e9da51f2/tests/vectors.hy).
+Signatures are in [`src/deflate.hy`](https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/src/deflate.hy). Call patterns are in [`tests/roundtrip.hy`](https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/tests/roundtrip.hy) and [`tests/vectors.hy`](https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/tests/vectors.hy).
 
 ```coil
 use string::{to_bytes};

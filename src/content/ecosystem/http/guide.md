@@ -1,7 +1,7 @@
 ---
 title: "coil-http documentation"
 description: "Userland HTTP/1.1 and HTTP/2 client and server, plus WebSocket, for Coil programs. Every public item also has /// docs with examples in src/."
-source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/docs/README.md"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/docs/README.md"
 ---
 # coil-http documentation
 

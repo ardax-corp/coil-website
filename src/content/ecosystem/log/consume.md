@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-log"
 description: "This package is log. use log::{Logger, Level} resolves from src/log.hy."
-source: "https://github.com/ardax-corp/coil-log/blob/17dadae959e85e1d3bf7d7b1904b7e67f50ba247/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-log/blob/2a00a5ba1086040c2b5368e33f81c44ed036eb87/docs/consume.md"
 ---
 # Consuming coil-log
 
@@ -39,7 +39,7 @@ coil \
 
 ## Call Logger
 
-Signatures and examples are in the `///` docs of [`src/log.hy`](https://github.com/ardax-corp/coil-log/blob/17dadae959e85e1d3bf7d7b1904b7e67f50ba247/src/log.hy). More call patterns are in [`tests/logger.hy`](https://github.com/ardax-corp/coil-log/blob/17dadae959e85e1d3bf7d7b1904b7e67f50ba247/tests/logger.hy).
+Signatures and examples are in the `///` docs of [`src/log.hy`](https://github.com/ardax-corp/coil-log/blob/2a00a5ba1086040c2b5368e33f81c44ed036eb87/src/log.hy). More call patterns are in [`tests/logger.hy`](https://github.com/ardax-corp/coil-log/blob/2a00a5ba1086040c2b5368e33f81c44ed036eb87/tests/logger.hy).
 
 ```coil
 use log::{Logger, Level};

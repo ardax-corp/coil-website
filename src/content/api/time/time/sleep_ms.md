@@ -9,7 +9,7 @@ name: "sleep_ms"
 signature: "fn sleep_ms(int millis) -> Result<(), TimeError>"
 import: "use time::{sleep_ms};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-time/blob/eba7f01ce0bbae69ae55c9e17e14143efd3b9204/src/time.hy#L893"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.hy#L893"
 order: 7
 ---
 

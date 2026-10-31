@@ -9,7 +9,7 @@ name: "Rect"
 signature: "class Rect"
 import: "use tui::geom::{Rect};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/77c5a22802df3416c576f798d69d570535e77c01/src/tui/geom.hy#L73"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/geom.hy#L73"
 order: 2
 ---
 
