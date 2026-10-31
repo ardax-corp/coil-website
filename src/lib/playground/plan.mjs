@@ -11,6 +11,73 @@ import { hasMain, isTestBlock } from "../examples.mjs";
 export const STDLIB = "/.deps/stdlib";
 
 /**
+ * Packages the playground can use, as spool would link them: pure Coil only
+ * (packages with a native library or that need the network or a terminal at
+ * run time cannot work in the browser). scripts/sync-playground.mjs bundles
+ * each one's `src`; at run time they sit in the same directory as the
+ * standard library, so `use json::{Json};` resolves without extra flags.
+ * `deps` are the packages it needs in turn. Keep in sync with
+ * src/lib/packages.ts.
+ */
+export const PLAYGROUND_PACKAGES = {
+  json: { repo: "coil-json", deps: [] },
+  toml: { repo: "coil-toml", deps: [] },
+  msgpack: { repo: "coil-msgpack", deps: [] },
+  csv: { repo: "coil-csv", deps: [] },
+  url: { repo: "coil-url", deps: [] },
+  deflate: { repo: "coil-deflate", deps: [] },
+  gzip: { repo: "coil-gzip", deps: ["deflate"] },
+  time: { repo: "coil-time", deps: [] },
+  log: { repo: "coil-log", deps: ["time"] },
+  cli: { repo: "coil-cli", deps: [] },
+};
+
+/** coil-stdlib's own dependency (its `random` module reads the clock through it). */
+const STDLIB_DEPS = ["time"];
+
+/**
+ * The packages a program gets, the way spool decides them: the names under
+ * `[dependencies]` in its coil.toml (and what those depend on), or, with no
+ * coil.toml, every package the playground has. Also returns the declared
+ * names the playground cannot provide.
+ */
+export function packagesFor(files) {
+  const manifest = files["coil.toml"];
+  const declared = manifest === undefined ? Object.keys(PLAYGROUND_PACKAGES) : dependencyNames(manifest);
+  const out = new Set();
+  const missing = [];
+  const add = (name) => {
+    if (out.has(name)) return;
+    const pkg = PLAYGROUND_PACKAGES[name];
+    if (!pkg) {
+      // spool links coil-stdlib as `stdlib`; it is always there.
+      if (name !== "stdlib") missing.push(name);
+      return;
+    }
+    out.add(name);
+    pkg.deps.forEach(add);
+  };
+  [...declared, ...STDLIB_DEPS].forEach(add);
+  return { names: [...out], missing };
+}
+
+/** Keys of the `[dependencies]` table in a coil.toml. */
+export function dependencyNames(toml) {
+  const names = [];
+  let inDeps = false;
+  for (const raw of toml.split("\n")) {
+    const line = raw.replace(/#.*$/, "").trim();
+    if (/^\[.*\]$/.test(line)) {
+      inDeps = line === "[dependencies]";
+      continue;
+    }
+    const m = inDeps && line.match(/^"?([A-Za-z0-9_-]+)"?\s*=/);
+    if (m) names.push(m[1]);
+  }
+  return names;
+}
+
+/**
  * { files } → { files, args, mode } where mode is "run" or "test". `coil test`
  * wants a directory, so test files outside tests/ move into it.
  */

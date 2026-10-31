@@ -28,11 +28,48 @@ fn main() {
 }
 `;
 
+// Packages, the way a spool project declares them (see PLAYGROUND_PACKAGES).
+const PACKAGES_TOML = `[package]
+name = "inventory"
+version = "0.1.0"
+
+[dependencies]
+stdlib = { git = "https://github.com/ardax-corp/coil-stdlib.git" }
+csv = { git = "https://github.com/ardax-corp/coil-csv.git" }
+json = { git = "https://github.com/ardax-corp/coil-json.git" }
+`;
+
+const PACKAGES_MAIN = `use io::sync::{println};
+use string::{format};
+use csv::{parse};
+use json::{Json, JsonValue};
+
+// Read a CSV table, then look a value up in a JSON document.
+fn main() {
+    let rows = parse("item,count\\napples,3\\npears,5").ok() ?? Vec::new();
+    for row in rows {
+        println(format("%v: %v", row[0], row[1]))?;
+    }
+    match Json::strict().decode_str("{\\"total\\": 8}") {
+        Result::Ok(doc) => {
+            let total = doc.get("total") ?? JsonValue::null();
+            println(format("total from JSON: %v", total.as_int() ?? 0))?;
+        },
+        Result::Err(e) => {
+            println(format("not valid JSON: %v", e))?;
+        },
+    }
+}
+`;
+
 export type Example = { id: string; label: string; chapter: string; files: Record<string, string> };
 
 export function playgroundExamples(): Example[] {
   const files = readdirSync(TUTORIAL);
-  const out: Example[] = [{ id: "hello", label: "Hello, world", chapter: "", files: { "main.hy": HELLO } }];
+  const out: Example[] = [
+    { id: "hello", label: "Hello, world", chapter: "", files: { "main.hy": HELLO } },
+    { id: "packages", label: "Using packages (csv, json)", chapter: "", files: { "coil.toml": PACKAGES_TOML, "main.hy": PACKAGES_MAIN } },
+  ];
   for (const pick of PICKS) {
     const name = files.find((f) => f.startsWith(`${pick.chapter}-`))!;
     const text = readFileSync(join(TUTORIAL, name), "utf8");
