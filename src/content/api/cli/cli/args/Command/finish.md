@@ -2,7 +2,7 @@
 slug: "cli/cli/args/Command/finish"
 package: "cli"
 title: "Command::finish"
-description: "Method Command::finish."
+description: "Check required options and fill in defaults (used by the parser)."
 module: "cli::args"
 kind: "method"
 name: "finish"
@@ -10,11 +10,11 @@ parent: "Command"
 signature: "pub fn finish(Matches m) -> Result<(), ArgError>"
 import: "use cli::args::{Command};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/args.hy#L506"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L568"
 order: 20
 ---
 
-*No documentation yet.*
+Check required options and fill in defaults (used by the parser).
 
 Called on a `Command` value as `value.finish(…)`.
 

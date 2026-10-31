@@ -9,8 +9,8 @@ name: "H2Goaway"
 signature: "class H2Goaway"
 import: "use http::h2::{H2Goaway};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/h2.hy#L60"
-order: 1
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/h2.hy#L93"
+order: 2
 ---
 
 GOAWAY last-stream-id and error code (RFC 7540 §6.8). Debug data after 8 bytes is ignored on decode.
@@ -19,17 +19,17 @@ GOAWAY last-stream-id and error code (RFC 7540 §6.8). Debug data after 8 bytes 
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `last_stream_id` | `int` |  |
-| `error_code` | `int` |  |
+| `last_stream_id` | `int` | Highest stream id the sender may still process. |
+| `error_code` | `int` | Error code (`h2_err_*`; 0 is NO_ERROR). |
 
 ## Associated functions
 
 | Name | Description |
 |------|-------------|
-| [`new`](/packages/http/reference/http/h2/H2Goaway/new) |  |
+| [`new`](/packages/http/reference/http/h2/H2Goaway/new) | A GOAWAY body from its parts. |
 
 ## See also
 
+- [`H2Frame`](/packages/http/reference/http/h2/H2Frame): One HTTP/2 frame (RFC 7540 §4.1): type, flags, stream id and payload.
 - [`H2Settings`](/packages/http/reference/http/h2/H2Settings): SETTINGS identifier/value pairs (RFC 7540 §6.5).
-- [`H2Push`](/packages/http/reference/http/h2/H2Push): PUSH_PROMISE promised-id plus remaining header-block fragment.
-- [`H2Frame`](/packages/http/reference/http/h2/H2Frame)
+- [`H2Push`](/packages/http/reference/http/h2/H2Push): A decoded PUSH_PROMISE payload: the promised stream id and the header-block fragment.

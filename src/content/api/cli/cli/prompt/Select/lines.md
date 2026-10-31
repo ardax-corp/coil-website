@@ -10,7 +10,7 @@ parent: "Select"
 signature: "pub fn lines(int cols) -> Vec<string>"
 import: "use cli::prompt::{Select};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/prompt.hy#L266"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/prompt.hy#L319"
 order: 3
 ---
 
@@ -30,7 +30,7 @@ Called on a `Select` value as `value.lines(…)`.
 
 ## See also
 
-- [`Select`](/packages/cli/reference/cli/prompt/Select): A scrolling, filterable list.
+- [`Select`](/packages/cli/reference/cli/prompt/Select): A scrolling, filterable list: the model behind `select` and `multi_select`, with no terminal attached.
 - [`Select::current`](/packages/cli/reference/cli/prompt/Select/current): Index into `items` under the cursor, or -1 when the filter hides everything.
 - [`Select::chosen`](/packages/cli/reference/cli/prompt/Select/chosen): Indices of the checked items (multi) or the current one (single).
-- [`Select::apply`](/packages/cli/reference/cli/prompt/Select/apply)
+- [`Select::apply`](/packages/cli/reference/cli/prompt/Select/apply): Apply one action and keep the cursor in view.

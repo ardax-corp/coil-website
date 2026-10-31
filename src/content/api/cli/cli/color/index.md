@@ -29,5 +29,5 @@ use cli::color::{ColorLevel, detect_color_level};
 
 | Name | Description |
 |------|-------------|
-| [`detect_color_level`](/packages/cli/reference/cli/color/detect_color_level) | Colour level for a stream that is (`tty`) or is not a terminal. |
+| [`detect_color_level`](/packages/cli/reference/cli/color/detect_color_level) | Colour level for a stream that is (`tty`) or is not a terminal, from the given values of the colour environment variables (`None` when a variable is unset). |
 | [`color_level_from_env`](/packages/cli/reference/cli/color/color_level_from_env) | [`detect_color_level`](/packages/cli/reference/cli/color/detect_color_level) with the real environment. |

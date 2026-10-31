@@ -2,18 +2,18 @@
 slug: "http/http/h2/h2_alpn_is_h2"
 package: "http"
 title: "h2_alpn_is_h2"
-description: "Exact ALPN h2 means speak HTTP/2; anything else (incl. empty) falls back to HTTP/1.1."
+description: "1 when the negotiated ALPN protocol is exactly h2; anything else, including empty, means HTTP/1.1."
 module: "http::h2"
 kind: "fn"
 name: "h2_alpn_is_h2"
 signature: "fn h2_alpn_is_h2(string proto) -> int"
 import: "use http::h2::{h2_alpn_is_h2};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/h2.hy#L837"
-order: 27
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/h2.hy#L917"
+order: 67
 ---
 
-Exact ALPN [`h2`](/packages/http/reference/http/h2) means speak HTTP/2; anything else (incl. empty) falls back to HTTP/1.1.
+1 when the negotiated ALPN protocol is exactly [`h2`](/packages/http/reference/http/h2); anything else, including empty, means HTTP/1.1.
 
 ## Parameters
 
@@ -28,10 +28,10 @@ Exact ALPN [`h2`](/packages/http/reference/http/h2) means speak HTTP/2; anything
 ## See also
 
 - [`http::h2`](/packages/http/reference/http/h2)
-- [`h2_max_window`](/packages/http/reference/http/h2/h2_max_window): Largest HTTP/2 flow-control window (2^31 - 1).
-- [`frame_wire_len`](/packages/http/reference/http/h2/frame_wire_len): Complete first-frame size (9 + length), or 0 if `raw` is truncated.
-- [`decode_frame`](/packages/http/reference/http/h2/decode_frame): Parse the first HTTP/2 frame in `raw`.
-- [`encode_settings_payload`](/packages/http/reference/http/h2/encode_settings_payload): Encode SETTINGS parameters.
-- [`decode_settings_payload`](/packages/http/reference/http/h2/decode_settings_payload): Decode SETTINGS payload.
-- [`encode_window_update_payload`](/packages/http/reference/http/h2/encode_window_update_payload): Encode WINDOW_UPDATE increment (31-bit).
-- [`decode_window_update_payload`](/packages/http/reference/http/h2/decode_window_update_payload): Decode 4-byte WINDOW_UPDATE.
+- [`frame_type_data`](/packages/http/reference/http/h2/frame_type_data): Frame type 0x0, DATA.
+- [`frame_type_headers`](/packages/http/reference/http/h2/frame_type_headers): Frame type 0x1, HEADERS.
+- [`frame_type_settings`](/packages/http/reference/http/h2/frame_type_settings): Frame type 0x4, SETTINGS.
+- [`frame_type_ping`](/packages/http/reference/http/h2/frame_type_ping): Frame type 0x6, PING.
+- [`frame_type_goaway`](/packages/http/reference/http/h2/frame_type_goaway): Frame type 0x7, GOAWAY.
+- [`frame_type_push_promise`](/packages/http/reference/http/h2/frame_type_push_promise): Frame type 0x5, PUSH_PROMISE.
+- [`frame_type_window_update`](/packages/http/reference/http/h2/frame_type_window_update): Frame type 0x8, WINDOW_UPDATE.

@@ -8,7 +8,7 @@ name: "ChannelError"
 signature: "enum ChannelError"
 import: "use thread::{ChannelError};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/thread.hy#L194"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.hy#L194"
 order: 6
 ---
 

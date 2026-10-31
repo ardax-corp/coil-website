@@ -2,7 +2,7 @@
 slug: "msgpack/msgpack/Msgpack/standard"
 package: "msgpack"
 title: "Msgpack::standard"
-description: "The MessagePack format: one-shot encode and decode."
+description: "The MessagePack codec."
 module: "msgpack"
 kind: "static method"
 name: "standard"
@@ -10,11 +10,11 @@ parent: "Msgpack"
 signature: "pub static fn standard() -> Msgpack"
 import: "use msgpack::{Msgpack};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-msgpack/blob/28282558ca88aab4179bd52d695227e467bf08d3/src/msgpack.hy#L1344"
+source: "https://github.com/ardax-corp/coil-msgpack/blob/717fa0fe98bf14f43b00c42cce89eeb1d7f97684/src/msgpack.hy#L1534"
 order: 0
 ---
 
-The MessagePack format: one-shot encode and decode.
+The MessagePack codec.
 
 ## Returns
 
@@ -22,8 +22,8 @@ The MessagePack format: one-shot encode and decode.
 
 ## See also
 
-- [`Msgpack`](/packages/msgpack/reference/msgpack/Msgpack): MessagePack codec.
-- [`Msgpack::encode`](/packages/msgpack/reference/msgpack/Msgpack/encode)
-- [`Msgpack::decode`](/packages/msgpack/reference/msgpack/Msgpack/decode)
-- [`Msgpack::encode_str`](/packages/msgpack/reference/msgpack/Msgpack/encode_str)
-- [`Msgpack::decode_str`](/packages/msgpack/reference/msgpack/Msgpack/decode_str)
+- [`Msgpack`](/packages/msgpack/reference/msgpack/Msgpack): A MessagePack codec: one-shot decode of bytes to a `MsgpackValue`, and encode back.
+- [`Msgpack::encode`](/packages/msgpack/reference/msgpack/Msgpack/encode): Encodes `value` as MessagePack bytes.
+- [`Msgpack::decode`](/packages/msgpack/reference/msgpack/Msgpack/decode): Decodes exactly one MessagePack value from `bytes`.
+- [`Msgpack::encode_str`](/packages/msgpack/reference/msgpack/Msgpack/encode_str): `encode`, then the bytes read as a `string`.
+- [`Msgpack::decode_str`](/packages/msgpack/reference/msgpack/Msgpack/decode_str): `decode` on the bytes of `s`.

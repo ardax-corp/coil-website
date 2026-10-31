@@ -2,18 +2,18 @@
 slug: "http/http/h2_session/h2_connect_two"
 package: "http"
 title: "h2_connect_two"
-description: "Two cleartext prior-knowledge GETs on one connection (streams 1 and 3)."
+description: "Two cleartext prior-knowledge GETs multiplexed on one new connection (streams 1 and 3)."
 module: "http::h2_session"
 kind: "fn"
 name: "h2_connect_two"
 signature: "fn h2_connect_two(string url_a, string url_b) -> Result<H2Pair, HttpError>"
 import: "use http::h2_session::{h2_connect_two};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/h2_session.hy#L1669"
-order: 7
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/h2_session.hy#L1767"
+order: 5
 ---
 
-Two cleartext prior-knowledge GETs on one connection (streams 1 and 3).
+Two cleartext prior-knowledge GETs multiplexed on one new connection (streams 1 and 3).
 
 ## Parameters
 
@@ -28,9 +28,7 @@ Two cleartext prior-knowledge GETs on one connection (streams 1 and 3).
 
 ## See also
 
-- [`h2_roundtrip`](/packages/http/reference/http/h2_session/h2_roundtrip): One request/response on an open HTTP/2 connection.
-- [`h2_request`](/packages/http/reference/http/h2_session/h2_request): HTTP/2 request.
-- [`h2_connect`](/packages/http/reference/http/h2_session/h2_connect): GET: cleartext prior-knowledge, or HTTPS TLS ALPN `h2` with HTTP/1.1 fallback.
-- [`h2_connect_tls`](/packages/http/reference/http/h2_session/h2_connect_tls): HTTPS GET after TLS enable with optional CA PEM (`""` uses default verify).
-- [`h2_get_over_h2`](/packages/http/reference/http/h2_session/h2_get_over_h2): HTTP/2 GET on an already-connected stream (prior knowledge or TLS `h2`).
-- [`h2_slot_exchange`](/packages/http/reference/http/h2_session/h2_slot_exchange): Request on this slot.
+- [`h2_request`](/packages/http/reference/http/h2_session/h2_request): Sends one HTTP/2 request on a new connection and closes it.
+- [`h2_connect`](/packages/http/reference/http/h2_session/h2_connect): `GET url` over HTTP/2 on a new connection, like `h2_request`.
+- [`h2_connect_tls`](/packages/http/reference/http/h2_session/h2_connect_tls): `h2_connect` with TLS options: `verify` false skips certificate checks, a non-empty `ca_pem` trusts that CA.
+- [`h2_get_over_h2`](/packages/http/reference/http/h2_session/h2_get_over_h2): `GET u` over HTTP/2 on an already connected stream (cleartext prior knowledge, or TLS after ALPN `h2`).

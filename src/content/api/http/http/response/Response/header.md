@@ -2,7 +2,7 @@
 slug: "http/http/response/Response/header"
 package: "http"
 title: "Response::header"
-description: "Method Response::header."
+description: "Appends a header field."
 module: "http::response"
 kind: "method"
 name: "header"
@@ -10,11 +10,15 @@ parent: "Response"
 signature: "pub fn header(string name, string value)"
 import: "use http::response::{Response};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/response.hy#L37"
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/response.hy#L93"
 order: 2
 ---
 
-*No documentation yet.*
+Appends a header field.
+
+The server writes `Content-Length` and `Connection` itself, so do not add
+those. Add
+`Transfer-Encoding: chunked` to send the body chunked on HTTP/1.1.
 
 Called on a `Response` value as `value.header(…)`.
 
@@ -27,8 +31,8 @@ Called on a `Response` value as `value.header(…)`.
 
 ## See also
 
-- [`Response`](/packages/http/reference/http/response/Response): Parsed HTTP response (status, headers, body, optional trailing fields).
-- [`Response::ok`](/packages/http/reference/http/response/Response/ok): 200 OK with empty body and headers.
-- [`Response::status`](/packages/http/reference/http/response/Response/status)
-- [`Response::body`](/packages/http/reference/http/response/Response/body)
-- [`Response::trailer`](/packages/http/reference/http/response/Response/trailer): Trailing header field, carried after the body on HTTP/2.
+- [`Response`](/packages/http/reference/http/response/Response): An HTTP response: status, header fields, body and HTTP/2 trailing fields.
+- [`Response::ok`](/packages/http/reference/http/response/Response/ok): A `200` response with no header fields and an empty body.
+- [`Response::status`](/packages/http/reference/http/response/Response/status): Sets the status code.
+- [`Response::body`](/packages/http/reference/http/response/Response/body): Sets the body.
+- [`Response::trailer`](/packages/http/reference/http/response/Response/trailer): Appends a trailing field, sent after the body on HTTP/2.

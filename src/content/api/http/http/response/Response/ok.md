@@ -2,7 +2,7 @@
 slug: "http/http/response/Response/ok"
 package: "http"
 title: "Response::ok"
-description: "200 OK with empty body and headers."
+description: "A 200 response with no header fields and an empty body."
 module: "http::response"
 kind: "static method"
 name: "ok"
@@ -10,11 +10,11 @@ parent: "Response"
 signature: "pub static fn ok() -> Response"
 import: "use http::response::{Response};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/response.hy#L24"
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/response.hy#L71"
 order: 0
 ---
 
-200 OK with empty body and headers.
+A `200` response with no header fields and an empty body.
 
 ## Returns
 
@@ -22,8 +22,8 @@ order: 0
 
 ## See also
 
-- [`Response`](/packages/http/reference/http/response/Response): Parsed HTTP response (status, headers, body, optional trailing fields).
-- [`Response::status`](/packages/http/reference/http/response/Response/status)
-- [`Response::header`](/packages/http/reference/http/response/Response/header)
-- [`Response::body`](/packages/http/reference/http/response/Response/body)
-- [`Response::trailer`](/packages/http/reference/http/response/Response/trailer): Trailing header field, carried after the body on HTTP/2.
+- [`Response`](/packages/http/reference/http/response/Response): An HTTP response: status, header fields, body and HTTP/2 trailing fields.
+- [`Response::status`](/packages/http/reference/http/response/Response/status): Sets the status code.
+- [`Response::header`](/packages/http/reference/http/response/Response/header): Appends a header field.
+- [`Response::body`](/packages/http/reference/http/response/Response/body): Sets the body.
+- [`Response::trailer`](/packages/http/reference/http/response/Response/trailer): Appends a trailing field, sent after the body on HTTP/2.

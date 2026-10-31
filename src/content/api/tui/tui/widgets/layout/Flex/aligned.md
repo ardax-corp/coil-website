@@ -1,0 +1,37 @@
+---
+slug: "tui/tui/widgets/layout/Flex/aligned"
+package: "tui"
+title: "Flex::aligned"
+description: "Place children on the cross axis by a (builder style)."
+module: "tui::widgets::layout"
+kind: "method"
+name: "aligned"
+parent: "Flex"
+signature: "pub fn aligned(Align a) -> Flex"
+import: "use tui::widgets::layout::{Flex};"
+origin: "package"
+source: "https://github.com/ardax-corp/coil-tui/blob/77c5a22802df3416c576f798d69d570535e77c01/src/tui/widgets/layout.hy#L194"
+order: 4
+---
+
+Place children on the cross axis by `a` (builder style).
+
+Called on a `Flex` value as `value.aligned(…)`.
+
+## Parameters
+
+| Name | Type |
+|------|------|
+| `a` | `Align` |
+
+## Returns
+
+`Flex`
+
+## See also
+
+- [`Flex`](/packages/tui/reference/tui/widgets/layout/Flex): Children side by side (`horizontal`) or one under another, sized by their constraints.
+- [`Flex::new`](/packages/tui/reference/tui/widgets/layout/Flex/new): A row (`horizontal`) or column of `kids`, no gap, children stretched on the cross axis.
+- [`Flex::shown`](/packages/tui/reference/tui/widgets/layout/Flex/shown): Visible children (hidden ones take no space).
+- [`Flex::add`](/packages/tui/reference/tui/widgets/layout/Flex/add): Append a child (builder style).
+- [`Flex::spaced`](/packages/tui/reference/tui/widgets/layout/Flex/spaced): Put `gap` cells between neighbours (builder style).

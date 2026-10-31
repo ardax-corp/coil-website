@@ -23,4 +23,4 @@ use http::client::{Client};
 
 | Name | Description |
 |------|-------------|
-| [`Client`](/packages/http/reference/http/client/Client) |  |
+| [`Client`](/packages/http/reference/http/client/Client) | An HTTP client for `http://` and `https://` URLs. |

@@ -2,18 +2,21 @@
 slug: "http/http/ws/ws_serve_once"
 package: "http"
 title: "ws_serve_once"
-description: "Accept one TCP connection, read an HTTP/1.1 upgrade, return the WebSocket."
+description: "Accepts one connection on srv, reads its HTTP/1.1 request and completes the WebSocket upgrade."
 module: "http::ws"
 kind: "fn"
 name: "ws_serve_once"
 signature: "fn ws_serve_once(Server srv) -> Result<WsConn, HttpError>"
 import: "use http::ws::{ws_serve_once};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/ws.hy#L768"
-order: 11
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/ws.hy#L896"
+order: 25
 ---
 
-Accept one TCP connection, read an HTTP/1.1 upgrade, return the WebSocket.
+Accepts one connection on `srv`, reads its HTTP/1.1 request and completes the WebSocket upgrade.
+
+Cleartext only: `Server::tls` is not applied here. Returns `Io(InvalidInput)`
+when `srv` is not bound and `Protocol` when the request is not an upgrade.
 
 ## Parameters
 
@@ -25,13 +28,29 @@ Accept one TCP connection, read an HTTP/1.1 upgrade, return the WebSocket.
 
 `Result<WsConn, HttpError>`
 
+## Examples
+
+```coil
+use http::server::Server;
+use http::ws::{ws_echo_loop, ws_serve_once};
+use http::url::HttpError;
+
+fn main() -> Result<(), HttpError> {
+    let srv = Server::new();
+    srv.bind("127.0.0.1", 8080)?;
+    let c = ws_serve_once(srv)?;
+    ws_echo_loop(c)?;
+    return ();
+}
+```
+
 ## See also
 
-- [`encode_ws_frame`](/packages/http/reference/http/ws/encode_ws_frame): Encode one frame.
-- [`decode_ws_frame`](/packages/http/reference/http/ws/decode_ws_frame): Parse the first complete WebSocket frame in `raw`.
-- [`ws_frame_wire_len`](/packages/http/reference/http/ws/ws_frame_wire_len): Byte count of the first complete frame, or 0 if truncated.
-- [`ws_accept_key`](/packages/http/reference/http/ws/ws_accept_key): SHA-1(key + GUID) then Base64 — `Sec-WebSocket-Accept`.
-- [`ws_new_key`](/packages/http/reference/http/ws/ws_new_key): 16 random-ish bytes as standard Base64 (`Sec-WebSocket-Key`).
-- [`ws_read_n`](/packages/http/reference/http/ws/ws_read_n): Blocking read that parks on WouldBlock (same pattern as HTTP/2).
-- [`ws_recv`](/packages/http/reference/http/ws/ws_recv): Read one frame.
-- [`ws_connect_tls`](/packages/http/reference/http/ws/ws_connect_tls): Client upgrade with TLS options (`verify` / optional CA PEM).
+- [`ws_opcode_cont`](/packages/http/reference/http/ws/ws_opcode_cont): Opcode 0: continuation frame.
+- [`ws_opcode_text`](/packages/http/reference/http/ws/ws_opcode_text): Opcode 1: text frame (UTF-8 payload).
+- [`ws_opcode_bin`](/packages/http/reference/http/ws/ws_opcode_bin): Opcode 2: binary frame.
+- [`ws_opcode_close`](/packages/http/reference/http/ws/ws_opcode_close): Opcode 8: close frame.
+- [`ws_opcode_ping`](/packages/http/reference/http/ws/ws_opcode_ping): Opcode 9: ping frame.
+- [`ws_opcode_pong`](/packages/http/reference/http/ws/ws_opcode_pong): Opcode 10: pong frame.
+- [`encode_ws_frame`](/packages/http/reference/http/ws/encode_ws_frame): Encodes one frame.
+- [`decode_ws_frame`](/packages/http/reference/http/ws/decode_ws_frame): Decodes the first complete frame in `raw`, unmasking the payload.

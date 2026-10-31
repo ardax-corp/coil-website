@@ -8,7 +8,7 @@ kind: "module"
 name: "http::request"
 origin: "package"
 auto: false
-order: 6
+order: 8
 ---
 
 Part of the [http](/packages/http) package ([coil-http](https://github.com/ardax-corp/coil-http)), not the compiler or coil-stdlib. Add it to `[dependencies]` in `coil.toml` to use it (see the [package overview](/packages/http)).
@@ -23,11 +23,11 @@ use http::request::{Request, build_request_head};
 
 | Name | Description |
 |------|-------------|
-| [`Request`](/packages/http/reference/http/request/Request) | Outbound HTTP request (method, URL string, headers, body). |
+| [`Request`](/packages/http/reference/http/request/Request) | An outbound HTTP request: method, URL, extra header fields and body. |
 
 ## Functions
 
 | Name | Description |
 |------|-------------|
-| [`build_request_head`](/packages/http/reference/http/request/build_request_head) | Serialize HTTP/1.1 request line + Host + Content-Length + Connection: close. |
-| [`build_request_head_keepalive`](/packages/http/reference/http/request/build_request_head_keepalive) | Same as [`build_request_head`](/packages/http/reference/http/request/build_request_head) but emits Connection: keep-alive. |
+| [`build_request_head`](/packages/http/reference/http/request/build_request_head) | Serializes an HTTP/1.1 request head with `Connection: close`. |
+| [`build_request_head_keepalive`](/packages/http/reference/http/request/build_request_head_keepalive) | Same as [`build_request_head`](/packages/http/reference/http/request/build_request_head), with `Connection: keep-alive`. |

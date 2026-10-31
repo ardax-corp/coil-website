@@ -10,7 +10,7 @@ parent: "Command"
 signature: "pub fn flag(string name, string short, string help) -> Command"
 import: "use cli::args::{Command};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/args.hy#L269"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L318"
 order: 1
 ---
 
@@ -39,4 +39,4 @@ Called on a `Command` value as `value.flag(…)`.
 - [`Command::required_option`](/packages/cli/reference/cli/args/Command/required_option): An option that must be given.
 - [`Command::multi`](/packages/cli/reference/cli/args/Command/multi): A repeatable option; `Matches.values` has every value.
 - [`Command::positional`](/packages/cli/reference/cli/args/Command/positional): A required positional argument, filled in declaration order.
-- [`Command::optional_positional`](/packages/cli/reference/cli/args/Command/optional_positional)
+- [`Command::optional_positional`](/packages/cli/reference/cli/args/Command/optional_positional): An optional positional argument, filled in declaration order.

@@ -2,18 +2,18 @@
 slug: "cli/cli/args/ArgError"
 package: "cli"
 title: "ArgError"
-description: "A usage mistake (exit 2)."
+description: "A usage mistake (exit 2). error_message turns one into text for stderr."
 module: "cli::args"
 kind: "enum"
 name: "ArgError"
 signature: "enum ArgError"
 import: "use cli::args::{ArgError};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/args.hy#L44"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L57"
 order: 2
 ---
 
-A usage mistake (exit 2).
+A usage mistake (exit 2). [`error_message`](/packages/cli/reference/cli/args/error_message) turns one into text for stderr.
 
 ## Variants
 
@@ -43,4 +43,5 @@ A value was given to a flag (`--verbose=yes`).
 
 ## See also
 
+- [`cli::args::error_message`](/packages/cli/reference/cli/args/error_message)
 - [`Parsed`](/packages/cli/reference/cli/args/Parsed): What a successful parse asked for: run with the matches, or print the help text or version line and exit 0.

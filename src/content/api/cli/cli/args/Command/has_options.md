@@ -2,7 +2,7 @@
 slug: "cli/cli/args/Command/has_options"
 package: "cli"
 title: "Command::has_options"
-description: "Method Command::has_options."
+description: "Whether any flag or option is declared."
 module: "cli::args"
 kind: "method"
 name: "has_options"
@@ -10,11 +10,11 @@ parent: "Command"
 signature: "pub fn has_options() -> bool"
 import: "use cli::args::{Command};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/args.hy#L369"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L425"
 order: 14
 ---
 
-*No documentation yet.*
+Whether any flag or option is declared.
 
 Called on a `Command` value as `value.has_options(…)`.
 

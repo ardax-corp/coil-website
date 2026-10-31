@@ -9,7 +9,7 @@ name: "ColorLevel"
 signature: "enum ColorLevel"
 import: "use cli::color::{ColorLevel};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/color.hy#L9"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/color.hy#L9"
 order: 0
 ---
 
@@ -18,6 +18,8 @@ How many colours output may use.
 ## Variants
 
 ### `None = 0` {#variant-none}
+
+No colour: plain text only.
 
 ### `Basic = 1` {#variant-basic}
 

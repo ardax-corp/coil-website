@@ -2,18 +2,22 @@
 slug: "http/http/ws/encode_ws_frame"
 package: "http"
 title: "encode_ws_frame"
-description: "Encode one frame. mask_key length 4 masks the payload; empty means unmasked."
+description: "Encodes one frame."
 module: "http::ws"
 kind: "fn"
 name: "encode_ws_frame"
 signature: "fn encode_ws_frame(int fin, int opcode, Vec<byte> mask_key, Vec<byte> payload) -> Vec<byte>"
 import: "use http::ws::{encode_ws_frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/ws.hy#L143"
-order: 1
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/ws.hy#L212"
+order: 8
 ---
 
-Encode one frame. `mask_key` length 4 masks the payload; empty means unmasked.
+Encodes one frame.
+
+`fin` 1 marks the final frame. A 4-byte `mask_key` masks the payload (client
+to server); an empty one sends it unmasked. The length uses the 7-, 16- or
+64-bit form as needed.
 
 ## Parameters
 
@@ -30,11 +34,11 @@ Encode one frame. `mask_key` length 4 masks the payload; empty means unmasked.
 
 ## See also
 
-- [`decode_ws_frame`](/packages/http/reference/http/ws/decode_ws_frame): Parse the first complete WebSocket frame in `raw`.
-- [`ws_frame_wire_len`](/packages/http/reference/http/ws/ws_frame_wire_len): Byte count of the first complete frame, or 0 if truncated.
-- [`ws_accept_key`](/packages/http/reference/http/ws/ws_accept_key): SHA-1(key + GUID) then Base64 — `Sec-WebSocket-Accept`.
-- [`ws_new_key`](/packages/http/reference/http/ws/ws_new_key): 16 random-ish bytes as standard Base64 (`Sec-WebSocket-Key`).
-- [`ws_read_n`](/packages/http/reference/http/ws/ws_read_n): Blocking read that parks on WouldBlock (same pattern as HTTP/2).
-- [`ws_recv`](/packages/http/reference/http/ws/ws_recv): Read one frame.
-- [`ws_connect_tls`](/packages/http/reference/http/ws/ws_connect_tls): Client upgrade with TLS options (`verify` / optional CA PEM).
-- [`ws_connect`](/packages/http/reference/http/ws/ws_connect): Client upgrade.
+- [`ws_opcode_cont`](/packages/http/reference/http/ws/ws_opcode_cont): Opcode 0: continuation frame.
+- [`ws_opcode_text`](/packages/http/reference/http/ws/ws_opcode_text): Opcode 1: text frame (UTF-8 payload).
+- [`ws_opcode_bin`](/packages/http/reference/http/ws/ws_opcode_bin): Opcode 2: binary frame.
+- [`ws_opcode_close`](/packages/http/reference/http/ws/ws_opcode_close): Opcode 8: close frame.
+- [`ws_opcode_ping`](/packages/http/reference/http/ws/ws_opcode_ping): Opcode 9: ping frame.
+- [`ws_opcode_pong`](/packages/http/reference/http/ws/ws_opcode_pong): Opcode 10: pong frame.
+- [`decode_ws_frame`](/packages/http/reference/http/ws/decode_ws_frame): Decodes the first complete frame in `raw`, unmasking the payload.
+- [`ws_frame_wire_len`](/packages/http/reference/http/ws/ws_frame_wire_len): The byte length of the first complete frame in `raw`, or 0 when `raw` is truncated.

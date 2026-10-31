@@ -16,16 +16,16 @@ Part of the [cli](/packages/cli) package ([coil-cli](https://github.com/ardax-co
 Import what you use (`use path::*` is not allowed):
 
 ```coil
-use cli::prompt::{Select, parse_confirm};
+use cli::prompt::{SelectKey, SelectOutcome};
 ```
 
 ## Types
 
 | Name | Description |
 |------|-------------|
-| [`Select`](/packages/cli/reference/cli/prompt/Select) | A scrolling, filterable list. |
-| [`SelectKey`](/packages/cli/reference/cli/prompt/SelectKey) |  |
-| [`SelectOutcome`](/packages/cli/reference/cli/prompt/SelectOutcome) |  |
+| [`SelectKey`](/packages/cli/reference/cli/prompt/SelectKey) | One action on a [`Select`](/packages/cli/reference/cli/prompt/Select) list, applied with [`Select.apply`](/packages/cli/reference/cli/prompt/Select/apply). |
+| [`SelectOutcome`](/packages/cli/reference/cli/prompt/SelectOutcome) | What the caller should do after [`Select.apply`](/packages/cli/reference/cli/prompt/Select/apply). |
+| [`Select`](/packages/cli/reference/cli/prompt/Select) | A scrolling, filterable list: the model behind [`select`](/packages/cli/reference/cli/prompt/fn.select) and [`multi_select`](/packages/cli/reference/cli/prompt/multi_select), with no terminal attached. |
 
 ## Functions
 
@@ -34,6 +34,7 @@ use cli::prompt::{Select, parse_confirm};
 | [`parse_confirm`](/packages/cli/reference/cli/prompt/parse_confirm) | `y`/`yes`/`n`/`no` (any case); an empty answer is `fallback`; anything else is `None` (ask again). |
 | [`confirm_label`](/packages/cli/reference/cli/prompt/confirm_label) | `question [Y/n] ` or `question [y/N] `. |
 | [`fuzzy_match`](/packages/cli/reference/cli/prompt/fuzzy_match) | Case-insensitive subsequence match: "cmt" matches "commit". |
+| [`select_model`](/packages/cli/reference/cli/prompt/select_model) | A [`Select`](/packages/cli/reference/cli/prompt/Select) over `items`, single or `multi`, showing at most `height` rows (at least 1), with nothing checked and no filter. |
 | [`confirm_line`](/packages/cli/reference/cli/prompt/confirm_line) | Ask `question` on `out`, reading answers from `input` until one parses. |
 | [`input_line`](/packages/cli/reference/cli/prompt/input_line) | Ask for a line; an empty answer is `fallback`. |
 | [`select_line`](/packages/cli/reference/cli/prompt/select_line) | Pick one of `items` by number. |

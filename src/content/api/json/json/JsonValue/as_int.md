@@ -2,7 +2,7 @@
 slug: "json/json/JsonValue/as_int"
 package: "json"
 title: "JsonValue::as_int"
-description: "Method JsonValue::as_int."
+description: "The integer, or None when this is not an int (a float such as 1.0 is not converted)."
 module: "json"
 kind: "method"
 name: "as_int"
@@ -10,11 +10,11 @@ parent: "JsonValue"
 signature: "pub fn as_int() -> Option<int>"
 import: "use json::{JsonValue};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-json/blob/6ccd5778fa8274febae9671020f18968540571de/src/json.hy#L235"
-order: 19
+source: "https://github.com/ardax-corp/coil-json/blob/70900ca2e6f10b5a31c57279c1d2e24ce37a0cc1/src/json.hy#L397"
+order: 18
 ---
 
-*No documentation yet.*
+The integer, or `None` when this is not an int (a float such as `1.0` is not converted).
 
 Called on a `JsonValue` value as `value.as_int(…)`.
 
@@ -24,11 +24,11 @@ Called on a `JsonValue` value as `value.as_int(…)`.
 
 ## See also
 
-- [`JsonValue`](/packages/json/reference/json/JsonValue): Strict JSON value.
-- [`JsonValue::wrap`](/packages/json/reference/json/JsonValue/wrap)
-- [`JsonValue::null`](/packages/json/reference/json/JsonValue/null)
-- [`JsonValue::from_bool`](/packages/json/reference/json/JsonValue/from_bool)
-- [`JsonValue::from_int`](/packages/json/reference/json/JsonValue/from_int)
-- [`JsonValue::from_float`](/packages/json/reference/json/JsonValue/from_float)
-- [`JsonValue::from_string`](/packages/json/reference/json/JsonValue/from_string)
-- [`JsonValue::is_null`](/packages/json/reference/json/JsonValue/is_null)
+- [`JsonValue`](/packages/json/reference/json/JsonValue): A JSON value: null, bool, int, float, string, array or object.
+- [`JsonValue::null`](/packages/json/reference/json/JsonValue/null): The JSON `null` value.
+- [`JsonValue::from_bool`](/packages/json/reference/json/JsonValue/from_bool): A JSON boolean (`true` or `false`).
+- [`JsonValue::from_int`](/packages/json/reference/json/JsonValue/from_int): A JSON integer.
+- [`JsonValue::from_float`](/packages/json/reference/json/JsonValue/from_float): A JSON float.
+- [`JsonValue::from_string`](/packages/json/reference/json/JsonValue/from_string): A JSON string.
+- [`JsonValue::is_null`](/packages/json/reference/json/JsonValue/is_null): Returns `true` for `null`.
+- [`JsonValue::is_bool`](/packages/json/reference/json/JsonValue/is_bool): Returns `true` for `true` or `false`.

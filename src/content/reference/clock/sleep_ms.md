@@ -8,7 +8,7 @@ name: "sleep_ms"
 signature: "fn sleep_ms(int ms)"
 import: "use clock::{sleep_ms};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/clock.hy#L51"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/clock.hy#L51"
 order: 2
 ---
 

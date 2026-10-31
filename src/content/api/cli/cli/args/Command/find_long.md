@@ -2,7 +2,7 @@
 slug: "cli/cli/args/Command/find_long"
 package: "cli"
 title: "Command::find_long"
-description: "Method Command::find_long."
+description: "The flag or option declared with long name name."
 module: "cli::args"
 kind: "method"
 name: "find_long"
@@ -10,11 +10,11 @@ parent: "Command"
 signature: "pub fn find_long(string name) -> Option<Arg>"
 import: "use cli::args::{Command};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/args.hy#L329"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L380"
 order: 10
 ---
 
-*No documentation yet.*
+The flag or option declared with long name `name`.
 
 Called on a `Command` value as `value.find_long(…)`.
 

@@ -8,7 +8,7 @@ kind: "module"
 name: "http"
 origin: "package"
 auto: false
-order: 12
+order: 14
 ---
 
 Start with [`http::client`](/packages/http/reference/http/client) to make requests and [`http::server`](/packages/http/reference/http/server) to serve them; the other submodules are the wire layers they are built on.
@@ -24,7 +24,9 @@ Part of the [http](/packages/http) package ([coil-http](https://github.com/ardax
 | [`http::h1`](/packages/http/reference/http/h1) | HTTP/1.1 wire helpers shared by the client and the server. |
 | [`http::h2`](/packages/http/reference/http/h2) | HTTP/2 framing, cleartext prior knowledge and TLS ALPN h2. |
 | [`http::h2_session`](/packages/http/reference/http/h2_session) | An in-memory HTTP/2 connection: preface, frames and flow control, no sockets. |
+| [`http::h3`](/packages/http/reference/http/h3) |  |
 | [`http::hpack`](/packages/http/reference/http/hpack) | HPACK header compression (RFC 7541): static and dynamic tables, Huffman coding. |
+| [`http::pool`](/packages/http/reference/http/pool) |  |
 | [`http::request`](/packages/http/reference/http/request) | Request builders and the client-side Request type. |
 | [`http::response`](/packages/http/reference/http/response) | Parsing and building HTTP/1.1 responses. |
 | [`http::server`](/packages/http/reference/http/server) | HTTP/1.1 and HTTP/2 servers, cleartext or TLS. |

@@ -2,7 +2,7 @@
 slug: "cli/cli/args/Command/find_short"
 package: "cli"
 title: "Command::find_short"
-description: "Method Command::find_short."
+description: "The flag or option declared with short letter s."
 module: "cli::args"
 kind: "method"
 name: "find_short"
@@ -10,11 +10,11 @@ parent: "Command"
 signature: "pub fn find_short(string s) -> Option<Arg>"
 import: "use cli::args::{Command};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/args.hy#L338"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L390"
 order: 11
 ---
 
-*No documentation yet.*
+The flag or option declared with short letter `s`.
 
 Called on a `Command` value as `value.find_short(…)`.
 

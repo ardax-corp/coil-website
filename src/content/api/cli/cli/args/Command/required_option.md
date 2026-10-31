@@ -10,7 +10,7 @@ parent: "Command"
 signature: "pub fn required_option(string name, string short, string value_name, string help) -> Command"
 import: "use cli::args::{Command};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/args.hy#L293"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L342"
 order: 4
 ---
 
@@ -40,4 +40,4 @@ Called on a `Command` value as `value.required_option(…)`.
 - [`Command::option_default`](/packages/cli/reference/cli/args/Command/option_default): An option with a default value.
 - [`Command::multi`](/packages/cli/reference/cli/args/Command/multi): A repeatable option; `Matches.values` has every value.
 - [`Command::positional`](/packages/cli/reference/cli/args/Command/positional): A required positional argument, filled in declaration order.
-- [`Command::optional_positional`](/packages/cli/reference/cli/args/Command/optional_positional)
+- [`Command::optional_positional`](/packages/cli/reference/cli/args/Command/optional_positional): An optional positional argument, filled in declaration order.

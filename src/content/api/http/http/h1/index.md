@@ -23,13 +23,14 @@ use http::h1::{IncomingRequest, parse_request};
 
 | Name | Description |
 |------|-------------|
-| [`IncomingRequest`](/packages/http/reference/http/h1/IncomingRequest) | Parsed inbound HTTP/1.1 request (server side). |
+| [`IncomingRequest`](/packages/http/reference/http/h1/IncomingRequest) | A request received by the server, as passed to `HttpHandler::handle`. |
 
 ## Functions
 
 | Name | Description |
 |------|-------------|
-| [`parse_request`](/packages/http/reference/http/h1/parse_request) | Parse raw HTTP/1.1 request bytes (head + body) into [`IncomingRequest`](/packages/http/reference/http/h1/IncomingRequest). |
-| [`encode_response`](/packages/http/reference/http/h1/encode_response) | Encode response status line + headers + body for the wire. |
-| [`decode_chunked_body`](/packages/http/reference/http/h1/decode_chunked_body) | Decode HTTP/1.1 chunked body bytes (hex sizes, last chunk `0`, trailers skipped). |
-| [`encode_chunked_body`](/packages/http/reference/http/h1/encode_chunked_body) | Encode `body` as a single chunk plus a terminating zero chunk. |
+| [`parse_request`](/packages/http/reference/http/h1/parse_request) | Parses a complete HTTP/1.1 request (head and body) into an [`IncomingRequest`](/packages/http/reference/http/h1/IncomingRequest). |
+| [`encode_response`](/packages/http/reference/http/h1/encode_response) | Serializes `r` for HTTP/1.1 with `Connection: close`. |
+| [`encode_response_keepalive`](/packages/http/reference/http/h1/encode_response_keepalive) | Same as [`encode_response`](/packages/http/reference/http/h1/encode_response), with `Connection: keep-alive`. |
+| [`decode_chunked_body`](/packages/http/reference/http/h1/decode_chunked_body) | Decodes an HTTP/1.1 chunked body (no head) into its bytes. |
+| [`encode_chunked_body`](/packages/http/reference/http/h1/encode_chunked_body) | Encodes `body` as one chunk followed by the terminating zero-size chunk. |

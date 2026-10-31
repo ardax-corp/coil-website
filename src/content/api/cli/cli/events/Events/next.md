@@ -10,7 +10,7 @@ parent: "Events"
 signature: "pub fn next(int timeout_ms) -> Result<Option<Event>, TtyError>"
 import: "use cli::events::{Events};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/events.hy#L80"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/events.hy#L107"
 order: 1
 ---
 
@@ -30,6 +30,6 @@ Called on a `Events` value as `value.next(…)`.
 
 ## See also
 
-- [`Events`](/packages/cli/reference/cli/events/Events)
+- [`Events`](/packages/cli/reference/cli/events/Events): A source of decoded input events (`cli::keys::Event`): keys, mouse, paste, focus and `Resize`.
 - [`Events::expect_cursor`](/packages/cli/reference/cli/events/Events/expect_cursor): Expect a cursor position report next (after writing `cli::ansi::query_cursor()`).
 - [`Events::poll`](/packages/cli/reference/cli/events/Events/poll): Every event available now, without waiting.

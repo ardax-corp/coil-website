@@ -9,7 +9,7 @@ name: "BoxChars"
 signature: "class BoxChars"
 import: "use cli::screen::{BoxChars};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/screen.hy#L29"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/screen.hy#L32"
 order: 1
 ---
 
@@ -19,16 +19,16 @@ Box-drawing characters for [`Buffer.draw_box`](/packages/cli/reference/cli/scree
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `tl` | `string` |  |
-| `tr` | `string` |  |
-| `bl` | `string` |  |
-| `br` | `string` |  |
-| `h` | `string` |  |
-| `v` | `string` |  |
+| `tl` | `string` | Top-left corner. |
+| `tr` | `string` | Top-right corner. |
+| `bl` | `string` | Bottom-left corner. |
+| `br` | `string` | Bottom-right corner. |
+| `h` | `string` | Horizontal edge. |
+| `v` | `string` | Vertical edge. |
 
 ## See also
 
 - [`Buffer::draw_box`](/packages/cli/reference/cli/screen/Buffer/draw_box)
 - [`Cell`](/packages/cli/reference/cli/screen/Cell): One cell: the text drawn there (one character plus any zero-width marks) and its style.
-- [`Buffer`](/packages/cli/reference/cli/screen/Buffer)
+- [`Buffer`](/packages/cli/reference/cli/screen/Buffer): A grid of styled cells, `cols` by `rows`, addressed by 0-based column `x` and row `y`.
 - [`Screen`](/packages/cli/reference/cli/screen/Screen): Double-buffered presenter.

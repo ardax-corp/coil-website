@@ -16,41 +16,38 @@ Part of the [cli](/packages/cli) package ([coil-cli](https://github.com/ardax-co
 Import what you use (`use path::*` is not allowed):
 
 ```coil
-use cli::keys::{KeyEvent, MouseEvent};
+use cli::keys::{Key, KeyEvent};
 ```
 
 ## Types
 
 | Name | Description |
 |------|-------------|
-| [`KeyEvent`](/packages/cli/reference/cli/keys/KeyEvent) |  |
+| [`Key`](/packages/cli/reference/cli/keys/Key) | A key on the keyboard, without modifiers (those are in `KeyEvent.mods`). |
+| [`KeyEvent`](/packages/cli/reference/cli/keys/KeyEvent) | A key press: the key and the modifier bits held with it. |
+| [`MouseButton`](/packages/cli/reference/cli/keys/MouseButton) | Which button a mouse report is about. |
+| [`MouseKind`](/packages/cli/reference/cli/keys/MouseKind) | What happened in a mouse report. |
 | [`MouseEvent`](/packages/cli/reference/cli/keys/MouseEvent) | A mouse report; `col` and `row` are 1-based. |
+| [`Event`](/packages/cli/reference/cli/keys/Event) | One decoded input event. |
 | [`Decoder`](/packages/cli/reference/cli/keys/Decoder) | Incremental decoder. |
-| [`Key`](/packages/cli/reference/cli/keys/Key) |  |
-| [`MouseButton`](/packages/cli/reference/cli/keys/MouseButton) |  |
-| [`MouseKind`](/packages/cli/reference/cli/keys/MouseKind) |  |
-| [`Event`](/packages/cli/reference/cli/keys/Event) |  |
 
 ## Constants
 
 | Name | Description |
 |------|-------------|
-| [`SHIFT`](/packages/cli/reference/cli/keys/SHIFT) | Modifier bits, as in xterm's `1 + mods` parameter. |
+| [`SHIFT`](/packages/cli/reference/cli/keys/SHIFT) | Shift, a bit of `KeyEvent.mods` and `MouseEvent.mods`. |
+| [`ALT`](/packages/cli/reference/cli/keys/ALT) | Alt (or Option, or a key sent with an Esc prefix). |
+| [`CTRL`](/packages/cli/reference/cli/keys/CTRL) | Control. |
+| [`META`](/packages/cli/reference/cli/keys/META) | Meta / Super, where the terminal reports it. |
 
 ## Functions
 
 | Name | Description |
 |------|-------------|
-| [`bytes_between`](/packages/cli/reference/cli/keys/bytes_between) | Bytes `b[from..to]`. |
-| [`plain_key`](/packages/cli/reference/cli/keys/plain_key) | Key for a single control or printable byte / code point. |
-| [`params`](/packages/cli/reference/cli/keys/params) | Numeric parameters of a CSI body (`1;5` -> [1, 5]); empty fields are 0. |
-| [`mods_of`](/packages/cli/reference/cli/keys/mods_of) | Modifier bits from xterm's `1 + bits` parameter. |
-| [`letter_key`](/packages/cli/reference/cli/keys/letter_key) | Key for a letter final byte (CSI or SS3). |
-| [`mouse_event`](/packages/cli/reference/cli/keys/mouse_event) | A mouse event from the button byte `cb`, position and release flag. |
-| [`csi_event`](/packages/cli/reference/cli/keys/csi_event) | Event for a complete CSI sequence: `body` is between `ESC [` and the final byte `f`. |
-| [`find_paste_end`](/packages/cli/reference/cli/keys/find_paste_end) | Index of the paste end marker `ESC [ 2 0 1 ~` at or after `from`, or -1. |
+| [`key`](/packages/cli/reference/cli/keys/fn.key) | A key event for `k` with modifier bits `mods` (for tests and scripted input). |
+| [`decoder`](/packages/cli/reference/cli/keys/fn.decoder) | An empty decoder. |
 | [`decode_all`](/packages/cli/reference/cli/keys/decode_all) | Decode a whole buffer at once (tests, scripted input): `feed`, `drain` and `flush`. |
-| [`cp_string`](/packages/cli/reference/cli/keys/cp_string) | UTF-8 text of code point `cp`. |
+| [`cp_string`](/packages/cli/reference/cli/keys/cp_string) | UTF-8 text of code point `cp` (for [`Key::Char`](/packages/cli/reference/cli/keys/Key#variant-char)). |
 | [`describe_key`](/packages/cli/reference/cli/keys/describe_key) | `ctrl+alt+shift+name`, the form [`KeyEvent`](/packages/cli/reference/cli/keys/KeyEvent) bindings use: `"ctrl+c"`, `"alt+enter"`, `"shift+f5"`, `"up"`, `"a"`, `"space"`. |
-| [`describe`](/packages/cli/reference/cli/keys/describe) | Short text for any event, for logs and tests. |
+| [`describe`](/packages/cli/reference/cli/keys/describe) | Short text for any event, for logs and tests: keys as [`describe_key`](/packages/cli/reference/cli/keys/describe_key) writes them, `mouse(press left 3,4)`, `paste(text)`, `focus-in`, `cursor(row,col)`, `resize(80x24)`, `unknown(n bytes)`. |
 | [`is_key`](/packages/cli/reference/cli/keys/is_key) | Whether `e` is the key `spec` (as [`describe_key`](/packages/cli/reference/cli/keys/describe_key) writes it). |

@@ -2,7 +2,7 @@
 slug: "http/http/server/Server/bound_port"
 package: "http"
 title: "Server::bound_port"
-description: "Method Server::bound_port."
+description: "The port the listener is bound to; useful after bind(host, 0)."
 module: "http::server"
 kind: "method"
 name: "bound_port"
@@ -10,11 +10,13 @@ parent: "Server"
 signature: "pub fn bound_port() -> Result<int, HttpError>"
 import: "use http::server::{Server};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/server.hy#L61"
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/server.hy#L178"
 order: 3
 ---
 
-*No documentation yet.*
+The port the listener is bound to; useful after `bind(host, 0)`.
+
+Returns `Io(InvalidInput)` before [`bind`](/packages/http/reference/http/server/Server/bind).
 
 Called on a `Server` value as `value.bound_port(…)`.
 
@@ -22,9 +24,23 @@ Called on a `Server` value as `value.bound_port(…)`.
 
 `Result<int, HttpError>`
 
+## Examples
+
+```coil
+use http::server::Server;
+use http::url::HttpError;
+
+fn main() -> Result<(), HttpError> {
+    let srv = Server::new();
+    srv.bind("127.0.0.1", 0)?;
+    let port = srv.bound_port()?;
+    return ();
+}
+```
+
 ## See also
 
-- [`Server`](/packages/http/reference/http/server/Server)
-- [`Server::new`](/packages/http/reference/http/server/Server/new)
 - [`Server::bind`](/packages/http/reference/http/server/Server/bind)
-- [`Server::tls`](/packages/http/reference/http/server/Server/tls)
+- [`Server`](/packages/http/reference/http/server/Server): A listening HTTP server socket and its TLS settings.
+- [`Server::new`](/packages/http/reference/http/server/Server/new): An unbound server without TLS.
+- [`Server::tls`](/packages/http/reference/http/server/Server/tls): Serves TLS with this PEM certificate chain and private key.

@@ -2,7 +2,7 @@
 slug: "cli/cli/args/Command/command_names"
 package: "cli"
 title: "Command::command_names"
-description: "Method Command::command_names."
+description: "Names of the subcommands."
 module: "cli::args"
 kind: "method"
 name: "command_names"
@@ -10,11 +10,11 @@ parent: "Command"
 signature: "pub fn command_names() -> Vec<string>"
 import: "use cli::args::{Command};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/args.hy#L361"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L416"
 order: 13
 ---
 
-*No documentation yet.*
+Names of the subcommands.
 
 Called on a `Command` value as `value.command_names(…)`.
 

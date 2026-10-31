@@ -10,7 +10,7 @@ parent: "KeyEvent"
 signature: "pub fn char() -> Option<int>"
 import: "use cli::keys::{KeyEvent};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/keys.hy#L58"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/keys.hy#L85"
 order: 3
 ---
 
@@ -24,7 +24,7 @@ Called on a `KeyEvent` value as `value.char(…)`.
 
 ## See also
 
-- [`KeyEvent`](/packages/cli/reference/cli/keys/KeyEvent)
-- [`KeyEvent::shift`](/packages/cli/reference/cli/keys/KeyEvent/shift)
-- [`KeyEvent::alt`](/packages/cli/reference/cli/keys/KeyEvent/alt)
-- [`KeyEvent::ctrl`](/packages/cli/reference/cli/keys/KeyEvent/ctrl)
+- [`KeyEvent`](/packages/cli/reference/cli/keys/KeyEvent): A key press: the key and the modifier bits held with it.
+- [`KeyEvent::shift`](/packages/cli/reference/cli/keys/KeyEvent/shift): Whether Shift was held.
+- [`KeyEvent::alt`](/packages/cli/reference/cli/keys/KeyEvent/alt): Whether Alt was held.
+- [`KeyEvent::ctrl`](/packages/cli/reference/cli/keys/KeyEvent/ctrl): Whether Control was held.

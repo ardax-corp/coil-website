@@ -2,7 +2,7 @@
 slug: "json/json/JsonValue/emit"
 package: "json"
 title: "JsonValue::emit"
-description: "Method JsonValue::emit."
+description: "Appends the compact encoding of this value to out."
 module: "json"
 kind: "method"
 name: "emit"
@@ -10,11 +10,14 @@ parent: "JsonValue"
 signature: "pub fn emit(Vec<byte> out) -> Result<(), JsonError>"
 import: "use json::{JsonValue};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-json/blob/6ccd5778fa8274febae9671020f18968540571de/src/json.hy#L479"
-order: 22
+source: "https://github.com/ardax-corp/coil-json/blob/70900ca2e6f10b5a31c57279c1d2e24ce37a0cc1/src/json.hy#L648"
+order: 21
 ---
 
-*No documentation yet.*
+Appends the compact encoding of this value to `out`.
+
+Fails with [`JsonError::Number`](/packages/json/reference/json/JsonError#variant-number) on a non-finite float; `out` may then
+hold a partial encoding.
 
 Called on a `JsonValue` value as `value.emit(…)`.
 
@@ -30,11 +33,11 @@ Called on a `JsonValue` value as `value.emit(…)`.
 
 ## See also
 
-- [`JsonValue`](/packages/json/reference/json/JsonValue): Strict JSON value.
-- [`JsonValue::wrap`](/packages/json/reference/json/JsonValue/wrap)
-- [`JsonValue::null`](/packages/json/reference/json/JsonValue/null)
-- [`JsonValue::from_bool`](/packages/json/reference/json/JsonValue/from_bool)
-- [`JsonValue::from_int`](/packages/json/reference/json/JsonValue/from_int)
-- [`JsonValue::from_float`](/packages/json/reference/json/JsonValue/from_float)
-- [`JsonValue::from_string`](/packages/json/reference/json/JsonValue/from_string)
-- [`JsonValue::is_null`](/packages/json/reference/json/JsonValue/is_null)
+- [`json::JsonError`](/packages/json/reference/json/JsonError)
+- [`JsonValue`](/packages/json/reference/json/JsonValue): A JSON value: null, bool, int, float, string, array or object.
+- [`JsonValue::null`](/packages/json/reference/json/JsonValue/null): The JSON `null` value.
+- [`JsonValue::from_bool`](/packages/json/reference/json/JsonValue/from_bool): A JSON boolean (`true` or `false`).
+- [`JsonValue::from_int`](/packages/json/reference/json/JsonValue/from_int): A JSON integer.
+- [`JsonValue::from_float`](/packages/json/reference/json/JsonValue/from_float): A JSON float.
+- [`JsonValue::from_string`](/packages/json/reference/json/JsonValue/from_string): A JSON string.
+- [`JsonValue::is_null`](/packages/json/reference/json/JsonValue/is_null): Returns `true` for `null`.

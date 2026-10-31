@@ -2,19 +2,49 @@
 slug: "deflate/deflate/DeflateError"
 package: "deflate"
 title: "DeflateError"
-description: "Inflate/deflate failure. message is a short reason, not a panic."
+description: "Why compress or decompress failed."
 module: "deflate"
 kind: "enum"
 name: "DeflateError"
 signature: "enum DeflateError"
 import: "use deflate::{DeflateError};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-deflate/blob/553f55df4e433cd6f0cde585b01ebc764668cdfd/src/deflate.hy#L5"
+source: "https://github.com/ardax-corp/coil-deflate/blob/e562e799729a95ee0116632f1b9a2061e9da51f2/src/deflate.hy#L31"
 order: 0
 ---
 
-Inflate/deflate failure. `message` is a short reason, not a panic.
+Why [`compress`](/packages/deflate/reference/deflate/compress) or [`decompress`](/packages/deflate/reference/deflate/decompress) failed.
+
+Bad input is reported through this error, never a panic. There is one
+variant today; match it with a `default` arm so a later variant does not
+break your code.
 
 ## Variants
 
 ### `Invalid { message: string }` {#variant-invalid}
+
+The input is not a valid DEFLATE stream. `message` is a short reason,
+such as `"empty input"`, `"truncated"` or `"bad huffman symbol"`.
+
+## Examples
+
+```coil
+use deflate::{decompress, DeflateError};
+use tests::assert;
+// 0b111: final block with the reserved block type 3.
+let bad: Vec<byte> = Vec::new();
+bad.push(7 as byte);
+let reason = match decompress(bad) {
+    Result::Ok(_) => "",
+    Result::Err(e) => match e {
+        DeflateError::Invalid { message } => message,
+        default => "other",
+    },
+};
+assert!(reason == "reserved block type");
+```
+
+## See also
+
+- [`deflate::compress`](/packages/deflate/reference/deflate/compress)
+- [`deflate::decompress`](/packages/deflate/reference/deflate/decompress)

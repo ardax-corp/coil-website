@@ -9,8 +9,8 @@ name: "H2Settings"
 signature: "class H2Settings"
 import: "use http::h2::{H2Settings};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/h2.hy#L37"
-order: 0
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/h2.hy#L65"
+order: 1
 ---
 
 SETTINGS identifier/value pairs (RFC 7540 §6.5).
@@ -19,24 +19,24 @@ SETTINGS identifier/value pairs (RFC 7540 §6.5).
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `ids` | `Vec<int>` |  |
-| `values` | `Vec<int>` |  |
+| `ids` | `Vec<int>` | Setting identifiers (`settings_id_*`). |
+| `values` | `Vec<int>` | Setting values; `values[i]` belongs to `ids[i]`. |
 
 ## Associated functions
 
 | Name | Description |
 |------|-------------|
-| [`new`](/packages/http/reference/http/h2/H2Settings/new) |  |
+| [`new`](/packages/http/reference/http/h2/H2Settings/new) | An empty list of settings. |
 
 ## Methods
 
 | Name | Description |
 |------|-------------|
-| [`add`](/packages/http/reference/http/h2/H2Settings/add) |  |
-| [`count`](/packages/http/reference/http/h2/H2Settings/count) |  |
+| [`add`](/packages/http/reference/http/h2/H2Settings/add) | Appends the setting `id = value`. |
+| [`count`](/packages/http/reference/http/h2/H2Settings/count) | The number of settings. |
 
 ## See also
 
+- [`H2Frame`](/packages/http/reference/http/h2/H2Frame): One HTTP/2 frame (RFC 7540 §4.1): type, flags, stream id and payload.
 - [`H2Goaway`](/packages/http/reference/http/h2/H2Goaway): GOAWAY last-stream-id and error code (RFC 7540 §6.8).
-- [`H2Push`](/packages/http/reference/http/h2/H2Push): PUSH_PROMISE promised-id plus remaining header-block fragment.
-- [`H2Frame`](/packages/http/reference/http/h2/H2Frame)
+- [`H2Push`](/packages/http/reference/http/h2/H2Push): A decoded PUSH_PROMISE payload: the promised stream id and the header-block fragment.

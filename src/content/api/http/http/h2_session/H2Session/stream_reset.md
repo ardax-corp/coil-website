@@ -2,7 +2,7 @@
 slug: "http/http/h2_session/H2Session/stream_reset"
 package: "http"
 title: "H2Session::stream_reset"
-description: "Method H2Session::stream_reset."
+description: "1 when stream sid was reset with RST_STREAM, otherwise 0."
 module: "http::h2_session"
 kind: "method"
 name: "stream_reset"
@@ -10,11 +10,11 @@ parent: "H2Session"
 signature: "pub fn stream_reset(int sid) -> Result<int, HttpError>"
 import: "use http::h2_session::{H2Session};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/h2_session.hy#L1340"
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/h2_session.hy#L1410"
 order: 33
 ---
 
-*No documentation yet.*
+1 when stream `sid` was reset with RST_STREAM, otherwise 0.
 
 Called on a `H2Session` value as `value.stream_reset(…)`.
 
@@ -30,11 +30,11 @@ Called on a `H2Session` value as `value.stream_reset(…)`.
 
 ## See also
 
-- [`H2Session`](/packages/http/reference/http/h2_session/H2Session): One HTTP/2 connection (client or server) over a byte buffer.
-- [`H2Session::open`](/packages/http/reference/http/h2_session/H2Session/open)
-- [`H2Session::new`](/packages/http/reference/http/h2_session/H2Session/new): Server role: expect the client connection preface.
-- [`H2Session::client`](/packages/http/reference/http/h2_session/H2Session/client): Client role: the peer does not send a connection preface.
-- [`H2Session::find_id`](/packages/http/reference/http/h2_session/H2Session/find_id)
-- [`H2Session::queue_frame`](/packages/http/reference/http/h2_session/H2Session/queue_frame)
-- [`H2Session::queue_bytes`](/packages/http/reference/http/h2_session/H2Session/queue_bytes)
-- [`H2Session::fail_conn`](/packages/http/reference/http/h2_session/H2Session/fail_conn)
+- [`H2Session`](/packages/http/reference/http/h2_session/H2Session): One HTTP/2 connection (client or server side) driven through byte buffers, with no socket of its own.
+- [`H2Session::open`](/packages/http/reference/http/h2_session/H2Session/open): A session for `role` (1 client, 0 server); `preface_done` 1 skips waiting for the client preface.
+- [`H2Session::new`](/packages/http/reference/http/h2_session/H2Session/new): A server session, expecting the client connection preface first.
+- [`H2Session::client`](/packages/http/reference/http/h2_session/H2Session/client): A client session: the peer sends no connection preface.
+- [`H2Session::find_id`](/packages/http/reference/http/h2_session/H2Session/find_id): The internal index of stream `sid`, or 999999 when the session has no such stream.
+- [`H2Session::queue_frame`](/packages/http/reference/http/h2_session/H2Session/queue_frame): Queues frame `f` for `drain`.
+- [`H2Session::queue_bytes`](/packages/http/reference/http/h2_session/H2Session/queue_bytes): Queues raw bytes for `drain`.
+- [`H2Session::fail_conn`](/packages/http/reference/http/h2_session/H2Session/fail_conn): Queues GOAWAY with `code` (once) and returns `Protocol`: a connection error.

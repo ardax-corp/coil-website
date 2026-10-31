@@ -30,6 +30,9 @@ use cli::term::{RawMode, tty};
 | Name | Description |
 |------|-------------|
 | [`tty`](/packages/cli/reference/cli/term/tty) | Whether `s` is a terminal. |
+| [`stdin_is_tty`](/packages/cli/reference/cli/term/stdin_is_tty) | Whether standard input is a terminal (`false` when it is piped or redirected). |
+| [`stdout_is_tty`](/packages/cli/reference/cli/term/stdout_is_tty) | Whether standard output is a terminal. |
+| [`stderr_is_tty`](/packages/cli/reference/cli/term/stderr_is_tty) | Whether standard error is a terminal. |
 | [`size_or`](/packages/cli/reference/cli/term/size_or) | `(cols, rows)` of the terminal behind `s` (or behind another standard stream when `s` is piped), else `(cols, rows)` as given. |
 | [`columns`](/packages/cli/reference/cli/term/columns) | Terminal columns, 80 when there is no terminal. |
 | [`was_resized`](/packages/cli/reference/cli/term/was_resized) | `true` once per window resize since the last call. |

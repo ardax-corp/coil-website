@@ -9,7 +9,7 @@ parent: "Ident"
 signature: "pub fn str() -> string"
 import: "use macro::{Ident};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/prelude/macro.hy#L81"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/macro.hy#L81"
 order: 0
 ---
 

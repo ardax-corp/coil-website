@@ -2,7 +2,7 @@
 slug: "http/http/response/Response/status"
 package: "http"
 title: "Response::status"
-description: "Method Response::status."
+description: "Sets the status code."
 module: "http::response"
 kind: "method"
 name: "status"
@@ -10,11 +10,14 @@ parent: "Response"
 signature: "pub fn status(int code)"
 import: "use http::response::{Response};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/response.hy#L33"
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/response.hy#L84"
 order: 1
 ---
 
-*No documentation yet.*
+Sets the status code.
+
+The HTTP/1.1 encoder writes a reason phrase for a few common codes and `OK`
+for the rest; clients go by the code.
 
 Called on a `Response` value as `value.status(…)`.
 
@@ -26,8 +29,8 @@ Called on a `Response` value as `value.status(…)`.
 
 ## See also
 
-- [`Response`](/packages/http/reference/http/response/Response): Parsed HTTP response (status, headers, body, optional trailing fields).
-- [`Response::ok`](/packages/http/reference/http/response/Response/ok): 200 OK with empty body and headers.
-- [`Response::header`](/packages/http/reference/http/response/Response/header)
-- [`Response::body`](/packages/http/reference/http/response/Response/body)
-- [`Response::trailer`](/packages/http/reference/http/response/Response/trailer): Trailing header field, carried after the body on HTTP/2.
+- [`Response`](/packages/http/reference/http/response/Response): An HTTP response: status, header fields, body and HTTP/2 trailing fields.
+- [`Response::ok`](/packages/http/reference/http/response/Response/ok): A `200` response with no header fields and an empty body.
+- [`Response::header`](/packages/http/reference/http/response/Response/header): Appends a header field.
+- [`Response::body`](/packages/http/reference/http/response/Response/body): Sets the body.
+- [`Response::trailer`](/packages/http/reference/http/response/Response/trailer): Appends a trailing field, sent after the body on HTTP/2.

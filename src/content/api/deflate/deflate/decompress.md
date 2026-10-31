@@ -2,18 +2,21 @@
 slug: "deflate/deflate/decompress"
 package: "deflate"
 title: "decompress"
-description: "Inflate raw DEFLATE (RFC 1951 blocks)."
+description: "Decompresses a raw DEFLATE stream (RFC 1951) back to its bytes. Same as Deflate::decompress."
 module: "deflate"
 kind: "fn"
 name: "decompress"
 signature: "fn decompress(Vec<byte> data) -> Result<Vec<byte>, DeflateError>"
 import: "use deflate::{decompress};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-deflate/blob/553f55df4e433cd6f0cde585b01ebc764668cdfd/src/deflate.hy#L688"
+source: "https://github.com/ardax-corp/coil-deflate/blob/e562e799729a95ee0116632f1b9a2061e9da51f2/src/deflate.hy#L825"
 order: 3
 ---
 
-Inflate raw DEFLATE (RFC 1951 blocks).
+Decompresses a raw DEFLATE stream (RFC 1951) back to its bytes. Same as [`Deflate::decompress`](/packages/deflate/reference/deflate/Deflate/decompress).
+
+Accepts stored, fixed Huffman and dynamic Huffman blocks. The input must be
+bare DEFLATE: strip a gzip or zlib header and trailer first.
 
 ## Parameters
 
@@ -25,6 +28,30 @@ Inflate raw DEFLATE (RFC 1951 blocks).
 
 `Result<Vec<byte>, DeflateError>`
 
+## Errors
+
+Returns [`DeflateError::Invalid`](/packages/deflate/reference/deflate/DeflateError#variant-invalid) when the input is empty, truncated or
+malformed. It never panics on bad input.
+
+## Examples
+
+```coil
+use deflate::{compress, decompress, DeflateError};
+use string::{to_bytes};
+use tests::assert;
+fn roundtrip(Vec<byte> data) -> Result<Vec<byte>, DeflateError> {
+    return decompress(compress(data)?)?;
+}
+
+fn main() {
+    let src = to_bytes("abracadabra");
+    assert!((roundtrip(src).ok() ?? Vec::new()) == src);
+    assert!(decompress(Vec::new()).is_err());
+}
+```
+
 ## See also
 
-- [`compress`](/packages/deflate/reference/deflate/compress): LZ77 + fixed Huffman compress (raw DEFLATE, no zlib wrapper).
+- [`Deflate::decompress`](/packages/deflate/reference/deflate/Deflate/decompress)
+- [`deflate::DeflateError`](/packages/deflate/reference/deflate/DeflateError)
+- [`compress`](/packages/deflate/reference/deflate/compress): Compresses `data` into a raw DEFLATE stream (RFC 1951, no zlib or gzip wrapper).

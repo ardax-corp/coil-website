@@ -2,18 +2,21 @@
 slug: "http/http/ws/ws_connect"
 package: "http"
 title: "ws_connect"
-description: "Client upgrade. ws:// is cleartext; wss:// uses coil-tls (verified)."
+description: "Opens a WebSocket to a ws:// or wss:// URL (wss:// with verified TLS)."
 module: "http::ws"
 kind: "fn"
 name: "ws_connect"
 signature: "fn ws_connect(string url) -> Result<WsConn, HttpError>"
 import: "use http::ws::{ws_connect};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/ws.hy#L734"
-order: 9
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/ws.hy#L838"
+order: 22
 ---
 
-Client upgrade. `ws://` is cleartext; `wss://` uses coil-tls (verified).
+Opens a WebSocket to a `ws://` or `wss://` URL (`wss://` with verified TLS).
+
+Sends the HTTP/1.1 upgrade request and checks the server's
+`Sec-WebSocket-Accept`. Errors are as for [`ws_connect_tls`](/packages/http/reference/http/ws/ws_connect_tls).
 
 ## Parameters
 
@@ -27,11 +30,11 @@ Client upgrade. `ws://` is cleartext; `wss://` uses coil-tls (verified).
 
 ## See also
 
-- [`encode_ws_frame`](/packages/http/reference/http/ws/encode_ws_frame): Encode one frame.
-- [`decode_ws_frame`](/packages/http/reference/http/ws/decode_ws_frame): Parse the first complete WebSocket frame in `raw`.
-- [`ws_frame_wire_len`](/packages/http/reference/http/ws/ws_frame_wire_len): Byte count of the first complete frame, or 0 if truncated.
-- [`ws_accept_key`](/packages/http/reference/http/ws/ws_accept_key): SHA-1(key + GUID) then Base64 — `Sec-WebSocket-Accept`.
-- [`ws_new_key`](/packages/http/reference/http/ws/ws_new_key): 16 random-ish bytes as standard Base64 (`Sec-WebSocket-Key`).
-- [`ws_read_n`](/packages/http/reference/http/ws/ws_read_n): Blocking read that parks on WouldBlock (same pattern as HTTP/2).
-- [`ws_recv`](/packages/http/reference/http/ws/ws_recv): Read one frame.
-- [`ws_connect_tls`](/packages/http/reference/http/ws/ws_connect_tls): Client upgrade with TLS options (`verify` / optional CA PEM).
+- [`http::ws::ws_connect_tls`](/packages/http/reference/http/ws/ws_connect_tls)
+- [`ws_opcode_cont`](/packages/http/reference/http/ws/ws_opcode_cont): Opcode 0: continuation frame.
+- [`ws_opcode_text`](/packages/http/reference/http/ws/ws_opcode_text): Opcode 1: text frame (UTF-8 payload).
+- [`ws_opcode_bin`](/packages/http/reference/http/ws/ws_opcode_bin): Opcode 2: binary frame.
+- [`ws_opcode_close`](/packages/http/reference/http/ws/ws_opcode_close): Opcode 8: close frame.
+- [`ws_opcode_ping`](/packages/http/reference/http/ws/ws_opcode_ping): Opcode 9: ping frame.
+- [`ws_opcode_pong`](/packages/http/reference/http/ws/ws_opcode_pong): Opcode 10: pong frame.
+- [`encode_ws_frame`](/packages/http/reference/http/ws/encode_ws_frame): Encodes one frame.

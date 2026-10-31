@@ -8,7 +8,7 @@ kind: "module"
 name: "http::sha1"
 origin: "package"
 auto: false
-order: 9
+order: 11
 ---
 
 Part of the [http](/packages/http) package ([coil-http](https://github.com/ardax-corp/coil-http)), not the compiler or coil-stdlib. Add it to `[dependencies]` in `coil.toml` to use it (see the [package overview](/packages/http)).
@@ -23,4 +23,4 @@ use http::sha1::{sha1};
 
 | Name | Description |
 |------|-------------|
-| [`sha1`](/packages/http/reference/http/sha1/sha1) | SHA-1 digest (20 bytes, big-endian). |
+| [`sha1`](/packages/http/reference/http/sha1/sha1) | The SHA-1 digest of `msg` (RFC 3174): 20 bytes, big-endian. |

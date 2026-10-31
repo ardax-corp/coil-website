@@ -2,41 +2,59 @@
 slug: "http/http/url/Headers"
 package: "http"
 title: "Headers"
-description: "Parallel name/value header pairs for requests and responses."
+description: "An ordered list of header fields, kept as parallel name and value vectors."
 module: "http::url"
 kind: "class"
 name: "Headers"
 signature: "class Headers"
 import: "use http::url::{Headers};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/url.hy#L34"
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/url.hy#L93"
 order: 2
 ---
 
-Parallel name/value header pairs for requests and responses.
+An ordered list of header fields, kept as parallel name and value vectors.
+
+Names keep the case they were added or received with, and duplicates are
+allowed. Used for request headers (`Request::header`), parsed request headers
+(`IncomingRequest.headers`) and HTTP/2 header blocks.
 
 ## Fields
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `names` | `Vec<string>` |  |
-| `values` | `Vec<string>` |  |
+| `names` | `Vec<string>` | Field names, in insertion order. |
+| `values` | `Vec<string>` | Field values; `values[i]` belongs to `names[i]`. |
 
 ## Associated functions
 
 | Name | Description |
 |------|-------------|
-| [`new`](/packages/http/reference/http/url/Headers/new) | Empty header list. |
+| [`new`](/packages/http/reference/http/url/Headers/new) | An empty header list. |
 
 ## Methods
 
 | Name | Description |
 |------|-------------|
-| [`add`](/packages/http/reference/http/url/Headers/add) | Append a header name/value pair. |
-| [`count`](/packages/http/reference/http/url/Headers/count) | Number of header pairs. |
-| [`name_at`](/packages/http/reference/http/url/Headers/name_at) | Header name at index `i`. |
-| [`value_at`](/packages/http/reference/http/url/Headers/value_at) | Header value at index `i`. |
+| [`add`](/packages/http/reference/http/url/Headers/add) | Appends the field `name: value`. |
+| [`count`](/packages/http/reference/http/url/Headers/count) | The number of fields. |
+| [`name_at`](/packages/http/reference/http/url/Headers/name_at) | The name of field `i`. |
+| [`value_at`](/packages/http/reference/http/url/Headers/value_at) | The value of field `i`. |
+
+## Examples
+
+```coil
+use tests::assert;
+use http::url::Headers;
+
+let h = Headers::new();
+h.add("Accept", "text/plain");
+h.add("X-Trace", "abc");
+assert!(h.count() == 2);
+assert!(h.name_at(1) == "X-Trace");
+assert!(h.value_at(1) == "abc");
+```
 
 ## See also
 
-- [`Url`](/packages/http/reference/http/url/Url): Parsed `http`/`https`/`ws`/`wss` URL (scheme, host, port, path).
+- [`Url`](/packages/http/reference/http/url/Url): A parsed `http`, `https`, `ws` or `wss` URL.

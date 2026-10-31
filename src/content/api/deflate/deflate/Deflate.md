@@ -2,25 +2,40 @@
 slug: "deflate/deflate/Deflate"
 package: "deflate"
 title: "Deflate"
-description: "RFC 1951 codec. compress emits LZ77 + fixed Huffman; decompress inflates stored/fixed/dynamic."
+description: "The RFC 1951 codec, as a namespace for Deflate::compress and Deflate::decompress."
 module: "deflate"
 kind: "class"
 name: "Deflate"
 signature: "class Deflate"
 import: "use deflate::{Deflate};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-deflate/blob/553f55df4e433cd6f0cde585b01ebc764668cdfd/src/deflate.hy#L603"
+source: "https://github.com/ardax-corp/coil-deflate/blob/e562e799729a95ee0116632f1b9a2061e9da51f2/src/deflate.hy#L647"
 order: 1
 ---
 
-RFC 1951 codec. [`compress`](/packages/deflate/reference/deflate/Deflate/compress) emits LZ77 + fixed Huffman; [`decompress`](/packages/deflate/reference/deflate/Deflate/decompress) inflates stored/fixed/dynamic.
+The RFC 1951 codec, as a namespace for [`Deflate::compress`](/packages/deflate/reference/deflate/Deflate/compress) and [`Deflate::decompress`](/packages/deflate/reference/deflate/Deflate/decompress).
+
+The free functions [`compress`](/packages/deflate/reference/deflate/Deflate/compress) and [`decompress`](/packages/deflate/reference/deflate/Deflate/decompress) call these and behave the
+same; use whichever spelling reads better. There is nothing to construct.
 
 ## Associated functions
 
 | Name | Description |
 |------|-------------|
-| [`compress`](/packages/deflate/reference/deflate/Deflate/compress) | LZ77 + fixed Huffman. |
-| [`decompress`](/packages/deflate/reference/deflate/Deflate/decompress) | Inflate a raw DEFLATE bitstream (stored, fixed Huffman, dynamic Huffman). |
+| [`compress`](/packages/deflate/reference/deflate/Deflate/compress) | Compresses `data` into a raw DEFLATE stream (RFC 1951, no zlib or gzip wrapper). |
+| [`decompress`](/packages/deflate/reference/deflate/Deflate/decompress) | Decompresses a raw DEFLATE stream (RFC 1951) back to its bytes. |
+
+## Examples
+
+```coil
+use deflate::{Deflate};
+use string::{to_bytes};
+use tests::assert;
+let src = to_bytes("abcabcabcabc");
+let packed = Deflate::compress(src).ok() ?? Vec::new();
+let back = Deflate::decompress(packed).ok() ?? Vec::new();
+assert!(back == src);
+```
 
 ## See also
 

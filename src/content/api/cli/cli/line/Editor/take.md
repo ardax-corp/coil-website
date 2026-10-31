@@ -10,7 +10,7 @@ parent: "Editor"
 signature: "pub fn take() -> string"
 import: "use cli::line::{Editor};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/line.hy#L364"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/line.hy#L416"
 order: 4
 ---
 
@@ -24,9 +24,9 @@ Called on a `Editor` value as `value.take(…)`.
 
 ## See also
 
-- [`Editor`](/packages/cli/reference/cli/line/Editor)
-- [`Editor::text`](/packages/cli/reference/cli/line/Editor/text)
-- [`Editor::len`](/packages/cli/reference/cli/line/Editor/len)
+- [`Editor`](/packages/cli/reference/cli/line/Editor): The line-editor model: a line of text with a cursor (in display units: a character plus its zero-width marks), a kill buffer and a `History`.
+- [`Editor::text`](/packages/cli/reference/cli/line/Editor/text): The current line.
+- [`Editor::len`](/packages/cli/reference/cli/line/Editor/len): Length of the line in display units.
 - [`Editor::set_text`](/packages/cli/reference/cli/line/Editor/set_text): Replace the line and put the cursor at its end.
 - [`Editor::apply`](/packages/cli/reference/cli/line/Editor/apply): Apply one action.
 - [`Editor::cursor_col`](/packages/cli/reference/cli/line/Editor/cursor_col): Columns from the start of the text to the cursor.

@@ -2,7 +2,7 @@
 slug: "msgpack/msgpack/MsgpackValue/from_ext"
 package: "msgpack"
 title: "MsgpackValue::from_ext"
-description: "ty is the extension type code (-128..=127). Out of range fails at encode."
+description: "A MessagePack extension of type ty holding data."
 module: "msgpack"
 kind: "static method"
 name: "from_ext"
@@ -10,11 +10,15 @@ parent: "MsgpackValue"
 signature: "pub static fn from_ext(int ty, Vec<byte> data) -> MsgpackValue"
 import: "use msgpack::{MsgpackValue};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-msgpack/blob/28282558ca88aab4179bd52d695227e467bf08d3/src/msgpack.hy#L292"
-order: 9
+source: "https://github.com/ardax-corp/coil-msgpack/blob/717fa0fe98bf14f43b00c42cce89eeb1d7f97684/src/msgpack.hy#L423"
+order: 8
 ---
 
-`ty` is the extension type code (-128..=127). Out of range fails at encode.
+A MessagePack extension of type `ty` holding `data`.
+
+`ty` is the extension type code, -128..=127; negative codes are
+reserved by the spec (`-1` is a timestamp). A code out of range is
+accepted here and fails at encode with [`MsgpackError::Number`](/packages/msgpack/reference/msgpack/MsgpackError#variant-number).
 
 ## Parameters
 
@@ -29,11 +33,11 @@ order: 9
 
 ## See also
 
-- [`MsgpackValue`](/packages/msgpack/reference/msgpack/MsgpackValue): MessagePack value.
-- [`MsgpackValue::wrap`](/packages/msgpack/reference/msgpack/MsgpackValue/wrap)
-- [`MsgpackValue::nil`](/packages/msgpack/reference/msgpack/MsgpackValue/nil)
-- [`MsgpackValue::from_bool`](/packages/msgpack/reference/msgpack/MsgpackValue/from_bool)
-- [`MsgpackValue::from_int`](/packages/msgpack/reference/msgpack/MsgpackValue/from_int)
-- [`MsgpackValue::nan`](/packages/msgpack/reference/msgpack/MsgpackValue/nan)
-- [`MsgpackValue::inf`](/packages/msgpack/reference/msgpack/MsgpackValue/inf)
-- [`MsgpackValue::from_float`](/packages/msgpack/reference/msgpack/MsgpackValue/from_float)
+- [`msgpack::MsgpackError`](/packages/msgpack/reference/msgpack/MsgpackError)
+- [`MsgpackValue`](/packages/msgpack/reference/msgpack/MsgpackValue): A MessagePack value: nil, bool, int, float, string, binary, array, map or extension.
+- [`MsgpackValue::nil`](/packages/msgpack/reference/msgpack/MsgpackValue/nil): The MessagePack `nil` value.
+- [`MsgpackValue::from_bool`](/packages/msgpack/reference/msgpack/MsgpackValue/from_bool): A MessagePack boolean.
+- [`MsgpackValue::from_int`](/packages/msgpack/reference/msgpack/MsgpackValue/from_int): A MessagePack integer.
+- [`MsgpackValue::nan`](/packages/msgpack/reference/msgpack/MsgpackValue/nan): A NaN float, with the NaN kind set in `i`.
+- [`MsgpackValue::inf`](/packages/msgpack/reference/msgpack/MsgpackValue/inf): An infinite float: `-inf` when `neg`, otherwise `+inf`.
+- [`MsgpackValue::from_float`](/packages/msgpack/reference/msgpack/MsgpackValue/from_float): A MessagePack float.

@@ -2,18 +2,18 @@
 slug: "http/http/conn/read_request_bytes"
 package: "http"
 title: "read_request_bytes"
-description: "Read a full request or response message from a raw stream (no leftover yet)."
+description: "Reads one complete HTTP/1.1 message from a fresh stream s."
 module: "http::conn"
 kind: "fn"
 name: "read_request_bytes"
 signature: "fn read_request_bytes(Stream s) -> Result<Vec<byte>, HttpError>"
 import: "use http::conn::{read_request_bytes};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/conn.hy#L297"
-order: 2
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/conn.hy#L315"
+order: 3
 ---
 
-Read a full request or response message from a raw stream (no leftover yet).
+Reads one complete HTTP/1.1 message from a fresh stream `s`.
 
 ## Parameters
 
@@ -27,4 +27,5 @@ Read a full request or response message from a raw stream (no leftover yet).
 
 ## See also
 
-- [`read_http_message`](/packages/http/reference/http/conn/read_http_message): Read until CRLFCRLF, then exactly Content-Length body bytes.
+- [`close_conn`](/packages/http/reference/http/conn/close_conn): Closes `c`'s stream.
+- [`read_http_message`](/packages/http/reference/http/conn/read_http_message): Reads one complete HTTP/1.1 message (head and body) from `c`.

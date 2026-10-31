@@ -10,7 +10,7 @@ parent: "Command"
 signature: "pub fn positional(string name, string help) -> Command"
 import: "use cli::args::{Command};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/args.hy#L305"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L354"
 order: 6
 ---
 
@@ -38,4 +38,4 @@ Called on a `Command` value as `value.positional(…)`.
 - [`Command::option_default`](/packages/cli/reference/cli/args/Command/option_default): An option with a default value.
 - [`Command::required_option`](/packages/cli/reference/cli/args/Command/required_option): An option that must be given.
 - [`Command::multi`](/packages/cli/reference/cli/args/Command/multi): A repeatable option; `Matches.values` has every value.
-- [`Command::optional_positional`](/packages/cli/reference/cli/args/Command/optional_positional)
+- [`Command::optional_positional`](/packages/cli/reference/cli/args/Command/optional_positional): An optional positional argument, filled in declaration order.

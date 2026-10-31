@@ -2,34 +2,34 @@
 slug: "http/http/hpack/HpackInt"
 package: "http"
 title: "HpackInt"
-description: "Integer decode cursor (RFC 7541 §5.1)."
+description: "A decoded HPACK integer (RFC 7541 §5.1) and the offset just past it."
 module: "http::hpack"
 kind: "class"
 name: "HpackInt"
 signature: "class HpackInt"
 import: "use http::hpack::{HpackInt};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/hpack.hy#L14"
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/hpack.hy#L14"
 order: 0
 ---
 
-Integer decode cursor (RFC 7541 §5.1).
+A decoded HPACK integer (RFC 7541 §5.1) and the offset just past it.
 
 ## Fields
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `value` | `int` |  |
-| `next` | `int` |  |
+| `value` | `int` | The decoded integer. |
+| `next` | `int` | Offset of the first byte after the integer. |
 
 ## Associated functions
 
 | Name | Description |
 |------|-------------|
-| [`new`](/packages/http/reference/http/hpack/HpackInt/new) |  |
+| [`new`](/packages/http/reference/http/hpack/HpackInt/new) | A cursor from its parts. |
 
 ## See also
 
-- [`HpackStr`](/packages/http/reference/http/hpack/HpackStr): String literal decode cursor (RFC 7541 §5.2).
-- [`HpackNV`](/packages/http/reference/http/hpack/HpackNV): Literal name/value plus resume offset.
-- [`HpackTable`](/packages/http/reference/http/hpack/HpackTable): Decoder dynamic table (RFC 7541 §2.3).
+- [`HpackStr`](/packages/http/reference/http/hpack/HpackStr): A decoded HPACK string literal (RFC 7541 §5.2) and the offset just past it.
+- [`HpackNV`](/packages/http/reference/http/hpack/HpackNV): A decoded literal header field (name and value) and the offset just past it.
+- [`HpackTable`](/packages/http/reference/http/hpack/HpackTable): An HPACK dynamic table (RFC 7541 §2.3), for one direction of one connection.

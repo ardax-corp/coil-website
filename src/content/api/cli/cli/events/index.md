@@ -23,7 +23,7 @@ use cli::events::{Events, ESC_TIMEOUT_MS};
 
 | Name | Description |
 |------|-------------|
-| [`Events`](/packages/cli/reference/cli/events/Events) |  |
+| [`Events`](/packages/cli/reference/cli/events/Events) | A source of decoded input events ([`cli::keys::Event`](/packages/cli/reference/cli/keys/Event)): keys, mouse, paste, focus and `Resize`. |
 
 ## Constants
 

@@ -10,7 +10,7 @@ parent: "Command"
 signature: "pub fn rest(string name, string help, bool required) -> Command"
 import: "use cli::args::{Command};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/args.hy#L316"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L366"
 order: 8
 ---
 

@@ -9,7 +9,7 @@ name: "Cell"
 signature: "class Cell"
 import: "use cli::screen::{Cell};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/screen.hy#L15"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/screen.hy#L15"
 order: 0
 ---
 
@@ -19,11 +19,11 @@ One cell: the text drawn there (one character plus any zero-width marks) and its
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `text` | `string` |  |
-| `style` | `Style` |  |
+| `text` | `string` | The character drawn in this cell, with any zero-width marks after it; "" for the right half of a wide character. |
+| `style` | `Style` | How the cell is drawn. |
 
 ## See also
 
 - [`BoxChars`](/packages/cli/reference/cli/screen/BoxChars): Box-drawing characters for `Buffer.draw_box`.
-- [`Buffer`](/packages/cli/reference/cli/screen/Buffer)
+- [`Buffer`](/packages/cli/reference/cli/screen/Buffer): A grid of styled cells, `cols` by `rows`, addressed by 0-based column `x` and row `y`.
 - [`Screen`](/packages/cli/reference/cli/screen/Screen): Double-buffered presenter.

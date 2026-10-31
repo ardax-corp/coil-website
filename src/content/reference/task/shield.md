@@ -8,7 +8,7 @@ name: "shield"
 signature: "fn shield<T>(unit -> T body) -> T"
 import: "use task::{shield};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/prelude/task.hy#L252"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/task.hy#L252"
 order: 8
 ---
 

@@ -2,18 +2,18 @@
 slug: "http/http/hpack/encode_hpack_huffman"
 package: "http"
 title: "encode_hpack_huffman"
-description: "RFC 7541 Appendix B Huffman coding, padded with 1-bits to an octet boundary."
+description: "Huffman-encodes raw with the RFC 7541 Appendix B code, padded with 1-bits to a whole octet."
 module: "http::hpack"
 kind: "fn"
 name: "encode_hpack_huffman"
 signature: "fn encode_hpack_huffman(Vec<byte> raw) -> Vec<byte>"
 import: "use http::hpack::{encode_hpack_huffman};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/hpack.hy#L468"
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/hpack.hy#L514"
 order: 7
 ---
 
-RFC 7541 Appendix B Huffman coding, padded with 1-bits to an octet boundary.
+Huffman-encodes `raw` with the RFC 7541 Appendix B code, padded with 1-bits to a whole octet.
 
 ## Parameters
 
@@ -29,9 +29,9 @@ RFC 7541 Appendix B Huffman coding, padded with 1-bits to an octet boundary.
 
 - [`encode_hpack_int`](/packages/http/reference/http/hpack/encode_hpack_int): Encode `value` with an `nbits` prefix.
 - [`decode_hpack_int`](/packages/http/reference/http/hpack/decode_hpack_int): Decode an integer with an `nbits` prefix starting at `pos`.
-- [`huff_fill`](/packages/http/reference/http/hpack/huff_fill): RFC 7541 Appendix B codes, LSB-aligned, plus bit lengths.
+- [`decode_hpack_huffman`](/packages/http/reference/http/hpack/decode_hpack_huffman): Decodes an RFC 7541 Appendix B Huffman string.
 - [`encode_hpack_string`](/packages/http/reference/http/hpack/encode_hpack_string): String literal: Huffman (H=1) when strictly shorter, otherwise raw (H=0).
 - [`decode_hpack_string`](/packages/http/reference/http/hpack/decode_hpack_string): Decode a string literal at `pos`.
 - [`hpack_table_resize`](/packages/http/reference/http/hpack/hpack_table_resize): Apply SETTINGS_HEADER_TABLE_SIZE: both decoder cap and max become `cap`.
 - [`encode_header_block_with`](/packages/http/reference/http/hpack/encode_header_block_with): HEADERS payload: indexed (1xxxxxxx) or literal with incremental indexing (01xxxxxx).
-- [`encode_header_block`](/packages/http/reference/http/hpack/encode_header_block): One-shot encode into a fresh 4096-octet table.
+- [`encode_header_block`](/packages/http/reference/http/hpack/encode_header_block): HPACK-encodes `h` with a fresh 4096-octet table (one-shot; see `encode_header_block_with`).

@@ -2,18 +2,21 @@
 slug: "http/http/h1/decode_chunked_body"
 package: "http"
 title: "decode_chunked_body"
-description: "Decode HTTP/1.1 chunked body bytes (hex sizes, last chunk 0, trailers skipped)."
+description: "Decodes an HTTP/1.1 chunked body (no head) into its bytes."
 module: "http::h1"
 kind: "fn"
 name: "decode_chunked_body"
 signature: "fn decode_chunked_body(Vec<byte> raw) -> Result<Vec<byte>, HttpError>"
 import: "use http::h1::{decode_chunked_body};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/h1.hy#L284"
-order: 3
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/h1.hy#L365"
+order: 4
 ---
 
-Decode HTTP/1.1 chunked body bytes (hex sizes, last chunk `0`, trailers skipped).
+Decodes an HTTP/1.1 chunked body (no head) into its bytes.
+
+Chunk extensions and trailer fields are skipped. Returns `Protocol` when the
+input is truncated or a chunk size is not hex.
 
 ## Parameters
 
@@ -25,8 +28,27 @@ Decode HTTP/1.1 chunked body bytes (hex sizes, last chunk `0`, trailers skipped)
 
 `Result<Vec<byte>, HttpError>`
 
+## Examples
+
+```coil
+use tests::assert;
+use http::h1::{decode_chunked_body, encode_chunked_body};
+use string::to_bytes;
+
+let wire = match encode_chunked_body(to_bytes("hello")) {
+    Result::Ok(b) => b,
+    Result::Err(e) => panic show(e),
+};
+let back = match decode_chunked_body(wire) {
+    Result::Ok(b) => b,
+    Result::Err(e) => panic show(e),
+};
+assert!(back.len() == 5);
+```
+
 ## See also
 
-- [`parse_request`](/packages/http/reference/http/h1/parse_request): Parse raw HTTP/1.1 request bytes (head + body) into `IncomingRequest`.
-- [`encode_response`](/packages/http/reference/http/h1/encode_response): Encode response status line + headers + body for the wire.
-- [`encode_chunked_body`](/packages/http/reference/http/h1/encode_chunked_body): Encode `body` as a single chunk plus a terminating zero chunk.
+- [`parse_request`](/packages/http/reference/http/h1/parse_request): Parses a complete HTTP/1.1 request (head and body) into an `IncomingRequest`.
+- [`encode_response`](/packages/http/reference/http/h1/encode_response): Serializes `r` for HTTP/1.1 with `Connection: close`.
+- [`encode_response_keepalive`](/packages/http/reference/http/h1/encode_response_keepalive): Same as `encode_response`, with `Connection: keep-alive`.
+- [`encode_chunked_body`](/packages/http/reference/http/h1/encode_chunked_body): Encodes `body` as one chunk followed by the terminating zero-size chunk.

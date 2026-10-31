@@ -23,12 +23,12 @@ use deflate::{DeflateError, Deflate};
 
 | Name | Description |
 |------|-------------|
-| [`DeflateError`](/packages/deflate/reference/deflate/DeflateError) | Inflate/deflate failure. |
-| [`Deflate`](/packages/deflate/reference/deflate/Deflate) | RFC 1951 codec. |
+| [`DeflateError`](/packages/deflate/reference/deflate/DeflateError) | Why [`compress`](/packages/deflate/reference/deflate/compress) or [`decompress`](/packages/deflate/reference/deflate/decompress) failed. |
+| [`Deflate`](/packages/deflate/reference/deflate/Deflate) | The RFC 1951 codec, as a namespace for [`Deflate::compress`](/packages/deflate/reference/deflate/Deflate/compress) and [`Deflate::decompress`](/packages/deflate/reference/deflate/Deflate/decompress). |
 
 ## Functions
 
 | Name | Description |
 |------|-------------|
-| [`compress`](/packages/deflate/reference/deflate/compress) | LZ77 + fixed Huffman compress (raw DEFLATE, no zlib wrapper). |
-| [`decompress`](/packages/deflate/reference/deflate/decompress) | Inflate raw DEFLATE (RFC 1951 blocks). |
+| [`compress`](/packages/deflate/reference/deflate/compress) | Compresses `data` into a raw DEFLATE stream (RFC 1951, no zlib or gzip wrapper). |
+| [`decompress`](/packages/deflate/reference/deflate/decompress) | Decompresses a raw DEFLATE stream (RFC 1951) back to its bytes. |

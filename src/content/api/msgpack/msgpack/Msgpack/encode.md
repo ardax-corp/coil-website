@@ -2,7 +2,7 @@
 slug: "msgpack/msgpack/Msgpack/encode"
 package: "msgpack"
 title: "Msgpack::encode"
-description: "Method Msgpack::encode."
+description: "Encodes value as MessagePack bytes."
 module: "msgpack"
 kind: "method"
 name: "encode"
@@ -10,11 +10,14 @@ parent: "Msgpack"
 signature: "pub fn encode(MsgpackValue value) -> Result<Vec<byte>, MsgpackError>"
 import: "use msgpack::{Msgpack};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-msgpack/blob/28282558ca88aab4179bd52d695227e467bf08d3/src/msgpack.hy#L1348"
+source: "https://github.com/ardax-corp/coil-msgpack/blob/717fa0fe98bf14f43b00c42cce89eeb1d7f97684/src/msgpack.hy#L1542"
 order: 1
 ---
 
-*No documentation yet.*
+Encodes `value` as MessagePack bytes.
+
+Fails with [`MsgpackError::Number`](/packages/msgpack/reference/msgpack/MsgpackError#variant-number) when an extension type code is
+outside -128..=127.
 
 Called on a `Msgpack` value as `value.encode(…)`.
 
@@ -30,8 +33,9 @@ Called on a `Msgpack` value as `value.encode(…)`.
 
 ## See also
 
-- [`Msgpack`](/packages/msgpack/reference/msgpack/Msgpack): MessagePack codec.
-- [`Msgpack::standard`](/packages/msgpack/reference/msgpack/Msgpack/standard): The MessagePack format: one-shot encode and decode.
-- [`Msgpack::decode`](/packages/msgpack/reference/msgpack/Msgpack/decode)
-- [`Msgpack::encode_str`](/packages/msgpack/reference/msgpack/Msgpack/encode_str)
-- [`Msgpack::decode_str`](/packages/msgpack/reference/msgpack/Msgpack/decode_str)
+- [`msgpack::MsgpackError`](/packages/msgpack/reference/msgpack/MsgpackError)
+- [`Msgpack`](/packages/msgpack/reference/msgpack/Msgpack): A MessagePack codec: one-shot decode of bytes to a `MsgpackValue`, and encode back.
+- [`Msgpack::standard`](/packages/msgpack/reference/msgpack/Msgpack/standard): The MessagePack codec.
+- [`Msgpack::decode`](/packages/msgpack/reference/msgpack/Msgpack/decode): Decodes exactly one MessagePack value from `bytes`.
+- [`Msgpack::encode_str`](/packages/msgpack/reference/msgpack/Msgpack/encode_str): `encode`, then the bytes read as a `string`.
+- [`Msgpack::decode_str`](/packages/msgpack/reference/msgpack/Msgpack/decode_str): `decode` on the bytes of `s`.

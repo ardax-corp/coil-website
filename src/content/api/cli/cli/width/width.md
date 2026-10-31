@@ -2,18 +2,22 @@
 slug: "cli/cli/width/width"
 package: "cli"
 title: "width"
-description: "Display width of plain text (no escape sequences)."
+description: "Display width of plain text (no escape sequences), in terminal columns."
 module: "cli::width"
 kind: "fn"
 name: "width"
 signature: "fn width(string s) -> int"
 import: "use cli::width::{width};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/width.hy#L587"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/width.hy#L601"
 order: 4
 ---
 
-Display width of plain text (no escape sequences).
+Display width of plain text (no escape sequences), in terminal columns.
+
+Wide characters (CJK, emoji) count 2, combining marks and other
+zero-width characters 0, control characters 0. A code point after a
+zero-width joiner joins the glyph before it and adds nothing.
 
 ## Parameters
 
@@ -24,6 +28,16 @@ Display width of plain text (no escape sequences).
 ## Returns
 
 `int`
+
+## Examples
+
+```coil
+use cli::width::width;
+use tests::assert;
+assert!(width("hello") == 5);
+assert!(width("日本") == 4);
+assert!(width("e\u{301}") == 1);
+```
 
 ## See also
 

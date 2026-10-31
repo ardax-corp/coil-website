@@ -2,7 +2,7 @@
 slug: "cli/cli/args/Command/optional_positional"
 package: "cli"
 title: "Command::optional_positional"
-description: "Method Command::optional_positional."
+description: "An optional positional argument, filled in declaration order."
 module: "cli::args"
 kind: "method"
 name: "optional_positional"
@@ -10,11 +10,11 @@ parent: "Command"
 signature: "pub fn optional_positional(string name, string help) -> Command"
 import: "use cli::args::{Command};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/args.hy#L311"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L361"
 order: 7
 ---
 
-*No documentation yet.*
+An optional positional argument, filled in declaration order.
 
 Called on a `Command` value as `value.optional_positional(…)`.
 

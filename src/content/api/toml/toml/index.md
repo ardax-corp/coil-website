@@ -25,7 +25,6 @@ use toml::{TomlError, TomlValue};
 
 | Name | Description |
 |------|-------------|
-| [`TomlError`](/packages/toml/reference/toml/TomlError) | Decode/encode failure. |
-| [`TomlValue`](/packages/toml/reference/toml/TomlValue) | Strict TOML value. |
-| [`Toml`](/packages/toml/reference/toml/Toml) | TOML 1.0 codec. |
-| [`Store`](/packages/toml/reference/toml/Store) |  |
+| [`TomlError`](/packages/toml/reference/toml/TomlError) | Why a decode or encode failed. |
+| [`TomlValue`](/packages/toml/reference/toml/TomlValue) | A TOML value: string, integer, float, boolean, date-time, array or table. |
+| [`Toml`](/packages/toml/reference/toml/Toml) | A TOML 1.0 codec: one-shot decode of bytes or a string to a [`TomlValue`](/packages/toml/reference/toml/TomlValue), and encode back. |

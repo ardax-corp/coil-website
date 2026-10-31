@@ -8,7 +8,7 @@ name: "try_read"
 signature: "fn try_read<A, B>(RwLock<A> lock, A -> B f) -> Result<B, LockError>"
 import: "use thread::{try_read};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/ea16288b0bd35fbe92e6665d44f9277d1dec7d29/compiler/src/builtin_docs/thread.hy#L699"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.hy#L699"
 order: 25
 ---
 

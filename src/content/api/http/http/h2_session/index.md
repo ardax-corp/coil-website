@@ -23,18 +23,15 @@ use http::h2_session::{H2Session, H2Pair};
 
 | Name | Description |
 |------|-------------|
-| [`H2Session`](/packages/http/reference/http/h2_session/H2Session) | One HTTP/2 connection (client or server) over a byte buffer. |
-| [`H2Pair`](/packages/http/reference/http/h2_session/H2Pair) | Two responses from one multiplexed exchange (streams 1 and 3). |
-| [`H2ClientSlot`](/packages/http/reference/http/h2_session/H2ClientSlot) | One HTTP/2 connection held by `Client`. |
+| [`H2Session`](/packages/http/reference/http/h2_session/H2Session) | One HTTP/2 connection (client or server side) driven through byte buffers, with no socket of its own. |
+| [`H2Pair`](/packages/http/reference/http/h2_session/H2Pair) | The two responses of [`h2_connect_two`](/packages/http/reference/http/h2_session/h2_connect_two) (streams 1 and 3). |
 
 ## Functions
 
 | Name | Description |
 |------|-------------|
-| [`h2_roundtrip`](/packages/http/reference/http/h2_session/h2_roundtrip) | One request/response on an open HTTP/2 connection. |
-| [`h2_request`](/packages/http/reference/http/h2_session/h2_request) | HTTP/2 request. |
-| [`h2_connect`](/packages/http/reference/http/h2_session/h2_connect) | GET: cleartext prior-knowledge, or HTTPS TLS ALPN [`h2`](/packages/http/reference/http/h2) with HTTP/1.1 fallback. |
-| [`h2_connect_tls`](/packages/http/reference/http/h2_session/h2_connect_tls) | HTTPS GET after TLS enable with optional CA PEM (`""` uses default verify). |
-| [`h2_connect_two`](/packages/http/reference/http/h2_session/h2_connect_two) | Two cleartext prior-knowledge GETs on one connection (streams 1 and 3). |
-| [`h2_get_over_h2`](/packages/http/reference/http/h2_session/h2_get_over_h2) | HTTP/2 GET on an already-connected stream (prior knowledge or TLS [`h2`](/packages/http/reference/http/h2)). |
-| [`h2_slot_exchange`](/packages/http/reference/http/h2_session/h2_slot_exchange) | Request on this slot. |
+| [`h2_request`](/packages/http/reference/http/h2_session/h2_request) | Sends one HTTP/2 request on a new connection and closes it. |
+| [`h2_connect`](/packages/http/reference/http/h2_session/h2_connect) | `GET url` over HTTP/2 on a new connection, like [`h2_request`](/packages/http/reference/http/h2_session/h2_request). |
+| [`h2_connect_tls`](/packages/http/reference/http/h2_session/h2_connect_tls) | [`h2_connect`](/packages/http/reference/http/h2_session/h2_connect) with TLS options: `verify` false skips certificate checks, a non-empty `ca_pem` trusts that CA. |
+| [`h2_connect_two`](/packages/http/reference/http/h2_session/h2_connect_two) | Two cleartext prior-knowledge GETs multiplexed on one new connection (streams 1 and 3). |
+| [`h2_get_over_h2`](/packages/http/reference/http/h2_session/h2_get_over_h2) | `GET u` over HTTP/2 on an already connected stream (cleartext prior knowledge, or TLS after ALPN [`h2`](/packages/http/reference/http/h2)). |

@@ -9,8 +9,8 @@ name: "Outcome"
 signature: "enum Outcome"
 import: "use cli::line::{Outcome};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/line.hy#L66"
-order: 0
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/line.hy#L83"
+order: 1
 ---
 
 What the caller should do after an action.
@@ -19,13 +19,22 @@ What the caller should do after an action.
 
 ### `Continue = 0` {#variant-continue}
 
+Keep editing.
+
 ### `Submit = 1` {#variant-submit}
+
+The line was accepted; read it with [`Editor.take`](/packages/cli/reference/cli/line/Editor/take).
 
 ### `Cancel = 2` {#variant-cancel}
 
+The line was abandoned.
+
 ### `Eof = 3` {#variant-eof}
+
+End of input on an empty line.
 
 ## See also
 
+- [`Editor::take`](/packages/cli/reference/cli/line/Editor/take)
+- [`Edit`](/packages/cli/reference/cli/line/Edit): One line-editor action, applied with `Editor.apply`.
 - [`LineInput`](/packages/cli/reference/cli/line/LineInput): What `read_line` got.
-- [`Edit`](/packages/cli/reference/cli/line/Edit)

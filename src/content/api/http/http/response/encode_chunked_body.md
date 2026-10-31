@@ -2,18 +2,18 @@
 slug: "http/http/response/encode_chunked_body"
 package: "http"
 title: "encode_chunked_body"
-description: "Encode body as one chunk plus a terminating zero chunk."
+description: "Encodes body as one chunk followed by the terminating zero-size chunk."
 module: "http::response"
 kind: "fn"
 name: "encode_chunked_body"
 signature: "fn encode_chunked_body(Vec<byte> body) -> Result<Vec<byte>, HttpError>"
 import: "use http::response::{encode_chunked_body};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/response.hy#L399"
-order: 3
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/response.hy#L479"
+order: 4
 ---
 
-Encode `body` as one chunk plus a terminating zero chunk.
+Encodes `body` as one chunk followed by the terminating zero-size chunk.
 
 ## Parameters
 
@@ -27,8 +27,8 @@ Encode `body` as one chunk plus a terminating zero chunk.
 
 ## See also
 
-- [`decode_chunked_into`](/packages/http/reference/http/response/decode_chunked_into): Parse chunked `raw` into `out`.
-- [`decode_chunked_body`](/packages/http/reference/http/response/decode_chunked_body): Decode a chunked body (no headers).
-- [`http_framed_end`](/packages/http/reference/http/response/http_framed_end): Exclusive end index of the first HTTP/1.1 message in `raw` (headers + Content-Length or chunked body).
-- [`header_block_body_len`](/packages/http/reference/http/response/header_block_body_len): Body length from a header block (no trailing CRLFCRLF required).
-- [`parse_response`](/packages/http/reference/http/response/parse_response): Parse raw HTTP/1.1 response bytes into `Response`.
+- [`header_get`](/packages/http/reference/http/response/header_get): The value of the first header field of `r` named exactly `name`, or `""`.
+- [`trailer_get`](/packages/http/reference/http/response/trailer_get): The value of the first trailing field of `r` named exactly `name`, or `""`.
+- [`decode_chunked_body`](/packages/http/reference/http/response/decode_chunked_body): Decodes an HTTP/1.1 chunked body (no head) into its bytes.
+- [`http_framed_end`](/packages/http/reference/http/response/http_framed_end): The end offset (exclusive) of the first complete HTTP/1.1 message in `raw`.
+- [`parse_response`](/packages/http/reference/http/response/parse_response): Parses a complete HTTP/1.1 response (head and body) into a `Response`.

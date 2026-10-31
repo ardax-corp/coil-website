@@ -2,7 +2,7 @@
 slug: "http/http/url/Url/port_val"
 package: "http"
 title: "Url::port_val"
-description: "Method Url::port_val."
+description: "The port (same as the port field)."
 module: "http::url"
 kind: "method"
 name: "port_val"
@@ -10,11 +10,11 @@ parent: "Url"
 signature: "pub fn port_val() -> int"
 import: "use http::url::{Url};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/url.hy#L78"
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/url.hy#L142"
 order: 2
 ---
 
-*No documentation yet.*
+The port (same as the `port` field).
 
 Called on a `Url` value as `value.port_val(…)`.
 
@@ -24,7 +24,7 @@ Called on a `Url` value as `value.port_val(…)`.
 
 ## See also
 
-- [`Url`](/packages/http/reference/http/url/Url): Parsed `http`/`https`/`ws`/`wss` URL (scheme, host, port, path).
-- [`Url::scheme_val`](/packages/http/reference/http/url/Url/scheme_val)
-- [`Url::host_val`](/packages/http/reference/http/url/Url/host_val)
-- [`Url::path_val`](/packages/http/reference/http/url/Url/path_val)
+- [`Url`](/packages/http/reference/http/url/Url): A parsed `http`, `https`, `ws` or `wss` URL.
+- [`Url::scheme_val`](/packages/http/reference/http/url/Url/scheme_val): The scheme (same as the `scheme` field).
+- [`Url::host_val`](/packages/http/reference/http/url/Url/host_val): The host (same as the `host` field).
+- [`Url::path_val`](/packages/http/reference/http/url/Url/path_val): The path and query (same as the `path` field).

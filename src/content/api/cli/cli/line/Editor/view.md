@@ -10,7 +10,7 @@ parent: "Editor"
 signature: "pub fn view(int cols, string mask) -> (string, int)"
 import: "use cli::line::{Editor};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/line.hy#L382"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/line.hy#L445"
 order: 6
 ---
 
@@ -29,11 +29,22 @@ Called on a `Editor` value as `value.view(…)`.
 
 `(string, int)`
 
+## Examples
+
+```coil
+use cli::line::{Edit, editor, history};
+use tests::assert;
+let ed = editor(history(10));
+ed.apply(Edit::Insert("secret"));
+let (shown, col) = ed.view(20, "*");
+assert!(shown == "******" && col == 6);
+```
+
 ## See also
 
-- [`Editor`](/packages/cli/reference/cli/line/Editor)
-- [`Editor::text`](/packages/cli/reference/cli/line/Editor/text)
-- [`Editor::len`](/packages/cli/reference/cli/line/Editor/len)
+- [`Editor`](/packages/cli/reference/cli/line/Editor): The line-editor model: a line of text with a cursor (in display units: a character plus its zero-width marks), a kill buffer and a `History`.
+- [`Editor::text`](/packages/cli/reference/cli/line/Editor/text): The current line.
+- [`Editor::len`](/packages/cli/reference/cli/line/Editor/len): Length of the line in display units.
 - [`Editor::set_text`](/packages/cli/reference/cli/line/Editor/set_text): Replace the line and put the cursor at its end.
 - [`Editor::apply`](/packages/cli/reference/cli/line/Editor/apply): Apply one action.
 - [`Editor::take`](/packages/cli/reference/cli/line/Editor/take): Accept the line: add it to the history, reset, and return it.

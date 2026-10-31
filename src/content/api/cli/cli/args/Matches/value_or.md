@@ -2,7 +2,7 @@
 slug: "cli/cli/args/Matches/value_or"
 package: "cli"
 title: "Matches::value_or"
-description: "Method Matches::value_or."
+description: "value(name), or fallback when there is none."
 module: "cli::args"
 kind: "method"
 name: "value_or"
@@ -10,11 +10,11 @@ parent: "Matches"
 signature: "pub fn value_or(string name, string fallback) -> string"
 import: "use cli::args::{Matches};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/args.hy#L89"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L107"
 order: 3
 ---
 
-*No documentation yet.*
+`value(name)`, or `fallback` when there is none.
 
 Called on a `Matches` value as `value.value_or(…)`.
 
@@ -38,4 +38,4 @@ Called on a `Matches` value as `value.value_or(…)`.
 - [`Matches::values`](/packages/cli/reference/cli/args/Matches/values): Every value of a repeatable option or a rest positional.
 - [`Matches::subcommand_name`](/packages/cli/reference/cli/args/Matches/subcommand_name): The chosen subcommand's name, or "".
 - [`Matches::subcommand`](/packages/cli/reference/cli/args/Matches/subcommand): The chosen subcommand's matches.
-- [`Matches::add_count`](/packages/cli/reference/cli/args/Matches/add_count)
+- [`Matches::add_count`](/packages/cli/reference/cli/args/Matches/add_count): Record one more occurrence of `name` (used by the parser).

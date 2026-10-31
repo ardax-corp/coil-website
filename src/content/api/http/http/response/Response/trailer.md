@@ -2,7 +2,7 @@
 slug: "http/http/response/Response/trailer"
 package: "http"
 title: "Response::trailer"
-description: "Trailing header field, carried after the body on HTTP/2."
+description: "Appends a trailing field, sent after the body on HTTP/2. HTTP/1.1 does not send trailers."
 module: "http::response"
 kind: "method"
 name: "trailer"
@@ -10,11 +10,11 @@ parent: "Response"
 signature: "pub fn trailer(string name, string value)"
 import: "use http::response::{Response};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/4cea6047613f2f18cd911bd6bd6b25025f5fa8b5/src/http/response.hy#L47"
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/src/http/response.hy#L104"
 order: 4
 ---
 
-Trailing header field, carried after the body on HTTP/2.
+Appends a trailing field, sent after the body on HTTP/2. HTTP/1.1 does not send trailers.
 
 Called on a `Response` value as `value.trailer(…)`.
 
@@ -27,8 +27,8 @@ Called on a `Response` value as `value.trailer(…)`.
 
 ## See also
 
-- [`Response`](/packages/http/reference/http/response/Response): Parsed HTTP response (status, headers, body, optional trailing fields).
-- [`Response::ok`](/packages/http/reference/http/response/Response/ok): 200 OK with empty body and headers.
-- [`Response::status`](/packages/http/reference/http/response/Response/status)
-- [`Response::header`](/packages/http/reference/http/response/Response/header)
-- [`Response::body`](/packages/http/reference/http/response/Response/body)
+- [`Response`](/packages/http/reference/http/response/Response): An HTTP response: status, header fields, body and HTTP/2 trailing fields.
+- [`Response::ok`](/packages/http/reference/http/response/Response/ok): A `200` response with no header fields and an empty body.
+- [`Response::status`](/packages/http/reference/http/response/Response/status): Sets the status code.
+- [`Response::header`](/packages/http/reference/http/response/Response/header): Appends a header field.
+- [`Response::body`](/packages/http/reference/http/response/Response/body): Sets the body.

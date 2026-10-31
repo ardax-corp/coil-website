@@ -1,0 +1,51 @@
+---
+slug: "tui/tui/widgets/status/fn.gauge"
+package: "tui"
+title: "gauge"
+description: "A Gauge at value of max; keep it to set progress and mount it to show it."
+module: "tui::widgets::status"
+kind: "fn"
+name: "gauge"
+signature: "fn gauge(int value, int max) -> Gauge"
+import: "use tui::widgets::status::{gauge};"
+origin: "package"
+source: "https://github.com/ardax-corp/coil-tui/blob/77c5a22802df3416c576f798d69d570535e77c01/src/tui/widgets/status.hy#L120"
+order: 3
+---
+
+A [`Gauge`](/packages/tui/reference/tui/widgets/status/Gauge) at `value` of `max`; keep it to [`set`](/packages/stdlib/reference/collections/set) progress and `mount` it to show it.
+
+## Parameters
+
+| Name | Type |
+|------|------|
+| `value` | `int` |
+| `max` | `int` |
+
+## Returns
+
+`Gauge`
+
+## Examples
+
+```coil
+use text::Searchable;
+use tui::node::mount;
+use tui::testing::harness;
+use tui::widgets::status::gauge;
+use tests::assert;
+let g = gauge(1, 4);
+let h = harness(mount(g), 20, 1);
+assert!(g.percent() == 25 && h.row(0).contains("25%"));
+g.set(4);
+h.app.invalidate();
+h.draw();
+assert!(h.row(0).contains("100%"));
+```
+
+## See also
+
+- [`tui::widgets::status::Gauge`](/packages/tui/reference/tui/widgets/status/Gauge)
+- [`collections::set`](/packages/stdlib/reference/collections/set)
+- [`spinner`](/packages/tui/reference/tui/widgets/status/fn.spinner): A `Spinner` with `label`; keep it to `stop` it and `mount` it to show it.
+- [`key_hints`](/packages/tui/reference/tui/widgets/status/key_hints): An empty hint line; add hints with `add`, then `mount` it.

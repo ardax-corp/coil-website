@@ -2,23 +2,56 @@
 slug: "toml/toml/TomlError"
 package: "toml"
 title: "TomlError"
-description: "Decode/encode failure. line and column are 1-based (column counts bytes in the line)."
+description: "Why a decode or encode failed."
 module: "toml"
 kind: "enum"
 name: "TomlError"
 signature: "enum TomlError"
 import: "use toml::{TomlError};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-toml/blob/9123082b0a6374c00503b61dd222a68283b706f1/src/toml.hy#L116"
+source: "https://github.com/ardax-corp/coil-toml/blob/ceb0ab800e13abbb0ec43cfc61e9ae1d326d5ccc/src/toml.hy#L207"
 order: 0
 ---
 
-Decode/encode failure. `line` and `column` are 1-based (column counts bytes in the line).
+Why a decode or encode failed.
+
+Every variant carries the position of the failure: `line` and `column` are
+1-based, and `column` counts bytes within the line. Malformed input is
+always reported as an error, never as a panic.
 
 ## Variants
 
 ### `Invalid { line: int, column: int }` {#variant-invalid}
 
+The input is not TOML: a syntax error, a duplicate key, a table
+defined twice, or a bad string escape.
+
 ### `Utf8 { line: int, column: int }` {#variant-utf8}
 
+The input is not valid UTF-8, or an encoded document could not be read
+back as a [`string`](/docs/reference/types/string) ([`Toml::encode_str`](/packages/toml/reference/toml/Toml/encode_str)).
+
 ### `Number { line: int, column: int }` {#variant-number}
+
+A malformed or out-of-range number, such as `0x` or a leading zero.
+
+## Examples
+
+```coil
+use toml::{Toml, TomlError};
+use string::{format};
+use tests::assert;
+let pos = match Toml::v1().decode_str("a = 1\na = 2\n") {
+    Result::Ok(_) => "decoded",
+    Result::Err(e) => match e {
+        TomlError::Invalid { line, column } => format("duplicate key at %i:%i", line, column),
+        default => "other error",
+    },
+};
+assert!(pos == "duplicate key at 2:6");
+```
+
+## See also
+
+- [`string`](/docs/reference/types/string)
+- [`Toml::encode_str`](/packages/toml/reference/toml/Toml/encode_str)

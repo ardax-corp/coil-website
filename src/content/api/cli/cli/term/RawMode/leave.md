@@ -10,7 +10,7 @@ parent: "RawMode"
 signature: "pub fn leave() -> Result<(), TtyError>"
 import: "use cli::term::{RawMode};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/term.hy#L87"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/term.hy#L123"
 order: 0
 ---
 
@@ -25,4 +25,4 @@ Called on a `RawMode` value as `value.leave(…)`.
 ## See also
 
 - [`RawMode`](/packages/cli/reference/cli/term/RawMode): Raw mode on a terminal.
-- [`RawMode::is_active`](/packages/cli/reference/cli/term/RawMode/is_active)
+- [`RawMode::is_active`](/packages/cli/reference/cli/term/RawMode/is_active): Whether the terminal is still in raw mode through this handle.

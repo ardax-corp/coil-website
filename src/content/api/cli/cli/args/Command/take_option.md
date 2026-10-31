@@ -2,7 +2,7 @@
 slug: "cli/cli/args/Command/take_option"
 package: "cli"
 title: "Command::take_option"
-description: "Method Command::take_option."
+description: "Record option a found at argv[i] (value inline or in the next argument) and return the index after it (used by the parser)."
 module: "cli::args"
 kind: "method"
 name: "take_option"
@@ -10,11 +10,11 @@ parent: "Command"
 signature: "pub fn take_option( Arg a, Matches m, Vec<string> argv, int i, string inline, bool has_inline, ) -> Result<int, ArgError>"
 import: "use cli::args::{Command};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/src/cli/args.hy#L434"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/args.hy#L492"
 order: 17
 ---
 
-*No documentation yet.*
+Record option `a` found at `argv[i]` (value inline or in the next argument) and return the index after it (used by the parser).
 
 Called on a `Command` value as `value.take_option(…)`.
 

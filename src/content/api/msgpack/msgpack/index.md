@@ -18,16 +18,13 @@ Part of the [msgpack](/packages/msgpack) package ([coil-msgpack](https://github.
 Import what you use (`use path::*` is not allowed):
 
 ```coil
-use msgpack::{Copier, MsgpackError};
+use msgpack::{MsgpackError, MsgpackValue};
 ```
 
 ## Types
 
 | Name | Description |
 |------|-------------|
-| [`Copier`](/packages/msgpack/reference/msgpack/Copier) | Holds both arenas so the recursive copy takes only an index. |
-| [`MsgpackError`](/packages/msgpack/reference/msgpack/MsgpackError) | Decode/encode failure. |
-| [`MsgpackValue`](/packages/msgpack/reference/msgpack/MsgpackValue) | MessagePack value. |
-| [`Parser`](/packages/msgpack/reference/msgpack/Parser) |  |
-| [`Msgpack`](/packages/msgpack/reference/msgpack/Msgpack) | MessagePack codec. |
-| [`Store`](/packages/msgpack/reference/msgpack/Store) |  |
+| [`MsgpackError`](/packages/msgpack/reference/msgpack/MsgpackError) | Why a decode, encode or build step failed. |
+| [`MsgpackValue`](/packages/msgpack/reference/msgpack/MsgpackValue) | A MessagePack value: nil, bool, int, float, string, binary, array, map or extension. |
+| [`Msgpack`](/packages/msgpack/reference/msgpack/Msgpack) | A MessagePack codec: one-shot decode of bytes to a [`MsgpackValue`](/packages/msgpack/reference/msgpack/MsgpackValue), and encode back. |

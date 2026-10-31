@@ -25,8 +25,6 @@ use json::{JsonValue, JsonError};
 
 | Name | Description |
 |------|-------------|
-| [`JsonValue`](/packages/json/reference/json/JsonValue) | Strict JSON value. |
-| [`JsonError`](/packages/json/reference/json/JsonError) | Decode/encode failure. |
-| [`Parser`](/packages/json/reference/json/Parser) |  |
-| [`Json`](/packages/json/reference/json/Json) | RFC 8259 codec. |
-| [`Store`](/packages/json/reference/json/Store) |  |
+| [`JsonValue`](/packages/json/reference/json/JsonValue) | A JSON value: null, bool, int, float, string, array or object. |
+| [`JsonError`](/packages/json/reference/json/JsonError) | Why a decode or encode failed. |
+| [`Json`](/packages/json/reference/json/Json) | A JSON codec: one-shot decode of bytes or a string to a [`JsonValue`](/packages/json/reference/json/JsonValue), and compact encode back. |
