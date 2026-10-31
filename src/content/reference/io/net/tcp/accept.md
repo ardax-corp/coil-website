@@ -8,7 +8,7 @@ name: "accept"
 signature: "fn accept(Stream listener) -> Result<Stream, IoError>"
 import: "use io::net::tcp::{accept};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io/net/tcp.hy#L38"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/net/tcp.hy#L38"
 order: 0
 ---
 
@@ -16,7 +16,7 @@ Accepts one pending connection on `listener` without waiting.
 
 Returns the connected stream, or `Err(IoError::WouldBlock)` when no
 connection is waiting; then call `wait_readable(listener)` and retry,
-or use [`io::sync::accept_wait`](/docs/reference/io/sync/accept_wait), which does both. Returns
+or use [`io::sync::accept_wait`](/packages/stdlib/reference/io/sync/accept_wait), which does both. Returns
 `Err(IoError::InvalidInput)` when `listener` is not a stream from
 [`listen`](/docs/reference/io/net/tcp/listen). Needs no permission flag (the grant is checked at [`listen`](/docs/reference/io/net/tcp/listen)).
 
@@ -60,7 +60,7 @@ fn main() {
 
 ## See also
 
-- [`io::sync::accept_wait`](/docs/reference/io/sync/accept_wait)
+- [`io::sync::accept_wait`](/packages/stdlib/reference/io/sync/accept_wait)
 - [`io::net::tcp::listen`](/docs/reference/io/net/tcp/listen)
 - [`connect`](/docs/reference/io/net/tcp/connect): Opens a TCP connection to `host` on `port`.
 - [`connect_timeout`](/docs/reference/io/net/tcp/connect_timeout): Opens a TCP connection to `host` on `port`, giving up after `ms` milliseconds.

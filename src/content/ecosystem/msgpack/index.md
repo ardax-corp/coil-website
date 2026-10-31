@@ -1,13 +1,51 @@
 ---
 title: "coil-msgpack"
 description: "Userland MessagePack for coil. Package name is msgpack, so use msgpack::{Msgpack, MsgpackValue, MsgpackError} resolves here."
-source: "https://github.com/ardax-corp/coil-msgpack/blob/f1ee1a82970906cf200c117900112ec3d4876554/README.md"
+source: "https://github.com/ardax-corp/coil-msgpack/blob/717fa0fe98bf14f43b00c42cce89eeb1d7f97684/README.md"
 ---
 # coil-msgpack
 
 Userland MessagePack for [coil](https://github.com/ardax-corp/coil-lang). Package name is `msgpack`, so `use msgpack::{Msgpack, MsgpackValue, MsgpackError}` resolves here.
 
 Pure Coil encode/decode. No native library. The tree is an arena of primitive vecs; a `MsgpackValue` is a `(store, idx)` handle — named-module recursive `Vec<MsgpackValue>` does not unify (`MsgpackValue` vs `msgpack::MsgpackValue`).
+
+One module, `msgpack` (`src/msgpack.hy`): the `Msgpack` codec, the `MsgpackValue` handle it decodes to and builds with, and the `MsgpackError` it reports.
+
+## Example
+
+```coil
+use msgpack::{Msgpack, MsgpackValue, MsgpackError};
+use io::sync::{println};
+use string::{format};
+
+fn main() {
+    let m = Msgpack::standard();
+    let doc = MsgpackValue::empty_map();
+    let _ = doc.put(MsgpackValue::from_string("name"), MsgpackValue::from_string("coil"));
+    let _ = doc.put(MsgpackValue::from_string("stars"), MsgpackValue::from_int(7));
+    match m.encode(doc) {
+        Result::Ok(bytes) => {
+            println(format("%i bytes", bytes.len()))?;
+            match m.decode(bytes) {
+                Result::Ok(v) => {
+                    println(v.get("name").s)?;
+                },
+                Result::Err(MsgpackError::Invalid { offset }) => {
+                    println(format("invalid at byte %i", offset))?;
+                },
+                Result::Err(_) => {
+                    println("bad number or UTF-8")?;
+                },
+            }
+        },
+        Result::Err(_) => {
+            println("encode failed")?;
+        },
+    }
+}
+```
+
+Run it with `coil --root ../coil-stdlib/src --root ../coil-msgpack/src main.hy` (prints `18 bytes`, then `coil`).
 
 ## API
 
@@ -19,7 +57,7 @@ let v = m.decode(bytes)?;
 let out = m.encode(v)?;
 ```
 
-`Msgpack::standard()` is the MessagePack format. Invalid input returns `MsgpackError` with `line` and `column` (`Invalid`, `Io`, `Utf8`, `Number`), not panic. `line` is 1. `column` is the 1-based byte offset of the failure.
+`Msgpack::standard()` is the MessagePack format. Invalid input returns `MsgpackError` with the 0-based byte `offset` of the failure (`Invalid`, `Utf8`, `Number`), not a panic.
 
 | Method | Role |
 |--------|------|
@@ -33,7 +71,7 @@ Values: nil, bool, int, float, string, binary, array, map, extension. Maps are o
 
 Integers are i64. Encode writes the smallest family that fits. A uint64 above i64 max is `MsgpackError::Number`. Floats are f64. float32 widens on decode. Encode writes float64. NaN encodes as a canonical quiet NaN. `+inf` / `-inf` round-trip. Signed zero round-trips. Non-finite kind is `i` (`1` inf, `2` nan) and `flag` is the inf sign. `MsgpackValue::nan()` and `MsgpackValue::inf(neg)` set that kind. Host floats may not preserve a NaN.
 
-Extension data is raw `(type, bytes)`, including timestamp type `-1`. Nesting is bounded at 256 frames.
+Extension data is raw `(type, bytes)`, including timestamp type `-1`. An extension type outside -128..=127 fails at encode with `MsgpackError::Number`.
 
 `append` and `put` copy into the parent arena. There is no shared child across arenas.
 
@@ -55,10 +93,12 @@ No tags yet, so pin a commit. Without spool, pass `--root ../coil-msgpack/src` t
 ## Test
 
 ```bash
-# from coil-msgpack (coil on PATH or ../coil-lang/target/debug/coil)
-coil test
+# from coil-msgpack, with coil on PATH and coil-stdlib checked out next to it
+coil test --root ../coil-stdlib/src
 ```
+
+This runs `tests/` and the examples in the `///` docs of `src/msgpack.hy`.
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-msgpack/tree/f1ee1a82970906cf200c117900112ec3d4876554/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-msgpack/tree/717fa0fe98bf14f43b00c42cce89eeb1d7f97684/LICENSE).

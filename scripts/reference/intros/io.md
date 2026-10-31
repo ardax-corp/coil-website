@@ -7,8 +7,8 @@ socket. The functions here are the low-level, non-blocking layer. `read` and
 `Vec<byte>`. Errors are `IoError` values in a `Result`.
 
 Most programs use the blocking helpers on top of this layer from coil-stdlib:
-[`io::sync`](/docs/reference/io/sync) (`println`, `write_all`,
-`read_to_end`, `read_line`) and [`io::file`](/docs/reference/io/file)
+[`io::sync`](/packages/stdlib/reference/io/sync) (`println`, `write_all`,
+`read_to_end`, `read_line`) and [`io::file`](/packages/stdlib/reference/io/file)
 (`read_text`, `write_text`):
 
 ```coil no_run

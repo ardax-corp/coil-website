@@ -1,0 +1,40 @@
+---
+slug: "stdlib/io/file/read_bytes"
+package: "stdlib"
+title: "read_bytes"
+description: "Reads the whole file at path."
+module: "io::file"
+kind: "fn"
+name: "read_bytes"
+signature: "fn read_bytes(string path) -> Result<Vec<byte>, IoError>"
+import: "use io::file::{read_bytes};"
+origin: "stdlib"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/d13f986e7f57ab90d877b04e276aa1184c83b015/src/io/file.hy#L16"
+order: 0
+---
+
+Reads the whole file at `path`.
+
+Needs `--allow-read`.
+
+## Parameters
+
+| Name | Type |
+|------|------|
+| `path` | `string` |
+
+## Returns
+
+`Result<Vec<byte>, IoError>`
+
+## Errors
+
+`IoError::NotFound` when the file does not exist, `PermissionDenied` when it cannot be opened.
+
+## See also
+
+- [`write_bytes`](/packages/stdlib/reference/io/file/write_bytes): Replaces the contents of the file at `path` with `buf`, creating it if needed, and returns the number of bytes written.
+- [`read_text`](/packages/stdlib/reference/io/file/read_text): Reads the whole file at `path` as UTF-8 text.
+- [`write_text`](/packages/stdlib/reference/io/file/write_text): Replaces the contents of the file at `path` with `text`, creating it if needed, and returns the number of bytes written.
+- [`append_bytes`](/packages/stdlib/reference/io/file/append_bytes): Appends `buf` to the file at `path`, creating it if needed.
+- [`append_text`](/packages/stdlib/reference/io/file/append_text): Appends `text` to the file at `path`, creating it if needed.

@@ -8,7 +8,7 @@ name: "stdin"
 signature: "fn stdin() -> Stream"
 import: "use io::{stdin};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io.hy#L254"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.hy#L254"
 order: 4
 ---
 
@@ -17,7 +17,7 @@ Returns a new stream on the process's standard input.
 The stream holds a duplicated descriptor, so closing it does not close
 the process's stdin. Like every stream it is non-blocking: [`read`](/docs/reference/io/fn.read)
 returns `Err(IoError::WouldBlock)` until input is available. Use
-[`io::sync::read_line`](/docs/reference/io/sync/read_line) or `read_to_end` to wait for input.
+[`io::sync::read_line`](/packages/stdlib/reference/io/sync/read_line) or `read_to_end` to wait for input.
 
 ## Returns
 
@@ -39,7 +39,7 @@ assert!(closed);
 ## See also
 
 - [`io::read`](/docs/reference/io/fn.read)
-- [`io::sync::read_line`](/docs/reference/io/sync/read_line)
+- [`io::sync::read_line`](/packages/stdlib/reference/io/sync/read_line)
 - [`stdout`](/docs/reference/io/stdout): Returns a new stream on the process's standard output.
 - [`stderr`](/docs/reference/io/stderr): Returns a new stream on the process's standard error.
 - [`capture_begin`](/docs/reference/io/capture_begin): Starts keeping this thread's stdout and stderr writes in memory instead of writing them, until the matching `capture_end()`.

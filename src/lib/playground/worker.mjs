@@ -3,6 +3,7 @@
 // terminates the worker to stop a program that runs too long.
 
 import { runCoil } from "./run-coil.mjs";
+import { packagesFor } from "./plan.mjs";
 
 let loaded;
 
@@ -21,7 +22,22 @@ async function load() {
     return WebAssembly.compile(bytes);
   });
   const stdlib = fetch(`/playground/${manifest.stdlib}`).then((res) => res.json());
-  return { module: await wasm, stdlib: await stdlib };
+  const packages = manifest.packages ? fetch(`/playground/${manifest.packages}`).then((res) => res.json()) : {};
+  return { module: await wasm, stdlib: await stdlib, packages: await packages };
+}
+
+/**
+ * The standard library plus the packages this program uses, in one
+ * directory: a package's `src/json.hy` is `json.hy` next to stdlib's
+ * modules, which is where `use json::…` looks.
+ */
+function libraryFor(files, stdlib, packages) {
+  const { names, missing } = packagesFor(files);
+  const lib = { ...stdlib };
+  for (const name of names) {
+    for (const [path, text] of Object.entries(packages[name] ?? {})) lib[path] ??= text;
+  }
+  return { lib, missing };
 }
 
 self.onmessage = async ({ data }) => {
@@ -33,11 +49,16 @@ self.onmessage = async ({ data }) => {
   if (data.type !== "run") return;
   try {
     loaded ??= load();
-    const { module, stdlib } = await loaded;
+    const { module, stdlib, packages } = await loaded;
+    const { lib, missing } = libraryFor(data.files, stdlib, packages);
     self.postMessage({ type: "ready" });
+    if (missing.length) {
+      const text = `playground: ${missing.join(", ")} cannot run in the browser (only pure-Coil packages are available here)\n`;
+      self.postMessage({ type: "out", stream: "stderr", text });
+    }
     const code = await runCoil({
       module,
-      stdlib,
+      stdlib: lib,
       files: data.files,
       args: data.args,
       stdin: data.stdin,

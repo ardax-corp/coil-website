@@ -8,7 +8,7 @@ name: "read"
 signature: "fn read(Stream s, Vec<byte> buf) -> Result<Option<int>, IoError>"
 import: "use io::{read};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io.hy#L448"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.hy#L448"
 order: 11
 ---
 
@@ -19,7 +19,7 @@ overwriting `buf[0..n]`. Returns `Ok(Option::Some(n))` with the number of
 bytes read, `Ok(Option::None)` at end of file, and
 `Err(IoError::WouldBlock)` when no data is available yet; then call
 `wait_readable(s)` and retry. An empty `buf` returns `Ok(Option::Some(0))`.
-[`io::sync::read_exact`](/docs/reference/io/sync/read_exact) and `read_to_end` do the waiting for you.
+[`io::sync::read_exact`](/packages/stdlib/reference/io/sync/read_exact) and `read_to_end` do the waiting for you.
 
 ## Parameters
 
@@ -70,7 +70,7 @@ assert!(at_eof);
 
 ## See also
 
-- [`io::sync::read_exact`](/docs/reference/io/sync/read_exact)
+- [`io::sync::read_exact`](/packages/stdlib/reference/io/sync/read_exact)
 - [`stdin`](/docs/reference/io/stdin): Returns a new stream on the process's standard input.
 - [`stdout`](/docs/reference/io/stdout): Returns a new stream on the process's standard output.
 - [`stderr`](/docs/reference/io/stderr): Returns a new stream on the process's standard error.

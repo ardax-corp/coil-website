@@ -3,10 +3,17 @@
 // of the API reference by section.
 import { getCollection } from "astro:content";
 import Docs from "../../../layouts/Docs.astro";
-import { allGroups, inlineCode, linkHref, moduleItems, referenceGroups, referenceModuleLinks, REFERENCE } from "../../../lib/nav";
+import { allGroups, apiRoot, inlineCode, linkHref, moduleItems, referenceGroups, referenceModuleLinks, REFERENCE } from "../../../lib/nav";
+import { packages } from "../../../lib/packages";
 
 const reference = await getCollection("reference");
-const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), reference);
+const api = await getCollection("api");
+const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), reference, api);
+// Libraries with a generated API reference of their own, under Packages.
+const libraries = [
+  { name: "coil-stdlib", key: "stdlib", summary: "The userland standard library: collections, text, numbers, blocking IO." },
+  ...packages.map((p) => ({ name: p.name, key: p.name, summary: p.summary })),
+].filter((l) => api.some((e) => e.data.package === l.key));
 const language = groups.find((g) => g.key === "language")!;
 const sections = referenceGroups(reference);
 const itemCount = reference.filter((e) => e.data.kind !== "module").length;
@@ -18,6 +25,7 @@ const count = (href: string) => {
 const headings = [
   { depth: 2, slug: "language", text: "Language" },
   ...sections.map((s) => ({ depth: 2, slug: s.key, text: s.title })),
+  { depth: 2, slug: "libraries", text: "Standard library & packages" },
 ];
 ---
 
@@ -32,7 +40,9 @@ const headings = [
   <p>
     Exact rules and APIs to come back to. The language pages describe syntax and semantics; the API reference has
     one page for each of its {itemCount} types, functions, methods, macros and keywords, generated
-    from the documentation comments in the compiler and coil-stdlib sources. Press <kbd>/</kbd> to search by name.
+    from the documentation comments in the compiler sources. Everything here ships with <code>coil</code> itself;
+    coil-stdlib and the packages have API references of their own, <a href="#libraries">listed below</a>. Press
+    <kbd>/</kbd> to search by name.
   </p>
 
   <h2 id="language">Language</h2>
@@ -88,6 +98,31 @@ const headings = [
       </>
     ))
   }
+
+  <h2 id="libraries">Standard library &amp; packages</h2>
+  <p>
+    Not part of the language: ordinary Coil packages a project adds as dependencies in <code>coil.toml</code>. Each has
+    its own API reference under <a href="/packages">Packages</a>.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Library</th><th>Contents</th></tr></thead>
+      <tbody>
+        {
+          libraries.map((l) => (
+            <tr>
+              <td class="mod">
+                <a href={apiRoot(l.key)}>
+                  <code>{l.name}</code>
+                </a>
+              </td>
+              <td>{l.summary}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
 </Docs>
 
 <style>

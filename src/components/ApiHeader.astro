@@ -6,13 +6,14 @@ import CodeSample from "./CodeSample.astro";
 import { REFERENCE_KINDS } from "../lib/nav";
 
 type Props = {
-  data: CollectionEntry<"reference">["data"];
+  data: CollectionEntry<"reference">["data"] | CollectionEntry<"api">["data"];
   moduleHref?: string;
   parentHref?: string;
 };
 const { data, moduleHref, parentHref } = Astro.props;
 
 const ORIGIN: Record<string, string> = { builtin: "compiler", embedded: "compiler", stdlib: "coil-stdlib" };
+const origin = "package" in data && data.origin === "package" ? `package ${data.package}` : ORIGIN[data.origin];
 
 const isModule = data.kind === "module";
 const pseudo = data.module === "types" || data.module === "keywords";
@@ -46,7 +47,7 @@ const sourceFile = data.source?.match(/\/blob\/[0-9a-f]+\/(.+?)(#L\d+)?$/)?.[1];
         </span>
       )
     }
-    <span class="api-origin">{data.auto ? "auto-imported" : ORIGIN[data.origin]}</span>
+    <span class="api-origin">{data.auto ? "auto-imported" : origin}</span>
   </div>
   <h1>{isModule ? <code>{data.title}</code> : <code>{heading}</code>}</h1>
   {signatures.map((s) => <CodeSample code={s} class="api-sig" />)}

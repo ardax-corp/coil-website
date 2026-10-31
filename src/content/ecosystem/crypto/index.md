@@ -1,12 +1,40 @@
 ---
 title: "coil-crypto"
 description: "Userland cryptography for coil. RustCrypto lives in a cdylib (libcrypto.so / .dylib / .dll) plus Coil wrappers. use crypto::{…} is this package, not a compiler builtin."
-source: "https://github.com/ardax-corp/coil-crypto/blob/46489ada6840ba74b0b07bdfe3f5d111a56485e0/README.md"
+source: "https://github.com/ardax-corp/coil-crypto/blob/122607a9b54b7743796616c5e54c2e58cee15f38/README.md"
 ---
 # coil-crypto
 
 Userland cryptography for [coil](https://github.com/ardax-corp/coil-lang). RustCrypto lives in a cdylib (`libcrypto.so` / `.dylib` / `.dll`) plus Coil wrappers. `use crypto::{…}` is this package, not a compiler builtin.
 
+
+It covers hashing (SHA-256, SHA-512, BLAKE3, and an incremental `Hasher`), HMAC-SHA256/512, OS randomness, AEAD (ChaCha20-Poly1305, AES-256-GCM), Ed25519 signatures, X25519 key agreement, Argon2id password hashing and a constant-time compare. Every fallible call returns `Result<_, CryptoError>`.
+
+## Example
+
+```coil
+use crypto::{sha256, hmac_sha256, hmac_verify_sha256, random_bytes};
+use bytes::{to_hex};
+use io::sync::{println};
+use string::{to_bytes};
+
+fn main() {
+    let digest = sha256(to_bytes("hello")).unwrap_or(Vec::new());
+    println("sha256: " + to_hex(digest))?;
+
+    let key = random_bytes(32).unwrap_or(Vec::new());
+    let tag = hmac_sha256(key, to_bytes("message")).unwrap_or(Vec::new());
+    let ok = hmac_verify_sha256(key, to_bytes("message"), tag).is_ok();
+    println("tag verifies: " + ok.show())?;
+}
+```
+
+```bash
+make -C ../coil-crypto   # builds native/libcrypto.so (or .dylib / .dll)
+coil --root ../coil-crypto/src --root ../coil-stdlib/src \
+  --ffi-search-path ../coil-crypto/native \
+  --allow-dload crypto --dload-trusted crypto main.hy
+```
 
 ## Layout
 
@@ -17,6 +45,8 @@ Userland cryptography for [coil](https://github.com/ardax-corp/coil-lang). RustC
 | `coil.toml` | spool manifest (`[package] name = "crypto"`); coil does not read it |
 
 `extern "crypto"` / `dload("crypto")` resolves to `libcrypto.so` in `native/` (`--ffi-search-path ./native`; spool passes it from `[ffi] search_paths`). Hasher state is an opaque pointer in the `.so` (`Object::CryptoHasher` is gone). `Hasher.drop` calls `coil_crypto_hasher_free`.
+
+The wrappers bind every native that takes or fills a buffer with `declare` and pass each `Vec<byte>` (or the Argon2id PHC `string`) as `ffi::types::ConstBytes` for input and `Bytes` for output, so the VM lends the bytes to C instead of copying them through native heap helpers; `libcrypto` exports none. `native/crypto.h` lists the exported C ABI.
 
 ## Build
 
@@ -38,4 +68,4 @@ Consume with `spool add crypto --git https://github.com/ardax-corp/coil-crypto.g
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-crypto/tree/46489ada6840ba74b0b07bdfe3f5d111a56485e0/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-crypto/tree/122607a9b54b7743796616c5e54c2e58cee15f38/LICENSE).

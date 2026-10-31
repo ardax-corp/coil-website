@@ -7,7 +7,7 @@ kind: "keyword"
 name: "shared"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/keywords.md#L650"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/keywords.md#L650"
 order: 27
 ---
 
@@ -16,7 +16,7 @@ Declares a `shared class`: a class whose instances are never copied.
 Plain class instances are values, copied on write (see `mut`). A shared
 class stands for one identity, such as a connection, a window or a
 registry: every name that holds an instance reaches the same object, and
-a write through one is seen through all. `Ref<T>` from [`cell`](/docs/reference/cell) is a shared
+a write through one is seen through all. `Ref<T>` from [`cell`](/packages/stdlib/reference/cell) is a shared
 class. `shared` is a keyword only before `class` or `readonly class`.
 
 ```coil
@@ -36,7 +36,7 @@ fn main() {
 
 ## See also
 
-- [`cell`](/docs/reference/cell)
+- [`cell`](/packages/stdlib/reference/cell)
 - [`fn`](/docs/reference/keywords/fn): Declares a function, a method, or (written in an expression) an anonymous function.
 - [`let`](/docs/reference/keywords/let): Declares a mutable local variable.
 - [`mut`](/docs/reference/keywords/mut): Borrows a place instead of copying it: the new name reaches the same object.

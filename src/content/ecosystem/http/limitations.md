@@ -1,7 +1,7 @@
 ---
 title: "Limitations (v1)"
 description: "Client: verified TLS only (new ClientOpts(true, ...)). Server: PEM cert/key via Server::tls (new ServerOpts(...)). Requires the coil-tls package (use tls::{client,…"
-source: "https://github.com/ardax-corp/coil-http/blob/90d971fba1a589d8131ab83104c28236d4a59354/docs/limitations.md"
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/docs/limitations.md"
 ---
 # Limitations (v1)
 
@@ -14,8 +14,8 @@ source: "https://github.com/ardax-corp/coil-http/blob/90d971fba1a589d8131ab83104
 - Depends on [coil-stdlib](https://github.com/ardax-corp/coil-stdlib) (`conv`, `io::sync`) and [coil-tls](https://github.com/ardax-corp/coil-tls) as `--root`s. `libtls` still needs a local native build on `--ffi-search-path`; spool does not build it
 - WebSocket v1: H1 upgrade only (no HTTP/2, no extensions, no fragmented messages)
 - IPv6 URL literals not supported
-- CR/LF injection in URL/method/headers → `BadUrl`
-- `Content-Length` longer than body → `BadResponse`
+- CR/LF injection in URL/method → `BadUrl`; in header names/values → `InvalidHeader`
+- `Content-Length` longer than body → `Protocol`
 
 ## Compiler workarounds
 

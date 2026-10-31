@@ -9,7 +9,7 @@ parent: "TypeDecl"
 signature: "pub fn is_enum() -> bool"
 import: "use macro::{TypeDecl};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/prelude/macro.hy#L446"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/macro.hy#L446"
 order: 3
 ---
 

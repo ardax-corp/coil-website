@@ -9,13 +9,13 @@ parent: "Child"
 signature: "pub fn wait() -> Result<int, ProcessError>"
 import: "use process::{Child};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/prelude/process.hy#L311"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/process.hy#L311"
 order: 4
 ---
 
 Waits for the child to end and returns its exit code (`128 + signal` on POSIX when a signal ended it). A standard input pipe not yet taken is closed first. Waiting again returns the same code.
 
-This blocks the thread; in a [`task::scope`](/docs/reference/task/scope), run it in
+This blocks the thread; in a [`task::scope`](/docs/reference/task/fn.scope), run it in
 [`task::blocking`](/docs/reference/task/blocking) to let other tasks go on.
 
 Called on a `Child` value as `value.wait(…)`.
@@ -30,7 +30,7 @@ Called on a `Child` value as `value.wait(…)`.
 
 ## See also
 
-- [`task::scope`](/docs/reference/task/scope)
+- [`task::scope`](/docs/reference/task/fn.scope)
 - [`task::blocking`](/docs/reference/task/blocking)
 - [`Child`](/docs/reference/process/Child): A started child process.
 - [`Child::pid`](/docs/reference/process/Child/pid): The child's OS process id.

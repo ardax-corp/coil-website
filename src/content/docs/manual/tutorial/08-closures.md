@@ -69,7 +69,7 @@ Output:
 ```
 
 Lambdas are most often passed straight to methods like `map` and `filter`,
-and to functions like [`sort_by`](/docs/reference/collections/sort_by).
+and to functions like [`sort_by`](/packages/stdlib/reference/collections/sort_by).
 
 ## Capturing variables
 
@@ -99,7 +99,7 @@ Listing captures makes it obvious what a lambda depends on.
 
 Because captures are copies, assigning to a captured `int` inside the lambda
 does not change the variable outside. To share a value the lambda can
-update, put it in an object. The stdlib's [`cell::Ref`](/docs/reference/cell/Ref)
+update, put it in an object. The stdlib's [`cell::Ref`](/packages/stdlib/reference/cell/Ref)
 is a one-field box for exactly that:
 
 ```coil
@@ -227,7 +227,7 @@ parameters that change least often usually come first.
    }
    ```
 
-2. Use [`sort_by`](/docs/reference/collections/sort_by) to sort a list of
+2. Use [`sort_by`](/packages/stdlib/reference/collections/sort_by) to sort a list of
    words from shortest to longest.
 
    > [!hint]

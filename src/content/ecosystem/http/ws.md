@@ -1,26 +1,30 @@
 ---
 title: "WebSocket (RFC 6455)"
 description: "WebSocket runs on top of HTTP/1.1 in this package: an upgrade handshake, then framed messages on the same TCP (or TLS) stream. It is not a separate transport and does not…"
-source: "https://github.com/ardax-corp/coil-http/blob/90d971fba1a589d8131ab83104c28236d4a59354/docs/ws.md"
+source: "https://github.com/ardax-corp/coil-http/blob/5029bd9b17b0573ace3e203bd9ca82452682b1a8/docs/ws.md"
 ---
 # WebSocket (RFC 6455)
 
 WebSocket runs **on top of HTTP/1.1** in this package: an upgrade handshake, then framed messages on the same TCP (or TLS) stream. It is not a separate transport and does not require HTTP/2.
 
-`ws://` is cleartext. `wss://` uses [coil-tls](https://github.com/ardax-corp/coil-tls) the same way HTTPS does.
+`ws://` is cleartext. `wss://` uses [coil-tls](https://github.com/ardax-corp/coil-tls) the same way HTTPS does (client side; `ws_serve_once` accepts cleartext only).
 
 `Sec-WebSocket-Accept` is SHA-1(key + GUID) then Base64. SHA-1 is a small pure-Coil helper in `http::sha1` (handshake only). Base64 is stdlib `encoding`. There is no HostInvoke and no SHA-1 in coil-lang / coil-crypto.
 
 ## Client
 
 ```coil
+use http::url::HttpError;
 use http::ws::{ws_connect, ws_recv, ws_send_text, ws_send_close, ws_close};
 
-let c = ws_connect("ws://127.0.0.1:8080/echo")?;
-ws_send_text(c, "hello")?;
-let f = ws_recv(c)?;  // f.opcode, f.payload
-ws_send_close(c)?;
-ws_close(c);
+fn main() -> Result<(), HttpError> {
+    let c = ws_connect("ws://127.0.0.1:8080/echo")?;
+    ws_send_text(c, "hello")?;
+    let f = ws_recv(c)?;  // f.opcode, f.payload
+    ws_send_close(c)?;
+    ws_close(c);
+    return ();
+}
 ```
 
 | Function | Role |
@@ -37,12 +41,16 @@ ws_close(c);
 
 ```coil
 use http::server::Server;
+use http::url::HttpError;
 use http::ws::{ws_echo_loop, ws_serve_once};
 
-let srv = Server::new();
-srv.bind("127.0.0.1", 8080)?;
-let c = ws_serve_once(srv)?;  // accept + upgrade
-ws_echo_loop(c)?;
+fn main() -> Result<(), HttpError> {
+    let srv = Server::new();
+    srv.bind("127.0.0.1", 8080)?;
+    let c = ws_serve_once(srv)?;  // accept + upgrade
+    ws_echo_loop(c)?;
+    return ();
+}
 ```
 
 `ws_is_upgrade_req` / `ws_upgrade` apply the handshake to an already-read `IncomingRequest` on an `HttpConn` if you parse the GET yourself.

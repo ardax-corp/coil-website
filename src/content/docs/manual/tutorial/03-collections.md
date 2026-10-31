@@ -98,8 +98,8 @@ Output:
 
 ## Sorting, mapping and filtering
 
-The stdlib module [`collections`](/docs/reference/collections) has `sort`,
-and [`collections::vec`](/docs/reference/collections/vec) has functional
+The stdlib module [`collections`](/packages/stdlib/reference/collections) has `sort`,
+and [`collections::vec`](/packages/stdlib/reference/collections/vec) has functional
 methods such as `map`, `filter`, `contains` and `index_of`. They return new
 vectors and leave the original unchanged:
 
@@ -134,7 +134,7 @@ covers them; for now, read it as "given `s`, return `s + 5`".
 
 ## Maps
 
-A [`HashMap`](/docs/reference/collections/map/HashMap) stores values under
+A [`HashMap`](/packages/stdlib/reference/collections/map/HashMap) stores values under
 keys. `get` returns an `Option`: `Some(value)` when the key is there, `None`
 when it is missing. `get_or` takes a fallback to return instead:
 
@@ -177,7 +177,7 @@ Keys can be any type that can be hashed and compared: `int`, `string`,
 
 ## Sets
 
-A [`HashSet`](/docs/reference/collections/set/HashSet) holds each value at
+A [`HashSet`](/packages/stdlib/reference/collections/set/HashSet) holds each value at
 most once. It is the quickest way to ask "have I seen this before?":
 
 ```coil
@@ -211,10 +211,10 @@ The stdlib has a few more, each with its own reference page:
 
 | Type | Use it for |
 |------|------------|
-| [`TreeMap`](/docs/reference/collections/tree/TreeMap) | A map that keeps its keys sorted |
-| [`VecDeque`](/docs/reference/collections/deque/VecDeque) | A queue: fast push and pop at both ends |
-| [`List`](/docs/reference/collections/list/List) | A singly-linked list |
-| [`BitSet`](/docs/reference/collections/bitset/BitSet) | A compact set of small non-negative integers |
+| [`TreeMap`](/packages/stdlib/reference/collections/tree/TreeMap) | A map that keeps its keys sorted |
+| [`VecDeque`](/packages/stdlib/reference/collections/deque/VecDeque) | A queue: fast push and pop at both ends |
+| [`List`](/packages/stdlib/reference/collections/list/List) | A singly-linked list |
+| [`BitSet`](/packages/stdlib/reference/collections/bitset/BitSet) | A compact set of small non-negative integers |
 
 ## Henry's challenges
 

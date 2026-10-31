@@ -1,0 +1,113 @@
+---
+// API reference of coil-stdlib and each package: a landing page listing the
+// modules, then one page per module, type, function and method, generated
+// into src/content/api by scripts/sync-reference.mjs.
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import Docs from "../../../../layouts/Docs.astro";
+import ApiHeader from "../../../../components/ApiHeader.astro";
+import { allGroups, apiEntries, apiHref, apiRoot, inlineCode, moduleItems, referenceModules } from "../../../../lib/nav";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("api");
+  const pkgs = [...new Set(pages.map((p) => p.data.package))];
+  return [
+    ...pkgs.map((pkg) => ({ params: { pkg, slug: undefined }, props: { pkg, page: undefined } })),
+    ...pages.map((page) => ({
+      params: { pkg: page.data.package, slug: apiHref(page.id).slice(apiRoot(page.data.package).length + 1) },
+      props: { pkg: page.data.package, page },
+    })),
+  ];
+}
+
+type Props = { pkg: string; page?: CollectionEntry<"api"> };
+const { pkg, page } = Astro.props;
+const all = await getCollection("api");
+const mine = apiEntries(all, pkg);
+const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), await getCollection("reference"), all);
+const label = pkg === "stdlib" ? "coil-stdlib" : pkg;
+const hasConsume = (await getCollection("ecosystem")).some((e) => e.id === `${pkg}/consume`);
+
+const rendered = page ? await render(page) : undefined;
+const parentPage = page?.data.parent
+  ? mine.find((e) => e.data.module === page.data.module && e.data.name === page.data.parent && !e.data.parent)
+  : undefined;
+const modulePage = page && mine.find((e) => e.data.kind === "module" && e.data.module === page.data.module);
+
+// Landing page: every module with its summary and item count.
+const modules = referenceModules(mine);
+const itemCount = mine.filter((e) => e.data.kind !== "module").length;
+const href = page ? apiHref(page.id) : apiRoot(pkg);
+const title = page ? page.data.title : `${label} API reference`;
+const description = page
+  ? page.data.description
+  : `Every module, type and function of ${label}, generated from the doc comments in its source.`;
+---
+
+<Docs href={href} title={title} description={description} headings={rendered?.headings ?? [{ depth: 2, slug: "modules", text: "Modules" }]} groups={groups}>
+  {
+    page && rendered ? (
+      <>
+        <ApiHeader
+          data={page.data}
+          moduleHref={modulePage && modulePage !== page ? apiHref(modulePage.id) : undefined}
+          parentHref={parentPage ? apiHref(parentPage.id) : undefined}
+        />
+        <rendered.Content />
+      </>
+    ) : (
+      <>
+        <h1>{label} API reference</h1>
+        <p>
+          {pkg === "stdlib" ? (
+            <>
+              The userland standard library, <a href="/packages/stdlib">coil-stdlib</a>. It is an ordinary package written
+              in Coil, not part of the compiler: spool projects declare it as their <code>stdlib</code> dependency. What
+              ships with the compiler is in the <a href="/docs/reference">language reference</a>.
+            </>
+          ) : (
+            <>
+              The <a href={`/packages/${pkg}`}>{pkg}</a> package. It is not part of the compiler or coil-stdlib: add it
+              to <code>[dependencies]</code> in <code>coil.toml</code>
+              {hasConsume ? <>(<a href={`/packages/${pkg}/consume`}>Install &amp; use</a>).</> : "."}
+            </>
+          )}{" "}
+          One page for each of its {itemCount} documented types, functions and methods, generated from the
+          <code>///</code> comments in the source.
+        </p>
+
+        <h2 id="modules">Modules</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Module</th>
+                <th>Contents</th>
+                <th>Items</th>
+              </tr>
+            </thead>
+            <tbody>
+              {modules.map((m) => (
+                <tr>
+                  <td class="mod">
+                    <a href={apiHref(m.id)}>
+                      <code>{m.data.module}</code>
+                    </a>
+                  </td>
+                  <td set:html={inlineCode(m.data.description)} />
+                  <td>{moduleItems(mine, m.data.module).length || ""}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    )
+  }
+</Docs>
+
+<style>
+  .mod {
+    white-space: nowrap;
+  }
+</style>

@@ -1,0 +1,33 @@
+---
+slug: "cli/cli/line/Editor/text"
+package: "cli"
+title: "Editor::text"
+description: "The current line."
+module: "cli::line"
+kind: "method"
+name: "text"
+parent: "Editor"
+signature: "pub fn text() -> string"
+import: "use cli::line::{Editor};"
+origin: "package"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/src/cli/line.hy#L221"
+order: 0
+---
+
+The current line.
+
+Called on a `Editor` value as `value.text(…)`.
+
+## Returns
+
+`string`
+
+## See also
+
+- [`Editor`](/packages/cli/reference/cli/line/Editor): The line-editor model: a line of text with a cursor (in display units: a character plus its zero-width marks), a kill buffer and a `History`.
+- [`Editor::len`](/packages/cli/reference/cli/line/Editor/len): Length of the line in display units.
+- [`Editor::set_text`](/packages/cli/reference/cli/line/Editor/set_text): Replace the line and put the cursor at its end.
+- [`Editor::apply`](/packages/cli/reference/cli/line/Editor/apply): Apply one action.
+- [`Editor::take`](/packages/cli/reference/cli/line/Editor/take): Accept the line: add it to the history, reset, and return it.
+- [`Editor::cursor_col`](/packages/cli/reference/cli/line/Editor/cursor_col): Columns from the start of the text to the cursor.
+- [`Editor::view`](/packages/cli/reference/cli/line/Editor/view): The visible part of the line for a field `cols` wide, scrolled so the cursor shows, and the cursor's column within it.

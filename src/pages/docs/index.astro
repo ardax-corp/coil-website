@@ -4,7 +4,7 @@ import Base from "../../layouts/Base.astro";
 import { INTERNALS, SHOWCASE, STDLIB, allGroups, inlineCode, linkHref } from "../../lib/nav";
 
 const refEntries = await getCollection("reference");
-const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), refEntries);
+const groups = allGroups(await getCollection("docs"), await getCollection("ecosystem"), refEntries, await getCollection("api"));
 const tutorial = groups.find((g) => g.key === "tutorial")!;
 const start = groups.find((g) => g.key === "start")!;
 const refGroups = groups.filter((g) => g.track === "reference");
@@ -82,8 +82,8 @@ const beyond = [
       <span class="eyebrow">Packages</span>
       <h2>The ecosystem</h2>
       <p>
-        Docs for spool, coil-stdlib and every library — JSON, TOML, HTTP, TLS and more — in the same place as the
-        language.
+        Guides and API references for spool, coil-stdlib and every library — JSON, TOML, HTTP, TLS and more — kept
+        apart from the language reference.
       </p>
       <span class="path-cta">Browse packages <span class="arrow">→</span></span>
     </a>

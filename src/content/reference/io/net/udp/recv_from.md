@@ -8,7 +8,7 @@ name: "recv_from"
 signature: "fn recv_from(Stream s, Vec<byte> buf) -> Result<(int, string, int), IoError>"
 import: "use io::net::udp::{recv_from};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io/net/udp.hy#L126"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/net/udp.hy#L126"
 order: 3
 ---
 
@@ -18,7 +18,7 @@ Returns `(n, host, port)`: the number of bytes written to `buf[0..n]`
 and the sender's IP address (IPv6 without brackets) and port. A
 datagram longer than `buf.len()` is cut to fit; the rest is lost.
 Returns `Err(IoError::WouldBlock)` when no datagram is waiting; then
-call `wait_readable(s)` and retry, or use [`io::sync::recv_from_wait`](/docs/reference/io/sync/recv_from_wait).
+call `wait_readable(s)` and retry, or use [`io::sync::recv_from_wait`](/packages/stdlib/reference/io/sync/recv_from_wait).
 An empty `buf` returns `(0, "", 0)` at once.
 Needs no permission flag (the grant is checked at [`bind`](/docs/reference/io/net/udp/bind)).
 
@@ -60,7 +60,7 @@ fn main() {
 
 ## See also
 
-- [`io::sync::recv_from_wait`](/docs/reference/io/sync/recv_from_wait)
+- [`io::sync::recv_from_wait`](/packages/stdlib/reference/io/sync/recv_from_wait)
 - [`io::net::udp::bind`](/docs/reference/io/net/udp/bind)
 - [`connect`](/docs/reference/io/net/udp/connect): Opens a UDP socket whose default peer is `host` on `port`.
 - [`local_port`](/docs/reference/io/net/udp/local_port): Returns the local port a UDP socket is bound to.

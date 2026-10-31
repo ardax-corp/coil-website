@@ -8,7 +8,7 @@ name: "slice_bytes"
 signature: "fn slice_bytes(string s, int start, int end) -> Result<string, StringError>"
 import: "use string::{slice_bytes};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/string.hy#L93"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/string.hy#L93"
 order: 3
 ---
 

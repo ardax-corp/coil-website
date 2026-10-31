@@ -8,7 +8,7 @@ name: "size"
 signature: "fn size(Stream s) -> Result<(int, int), TtyError>"
 import: "use io::tty::{size};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io/tty.hy#L62"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/tty.hy#L62"
 order: 2
 ---
 

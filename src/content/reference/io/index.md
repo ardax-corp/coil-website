@@ -16,8 +16,8 @@ socket. The functions here are the low-level, non-blocking layer. [`read`](/docs
 [`Vec<byte>`](/docs/reference/prelude/Vec). Errors are [`IoError`](/docs/reference/io/IoError) values in a [`Result`](/docs/reference/prelude/Result).
 
 Most programs use the blocking helpers on top of this layer from coil-stdlib:
-[`io::sync`](/docs/reference/io/sync) (`println`, `write_all`,
-`read_to_end`, `read_line`) and [`io::file`](/docs/reference/io/file)
+[`io::sync`](/packages/stdlib/reference/io/sync) (`println`, `write_all`,
+`read_to_end`, `read_line`) and [`io::file`](/packages/stdlib/reference/io/file)
 (`read_text`, `write_text`):
 
 ```coil
@@ -52,8 +52,6 @@ use io::{Stream, IoError};
 |--------|-------------|
 | [`io::fs`](/docs/reference/io/fs) | Paths and the file system: metadata, directories, rename, copy, symlinks. |
 | [`io::tty`](/docs/reference/io/tty) | Terminals: is a stream a terminal, its size, raw mode, a key read with a timeout, resize notices. |
-| [`io::file`](/docs/reference/io/file) | Read and write whole files in one call. |
-| [`io::sync`](/docs/reference/io/sync) | Blocking IO helpers: println, read_line, write_all, read_to_end. |
 | [`io::net`](/docs/reference/io/net) | TCP and UDP sockets. |
 
 ## Types

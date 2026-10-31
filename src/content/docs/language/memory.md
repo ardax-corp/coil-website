@@ -113,7 +113,7 @@ a copy:
 `mut` is a borrow: the name lives in its own scope and is never stored.
 State that must be shared beyond that goes in one of two places:
 
-- **`Ref<T>`** from [`cell`](/docs/reference/cell) holds one shared value.
+- **`Ref<T>`** from [`cell`](/packages/stdlib/reference/cell) holds one shared value.
   Every copy of a `Ref` reaches the same value, so a closure that keeps
   a counter between calls captures a `Ref<int>`.
 - **`shared class`** declares a type whose instances are identities, not

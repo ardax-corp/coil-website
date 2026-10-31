@@ -11,7 +11,10 @@
 // Hand-written pages in the same folders (no `source:` in frontmatter) are
 // left alone.
 //
-// Usage: node scripts/sync-packages.mjs [package ...]
+// Usage: node scripts/sync-packages.mjs [--local DIR] [package ...]
+// --local reads DIR/<repo> checkouts (at their HEAD; clones any missing one) instead of cloning, to
+// preview changes that are not merged yet; resync from the default branch
+// before merging.
 
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync, existsSync } from "node:fs";
@@ -34,6 +37,13 @@ const REPOS = {
   regex: "coil-regex",
   deflate: "coil-deflate",
   time: "coil-time",
+  csv: "coil-csv",
+  url: "coil-url",
+  gzip: "coil-gzip",
+  uuid: "coil-uuid",
+  log: "coil-log",
+  cli: "coil-cli",
+  tui: "coil-tui",
   greet: "coil-greet",
 };
 
@@ -158,8 +168,9 @@ function yamlString(s) {
 }
 
 function syncPackage(pkg, repo, work) {
-  const dir = join(work, repo);
-  git(["clone", "--quiet", "--depth", "1", `https://github.com/${ORG}/${repo}.git`, dir]);
+  const checkout = local && existsSync(join(local, repo)) ? join(local, repo) : undefined;
+  const dir = checkout ?? join(work, repo);
+  if (!checkout) git(["clone", "--quiet", "--depth", "1", `https://github.com/${ORG}/${repo}.git`, dir]);
   const sha = git(["rev-parse", "HEAD"], dir);
 
   const files = ["README.md"];
@@ -194,7 +205,10 @@ function syncPackage(pkg, repo, work) {
   console.log(`${pkg.padEnd(8)} ${repo.padEnd(14)} ${sha.slice(0, 7)}  ${files.length} page(s)`);
 }
 
-const only = process.argv.slice(2);
+const argv = process.argv.slice(2);
+const at = argv.indexOf("--local");
+const local = at >= 0 ? argv.splice(at, 2)[1] : undefined;
+const only = argv;
 const work = mkdtempSync(join(tmpdir(), "coil-sync-"));
 try {
   for (const [pkg, repo] of Object.entries(REPOS)) {

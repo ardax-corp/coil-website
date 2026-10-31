@@ -122,7 +122,7 @@ Every file starts with the [prelude](/docs/reference/prelude) in scope:
 [`prelude::ops`](/docs/reference/prelude/ops), and the linear-algebra helpers
 from [`prelude::math`](/docs/reference/prelude/math). Nothing else is implicit:
 float functions such as `sin` come from the standard library's
-[`math`](/docs/reference/math) module (`use math::{sin};`).
+[`math`](/packages/stdlib/reference/math) module (`use math::{sin};`).
 
 A name you declare or import takes precedence over a prelude function of
 the same name; to keep both, import the prelude one under another name

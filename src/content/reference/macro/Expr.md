@@ -8,7 +8,7 @@ name: "Expr"
 signature: "class Expr"
 import: "use macro::{Expr};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/prelude/macro.hy#L96"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/macro.hy#L96"
 order: 2
 ---
 
@@ -19,7 +19,7 @@ A function-style macro argument as written: `f(1)`, `a + b`, `"text"`.
 | Field | Type | Description |
 |-------|------|-------------|
 | `text` | `string` |  |
-| `kind_name` | `string` | `literal`, [`ident`](/docs/reference/macro/fn.ident), [`path`](/docs/reference/path), `call` or `other`. |
+| `kind_name` | `string` | `literal`, [`ident`](/docs/reference/macro/fn.ident), [`path`](/packages/stdlib/reference/path), `call` or `other`. |
 | `value_kind` | `string` | For a constant argument (`3`, `-2.5`, `"a\n"`, `1 + 2`): [`int`](/docs/reference/macro/Expr/int), [`float`](/docs/reference/macro/Expr/float), [`bool`](/docs/reference/macro/Expr/bool) or [`string`](/docs/reference/macro/Expr/string), else `""`. |
 | `value_text` | `string` | The value: decimal digits for an [`int`](/docs/reference/macro/Expr/int), the text for a [`string`](/docs/reference/macro/Expr/string), `1` / `0` for a [`bool`](/docs/reference/macro/Expr/bool); for a [`float`](/docs/reference/macro/Expr/float), the digits of `d` in `d * 10^value_exp`. |
 | `value_exp` | `int` |  |
@@ -41,7 +41,7 @@ A function-style macro argument as written: `f(1)`, `a + b`, `"text"`.
 ## See also
 
 - [`macro::ident`](/docs/reference/macro/fn.ident)
-- [`path`](/docs/reference/path)
+- [`path`](/packages/stdlib/reference/path)
 - [`Expr::int`](/docs/reference/macro/Expr/int)
 - [`Expr::float`](/docs/reference/macro/Expr/float)
 - [`Expr::bool`](/docs/reference/macro/Expr/bool)

@@ -8,17 +8,17 @@ name: "TaskError"
 signature: "enum TaskError"
 import: "use task::{TaskError};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/prelude/task.hy#L38"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/task.hy#L38"
 order: 0
 ---
 
-Why a task or a [`scope`](/docs/reference/task/scope) did not produce its value.
+Why a task or a [`scope`](/docs/reference/task/fn.scope) did not produce its value.
 
 ## Variants
 
 ### `Cancelled` {#variant-cancelled}
 
-The task was cancelled with `Task::cancel` before it finished.
+The task was cancelled with [`Task::cancel`](/docs/reference/task/Task/cancel) before it finished.
 
 ### `Panicked(string)` {#variant-panicked}
 
@@ -46,5 +46,6 @@ let cancelled = match r {
 
 ## See also
 
-- [`task::scope`](/docs/reference/task/scope)
+- [`task::scope`](/docs/reference/task/fn.scope)
+- [`Task::cancel`](/docs/reference/task/Task/cancel)
 - [`task::timeout`](/docs/reference/task/timeout)

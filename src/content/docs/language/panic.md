@@ -59,5 +59,5 @@ level never changes what the program does, only what a panic can report.
 
 ## Related
 
-- [assert](/docs/reference/tests/assert)
+- [assert](/packages/stdlib/reference/tests/assert)
 - [Keywords](/docs/reference/keywords)

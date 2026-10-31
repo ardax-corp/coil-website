@@ -8,7 +8,7 @@ name: "connect"
 signature: "fn connect(string host, int port) -> Result<Stream, IoError>"
 import: "use io::net::udp::{connect};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io/net/udp.hy#L67"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/net/udp.hy#L67"
 order: 1
 ---
 
