@@ -1,7 +1,7 @@
 ---
 title: "coil-stdlib docs"
 description: "Userland .hy library for Coil. Language builtins and virtual modules stay in the Coil references."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/docs/README.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/d13f986e7f57ab90d877b04e276aa1184c83b015/docs/README.md"
 ---
 # coil-stdlib docs
 

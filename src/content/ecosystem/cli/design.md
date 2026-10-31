@@ -1,7 +1,7 @@
 ---
 title: "coil-cli design"
 description: "coil-cli is the terminal foundation for Coil programs: everything a command-line tool needs to talk to a terminal well, and the lower layer a full TUI package builds on.…"
-source: "https://github.com/ardax-corp/coil-cli/blob/7fca76ae9903c83fee5bbfd43777ed6b46f538c4/docs/design.md"
+source: "https://github.com/ardax-corp/coil-cli/blob/bc6995d02f647979229f5fc4769873d9d4097181/docs/design.md"
 ---
 # coil-cli design
 
