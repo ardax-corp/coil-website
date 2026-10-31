@@ -36,18 +36,26 @@ const API_OUT = join(ROOT, "src/content/api");
  * Packages with an API reference: site name -> repository. Public repositories
  * only (the site is public). Keep in sync with src/lib/packages.ts.
  *
- * Not listed yet: crypto, regex, tls and time. Their public functions have no
- * `///` docs (crypto and regex document internal helpers instead), so a
- * generated reference would show the wrong surface; their synced API pages
- * stay their docs. Add them here once their sources document the public API.
+ * `deps` are the other packages whose names a package's docs may link to (its
+ * coil.toml dependencies); stdlib and the language are always tried last.
  */
 const PACKAGES = {
-  json: "coil-json",
-  toml: "coil-toml",
-  msgpack: "coil-msgpack",
-  http: "coil-http",
-  deflate: "coil-deflate",
-  cli: "coil-cli",
+  json: { repo: "coil-json" },
+  toml: { repo: "coil-toml" },
+  msgpack: { repo: "coil-msgpack" },
+  csv: { repo: "coil-csv" },
+  http: { repo: "coil-http", deps: ["tls"] },
+  url: { repo: "coil-url" },
+  tls: { repo: "coil-tls" },
+  crypto: { repo: "coil-crypto" },
+  regex: { repo: "coil-regex" },
+  deflate: { repo: "coil-deflate" },
+  gzip: { repo: "coil-gzip", deps: ["deflate"] },
+  time: { repo: "coil-time" },
+  uuid: { repo: "coil-uuid", deps: ["crypto", "time"] },
+  log: { repo: "coil-log", deps: ["time"] },
+  cli: { repo: "coil-cli" },
+  tui: { repo: "coil-tui", deps: ["cli"] },
 };
 
 // ------------------------------------------------------------------ sources
@@ -99,7 +107,7 @@ const stdlib = library("stdlib", {
 });
 const libs = [lang, stdlib];
 const pkgDir = arg("packages");
-for (const [key, repo] of Object.entries(PACKAGES)) {
+for (const [key, { repo, deps = [] }] of Object.entries(PACKAGES)) {
   libs.push(
     library(key, {
       ...checkout(repo, pkgDir && join(pkgDir, repo)),
@@ -108,7 +116,7 @@ for (const [key, repo] of Object.entries(PACKAGES)) {
       base: `/packages/${key}/reference`,
       intros: join(ROOT, "scripts/reference/packages", key),
       idPrefix: `${key}/`,
-      deps: ["stdlib", "lang"],
+      deps: [...deps, "stdlib", "lang"],
     }),
   );
 }
@@ -176,6 +184,10 @@ for (const lib of libs) {
 // ------------------------------------------------------------------- model
 
 const hidden = (name) => name.startsWith("__");
+// A package marks a `pub` helper that only its own modules use with a plain
+// `// Internal...` comment (a decoder's `wrap`): it is not API, and the types
+// only it names stay out too.
+const internal = (x) => /^internal\b/i.test(x.comment ?? "") && !x.docs;
 
 /** Merge impl blocks into their types; drop undocumented helpers. */
 function collect(mod) {
@@ -186,6 +198,10 @@ function collect(mod) {
     const { lib } = mod;
     const src = readFileSync(join(lib.dir, f.file), "utf8");
     for (const item of parseItems(src)) {
+      if (mod.origin === "package") {
+        if (internal(item)) continue;
+        if (item.members) item.members = item.members.filter((m) => !internal(m));
+      }
       item.source = blob(lib.repo, lib.commit, f.file, item.line);
       item.stub = f.stub;
       for (const m of item.members ?? []) {
