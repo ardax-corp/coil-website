@@ -12,7 +12,7 @@
 // left alone.
 //
 // Usage: node scripts/sync-packages.mjs [--local DIR] [package ...]
-// --local reads DIR/<repo> checkouts (at their HEAD) instead of cloning, to
+// --local reads DIR/<repo> checkouts (at their HEAD; clones any missing one) instead of cloning, to
 // preview changes that are not merged yet; resync from the default branch
 // before merging.
 
@@ -168,8 +168,9 @@ function yamlString(s) {
 }
 
 function syncPackage(pkg, repo, work) {
-  const dir = local ? join(local, repo) : join(work, repo);
-  if (!local) git(["clone", "--quiet", "--depth", "1", `https://github.com/${ORG}/${repo}.git`, dir]);
+  const checkout = local && existsSync(join(local, repo)) ? join(local, repo) : undefined;
+  const dir = checkout ?? join(work, repo);
+  if (!checkout) git(["clone", "--quiet", "--depth", "1", `https://github.com/${ORG}/${repo}.git`, dir]);
   const sha = git(["rev-parse", "HEAD"], dir);
 
   const files = ["README.md"];
