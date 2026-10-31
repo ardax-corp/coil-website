@@ -9,7 +9,7 @@ parent: "Reader"
 signature: "pub fn attrs() -> Vec<Attr>"
 import: "use macro::{Reader};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/prelude/macro.hy#L750"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/macro.hy#L750"
 order: 11
 ---
 

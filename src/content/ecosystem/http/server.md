@@ -1,7 +1,7 @@
 ---
 title: "Server API"
 description: "class MyHandler {}"
-source: "https://github.com/ardax-corp/coil-http/blob/90d971fba1a589d8131ab83104c28236d4a59354/docs/server.md"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/docs/server.md"
 ---
 # Server API
 
@@ -11,6 +11,8 @@ source: "https://github.com/ardax-corp/coil-http/blob/90d971fba1a589d8131ab83104
 use http::server::{Server, HttpHandler, serve};
 use http::h1::IncomingRequest;
 use http::response::Response;
+use http::url::HttpError;
+use string::to_bytes;
 
 class MyHandler {}
 
@@ -23,26 +25,30 @@ impl HttpHandler for MyHandler {
     }
 }
 
-fn main() {
+fn main() -> Result<(), HttpError> {
     let srv = Server::new();
     srv.bind("127.0.0.1", 8080)?;
     // srv.tls(cert_pem, key_pem);  // optional TLS
     serve(srv, new MyHandler())?;
+    return ();
 }
 ```
 
-| Method | Role |
+| `Server` method | Role |
 |--------|------|
 | `bind(host, port)` | Listen (`port` 0 = ephemeral) |
 | `tls(cert, key)` | Enable TLS on accepted connections |
 | `bound_port()` | Port after `bind(..., 0)` |
-| `serve_once(handler)` | Accept one connection, one request |
-| `serve_one_client(handler)` | Accept one connection, keep-alive until close |
-| `serve(handler)` | Accept loop |
-| `h2_serve_once(handler)` | One connection. Cleartext is HTTP/2 prior knowledge. With `Server.tls`, ALPN `h2` is HTTP/2 and any other selection is HTTP/1.1 through the same handler |
-| `h2_serve(handler)` | Accept loop; requires `Server.tls`. ALPN `h2` is HTTP/2; otherwise HTTP/1.1 |
-| `h2_serve_all(handler)` | Accept loop for cleartext prior knowledge, or TLS with the same ALPN split as `h2_serve` |
-| `ws_serve_once` (`http::ws`) | Accept one connection and complete a WebSocket upgrade |
+
+| Function (`http::server`) | Role |
+|--------|------|
+| `serve_once(srv, handler)` | Accept one connection, one request |
+| `serve_one_client(srv, handler)` | Accept one connection, keep-alive until close |
+| `serve(srv, handler)` | Accept loop; each connection runs in its own task |
+| `h2_serve_once(srv, handler)` | One connection. Cleartext is HTTP/2 prior knowledge. With `Server.tls`, ALPN `h2` is HTTP/2 and any other selection is HTTP/1.1 through the same handler |
+| `h2_serve(srv, handler)` | Accept loop; requires `Server.tls`. ALPN `h2` is HTTP/2; otherwise HTTP/1.1 |
+| `h2_serve_all(srv, handler)` | Accept loop for cleartext prior knowledge, or TLS with the same ALPN split as `h2_serve` |
+| `ws_serve_once(srv)` (`http::ws`) | Accept one connection and complete a WebSocket upgrade |
 
 `Server::drop` closes the listener if still bound. That runs at GC time; unbind deterministically by dropping after `serve` returns, or process exit.
 

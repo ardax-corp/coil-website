@@ -8,7 +8,7 @@ name: "string"
 signature: "type string"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/types.hy#L152"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/types.hy#L152"
 order: 4
 ---
 
@@ -18,7 +18,7 @@ Literals are written in double quotes, with escapes `\\`, `\"`, `\n`,
 `\r`, `\t`, `\0`, `\e`, `\xHH` and `\u{HEX}`. `+` and `+=` concatenate two
 strings (adding a non-string is a type error). `==` compares contents,
 and `<`, `<=`, `>`, `>=` order strings by their UTF-8 bytes (`string` is
-[`Ord`](/docs/reference/prelude/ops/Ord), so [`collections::sort`](/docs/reference/collections/sort) sorts a [`Vec<string>`](/docs/reference/prelude/Vec)). `s.len()` counts
+[`Ord`](/docs/reference/prelude/ops/Ord), so [`collections::sort`](/packages/stdlib/reference/collections/sort) sorts a [`Vec<string>`](/docs/reference/prelude/Vec)). `s.len()` counts
 UTF-8 bytes, not characters.
 
 A string is not cast with `as`: use [`string::to_bytes`](/docs/reference/string/to_bytes) for its bytes and
@@ -41,7 +41,7 @@ assert!(show(s) == "héllo");
 ## See also
 
 - [`Ord`](/docs/reference/prelude/ops/Ord)
-- [`collections::sort`](/docs/reference/collections/sort)
+- [`collections::sort`](/packages/stdlib/reference/collections/sort)
 - [`Vec`](/docs/reference/prelude/Vec)
 - [`string::to_bytes`](/docs/reference/string/to_bytes)
 - [`string::format`](/docs/reference/string/format)

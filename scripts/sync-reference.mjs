@@ -1,16 +1,25 @@
 #!/usr/bin/env node
-// Generate the API reference (src/content/reference/) from the `///` docs in
-// the Coil sources: the compiler's builtin doc stubs and embedded modules
-// (coil-lang) and the standard library (coil-stdlib). One page per module,
-// type, function, method, macro, primitive type and keyword.
+// Generate the API reference from the `///` docs in the Coil sources. One page
+// per module, type, function, method, macro, primitive type and keyword.
+//
+// Three kinds of library, each in its own place on the site:
+//   - the language: the compiler's builtin doc stubs and embedded modules
+//     (coil-lang) -> src/content/reference/, served under /docs/reference;
+//   - the standard library (coil-stdlib) -> src/content/api/stdlib/, served
+//     under /packages/stdlib/reference;
+//   - each package in PACKAGES (coil-json, ...) -> src/content/api/<package>/,
+//     served under /packages/<package>/reference.
+// A package with no `///` docs gets no pages; its synced guide stays its docs.
 //
 // Run with `npm run sync:reference`, review the diff and commit it: builds use
 // the committed pages and never fetch. By default the repositories are cloned
 // at their default branch; point at local checkouts instead with
-//   node scripts/sync-reference.mjs --lang ../coil-lang --stdlib ../coil-stdlib
+//   node scripts/sync-reference.mjs --lang ../coil-lang --stdlib ../coil-stdlib --packages ..
+// (`--packages DIR` reads coil-json and friends from DIR/coil-json, ...).
 //
 // Hand-written module introductions live in scripts/reference/intros/<module>.md
-// (module path with `::` as `/`, e.g. `io/fs.md`).
+// for the language and scripts/reference/packages/<package>/<module>.md for
+// the stdlib and packages (module path with `::` as `/`, e.g. `io/fs.md`).
 
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
@@ -20,9 +29,34 @@ import { parseItems, splitDocs } from "./reference/parse.mjs";
 
 const ORG = "ardax-corp";
 const ROOT = new URL("..", import.meta.url).pathname;
-const OUT = join(ROOT, "src/content/reference");
-const INTROS = join(ROOT, "scripts/reference/intros");
-const BASE = "/docs/reference";
+const REFERENCE_OUT = join(ROOT, "src/content/reference");
+const API_OUT = join(ROOT, "src/content/api");
+
+/**
+ * Packages with an API reference: site name -> repository. Public repositories
+ * only (the site is public). Keep in sync with src/lib/packages.ts.
+ *
+ * `deps` are the other packages whose names a package's docs may link to (its
+ * coil.toml dependencies); stdlib and the language are always tried last.
+ */
+const PACKAGES = {
+  json: { repo: "coil-json" },
+  toml: { repo: "coil-toml" },
+  msgpack: { repo: "coil-msgpack" },
+  csv: { repo: "coil-csv" },
+  http: { repo: "coil-http", deps: ["tls"] },
+  url: { repo: "coil-url" },
+  tls: { repo: "coil-tls" },
+  crypto: { repo: "coil-crypto" },
+  regex: { repo: "coil-regex" },
+  deflate: { repo: "coil-deflate" },
+  gzip: { repo: "coil-gzip", deps: ["deflate"] },
+  time: { repo: "coil-time" },
+  uuid: { repo: "coil-uuid", deps: ["crypto", "time"] },
+  log: { repo: "coil-log", deps: ["time"] },
+  cli: { repo: "coil-cli" },
+  tui: { repo: "coil-tui", deps: ["cli"] },
+};
 
 // ------------------------------------------------------------------ sources
 
@@ -42,21 +76,59 @@ function checkout(repo, local) {
   return { dir, commit: git(["rev-parse", "HEAD"], dir) };
 }
 
-const lang = checkout("coil-lang", arg("lang"));
-const stdlib = checkout("coil-stdlib", arg("stdlib"));
-
 const blob = (repo, commit, file, line) =>
   `https://github.com/${ORG}/${repo}/blob/${commit}/${file}${line ? `#L${line}` : ""}`;
+
+/**
+ * A library: its modules, where its pages go and which other libraries its
+ * docs may link to (`deps`, tried after its own names).
+ */
+function library(key, props) {
+  return { key, modules: new Map(), index: new Map(), ...props };
+}
+
+const lang = library("lang", {
+  ...checkout("coil-lang", arg("lang")),
+  repo: "coil-lang",
+  out: REFERENCE_OUT,
+  base: "/docs/reference",
+  intros: join(ROOT, "scripts/reference/intros"),
+  idPrefix: "",
+  deps: ["stdlib"],
+});
+const stdlib = library("stdlib", {
+  ...checkout("coil-stdlib", arg("stdlib")),
+  repo: "coil-stdlib",
+  out: join(API_OUT, "stdlib"),
+  base: "/packages/stdlib/reference",
+  intros: join(ROOT, "scripts/reference/packages/stdlib"),
+  idPrefix: "stdlib/",
+  deps: ["lang"],
+});
+const libs = [lang, stdlib];
+const pkgDir = arg("packages");
+for (const [key, { repo, deps = [] }] of Object.entries(PACKAGES)) {
+  libs.push(
+    library(key, {
+      ...checkout(repo, pkgDir && join(pkgDir, repo)),
+      repo,
+      out: join(API_OUT, key),
+      base: `/packages/${key}/reference`,
+      intros: join(ROOT, "scripts/reference/packages", key),
+      idPrefix: `${key}/`,
+      deps: [...deps, "stdlib", "lang"],
+    }),
+  );
+}
+const libByKey = new Map(libs.map((l) => [l.key, l]));
 
 /**
  * Module sources. `stub`: every item is documented API (doc stubs); otherwise
  * only items with `///` docs (and the public members of documented types) are.
  */
-const modules = new Map();
-
-function addModule(path, props) {
-  if (!modules.has(path)) modules.set(path, { path, items: [], files: [], ...props });
-  return modules.get(path);
+function addModule(lib, path, props) {
+  if (!lib.modules.has(path)) lib.modules.set(path, { path, lib, items: [], files: [], ...props });
+  return lib.modules.get(path);
 }
 
 // Compiler virtual modules: compiler/src/builtin_docs.rs lists them.
@@ -66,12 +138,7 @@ const INTERNAL = new Set(["prelude::task", "prelude::process"]);
 for (const [, path, file] of docsRs.matchAll(/\("([a-z:_]+)",\s*include_str!\("([^"]+)"\)\)/g)) {
   if (INTERNAL.has(path)) continue;
   const auto = path === "prelude" || path.startsWith("prelude::");
-  addModule(path, { origin: "builtin", auto }).files.push({
-    repo: "coil-lang",
-    commit: lang.commit,
-    file: `compiler/src/${file}`,
-    stub: true,
-  });
+  addModule(lang, path, { origin: "builtin", auto }).files.push({ file: `compiler/src/${file}`, stub: true });
 }
 
 // Modules written in Coil and embedded in the compiler (compiler/src/macros/mod.rs).
@@ -84,40 +151,43 @@ for (const [, key, file] of macrosRs.matchAll(/pub const (\w+)_SOURCE: &str = in
   if (!path || path === "derive") continue; // derives are documented under Macros
   // `core` (Option / Result methods) is part of the prelude.
   const target = path === "core" ? "prelude" : path;
-  addModule(target, { origin: "embedded", auto: target === "prelude" }).files.push({
-    repo: "coil-lang",
-    commit: lang.commit,
+  addModule(lang, target, { origin: "embedded", auto: target === "prelude" }).files.push({
     file: join("compiler/src/macros", file).replace(/^compiler\/src\/macros\/\.\.\//, "compiler/src/"),
     stub: false,
   });
 }
 
-// coil-stdlib: src/a/b.hy is module a::b.
+// coil-stdlib and packages: src/a/b.hy is module a::b.
 function walk(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
     e.isDirectory() ? walk(join(dir, e.name)) : e.name.endsWith(".hy") ? [join(dir, e.name)] : [],
   );
 }
-for (const f of walk(join(stdlib.dir, "src")).sort()) {
-  const rel = relative(join(stdlib.dir, "src"), f);
-  const path = rel.replace(/\.hy$/, "").split("/").join("::");
-  addModule(path, { origin: "stdlib", auto: false }).files.push({
-    repo: "coil-stdlib",
-    commit: stdlib.commit,
-    file: `src/${rel}`,
-    stub: false,
-  });
+for (const lib of libs.slice(1)) {
+  const src = join(lib.dir, "src");
+  if (!existsSync(src)) continue;
+  for (const f of walk(src).sort()) {
+    const rel = relative(src, f);
+    const path = rel.replace(/\.hy$/, "").split("/").join("::");
+    addModule(lib, path, { origin: lib === stdlib ? "stdlib" : "package", auto: false }).files.push({ file: `src/${rel}`, stub: false });
+  }
 }
 
 // Intermediate modules with no file of their own (`io::net`).
-for (const mod of [...modules.values()]) {
-  const segs = mod.path.split("::");
-  for (let k = 1; k < segs.length; k++) addModule(segs.slice(0, k).join("::"), { origin: mod.origin, auto: false });
+for (const lib of libs) {
+  for (const mod of [...lib.modules.values()]) {
+    const segs = mod.path.split("::");
+    for (let k = 1; k < segs.length; k++) addModule(lib, segs.slice(0, k).join("::"), { origin: mod.origin, auto: false });
+  }
 }
 
 // ------------------------------------------------------------------- model
 
 const hidden = (name) => name.startsWith("__");
+// A package marks a `pub` helper that only its own modules use with a plain
+// `// Internal...` comment (a decoder's `wrap`): it is not API, and the types
+// only it names stay out too.
+const internal = (x) => /^internal\b/i.test(x.comment ?? "") && !x.docs;
 
 /** Merge impl blocks into their types; drop undocumented helpers. */
 function collect(mod) {
@@ -125,12 +195,17 @@ function collect(mod) {
   const loose = [];
   const impls = [];
   for (const f of mod.files) {
-    const src = readFileSync(join(f.repo === "coil-lang" ? lang.dir : stdlib.dir, f.file), "utf8");
+    const { lib } = mod;
+    const src = readFileSync(join(lib.dir, f.file), "utf8");
     for (const item of parseItems(src)) {
-      item.source = blob(f.repo, f.commit, f.file, item.line);
+      if (mod.origin === "package") {
+        if (internal(item)) continue;
+        if (item.members) item.members = item.members.filter((m) => !internal(m));
+      }
+      item.source = blob(lib.repo, lib.commit, f.file, item.line);
       item.stub = f.stub;
       for (const m of item.members ?? []) {
-        m.source = blob(f.repo, f.commit, f.file, m.line);
+        m.source = blob(lib.repo, lib.commit, f.file, m.line);
         m.stub = f.stub;
       }
       if (item.kind === "impl") impls.push(item);
@@ -153,10 +228,30 @@ function collect(mod) {
     attachImpl(ty, impl);
   }
   // Module constants cannot carry `///`; their `//` comment is their doc.
-  for (const it of loose) if (it.kind === "const" && !it.docs && it.comment) it.docs = it.comment;
-  const keep = (it) => !hidden(it.name) && (it.stub || it.docs);
+  // Packages document with `///` only: their `//` comments are often notes.
+  if (mod.origin !== "package") for (const it of loose) if (it.kind === "const" && !it.docs && it.comment) it.docs = it.comment;
+  // A type is API, even without `///` docs of its own, when its public
+  // methods have docs (coil-http's `Client`).
+  const documentedMembers = (it) => (it.members ?? []).some((m) => m.pub && m.docs && !hidden(m.name));
+  const keep = (it) => !hidden(it.name) && (it.stub || it.docs || documentedMembers(it));
   const items = [...types.values(), ...loose].filter(keep);
-  for (const it of items) it.module = mod.path;
+  // A type without `///` docs of its own is still API when documented API in
+  // this module names it (coil-regex's `compile` returns a `Regex`). Internal
+  // helper types that nothing documented mentions stay out.
+  const signatures = (it) => [it.signature ?? "", ...(it.members ?? []).filter((m) => m.pub || m.kind === "variant").map((m) => m.signature ?? "")];
+  for (let grew = true; grew; ) {
+    grew = false;
+    const text = items.flatMap(signatures).join("\n");
+    for (const ty of types.values()) {
+      if (items.includes(ty) || hidden(ty.name) || !new RegExp(`\\b${ty.name}\\b`).test(text)) continue;
+      items.push(ty);
+      grew = true;
+    }
+  }
+  for (const it of items) {
+    it.module = mod.path;
+    it.lib = mod.lib;
+  }
   return items;
 }
 
@@ -174,9 +269,11 @@ function attachImpl(ty, impl) {
 }
 
 const pendingImpls = [];
-for (const mod of modules.values()) mod.items = collect(mod);
-for (const { impl } of pendingImpls) {
-  for (const mod of modules.values()) {
+const allModules = () => libs.flatMap((l) => [...l.modules.values()]);
+for (const mod of allModules()) mod.items = collect(mod);
+// An impl for a type in another module of the same library.
+for (const { mod: from, impl } of pendingImpls) {
+  for (const mod of from.lib.modules.values()) {
     const ty = mod.items.find((i) => i.name === impl.name && ["class", "enum", "trait"].includes(i.kind));
     if (ty) {
       attachImpl(ty, impl);
@@ -203,10 +300,11 @@ const primitives = parseItems(typesSrc).map((it) => ({
   ...it,
   kind: "primitive",
   module: "types",
+  lib: lang,
   stub: true,
   source: blob("coil-lang", lang.commit, "compiler/src/builtin_docs/types.hy", it.line),
 }));
-addModule("types", { origin: "builtin", auto: true, items: primitives, files: [] });
+addModule(lang, "types", { origin: "builtin", auto: true, items: primitives, files: [] });
 
 const kwFile = "compiler/src/builtin_docs/keywords.md";
 const kwSrc = readFileSync(join(lang.dir, kwFile), "utf8");
@@ -217,7 +315,7 @@ const keywords = [];
   lines.forEach((line, n) => {
     const m = line.match(/^## (.+?)\s*$/);
     if (m) {
-      cur = { kind: "keyword", name: m[1], line: n + 1, docs: [], module: "keywords" };
+      cur = { kind: "keyword", name: m[1], line: n + 1, docs: [], module: "keywords", lib: lang };
       keywords.push(cur);
     } else if (cur) cur.docs.push(line);
   });
@@ -226,7 +324,7 @@ const keywords = [];
     k.source = blob("coil-lang", lang.commit, kwFile, k.line);
   }
 }
-addModule("keywords", { origin: "builtin", auto: true, items: keywords, files: [] });
+addModule(lang, "keywords", { origin: "builtin", auto: true, items: keywords, files: [] });
 
 // ------------------------------------------------------------------- pages
 
@@ -236,33 +334,35 @@ const slugName = (name) => name.replace(/[^A-Za-z0-9_]/g, (c) => `_${c.charCodeA
 // paths that clash on case-insensitive file systems, so the one that is not
 // a type gets its kind as a prefix: `task/fn.channel`.
 const TYPE_KINDS = new Set(["class", "enum", "trait", "type", "primitive"]);
-const caseClash = new Map(); // `${module}::${name}` -> prefix
-for (const mod of modules.values()) {
+const caseClash = new Map(); // `${library}|${module}::${name}` -> prefix
+for (const mod of allModules()) {
   const types = new Set(mod.items.filter((it) => TYPE_KINDS.has(it.kind)).map((it) => it.name.toLowerCase()));
   for (const it of mod.items) {
-    if (!TYPE_KINDS.has(it.kind) && types.has(it.name.toLowerCase())) caseClash.set(`${mod.path}::${it.name}`, it.kind);
+    if (!TYPE_KINDS.has(it.kind) && types.has(it.name.toLowerCase())) caseClash.set(`${mod.lib.key}|${mod.path}::${it.name}`, it.kind);
   }
 }
-const itemSlug = (mod, name) => {
-  const kind = caseClash.get(`${mod}::${name}`);
+const itemSlug = (lib, mod, name) => {
+  const kind = caseClash.get(`${lib.key}|${mod}::${name}`);
   return `${modSlug(mod)}/${kind ? `${kind}.` : ""}${slugName(name)}`;
 };
-const moduleHref = (path) => `${BASE}/${modSlug(path)}`;
-const itemHref = (item) => `${BASE}/${itemSlug(item.module, item.name)}`;
+const moduleHref = (mod) => `${mod.lib.base}/${modSlug(mod.path)}`;
+const itemHref = (item) => `${item.lib.base}/${itemSlug(item.lib, item.module, item.name)}`;
 const memberHref = (ty, m) => `${itemHref(ty)}/${slugName(m.name)}`;
 
 const displayName = (it) => (it.kind === "macro" ? `${it.name}!` : it.name);
 
-// Name index for auto-linking `code` spans in docs.
-const index = new Map(); // key -> href
-const put = (key, href) => {
-  if (!index.has(key)) index.set(key, href);
+// Name index for auto-linking `code` spans in docs, one per library.
+const put = (lib, key, href) => {
+  if (!lib.index.has(key)) lib.index.set(key, href);
 };
 // Primitive type names win over same-named modules (`string`).
-for (const it of primitives) put(it.name, `${BASE}/types/${it.name}`);
-for (const mod of modules.values()) {
+for (const it of primitives) put(lang, it.name, `${lang.base}/types/${it.name}`);
+for (const mod of allModules()) {
   if (mod.path === "keywords") continue;
-  put(mod.path, moduleHref(mod.path));
+  const put = (key, href) => {
+    if (!mod.lib.index.has(key)) mod.lib.index.set(key, href);
+  };
+  put(mod.path, moduleHref(mod));
   for (const it of mod.items) {
     const href = itemHref(it);
     put(`${mod.path}::${it.name}`, href);
@@ -282,18 +382,29 @@ for (const mod of modules.values()) {
   }
 }
 
-/** Resolve inline code to a reference URL, trying the current module first. */
+/**
+ * Resolve inline code to a reference URL, trying the current module first.
+ * Each candidate path is looked up in the current library, then in the
+ * libraries it depends on (`ctx.lib.deps`).
+ */
 function resolve(code, ctx) {
   const c = code.replace(/\(\)$/, "").replace(/<[^<>]*>/g, "");
   if (!/^[A-Za-z_][\w:.]*!?$/.test(c)) return null;
+  const libs = [ctx.lib, ...ctx.lib.deps.map((k) => libByKey.get(k))];
   const tries = [];
   if (ctx.type) tries.push(`${ctx.module}::${ctx.type}::${c}`, `${ctx.module}::${ctx.type}.${c}`);
   tries.push(`${ctx.module}::${c}`, c);
   // `io::open` written relative to a parent module, `fs::read_dir` from io.
-  for (const mod of modules.values()) if (mod.path.endsWith(`::${c.split("::")[0]}`)) tries.push(`${mod.path.replace(/::[^:]+$/, "")}::${c}`);
+  for (const lib of libs) {
+    for (const mod of lib.modules.values()) if (mod.path.endsWith(`::${c.split("::")[0]}`)) tries.push(`${mod.path.replace(/::[^:]+$/, "")}::${c}`);
+  }
   for (const t of tries) {
-    const href = index.get(t);
-    if (href && href !== ctx.self) return href;
+    for (const lib of libs) {
+      const href = lib.index.get(t);
+      // The page itself (`io` on the io page) is not looked up elsewhere.
+      if (href === ctx.self) break;
+      if (href) return href;
+    }
   }
   return null;
 }
@@ -441,8 +552,8 @@ function seeAlso(parts, ctx, mentions, related) {
 
 // href -> display label for "See also".
 const labels = new Map();
-for (const mod of modules.values()) {
-  labels.set(moduleHref(mod.path), mod.path);
+for (const mod of allModules()) {
+  labels.set(moduleHref(mod), mod.path);
   for (const it of mod.items) {
     labels.set(itemHref(it), mod.auto ? displayName(it) : `${mod.path}::${displayName(it)}`);
     for (const m of visibleMembers(it)) {
@@ -451,17 +562,20 @@ for (const mod of modules.values()) {
   }
 }
 
-const pages = new Map(); // relative path (no .md) -> content
+const pages = new Map(); // output file -> content
 
-function page(slug, front, body) {
-  if (pages.has(slug)) throw new Error(`duplicate reference page ${slug}`);
+function page(lib, slug, front, body) {
+  const file = join(lib.out, `${slug}.md`);
+  if (pages.has(file)) throw new Error(`duplicate reference page ${lib.key}/${slug}`);
   // An explicit slug keeps the id's case (`prelude/Vec`, not `prelude/vec`).
-  front = { slug, ...front };
+  // Stdlib and package pages share one collection, so their ids start with
+  // the library (`json/json/Json`).
+  front = { slug: `${lib.idPrefix}${slug}`, ...(lib === lang ? {} : { package: lib.key }), ...front };
   const fm = Object.entries(front)
     .filter(([, v]) => v !== undefined && v !== null)
     .map(([k, v]) => `${k}: ${typeof v === "string" ? yaml(v) : JSON.stringify(v)}`)
     .join("\n");
-  pages.set(slug, `---\n${fm}\n---\n\n${body.join("\n").replace(/\n{3,}/g, "\n\n").trim()}\n`);
+  pages.set(file, `---\n${fm}\n---\n\n${body.join("\n").replace(/\n{3,}/g, "\n\n").trim()}\n`);
 }
 
 /** The summary as markdown for lists and tables: keeps `code`, drops links (rendering adds its own). */
@@ -489,7 +603,7 @@ function memberTable(title, ty, members, ctx) {
 
 function typePage(mod, ty, order) {
   const parts = splitDocs(ty.docs ?? "");
-  const ctx = { module: mod.path, type: ty.name, self: itemHref(ty) };
+  const ctx = { lib: mod.lib, module: mod.path, type: ty.name, self: itemHref(ty) };
   const mentions = new Set();
   const members = visibleMembers(ty);
   const body = [];
@@ -532,7 +646,7 @@ function typePage(mod, ty, order) {
   }
   body.push(...trailingSections(parts, ctx, mentions));
   body.push(...seeAlso(parts, ctx, mentions, siblings(mod, ty)));
-  page(itemSlug(mod.path, ty.name), front(mod, ty, parts, order), body);
+  page(mod.lib, itemSlug(mod.lib, mod.path, ty.name), front(mod, ty, parts, order), body);
 
   let n = 0;
   for (const m of [...statics, ...methods]) memberPage(mod, ty, m, n++);
@@ -562,7 +676,7 @@ function front(mod, it, parts, order, parent) {
 function memberPage(mod, ty, m, order) {
   const parts = splitDocs(m.docs ?? "");
   const self = memberHref(ty, m);
-  const ctx = withParams({ module: mod.path, type: ty.name, self }, m);
+  const ctx = withParams({ lib: mod.lib, module: mod.path, type: ty.name, self }, m);
   const mentions = new Set();
   const body = [];
   if (parts.summary) body.push(renderDocs(parts.summary, ctx, mentions), "");
@@ -577,13 +691,13 @@ function memberPage(mod, ty, m, order) {
     .filter((o) => o !== m && (o.kind === "method" || o.kind === "static method"))
     .map((o) => ({ href: memberHref(ty, o), label: `${ty.name}::${o.name}`, summary: firstSentence(summaryMd(o)) }));
   body.push(...seeAlso(parts, ctx, mentions, [{ href: itemHref(ty), label: ty.name, summary: firstSentence(summaryMd(ty)) }, ...rel]));
-  const slug = `${itemSlug(mod.path, ty.name)}/${slugName(m.name)}`;
-  page(slug, front(mod, m, parts, order, ty), body);
+  const slug = `${itemSlug(mod.lib, mod.path, ty.name)}/${slugName(m.name)}`;
+  page(mod.lib, slug, front(mod, m, parts, order, ty), body);
 }
 
 function fnPage(mod, fn, order) {
   const parts = splitDocs(fn.docs ?? "");
-  const ctx = withParams({ module: mod.path, self: itemHref(fn) }, fn);
+  const ctx = withParams({ lib: mod.lib, module: mod.path, self: itemHref(fn) }, fn);
   const mentions = new Set();
   const body = [];
   if (parts.summary) body.push(renderDocs(parts.summary, ctx, mentions), "");
@@ -602,12 +716,12 @@ function fnPage(mod, fn, order) {
   } else body.push(...callableSections(fn, parts, ctx, mentions));
   body.push(...trailingSections(parts, ctx, mentions));
   body.push(...seeAlso(parts, ctx, mentions, siblings(mod, fn)));
-  page(itemSlug(mod.path, fn.name), front(mod, fn, parts, order), body);
+  page(mod.lib, itemSlug(mod.lib, mod.path, fn.name), front(mod, fn, parts, order), body);
 }
 
 function simplePage(mod, it, order) {
   const parts = splitDocs(it.docs ?? "");
-  const ctx = { module: mod.path, self: itemHref(it) };
+  const ctx = { lib: mod.lib, module: mod.path, self: itemHref(it) };
   const mentions = new Set();
   const body = [];
   if (parts.summary) body.push(renderDocs(parts.summary, ctx, mentions), "");
@@ -615,7 +729,7 @@ function simplePage(mod, it, order) {
   if (it.kind === "type" && it.value) body.push("## Definition", "", "```coil", `type ${it.name} = ${it.value};`, "```", "");
   body.push(...trailingSections(parts, ctx, mentions));
   body.push(...seeAlso(parts, ctx, mentions, siblings(mod, it)));
-  page(itemSlug(mod.path, it.name), front(mod, it, parts, order), body);
+  page(mod.lib, itemSlug(mod.lib, mod.path, it.name), front(mod, it, parts, order), body);
 }
 
 const GROUPS = [
@@ -631,11 +745,16 @@ const GROUPS = [
 const ORIGIN_NOTE = {
   builtin: "Built into the compiler.",
   embedded: "Written in Coil and shipped inside the compiler.",
-  stdlib: "Part of [coil-stdlib](/packages/stdlib). spool projects declare it as their `stdlib` dependency (`spool new` adds it); with plain `coil`, pass `--root` with the `src` of a coil-stdlib checkout.",
+  stdlib: "Part of [coil-stdlib](/packages/stdlib), not the compiler. spool projects declare it as their `stdlib` dependency (`spool new` adds it); with plain `coil`, pass `--root` with the `src` of a coil-stdlib checkout.",
+  package: (lib) =>
+    `Part of the [${lib.key}](/packages/${lib.key}) package ([${lib.repo}](https://github.com/${ORG}/${lib.repo})), not the compiler or coil-stdlib. Add it to \`[dependencies]\` in \`coil.toml\` to use it (see the [package overview](/packages/${lib.key})).`,
 };
 
+/** A module gets a page when it, or a module below it, has documented items. */
+const hasPage = (mod) => mod.items.length > 0 || [...mod.lib.modules.values()].some((m) => m.path.startsWith(`${mod.path}::`) && m.items.length > 0);
+
 function modulePage(mod, order) {
-  const introFile = join(INTROS, `${modSlug(mod.path)}.md`);
+  const introFile = join(mod.lib.intros, `${modSlug(mod.path)}.md`);
   const intro = existsSync(introFile) ? readFileSync(introFile, "utf8") : "";
   const introMatch = intro.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
   const meta = Object.fromEntries(
@@ -645,18 +764,19 @@ function modulePage(mod, order) {
     }),
   );
   const text = (introMatch ? introMatch[2] : intro).trim();
-  const ctx = { module: mod.path, self: moduleHref(mod.path) };
+  const ctx = { lib: mod.lib, module: mod.path, self: moduleHref(mod) };
   const body = [];
   if (text) body.push(renderDocs(text, ctx), "");
-  body.push(ORIGIN_NOTE[mod.origin] ?? "", "");
+  const note = ORIGIN_NOTE[mod.origin];
+  body.push(typeof note === "function" ? note(mod.lib) : (note ?? ""), "");
   if (!mod.auto && mod.items.length) {
     const names = mod.items.slice(0, 2).map((i) => i.name).join(", ");
     body.push("Import what you use (`use path::*` is not allowed):", "", "```coil", `use ${mod.path}::{${names}};`, "```", "");
   }
-  const subs = [...modules.values()].filter((m) => m.path.startsWith(`${mod.path}::`) && !m.path.slice(mod.path.length + 2).includes("::"));
+  const subs = [...mod.lib.modules.values()].filter((m) => m.path.startsWith(`${mod.path}::`) && !m.path.slice(mod.path.length + 2).includes("::") && hasPage(m));
   if (subs.length) {
     body.push("## Modules", "", "| Module | Description |", "|--------|-------------|");
-    for (const s of subs) body.push(`| [\`${s.path}\`](${moduleHref(s.path)}) | ${esc(s.summary ?? "")} |`);
+    for (const s of subs) body.push(`| [\`${s.path}\`](${moduleHref(s)}) | ${esc(s.summary ?? "")} |`);
     body.push("");
   }
   for (const [title, test] of GROUPS) {
@@ -666,7 +786,7 @@ function modulePage(mod, order) {
     for (const it of items) body.push(`| [\`${displayName(it)}\`](${itemHref(it)}) | ${esc(renderDocs(firstSentence(splitDocs(it.docs ?? "").summary), withParams(ctx, it)))} |`);
     body.push("");
   }
-  page(`${modSlug(mod.path)}/index`, {
+  page(mod.lib, `${modSlug(mod.path)}/index`, {
     title: meta.title ?? mod.path,
     description: meta.description ?? mod.summary ?? `The ${mod.path} module.`,
     module: mod.path,
@@ -679,14 +799,14 @@ function modulePage(mod, order) {
 }
 
 // Module summaries (for tables and the sidebar) come from intro frontmatter.
-for (const mod of modules.values()) {
-  const f = join(INTROS, `${modSlug(mod.path)}.md`);
+for (const mod of allModules()) {
+  const f = join(mod.lib.intros, `${modSlug(mod.path)}.md`);
   const m = existsSync(f) && readFileSync(f, "utf8").match(/\ndescription:\s*"?(.*?)"?\n/);
   mod.summary = m ? m[1] : undefined;
 }
 
 // Overloads (same name twice, e.g. `assert!` with and without a message).
-for (const mod of modules.values()) {
+for (const mod of allModules()) {
   const byName = new Map();
   mod.items = mod.items.filter((it) => {
     const prev = byName.get(`${it.kind}:${it.name}`);
@@ -700,26 +820,33 @@ for (const mod of modules.values()) {
   });
 }
 
-let order = 0;
-for (const mod of modules.values()) {
-  if (!mod.items.length && ![...modules.keys()].some((p) => p.startsWith(`${mod.path}::`))) continue;
-  modulePage(mod, order++);
-  mod.items.forEach((it, n) => {
-    if (["class", "enum", "trait", "primitive"].includes(it.kind) && it.kind !== "primitive") typePage(mod, it, n);
-    else if (["fn", "macro"].includes(it.kind)) fnPage(mod, it, n);
-    else simplePage(mod, it, n);
-  });
+for (const lib of libs) {
+  let order = 0;
+  for (const mod of lib.modules.values()) {
+    if (!hasPage(mod)) continue;
+    modulePage(mod, order++);
+    mod.items.forEach((it, n) => {
+      if (["class", "enum", "trait", "primitive"].includes(it.kind) && it.kind !== "primitive") typePage(mod, it, n);
+      else if (["fn", "macro"].includes(it.kind)) fnPage(mod, it, n);
+      else simplePage(mod, it, n);
+    });
+  }
 }
 
-rmSync(OUT, { recursive: true, force: true });
-for (const [slug, content] of pages) {
-  const file = join(OUT, `${slug}.md`);
+rmSync(REFERENCE_OUT, { recursive: true, force: true });
+rmSync(API_OUT, { recursive: true, force: true });
+for (const [file, content] of pages) {
   mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, content);
 }
+writeFileSync(join(REFERENCE_OUT, "sources.json"), `${JSON.stringify({ "coil-lang": lang.commit }, null, 2)}\n`);
+mkdirSync(API_OUT, { recursive: true });
 writeFileSync(
-  join(OUT, "sources.json"),
-  `${JSON.stringify({ "coil-lang": lang.commit, "coil-stdlib": stdlib.commit }, null, 2)}\n`,
+  join(API_OUT, "sources.json"),
+  `${JSON.stringify(Object.fromEntries(libs.slice(1).map((l) => [l.repo, l.commit])), null, 2)}\n`,
 );
 if (scratch) rmSync(scratch, { recursive: true, force: true });
-console.log(`reference: ${pages.size} pages from coil-lang@${lang.commit.slice(0, 7)} and coil-stdlib@${stdlib.commit.slice(0, 7)}`);
+for (const lib of libs) {
+  const n = [...pages.keys()].filter((f) => f.startsWith(`${lib.out}/`)).length;
+  console.log(`${lib.key.padEnd(8)} ${lib.repo.padEnd(13)} ${lib.commit.slice(0, 7)}  ${n} page(s)`);
+}

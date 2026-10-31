@@ -9,7 +9,7 @@ parent: "Variant"
 signature: "pub fn is_record() -> bool"
 import: "use macro::{Variant};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/prelude/macro.hy#L364"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/macro.hy#L364"
 order: 2
 ---
 

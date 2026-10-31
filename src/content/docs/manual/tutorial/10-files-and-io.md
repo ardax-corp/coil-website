@@ -36,7 +36,7 @@ coil --root ~/coil-stdlib/src -A example.hy
 
 ## The terminal
 
-[`io::sync`](/docs/reference/io/sync) has `println`, `print` (no newline)
+[`io::sync`](/packages/stdlib/reference/io/sync) has `println`, `print` (no newline)
 and `eprintln` (to standard error, for messages that are not part of the
 output). `read_line` reads one line from a stream, without the line ending,
 and returns `None` at the end of input:
@@ -118,7 +118,7 @@ happens.
 
 ## Reading and writing files
 
-For whole files, [`io::file`](/docs/reference/io/file) has one-call
+For whole files, [`io::file`](/packages/stdlib/reference/io/file) has one-call
 functions:
 
 ```coil
@@ -232,7 +232,7 @@ feb.txt
 jan.txt
 ```
 
-The stdlib's [`Path`](/docs/reference/path/Path) class wraps a path string
+The stdlib's [`Path`](/packages/stdlib/reference/path/Path) class wraps a path string
 with methods such as `join`, `dirname`, `basename` and `extension`.
 
 ## Arguments and environment

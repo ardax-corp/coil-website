@@ -8,7 +8,7 @@ name: "with_lock"
 signature: "fn with_lock<A, B>(Mutex<A> m, A -> (A, B) f) -> Result<B, LockError>"
 import: "use thread::{with_lock};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/thread.hy#L544"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.hy#L544"
 order: 18
 ---
 
@@ -17,7 +17,7 @@ Locks `m`, runs `f` on its value, stores the new value and returns the result.
 `f` gets the current value and returns a pair `(new_value, result)`: the
 mutex keeps `new_value` and `with_lock` returns `Ok(result)`. The lock is
 held for the whole callback, so the update is atomic. If the mutex is
-held, it waits (inside a [`task::scope`](/docs/reference/task/scope), only this task waits). This is the
+held, it waits (inside a [`task::scope`](/docs/reference/task/fn.scope), only this task waits). This is the
 safe way to use a [`Mutex`](/docs/reference/thread/Mutex); prefer it over [`lock`](/docs/reference/thread/lock) / [`unlock`](/docs/reference/thread/unlock).
 
 ## Parameters
@@ -50,7 +50,7 @@ assert!(match with_lock(m, fn (int n) => (n, n)) { Result::Ok(n) => n == 20, Res
 
 ## See also
 
-- [`task::scope`](/docs/reference/task/scope)
+- [`task::scope`](/docs/reference/task/fn.scope)
 - [`thread::Mutex`](/docs/reference/thread/Mutex)
 - [`thread::lock`](/docs/reference/thread/lock)
 - [`thread::unlock`](/docs/reference/thread/unlock)

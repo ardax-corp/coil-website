@@ -132,7 +132,7 @@ function readHeader(src, i, stops) {
   return { text: out, stop: "", at: i, paramDocs };
 }
 
-const MODIFIERS = new Set(["pub", "static", "pure", "gen", "async", "readonly", "unsafe", "extern"]);
+const MODIFIERS = new Set(["pub", "static", "pure", "gen", "async", "readonly", "shared", "unsafe", "extern"]);
 const KINDS = new Set(["fn", "class", "enum", "trait", "impl", "type", "const", "macro"]);
 
 /** Split on top-level commas (outside (), [], {}, <>). */

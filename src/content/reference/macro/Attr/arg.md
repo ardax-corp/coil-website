@@ -9,7 +9,7 @@ parent: "Attr"
 signature: "pub fn arg(string key, string fallback) -> string"
 import: "use macro::{Attr};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/prelude/macro.hy#L289"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/macro.hy#L289"
 order: 2
 ---
 

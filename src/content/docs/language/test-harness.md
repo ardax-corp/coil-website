@@ -113,5 +113,5 @@ test("greet prints") {
 
 ## Related
 
-- [assert](/docs/reference/tests/assert)
+- [assert](/packages/stdlib/reference/tests/assert)
 - [Getting Started](/docs/manual/getting-started)

@@ -8,7 +8,7 @@ name: "int"
 signature: "type int"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/types.hy#L40"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/types.hy#L40"
 order: 0
 ---
 
@@ -26,7 +26,7 @@ with `division by zero`; `**` with a negative exponent panics with
 the left operand. `<<` and `>>` panic with `shift count out of range`
 when the count is outside `0..=63` (a constant count is a compile error);
 bitwise operators never panic. For wrapping,
-checked or saturating arithmetic see the stdlib [`arith`](/docs/reference/arith) module.
+checked or saturating arithmetic see the stdlib [`arith`](/packages/stdlib/reference/arith) module.
 
 Casts with `as`: `int as float` converts exactly when it can;
 `int as byte` keeps the low 8 bits (an out-of-range literal is a
@@ -52,7 +52,7 @@ assert!(5 as bool);
 
 ## See also
 
-- [`arith`](/docs/reference/arith)
+- [`arith`](/packages/stdlib/reference/arith)
 - [`float`](/docs/reference/types/float)
 - [`Num`](/docs/reference/prelude/ops/Num)
 - [`Integral`](/docs/reference/prelude/ops/Integral)

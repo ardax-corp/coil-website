@@ -8,7 +8,7 @@ name: "FnDecl"
 signature: "class FnDecl"
 import: "use macro::{FnDecl};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/prelude/macro.hy#L476"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/macro.hy#L476"
 order: 10
 ---
 
@@ -29,7 +29,7 @@ A function or method handed to an attribute macro.
 | `is_coro` | `bool` |  |
 | `declares_effects` | `bool` | Declares its effects: `pure fn` or `uses {…}`. |
 | `is_pure` | `bool` | Spelled `pure fn`. |
-| `effects` | `Vec<string>` | The names in `uses {…}`: `read`, `write`, [`net`](/docs/reference/io/net), [`env`](/docs/reference/env), `exec`, [`ffi`](/docs/reference/ffi), [`thread`](/docs/reference/thread), `suspend`, `mutate`. |
+| `effects` | `Vec<string>` | The names in `uses {…}`: `read`, `write`, [`net`](/packages/stdlib/reference/net), [`env`](/docs/reference/env), `exec`, [`ffi`](/docs/reference/ffi), [`thread`](/docs/reference/thread), `suspend`, `mutate`. |
 | `requires` | `Vec<string>` | `requires` clauses as written after the keyword (`n >= 0` or `n >= 0, "message"`), in order. |
 | `ensures` | `Vec<string>` | `ensures` clauses, like `requires`. |
 | `docs` | `Vec<string>` |  |
@@ -51,7 +51,7 @@ A function or method handed to an attribute macro.
 ## See also
 
 - [`unit`](/docs/reference/types/unit)
-- [`io::net`](/docs/reference/io/net)
+- [`net`](/packages/stdlib/reference/net)
 - [`env`](/docs/reference/env)
 - [`ffi`](/docs/reference/ffi)
 - [`thread`](/docs/reference/thread)

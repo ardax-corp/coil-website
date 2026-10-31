@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-crypto"
 description: "This package is crypto. use crypto::{sha256} resolves from this repo's src/. RustCrypto lives in libcrypto.so / .dylib / crypto.dll. extern \"crypto\" in src/crypto.hy already…"
-source: "https://github.com/ardax-corp/coil-crypto/blob/46489ada6840ba74b0b07bdfe3f5d111a56485e0/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/docs/consume.md"
 ---
 # Consuming coil-crypto
 
@@ -89,4 +89,3 @@ Shipped names in `src/crypto.hy`:
 | `Hasher` | Opaque native handle. Drop frees it |
 
 Do not call `coil_crypto_*` from application code. Those symbols are the C ABI behind the wrappers.
-

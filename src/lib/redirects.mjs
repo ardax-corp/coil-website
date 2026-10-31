@@ -2,6 +2,38 @@
 // page for each (astro.config.mjs), so links from before the reference was
 // split into per-item pages keep working.
 
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { join, relative, sep } from "node:path";
+
+const ROOT = new URL("../../", import.meta.url).pathname;
+
+// coil-stdlib's API pages used to sit in the language reference
+// (/docs/reference/collections/map/HashMap); they now live under
+// /packages/stdlib/reference. Every generated stdlib page whose path the
+// language reference does not use (it keeps `io`) gets a redirect.
+function stdlibMoves() {
+  const dir = join(ROOT, "src/content/api/stdlib");
+  const lang = join(ROOT, "src/content/reference");
+  if (!existsSync(dir)) return {};
+  const out = {};
+  const walk = (d) => {
+    for (const e of readdirSync(d, { withFileTypes: true })) {
+      const p = join(d, e.name);
+      if (e.isDirectory()) walk(p);
+      else if (e.name.endsWith(".md")) {
+        const rel = relative(dir, p).split(sep).join("/");
+        if (existsSync(join(lang, rel))) continue;
+        // The frontmatter slug keeps the id's case; it starts with "stdlib/".
+        const slug = readFileSync(p, "utf8").match(/^slug: "stdlib\/(.*)"$/m)?.[1] ?? rel.replace(/\.md$/, "");
+        const path = slug.replace(/(^|\/)index$/, "");
+        out[`/docs/reference/${path}`] = `/packages/stdlib/reference/${path}`;
+      }
+    }
+  };
+  walk(dir);
+  return out;
+}
+
 const moved = [
   "syntax", "types", "operators", "modules", "macros", "comptime", "effects", "contracts", "permissions",
   "project-config", "error-codes", "casts", "arrays", "panic", "done", "test-harness", "host-natives", "not-builtins",
@@ -23,11 +55,12 @@ const chapters = {
 };
 
 export const redirects = {
+  ...stdlibMoves(),
   ...Object.fromEntries(Object.entries(chapters).map(([from, to]) => [`/docs/manual/tutorial/${from}`, `/docs/manual/tutorial/${to}`])),
   "/docs/references": "/docs/reference",
   "/docs/language": "/docs/reference",
   ...Object.fromEntries(moved.map((p) => [`/docs/references/${p}`, `/docs/language/${p}`])),
-  "/docs/references/assert": "/docs/reference/tests/assert",
+  "/docs/references/assert": "/packages/stdlib/reference/tests/assert",
   "/docs/references/crypto": "/packages/crypto",
   "/docs/references/env": "/docs/reference/env",
   "/docs/references/ffi": "/docs/reference/ffi",
@@ -40,7 +73,7 @@ export const redirects = {
   "/docs/references/math": "/docs/reference/prelude/math",
   "/docs/references/option-result": "/docs/reference/prelude/Option",
   "/docs/references/ord-char": "/docs/reference/prelude/ord",
-  "/docs/references/print": "/docs/reference/io/sync/println",
+  "/docs/references/print": "/packages/stdlib/reference/io/sync/println",
   "/docs/references/regex": "/packages/regex",
   "/docs/references/string": "/docs/reference/string",
   "/docs/references/time": "/packages/time",

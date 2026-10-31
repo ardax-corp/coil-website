@@ -1,0 +1,19 @@
+{
+  "coil-stdlib": "fdab30f88861e639fc9a7cc9dbbaaee8b5909998",
+  "coil-json": "e19bb6df6e254766aac3717a85a724f108eb2006",
+  "coil-toml": "c03123838096b7fe8af6151ae8306728d56239db",
+  "coil-msgpack": "5b073ea8d83d5b051d57bdf030ec80a385e25add",
+  "coil-csv": "b4835729f4ce8afe1f85fcca3f1c178bb2a045f6",
+  "coil-http": "516265cfe247ea0f8d6d5e9e45f18b40fadf1410",
+  "coil-url": "d2ec39b8a7dffe7cd3de7c96632ba99fd696d829",
+  "coil-tls": "8eb103338d9385609c0e75d08c5fc5c9b86015a6",
+  "coil-crypto": "d016857a83ab00e5c4f0397570843be1b851a191",
+  "coil-regex": "3d83b6015655fefd60e8136e2eb9694f7e8a4990",
+  "coil-deflate": "37456ec7936e9b8736b968aa3d0c702d47c36c56",
+  "coil-gzip": "e76ad55603f9a41e6372eec358c524eaa141ef46",
+  "coil-time": "2373411132e804c05780996e38c8fd0727a80ec0",
+  "coil-uuid": "07c0a071431e64138c44ec3e6467ab7c9fd93808",
+  "coil-log": "2a00a5ba1086040c2b5368e33f81c44ed036eb87",
+  "coil-cli": "8b75c6df2d1b161b8ad272010f80f9033392343e",
+  "coil-tui": "e9b465674e02eee2b78c82c0e7fef33d891c8c82"
+}

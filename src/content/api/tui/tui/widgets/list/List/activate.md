@@ -1,0 +1,36 @@
+---
+slug: "tui/tui/widgets/list/List/activate"
+package: "tui"
+title: "List::activate"
+description: "Call on_activate for the selected row (nothing on an empty list)."
+module: "tui::widgets::list"
+kind: "method"
+name: "activate"
+parent: "List"
+signature: "pub fn activate(Ctx ctx)"
+import: "use tui::widgets::list::{List};"
+origin: "package"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/list.hy#L220"
+order: 8
+---
+
+Call [`on_activate`](/packages/tui/reference/tui/widgets/list/List/on_activate) for the selected row (nothing on an empty list).
+
+Called on a `List` value as `value.activate(…)`.
+
+## Parameters
+
+| Name | Type |
+|------|------|
+| `ctx` | `Ctx` |
+
+## See also
+
+- [`List::on_activate`](/packages/tui/reference/tui/widgets/list/List/on_activate)
+- [`List`](/packages/tui/reference/tui/widgets/list/List): A list of text rows with one selected.
+- [`List::new`](/packages/tui/reference/tui/widgets/list/List/new): A list of `items` with the first selected, no marker and no callbacks.
+- [`List::selected`](/packages/tui/reference/tui/widgets/list/List/selected): Index of the selected row.
+- [`List::value`](/packages/tui/reference/tui/widgets/list/List/value): The selected item ("" when the list is empty).
+- [`List::select`](/packages/tui/reference/tui/widgets/list/List/select): Select row `i` (clamped into range) and scroll it into view, without calling `on_select`.
+- [`List::marked`](/packages/tui/reference/tui/widgets/list/List/marked): Draw `m` before the selected row (builder style).
+- [`List::on_select`](/packages/tui/reference/tui/widgets/list/List/on_select): Call `f` when the selection moves (builder style).

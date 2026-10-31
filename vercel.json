@@ -5,7 +5,7 @@
   "installCommand": "npm install",
   "headers": [
     {
-      "source": "/playground/(coil|stdlib)-(.*)",
+      "source": "/playground/(coil|stdlib|packages)-(.*)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     },
     {

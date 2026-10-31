@@ -8,7 +8,7 @@ name: "with_read"
 signature: "fn with_read<A, B>(RwLock<A> lock, A -> B f) -> Result<B, LockError>"
 import: "use thread::{with_read};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/thread.hy#L659"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.hy#L659"
 order: 23
 ---
 
@@ -16,7 +16,7 @@ Runs `f` on a snapshot of the lock's value and returns what `f` returns.
 
 The read lock is released before `f` runs, so another thread may change
 the value meanwhile. Waits while a writer holds the lock (blocking every
-task of the thread, also inside a [`task::scope`](/docs/reference/task/scope)).
+task of the thread, also inside a [`task::scope`](/docs/reference/task/fn.scope)).
 
 ## Parameters
 
@@ -47,7 +47,7 @@ assert!(first == 1);
 
 ## See also
 
-- [`task::scope`](/docs/reference/task/scope)
+- [`task::scope`](/docs/reference/task/fn.scope)
 - [`spawn`](/docs/reference/thread/spawn): Runs `f(arg)` on another OS thread and returns a handle to it.
 - [`join`](/docs/reference/thread/join): Waits for the thread to finish and returns the value its function returned.
 - [`detach`](/docs/reference/thread/detach): Lets the thread run to completion without being joined.

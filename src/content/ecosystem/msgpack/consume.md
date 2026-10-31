@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-msgpack"
 description: "This package is msgpack. use msgpack::{Msgpack, MsgpackValue, MsgpackError} resolves from src/msgpack.hy. One-shot encode/decode ships here. Do not add a native/FFI dep."
-source: "https://github.com/ardax-corp/coil-msgpack/blob/f1ee1a82970906cf200c117900112ec3d4876554/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/docs/consume.md"
 ---
 # Consuming coil-msgpack
 
@@ -25,7 +25,7 @@ coil --root ../coil-msgpack/src main.hy
 
 ## Call Msgpack::standard()
 
-Signatures are in [`src/msgpack.hy`](https://github.com/ardax-corp/coil-msgpack/blob/f1ee1a82970906cf200c117900112ec3d4876554/src/msgpack.hy). Call patterns are in [`tests/format.hy`](https://github.com/ardax-corp/coil-msgpack/blob/f1ee1a82970906cf200c117900112ec3d4876554/tests/format.hy).
+Signatures are in [`src/msgpack.hy`](https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/src/msgpack.hy). Call patterns are in [`tests/format.hy`](https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/tests/format.hy).
 
 ```coil
 use msgpack::{Msgpack, MsgpackValue, MsgpackError};
@@ -38,8 +38,6 @@ let out = m.encode(v)?;
 `decode` takes `Vec<byte>` and returns `Result<MsgpackValue, MsgpackError>`. `encode` takes `MsgpackValue` and returns `Result<Vec<byte>, MsgpackError>`.
 
 `decode_str` is `to_bytes` then `decode`. `encode_str` is `encode` then `from_bytes`. A `from_bytes` failure on encode is `MsgpackError::Utf8`. MessagePack frames are binary, so prefer `decode` / `encode`.
-
-Prefer matching directly on `decode` results. Storing `Result<MsgpackValue, MsgpackError>` in a `let` before matching can mis-handle the payload until a compiler fix lands.
 
 ### MsgpackValue
 
@@ -77,20 +75,19 @@ An integer that fits in i64 stays an int. uint64 values above i64 max are `Msgpa
 
 ```coil
 enum MsgpackError {
-    Invalid { line: int, column: int },
-    Io { line: int, column: int },
-    Utf8 { line: int, column: int },
-    Number { line: int, column: int },
+    Invalid { offset: int },
+    Utf8 { offset: int },
+    Number { offset: int },
 }
 ```
 
-`line` is 1. `column` is the 1-based byte offset. Malformed input returns `MsgpackError::Invalid` with position, not a panic. A string payload that is not UTF-8 is `MsgpackError::Utf8`.
+`offset` is the 0-based byte offset of the failure in the input (0 for an encode failure). Malformed input returns `MsgpackError::Invalid` with position, not a panic. A string payload that is not UTF-8 is `MsgpackError::Utf8`.
 
 ```coil
 match m.decode(bytes) {
     Result::Ok(_) => false,
     Result::Err(e) => match e {
-        MsgpackError::Invalid { line, column } => line >= 1 && column >= 1,
+        MsgpackError::Invalid { offset } => offset >= 0,
         default => false,
     },
 }

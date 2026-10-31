@@ -3,7 +3,7 @@
 
 import type { APIRoute } from "astro";
 import { getCollection, render } from "astro:content";
-import { allGroups, docHref, locate, packageHref, plainTitle, referenceHref } from "../lib/nav";
+import { allGroups, apiHref, docHref, locate, packageHref, plainTitle, referenceHref } from "../lib/nav";
 
 export type SearchEntry = {
   /** Title */
@@ -52,6 +52,16 @@ export const GET: APIRoute = async () => {
       d.kind === "module" ? d.module : d.parent ? `${d.parent}::${name}` : auto ? name : `${d.module}::${name}`;
     const kind = d.kind === "static method" ? "fn" : d.kind;
     entries.push({ t, u: referenceHref(e.id), s: `Reference · ${kind}`, h: [] });
+  }
+
+  // Stdlib and package API: the same, labelled with the library.
+  for (const e of await getCollection("api")) {
+    const d = e.data;
+    const name = d.kind === "macro" ? `${d.name}!` : d.name;
+    const t = d.kind === "module" ? d.module : d.parent ? `${d.parent}::${name}` : `${d.module}::${name}`;
+    const kind = d.kind === "static method" ? "fn" : d.kind;
+    const lib = d.package === "stdlib" ? "coil-stdlib" : d.package;
+    entries.push({ t, u: apiHref(e.id), s: `${lib} · ${kind}`, h: [] });
   }
 
   for (const post of await getCollection("blog")) {

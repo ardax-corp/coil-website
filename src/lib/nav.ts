@@ -258,20 +258,17 @@ export const REFERENCE_SECTIONS: { key: string; title: string; blurb: string; pi
     blurb: "Shipped with the compiler; import what you use.",
     pick: (m) => m.data.origin !== "stdlib",
   },
-  {
-    key: "ref-stdlib",
-    title: "Standard library",
-    blurb: "coil-stdlib: collections, text, numbers, blocking IO.",
-    pick: (m) => m.data.origin === "stdlib",
-  },
 ];
 
 export { REFERENCE_KINDS } from "./reference-kinds.mjs";
 
 const KIND_RANK: Record<string, number> = { primitive: 0, class: 1, enum: 1, trait: 2, type: 3, const: 4, macro: 5, fn: 6, keyword: 7 };
 
+/** A generated API page: the language reference, or the stdlib / a package (with `package`). */
+type ApiEntry = CollectionEntry<"reference"> | CollectionEntry<"api">;
+
 /** Module pages in display order (parents before children). */
-export function referenceModules(entries: CollectionEntry<"reference">[]): CollectionEntry<"reference">[] {
+export function referenceModules<E extends ApiEntry>(entries: E[]): E[] {
   const first = ["prelude", "prelude::ops", "prelude::math", "types", "keywords"];
   const rank = (m: string) => (first.includes(m) ? first.indexOf(m) : first.length);
   return entries
@@ -280,7 +277,7 @@ export function referenceModules(entries: CollectionEntry<"reference">[]): Colle
 }
 
 /** Items directly in a module (not members of a type), in display order. */
-export function moduleItems(entries: CollectionEntry<"reference">[], module: string): CollectionEntry<"reference">[] {
+export function moduleItems<E extends ApiEntry>(entries: E[], module: string): E[] {
   return entries
     .filter((e) => e.data.module === module && e.data.kind !== "module" && !e.data.parent)
     .sort((a, b) => (KIND_RANK[a.data.kind] ?? 9) - (KIND_RANK[b.data.kind] ?? 9) || a.data.order - b.data.order);
@@ -297,38 +294,71 @@ export function referenceGroups(entries: CollectionEntry<"reference">[]): NavGro
   return REFERENCE_SECTIONS.map((sec) => {
     const picked = mods.filter((m) => !taken.has(m.id) && sec.pick(m));
     picked.forEach((m) => taken.add(m.id));
-    const names = new Set(picked.map((m) => m.data.module));
-    // Nearest listed ancestor: "io::net::tcp" → "io::net", else "io", else none.
-    const parentOf = (module: string) => {
-      for (let p = module; p.includes("::"); ) {
-        p = p.replace(/::[^:]+$/, "");
-        if (names.has(p)) return p;
-      }
-      return undefined;
-    };
-    const link = (m: CollectionEntry<"reference">, parent?: string): NavLink => ({
-      href: referenceHref(m.id),
-      label: m.data.title,
-      short: parent ? m.data.module.slice(parent.length + 2) : undefined,
-      module: m.data.module,
-      hint: m.data.description,
-      children: [
-        ...picked.filter((s) => parentOf(s.data.module) === m.data.module).map((s) => link(s, m.data.module)),
-        ...moduleItems(entries, m.data.module).map((e) => ({
-          href: referenceHref(e.id),
-          label: e.data.kind === "macro" ? `${e.data.name}!` : e.data.name,
-          hint: e.data.description,
-        })),
-      ],
-    });
     return {
       key: sec.key,
       title: sec.title,
       track: "reference" as const,
       blurb: sec.blurb,
-      items: picked.filter((m) => !parentOf(m.data.module)).map((m) => link(m)),
+      items: moduleTree(entries, picked, (e) => referenceHref(e.id)),
     };
   });
+}
+
+/** Top-level module links for `picked`, each with its submodules, then its items. */
+function moduleTree<E extends ApiEntry>(entries: E[], picked: E[], href: (e: E) => string): NavLink[] {
+  const names = new Set(picked.map((m) => m.data.module));
+  // Nearest listed ancestor: "io::net::tcp" → "io::net", else "io", else none.
+  const parentOf = (module: string) => {
+    for (let p = module; p.includes("::"); ) {
+      p = p.replace(/::[^:]+$/, "");
+      if (names.has(p)) return p;
+    }
+    return undefined;
+  };
+  const link = (m: E, parent?: string): NavLink => ({
+    href: href(m),
+    label: m.data.title,
+    short: parent ? m.data.module.slice(parent.length + 2) : undefined,
+    module: m.data.module,
+    hint: m.data.description,
+    children: [
+      ...picked.filter((s) => parentOf(s.data.module) === m.data.module).map((s) => link(s, m.data.module)),
+      ...moduleItems(entries, m.data.module).map((e) => ({
+        href: href(e),
+        label: e.data.kind === "macro" ? `${e.data.name}!` : e.data.name,
+        hint: e.data.description,
+      })),
+    ],
+  });
+  return picked.filter((m) => !parentOf(m.data.module)).map((m) => link(m));
+}
+
+// ------------------------------------------------------ package API reference
+
+/** "json/json/Json" → "/packages/json/reference/json/Json"; "json/json/index" → "/packages/json/reference/json". */
+export function apiHref(id: string): string {
+  const [pkg, ...rest] = id.split("/");
+  return `${apiRoot(pkg)}/${rest.join("/")}`.replace(/(^|\/)index$/, "").replace(/\/$/, "");
+}
+
+/** Landing page of a package's API reference: "/packages/json/reference". */
+export const apiRoot = (pkg: string) => `/packages/${pkg}/reference`;
+
+/** A package's API pages (`package` is "stdlib" or a package name). */
+export function apiEntries(entries: CollectionEntry<"api">[], pkg: string): CollectionEntry<"api">[] {
+  return entries.filter((e) => e.data.package === pkg);
+}
+
+/** Sidebar link to a package's API reference, with its modules nested below. */
+export function apiLink(entries: CollectionEntry<"api">[], pkg: string): NavLink | undefined {
+  const mine = apiEntries(entries, pkg);
+  if (!mine.length) return undefined;
+  return {
+    href: apiRoot(pkg),
+    label: "API reference",
+    hint: "Every module, type and function, generated from the source's doc comments.",
+    children: moduleTree(mine, referenceModules(mine), (e) => apiHref(e.id)),
+  };
 }
 
 /** Every module link in a reference group, parents before their submodules. */
@@ -366,7 +396,7 @@ function splitId(id: string): [string, string] {
  * overview, hand-written pages by `order`, then the order the package's guide
  * (or README) links to them, then alphabetically.
  */
-export function packageGroups(entries: CollectionEntry<"ecosystem">[]): NavGroup[] {
+export function packageGroups(entries: CollectionEntry<"ecosystem">[], api: CollectionEntry<"api">[] = []): NavGroup[] {
   const byPkg = new Map<string, CollectionEntry<"ecosystem">[]>();
   for (const e of entries) {
     const [pkg] = splitId(e.id);
@@ -393,16 +423,20 @@ export function packageGroups(entries: CollectionEntry<"ecosystem">[]): NavGroup
     pages.sort((a, b) => rank(a) - rank(b) || pos(a) - pos(b) || a.id.localeCompare(b.id));
 
     const meta = packages.find((p) => p.name === pkg);
+    const items: NavLink[] = pages.map((e) => ({
+      href: packageHref(e.id),
+      label: PAGE_LABELS[splitId(e.id)[1]] ?? plainTitle(e.data.title),
+      hint: e.data.description,
+    }));
+    // The generated API reference sits right after the overview.
+    const reference = apiLink(api, pkg);
+    if (reference) items.splice(1, 0, reference);
     return {
       key: `pkg-${pkg}`,
       title: TOOLING[pkg]?.title ?? pkg,
       track: "packages" as const,
       blurb: TOOLING[pkg]?.blurb ?? meta?.summary ?? "",
-      items: pages.map((e) => ({
-        href: packageHref(e.id),
-        label: PAGE_LABELS[splitId(e.id)[1]] ?? plainTitle(e.data.title),
-        hint: e.data.description,
-      })),
+      items,
     };
   });
 }
@@ -412,6 +446,7 @@ export function allGroups(
   docs: CollectionEntry<"docs">[],
   ecosystem: CollectionEntry<"ecosystem">[],
   reference: CollectionEntry<"reference">[] = [],
+  api: CollectionEntry<"api">[] = [],
 ): NavGroup[] {
-  return [...resolveGroups(docs), ...referenceGroups(reference), ...packageGroups(ecosystem)];
+  return [...resolveGroups(docs), ...referenceGroups(reference), ...packageGroups(ecosystem, api)];
 }

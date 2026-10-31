@@ -1,7 +1,7 @@
 ---
 title: "Module catalog"
 description: "use path:: is banned (E0124). List names explicitly."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/docs/modules.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/docs/modules.md"
 ---
 # Module catalog
 
@@ -48,6 +48,10 @@ package (`use json::{Json, JsonValue, JsonError};`). There is no in-tree
 | `num` | `use num::{PI, E, TAU, abs, min, signum, gcd, …};` | Float constants `PI`/`E`/`TAU`; helpers: `abs`, `min`/`max`/`clamp` over `Ord`, `round`, `signum`, `gcd`/`lcm`, `trunc`/`fract`, NaN/inf checks, euclidean div/rem, `hypot` |
 | `random` | `use random::{Rng};` | Seeded `Rng` PRNG (`from_time` mixes [coil-time](https://github.com/ardax-corp/coil-time) timestamps as ints) |
 | `path` | `use path::{Path};` | `Path` value: join / normalize / components / FS + file I/O |
+| `future` | `use future::{Promise, Group, all, try_all, race, first_ok, limit};` | Futures over tasks: `Promise<T>` (a one-shot value another task sets: `resolve` / `cancel` / `wait` / `wait_timeout` / `try_get`), `Group<T>` (a scope's children in completion order: `spawn` / `next` / `next_index` / `cancel_all`) and combinators over `Vec<unit -> T>` bodies: `all` and `limit(n, ..)` (results in input order), `try_all` (first `Err` cancels the rest), `race` (first finisher wins, the rest are cancelled) and `first_ok`. A `Task<R>` stays the future for work you start |
+| `io::buffered` | `use io::buffered::{Reader, Writer};` | Buffered, deadline-aware streams over any `Stream`: `read_line` / `read_until` / `read_exact` / `peek` / `read_some` / `read_to_end` / `take_buffered`, buffered `write` / `flush`, `set_timeout(ms)` — [IO adapters](/packages/stdlib/io) |
+| `net` | `use net::{serve};` | `serve(listener, max, handler)`: one task per connection, at most `max` at once — [IO adapters](/packages/stdlib/io) |
+| `timer` | `use timer::{Interval, sleep_until};` | `Interval::new(ms).tick()` (no drift, skips missed periods) and `sleep_until(mono_nanos)` |
 | `io::sync` | `use io::sync::{write_all, copy, …};` | Blocking adapters — [IO adapters](/packages/stdlib/io) |
 | `io::file` | `use io::file::{read_text, append_bytes, …};` | Whole-file read/write/append — [IO adapters](/packages/stdlib/io) |
 
@@ -62,8 +66,6 @@ package (`use json::{Json, JsonValue, JsonError};`). There is no in-tree
   `[byte; N]` too (`to_bytes(s)` for a string value).
 - `num` is named so a project `math.hy` does not shadow it.
 - Collections that are type-tied should be **methods** (`m.insert(k, v)`).
-  Cross-module user classes are still limited in the language
- .
 - `xs.fold(init, fn (A acc, T x) => …)` takes any accumulator type `A`.
 - `for (i, x) in xs.enumerate()` walks indices and values together.
 - `xs.chunks(n)` is the only name (no `chunk` alias). `windows` is overlapping

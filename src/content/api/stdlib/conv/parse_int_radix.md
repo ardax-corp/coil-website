@@ -1,0 +1,55 @@
+---
+slug: "stdlib/conv/parse_int_radix"
+package: "stdlib"
+title: "parse_int_radix"
+description: "Parses an integer written in base radix, which must be 10 or 16."
+module: "conv"
+kind: "fn"
+name: "parse_int_radix"
+signature: "fn parse_int_radix(string s, int radix) -> Result<int, string>"
+import: "use conv::{parse_int_radix};"
+origin: "stdlib"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/conv.hy#L147"
+order: 3
+---
+
+Parses an integer written in base `radix`, which must be 10 or 16.
+
+Surrounding ASCII whitespace and one leading `+` or `-` are accepted. Hex
+digits may be either case; there is no `0x` prefix.
+
+## Parameters
+
+| Name | Type |
+|------|------|
+| `s` | `string` |
+| `radix` | `int` |
+
+## Returns
+
+`Result<int, string>`
+
+## Errors
+
+`Err("invalid integer")` for empty or non-digit text and `Err("invalid radix")`
+for any other `radix`; `Err("overflow")` when the value does not fit in an
+[`int`](/docs/reference/types/int).
+
+## Examples
+
+```coil
+use conv::{parse_int_radix};
+use tests::assert;
+assert!((parse_int_radix("ff", 16).ok() ?? 0) == 255);
+assert!((parse_int_radix("-10", 10).ok() ?? 0) == -10);
+assert!(parse_int_radix("12", 8).is_err());
+```
+
+## See also
+
+- [`int`](/docs/reference/types/int)
+- [`int_to_dec`](/packages/stdlib/reference/conv/int_to_dec): Formats `n` in decimal; the same as `format("%i", n)`.
+- [`int_to_hex`](/packages/stdlib/reference/conv/int_to_hex): Formats `n` in lowercase hexadecimal without a prefix; a negative `n` gets a leading `-`.
+- [`int_to_bin`](/packages/stdlib/reference/conv/int_to_bin): Formats `n` in binary without a prefix; a negative `n` gets a leading `-`.
+- [`parse_int`](/packages/stdlib/reference/conv/parse_int): Parses a decimal integer, such as `"42"`, `" -7 "` or `"+3"`.
+- [`parse_float`](/packages/stdlib/reference/conv/parse_float): Parses a decimal float such as `"3.5"`, `"-0.25"`, `"1e3"` or `"42"`.

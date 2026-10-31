@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-time"
 description: "This package is time. use time::{timestamp, Instant} resolves from this repo's src/. Process clocks are HostInvoke clock in coil-lang (archive 4.4+: clockwallnanos /…"
-source: "https://github.com/ardax-corp/coil-time/blob/e9ba42d2a026e36144d31e7fe5f2fe7fe4e1f089/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/docs/consume.md"
 ---
 # Consuming coil-time
 
@@ -62,7 +62,7 @@ Shipped names in `src/time.hy`:
 | `date_from_period` / `date_from_epoch_period` | Calendar date; month/day 0 is `InvalidInput` |
 | `epoch` | Zero nanos `Timestamp` |
 | `format` / `parse` | `%Y` `%m` `%d` `%H` `%M` `%S` `%%` (tests' subset) |
-| `%Y-%m-%d` / `%Y-%m-%dT%H:%M:%S` | Documented `format` / `parse` patterns (ISO date / date-time body) |
+| `ISO8601_DATE` / `ISO8601` | Documented `format` / `parse` patterns `%Y-%m-%d` / `%Y-%m-%dT%H:%M:%S` (ISO date / date-time body) |
 | `format_rfc3339` / `parse_rfc3339` | UTC `Z`; parse also accepts `±HH:MM` and `.` fraction |
 | `format_iso8601` / `parse_iso8601` | Same emit as RFC 3339; parse zone optional (UTC) or `±HH:MM` / `±HHMM` |
 | `format_iso8601_date` / `parse_iso8601_date` | `YYYY-MM-DD` midnight UTC |

@@ -1,20 +1,19 @@
 ---
 title: "API"
 description: "Module: use tls::{client, server, alpnprotocol}; (package name tls from coil.toml). How to depend: consume.md."
-source: "https://github.com/ardax-corp/coil-tls/blob/e97b8e5ab9ed9a644e95a9ebade538c0795d7b1c/docs/api.md"
+source: "https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/docs/api.md"
 ---
 # API
 
 Module: `use tls::{client, server, alpn_protocol};` (package name `tls` from `coil.toml`). How to depend: [consume.md](/packages/tls/consume).
 
-
 ## In-place upgrade
 
-`client::enable` / `server::enable` take a TCP `Stream` and return that same `Stream` with TLS attached via generic `Stream.attach`. coil-http keeps `enable(stream, host, opts) -> Result<Stream, IoError>`. Do not wrap a second Stream type. Do not use `enable(fd) -> Session` as the HTTP-facing API.
+`client::enable` / `server::enable` take a TCP `Stream` and return that same `Stream` with TLS attached via generic `Stream.attach`. coil-http keeps `enable(stream, host, opts) -> Result<Stream, TlsError>`. Do not wrap a second Stream type. Do not use `enable(fd) -> Session` as the HTTP-facing API.
 
 Enable is dload create (`coil_tls_*_enable`, Stream marshals to fd) + `s.attach(session, read, write, shutdown, free)` + empty `write`/`read` until Ready. `WouldBlock` parks with `s.park()` (`reactor_wait_fd_no_help`). Do not retry `enable` for the same handshake. After attach, `s.read()` / `s.write()` / Drop go through the C vtable. This package does not import leftover `io::__tls`.
 
-C ABI `Session` helpers are `tls::abi`. They talk `coil_tls_*` and do **not** attach. After attach, the Stream owns free; `Session.drop` of a released pointer is a no-op. `Session.drop` before attach still calls `coil_tls_free`.
+C ABI `Session` helpers are `tls::abi`, which is package-internal (not part of the documented API). They talk `coil_tls_*` and do **not** attach. After attach, the Stream owns free; `Session.drop` of a released pointer is a no-op. `Session.drop` before attach still calls `coil_tls_free`.
 
 ## Types
 
@@ -48,9 +47,21 @@ Call sites pass `new ClientOpts(...)` / `new ServerOpts(...)`. Handles are not t
 | `server::disable(stream)` | Same teardown as client disable |
 | `alpn_protocol(stream)` | Negotiated ALPN, or `""` |
 
-All return `Result<_, IoError>`. `timeout_ms <= 0` means no handshake deadline. Extra `ca_pem` / `ca_path` **append** to webpki roots when `verify` is true. Empty `client_ca_pem` means no mTLS. `alpn` is `""`, `"h2"`, `"http/1.1"`, or a comma list.
+All return `Result<_, TlsError>`. `timeout_ms <= 0` means no handshake deadline. Extra `ca_pem` / `ca_path` **append** to webpki roots when `verify` is true. Empty `client_ca_pem` means no mTLS. `alpn` is `""`, `"h2"`, `"http/1.1"`, or a comma list.
 
-A non-TCP Stream (for example a file from `open`) is `InvalidInput`. Successful empty write means handshake is done; empty read/write still pump handshake.
+A non-TCP Stream (for example a file from `open`) is `TlsError::Io(IoError::InvalidInput)`.
+
+## Errors
+
+`tls::error::TlsError` (derives `Show` and `Eq`):
+
+| Variant | When |
+|---|---|
+| `Certificate` | the peer's certificate (or the configured one) was rejected |
+| `Handshake` | the TLS handshake or record layer failed |
+| `Io(IoError)` | the socket failed, or the input was invalid (a non-TCP Stream, a bad PEM) |
+
+`IoError` itself has no TLS variants: a TLS stream's own `read` / `write` report `IoError::Protocol` on a TLS failure. Successful empty write means handshake is done; empty read/write still pump handshake.
 
 ## C ABI (`tls::abi`)
 

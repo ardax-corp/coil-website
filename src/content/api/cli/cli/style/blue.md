@@ -1,0 +1,31 @@
+---
+slug: "cli/cli/style/blue"
+package: "cli"
+title: "blue"
+description: "Standard blue (Color::Ansi(4))."
+module: "cli::style"
+kind: "fn"
+name: "blue"
+signature: "fn blue() -> Color"
+import: "use cli::style::{blue};"
+origin: "package"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.hy#L51"
+order: 7
+---
+
+Standard blue (`Color::Ansi(4)`).
+
+## Returns
+
+`Color`
+
+## See also
+
+- [`black`](/packages/cli/reference/cli/style/black): Standard black (`Color::Ansi(0)`).
+- [`red`](/packages/cli/reference/cli/style/red): Standard red (`Color::Ansi(1)`).
+- [`green`](/packages/cli/reference/cli/style/green): Standard green (`Color::Ansi(2)`).
+- [`yellow`](/packages/cli/reference/cli/style/yellow): Standard yellow (`Color::Ansi(3)`).
+- [`magenta`](/packages/cli/reference/cli/style/magenta): Standard magenta (`Color::Ansi(5)`).
+- [`cyan`](/packages/cli/reference/cli/style/cyan): Standard cyan (`Color::Ansi(6)`).
+- [`white`](/packages/cli/reference/cli/style/white): Standard white (`Color::Ansi(7)`).
+- [`bright_black`](/packages/cli/reference/cli/style/bright_black): Bright black (`Color::Ansi(8)`).

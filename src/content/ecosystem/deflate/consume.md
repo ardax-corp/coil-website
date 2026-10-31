@@ -1,11 +1,11 @@
 ---
 title: "Consuming coil-deflate"
-description: "This package is deflate. use deflate::{compress, decompress, Deflate, DeflateError} resolves from src/deflate.hy. This repo is private…"
-source: "https://github.com/ardax-corp/coil-deflate/blob/3203ae99eac844aa0acded5ab506cd38510b1ff5/docs/consume.md"
+description: "This package is deflate. use deflate::{compress, decompress, Deflate, DeflateError} resolves from src/deflate.hy. The repo is https://github.com/ardax-corp/coil-deflate.git.…"
+source: "https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/docs/consume.md"
 ---
 # Consuming coil-deflate
 
-This package is `deflate`. `use deflate::{compress, decompress, Deflate, DeflateError}` resolves from `src/deflate.hy`. This repo is **private** (`https://github.com/ardax-corp/coil-deflate.git`); clone with credentials that can read it. There is no native/FFI dep.
+This package is `deflate`. `use deflate::{compress, decompress, Deflate, DeflateError}` resolves from `src/deflate.hy`. The repo is `https://github.com/ardax-corp/coil-deflate.git`. There is no native/FFI dep.
 
 ## Depend on it
 
@@ -20,20 +20,24 @@ This repo has no tags, so pin a commit with `--rev`. spool records the dep in `c
 Without spool, clone this repo next to your project and pass the roots yourself. coil reads no `coil.toml` and no `coil.lock`.
 
 ```bash
-coil --root ../coil-deflate/src main.hy
+git clone https://github.com/ardax-corp/coil-deflate.git ../coil-deflate
+coil --root ../coil-deflate/src --root ../coil-stdlib/src main.hy
 ```
 
 ## Call compress / decompress
 
-Signatures are in [`src/deflate.hy`](https://github.com/ardax-corp/coil-deflate/blob/3203ae99eac844aa0acded5ab506cd38510b1ff5/src/deflate.hy). Call patterns are in [`tests/roundtrip.hy`](https://github.com/ardax-corp/coil-deflate/blob/3203ae99eac844aa0acded5ab506cd38510b1ff5/tests/roundtrip.hy) and [`tests/vectors.hy`](https://github.com/ardax-corp/coil-deflate/blob/3203ae99eac844aa0acded5ab506cd38510b1ff5/tests/vectors.hy).
+Signatures are in [`src/deflate.hy`](https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/src/deflate.hy). Call patterns are in [`tests/roundtrip.hy`](https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/tests/roundtrip.hy) and [`tests/vectors.hy`](https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/tests/vectors.hy).
 
 ```coil
 use string::{to_bytes};
 use deflate::{compress, decompress, Deflate, DeflateError};
 
-let raw = compress(to_bytes("hello"))?;
-let out = decompress(raw)?;
-let also = Deflate::decompress(raw)?;
+fn pack_and_unpack() -> Result<Vec<byte>, DeflateError> {
+    let raw = compress(to_bytes("hello"))?;
+    let out = decompress(raw)?;
+    let also = Deflate::decompress(raw)?;
+    return out;
+}
 ```
 
 `compress` / `decompress` take `Vec<byte>` and return `Result<Vec<byte>, DeflateError>`. Streams are raw DEFLATE (RFC 1951), not gzip members.

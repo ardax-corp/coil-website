@@ -9,7 +9,7 @@ parent: "Stream"
 signature: "pub fn attach(int ptr, int read, int write, int shutdown, int free) -> Result<Stream, IoError>"
 import: "use io::{Stream};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io.hy#L71"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.hy#L71"
 order: 0
 ---
 

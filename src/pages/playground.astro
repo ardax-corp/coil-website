@@ -2,8 +2,10 @@
 import Base from "../layouts/Base.astro";
 import "../styles/playground.css";
 import { playgroundExamples } from "../lib/playground/examples";
+import { PLAYGROUND_PACKAGES } from "../lib/playground/plan.mjs";
 
 const examples = playgroundExamples();
+const packageNames = Object.keys(PLAYGROUND_PACKAGES).join(", ");
 ---
 
 <Base
@@ -45,7 +47,10 @@ const examples = playgroundExamples();
     </div>
     <p class="pg-note">
       Coil runs in your browser as WebAssembly: nothing is sent to a server. Files live in memory for one run. There is
-      no network, no FFI, and threads take turns on one core. <a class="pg-chapter" hidden>From the tutorial</a>
+      no network, no FFI, and threads take turns on one core. The pure-Coil packages ({packageNames}) are available as
+      if spool had linked them: <code>use json::{"{"}Json{"}"};</code> just works, and a <code>coil.toml</code> file with
+      a <code>[dependencies]</code> table limits the program to the ones it lists.
+      <a class="pg-chapter" hidden>From the tutorial</a>
     </p>
   </div>
 </Base>
@@ -313,7 +318,7 @@ const examples = playgroundExamples();
   function load(state: { files: Files; active?: string; stdin?: string }, chapter = "") {
     files = { ...state.files };
     if (!Object.keys(files).length) files = { "main.hy": "" };
-    active = state.active && state.active in files ? state.active : Object.keys(files)[0];
+    active = state.active && state.active in files ? state.active : "main.hy" in files ? "main.hy" : Object.keys(files)[0];
     stdinBox.value = state.stdin ?? "";
     stdinDetails.open = !!stdinBox.value;
     chapterLink.hidden = !chapter;
@@ -374,7 +379,7 @@ const examples = playgroundExamples();
       let name = input.value.trim().replace(/^\/+/, "");
       input.remove();
       if (!ok || !name) return;
-      if (!name.endsWith(".hy")) name += ".hy";
+      if (!name.endsWith(".hy") && name !== "coil.toml") name += ".hy";
       if (!(name in files)) files[name] = name.startsWith("tests/") ? 'use tests::assert;\n\ntest("works") {\n    assert!(true);\n}\n' : "";
       select(name);
     };

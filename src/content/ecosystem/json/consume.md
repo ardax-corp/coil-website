@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-json"
 description: "This package is json. use json::{Json, JsonValue, JsonError} resolves from src/json.hy. Strict one-shot encode/decode ships here. coil-stdlib is not a dependency of this…"
-source: "https://github.com/ardax-corp/coil-json/blob/d58e6728df4a77a73a076288379fde2b0da76b51/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/docs/consume.md"
 ---
 # Consuming coil-json
 
@@ -25,7 +25,7 @@ coil --root ../coil-json/src main.hy
 
 ## Call Json::strict()
 
-Signatures are in [`src/json.hy`](https://github.com/ardax-corp/coil-json/blob/d58e6728df4a77a73a076288379fde2b0da76b51/src/json.hy). Call patterns are in [`tests/strict.hy`](https://github.com/ardax-corp/coil-json/blob/d58e6728df4a77a73a076288379fde2b0da76b51/tests/strict.hy). `Json::strict()` is RFC 8259 one-shot.
+Signatures are in [`src/json.hy`](https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.hy). Call patterns are in [`tests/strict.hy`](https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/tests/strict.hy). `Json::strict()` is RFC 8259 one-shot.
 
 `Json::jsonc()` is parse-only sugar: comments and trailing commas on decode. Encode stays RFC 8259. Not JSON5.
 
@@ -94,7 +94,6 @@ A number token with no `.` / `e` / `E` that fits in i64 is an int. Otherwise it 
 ```coil
 enum JsonError {
     Invalid { line: int, column: int },
-    Io { line: int, column: int },
     Utf8 { line: int, column: int },
     Number { line: int, column: int },
 }
@@ -112,7 +111,7 @@ match j.decode_str("{") {
 }
 ```
 
-`Number` and `Utf8` are on the enum. Extra cases are planned.
+`Number` and `Utf8` are on the enum.
 
 ### stdlib
 

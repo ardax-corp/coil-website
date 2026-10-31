@@ -1,7 +1,7 @@
 ---
 title: "coil-stdlib"
 description: "Userland standard library for Coil. Compiler virtual modules cover systems primitives (io, string, thread, …); this package layers .hy helpers on top."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/69c79b1dd8c070fe7ca03a71c7a372ea4cc06f82/README.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/README.md"
 ---
 # coil-stdlib
 
@@ -41,11 +41,12 @@ docs/                 # package documentation
 
 ## Develop
 
-Needs a Coil toolchain on `PATH` (or `COIL`) and a
-[coil-time](https://github.com/ardax-corp/coil-time) checkout at `.ci/coil-time`.
-`random::Rng::from_time` uses coil-time clocks through HostInvoke (Coil module
-root only — no `libtime` dload):
+Needs a Coil toolchain on `PATH` (or `COIL`). `random::Rng::from_time` uses
+[coil-time](https://github.com/ardax-corp/coil-time), a pure-Coil dependency
+declared in `coil.toml`. With spool, `spool install` fetches it and
+`spool test` passes its root. With plain `coil`, clone it next to this checkout:
 
 ```bash
-coil test --allow-read --allow-write --allow-net --root .ci/coil-time/src
+git clone https://github.com/ardax-corp/coil-time.git ../coil-time
+coil test --allow-read --allow-write --allow-net --root ../coil-time/src
 ```

@@ -8,14 +8,14 @@ name: "drive"
 signature: "fn drive() -> int"
 import: "use io::{drive};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/8b9e0dda6cdbb0ebf164e5feafa3dd672e189da9/compiler/src/builtin_docs/io.hy#L608"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.hy#L608"
 order: 18
 ---
 
 Deprecated: polls the registered IO waiters once and returns how many became ready.
 
 Calling it gives warning `E0129`. Run concurrent IO as tasks instead
-([`task::scope`](/docs/reference/task/scope) with `spawn` and `join`): an IO wait inside a task
+([`task::scope`](/docs/reference/task/fn.scope) with `spawn` and `join`): an IO wait inside a task
 suspends only that task.
 
 ## Returns
@@ -31,7 +31,7 @@ let ready = drive(); // warning E0129: `drive` is deprecated
 
 ## See also
 
-- [`task::scope`](/docs/reference/task/scope)
+- [`task::scope`](/docs/reference/task/fn.scope)
 - [`stdin`](/docs/reference/io/stdin): Returns a new stream on the process's standard input.
 - [`stdout`](/docs/reference/io/stdout): Returns a new stream on the process's standard output.
 - [`stderr`](/docs/reference/io/stderr): Returns a new stream on the process's standard error.

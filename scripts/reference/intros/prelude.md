@@ -11,5 +11,5 @@ Operator traits live in [`prelude::ops`](/docs/reference/prelude/ops) and
 small linear algebra (`dot`, `cross`, `matmul`, `Matrix`) in
 [`prelude::math`](/docs/reference/prelude/math); both are auto-imported too.
 Float functions such as `sin` and `sqrt` are the standard library's
-[`math`](/docs/reference/math) module, imported with `use`. The primitive types (`int`, `string`, …) are listed under
+[`math`](/packages/stdlib/reference/math) module, imported with `use`. The primitive types (`int`, `string`, …) are listed under
 [types](/docs/reference/types).
