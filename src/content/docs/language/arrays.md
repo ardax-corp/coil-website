@@ -106,4 +106,4 @@ Proven counted-loop reads/writes rewrite to unchecked / pin opcodes
 
 - [Types](/docs/language/types)
 - [Syntax](/docs/language/syntax)
-- Example: `examples/vec.hy`
+- Example: `examples/vec.coil`

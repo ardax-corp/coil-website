@@ -10,7 +10,7 @@ parent: "VecOps"
 signature: "fn concat(V xs, Vec<Item> ys) -> Vec<Item>"
 import: "use collections::vec::{VecOps};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.hy#L82"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.coil#L82"
 order: 12
 ---
 

@@ -10,7 +10,7 @@ parent: "Buffer"
 signature: "pub fn draw_box(int x, int y, int w, int h, BoxChars bc, Style style)"
 import: "use cli::screen::{Buffer};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/screen.hy#L204"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/screen.coil#L204"
 order: 8
 ---
 

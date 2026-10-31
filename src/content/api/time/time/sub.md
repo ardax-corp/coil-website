@@ -9,7 +9,7 @@ name: "sub"
 signature: "fn sub(Timestamp ts, Period p) -> Result<Timestamp, TimeError>"
 import: "use time::{sub};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.hy#L1010"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.coil#L1010"
 order: 13
 ---
 

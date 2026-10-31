@@ -9,7 +9,7 @@ name: "ws_is_upgrade_req"
 signature: "fn ws_is_upgrade_req(IncomingRequest req) -> int"
 import: "use http::ws::{ws_is_upgrade_req};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.hy#L441"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.coil#L441"
 order: 12
 ---
 

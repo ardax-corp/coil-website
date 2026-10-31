@@ -8,7 +8,7 @@ name: "byte"
 signature: "type byte"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/types.hy#L125"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/types.coil#L125"
 order: 3
 ---
 

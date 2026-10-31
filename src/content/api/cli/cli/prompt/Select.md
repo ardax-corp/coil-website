@@ -9,7 +9,7 @@ name: "Select"
 signature: "class Select"
 import: "use cli::prompt::{Select};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.hy#L142"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.coil#L142"
 order: 2
 ---
 

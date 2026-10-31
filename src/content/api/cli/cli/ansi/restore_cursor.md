@@ -9,7 +9,7 @@ name: "restore_cursor"
 signature: "fn restore_cursor() -> string"
 import: "use cli::ansi::{restore_cursor};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L90"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L90"
 order: 15
 ---
 

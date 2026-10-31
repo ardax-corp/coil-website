@@ -9,7 +9,7 @@ name: "period_sub"
 signature: "fn period_sub(Period a, Period b) -> Result<Period, TimeError>"
 import: "use time::{period_sub};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.hy#L1039"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.coil#L1039"
 order: 15
 ---
 

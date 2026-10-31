@@ -7,7 +7,7 @@ source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85
 
 Userland JSON for [coil](https://github.com/ardax-corp/coil-lang). Package name is `json`, so `use json::{Json, JsonValue, JsonError}` resolves here.
 
-Pure Coil, no native library. One module, `json` (`src/json.hy`): the `Json` codec, the `JsonValue` handle it decodes to, and the `JsonError` it reports.
+Pure Coil, no native library. One module, `json` (`src/json.coil`): the `Json` codec, the `JsonValue` handle it decodes to, and the `JsonError` it reports.
 
 ## Example
 
@@ -34,7 +34,7 @@ fn main() {
 }
 ```
 
-Run it with `coil --root ../coil-stdlib/src --root ../coil-json/src main.hy` (prints `coil`, then the compact document).
+Run it with `coil --root ../coil-stdlib/src --root ../coil-json/src main.coil` (prints `coil`, then the compact document).
 
 ## API
 
@@ -68,7 +68,7 @@ Numbers: a token with no `.` / `e` / `E` that fits in i64 is an int; otherwise f
 
 | Path | Role |
 |------|------|
-| `src/json.hy` | `Json`, `JsonValue`, `JsonError`, Coil-side parser/stringify |
+| `src/json.coil` | `Json`, `JsonValue`, `JsonError`, Coil-side parser/stringify |
 | `coil.toml` | spool manifest (`[package] name = "json"`); coil does not read it |
 
 ## Consume
@@ -85,7 +85,7 @@ No tags yet, so pin a commit. Without spool, pass `--root ../coil-json/src` to `
 coil test --root ../coil-stdlib/src
 ```
 
-This runs `tests/` and the examples in the `///` docs of `src/json.hy`.
+This runs `tests/` and the examples in the `///` docs of `src/json.coil`.
 
 ## License
 

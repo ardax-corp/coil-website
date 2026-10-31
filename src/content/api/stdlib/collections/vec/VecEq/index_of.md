@@ -10,7 +10,7 @@ parent: "VecEq"
 signature: "fn index_of(V xs, Item needle) -> Option<int>"
 import: "use collections::vec::{VecEq};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.hy#L328"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.coil#L328"
 order: 1
 ---
 

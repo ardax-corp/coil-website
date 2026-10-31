@@ -9,7 +9,7 @@ name: "rgb_to_ansi"
 signature: "fn rgb_to_ansi(int r, int g, int b) -> int"
 import: "use cli::style::{rgb_to_ansi};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.hy#L429"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.coil#L429"
 order: 35
 ---
 

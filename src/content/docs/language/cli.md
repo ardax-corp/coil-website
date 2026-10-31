@@ -10,24 +10,24 @@ description: Every coil subcommand and the flags that matter day to day, plus th
 from `coil.toml`; this page is for running `coil` directly. `coil --help`
 and `coil <command> --help` print the complete, current list of options.
 
-Flags go before the file: `coil --root ../coil-stdlib/src -A app.hy`. With a
-subcommand they go after it: `coil compile --root ../coil-stdlib/src app.hy`.
+Flags go before the file: `coil --root ../coil-stdlib/src -A app.coil`. With a
+subcommand they go after it: `coil compile --root ../coil-stdlib/src app.coil`.
 
 ## Commands
 
 | Invocation | What it does |
 |------------|--------------|
-| `coil <file.hy>` | Compile and run. The compiled program is kept in the [build cache](#build-cache), so running it again skips compiling. |
-| `coil compile <file.hy> [-o path]` | Compile to a bytecode archive (`out.hyc` unless `-o`). |
-| `coil run <file.hyc>` | Run a compiled archive. An archive from an incompatible runtime is rejected. |
-| `coil package <file.hy> [-o path]` | Build a single executable for this OS and CPU (the `coil-embed` runner with the program inside). |
+| `coil <file.coil>` | Compile and run. The compiled program is kept in the [build cache](#build-cache), so running it again skips compiling. |
+| `coil compile <file.coil> [-o path]` | Compile to a bytecode archive (`out.ccoil` unless `-o`). |
+| `coil run <file.ccoil>` | Run a compiled archive. An archive from an incompatible runtime is rejected. |
+| `coil package <file.coil> [-o path]` | Build a single executable for this OS and CPU (the `coil-embed` runner with the program inside). |
 | `coil test [path]` | Run every test under `path` (default `./tests`) and the examples in `///` docs. See [Test harness](/docs/language/test-harness). |
-| `coil verify <file.hy>` | Prove `requires` / `ensures` [contracts](/docs/language/contracts) with an SMT solver. |
+| `coil verify <file.coil>` | Prove `requires` / `ensures` [contracts](/docs/language/contracts) with an SMT solver. |
 | `coil mutate` | Mutation testing: which small edits to your code no test notices. |
 | `coil fmt [--check] <file\|dir>…` | Format sources in place; `--check` only reports. Keeps `//` and `///` comments. |
 | `coil lsp` | Start the language server on stdin/stdout, for editors. |
-| `coil debug <file.hy>` | Interactive debugger (`--dap` for IDEs, `-x script --batch` for scripts). |
-| `coil dissect <file.hy> [--fn name]` | Print the compiled bytecode of the matching functions. |
+| `coil debug <file.coil>` | Interactive debugger (`--dap` for IDEs, `-x script --batch` for scripts). |
+| `coil dissect <file.coil> [--fn name]` | Print the compiled bytecode of the matching functions. |
 | `coil natives dump [exe]` | Print the native-library lock embedded in a packaged executable. |
 | `coil -V` | Print the version. |
 
@@ -51,14 +51,14 @@ subcommand they go after it: `coil compile --root ../coil-stdlib/src app.hy`.
 
 ```bash
 # Run a file that uses the stdlib and reads files
-coil --root ~/coil-stdlib/src --allow-read wc.hy notes.txt
+coil --root ~/coil-stdlib/src --allow-read wc.coil notes.txt
 
 # Compile once, run many times
-coil compile --root ~/coil-stdlib/src app.hy -o app.hyc
-coil run app.hyc
+coil compile --root ~/coil-stdlib/src app.coil -o app.ccoil
+coil run app.ccoil
 
 # Ship a single executable
-coil package --root ~/coil-stdlib/src app.hy -o app
+coil package --root ~/coil-stdlib/src app.coil -o app
 ./app
 
 # Tests, formatting
@@ -71,7 +71,7 @@ Test blocks (`test("…") { … }`) are left out of `coil compile` and
 
 ## Build cache {#build-cache}
 
-`coil <file.hy>` and `coil compile` keep each compiled program in
+`coil <file.coil>` and `coil compile` keep each compiled program in
 `~/.cache/coil/build` (or `$XDG_CACHE_HOME/coil/build`). When you run or compile the same file again
 and nothing it was built from changed, coil loads the stored program
 instead of compiling. A small program that uses the stdlib reruns in a few
@@ -112,5 +112,6 @@ commands. Keep them in the same directory.
 
 | Extension | Meaning |
 |-----------|---------|
-| `.hy` | Coil source |
-| `.hyc` | Compiled bytecode archive |
+| `.coil` | Coil source |
+| `.ccoil` | Compiled bytecode archive |
+| `.hy`, `.hyc` | Source and archive names from before the rename. Coil still reads `.hy` sources and runs `.hyc` archives from a compatible runtime, but writes only `.coil` and `.ccoil`. |

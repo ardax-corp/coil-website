@@ -9,7 +9,7 @@ name: "indexed_rgb"
 signature: "fn indexed_rgb(int i) -> (int, int, int)"
 import: "use cli::style::{indexed_rgb};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.hy#L377"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.coil#L377"
 order: 33
 ---
 

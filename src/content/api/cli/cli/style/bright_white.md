@@ -9,7 +9,7 @@ name: "bright_white"
 signature: "fn bright_white() -> Color"
 import: "use cli::style::{bright_white};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.hy#L106"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.coil#L106"
 order: 18
 ---
 

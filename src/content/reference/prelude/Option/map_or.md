@@ -9,7 +9,7 @@ parent: "Option"
 signature: "pub fn map_or<U>(U fallback, T -> U f) -> U"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/core.hy#L71"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/core.coil#L71"
 order: 5
 ---
 

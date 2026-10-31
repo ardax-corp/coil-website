@@ -8,7 +8,7 @@ name: "args"
 signature: "fn args() -> Result<Vec<string>, EnvError>"
 import: "use env::{args};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/env.hy#L44"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/env.coil#L44"
 order: 1
 ---
 

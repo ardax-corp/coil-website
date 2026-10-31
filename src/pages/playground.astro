@@ -253,7 +253,7 @@ const packageNames = Object.keys(PLAYGROUND_PACKAGES).join(", ");
   import { createEditor } from "../lib/playground/editor.mjs";
   import { OutputPanel, runInto } from "../lib/playground/output.mjs";
   import { decodeShare, encodeShare } from "../lib/playground/share.mjs";
-  import { planRun } from "../lib/playground/plan.mjs";
+  import { coilFileNames, planRun } from "../lib/playground/plan.mjs";
   import { analysis, stop, warmUp } from "../lib/playground/client.mjs";
   import { diagnose } from "../lib/playground/diagnostics.mjs";
   import { InspectPanel } from "../lib/playground/inspect.mjs";
@@ -287,7 +287,7 @@ const packageNames = Object.keys(PLAYGROUND_PACKAGES).join(", ");
   for (const tab of root.querySelectorAll<HTMLElement>(".pg-side-tab")) tab.addEventListener("click", () => showPane(tab.dataset.pane!));
 
   let files: Files = {};
-  let active = "main.hy";
+  let active = "main.coil";
   let running = false;
 
   const editor = createEditor(root.querySelector(".pg-editor")!, {
@@ -316,9 +316,10 @@ const packageNames = Object.keys(PLAYGROUND_PACKAGES).join(", ");
   }
 
   function load(state: { files: Files; active?: string; stdin?: string }, chapter = "") {
-    files = { ...state.files };
-    if (!Object.keys(files).length) files = { "main.hy": "" };
-    active = state.active && state.active in files ? state.active : "main.hy" in files ? "main.hy" : Object.keys(files)[0];
+    files = coilFileNames(state.files);
+    if (!Object.keys(files).length) files = { "main.coil": "" };
+    if (state.active?.endsWith(".hy")) state = { ...state, active: `${state.active.slice(0, -3)}.coil` };
+    active = state.active && state.active in files ? state.active : "main.coil" in files ? "main.coil" : Object.keys(files)[0];
     stdinBox.value = state.stdin ?? "";
     stdinDetails.open = !!stdinBox.value;
     chapterLink.hidden = !chapter;
@@ -371,7 +372,7 @@ const packageNames = Object.keys(PLAYGROUND_PACKAGES).join(", ");
 
   root.querySelector(".pg-add")!.addEventListener("click", () => {
     const input = document.createElement("input");
-    input.placeholder = "util.hy or tests/x.hy";
+    input.placeholder = "util.coil or tests/x.coil";
     input.setAttribute("aria-label", "New file name");
     tabs.append(input);
     input.focus();
@@ -379,7 +380,7 @@ const packageNames = Object.keys(PLAYGROUND_PACKAGES).join(", ");
       let name = input.value.trim().replace(/^\/+/, "");
       input.remove();
       if (!ok || !name) return;
-      if (!name.endsWith(".hy") && name !== "coil.toml") name += ".hy";
+      if (!name.endsWith(".coil") && name !== "coil.toml") name += ".coil";
       if (!(name in files)) files[name] = name.startsWith("tests/") ? 'use tests::assert;\n\ntest("works") {\n    assert!(true);\n}\n' : "";
       select(name);
     };

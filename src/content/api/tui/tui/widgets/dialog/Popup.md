@@ -9,7 +9,7 @@ name: "Popup"
 signature: "shared class Popup"
 import: "use tui::widgets::dialog::{Popup};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/dialog.hy#L30"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/dialog.coil#L30"
 order: 0
 ---
 

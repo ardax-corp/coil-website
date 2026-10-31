@@ -9,7 +9,7 @@ name: "ws_close"
 signature: "fn ws_close(WsConn c)"
 import: "use http::ws::{ws_close};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.hy#L721"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.coil#L721"
 order: 20
 ---
 

@@ -11,11 +11,11 @@ the compiler checks it: every host call that `main` or a test can reach must
 be covered, or the build fails with the flag to add.
 
 ```
-$ coil load.hy
+$ coil load.coil
 Error: [E0414] `io::open` requires `--allow-read`: reached from `main` → `load`
 Help: pass `--allow-read` (or `-A` for everything)
 
-$ coil --allow-read load.hy
+$ coil --allow-read load.coil
 ```
 
 ## Capabilities
@@ -64,11 +64,11 @@ runs, whatever the flags.
 
 ## The compiled program is the grant
 
-Flags are read when the program is compiled. `coil run out.hyc` and packaged
+Flags are read when the program is compiled. `coil run out.ccoil` and packaged
 executables run what was compiled and do not take the flags again. Grants are
 not recorded in the archive and `coil` does not read them from `coil.toml`.
 The `dload` pins and trusted stems are the exception: they are checked when
-the library loads, so `coil run out.hyc` takes `--dload-pin` /
+the library loads, so `coil run out.ccoil` takes `--dload-pin` /
 `--dload-trusted`; a packaged executable uses the hashes in its embedded
 native lock.
 

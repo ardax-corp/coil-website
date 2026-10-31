@@ -9,7 +9,7 @@ parent: "Vec"
 signature: "pub static fn from([T; N] arr) -> Vec<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/prelude.hy#L156"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/prelude.coil#L156"
 order: 2
 ---
 

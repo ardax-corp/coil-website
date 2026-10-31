@@ -9,7 +9,7 @@ name: "accept_wait"
 signature: "fn accept_wait(Stream listener) -> Result<Stream, IoError>"
 import: "use io::sync::{accept_wait};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/sync.hy#L140"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/sync.coil#L140"
 order: 3
 ---
 

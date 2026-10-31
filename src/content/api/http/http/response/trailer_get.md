@@ -9,7 +9,7 @@ name: "trailer_get"
 signature: "fn trailer_get(Response r, string name) -> string"
 import: "use http::response::{trailer_get};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/response.hy#L164"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/response.coil#L164"
 order: 2
 ---
 

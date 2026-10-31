@@ -8,7 +8,7 @@ name: "TypeRef"
 signature: "class TypeRef"
 import: "use macro::{TypeRef};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/macro.hy#L210"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/macro.coil#L210"
 order: 3
 ---
 

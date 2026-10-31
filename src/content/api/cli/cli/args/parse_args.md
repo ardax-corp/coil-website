@@ -9,7 +9,7 @@ name: "parse_args"
 signature: "fn parse_args(Command cmd, Vec<string> argv) -> Result<Parsed, ArgError>"
 import: "use cli::args::{parse_args};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/args.hy#L587"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/args.coil#L587"
 order: 13
 ---
 

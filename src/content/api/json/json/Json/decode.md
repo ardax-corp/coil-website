@@ -10,7 +10,7 @@ parent: "Json"
 signature: "pub fn decode(Vec<byte> bytes) -> Result<JsonValue, JsonError>"
 import: "use json::{Json};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.hy#L1438"
+source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.coil#L1438"
 order: 3
 ---
 

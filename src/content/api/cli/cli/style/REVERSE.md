@@ -9,7 +9,7 @@ name: "REVERSE"
 signature: "const REVERSE = 32;"
 import: "use cli::style::{REVERSE};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.hy#L183"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.coil#L183"
 order: 26
 ---
 

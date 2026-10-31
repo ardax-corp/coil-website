@@ -8,7 +8,7 @@ name: "diff"
 signature: "fn diff<D, M>(Matrix<D> a, Matrix<D> b) -> Matrix<M>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/prelude/math.hy#L106"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/prelude/math.coil#L106"
 order: 6
 ---
 

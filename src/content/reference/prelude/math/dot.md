@@ -8,7 +8,7 @@ name: "dot"
 signature: "fn dot<V, T>(V a, V b) -> T"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/prelude/math.hy#L17"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/prelude/math.coil#L17"
 order: 1
 ---
 

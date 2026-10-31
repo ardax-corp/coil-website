@@ -10,7 +10,7 @@ parent: "Harness"
 signature: "pub fn cell(int x, int y) -> Cell"
 import: "use tui::testing::{Harness};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/testing.hy#L258"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/testing.coil#L258"
 order: 13
 ---
 

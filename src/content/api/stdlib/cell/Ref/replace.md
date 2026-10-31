@@ -10,7 +10,7 @@ parent: "Ref"
 signature: "pub fn replace(T value) -> T"
 import: "use cell::{Ref};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/cell.hy#L45"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/cell.coil#L45"
 order: 3
 ---
 

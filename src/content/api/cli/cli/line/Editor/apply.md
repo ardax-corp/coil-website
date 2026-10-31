@@ -10,7 +10,7 @@ parent: "Editor"
 signature: "pub fn apply(Edit e) -> Outcome"
 import: "use cli::line::{Editor};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.hy#L304"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.coil#L304"
 order: 3
 ---
 

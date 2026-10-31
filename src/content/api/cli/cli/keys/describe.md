@@ -9,7 +9,7 @@ name: "describe"
 signature: "fn describe(Event e) -> string"
 import: "use cli::keys::{describe};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/keys.hy#L764"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/keys.coil#L764"
 order: 16
 ---
 

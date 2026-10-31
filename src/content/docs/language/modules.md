@@ -5,7 +5,7 @@ description: "How Coil maps files to modules, the use and mod syntax, how an imp
 
 # Modules
 
-A module is a `.hy` file. Its path below a search root is its name, and
+A module is a `.coil` file. Its path below a search root is its name, and
 `use` imports names from it. There are no module declarations, no export
 lists and no wildcard imports. For a gentler introduction, see
 [chapter 9 of the tutorial](/docs/manual/tutorial/09-modules).
@@ -13,15 +13,15 @@ lists and no wildcard imports. For a gentler introduction, see
 ## Module names
 
 The name of a module is its file path relative to the search root it was
-found in, without `.hy`, with `/` replaced by `::`:
+found in, without `.coil`, with `/` replaced by `::`:
 
 | File (root `src/`) | Module |
 |--------------------|--------|
-| `src/money.hy` | `money` |
-| `src/store/item.hy` | `store::item` |
-| `src/store/item/price.hy` | `store::item::price` |
+| `src/money.coil` | `money` |
+| `src/store/item.coil` | `store::item` |
+| `src/store/item/price.coil` | `store::item::price` |
 
-`store/` and `store.hy` can both exist: `store.hy` is the module `store`,
+`store/` and `store.coil` can both exist: `store.coil` is the module `store`,
 and the directory holds its submodules.
 
 The entry file, the one passed to `coil` or named in `[entry]` of
@@ -84,8 +84,8 @@ Importing the same item twice under the same name is allowed.
 
 For `use a::b::{c}`, each root is tried in order, and within a root:
 
-1. `a/b/c.hy`: a module named `a::b::c`, from which `c` is imported;
-2. `a/b.hy`: the module `a::b`, which declares `c`.
+1. `a/b/c.coil`: a module named `a::b::c`, from which `c` is imported;
+2. `a/b.coil`: the module `a::b`, which declares `c`.
 
 The first file found wins, and a later root is only consulted when an
 earlier one has neither file. Because `src/` comes first, a project module
@@ -93,12 +93,18 @@ shadows a stdlib or dependency module of the same name.
 
 | `use` | Files tried (root `src/`) |
 |-------|---------------------------|
-| `use money::{format_cents}` | `src/money/format_cents.hy`, `src/money.hy` |
-| `use store::item::{Item}` | `src/store/item/Item.hy`, `src/store/item.hy` |
+| `use money::{format_cents}` | `src/money/format_cents.coil`, `src/money.coil` |
+| `use store::item::{Item}` | `src/store/item/Item.coil`, `src/store/item.coil` |
 | `use io::{open}` | none: `io` is built in |
 
-Avoid keeping an item both in its own file (`a/b/c.hy`) and inside the
-module file (`a/b.hy`): the separate file wins.
+Avoid keeping an item both in its own file (`a/b/c.coil`) and inside the
+module file (`a/b.coil`): the separate file wins.
+
+Sources used to be `.hy` files. Coil still reads that extension for now, so a
+package that has not renamed its files keeps working: each file above is
+tried as `.coil` first and then as `.hy` (`a/b/c.coil`, `a/b/c.hy`,
+`a/b.coil`, `a/b.hy`). Support for `.hy` will be removed; rename your files
+to `.coil`.
 
 ## mod
 

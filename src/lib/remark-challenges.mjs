@@ -1,8 +1,8 @@
 // Turns the code blocks that define a tutorial challenge into the challenge
 // widget's data (the editor itself is src/lib/playground/challenges.mjs):
 //
-//   ```coil challenge=c06-1      starter code the reader edits (main.hy)
-//   ```coil challenge=c09-1 file=src/fizz.hy   one file of a project; the
+//   ```coil challenge=c06-1      starter code the reader edits (main.coil)
+//   ```coil challenge=c09-1 file=src/fizz.coil   one file of a project; the
 //                                widget sits where the first block was
 //   ```text challenge=c10-1 file=poem.txt      a data file the program reads
 //   ```text challenge=c10-2 stdin              what the program reads from
@@ -10,7 +10,7 @@
 //   args=Ada,Grace on any of them: arguments after `--`
 //
 //   ```coil check=c06-1          hidden test cases, run with `coil test`;
-//                                the reader's main.hy is the module
+//                                the reader's main.coil is the module
 //                                `solution` (`use solution::{parse_point};`)
 //   ```text expect=c06-2         hidden expected output of the program
 //   ```text expect=c06-3 stream=stderr   …of its standard error
@@ -65,7 +65,7 @@ export function remarkChallenges() {
       const data =
         info.mode === "stdin"
           ? hidden("stdin", node.value)
-          : hidden("starter", node.value, { dataFile: info.file ?? "main.hy" });
+          : hidden("starter", node.value, { dataFile: info.file ?? "main.coil" });
       const at = parent.children.indexOf(node);
       if (widgets.has(id)) {
         widgets.get(id).children.push(data);

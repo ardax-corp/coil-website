@@ -67,8 +67,8 @@ export type Example = { id: string; label: string; chapter: string; files: Recor
 export function playgroundExamples(): Example[] {
   const files = readdirSync(TUTORIAL);
   const out: Example[] = [
-    { id: "hello", label: "Hello, world", chapter: "", files: { "main.hy": HELLO } },
-    { id: "packages", label: "Using packages (csv, json)", chapter: "", files: { "coil.toml": PACKAGES_TOML, "main.hy": PACKAGES_MAIN } },
+    { id: "hello", label: "Hello, world", chapter: "", files: { "main.coil": HELLO } },
+    { id: "packages", label: "Using packages (csv, json)", chapter: "", files: { "coil.toml": PACKAGES_TOML, "main.coil": PACKAGES_MAIN } },
   ];
   for (const pick of PICKS) {
     const name = files.find((f) => f.startsWith(`${pick.chapter}-`))!;
@@ -84,7 +84,7 @@ export function playgroundExamples(): Example[] {
       id: pick.id,
       label: pick.label,
       chapter: `/docs/manual/tutorial/${name.replace(/\.md$/, "")}`,
-      files: { "main.hy": `${m[2]}\n` },
+      files: { "main.coil": `${m[2]}\n` },
     });
   }
   return out;

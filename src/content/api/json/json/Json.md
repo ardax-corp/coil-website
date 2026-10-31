@@ -9,7 +9,7 @@ name: "Json"
 signature: "class Json"
 import: "use json::{Json};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.hy#L1387"
+source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.coil#L1387"
 order: 2
 ---
 

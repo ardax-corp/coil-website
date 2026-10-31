@@ -8,7 +8,7 @@ name: "create_dir"
 signature: "fn create_dir(string path) -> Result<unit, IoError>"
 import: "use io::fs::{create_dir};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/fs.hy#L58"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/fs.coil#L58"
 order: 1
 ---
 

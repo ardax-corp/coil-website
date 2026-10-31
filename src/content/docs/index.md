@@ -5,7 +5,7 @@ description: A small typed scripting language with more structure than a typical
 
 # coil
 
-**coil** is a statically typed scripting language with type inference. Programs are compiled to bytecode and executed on a custom virtual machine. Source files use the `.hy` extension (short for **henry**, the SI unit of inductance — the measure of a coil); compiled archives are stored as `.hyc` files.
+**coil** is a statically typed scripting language with type inference. Programs are compiled to bytecode and executed on a custom virtual machine. Source files use the `.coil` extension (short for **henry**, the SI unit of inductance — the measure of a coil); compiled archives are stored as `.ccoil` files.
 
 For developers who want a small typed scripting language with more structure than a typical script, and a bytecode runtime they can keep thin.
 
@@ -27,14 +27,14 @@ fn main() {
 With `coil` on your `PATH`, from a clone of the repository with [coil-stdlib](https://github.com/ardax-corp/coil-stdlib) cloned beside it:
 
 ```bash
-coil --root ../coil-stdlib/src examples/print_literal.hy
+coil --root ../coil-stdlib/src examples/print_literal.coil
 ```
 
 Expected output: `hello`
 
 ## How programs run
 
-Parse → typecheck → typed HIR (inlining, optimization passes) → stack IL + MIR tiers / lower/fuse-select → bytecode → VM executes `main`. `coil <file.hy>` compiles in memory on every run; `coil compile` writes a versioned `.hyc` archive (packed `major.minor`) that `coil run` executes. Full stage notes: [Internals — Pipeline](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/pipeline.md).
+Parse → typecheck → typed HIR (inlining, optimization passes) → stack IL + MIR tiers / lower/fuse-select → bytecode → VM executes `main`. `coil <file.coil>` compiles in memory on every run; `coil compile` writes a versioned `.ccoil` archive (packed `major.minor`) that `coil run` executes. Full stage notes: [Internals — Pipeline](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/pipeline.md).
 
 ## Language at a glance
 
@@ -43,7 +43,7 @@ Parse → typecheck → typed HIR (inlining, optimization passes) → stack IL +
 | Primitives | `int`, `float`, `string`, `bool`, `byte` |
 | Functions, `let` / `const`, `if`/`else`, `while` / `for` | Supported |
 | Named call-site arguments (`f(name: v)`) | Supported (positional prefix then named; named holes on partials allowed) |
-| Arity / type overloads / first-class fn values / lambdas (`use`) | Supported (`examples/overload.hy`, `type_overload.hy`, `fn_value.hy`, `lambda.hy`) |
+| Arity / type overloads / first-class fn values / lambdas (`use`) | Supported (`examples/overload.coil`, `type_overload.coil`, `fn_value.coil`, `lambda.coil`) |
 | Rest parameters (`T... xs` / tuple `... xs`) | Supported (trailing only; `T...` packs to `Vec<T>`, bare `...` packs to a tuple) |
 | Call-site spread (`f(...pack)`) | Supported (tuple, `[T; N]`, and `Vec<T>` operands) |
 | User-defined `attr` decorators | Supported (`attr` decl + `#[name(...)]` on `fn`, methods, class constructors) |
@@ -118,7 +118,7 @@ coil/
 ├── compiler/        # Typechecker, HIR optimizations, stack IL / MIR lowering, pipeline
 ├── machine/         # VM, heap/GC, FFI (libffi)
 ├── coil-*/          # CLI helpers: test, fmt, lsp, debug, dissect, verify, embed
-├── examples/        # Runnable .hy demos (see manual/examples.md)
+├── examples/        # Runnable .coil demos (see manual/examples.md)
 │   └── projects/    # Showcase multi-file apps + co-located tests
 ├── docs/internals/  # Pipeline, VM notes, grammar (user docs live on this site)
 └── src/main.rs      # CLI: default build+run, compile, run, test
@@ -128,11 +128,11 @@ coil/
 
 | Command | Role |
 |---------|------|
-| *(no subcommand)* `<file.hy>` | Compile in memory → run (no `out.hyc`) |
-| `compile <file.hy> [-o path]` | Compile entry file to a `.hyc` archive |
-| `run <file.hyc>` | Execute a compiled archive |
-| `package <file.hy> [-o path] [--check-native]` | Single executable (embeds `.hyc` into `coil-embed` by default) |
-| `test [path] [--fail-fast]` | Compile+run all `[path]/**/*.hy` (default `./tests`); continue after failures unless `--fail-fast` |
+| *(no subcommand)* `<file.coil>` | Compile in memory → run (no `out.ccoil`) |
+| `compile <file.coil> [-o path]` | Compile entry file to a `.ccoil` archive |
+| `run <file.ccoil>` | Execute a compiled archive |
+| `package <file.coil> [-o path] [--check-native]` | Single executable (embeds `.ccoil` into `coil-embed` by default) |
+| `test [path] [--fail-fast]` | Compile+run all `[path]/**/*.coil` (default `./tests`); continue after failures unless `--fail-fast` |
 | `lsp` | Start the Coil language server over stdin/stdout |
 
 For FFI examples you also need **libffi** (e.g. `libffi-dev` on Debian/Ubuntu, `libffi` on Arch). To build from a checkout, see [Getting Started](/docs/manual/getting-started).
@@ -141,15 +141,15 @@ For FFI examples you also need **libffi** (e.g. `libffi-dev` on Debian/Ubuntu, `
 
 | Goal | Start with |
 |------|------------|
-| First program | [getting-started.md](/docs/manual/getting-started) → `examples/fib.hy` |
-| Enums & pattern matching | `examples/option.hy`, `examples/result.hy` |
-| Record-shaped variants | `examples/record.hy`, `examples/mixed.hy` |
-| Dicts / anonymous records | `examples/dict.hy` |
-| Generics & traits | `examples/generics.hy`, `examples/hkt_bifunctor.hy`, `examples/gat_pointer.hy`, `examples/existential_show.hy` |
-| Modules | `examples/modules.hy` (see [examples.md](/docs/manual/examples) for setup) |
-| FFI | `examples/ffi_extern.hy`, `examples/ffi_sum.hy`, `examples/ffi_varargs.hy` |
-| IO streams | `examples/io_bytes.hy`, `examples/io_file.hy`, `examples/io_eof.hy`, `examples/io_udp.hy` |
-| Coroutines | `examples/coro.hy`, `examples/coro_gen.hy`, `examples/coro_send.hy`, `examples/for_in_coro.hy` |
+| First program | [getting-started.md](/docs/manual/getting-started) → `examples/fib.coil` |
+| Enums & pattern matching | `examples/option.coil`, `examples/result.coil` |
+| Record-shaped variants | `examples/record.coil`, `examples/mixed.coil` |
+| Dicts / anonymous records | `examples/dict.coil` |
+| Generics & traits | `examples/generics.coil`, `examples/hkt_bifunctor.coil`, `examples/gat_pointer.coil`, `examples/existential_show.coil` |
+| Modules | `examples/modules.coil` (see [examples.md](/docs/manual/examples) for setup) |
+| FFI | `examples/ffi_extern.coil`, `examples/ffi_sum.coil`, `examples/ffi_varargs.coil` |
+| IO streams | `examples/io_bytes.coil`, `examples/io_file.coil`, `examples/io_eof.coil`, `examples/io_udp.coil` |
+| Coroutines | `examples/coro.coil`, `examples/coro_gen.coil`, `examples/coro_send.coil`, `examples/for_in_coro.coil` |
 | Full catalog | [examples.md](/docs/manual/examples) |
 
 Source for the language is [ardax-corp/coil-lang](https://github.com/ardax-corp/coil-lang). Internals stay in that repository.

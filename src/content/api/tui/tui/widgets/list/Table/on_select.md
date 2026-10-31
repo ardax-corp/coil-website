@@ -10,7 +10,7 @@ parent: "Table"
 signature: "pub fn on_select(fn(int, Ctx) -> () f) -> Table"
 import: "use tui::widgets::list::{Table};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/list.hy#L389"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/list.coil#L389"
 order: 2
 ---
 

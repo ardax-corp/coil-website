@@ -8,7 +8,7 @@ name: "list_dir"
 signature: "fn list_dir(string path) -> Result<Vec<string>, IoError>"
 import: "use io::fs::{list_dir};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/fs.hy#L203"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/fs.coil#L203"
 order: 7
 ---
 

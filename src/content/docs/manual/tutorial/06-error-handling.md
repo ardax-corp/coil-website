@@ -193,7 +193,7 @@ fn main() {
 ```
 
 ```text
-panic: main returned Err(config file missing) at app.hy:2:5
+panic: main returned Err(config file missing) at app.coil:2:5
 ```
 
 That is fine for scripts. For programs other people run, catch errors in

@@ -10,7 +10,7 @@ parent: "Searchable"
 signature: "fn find_all<P: Pattern>(T hay, P pat) -> Vec<Span>"
 import: "use text::{Searchable};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/text.hy#L579"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/text.coil#L579"
 order: 4
 ---
 

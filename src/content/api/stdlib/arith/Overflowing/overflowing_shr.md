@@ -10,7 +10,7 @@ parent: "Overflowing"
 signature: "fn overflowing_shr(S a, int n) -> (S, bool)"
 import: "use arith::{Overflowing};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/arith.hy#L162"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/arith.coil#L162"
 order: 6
 ---
 

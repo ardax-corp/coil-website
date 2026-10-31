@@ -10,7 +10,7 @@ parent: "Url"
 signature: "pub fn to_string() -> string"
 import: "use url::{Url};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/src/url.hy#L821"
+source: "https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/src/url.coil#L821"
 order: 1
 ---
 

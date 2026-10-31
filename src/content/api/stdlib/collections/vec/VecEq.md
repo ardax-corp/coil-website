@@ -9,7 +9,7 @@ name: "VecEq"
 signature: "trait VecEq<V>"
 import: "use collections::vec::{VecEq};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.hy#L321"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.coil#L321"
 order: 2
 ---
 

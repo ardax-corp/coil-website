@@ -9,7 +9,7 @@ name: "UrlError"
 signature: "enum UrlError"
 import: "use url::{UrlError};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/src/url.hy#L22"
+source: "https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/src/url.coil#L22"
 order: 0
 ---
 

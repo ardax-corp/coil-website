@@ -9,7 +9,7 @@ name: "reset"
 signature: "fn reset() -> string"
 import: "use cli::ansi::{reset};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L279"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L279"
 order: 46
 ---
 

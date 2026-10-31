@@ -11,9 +11,9 @@ wrote.
 
 ## Every file is a module
 
-A module is just a `.hy` file. Its name comes from its path below the
-project's `src/` directory: `src/geometry.hy` is the module `geometry`, and
-`src/geometry/shapes.hy` is `geometry::shapes`. There is nothing to declare.
+A module is just a `.coil` file. Its name comes from its path below the
+project's `src/` directory: `src/geometry.coil` is the module `geometry`, and
+`src/geometry/shapes.coil` is `geometry::shapes`. There is nothing to declare.
 
 Here is a small project:
 
@@ -21,15 +21,15 @@ Here is a small project:
 inventory/
 ├── coil.toml
 └── src/
-    ├── main.hy
-    ├── money.hy
+    ├── main.coil
+    ├── money.coil
     └── store/
-        └── item.hy
+        └── item.coil
 ```
 
-`src/money.hy` holds a function and a constant:
+`src/money.coil` holds a function and a constant:
 
-```coil file=src/money.hy
+```coil file=src/money.coil
 const CURRENCY = "EUR";
 
 fn format_cents(int cents) -> string {
@@ -37,9 +37,9 @@ fn format_cents(int cents) -> string {
 }
 ```
 
-`src/store/item.hy` holds a class:
+`src/store/item.coil` holds a class:
 
-```coil file=src/store/item.hy
+```coil file=src/store/item.coil
 class Item {
     pub name: string,
     pub price_cents: int,
@@ -53,9 +53,9 @@ impl Item {
 }
 ```
 
-`src/main.hy` imports what it needs from both:
+`src/main.coil` imports what it needs from both:
 
-```coil file=src/main.hy
+```coil file=src/main.coil
 use io::sync::{println};
 use money::{format_cents};
 use store::item::{Item};
@@ -73,7 +73,7 @@ lamp: 59.97 EUR
 ```
 
 Run it with `spool run` from the project root, or with
-`coil --root ~/coil-stdlib/src src/main.hy`. The compiler looks for
+`coil --root ~/coil-stdlib/src src/main.coil`. The compiler looks for
 modules in `src/` under the directory you run it from, plus every `--root`.
 
 ## use
@@ -101,8 +101,8 @@ without a `use`.
 
 For `use store::item::{Item}`, the compiler tries, in each root:
 
-1. `store/item.hy`, a file for the module `store::item`;
-2. then `store.hy`, in case `item` is something declared inside the module
+1. `store/item.coil`, a file for the module `store::item`;
+2. then `store.coil`, in case `item` is something declared inside the module
    `store`.
 
 The first file that exists wins. Roots are searched in order: `src/`
@@ -121,10 +121,10 @@ The [modules reference](/docs/language/modules) has the complete rules.
 
 A few conventions keep projects easy to navigate:
 
-- Group related code by topic (`store/item.hy`, `store/cart.hy`) rather
-  than by kind (`classes.hy`, `helpers.hy`).
-- Keep `main.hy` small: parse arguments, call into modules, report errors.
-- Put tests for `src/store/cart.hy` in `tests/store/cart.hy`. Test files
+- Group related code by topic (`store/item.coil`, `store/cart.coil`) rather
+  than by kind (`classes.coil`, `helpers.coil`).
+- Keep `main.coil` small: parse arguments, call into modules, report errors.
+- Put tests for `src/store/cart.coil` in `tests/store/cart.coil`. Test files
   import the code they test with `use`, like any other module.
 - Name helpers that other modules should not rely on with a leading `__`.
   They can still be imported, but they are left out of generated
@@ -156,7 +156,7 @@ each with its own documentation.
 ## Writing a library
 
 `spool new mylib --lib` creates a library. Its main module is
-`src/mylib.hy`, so users write `use mylib::{…}`. Further modules go in
+`src/mylib.coil`, so users write `use mylib::{…}`. Further modules go in
 `src/mylib/` and are imported as `use mylib::parser::{…}`.
 
 Write a `///` comment on everything others will use. The examples in those
@@ -170,10 +170,10 @@ documentation.
 > project is a row of modules. Work in the `inventory` project from this
 > chapter.
 
-1. Move `fizzbuzz` from chapter 1 into `src/fizz.hy` and call it from
-   `src/main.hy`.
+1. Move `fizzbuzz` from chapter 1 into `src/fizz.coil` and call it from
+   `src/main.coil`.
 
-   ```coil challenge=c09-1 file=src/main.hy
+   ```coil challenge=c09-1 file=src/main.coil
    use io::sync::{println};
    use fizz::{fizzbuzz};
 
@@ -184,7 +184,7 @@ documentation.
    }
    ```
 
-   ```coil challenge=c09-1 file=src/fizz.hy
+   ```coil challenge=c09-1 file=src/fizz.coil
    // fizzbuzz from chapter 1 goes here.
    ```
 
@@ -206,17 +206,17 @@ documentation.
    FizzBuzz
    ```
 
-2. Add a `store/cart.hy` module with a `Cart` class that holds a
+2. Add a `store/cart.coil` module with a `Cart` class that holds a
    `Vec<Item>` and has `add(Item item)` and `total_cents()` methods. Print
    the total of a cart with three lamps and four bulbs through
    `format_cents`.
 
    > [!hint]
-   > `cart.hy` uses `Item`, so it needs its own
+   > `cart.coil` uses `Item`, so it needs its own
    > `use store::item::{Item};`. Imports are per file; the one in
-   > `main.hy` does not reach it.
+   > `main.coil` does not reach it.
 
-   ```coil challenge=c09-2 file=src/main.hy
+   ```coil challenge=c09-2 file=src/main.coil
    use io::sync::{println};
    use money::{format_cents};
    use store::item::{Item};
@@ -230,11 +230,11 @@ documentation.
    }
    ```
 
-   ```coil challenge=c09-2 file=src/store/cart.hy
+   ```coil challenge=c09-2 file=src/store/cart.coil
    // The Cart class goes here.
    ```
 
-   ```coil challenge=c09-2 file=src/money.hy
+   ```coil challenge=c09-2 file=src/money.coil
    const CURRENCY = "EUR";
 
    fn format_cents(int cents) -> string {
@@ -242,7 +242,7 @@ documentation.
    }
    ```
 
-   ```coil challenge=c09-2 file=src/store/item.hy
+   ```coil challenge=c09-2 file=src/store/item.coil
    class Item {
        pub name: string,
        pub price_cents: int,
@@ -261,10 +261,10 @@ documentation.
    ```
 
 3. Make two modules that both declare `fn parse(string s) -> int`, import
-   both into `main.hy`, and rename them on import with `as` so they do not
+   both into `main.coil`, and rename them on import with `as` so they do not
    clash.
 
-   ```coil challenge=c09-3 file=src/main.hy
+   ```coil challenge=c09-3 file=src/main.coil
    use io::sync::{println};
    use csvish::{parse};
    use kv::{parse};
@@ -275,14 +275,14 @@ documentation.
    }
    ```
 
-   ```coil challenge=c09-3 file=src/csvish.hy
+   ```coil challenge=c09-3 file=src/csvish.coil
    // How many comma-separated fields.
    fn parse(string s) -> int {
        return s.split(",").len();
    }
    ```
 
-   ```coil challenge=c09-3 file=src/kv.hy
+   ```coil challenge=c09-3 file=src/kv.coil
    // The value of a "key=number" pair.
    use conv::{parse_int};
 
@@ -300,7 +300,7 @@ documentation.
    > (chapter 2), so `-150 % 100` is `-50` and each digit comes out
    > negative. Handle the sign first, then format the positive amount.
 
-   ```coil challenge=c09-4 file=src/main.hy
+   ```coil challenge=c09-4 file=src/main.coil
    use io::sync::{println};
    use money::{format_cents};
 
@@ -311,7 +311,7 @@ documentation.
    }
    ```
 
-   ```coil challenge=c09-4 file=src/money.hy
+   ```coil challenge=c09-4 file=src/money.coil
    const CURRENCY = "EUR";
 
    fn format_cents(int cents) -> string {
@@ -329,7 +329,7 @@ documentation.
    Then put `use store::item::{Itme};` with the item name misspelled
    instead. Does the compiler tell the two mistakes apart?
 
-   ```coil challenge=c09-5 file=src/main.hy
+   ```coil challenge=c09-5 file=src/main.coil
    use io::sync::{println};
    use money::{format_cents};
    use store::item::{Itme};
@@ -339,7 +339,7 @@ documentation.
    }
    ```
 
-   ```coil challenge=c09-5 file=src/money.hy
+   ```coil challenge=c09-5 file=src/money.coil
    const CURRENCY = "EUR";
 
    fn format_cents(int cents) -> string {
@@ -347,7 +347,7 @@ documentation.
    }
    ```
 
-   ```coil challenge=c09-5 file=src/store/item.hy
+   ```coil challenge=c09-5 file=src/store/item.coil
    class Item {
        pub name: string,
        pub price_cents: int,

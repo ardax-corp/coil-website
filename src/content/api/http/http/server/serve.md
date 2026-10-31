@@ -9,7 +9,7 @@ name: "serve"
 signature: "fn serve(Server srv, HttpHandler handler) -> Result<(), HttpError>"
 import: "use http::server::{serve};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/server.hy#L359"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/server.coil#L359"
 order: 5
 ---
 

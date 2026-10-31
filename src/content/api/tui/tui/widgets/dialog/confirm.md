@@ -9,7 +9,7 @@ name: "confirm"
 signature: "fn confirm(Ctx ctx, string title, string message, fn(bool, Ctx) -> () answer)"
 import: "use tui::widgets::dialog::{confirm};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/dialog.hy#L157"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/dialog.coil#L157"
 order: 3
 ---
 

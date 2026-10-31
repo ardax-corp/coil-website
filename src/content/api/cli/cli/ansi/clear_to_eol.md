@@ -9,7 +9,7 @@ name: "clear_to_eol"
 signature: "fn clear_to_eol() -> string"
 import: "use cli::ansi::{clear_to_eol};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L155"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L155"
 order: 24
 ---
 

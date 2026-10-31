@@ -10,7 +10,7 @@ parent: "Deflate"
 signature: "pub static fn compress(Vec<byte> data) -> Result<Vec<byte>, DeflateError>"
 import: "use deflate::{Deflate};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/src/deflate.hy#L676"
+source: "https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/src/deflate.coil#L676"
 order: 0
 ---
 

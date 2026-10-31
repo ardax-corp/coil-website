@@ -9,7 +9,7 @@ parent: "Scope"
 signature: "pub fn spawn<R>(unit -> R body) -> Task<R>"
 import: "use task::{Scope};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/task.hy#L85"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/task.coil#L85"
 order: 0
 ---
 

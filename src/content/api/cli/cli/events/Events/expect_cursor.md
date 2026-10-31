@@ -10,7 +10,7 @@ parent: "Events"
 signature: "pub fn expect_cursor()"
 import: "use cli::events::{Events};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/events.hy#L79"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/events.coil#L79"
 order: 0
 ---
 

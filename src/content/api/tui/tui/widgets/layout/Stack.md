@@ -9,7 +9,7 @@ name: "Stack"
 signature: "shared class Stack"
 import: "use tui::widgets::layout::{Stack};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/layout.hy#L202"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/layout.coil#L202"
 order: 1
 ---
 

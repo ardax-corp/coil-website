@@ -8,7 +8,7 @@ name: "send"
 signature: "fn send<T>(Sender<T> tx, T value) -> Result<unit, ChannelError>"
 import: "use thread::{send};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.hy#L393"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.coil#L393"
 order: 12
 ---
 

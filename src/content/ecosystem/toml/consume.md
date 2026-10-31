@@ -1,11 +1,11 @@
 ---
 title: "Consuming coil-toml"
-description: "This package is toml. use toml::{Toml, TomlValue, TomlError} resolves from src/toml.hy. One-shot encode/decode ships here. Do not add a native/FFI dep."
+description: "This package is toml. use toml::{Toml, TomlValue, TomlError} resolves from src/toml.coil. One-shot encode/decode ships here. Do not add a native/FFI dep."
 source: "https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/docs/consume.md"
 ---
 # Consuming coil-toml
 
-This package is `toml`. `use toml::{Toml, TomlValue, TomlError}` resolves from `src/toml.hy`. One-shot encode/decode ships here. Do not add a native/FFI dep.
+This package is `toml`. `use toml::{Toml, TomlValue, TomlError}` resolves from `src/toml.coil`. One-shot encode/decode ships here. Do not add a native/FFI dep.
 
 ## Depend on it
 
@@ -20,12 +20,12 @@ This repo has no tags, so pin a commit with `--rev`. spool records the dep in `c
 Without spool, clone this repo next to your project and pass the roots yourself. coil reads no `coil.toml` and no `coil.lock`.
 
 ```bash
-coil --root ../coil-toml/src main.hy
+coil --root ../coil-toml/src main.coil
 ```
 
 ## Call Toml::v1()
 
-Signatures are in [`src/toml.hy`](https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/src/toml.hy). Call patterns are in [`tests/v1.hy`](https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/tests/v1.hy).
+Signatures are in [`src/toml.coil`](https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/src/toml.coil). Call patterns are in [`tests/v1.coil`](https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/tests/v1.coil).
 
 ```coil
 use toml::{Toml, TomlValue, TomlError};

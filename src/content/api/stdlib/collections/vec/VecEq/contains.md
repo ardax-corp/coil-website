@@ -10,7 +10,7 @@ parent: "VecEq"
 signature: "fn contains(V xs, Item needle) -> bool"
 import: "use collections::vec::{VecEq};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.hy#L325"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.coil#L325"
 order: 0
 ---
 

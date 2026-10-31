@@ -39,7 +39,8 @@ function walk(dir, out = {}, base = dir) {
   for (const name of readdirSync(dir).sort()) {
     const path = join(dir, name);
     if (statSync(path).isDirectory()) walk(path, out, base);
-    else if (name.endsWith(".hy")) out[relative(base, path)] = readFileSync(path, "utf8");
+    // `.hy` is the pre-rename spelling of a package not yet renamed.
+    else if (name.endsWith(".coil") || name.endsWith(".hy")) out[relative(base, path)] = readFileSync(path, "utf8");
   }
   return out;
 }
@@ -63,7 +64,7 @@ async function stdlibSources() {
   }
 }
 
-/** { name: { "path.hy": source } } of every playground package's src. */
+/** { name: { "path.coil": source } } of every playground package's src. */
 async function packageSources() {
   const out = {};
   const local = opt("packages");

@@ -9,7 +9,7 @@ name: "run_app"
 signature: "fn run_app(App a) -> Result<(), TtyError>"
 import: "use tui::run::{run_app};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/run.hy#L63"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/run.coil#L63"
 order: 1
 ---
 

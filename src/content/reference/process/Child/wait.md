@@ -9,7 +9,7 @@ parent: "Child"
 signature: "pub fn wait() -> Result<int, ProcessError>"
 import: "use process::{Child};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/process.hy#L311"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/process.coil#L311"
 order: 4
 ---
 

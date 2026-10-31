@@ -8,7 +8,7 @@ name: "blocking"
 signature: "fn blocking<T>(unit -> T work) -> Result<T, ThreadError>"
 import: "use task::{blocking};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/task.hy#L430"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/task.coil#L430"
 order: 10
 ---
 

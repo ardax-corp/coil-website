@@ -10,7 +10,7 @@ parent: "Canvas"
 signature: "pub fn set(int x, int y, string text, Style style)"
 import: "use tui::canvas::{Canvas};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/canvas.hy#L107"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/canvas.coil#L107"
 order: 6
 ---
 

@@ -9,7 +9,7 @@ name: "parse_float"
 signature: "fn parse_float(string s) -> Result<float, string>"
 import: "use conv::{parse_float};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/conv.hy#L233"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/conv.coil#L233"
 order: 5
 ---
 

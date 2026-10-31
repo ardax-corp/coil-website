@@ -100,7 +100,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0804` | `MonomorphizeCap` | A ground call to a generic uses its shared body instead of a per-type clone: the generic instantiates itself at a growing type (polymorphic recursion), or the compile reached `--clone-budget` |
 | `E0805` | `ParLockHint` | Auto-parallelization refused a loop because of a shared escape; the hint suggests locking that resource |
 | `E0900` | `IoError` | I/O failure |
-| `E0901` | `ArchiveVersionMismatch` | Stale `.hyc` archive |
+| `E0901` | `ArchiveVersionMismatch` | Stale `.ccoil` archive |
 | `E0902` | `InvalidCliFlags` | Conflicting or unknown CLI flags |
 | `E0903` | `MissingInputFile` | No input file given |
 

@@ -9,7 +9,7 @@ name: "encode_hpack_string"
 signature: "fn encode_hpack_string(Vec<byte> out, string s)"
 import: "use http::hpack::{encode_hpack_string};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/hpack.hy#L550"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/hpack.coil#L550"
 order: 8
 ---
 

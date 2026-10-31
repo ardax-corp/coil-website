@@ -9,7 +9,7 @@ name: "table_column"
 signature: "fn table_column(string title, Constraint w) -> TableColumn"
 import: "use tui::widgets::list::{table_column};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/list.hy#L328"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/list.coil#L328"
 order: 7
 ---
 

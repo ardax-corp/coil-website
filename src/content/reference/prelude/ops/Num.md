@@ -8,7 +8,7 @@ name: "Num"
 signature: "trait Num<T: Add + Sub + Mul + Div + Neg + Rem + Pow>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/prelude/ops.hy#L249"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/prelude/ops.coil#L249"
 order: 7
 ---
 

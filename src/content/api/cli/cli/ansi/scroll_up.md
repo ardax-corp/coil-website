@@ -9,7 +9,7 @@ name: "scroll_up"
 signature: "fn scroll_up(int n) -> string"
 import: "use cli::ansi::{scroll_up};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L165"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L165"
 order: 26
 ---
 

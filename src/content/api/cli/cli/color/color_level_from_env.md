@@ -9,7 +9,7 @@ name: "color_level_from_env"
 signature: "fn color_level_from_env(bool tty) -> ColorLevel"
 import: "use cli::color::{color_level_from_env};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/color.hy#L93"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/color.coil#L93"
 order: 2
 ---
 

@@ -10,7 +10,7 @@ parent: "Url"
 signature: "pub fn query_set(string key, string value) -> Url"
 import: "use url::{Url};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/src/url.hy#L923"
+source: "https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/src/url.coil#L923"
 order: 4
 ---
 

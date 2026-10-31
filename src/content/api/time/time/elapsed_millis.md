@@ -9,7 +9,7 @@ name: "elapsed_millis"
 signature: "fn elapsed_millis(Instant inst) -> Result<int, TimeError>"
 import: "use time::{elapsed_millis};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.hy#L930"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.coil#L930"
 order: 10
 ---
 

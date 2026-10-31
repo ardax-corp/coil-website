@@ -10,7 +10,7 @@ parent: "Gauge"
 signature: "pub fn set(int value)"
 import: "use tui::widgets::status::{Gauge};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/status.hy#L52"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/status.coil#L52"
 order: 1
 ---
 

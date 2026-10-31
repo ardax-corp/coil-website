@@ -9,7 +9,7 @@ name: "WsConn"
 signature: "class WsConn"
 import: "use http::ws::{WsConn};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.hy#L99"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.coil#L99"
 order: 1
 ---
 

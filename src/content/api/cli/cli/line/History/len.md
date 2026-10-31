@@ -10,7 +10,7 @@ parent: "History"
 signature: "pub fn len() -> int"
 import: "use cli::line::{History};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.hy#L175"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.coil#L175"
 order: 1
 ---
 

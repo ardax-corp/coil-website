@@ -17,7 +17,7 @@ panic format("bad index %i", i);
 
 Unlike `raise`, `panic` is not recoverable with `?` / `match`. Prefer `assert` + `?` when callers should handle failure.
 
-See `examples/panic.hy`.
+See `examples/panic.coil`.
 
 ## Locations and backtraces
 
@@ -26,10 +26,10 @@ out-of-bounds index, a finished coroutine resumed, …) also prints the call sta
 `COIL_BACKTRACE=1` to get the call stack for an explicit `panic` too:
 
 ```text
-panic: boom: x too large at panic.hy:3:8
-  in inner at panic.hy:3:8
-  in outer at panic.hy:9:11
-  in main at panic.hy:14:12
+panic: boom: x too large at panic.coil:3:8
+  in inner at panic.coil:3:8
+  in outer at panic.coil:9:11
+  in main at panic.coil:14:12
 ```
 
 How much of this a program can print depends on the debug info it was

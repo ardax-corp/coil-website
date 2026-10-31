@@ -10,7 +10,7 @@ parent: "App"
 signature: "pub fn pop_layer()"
 import: "use tui::app::{App};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/app.hy#L344"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/app.coil#L344"
 order: 16
 ---
 

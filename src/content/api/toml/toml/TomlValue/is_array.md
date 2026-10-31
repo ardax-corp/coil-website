@@ -10,7 +10,7 @@ parent: "TomlValue"
 signature: "pub fn is_array() -> bool"
 import: "use toml::{TomlValue};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/src/toml.hy#L392"
+source: "https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/src/toml.coil#L392"
 order: 11
 ---
 

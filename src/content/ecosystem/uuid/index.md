@@ -55,7 +55,7 @@ v3 / v5 are omitted: coil-crypto has no MD5 or SHA-1. v2 and v8 are omitted.
 
 | Path | Role |
 |------|------|
-| `src/uuid.hy` | `Uuid`, `UuidError`, `v1` / `v4` / `v6` / `v7`, `parse` |
+| `src/uuid.coil` | `Uuid`, `UuidError`, `v1` / `v4` / `v6` / `v7`, `parse` |
 | `coil.toml` | spool manifest (`[package] name = "uuid"`); coil does not read it |
 
 ## Consume
@@ -74,7 +74,7 @@ With plain coil, clone this repo, coil-crypto and coil-time next to your project
 coil --root ../coil-uuid/src --root ../coil-crypto/src --root ../coil-time/src \
   --root ../coil-stdlib/src \
   --ffi-search-path ../coil-crypto/native \
-  --allow-dload crypto --dload-trusted crypto main.hy
+  --allow-dload crypto --dload-trusted crypto main.coil
 ```
 
 Details in [docs/consume.md](/packages/uuid/consume).

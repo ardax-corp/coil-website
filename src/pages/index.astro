@@ -98,18 +98,18 @@ use env::{args, var};`,
 ];
 
 const pipeline = [
-  { step: "Parse", detail: "Pratt parser → AST", file: ".hy" },
+  { step: "Parse", detail: "Pratt parser → AST", file: ".coil" },
   { step: "Typecheck", detail: "Hindley–Milner inference" },
   { step: "Codegen", detail: "Stack IL, lowered & fused" },
-  { step: "Archive", detail: "Versioned bytecode", file: ".hyc" },
+  { step: "Archive", detail: "Versioned bytecode", file: ".ccoil" },
   { step: "Run", detail: "Thin VM executes main" },
 ];
 
 const commands = [
-  ["coil app.hy", "Compile (cached) and run"],
+  ["coil app.coil", "Compile (cached) and run"],
   ["coil test", "Run test blocks under ./tests"],
   ["coil fmt src/", "Format sources in place"],
-  ["coil package app.hy", "Build a single executable"],
+  ["coil package app.coil", "Build a single executable"],
   ["coil lsp", "Language server for your editor"],
 ];
 ---
@@ -137,8 +137,8 @@ const commands = [
           <a class="btn btn-ghost" href="/docs">Read the docs</a>
         </div>
         <dl class="facts">
-          <div><dt>Source</dt><dd><code>.hy</code></dd></div>
-          <div><dt>Bytecode</dt><dd><code>.hyc</code></dd></div>
+          <div><dt>Source</dt><dd><code>.coil</code></dd></div>
+          <div><dt>Bytecode</dt><dd><code>.ccoil</code></dd></div>
           <div><dt>CLI</dt><dd><code>coil</code></dd></div>
           <div><dt>Packages</dt><dd><code>spool</code></dd></div>
         </dl>
@@ -147,11 +147,11 @@ const commands = [
       <div class="window" data-plain-code aria-label="Example Coil program">
         <div class="window-bar">
           <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="window-title">shapes.hy</span>
+          <span class="window-title">shapes.coil</span>
         </div>
         <CodeSample code={hero} class="window-code" />
         <div class="window-term">
-          <div><span class="prompt">$</span> coil shapes.hy</div>
+          <div><span class="prompt">$</span> coil shapes.coil</div>
           <div class="out">27</div>
           <div class="out">12</div>
         </div>
@@ -349,7 +349,7 @@ const commands = [
   <!-- ------------------------------------------------------------- end -->
   <section class="wrap">
     <div class="closing">
-      <h2>Write your first <code>.hy</code> file.</h2>
+      <h2>Write your first <code>.coil</code> file.</h2>
       <p>
         Grab the toolkit from <a href={RELEASES}>GitHub Releases</a> — or, until the first tagged release, the latest
         <a href={NIGHTLY}>release-binaries</a> build.

@@ -9,7 +9,7 @@ name: "end_sync"
 signature: "fn end_sync() -> string"
 import: "use cli::ansi::{end_sync};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L249"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L249"
 order: 42
 ---
 

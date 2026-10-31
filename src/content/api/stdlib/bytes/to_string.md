@@ -9,7 +9,7 @@ name: "to_string"
 signature: "fn to_string(Vec<byte> b) -> Result<string, string>"
 import: "use bytes::{to_string};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/bytes.hy#L439"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/bytes.coil#L439"
 order: 18
 ---
 

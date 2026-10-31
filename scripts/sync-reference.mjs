@@ -157,10 +157,12 @@ for (const [, key, file] of macrosRs.matchAll(/pub const (\w+)_SOURCE: &str = in
   });
 }
 
-// coil-stdlib and packages: src/a/b.hy is module a::b.
+// coil-stdlib and packages: src/a/b.coil is module a::b (`.hy` in a package
+// that still has the pre-rename extension).
+const SOURCE = /\.(coil|hy)$/;
 function walk(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
-    e.isDirectory() ? walk(join(dir, e.name)) : e.name.endsWith(".hy") ? [join(dir, e.name)] : [],
+    e.isDirectory() ? walk(join(dir, e.name)) : SOURCE.test(e.name) ? [join(dir, e.name)] : [],
   );
 }
 for (const lib of libs.slice(1)) {
@@ -168,7 +170,7 @@ for (const lib of libs.slice(1)) {
   if (!existsSync(src)) continue;
   for (const f of walk(src).sort()) {
     const rel = relative(src, f);
-    const path = rel.replace(/\.hy$/, "").split("/").join("::");
+    const path = rel.replace(SOURCE, "").split("/").join("::");
     addModule(lib, path, { origin: lib === stdlib ? "stdlib" : "package", auto: false }).files.push({ file: `src/${rel}`, stub: false });
   }
 }
@@ -295,14 +297,17 @@ function visibleMembers(ty) {
 }
 
 // Primitive types and keywords.
-const typesSrc = readFileSync(join(lang.dir, "compiler/src/builtin_docs/types.hy"), "utf8");
+const typesFile = ["types.coil", "types.hy"]
+  .map((f) => `compiler/src/builtin_docs/${f}`)
+  .find((f) => existsSync(join(lang.dir, f))) ?? "compiler/src/builtin_docs/types.coil";
+const typesSrc = readFileSync(join(lang.dir, typesFile), "utf8");
 const primitives = parseItems(typesSrc).map((it) => ({
   ...it,
   kind: "primitive",
   module: "types",
   lib: lang,
   stub: true,
-  source: blob("coil-lang", lang.commit, "compiler/src/builtin_docs/types.hy", it.line),
+  source: blob("coil-lang", lang.commit, typesFile, it.line),
 }));
 addModule(lang, "types", { origin: "builtin", auto: true, items: primitives, files: [] });
 

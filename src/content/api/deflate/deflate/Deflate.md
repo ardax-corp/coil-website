@@ -9,7 +9,7 @@ name: "Deflate"
 signature: "class Deflate"
 import: "use deflate::{Deflate};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/src/deflate.hy#L647"
+source: "https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/src/deflate.coil#L647"
 order: 1
 ---
 

@@ -9,7 +9,7 @@ name: "stack"
 signature: "fn stack(Vec<Node> kids) -> Node"
 import: "use tui::widgets::layout::{stack};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/layout.hy#L226"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/layout.coil#L226"
 order: 9
 ---
 

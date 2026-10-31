@@ -22,13 +22,13 @@ last section helps decide.
 
 ## A provider module
 
-Macros live in a module of their own, here `src/my_macros.hy`, and other
+Macros live in a module of their own, here `src/my_macros.coil`, and other
 modules import them with `use` like any other item. (A module cannot use
 the macros it declares.) The provider imports the `macro` module, which
 describes the code a macro receives (`Expr`, `FnDecl`, `TypeDecl`) and
 returns (`Code`):
 
-```coil file=src/my_macros.hy
+```coil file=src/my_macros.coil
 use macro::{Expr, FnDecl, TypeDecl, Code, lit, raw};
 use io::sync::{println};
 ```
@@ -38,7 +38,7 @@ use io::sync::{println};
 A function-style macro is declared with `macro`. Each parameter receives one
 argument of the call as code (`Expr`), and the macro returns `Code`:
 
-```coil file=src/my_macros.hy
+```coil file=src/my_macros.coil
 /// `square!(e)`: `e * e`.
 macro square(Expr e) -> Code {
     return quote expr { ${e} * ${e} };
@@ -56,7 +56,7 @@ something no function can: it puts the condition's source text in its
 error message. `cond.str()` is that text, and `lit(…)` turns a string into a
 string literal:
 
-```coil file=src/my_macros.hy
+```coil file=src/my_macros.coil
 /// `check!(cond)`: panics with the condition as written when it is false.
 macro check(Expr cond) -> Code {
     return quote stmts {
@@ -84,7 +84,7 @@ A last parameter of type `Vec<Expr>` takes any number of arguments, and
 `$(parts)&&*` pastes a list with `&&` between the elements. The macro body
 is ordinary Coil, with loops, conditions and strings:
 
-```coil file=src/my_macros.hy
+```coil file=src/my_macros.coil
 /// `all!(a, b, …)`: true when every argument is (`true` for none).
 macro all(Vec<Expr> conds) -> Code {
     if conds.len() == 0 {
@@ -100,7 +100,7 @@ macro all(Vec<Expr> conds) -> Code {
 
 Called at the top level of a file, a macro produces declarations:
 
-```coil file=src/my_macros.hy
+```coil file=src/my_macros.coil
 /// `id_type!(Name)`: a class wrapping one `int`, with `==` and `show`.
 macro id_type(Expr name) -> Code {
     return quote items {
@@ -124,7 +124,7 @@ again.
 It renames the original function and generates a wrapper with the original
 name:
 
-```coil file=src/my_macros.hy
+```coil file=src/my_macros.coil
 /// Prints a line; generated code calls it as `my_macros::say`.
 fn say(string text) {
     let _ = println(text);
@@ -154,7 +154,7 @@ items.
 On a class, `t.source` is the declaration as written. Emitting it keeps the
 class, and the rest of the output adds to it:
 
-```coil file=src/my_macros.hy
+```coil file=src/my_macros.coil
 /// Keeps the class and adds `T::table()`.
 attr table(TypeDecl t, string name) -> Code {
     return quote items {
@@ -178,7 +178,7 @@ enum's cases.
 A derive can also own **field attributes**. `attrs(column)` lets users write
 `#[column(…)]` on a field, and `f.attr_str(…)` reads it:
 
-```coil file=src/my_macros.hy
+```coil file=src/my_macros.coil
 /// `T::columns()`: the field names; `#[column(name = "…")]` renames one.
 derive Columns(TypeDecl t) -> Code attrs(column) {
     let names: Vec<Code> = Vec::new();
@@ -199,7 +199,7 @@ derive Columns(TypeDecl t) -> Code attrs(column) {
 Most derives implement a trait. The trait can live next to its derive under
 the same name:
 
-```coil file=src/my_macros.hy
+```coil file=src/my_macros.coil
 /// Implemented by `#[derive(Describe)]`.
 trait Describe<T> {
     fn describe(T value) -> string {}
@@ -229,7 +229,7 @@ whether a field is printable. It emits `show(…)` anyway; a field without
 
 ## Using them
 
-```coil file=src/main.hy
+```coil file=src/main.coil
 use io::sync::{println};
 use string::{format};
 use my_macros::{square, check, swap, all, id_type, trace, table, Columns, Describe};
@@ -292,7 +292,7 @@ owns is an error, so a typo such as `#[colum(…)]` is caught.
 `coil dissect --expand FILE` prints a file with every macro expanded:
 
 ```bash
-coil dissect --expand --root ~/coil-stdlib/src src/main.hy
+coil dissect --expand --root ~/coil-stdlib/src src/main.coil
 ```
 
 ```coil ignore
@@ -345,8 +345,8 @@ renamed function deletes the item it was meant to decorate.
 
 > [!henry]
 > My shell builds itself from a pattern, chamber after chamber. Macros are
-> patterns that build code. Add these to `src/my_macros.hy` and use them
-> from `src/main.hy`.
+> patterns that build code. Add these to `src/my_macros.coil` and use them
+> from `src/main.coil`.
 
 1. Write `check_eq!(a, b)` that evaluates each side once and panics with
    both sides as written and their values, such as
@@ -358,7 +358,7 @@ renamed function deletes the item it was meant to decorate.
    > so they cannot clash with the caller's. `a.str()` is the source text
    > and `show(left)` the value.
 
-   ```coil challenge=c15-1 file=src/my_macros.hy
+   ```coil challenge=c15-1 file=src/my_macros.coil
    use macro::{Expr, Code, lit, raw};
 
    /// `check!(cond)`: panics with the condition as written when it is false.
@@ -373,7 +373,7 @@ renamed function deletes the item it was meant to decorate.
    // check_eq!(a, b) goes here.
    ```
 
-   ```coil challenge=c15-1 file=src/main.hy
+   ```coil challenge=c15-1 file=src/main.coil
    use io::sync::{println};
    use my_macros::{check, check_eq};
 
@@ -397,13 +397,13 @@ renamed function deletes the item it was meant to decorate.
    > way `lit` does for strings; add it to the provider's `use macro::{…}`
    > line.
 
-   ```coil challenge=c15-2 file=src/my_macros.hy
+   ```coil challenge=c15-2 file=src/my_macros.coil
    use macro::{TypeDecl, Code, lit, raw};
 
    // derive FieldCount goes here.
    ```
 
-   ```coil challenge=c15-2 file=src/main.hy
+   ```coil challenge=c15-2 file=src/main.coil
    use io::sync::{println};
    use string::{format};
    use my_macros::{FieldCount};
@@ -436,7 +436,7 @@ renamed function deletes the item it was meant to decorate.
    > `attr_str` reads any key as text, with a fallback when it is missing:
    > `f.attr_str("column", "skip", "false") == "true"`.
 
-   ```coil challenge=c15-3 file=src/my_macros.hy
+   ```coil challenge=c15-3 file=src/my_macros.coil
    use macro::{TypeDecl, Code, lit, raw};
 
    /// `T::columns()`: the field names; `#[column(name = "…")]` renames one.
@@ -456,7 +456,7 @@ renamed function deletes the item it was meant to decorate.
    }
    ```
 
-   ```coil challenge=c15-3 file=src/main.hy
+   ```coil challenge=c15-3 file=src/main.coil
    use io::sync::{println};
    use string::{format};
    use my_macros::{Columns};
@@ -485,7 +485,7 @@ renamed function deletes the item it was meant to decorate.
    `square!(next_id())` and `calls` come out as? Would a plain function do
    better here?
 
-   ```coil challenge=c15-4 file=src/main.hy
+   ```coil challenge=c15-4 file=src/main.coil
    use io::sync::{println};
    use string::{format};
    use my_macros::{square};
@@ -503,7 +503,7 @@ renamed function deletes the item it was meant to decorate.
    }
    ```
 
-   ```coil challenge=c15-4 file=src/my_macros.hy
+   ```coil challenge=c15-4 file=src/my_macros.coil
    use macro::{Expr, Code};
 
    /// `square!(e)`: `e * e`.
@@ -513,10 +513,10 @@ renamed function deletes the item it was meant to decorate.
    ```
 
 5. Check something: remove `${raw(t.source)}` from the `table` attribute
-   macro and build `main.hy` again. What does the compiler report, and why
+   macro and build `main.coil` again. What does the compiler report, and why
    does that error point at the `Account` class?
 
-   ```coil challenge=c15-5 file=src/main.hy
+   ```coil challenge=c15-5 file=src/main.coil
    use io::sync::{println};
    use my_macros::{table};
 
@@ -530,7 +530,7 @@ renamed function deletes the item it was meant to decorate.
    }
    ```
 
-   ```coil challenge=c15-5 file=src/my_macros.hy
+   ```coil challenge=c15-5 file=src/my_macros.coil
    use macro::{TypeDecl, Code, lit, raw};
 
    /// Keeps the class and adds `T::table()`.
@@ -546,7 +546,7 @@ renamed function deletes the item it was meant to decorate.
    }
    ```
 
-6. Run `coil dissect --expand` on `main.hy` and find the variable that
+6. Run `coil dissect --expand` on `main.coil` and find the variable that
    `swap!` declared. What was it renamed to?
 
 The [macros reference](/docs/language/macros) lists every declaration form,

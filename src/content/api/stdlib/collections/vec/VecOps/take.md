@@ -10,7 +10,7 @@ parent: "VecOps"
 signature: "fn take(V xs, int n) -> Vec<Item>"
 import: "use collections::vec::{VecOps};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.hy#L70"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.coil#L70"
 order: 8
 ---
 

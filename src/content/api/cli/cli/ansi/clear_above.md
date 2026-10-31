@@ -9,7 +9,7 @@ name: "clear_above"
 signature: "fn clear_above() -> string"
 import: "use cli::ansi::{clear_above};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L145"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L145"
 order: 22
 ---
 

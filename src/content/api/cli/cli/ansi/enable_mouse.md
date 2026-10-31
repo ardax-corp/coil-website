@@ -9,7 +9,7 @@ name: "enable_mouse"
 signature: "fn enable_mouse() -> string"
 import: "use cli::ansi::{enable_mouse};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L196"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L196"
 order: 32
 ---
 

@@ -10,7 +10,7 @@ parent: "Scroll"
 signature: "pub fn scroll_to(int y)"
 import: "use tui::widgets::scroll::{Scroll};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/scroll.hy#L47"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/scroll.coil#L47"
 order: 1
 ---
 

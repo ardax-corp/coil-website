@@ -8,7 +8,7 @@ name: "mono_nanos"
 signature: "fn mono_nanos() -> int"
 import: "use clock::{mono_nanos};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/clock.hy#L34"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/clock.coil#L34"
 order: 1
 ---
 

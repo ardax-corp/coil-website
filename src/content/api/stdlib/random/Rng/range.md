@@ -10,7 +10,7 @@ parent: "Rng"
 signature: "pub fn range(int lo, int hi) -> int"
 import: "use random::{Rng};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/random.hy#L92"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/random.coil#L92"
 order: 3
 ---
 

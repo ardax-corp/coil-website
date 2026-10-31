@@ -9,7 +9,7 @@ name: "format_iso8601_date"
 signature: "fn format_iso8601_date(Timestamp ts) -> Result<string, TimeError>"
 import: "use time::{format_iso8601_date};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.hy#L1406"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.coil#L1406"
 order: 26
 ---
 

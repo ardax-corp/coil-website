@@ -9,7 +9,7 @@ name: "cursor_shape"
 signature: "fn cursor_shape(CursorShape shape) -> string"
 import: "use cli::ansi::{cursor_shape};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L130"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L130"
 order: 19
 ---
 

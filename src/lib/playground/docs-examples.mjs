@@ -35,8 +35,8 @@ function programFor(code, info, project) {
     project[info.file] = project[info.file] ? `${project[info.file]}${code}\n` : `${code}\n`;
     return hasMain(code) ? { files: { ...project }, entry: info.file } : undefined;
   }
-  if (isTestBlock(code)) return { files: { "tests/example.hy": `${code}\n` } };
-  return { files: { "main.hy": `${wrap(code)}\n` } };
+  if (isTestBlock(code)) return { files: { "tests/example.coil": `${code}\n` } };
+  return { files: { "main.coil": `${wrap(code)}\n` } };
 }
 
 function enhance(pre, info, program) {

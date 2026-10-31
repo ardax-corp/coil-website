@@ -9,7 +9,7 @@ name: "bright_black"
 signature: "fn bright_black() -> Color"
 import: "use cli::style::{bright_black};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.hy#L71"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.coil#L71"
 order: 11
 ---
 

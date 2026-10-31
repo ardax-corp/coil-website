@@ -39,11 +39,11 @@ Do **not** also define `fn main` in a file that uses `test(...)` cases — the c
 `coil test` also runs the code examples in `///` doc comments, the way `cargo test` runs Rust doc-tests, so examples in docs cannot rot. Each example is its own program, compiled with the run's `--root` directories, permissions and `-O`, and is reported in the same run as the `test` cases:
 
 ```text
-FAILED src/mathx.hy
+FAILED src/mathx.coil
 
 failures:
 
----- src/mathx.hy: doc: mathx::double (src/mathx.hy:12) ----
+---- src/mathx.coil: doc: mathx::double (src/mathx.coil:12) ----
 failed: Assertion: 'double(3) == 6' failed
 ```
 
@@ -79,7 +79,7 @@ fn double(int x) -> int {
 | Flag | Effect |
 |------|--------|
 | `--no-doc-tests` | do not run doc examples |
-| `--doc-tests-only [PATH]` | only the examples of every `.hy` file under PATH; the files are read, not compiled (for example `coil test --doc-tests-only src`, or a dependency's sources) |
+| `--doc-tests-only [PATH]` | only the examples of every `.coil` file under PATH; the files are read, not compiled (for example `coil test --doc-tests-only src`, or a dependency's sources) |
 
 ---
 

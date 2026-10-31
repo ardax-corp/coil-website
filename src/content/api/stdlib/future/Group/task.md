@@ -10,7 +10,7 @@ parent: "Group"
 signature: "pub fn task(int i) -> Task<T>"
 import: "use future::{Group};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/future.hy#L236"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/future.coil#L236"
 order: 4
 ---
 

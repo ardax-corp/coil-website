@@ -101,7 +101,7 @@ export class InspectPanel {
     const files = { ...this.getFiles() };
     this.updateFunctions(files);
     const paths = Object.keys(files);
-    const entry = paths.find((p) => p === "main.hy" && hasMain(files[p])) ?? paths.find((p) => hasMain(files[p]));
+    const entry = paths.find((p) => p === "main.coil" && hasMain(files[p])) ?? paths.find((p) => hasMain(files[p]));
     const target = entry ?? paths.find((p) => isTestBlock(files[p])) ?? paths[0];
     if (!target) return;
     const [, flag, section] = VIEWS[Number(this.view.value)];

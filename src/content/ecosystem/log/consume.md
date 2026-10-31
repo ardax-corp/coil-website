@@ -1,11 +1,11 @@
 ---
 title: "Consuming coil-log"
-description: "This package is log. use log::{Logger, Level} resolves from src/log.hy."
+description: "This package is log. use log::{Logger, Level} resolves from src/log.coil."
 source: "https://github.com/ardax-corp/coil-log/blob/2a00a5ba1086040c2b5368e33f81c44ed036eb87/docs/consume.md"
 ---
 # Consuming coil-log
 
-This package is `log`. `use log::{Logger, Level}` resolves from `src/log.hy`.
+This package is `log`. `use log::{Logger, Level}` resolves from `src/log.coil`.
 
 `io::sync` comes from coil-stdlib. Timestamps come from [coil-time](https://github.com/ardax-corp/coil-time), which is pure Coil (no `libtime`, no `dload`). coil reads no `coil.toml` and no `coil.lock`; pass `--root` (default search is `src` under cwd).
 
@@ -32,14 +32,14 @@ coil \
   --root ../coil-log/src \
   --root ../coil-stdlib/src \
   --root ../coil-time/src \
-  main.hy
+  main.coil
 ```
 
-`--root` is what loads `src/log.hy`, stdlib `io::sync`, and `src/time.hy`. Writing a log file you open needs `--allow-write` (spool: `[permissions] write = true`).
+`--root` is what loads `src/log.coil`, stdlib `io::sync`, and `src/time.coil`. Writing a log file you open needs `--allow-write` (spool: `[permissions] write = true`).
 
 ## Call Logger
 
-Signatures and examples are in the `///` docs of [`src/log.hy`](https://github.com/ardax-corp/coil-log/blob/2a00a5ba1086040c2b5368e33f81c44ed036eb87/src/log.hy). More call patterns are in [`tests/logger.hy`](https://github.com/ardax-corp/coil-log/blob/2a00a5ba1086040c2b5368e33f81c44ed036eb87/tests/logger.hy).
+Signatures and examples are in the `///` docs of [`src/log.coil`](https://github.com/ardax-corp/coil-log/blob/2a00a5ba1086040c2b5368e33f81c44ed036eb87/src/log.coil). More call patterns are in [`tests/logger.coil`](https://github.com/ardax-corp/coil-log/blob/2a00a5ba1086040c2b5368e33f81c44ed036eb87/tests/logger.coil).
 
 ```coil
 use log::{Logger, Level};

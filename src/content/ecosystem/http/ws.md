@@ -65,10 +65,10 @@ fn main() -> Result<(), HttpError> {
 
 Unit tests cover SHA-1 vectors, the RFC accept-key example, and frame encode/decode (`coil test`).
 
-Full TCP echo is `examples/ws_loopback.hy`. **`coil test` cannot `thread::spawn`**; run:
+Full TCP echo is `examples/ws_loopback.coil`. **`coil test` cannot `thread::spawn`**; run:
 
 ```bash
-coil <flags> examples/ws_loopback.hy   # same roots and grants as `coil test` in the README Test section
+coil <flags> examples/ws_loopback.coil   # same roots and grants as `coil test` in the README Test section
 ```
 
 CI greps that example for `ok`.

@@ -8,7 +8,7 @@ name: "is_tty"
 signature: "fn is_tty(Stream s) -> bool"
 import: "use io::tty::{is_tty};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/tty.hy#L40"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/tty.coil#L40"
 order: 1
 ---
 

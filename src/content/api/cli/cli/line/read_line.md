@@ -9,7 +9,7 @@ name: "read_line"
 signature: "fn read_line(Editor ed, string prompt) -> Result<LineInput, TtyError>"
 import: "use cli::line::{read_line};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.hy#L694"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.coil#L694"
 order: 10
 ---
 

@@ -10,7 +10,7 @@ parent: "ConnPool"
 signature: "pub fn max(int n)"
 import: "use http::pool::{ConnPool};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/pool.hy#L63"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/pool.coil#L63"
 order: 1
 ---
 

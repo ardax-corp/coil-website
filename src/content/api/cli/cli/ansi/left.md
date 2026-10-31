@@ -9,7 +9,7 @@ name: "left"
 signature: "fn left(int n) -> string"
 import: "use cli::ansi::{left};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L62"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L62"
 order: 10
 ---
 

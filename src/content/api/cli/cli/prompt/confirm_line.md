@@ -9,7 +9,7 @@ name: "confirm_line"
 signature: "fn confirm_line(Stream input, Stream out, string question, bool fallback) -> bool"
 import: "use cli::prompt::{confirm_line};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.hy#L352"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.coil#L352"
 order: 7
 ---
 

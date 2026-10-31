@@ -9,7 +9,7 @@ name: "enable_ansi"
 signature: "fn enable_ansi(Stream s) -> bool"
 import: "use cli::term::{enable_ansi};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/term.hy#L80"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/term.coil#L80"
 order: 8
 ---
 

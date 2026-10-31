@@ -8,7 +8,7 @@ name: "yield_now"
 signature: "fn yield_now()"
 import: "use task::{yield_now};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/task.hy#L186"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/task.coil#L186"
 order: 6
 ---
 

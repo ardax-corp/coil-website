@@ -35,7 +35,7 @@ use my_macros::{FieldNames, add_after, check};
 ## Derives
 
 ```coil
-// my_macros.hy
+// my_macros.coil
 use macro::{TypeDecl, Code, lit};
 
 /// `T::field_names()`; `#[names(rename = "…")]` on a field renames it.
@@ -56,7 +56,7 @@ derive FieldNames(TypeDecl t) -> Code attrs(names) {
 ```
 
 ```coil
-// main.hy
+// main.coil
 use my_macros::{FieldNames};
 
 #[derive(FieldNames)]
@@ -76,7 +76,7 @@ class Config {
 ## Attribute macros
 
 ```coil
-// my_macros.hy
+// my_macros.coil
 use macro::{FnDecl, Code, ident, raw, lit_int};
 
 /// Wrap a function so it returns `result + by`.
@@ -93,7 +93,7 @@ attr add_after(FnDecl f, int by) -> Code {
 ```
 
 ```coil
-// main.hy
+// main.coil
 use my_macros::{add_after};
 
 #[add_after(by = 10)]
@@ -110,7 +110,7 @@ fn triple(int x) -> int {
 ## Function-style macros
 
 ```coil
-// my_macros.hy
+// my_macros.coil
 use macro::{Expr, Code, lit, raw};
 
 /// `square!(e)`: `e * e`, with `e` kept whole.
@@ -157,7 +157,7 @@ macro counter(Expr name) -> Code {
 ```
 
 ```coil
-// main.hy
+// main.coil
 use my_macros::{square, check, sum, counter};
 
 counter!(Clicks);                // top level: the output is declarations

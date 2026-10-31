@@ -8,7 +8,7 @@ name: "open"
 signature: "fn open(string path, string mode) -> Result<Stream, IoError>"
 import: "use io::{open};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.hy#L377"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.coil#L377"
 order: 9
 ---
 

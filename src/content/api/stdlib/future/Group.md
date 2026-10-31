@@ -9,7 +9,7 @@ name: "Group"
 signature: "shared class Group<T>"
 import: "use future::{Group};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/future.hy#L175"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/future.coil#L175"
 order: 1
 ---
 

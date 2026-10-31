@@ -9,7 +9,7 @@ name: "settings_frame"
 signature: "fn settings_frame(H2Settings s) -> H2Frame"
 import: "use http::h2::{settings_frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.hy#L377"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.coil#L377"
 order: 37
 ---
 

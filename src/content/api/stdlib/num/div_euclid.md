@@ -9,7 +9,7 @@ name: "div_euclid"
 signature: "fn div_euclid(int a, int b) -> int"
 import: "use num::{div_euclid};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/num.hy#L256"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/num.coil#L256"
 order: 17
 ---
 

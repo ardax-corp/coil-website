@@ -9,7 +9,7 @@ name: "paint_at"
 signature: "fn paint_at(Style s, string text, ColorLevel level) -> string"
 import: "use cli::style::{paint_at};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.hy#L557"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.coil#L557"
 order: 38
 ---
 

@@ -9,7 +9,7 @@ name: "Level"
 signature: "enum Level"
 import: "use log::{Level};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-log/blob/2a00a5ba1086040c2b5368e33f81c44ed036eb87/src/log.hy#L25"
+source: "https://github.com/ardax-corp/coil-log/blob/2a00a5ba1086040c2b5368e33f81c44ed036eb87/src/log.coil#L25"
 order: 0
 ---
 

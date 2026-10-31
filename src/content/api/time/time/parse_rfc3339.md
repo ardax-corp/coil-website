@@ -9,7 +9,7 @@ name: "parse_rfc3339"
 signature: "fn parse_rfc3339(string text) -> Result<Timestamp, TimeError>"
 import: "use time::{parse_rfc3339};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.hy#L1374"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.coil#L1374"
 order: 23
 ---
 

@@ -9,7 +9,7 @@ name: "tty"
 signature: "fn tty(Stream s) -> bool"
 import: "use cli::term::{tty};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/term.hy#L30"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/term.coil#L30"
 order: 1
 ---
 

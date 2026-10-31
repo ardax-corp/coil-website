@@ -9,7 +9,7 @@ name: "decoder"
 signature: "fn decoder() -> Decoder"
 import: "use cli::keys::{decoder};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/keys.hy#L484"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/keys.coil#L484"
 order: 12
 ---
 

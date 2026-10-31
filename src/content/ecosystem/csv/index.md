@@ -35,7 +35,7 @@ fn main() {
 ```
 
 ```bash
-coil --root ../coil-stdlib/src --root ../coil-csv/src main.hy
+coil --root ../coil-stdlib/src --root ../coil-csv/src main.coil
 ```
 
 ## API
@@ -49,13 +49,13 @@ coil --root ../coil-stdlib/src --root ../coil-csv/src main.hy
 
 `parse` reads comma-separated fields, `\n` or `\r\n` records, quoted fields and `""` escapes. One trailing line break is ignored. Rows may differ in length, and there is no header handling: the header is `rows[0]`. Bad input returns a `CsvError`, never a panic.
 
-Every public item has `///` docs with examples in [`src/csv.hy`](https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/src/csv.hy).
+Every public item has `///` docs with examples in [`src/csv.coil`](https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/src/csv.coil).
 
 ## Layout
 
 | Path | Role |
 |------|------|
-| `src/csv.hy` | The whole package: `parse`, `stringify`, `Csv`, `CsvError` |
+| `src/csv.coil` | The whole package: `parse`, `stringify`, `Csv`, `CsvError` |
 | `tests/` | `coil test` suites (RFC 4180 cases, method spellings) |
 | `coil.toml` | spool manifest (`[package] name = "csv"`); coil itself does not read it |
 

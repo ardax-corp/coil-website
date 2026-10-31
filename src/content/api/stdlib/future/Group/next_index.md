@@ -10,7 +10,7 @@ parent: "Group"
 signature: "pub fn next_index() -> Option<int>"
 import: "use future::{Group};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/future.hy#L223"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/future.coil#L223"
 order: 3
 ---
 

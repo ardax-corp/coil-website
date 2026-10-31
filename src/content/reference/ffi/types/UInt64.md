@@ -8,7 +8,7 @@ name: "UInt64"
 signature: "class UInt64"
 import: "use ffi::types::{UInt64};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/ffi/types.hy#L71"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/ffi/types.coil#L71"
 order: 11
 ---
 

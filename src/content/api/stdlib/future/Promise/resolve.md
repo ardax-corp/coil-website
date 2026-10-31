@@ -10,7 +10,7 @@ parent: "Promise"
 signature: "pub fn resolve(T value) -> bool"
 import: "use future::{Promise};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/future.hy#L66"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/future.coil#L66"
 order: 2
 ---
 

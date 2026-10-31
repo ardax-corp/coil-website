@@ -9,7 +9,7 @@ name: "alert"
 signature: "fn alert(Ctx ctx, string title, string message)"
 import: "use tui::widgets::dialog::{alert};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/dialog.hy#L117"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/dialog.coil#L117"
 order: 2
 ---
 

@@ -10,7 +10,7 @@ parent: "TextInput"
 signature: "pub fn on_submit(fn(string, Ctx) -> () f) -> TextInput"
 import: "use tui::widgets::input::{TextInput};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/input.hy#L364"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/input.coil#L364"
 order: 5
 ---
 

@@ -9,7 +9,7 @@ name: "is_ctrl"
 signature: "fn is_ctrl(byte c) -> bool"
 import: "use ascii::{is_ctrl};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/ascii.hy#L43"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/ascii.coil#L43"
 order: 6
 ---
 

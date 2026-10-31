@@ -9,7 +9,7 @@ name: "spinner"
 signature: "fn spinner(string label) -> Spinner"
 import: "use tui::widgets::status::{spinner};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/status.hy#L197"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/status.coil#L197"
 order: 4
 ---
 

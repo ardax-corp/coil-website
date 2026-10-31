@@ -9,7 +9,7 @@ name: "tabs"
 signature: "fn tabs(Vec<string> titles, Vec<Node> pages) -> Node"
 import: "use tui::widgets::tabs::{tabs};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/tabs.hy#L189"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/tabs.coil#L189"
 order: 1
 ---
 

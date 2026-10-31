@@ -9,7 +9,7 @@ name: "Theme"
 signature: "class Theme"
 import: "use tui::theme::{Theme};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/theme.hy#L5"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/theme.coil#L5"
 order: 0
 ---
 

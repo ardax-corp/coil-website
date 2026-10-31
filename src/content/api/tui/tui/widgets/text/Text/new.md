@@ -10,7 +10,7 @@ parent: "Text"
 signature: "pub static fn new(string content) -> Text"
 import: "use tui::widgets::text::{Text};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/text.hy#L39"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/text.coil#L39"
 order: 0
 ---
 

@@ -8,7 +8,7 @@ name: "Scope"
 signature: "shared class Scope"
 import: "use task::{Scope};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/task.hy#L51"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/task.coil#L51"
 order: 1
 ---
 

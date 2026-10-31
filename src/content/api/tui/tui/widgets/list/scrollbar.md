@@ -9,7 +9,7 @@ name: "scrollbar"
 signature: "fn scrollbar(Canvas cv, int top, int h, int count, int offset, Style track, Style thumb)"
 import: "use tui::widgets::list::{scrollbar};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/list.hy#L113"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/list.coil#L113"
 order: 5
 ---
 

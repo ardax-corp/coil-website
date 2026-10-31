@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Check the tutorial challenges (see src/lib/remark-challenges.mjs): every
 // challenge with a check or expected output needs a reference solution in
-// scripts/challenges/<id>.hy that passes it the way the site runs it, and a
+// scripts/challenges/<id>.coil that passes it the way the site runs it, and a
 // starter that does not pass it yet.
 //
 //   node scripts/check-challenges.mjs --coil ../coil-lang/target/release/coil \
@@ -51,7 +51,7 @@ function challenges(file) {
       c.where ??= `${file}:${line}`;
       if (info.attrs.args) c.args = ["--", ...info.attrs.args.split(",")];
       if (info.mode === "stdin") c.stdin = body;
-      else (c.starter ??= {})[info.file ?? "main.hy"] = body;
+      else (c.starter ??= {})[info.file ?? "main.coil"] = body;
     }
     if (m[2] === "coil" && info.check) get(info.check).check = body;
     if (m[2] === "text" && info.attrs.expect) Object.assign(get(info.attrs.expect), { expect: body, stream: info.attrs.stream ?? "stdout", match: info.attrs.match ?? "all" });
@@ -69,10 +69,10 @@ const matches = (c, out) => {
   return c.match === "prefix" ? got.startsWith(want) : c.match === "contains" ? got.includes(want) : got === want;
 };
 
-/** A solution is scripts/challenges/<id>.hy (main.hy) or a <id>/ directory. */
+/** A solution is scripts/challenges/<id>.coil (main.coil) or a <id>/ directory. */
 function readSolution(id) {
-  const one = join(solutions, `${id}.hy`);
-  if (existsSync(one)) return { "main.hy": readFileSync(one, "utf8") };
+  const one = join(solutions, `${id}.coil`);
+  if (existsSync(one)) return { "main.coil": readFileSync(one, "utf8") };
   const dir = join(solutions, id);
   if (!existsSync(dir)) return undefined;
   const files = {};
@@ -118,17 +118,17 @@ for (const file of args) {
       continue;
     }
     if (!solution) {
-      fail(`no reference solution in ${solutions}${c.id}.hy or ${c.id}/`);
+      fail(`no reference solution in ${solutions}${c.id}.coil or ${c.id}/`);
       continue;
     }
     if (c.check) {
-      const r = run({ "src/solution.hy": solution["main.hy"], "tests/check.hy": c.check }, ["test", "--root", stdlib, "-A", "tests"]);
+      const r = run({ "src/solution.coil": solution["main.coil"], "tests/check.coil": c.check }, ["test", "--root", stdlib, "-A", "tests"]);
       if (r.status !== 0) {
         fail("the reference solution fails the check", r);
         continue;
       }
       // The starter as given must not already pass.
-      const s = run({ "src/solution.hy": c.starter["main.hy"], "tests/check.hy": c.check }, ["test", "--root", stdlib, "-A", "tests"]);
+      const s = run({ "src/solution.coil": c.starter["main.coil"], "tests/check.coil": c.check }, ["test", "--root", stdlib, "-A", "tests"]);
       if (s.status === 0) {
         fail("the starter already passes the check", s);
         continue;

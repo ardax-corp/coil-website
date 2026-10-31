@@ -10,7 +10,7 @@ parent: "Ctx"
 signature: "pub fn pop_layer()"
 import: "use tui::node::{Ctx};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/node.hy#L416"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/node.coil#L416"
 order: 9
 ---
 

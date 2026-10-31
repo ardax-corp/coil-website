@@ -9,7 +9,7 @@ name: "BLINK"
 signature: "const BLINK = 16;"
 import: "use cli::style::{BLINK};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.hy#L180"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.coil#L180"
 order: 25
 ---
 

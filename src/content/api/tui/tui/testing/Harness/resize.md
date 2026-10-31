@@ -10,7 +10,7 @@ parent: "Harness"
 signature: "pub fn resize(int cols, int rows)"
 import: "use tui::testing::{Harness};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/testing.hy#L243"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/testing.coil#L243"
 order: 10
 ---
 

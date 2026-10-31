@@ -8,7 +8,7 @@ name: "capture_begin"
 signature: "fn capture_begin()"
 import: "use io::{capture_begin};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.hy#L310"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.coil#L310"
 order: 7
 ---
 

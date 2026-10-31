@@ -9,7 +9,7 @@ name: "units"
 signature: "fn units(string s) -> Vec<string>"
 import: "use cli::line::{units};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.hy#L102"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.coil#L102"
 order: 5
 ---
 

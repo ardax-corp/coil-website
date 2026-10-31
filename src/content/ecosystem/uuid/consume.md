@@ -1,11 +1,11 @@
 ---
 title: "Consuming coil-uuid"
-description: "This package is uuid. use uuid::{v1, v4, v6, v7, parse, Uuid, UuidError} resolves from src/uuid.hy."
+description: "This package is uuid. use uuid::{v1, v4, v6, v7, parse, Uuid, UuidError} resolves from src/uuid.coil."
 source: "https://github.com/ardax-corp/coil-uuid/blob/07c0a071431e64138c44ec3e6467ab7c9fd93808/docs/consume.md"
 ---
 # Consuming coil-uuid
 
-This package is `uuid`. `use uuid::{v1, v4, v6, v7, parse, Uuid, UuidError}` resolves from `src/uuid.hy`.
+This package is `uuid`. `use uuid::{v1, v4, v6, v7, parse, Uuid, UuidError}` resolves from `src/uuid.coil`.
 
 Generators call [coil-crypto](https://github.com/ardax-corp/coil-crypto) `random_bytes` (CSPRNG). Time-based versions call [coil-time](https://github.com/ardax-corp/coil-time) `timestamp()` (`Result<Timestamp, TimeError>`). Use `ts.millis()`, `ts.nanos()`, and `ts.secs()` on that value. coil reads no `coil.toml`: `--root` must include crypto `src/` and time `src/` so `use crypto` / `use time` resolve. The crypto grant is `--allow-dload crypto` plus `--dload-trusted crypto` (or `--dload-pin crypto=SHA256`); `--ffi-search-path` locates `libcrypto`. coil-time is pure Coil (HostInvoke clocks); there is no `--allow-dload time` and no `libtime`.
 
@@ -68,7 +68,7 @@ plus `trusted = true` on a `crypto` dependency (or a `[[package.native]]` `sha25
 
 ## Call it
 
-Signatures are in [`src/uuid.hy`](https://github.com/ardax-corp/coil-uuid/blob/07c0a071431e64138c44ec3e6467ab7c9fd93808/src/uuid.hy). Call patterns are in [`tests/rfc4122.hy`](https://github.com/ardax-corp/coil-uuid/blob/07c0a071431e64138c44ec3e6467ab7c9fd93808/tests/rfc4122.hy).
+Signatures are in [`src/uuid.coil`](https://github.com/ardax-corp/coil-uuid/blob/07c0a071431e64138c44ec3e6467ab7c9fd93808/src/uuid.coil). Call patterns are in [`tests/rfc4122.coil`](https://github.com/ardax-corp/coil-uuid/blob/07c0a071431e64138c44ec3e6467ab7c9fd93808/tests/rfc4122.coil).
 
 ```coil
 use uuid::{v7, parse, Uuid, UuidError};

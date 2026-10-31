@@ -7,7 +7,7 @@ source: "https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5
 
 This package is `tls`. `use tls::{client, server}` and `use tls::{alpn_protocol}` resolve from this repo's `src/`. rustls lives in `libtls.so` / `.dylib` / `tls.dll`. `client::enable` / `server::enable` call `dload("tls")` inside the package. Put the built library on the FFI search path (`--ffi-search-path`). Needs coil-lang with `Stream.attach` / `Stream.park` ([coil-lang #204](https://github.com/ardax-corp/coil-lang/pull/204)).
 
-API: [api.md](/packages/tls/api). Handshake demo: [examples/loopback.hy](https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/examples/loopback.hy).
+API: [api.md](/packages/tls/api). Handshake demo: [examples/loopback.coil](https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/examples/loopback.coil).
 
 ## Sibling checkout
 
@@ -21,7 +21,7 @@ make -C native artifact
 
 ```bash
 coil --root ../coil-tls/src --ffi-search-path ../coil-tls/native \
-  --allow-dload tls --dload-trusted tls --allow-attach --allow-net main.hy
+  --allow-dload tls --dload-trusted tls --allow-attach --allow-net main.coil
 ```
 
 `--dload-pin tls=<sha256 of libtls.so>` instead of `--dload-trusted tls` pins the build. `enable` needs `--allow-attach` (`Stream.attach`). Opening the TCP stream needs `--allow-net`.
@@ -30,7 +30,7 @@ coil --root ../coil-tls/src --ffi-search-path ../coil-tls/native \
 
 ```bash
 coil package --root ../coil-tls/src --allow-dload tls --dload-trusted tls --allow-attach --allow-net \
-  --ffi-native name=tls,version=0.1.0,path=../coil-tls/native -o app main.hy
+  --ffi-native name=tls,version=0.1.0,path=../coil-tls/native -o app main.coil
 ```
 
 The packaged app looks for `libtls.so` in the natives cache, beside `app` or in its `lib/`. The package loads the library only as `dload("tls")`, never by path, so that one row is all `coil package` needs ([#17](https://github.com/ardax-corp/coil-tls/issues/17)).

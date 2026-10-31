@@ -10,7 +10,7 @@ parent: "Regex"
 signature: "pub fn expand_template(string template) -> Result<string, RegexError>"
 import: "use regex::{Regex};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-regex/blob/3d83b6015655fefd60e8136e2eb9694f7e8a4990/src/regex.hy#L672"
+source: "https://github.com/ardax-corp/coil-regex/blob/3d83b6015655fefd60e8136e2eb9694f7e8a4990/src/regex.coil#L672"
 order: 6
 ---
 

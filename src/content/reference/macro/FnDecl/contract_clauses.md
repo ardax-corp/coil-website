@@ -9,7 +9,7 @@ parent: "FnDecl"
 signature: "pub fn contract_clauses() -> string"
 import: "use macro::{FnDecl};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/macro.hy#L560"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/macro.coil#L560"
 order: 3
 ---
 

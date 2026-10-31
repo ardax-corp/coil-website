@@ -1,13 +1,13 @@
 ---
 title: "coil-stdlib"
-description: "Userland standard library for Coil. Compiler virtual modules cover systems primitives (io, string, thread, …); this package layers .hy helpers on top."
+description: "Userland standard library for Coil. Compiler virtual modules cover systems primitives (io, string, thread, …); this package layers .coil helpers on top."
 source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/README.md"
 ---
 # coil-stdlib
 
 Userland standard library for [Coil](https://github.com/ardax-corp/coil-lang).
 Compiler virtual modules cover systems primitives (`io`, `string`, `thread`, …);
-this package layers `.hy` helpers on top.
+this package layers `.coil` helpers on top.
 
 Managed with [spool](https://github.com/ardax-corp/spool), same organization as
 the language and package manager.
@@ -28,11 +28,11 @@ Virtual-module host primitives (`io::read`) stay as free fns.
 
 ```text
 coil.toml
-src/ascii.hy          # use ascii::…
-src/cell.hy           # use cell::{Ref}
+src/ascii.coil          # use ascii::…
+src/cell.coil           # use cell::{Ref}
 src/collections/      # map, set, list, deque, bitset, tree, vec
-src/math.hy           # use math::{sin, sqrt, …} — float math in Coil
-src/path.hy           # use path::{Path, …}
+src/math.coil           # use math::{sin, sqrt, …} — float math in Coil
+src/path.coil           # use path::{Path, …}
 tests/                # coil test
 docs/                 # package documentation
 ```

@@ -10,7 +10,7 @@ parent: "Hasher"
 signature: "pub fn update(Vec<byte> data) -> Result<(), CryptoError>"
 import: "use crypto::{Hasher};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.hy#L338"
+source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.coil#L338"
 order: 0
 ---
 

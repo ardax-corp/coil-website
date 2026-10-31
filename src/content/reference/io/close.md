@@ -8,7 +8,7 @@ name: "close"
 signature: "fn close(Stream s) -> Result<unit, IoError>"
 import: "use io::{close};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.hy#L402"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.coil#L402"
 order: 10
 ---
 

@@ -1,11 +1,11 @@
 ---
 title: "Consuming coil-deflate"
-description: "This package is deflate. use deflate::{compress, decompress, Deflate, DeflateError} resolves from src/deflate.hy. The repo is https://github.com/ardax-corp/coil-deflate.git.…"
+description: "This package is deflate. use deflate::{compress, decompress, Deflate, DeflateError} resolves from src/deflate.coil. The repo is https://github.com/ardax-corp/coil-deflate.git.…"
 source: "https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/docs/consume.md"
 ---
 # Consuming coil-deflate
 
-This package is `deflate`. `use deflate::{compress, decompress, Deflate, DeflateError}` resolves from `src/deflate.hy`. The repo is `https://github.com/ardax-corp/coil-deflate.git`. There is no native/FFI dep.
+This package is `deflate`. `use deflate::{compress, decompress, Deflate, DeflateError}` resolves from `src/deflate.coil`. The repo is `https://github.com/ardax-corp/coil-deflate.git`. There is no native/FFI dep.
 
 ## Depend on it
 
@@ -21,12 +21,12 @@ Without spool, clone this repo next to your project and pass the roots yourself.
 
 ```bash
 git clone https://github.com/ardax-corp/coil-deflate.git ../coil-deflate
-coil --root ../coil-deflate/src --root ../coil-stdlib/src main.hy
+coil --root ../coil-deflate/src --root ../coil-stdlib/src main.coil
 ```
 
 ## Call compress / decompress
 
-Signatures are in [`src/deflate.hy`](https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/src/deflate.hy). Call patterns are in [`tests/roundtrip.hy`](https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/tests/roundtrip.hy) and [`tests/vectors.hy`](https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/tests/vectors.hy).
+Signatures are in [`src/deflate.coil`](https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/src/deflate.coil). Call patterns are in [`tests/roundtrip.coil`](https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/tests/roundtrip.coil) and [`tests/vectors.coil`](https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/tests/vectors.coil).
 
 ```coil
 use string::{to_bytes};

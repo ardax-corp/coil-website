@@ -35,10 +35,10 @@ fn main() {
 }
 ```
 
-This is [examples/hello.hy](https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/examples/hello.hy); [examples/todo.hy](https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/examples/todo.hy) is a bigger one (list, dialogs, key hints). Run it from a checkout with coil-stdlib and coil-cli next to it (`run` reads the colour settings, hence `--allow-env`):
+This is [examples/hello.coil](https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/examples/hello.coil); [examples/todo.coil](https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/examples/todo.coil) is a bigger one (list, dialogs, key hints). Run it from a checkout with coil-stdlib and coil-cli next to it (`run` reads the colour settings, hence `--allow-env`):
 
 ```bash
-coil --allow-env --root ../coil-stdlib/src --root ../coil-cli/src --root src examples/hello.hy
+coil --allow-env --root ../coil-stdlib/src --root ../coil-cli/src --root src examples/hello.coil
 ```
 
 ## Use it

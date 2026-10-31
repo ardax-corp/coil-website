@@ -14,7 +14,7 @@ The **`coil.toml`** file at a project's root tells the compiler, through spool, 
 | Command | Role |
 |---------|------|
 | **`spool`** | Library dependency management (`install` / `add` / `update`): resolve git/path deps, write `coil.lock`, maintain a shared cache and project `.spool/deps` roots. Reads `coil.toml` / `coil.lock` and passes them to `coil` as flags. Coil userland (not a Rust subcommand of `coil`). |
-| **`coil package`** | Build an embedded **executable** (`.hyc` + runner such as `coil-embed`). May embed a **native lock** (names, versions and hashes only — no `.so` bytes, no URLs). Putting the native libraries on the target machine is up to you; see [`[[ffi.native]]`](#ffi-native). |
+| **`coil package`** | Build an embedded **executable** (`.ccoil` + runner such as `coil-embed`). May embed a **native lock** (names, versions and hashes only — no `.so` bytes, no URLs). Putting the native libraries on the target machine is up to you; see [`[[ffi.native]]`](#ffi-native). |
 
 ---
 
@@ -26,9 +26,9 @@ Place `coil.toml` in the **project root** — the directory its relative paths r
 my-project/
 ├── coil.toml
 └── src/
-    ├── main.hy
+    ├── main.coil
     └── foo/
-        └── bar.hy
+        └── bar.coil
 ```
 
 Without flags (no `coil.toml`, or `coil` run directly), the compiler uses built-in defaults (see [Default behavior](#default-behavior-without-coiltoml)).
@@ -67,7 +67,7 @@ Example:
 roots = ["./src", "./vendor", "./builtins"]
 ```
 
-Each path in `roots` is a **search root** (spool passes each as `--root`; without spool, use `coil --root DIR`). When resolving `use foo::bar;`, the compiler looks under each root **in order** for `<root>/foo/bar.hy` (one-item-per-file), then falls back to `<root>/foo.hy` (module file). The first existing path wins; see [Discovery algorithm](#discovery-algorithm).
+Each path in `roots` is a **search root** (spool passes each as `--root`; without spool, use `coil --root DIR`). When resolving `use foo::bar;`, the compiler looks under each root **in order** for `<root>/foo/bar.coil` (one-item-per-file), then falls back to `<root>/foo.coil` (module file). The first existing path wins; see [Discovery algorithm](#discovery-algorithm).
 
 If the `[module]` section is omitted entirely, roots default to `["src"]`.
 
@@ -85,19 +85,19 @@ Example:
 
 ```toml
 [entry]
-file = "./src/main.hy"
+file = "./src/main.coil"
 ```
 
 When set, spool commands with **no file argument** (`spool run`, `spool build`, …) use this path as the program entry (relative to the project root that owns `coil.toml`). `coil` itself always needs the entry file on the command line:
 
 ```bash
-coil examples/modules.hy
+coil examples/modules.coil
 # or
-coil compile examples/modules.hy
+coil compile examples/modules.coil
 ```
 
 ```bash
-# with [entry] file = "./src/main.hy" in coil.toml:
+# with [entry] file = "./src/main.coil" in coil.toml:
 spool run
 spool build
 ```
@@ -175,7 +175,7 @@ There is **no first-party exemption**. `crypto`, `tls`, `regex`, and `time` use 
 Running `coil` directly, the same rule is three flags:
 
 ```bash
-coil --allow-dload crypto --dload-trusted crypto --ffi-search-path ../coil-crypto/native app.hy
+coil --allow-dload crypto --dload-trusted crypto --ffi-search-path ../coil-crypto/native app.coil
 ```
 
 Bootstrap for coil-crypto is allow plus trusted (or a lock hash), not a hardcoded skip:
@@ -223,7 +223,7 @@ path = ".spool/deps/crypto/native"
 The same row without spool:
 
 ```bash
-coil package app.hy -o app --allow-dload crypto \
+coil package app.coil -o app --allow-dload crypto \
   --ffi-native 'name=crypto,version=0.1.0,path=.spool/deps/crypto/native'
 ```
 
@@ -314,7 +314,7 @@ When a managed root is on disk:
 roots = ["./src", "./.spool/deps"]
 ```
 
-Then `use greet::hello;` resolves under `./.spool/deps/greet/hello.hy` via the normal discovery algorithm (see [Modules](/docs/language/modules)). For coil-stdlib unprefixed imports, add `.spool/deps/stdlib` as a root ([consume](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/consume.md)).
+Then `use greet::hello;` resolves under `./.spool/deps/greet/hello.coil` via the normal discovery algorithm (see [Modules](/docs/language/modules)). For coil-stdlib unprefixed imports, add `.spool/deps/stdlib` as a root ([consume](https://github.com/ardax-corp/coil-stdlib/blob/main/docs/consume.md)).
 
 ---
 
@@ -340,7 +340,7 @@ roots = ["./src", "./vendor", "../coil-stdlib/src"]
 
 [entry]
 # Optional entry point. If omitted, use the file from the CLI.
-# file = "./src/main.hy"
+# file = "./src/main.coil"
 
 # [dependencies]
 # http = { git = "https://github.com/coil-lang/http.git" }
@@ -374,7 +374,7 @@ roots = ["./src", "./vendor", "../coil-stdlib/src"]
 ## Discovery algorithm
 
 Given a `use a::b::c;` statement and roots `["./src", "./vendor", "./builtins"]`.
-Resolution matches the [modules reference](/docs/language/modules#how-a-path-is-resolved): **one-item-per-file first**, then a **module-file** fallback. When both `<root>/foo/item.hy` and `<root>/foo.hy` exist, the item file wins (see shadowing note in modules.md). **Migration:** if a project accidentally kept both layouts, `use foo::item` silently binds the item file after this change — delete or rename the unused path.
+Resolution matches the [modules reference](/docs/language/modules#how-a-path-is-resolved): **one-item-per-file first**, then a **module-file** fallback. When both `<root>/foo/item.coil` and `<root>/foo.coil` exist, the item file wins (see shadowing note in modules.md). **Migration:** if a project accidentally kept both layouts, `use foo::item` silently binds the item file after this change — delete or rename the unused path.
 
 ### Step 1 — Split the import path
 
@@ -386,19 +386,19 @@ Resolution matches the [modules reference](/docs/language/modules#how-a-path-is-
 For root `./src`:
 
 ```
-./src/a/b/c.hy   → exists? use this file
+./src/a/b/c.coil   → exists? use this file
 ```
 
 If not found, try `./vendor`:
 
 ```
-./vendor/a/b/c.hy
+./vendor/a/b/c.coil
 ```
 
 Then `./builtins`:
 
 ```
-./builtins/a/b/c.hy
+./builtins/a/b/c.coil
 ```
 
 ### Step 2b — Module-file fallback (Convention B)
@@ -406,12 +406,12 @@ Then `./builtins`:
 If no one-item-per-file candidate exists in any root, try each root again for the parent module file (directory path only):
 
 ```
-./src/a/b.hy     → exists? use this file (item `c` lives inside)
-./vendor/a/b.hy
-./builtins/a/b.hy
+./src/a/b.coil     → exists? use this file (item `c` lives inside)
+./vendor/a/b.coil
+./builtins/a/b.coil
 ```
 
-Example: `use math::add;` with only `./src/math.hy` present resolves to that file (namespace `math`, FQN `math::add`).
+Example: `use math::add;` with only `./src/math.coil` present resolves to that file (namespace `math`, FQN `math::add`).
 
 ### Step 3 — First match wins
 
@@ -419,11 +419,11 @@ Stop at the first path that exists on disk. That file is loaded and compiled.
 
 ### Step 4 — Compute namespace
 
-Strip the matching root prefix, remove `.hy`, replace `/` with `::`:
+Strip the matching root prefix, remove `.coil`, replace `/` with `::`:
 
 ```
-./src/a/b/c.hy  →  namespace "a::b::c"
-./src/a/b.hy    →  namespace "a::b"     (module-file fallback)
+./src/a/b/c.coil  →  namespace "a::b::c"
+./src/a/b.coil    →  namespace "a::b"     (module-file fallback)
 ```
 
 ### Wildcard imports (`E0124`)
@@ -435,14 +435,14 @@ Prelude is auto-injected; do not write `use prelude::*` in source.
 
 `mod foo;` loads a file for discovery/link order without binding names.
 
-Discovery may still map a path ending in `*` to `<root>/…/stem.hy` when
+Discovery may still map a path ending in `*` to `<root>/…/stem.coil` when
 scanning dependencies, but no names are imported from a wildcard `use`.
 
 ### `mod` declarations
 
 For `mod foo;`:
 
-1. Search each root for `<root>/foo.hy`.
+1. Search each root for `<root>/foo.coil`.
 2. First existing file wins.
 3. Namespace is `foo`.
 
@@ -468,13 +468,13 @@ When `coil` gets no flags (no spool, or no `coil.toml`):
 | `[ffi].allow` / `--allow-dload` | `[]` — every stem is `LibraryDenied` until listed |
 | pins / trusted | none — an allowed stem is still `LibraryDenied` without `--dload-pin` or `--dload-trusted` |
 
-This means a minimal project with only `src/main.hy` and `src/foo/bar.hy` works without any manifest, as long as you run the compiler from the project root:
+This means a minimal project with only `src/main.coil` and `src/foo/bar.coil` works without any manifest, as long as you run the compiler from the project root:
 
 ```bash
-cargo run -- src/main.hy
+cargo run -- src/main.coil
 ```
 
-The namespace test suite confirms that `use foo::greet;` resolves to `src/foo/greet.hy` with no manifest present.
+The namespace test suite confirms that `use foo::greet;` resolves to `src/foo/greet.coil` with no manifest present.
 
 ---
 
@@ -487,7 +487,7 @@ Use multiple roots for vendored libraries, stdlib, or **`spool`**-managed deps:
 roots = ["./src", "./.spool/deps", "../coil-stdlib/src"]
 ```
 
-Resolution order means **your source tree takes precedence**. If both `src/foo/greet.hy` and `.spool/deps/foo/greet.hy` exist, the `src/` copy is used.
+Resolution order means **your source tree takes precedence**. If both `src/foo/greet.coil` and `.spool/deps/foo/greet.coil` exist, the `src/` copy is used.
 
 Typical layout:
 
@@ -506,5 +506,5 @@ project/
 
 - [Modules reference](/docs/language/modules) — `use` / `mod` syntax, FQN rules, dep roots
 - [FFI](/docs/reference/ffi) — `dload` gate, allow + pin or trusted
-- [Tutorial: Modules](/docs/manual/tutorial/09-modules) — walkthrough with `examples/modules.hy`
+- [Tutorial: Modules](/docs/manual/tutorial/09-modules) — walkthrough with `examples/modules.coil`
 - [Getting started](/docs/manual/getting-started) — `coil package` (embed executable), unrelated to `spool`

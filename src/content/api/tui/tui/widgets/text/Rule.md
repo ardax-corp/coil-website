@@ -9,7 +9,7 @@ name: "Rule"
 signature: "shared class Rule"
 import: "use tui::widgets::text::{Rule};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/text.hy#L138"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/text.coil#L138"
 order: 1
 ---
 

@@ -9,7 +9,7 @@ name: "ws_send_bin"
 signature: "fn ws_send_bin(WsConn c, Vec<byte> b) -> Result<(), HttpError>"
 import: "use http::ws::{ws_send_bin};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.hy#L548"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.coil#L548"
 order: 15
 ---
 

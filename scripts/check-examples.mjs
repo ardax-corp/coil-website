@@ -12,7 +12,7 @@
 //   ```coil fail       must fail to compile
 // Challenge blocks (challenge=, check=) are checked by check-challenges.mjs.
 // A block of `test("…") { … }` cases runs under `coil test` instead.
-// `file=src/x.hy` after the tag writes the block into a per-page project; the
+// `file=src/x.coil` after the tag writes the block into a per-page project; the
 // block with `fn main` runs that project.
 // Without a `fn main`, top-level declarations stay at the top level and the
 // remaining statements are wrapped in `fn main() { … }`. An `// Output:` block
@@ -44,7 +44,7 @@ const failures = [];
 
 for (const file of files) {
   const lines = readFileSync(file, "utf8").split("\n");
-  // Blocks tagged `file=src/x.hy` build one project per page; the one with
+  // Blocks tagged `file=src/x.coil` build one project per page; the one with
   // `fn main` runs it from the project directory.
   const project = join(dir, "project");
   rmSync(project, { recursive: true, force: true });
@@ -77,7 +77,7 @@ for (const file of files) {
     }
     // A file of `test("…") { … }` cases runs under `coil test`.
     const isTest = !target && isTestBlock(code);
-    const src = isTest ? join(dir, "tests", "example.hy") : join(dir, "example.hy");
+    const src = isTest ? join(dir, "tests", "example.coil") : join(dir, "example.coil");
     if (isTest) mkdirSync(join(dir, "tests"), { recursive: true });
     if (!target) writeFileSync(src, isTest ? `${code}\n` : `${wrap(code)}\n`);
     const where = `${file}:${start}`;
@@ -86,7 +86,7 @@ for (const file of files) {
       : isTest
       ? ["test", "--root", stdlib, "-A", join(dir, "tests")]
       : mode === "no_run"
-        ? ["compile", "--root", stdlib, "-A", src, "-o", join(dir, "out.hyc")]
+        ? ["compile", "--root", stdlib, "-A", src, "-o", join(dir, "out.ccoil")]
         : ["--root", stdlib, "-A", src];
     const r = spawnSync(coil, argv, { encoding: "utf8", timeout: 20000, input: "", cwd: target ? project : dir });
     const ok = mode === "fail" ? r.status !== 0 : r.status === 0;

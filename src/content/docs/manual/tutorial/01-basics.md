@@ -10,8 +10,8 @@ functions, conditions and loops. By the end you will have written FizzBuzz.
 
 If you have not installed Coil yet, start with
 [Getting started](/docs/manual/getting-started). Every example in this
-tutorial is a complete program unless it says otherwise. Save it as a `.hy`
-file and run it with `coil --root ~/coil-stdlib/src file.hy` (or inside a
+tutorial is a complete program unless it says otherwise. Save it as a `.coil`
+file and run it with `coil --root ~/coil-stdlib/src file.coil` (or inside a
 spool project with `spool run`).
 
 ## A program

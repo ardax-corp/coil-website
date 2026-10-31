@@ -8,7 +8,7 @@ name: "remove_file"
 signature: "fn remove_file(string path) -> Result<unit, IoError>"
 import: "use io::fs::{remove_file};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/fs.hy#L357"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/fs.coil#L357"
 order: 13
 ---
 

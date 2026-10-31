@@ -10,7 +10,7 @@ parent: "Searchable"
 signature: "fn replace_first<P: Pattern>(T hay, P pat, string with) -> string"
 import: "use text::{Searchable};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/text.hy#L640"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/text.coil#L640"
 order: 7
 ---
 

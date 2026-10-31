@@ -10,7 +10,7 @@ parent: "JsonValue"
 signature: "pub static fn from_string(string s) -> JsonValue"
 import: "use json::{JsonValue};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.hy#L242"
+source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.coil#L242"
 order: 4
 ---
 

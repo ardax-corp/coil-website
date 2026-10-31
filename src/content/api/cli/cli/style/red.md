@@ -9,7 +9,7 @@ name: "red"
 signature: "fn red() -> Color"
 import: "use cli::style::{red};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.hy#L36"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.coil#L36"
 order: 4
 ---
 

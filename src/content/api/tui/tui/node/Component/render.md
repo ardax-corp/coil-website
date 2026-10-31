@@ -10,7 +10,7 @@ parent: "Component"
 signature: "fn render(T c, Canvas cv, Ctx ctx)"
 import: "use tui::node::{Component};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/node.hy#L58"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/node.coil#L58"
 order: 0
 ---
 

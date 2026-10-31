@@ -10,7 +10,7 @@ parent: "App"
 signature: "pub fn focus_step(int step)"
 import: "use tui::app::{App};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/app.hy#L291"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/app.coil#L291"
 order: 14
 ---
 

@@ -9,7 +9,7 @@ name: "x25519_generate"
 signature: "fn x25519_generate() -> Result<(Vec<byte>, Vec<byte>), CryptoError>"
 import: "use crypto::{x25519_generate};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.hy#L690"
+source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.coil#L690"
 order: 20
 ---
 

@@ -9,7 +9,7 @@ name: "enter_alt_screen"
 signature: "fn enter_alt_screen() -> string"
 import: "use cli::ansi::{enter_alt_screen};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L186"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L186"
 order: 30
 ---
 

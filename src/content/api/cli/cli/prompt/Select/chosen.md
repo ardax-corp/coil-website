@@ -10,7 +10,7 @@ parent: "Select"
 signature: "pub fn chosen() -> Vec<int>"
 import: "use cli::prompt::{Select};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.hy#L220"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.coil#L220"
 order: 1
 ---
 

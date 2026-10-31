@@ -9,7 +9,7 @@ name: "ws_connect_key"
 signature: "fn ws_connect_key(string url, string key) -> Result<WsConn, HttpError>"
 import: "use http::ws::{ws_connect_key};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.hy#L843"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.coil#L843"
 order: 23
 ---
 

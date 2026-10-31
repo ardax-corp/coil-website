@@ -9,7 +9,7 @@ name: "pad_left"
 signature: "fn pad_left(Vec<byte> src, int width, byte fill) -> Vec<byte>"
 import: "use bytes::{pad_left};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/bytes.hy#L391"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/bytes.coil#L391"
 order: 16
 ---
 
