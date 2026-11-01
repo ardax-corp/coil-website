@@ -104,7 +104,7 @@ Sources used to be `.hy` files. Coil still reads that extension for now, so a
 package that has not renamed its files keeps working: each file above is
 tried as `.coil` first and then as `.hy` (`a/b/c.coil`, `a/b/c.hy`,
 `a/b.coil`, `a/b.hy`). Support for `.hy` will be removed; rename your files
-to `.coil`.
+to `.coil`. `coil fmt src tests` does it, formatting each file as it moves.
 
 ## mod
 

@@ -24,7 +24,7 @@ subcommand they go after it: `coil compile --root ../coil-stdlib/src app.coil`.
 | `coil test [path]` | Run every test under `path` (default `./tests`) and the examples in `///` docs. See [Test harness](/docs/language/test-harness). |
 | `coil verify <file.coil>` | Prove `requires` / `ensures` [contracts](/docs/language/contracts) with an SMT solver. |
 | `coil mutate` | Mutation testing: which small edits to your code no test notices. |
-| `coil fmt [--check] <file\|dir>…` | Format sources in place; `--check` only reports. Keeps `//` and `///` comments. |
+| `coil fmt [--check] <file\|dir>…` | Format sources in place; `--check` only reports. Keeps `//` and `///` comments. A legacy `.hy` file is written to its `.coil` name and the `.hy` removed. |
 | `coil lsp` | Start the language server on stdin/stdout, for editors. |
 | `coil debug <file.coil>` | Interactive debugger (`--dap` for IDEs, `-x script --batch` for scripts). |
 | `coil dissect <file.coil> [--fn name]` | Print the compiled bytecode of the matching functions. |
@@ -114,4 +114,4 @@ commands. Keep them in the same directory.
 |-----------|---------|
 | `.coil` | Coil source |
 | `.ccoil` | Compiled bytecode archive |
-| `.hy`, `.hyc` | Source and archive names from before the rename. Coil still reads `.hy` sources and runs `.hyc` archives from a compatible runtime, but writes only `.coil` and `.ccoil`. |
+| `.hy`, `.hyc` | Source and archive names from before the rename. Coil still reads `.hy` sources and runs `.hyc` archives from a compatible runtime, but writes only `.coil` and `.ccoil`. `coil fmt` renames `.hy` files to `.coil`. |
