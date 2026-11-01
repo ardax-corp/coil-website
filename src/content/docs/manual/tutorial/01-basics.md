@@ -269,10 +269,12 @@ outside: 1
 
 ## Cleanup with `defer`
 
-`defer { … }` runs a block when the function returns, however it returns.
-It keeps cleanup next to the setup it belongs to. Several `defer`s run in
-reverse order. A deferred block sees only the variables listed in its
-`use (…)`. `let _ = …` runs an expression and throws its result away on
+`defer { … }` runs a block when the block it sits in ends, however it ends:
+for a `defer` in a function's body, that is when the function returns. It
+keeps cleanup next to the setup it belongs to. Several `defer`s run in
+reverse order, and one inside a loop body runs at the end of every
+iteration. A deferred block sees only the variables listed in its
+`use (…)`, copied when the `defer` runs, as a lambda copies them. `let _ = …` runs an expression and throws its result away on
 purpose, here because a deferred block has nowhere to pass an error to:
 
 ```coil

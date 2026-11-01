@@ -171,6 +171,30 @@ object is gone. Then it frees the rest, a little at each later allocation
 rather than all at once. Between collections it may move objects out of
 nearly empty memory pages so the pages can go back to the system.
 
+A `drop` the compiler cannot run at an early free runs when the collector
+finds its object unreachable, which may be long after the last use, or at
+program exit for an object still reachable then. When the release has to
+happen at a known point, write it with a
+[`defer`](/docs/language/syntax#defer). A `panic` inside a `drop`
+the collector runs aborts the program at once, with the message and a
+non-zero exit status; the remaining defers and drops do not run. A call to
+`obj.drop()` you write yourself is an ordinary method call, and a panic in it
+unwinds like any other.
+
+The collector closes two kinds of resource the same way:
+
+- A **suspended generator** with a `defer` armed at its current `yield` is
+  closed when nothing reaches it: its pending defers run, last first. A
+  panic in one aborts, as in a `drop`.
+- A **`Stream`** nothing reaches gives its descriptor back. When `open` or
+  `accept` fails with `IoError::TooManyOpenFiles`, the runtime collects
+  once and tries again before it returns the error. The compiler warns
+  (`E0148`) about a local stream a function opens and never closes or
+  hands on.
+
+`env::exit` ends the program at once: neither the pending defers nor the
+drops run.
+
 The [`gc`](/docs/reference/gc) module is the program's handle on all this:
 `root` and `weak` for native code and registries, `heap_bytes` and
 `collect` for measuring.
@@ -196,8 +220,14 @@ Byte conversions benefit too: `to_bytes(s)` that is only indexed reads
 `s`'s own bytes, and `from_bytes(buf)` on a buffer nothing reads again
 takes it over instead of copying.
 
-A class with a `fn drop()` may see its drop run at the point the object is
-freed early, before the next collection would have run it.
+An object whose type has a `fn drop()` is freed early too when its `drop`
+keeps nothing of `self` (it does not store `self`, or anything `self`
+reaches, anywhere that outlives the call). The free runs the `drop` first,
+right there: at the end of the block that holds the object, after a
+`return`'s value is computed. A block-end free gives back the object itself,
+so a `drop` object it holds is dropped by the collector. A `drop` that keeps
+`self` leaves its objects to the collector. A panic in a `drop` run at a free
+unwinds from there like any call.
 
 `coil dissect --effects FILE` prints the facts the compiler inferred, one
 `;; escape` line per function: `keeps nothing`, ``keeps `t` ``,
