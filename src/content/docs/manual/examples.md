@@ -133,7 +133,7 @@ fn main() {
 
 ### `examples/defer.hy`
 
-**Demonstrates:** `defer` blocks that run on function exit (fall-through or early `return`), including LIFO order when multiple defers are registered, plus `defer use (n)` to capture an outer local.
+**Demonstrates:** `defer` blocks that run when their block ends (here the function body: fall-through or early `return`), including LIFO order when multiple defers are registered, plus `defer use (n)` to capture an outer local.
 
 ```coil
 use io::{stdout};

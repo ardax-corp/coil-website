@@ -19,6 +19,20 @@ Unlike `raise`, `panic` is not recoverable with `?` / `match`. Prefer `assert` +
 
 See `examples/panic.hy`.
 
+## Panics and cleanup
+
+A panic unwinds: the [`defer`](/docs/language/syntax#defer) blocks of every
+block and function it leaves run, innermost first, and a `for` loop it
+leaves closes the generator it was running. A panic inside a deferred block
+replaces the one being unwound, and the callers' defers still run.
+
+A panic in cleanup the collector runs is different. The collector runs a
+`fn drop()` and closes an unreachable suspended generator at no point the
+program chose, so nothing can unwind to a caller. A panic there aborts the
+program at once: it prints the message, exits with a non-zero status, and
+runs no further defers or drops. Calling `obj.drop()` yourself is an
+ordinary call, and a panic in it unwinds as usual.
+
 ## Locations and backtraces
 
 A panic names the source line it came from, and a runtime error (an

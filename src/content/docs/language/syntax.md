@@ -427,19 +427,41 @@ parse path — see [Traits and impl](#traits-and-impl) above.
 defer_stmt ::= 'defer' ['use' '(' ident (',' ident)* ','? ')'] block
 ```
 
-Runs when the enclosing function exits via `return` or fall-through (LIFO
-order for multiple defers). A `panic` or a task cancel also runs the defers of
-every function it leaves (those whose `defer` statement was reached).
+Runs when its enclosing block ends: on falling off the end of the block, on
+a `return`, on a `break` or `continue` that leaves it, and while a `panic` or a
+task cancel unwinds through it. The defers of one block run in reverse order of
+the `defer` statements that were reached, and an inner block's defers run
+before an outer one's. A `defer` in a loop body runs at the end of every
+iteration. A `defer` in a lambda belongs to the lambda's body.
 Functions that contain a `defer` are not eligible for self tail-call
-optimization (cleanup must run before leaving the frame). Outer locals must
-be listed in the optional `use (…)` capture list (same explicit-capture rule
-as lambdas); bare `defer { … }` cannot close over enclosing locals.
+optimization (cleanup must run before leaving the frame).
 
-A `defer` belongs to its function, not to the block or loop it sits in.
-Each `defer` statement is queued at most once per call: inside a loop it
-runs once, when the function exits, however many iterations reached it (the
-compiler warns, `E0147`). For cleanup per iteration, move the loop body into
-a function with its own `defer`.
+Outer locals must be listed in the optional `use (…)` capture list (same
+explicit-capture rule as lambdas); bare `defer { … }` cannot close over
+enclosing locals. As with a lambda, `use (x)` copies `x` when the `defer`
+statement runs, so a later assignment to `x` is not seen. `use (mut x)` borrows
+`x` instead: the block sees its value when it runs, and its writes reach `x`.
+
+```coil
+fn copy_all(string from, string to) -> Result<int, IoError> {
+    let src = open(from, "r")?;
+    defer use (src) {
+        let _ = close(src);
+    }
+    let dst = open(to, "w")?;
+    defer use (dst) {
+        let _ = close(dst); // runs first
+    }
+    return write_all(dst, read_to_end(src)?);
+}
+```
+
+A generator a `for` loop makes and then leaves early (by `break`, `return`,
+`?` or a panic) is closed: the defers armed at its current `yield` run, last
+first, before the code after the loop. A loop over a generator a local holds
+leaves it open, since a later `resume` may go on with it. A suspended
+generator nothing reaches any more is closed by the collector, or at program
+exit.
 
 A deferred block cannot leave by another exit: `return`, `raise`, `?`, and a
 `break` or `continue` that would leave the block are errors (`E0146`). A
@@ -475,7 +497,7 @@ statement ::= while_stmt
 | `let` | `let IDENT (':' type_annotation)? ('=' expr)? ';'` |
 | `const` | `const IDENT (':' type_annotation)? '=' expr ';'` |
 | `static` | `static let IDENT …` (top-level only; `static const` is deprecated, write `const`) |
-| `defer` | `defer [use (ident,*)] { statement* }` (runs on enclosing function exit, LIFO; outer locals require `use`) |
+| `defer` | `defer [use (ident,*)] { statement* }` (runs when the enclosing block ends, LIFO; outer locals require `use`) |
 | Expression | `expr ';'` |
 | `return` | `return [expr] ';'` (`return;` returns unit) |
 | `yield` | `yield expr ';'` or `yield from expr ';'` |
