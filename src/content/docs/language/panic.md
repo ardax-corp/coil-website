@@ -30,8 +30,9 @@ A panic in cleanup the collector runs is different. The collector runs a
 `fn drop()` and closes an unreachable suspended generator at no point the
 program chose, so nothing can unwind to a caller. A panic there aborts the
 program at once: it prints the message, exits with a non-zero status, and
-runs no further defers or drops. Calling `obj.drop()` yourself is an
-ordinary call, and a panic in it unwinds as usual.
+runs no further defers or drops. A panic unwinds as usual from a `drop`
+that runs at a point the program reaches: a call to `obj.drop()`, or the
+end of a block where the compiler frees the object early.
 
 ## Locations and backtraces
 

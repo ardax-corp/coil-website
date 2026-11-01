@@ -171,10 +171,11 @@ object is gone. Then it frees the rest, a little at each later allocation
 rather than all at once. Between collections it may move objects out of
 nearly empty memory pages so the pages can go back to the system.
 
-A `drop` runs when the collector finds its object unreachable, which may be
-long after the last use, or at program exit for an object still reachable
-then. It is a backstop, not a scope end: release a resource at a known point
-with a [`defer`](/docs/language/syntax#defer). A `panic` inside a `drop`
+A `drop` the compiler cannot run at an early free runs when the collector
+finds its object unreachable, which may be long after the last use, or at
+program exit for an object still reachable then. When the release has to
+happen at a known point, write it with a
+[`defer`](/docs/language/syntax#defer). A `panic` inside a `drop`
 the collector runs aborts the program at once, with the message and a
 non-zero exit status; the remaining defers and drops do not run. A call to
 `obj.drop()` you write yourself is an ordinary method call, and a panic in it
@@ -219,9 +220,14 @@ Byte conversions benefit too: `to_bytes(s)` that is only indexed reads
 `s`'s own bytes, and `from_bytes(buf)` on a buffer nothing reads again
 takes it over instead of copying.
 
-An object whose type has a `fn drop()` is never freed early: the collector
-frees it, after running its `drop`. Objects of other types still free early
-in a program that has `drop` types.
+An object whose type has a `fn drop()` is freed early too when its `drop`
+keeps nothing of `self` (it does not store `self`, or anything `self`
+reaches, anywhere that outlives the call). The free runs the `drop` first,
+right there: at the end of the block that holds the object, after a
+`return`'s value is computed. A block-end free gives back the object itself,
+so a `drop` object it holds is dropped by the collector. A `drop` that keeps
+`self` leaves its objects to the collector. A panic in a `drop` run at a free
+unwinds from there like any call.
 
 `coil dissect --effects FILE` prints the facts the compiler inferred, one
 `;; escape` line per function: `keeps nothing`, ``keeps `t` ``,
