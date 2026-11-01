@@ -9,7 +9,7 @@ name: "UuidError"
 signature: "enum UuidError"
 import: "use uuid::{UuidError};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-uuid/blob/07c0a071431e64138c44ec3e6467ab7c9fd93808/src/uuid.coil#L26"
+source: "https://github.com/ardax-corp/coil-uuid/blob/98c88bb6a6d617623fa9ca8a3bc4e475f005b12f/src/uuid.coil#L27"
 order: 0
 ---
 
@@ -20,10 +20,6 @@ Why a UUID could not be parsed or generated.
 ### `Invalid` {#variant-invalid}
 
 Not a hyphenated `8-4-4-4-12` UUID.
-
-### `Entropy(CryptoError)` {#variant-entropy}
-
-The CSPRNG failed (or returned too few bytes: `CryptoError::InvalidLength`).
 
 ### `Time(TimeError)` {#variant-time}
 
