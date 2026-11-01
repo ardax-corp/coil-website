@@ -9,7 +9,7 @@ name: "parse"
 signature: "fn parse(string s) -> Result<Uuid, UuidError>"
 import: "use uuid::{parse};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-uuid/blob/07c0a071431e64138c44ec3e6467ab7c9fd93808/src/uuid.coil#L401"
+source: "https://github.com/ardax-corp/coil-uuid/blob/98c88bb6a6d617623fa9ca8a3bc4e475f005b12f/src/uuid.coil#L385"
 order: 6
 ---
 

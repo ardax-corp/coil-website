@@ -10,7 +10,7 @@ parent: "Uuid"
 signature: "pub fn to_string() -> string"
 import: "use uuid::{Uuid};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-uuid/blob/07c0a071431e64138c44ec3e6467ab7c9fd93808/src/uuid.coil#L421"
+source: "https://github.com/ardax-corp/coil-uuid/blob/98c88bb6a6d617623fa9ca8a3bc4e475f005b12f/src/uuid.coil#L405"
 order: 0
 ---
 

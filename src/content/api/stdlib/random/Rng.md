@@ -9,22 +9,23 @@ name: "Rng"
 signature: "class Rng"
 import: "use random::{Rng};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/random.coil#L28"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/c82d918049771e627c6139be8c1c1fa5a6a4642f/src/random.coil#L30"
 order: 0
 ---
 
 A seeded pseudo-random number generator.
 
 The same seed always gives the same sequence, which makes tests repeatable.
-It is not cryptographically secure: for keys, tokens and nonces use
-`crypto::random_bytes` from coil-crypto. [`from_time`](/packages/stdlib/reference/random/Rng/from_time) needs the coil-time
-package on the module roots.
+It is not cryptographically secure: for keys, tokens and nonces use the
+builtin `entropy::bytes(n)`, which reads the OS CSPRNG on every call.
+[`from_time`](/packages/stdlib/reference/random/Rng/from_time) needs the coil-time package on the module roots.
 
 ## Associated functions
 
 | Name | Description |
 |------|-------------|
 | [`seeded`](/packages/stdlib/reference/random/Rng/seeded) | Creates a generator from `seed`. |
+| [`from_entropy`](/packages/stdlib/reference/random/Rng/from_entropy) | Creates a generator seeded with 64 bits from the OS CSPRNG ([`entropy::bytes`](/docs/reference/entropy/bytes)), so two processes started in the same instant still get different sequences. |
 | [`from_time`](/packages/stdlib/reference/random/Rng/from_time) | Creates a generator seeded from the current wall-clock and monotonic time (via coil-time). |
 
 ## Methods
