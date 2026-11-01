@@ -10,7 +10,7 @@ parent: "Json"
 signature: "pub static fn strict() -> Json"
 import: "use json::{Json};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.hy#L1393"
+source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.coil#L1393"
 order: 0
 ---
 

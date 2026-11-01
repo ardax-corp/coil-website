@@ -10,7 +10,7 @@ parent: "Rect"
 signature: "pub fn intersect(Rect o) -> Rect"
 import: "use tui::geom::{Rect};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/geom.hy#L127"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/geom.coil#L127"
 order: 6
 ---
 

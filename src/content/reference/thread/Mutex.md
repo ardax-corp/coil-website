@@ -8,7 +8,7 @@ name: "Mutex"
 signature: "class Mutex<T>"
 import: "use thread::{Mutex};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.hy#L109"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.coil#L109"
 order: 3
 ---
 

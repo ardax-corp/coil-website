@@ -9,7 +9,7 @@ name: "Span"
 signature: "class Span"
 import: "use text::{Span};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/text.hy#L446"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/text.coil#L446"
 order: 0
 ---
 

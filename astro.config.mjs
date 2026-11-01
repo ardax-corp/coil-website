@@ -64,7 +64,7 @@ function rehypeTableWrap() {
   };
 }
 
-// Keeps a code fence's info after the language (```coil no_run file=x.hy) as
+// Keeps a code fence's info after the language (```coil no_run file=x.coil) as
 // data-meta on the <pre>, for the Run buttons (src/lib/playground/).
 const fenceMeta = {
   pre(node) {

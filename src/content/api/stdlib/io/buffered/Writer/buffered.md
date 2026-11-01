@@ -10,7 +10,7 @@ parent: "Writer"
 signature: "pub fn buffered() -> int"
 import: "use io::buffered::{Writer};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/buffered.hy#L373"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/buffered.coil#L373"
 order: 4
 ---
 

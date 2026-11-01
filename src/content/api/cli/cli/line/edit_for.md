@@ -9,7 +9,7 @@ name: "edit_for"
 signature: "fn edit_for(Event e) -> Option<Edit>"
 import: "use cli::line::{edit_for};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.hy#L497"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.coil#L497"
 order: 8
 ---
 

@@ -9,7 +9,7 @@ name: "decode"
 signature: "fn decode(string s) -> Result<Vec<byte>, string>"
 import: "use encoding::{decode};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/encoding.hy#L101"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/encoding.coil#L101"
 order: 1
 ---
 

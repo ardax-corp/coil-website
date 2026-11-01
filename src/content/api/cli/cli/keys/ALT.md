@@ -9,7 +9,7 @@ name: "ALT"
 signature: "const ALT = 2;"
 import: "use cli::keys::{ALT};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/keys.hy#L52"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/keys.coil#L52"
 order: 8
 ---
 

@@ -83,11 +83,24 @@ export function dependencyNames(toml) {
  */
 export function planRun(files) {
   const paths = Object.keys(files);
-  const entry = paths.find((p) => p === "main.hy" && hasMain(files[p])) ?? paths.find((p) => hasMain(files[p]));
+  const entry = paths.find((p) => p === "main.coil" && hasMain(files[p])) ?? paths.find((p) => hasMain(files[p]));
   if (entry) return { files, mode: "run", args: ["--root", STDLIB, "-A", entry] };
   const tests = paths.filter((p) => isTestBlock(files[p]));
-  if (!tests.length) return { files, mode: "run", args: ["--root", STDLIB, "-A", paths[0] ?? "main.hy"] };
+  if (!tests.length) return { files, mode: "run", args: ["--root", STDLIB, "-A", paths[0] ?? "main.coil"] };
   const moved = {};
   for (const p of paths) moved[tests.includes(p) && !p.startsWith("tests/") ? `tests/${p.split("/").at(-1)}` : p] = files[p];
   return { files: moved, mode: "test", args: ["test", "--root", STDLIB, "-A", "tests"] };
+}
+
+/**
+ * `files` with each pre-rename `.hy` name as `.coil` (saved drafts and share
+ * links from before the rename), keeping a `.coil` file that already exists.
+ */
+export function coilFileNames(files) {
+  const out = {};
+  for (const [name, text] of Object.entries(files ?? {})) {
+    const renamed = name.endsWith(".hy") ? `${name.slice(0, -3)}.coil` : name;
+    if (!(renamed in out) || renamed === name) out[renamed] = text;
+  }
+  return out;
 }

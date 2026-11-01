@@ -9,7 +9,7 @@ name: "editor"
 signature: "fn editor(History h) -> Editor"
 import: "use cli::line::{editor};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.hy#L215"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.coil#L215"
 order: 7
 ---
 

@@ -31,7 +31,7 @@ reading standard input need no permission. The details are on the
 The examples in this chapter need `-A` (or the specific flags):
 
 ```bash
-coil --root ~/coil-stdlib/src -A example.hy
+coil --root ~/coil-stdlib/src -A example.coil
 ```
 
 ## The terminal
@@ -57,7 +57,7 @@ fn main() {
 }
 ```
 
-Run it with input piped in, `printf 'a\nb\n' | coil … number.hy`:
+Run it with input piped in, `printf 'a\nb\n' | coil … number.coil`:
 
 ```text
 1: a
@@ -386,7 +386,7 @@ protocols, see the [packages](/packages).
    ```
 
 4. Change the greeting program to greet every name it is given:
-   `coil … greet.hy -- Ada Grace` prints two lines.
+   `coil … greet.coil -- Ada Grace` prints two lines.
 
    > [!hint]
    > `args()` starts with the program's own name, so the names start at

@@ -10,7 +10,7 @@ signature: "fn abs(int x) -> int"
 signatures: ["fn abs(int x) -> int","fn abs(float x) -> float"]
 import: "use num::{abs};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/num.hy#L32"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/num.coil#L32"
 order: 3
 ---
 

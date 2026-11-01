@@ -131,7 +131,7 @@ git clone --depth 1 https://github.com/ardax-corp/coil-stdlib.git stdlib
 
 Add `%USERPROFILE%\.coil\bin` to your user `PATH` (Settings → System → About
 → Advanced system settings → Environment Variables). Without spool, pass the
-stdlib yourself: `coil --root $HOME\.coil\stdlib\src hello.hy`.
+stdlib yourself: `coil --root $HOME\.coil\stdlib\src hello.coil`.
 `tar -xf` is Windows' built-in `tar`; use it rather than Explorer's
 "Extract all", since edge archives built before coil-lang#2051 are a tar
 under the `.zip` name.

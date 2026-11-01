@@ -28,7 +28,7 @@ async function load() {
 
 /**
  * The standard library plus the packages this program uses, in one
- * directory: a package's `src/json.hy` is `json.hy` next to stdlib's
+ * directory: a package's `src/json.coil` is `json.coil` next to stdlib's
  * modules, which is where `use json::…` looks.
  */
 function libraryFor(files, stdlib, packages) {

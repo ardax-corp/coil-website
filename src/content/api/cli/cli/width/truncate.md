@@ -9,7 +9,7 @@ name: "truncate"
 signature: "fn truncate(string s, int cols, string ellipsis) -> string"
 import: "use cli::width::{truncate};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/width.hy#L681"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/width.coil#L681"
 order: 8
 ---
 

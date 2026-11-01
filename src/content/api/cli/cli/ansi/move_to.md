@@ -9,7 +9,7 @@ name: "move_to"
 signature: "fn move_to(int row, int col) -> string"
 import: "use cli::ansi::{move_to};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L28"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L28"
 order: 5
 ---
 

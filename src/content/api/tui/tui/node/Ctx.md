@@ -9,7 +9,7 @@ name: "Ctx"
 signature: "shared class Ctx"
 import: "use tui::node::{Ctx};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/node.hy#L258"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/node.coil#L258"
 order: 3
 ---
 

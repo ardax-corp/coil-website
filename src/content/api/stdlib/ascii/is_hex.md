@@ -9,7 +9,7 @@ name: "is_hex"
 signature: "fn is_hex(byte c) -> bool"
 import: "use ascii::{is_hex};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/ascii.hy#L14"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/ascii.coil#L14"
 order: 2
 ---
 

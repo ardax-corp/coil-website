@@ -9,7 +9,7 @@ name: "empty_settings_frame"
 signature: "fn empty_settings_frame() -> H2Frame"
 import: "use http::h2::{empty_settings_frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.hy#L323"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.coil#L323"
 order: 34
 ---
 

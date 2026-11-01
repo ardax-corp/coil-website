@@ -8,7 +8,7 @@ name: "channel"
 signature: "fn channel<T>(int capacity) -> Channel<T>"
 import: "use task::{channel};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/task.hy#L304"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/task.coil#L304"
 order: 9
 ---
 

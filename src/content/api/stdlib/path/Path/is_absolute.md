@@ -10,7 +10,7 @@ parent: "Path"
 signature: "pub fn is_absolute() -> bool"
 import: "use path::{Path};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/path.hy#L264"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/path.coil#L264"
 order: 6
 ---
 
@@ -29,7 +29,7 @@ use path::{Path};
 use tests::assert;
 assert!(Path::from("/etc").is_absolute());
 assert!(Path::from("C:\\data").is_absolute());
-assert!(!Path::from("src/main.hy").is_absolute());
+assert!(!Path::from("src/main.coil").is_absolute());
 ```
 
 ## See also

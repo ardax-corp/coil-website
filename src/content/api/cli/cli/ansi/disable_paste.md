@@ -9,7 +9,7 @@ name: "disable_paste"
 signature: "fn disable_paste() -> string"
 import: "use cli::ansi::{disable_paste};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L216"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L216"
 order: 36
 ---
 

@@ -9,7 +9,7 @@ name: "sin"
 signature: "fn sin(float x) -> float"
 import: "use math::{sin};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/math.hy#L1508"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/math.coil#L1508"
 order: 8
 ---
 

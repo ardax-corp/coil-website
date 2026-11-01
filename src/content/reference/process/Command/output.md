@@ -9,7 +9,7 @@ parent: "Command"
 signature: "pub fn output() -> Result<Output, ProcessError>"
 import: "use process::{Command};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/process.hy#L234"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/process.coil#L234"
 order: 12
 ---
 

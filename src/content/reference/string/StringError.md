@@ -8,7 +8,7 @@ name: "StringError"
 signature: "enum StringError"
 import: "use string::{StringError};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/string.hy#L6"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/string.coil#L6"
 order: 0
 ---
 

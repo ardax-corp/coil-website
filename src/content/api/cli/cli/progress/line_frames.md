@@ -9,7 +9,7 @@ name: "line_frames"
 signature: "fn line_frames() -> Vec<string>"
 import: "use cli::progress::{line_frames};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/progress.hy#L226"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/progress.coil#L226"
 order: 12
 ---
 

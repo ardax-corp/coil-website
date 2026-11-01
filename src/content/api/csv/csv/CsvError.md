@@ -9,7 +9,7 @@ name: "CsvError"
 signature: "enum CsvError"
 import: "use csv::{CsvError};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/src/csv.hy#L25"
+source: "https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/src/csv.coil#L25"
 order: 0
 ---
 

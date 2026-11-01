@@ -10,7 +10,7 @@ parent: "Editor"
 signature: "pub fn cursor_col() -> int"
 import: "use cli::line::{Editor};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.hy#L427"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.coil#L427"
 order: 5
 ---
 

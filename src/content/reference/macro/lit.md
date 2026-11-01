@@ -8,7 +8,7 @@ name: "lit"
 signature: "fn lit(string s) -> Code"
 import: "use macro::{lit};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/macro.hy#L44"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/macro.coil#L44"
 order: 13
 ---
 

@@ -9,7 +9,7 @@ name: "percent_encode"
 signature: "fn percent_encode(string s) -> string"
 import: "use url::{percent_encode};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/src/url.hy#L215"
+source: "https://github.com/ardax-corp/coil-url/blob/d2ec39b8a7dffe7cd3de7c96632ba99fd696d829/src/url.coil#L215"
 order: 2
 ---
 

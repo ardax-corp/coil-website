@@ -8,7 +8,7 @@ name: "Ptr"
 signature: "class Ptr"
 import: "use ffi::types::{Ptr};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/ffi/types.hy#L94"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/ffi/types.coil#L94"
 order: 12
 ---
 

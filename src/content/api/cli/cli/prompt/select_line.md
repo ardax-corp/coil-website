@@ -9,7 +9,7 @@ name: "select_line"
 signature: "fn select_line(Stream input, Stream out, string question, Vec<string> items) -> Option<int>"
 import: "use cli::prompt::{select_line};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.hy#L392"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.coil#L392"
 order: 9
 ---
 

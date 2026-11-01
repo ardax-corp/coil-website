@@ -9,7 +9,7 @@ name: "ISO8601_DATE"
 signature: "const ISO8601_DATE = \"%Y-%m-%d\";"
 import: "use time::{ISO8601_DATE};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.hy#L47"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.coil#L47"
 order: 4
 ---
 

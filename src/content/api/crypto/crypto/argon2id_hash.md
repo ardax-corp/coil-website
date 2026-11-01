@@ -9,7 +9,7 @@ name: "argon2id_hash"
 signature: "fn argon2id_hash(Vec<byte> password, Vec<byte> salt) -> Result<string, CryptoError>"
 import: "use crypto::{argon2id_hash};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.hy#L734"
+source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.coil#L734"
 order: 22
 ---
 

@@ -8,7 +8,7 @@ name: "remove_var"
 signature: "fn remove_var(string name) -> Result<unit, EnvError>"
 import: "use env::{remove_var};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/env.hy#L99"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/env.coil#L99"
 order: 4
 ---
 

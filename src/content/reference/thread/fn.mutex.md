@@ -8,7 +8,7 @@ name: "mutex"
 signature: "fn mutex<T>(T initial) -> Result<Mutex<T>, LockError>"
 import: "use thread::{mutex};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.hy#L518"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.coil#L518"
 order: 17
 ---
 

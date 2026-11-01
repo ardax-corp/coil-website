@@ -9,7 +9,7 @@ parent: "Result"
 signature: "pub fn map_err<F>(E -> F f) -> Result<T, F>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/core.hy#L181"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/core.coil#L181"
 order: 7
 ---
 

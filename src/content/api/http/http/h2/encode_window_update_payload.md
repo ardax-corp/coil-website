@@ -9,7 +9,7 @@ name: "encode_window_update_payload"
 signature: "fn encode_window_update_payload(int increment) -> Result<Vec<byte>, HttpError>"
 import: "use http::h2::{encode_window_update_payload};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.hy#L388"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.coil#L388"
 order: 39
 ---
 

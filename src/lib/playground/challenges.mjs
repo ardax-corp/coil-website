@@ -5,7 +5,7 @@
 // The data comes from src/lib/remark-challenges.mjs.
 
 import { OutputPanel, runInto } from "./output.mjs";
-import { STDLIB, planRun } from "./plan.mjs";
+import { STDLIB, coilFileNames, planRun } from "./plan.mjs";
 import { warmUp } from "./client.mjs";
 import { encodeShare } from "./share.mjs";
 
@@ -56,7 +56,7 @@ function testEvents(text) {
 function setup(box, onSolved) {
   const id = box.dataset.challenge;
   const part = (name) => box.querySelector(`textarea[data-part="${name}"]`);
-  // The starter files, main.hy first; stdin shows as one more tab.
+  // The starter files, main.coil first; stdin shows as one more tab.
   // Files end in a newline, as written to disk by scripts/check-challenges.mjs.
   const starter = Object.fromEntries(
     [...box.querySelectorAll('textarea[data-part="starter"]')].map((t) => [t.dataset.file, t.value.replace(/\n?$/, "\n")]),
@@ -83,9 +83,10 @@ function setup(box, onSolved) {
     onSolved();
   };
 
-  // Drafts: the whole file set; older drafts were a single main.hy string.
+  // Drafts: the whole file set; older drafts were a single main.hy string,
+  // and drafts from before the rename name their files `.hy`.
   const draft = store.get(DRAFT + id);
-  let files = { ...starter, ...(typeof draft === "string" ? { "main.hy": draft } : (draft ?? {})) };
+  let files = { ...starter, ...coilFileNames(typeof draft === "string" ? { "main.coil": draft } : draft) };
   let active = Object.keys(files)[0];
   const program = () => {
     const out = { ...files };
@@ -228,7 +229,7 @@ function setup(box, onSolved) {
         }
         return;
       }
-      const testFiles = { "src/solution.hy": files["main.hy"], "tests/check.hy": check };
+      const testFiles = { "src/solution.coil": files["main.coil"], "tests/check.coil": check };
       const args = ["test", "--json", "--root", STDLIB, "-A", "tests"];
       panel.clear();
       const { result, stdout } = await runInto(panel, { files: testFiles, args, mode: "test", quiet: true });

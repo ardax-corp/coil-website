@@ -3,7 +3,7 @@
 // `analysis` is a second one for live diagnostics and the Inspect panel, so
 // checking code never waits behind (or stops) a running program.
 //
-//   const r = await runProgram({ files: { "main.hy": src }, onOutput })
+//   const r = await runProgram({ files: { "main.coil": src }, onOutput })
 //   r.code       exit status (undefined when stopped or timed out)
 //   r.timedOut   true when the time limit stopped it
 

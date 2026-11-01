@@ -8,7 +8,7 @@ name: "create_dir_all"
 signature: "fn create_dir_all(string path) -> Result<unit, IoError>"
 import: "use io::fs::{create_dir_all};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/fs.hy#L81"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/fs.coil#L81"
 order: 2
 ---
 

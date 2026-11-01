@@ -10,7 +10,7 @@ parent: "VecDeque"
 signature: "pub static fn with_capacity(int cap) -> VecDeque<T>"
 import: "use collections::deque::{VecDeque};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/deque.hy#L34"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/deque.coil#L34"
 order: 0
 ---
 

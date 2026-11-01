@@ -20,7 +20,7 @@ class Pipe extends ConsoleStdout {
   }
 }
 
-/** Builds a Directory from a { "a/b.hy": "source" } map. */
+/** Builds a Directory from a { "a/b.coil": "source" } map. */
 export function tree(files) {
   const root = new Map();
   for (const [path, text] of Object.entries(files)) {
@@ -39,9 +39,9 @@ export function tree(files) {
  * Runs `coil <args>` once.
  *
  *   module   a compiled WebAssembly.Module
- *   stdlib   { "path.hy": source } of the standard library
- *   files    { "main.hy": source } of the program, at the root
- *   args     arguments after `coil`, e.g. ["--root", STDLIB, "-A", "main.hy"]
+ *   stdlib   { "path.coil": source } of the standard library
+ *   files    { "main.coil": source } of the program, at the root
+ *   args     arguments after `coil`, e.g. ["--root", STDLIB, "-A", "main.coil"]
  *   stdin    text the program reads from standard input
  *   onStdout, onStderr  called with each chunk of output text
  *

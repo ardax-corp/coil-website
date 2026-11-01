@@ -16,7 +16,7 @@ let generation = 0;
  */
 export async function diagnose(files) {
   const mine = ++generation;
-  const paths = Object.keys(files).filter((p) => p.endsWith(".hy"));
+  const paths = Object.keys(files).filter((p) => p.endsWith(".coil"));
   const entry = paths.find((p) => hasMain(files[p]));
   const order = entry ? [entry, ...paths.filter((p) => p !== entry)] : paths;
   const byFile = Object.fromEntries(paths.map((p) => [p, []]));
@@ -26,7 +26,7 @@ export async function diagnose(files) {
     let out = "";
     const result = await analysis.run({
       files,
-      args: ["compile", path, "-o", "/tmp/check.hyc", "--include-tests", "--log-lsp", "--root", STDLIB, "-A"],
+      args: ["compile", path, "-o", "/tmp/check.ccoil", "--include-tests", "--log-lsp", "--root", STDLIB, "-A"],
       timeoutMs: 10000,
       onOutput: (stream, text) => {
         if (stream === "stdout") out += text;

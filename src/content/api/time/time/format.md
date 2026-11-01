@@ -9,7 +9,7 @@ name: "format"
 signature: "fn format(Timestamp ts, string fmt) -> Result<string, TimeError>"
 import: "use time::{format};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.hy#L1207"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.coil#L1207"
 order: 20
 ---
 

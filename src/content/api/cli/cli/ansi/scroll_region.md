@@ -9,7 +9,7 @@ name: "scroll_region"
 signature: "fn scroll_region(int top, int bottom) -> string"
 import: "use cli::ansi::{scroll_region};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L175"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L175"
 order: 28
 ---
 

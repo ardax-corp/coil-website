@@ -9,7 +9,7 @@ name: "println"
 signature: "fn println(string s) -> Result<int, IoError>"
 import: "use io::sync::{println};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/sync.hy#L255"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/sync.coil#L255"
 order: 8
 ---
 

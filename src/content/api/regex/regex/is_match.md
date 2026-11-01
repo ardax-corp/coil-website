@@ -9,7 +9,7 @@ name: "is_match"
 signature: "fn is_match(Regex re, string subject) -> Result<bool, RegexError>"
 import: "use regex::{is_match};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-regex/blob/3d83b6015655fefd60e8136e2eb9694f7e8a4990/src/regex.hy#L782"
+source: "https://github.com/ardax-corp/coil-regex/blob/3d83b6015655fefd60e8136e2eb9694f7e8a4990/src/regex.coil#L782"
 order: 4
 ---
 

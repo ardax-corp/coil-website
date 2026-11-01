@@ -9,7 +9,7 @@ parent: "Command"
 signature: "pub static fn new(string program) -> Command"
 import: "use process::{Command};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/process.hy#L146"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/process.coil#L146"
 order: 0
 ---
 

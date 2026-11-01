@@ -9,7 +9,7 @@ name: "is_alpha"
 signature: "fn is_alpha(byte c) -> bool"
 import: "use ascii::{is_alpha};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/ascii.hy#L25"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/ascii.coil#L25"
 order: 3
 ---
 

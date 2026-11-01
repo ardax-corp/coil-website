@@ -8,7 +8,7 @@ name: "RwLock"
 signature: "class RwLock<T>"
 import: "use thread::{RwLock};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.hy#L133"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.coil#L133"
 order: 4
 ---
 

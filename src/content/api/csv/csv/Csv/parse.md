@@ -10,7 +10,7 @@ parent: "Csv"
 signature: "pub static fn parse(string s) -> Result<Vec<Vec<string>>, CsvError>"
 import: "use csv::{Csv};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/src/csv.hy#L314"
+source: "https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/src/csv.coil#L314"
 order: 0
 ---
 

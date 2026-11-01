@@ -8,7 +8,7 @@ name: "EnvError"
 signature: "enum EnvError"
 import: "use env::{EnvError};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/env.hy#L18"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/env.coil#L18"
 order: 0
 ---
 

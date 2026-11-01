@@ -10,7 +10,7 @@ parent: "Writer"
 signature: "pub static fn with_capacity(Stream s, int n) -> Writer"
 import: "use io::buffered::{Writer};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/buffered.hy#L356"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/buffered.coil#L356"
 order: 1
 ---
 

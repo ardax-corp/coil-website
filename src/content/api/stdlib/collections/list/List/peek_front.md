@@ -10,7 +10,7 @@ parent: "List"
 signature: "pub fn peek_front() -> Option<T>"
 import: "use collections::list::{List};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/list.hy#L117"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/list.coil#L117"
 order: 5
 ---
 

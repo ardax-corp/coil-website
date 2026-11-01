@@ -9,7 +9,7 @@ name: "cp_string"
 signature: "fn cp_string(int cp) -> string"
 import: "use cli::keys::{cp_string};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/keys.hy#L676"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/keys.coil#L676"
 order: 14
 ---
 

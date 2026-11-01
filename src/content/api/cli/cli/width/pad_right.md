@@ -9,7 +9,7 @@ name: "pad_right"
 signature: "fn pad_right(string s, int cols) -> string"
 import: "use cli::width::{pad_right};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/width.hy#L703"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/width.coil#L703"
 order: 9
 ---
 

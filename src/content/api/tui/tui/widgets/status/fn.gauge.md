@@ -9,7 +9,7 @@ name: "gauge"
 signature: "fn gauge(int value, int max) -> Gauge"
 import: "use tui::widgets::status::{gauge};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/status.hy#L120"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/status.coil#L120"
 order: 3
 ---
 

@@ -9,7 +9,7 @@ name: "magenta"
 signature: "fn magenta() -> Color"
 import: "use cli::style::{magenta};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.hy#L56"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.coil#L56"
 order: 8
 ---
 

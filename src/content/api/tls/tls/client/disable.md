@@ -9,7 +9,7 @@ name: "disable"
 signature: "fn disable(Stream s) -> Result<Stream, TlsError>"
 import: "use tls::client::{disable};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/src/tls/client.hy#L104"
+source: "https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/src/tls/client.coil#L104"
 order: 2
 ---
 

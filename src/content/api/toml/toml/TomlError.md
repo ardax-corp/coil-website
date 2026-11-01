@@ -9,7 +9,7 @@ name: "TomlError"
 signature: "enum TomlError"
 import: "use toml::{TomlError};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/src/toml.hy#L207"
+source: "https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/src/toml.coil#L207"
 order: 0
 ---
 

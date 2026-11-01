@@ -9,7 +9,7 @@ name: "decode_rst_payload"
 signature: "fn decode_rst_payload(Vec<byte> raw) -> Result<int, HttpError>"
 import: "use http::h2::{decode_rst_payload};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.hy#L462"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.coil#L462"
 order: 47
 ---
 

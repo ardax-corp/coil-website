@@ -10,7 +10,7 @@ parent: "HashSet"
 signature: "pub static fn new() -> HashSet<T>"
 import: "use collections::set::{HashSet};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/set.hy#L31"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/set.coil#L31"
 order: 1
 ---
 

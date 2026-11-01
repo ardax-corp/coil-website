@@ -8,7 +8,7 @@ name: "enable_vt"
 signature: "fn enable_vt(Stream s) -> bool"
 import: "use io::tty::{enable_vt};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/tty.hy#L179"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/tty.coil#L179"
 order: 8
 ---
 

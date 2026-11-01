@@ -9,7 +9,7 @@ name: "Msgpack"
 signature: "class Msgpack"
 import: "use msgpack::{Msgpack};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/src/msgpack.hy#L305"
+source: "https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/src/msgpack.coil#L305"
 order: 2
 ---
 

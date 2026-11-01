@@ -9,7 +9,7 @@ name: "aes_256_gcm_decrypt"
 signature: "fn aes_256_gcm_decrypt(Vec<byte> key, Vec<byte> nonce, Vec<byte> ciphertext, Vec<byte> aad) -> Result<Vec<byte>, CryptoError>"
 import: "use crypto::{aes_256_gcm_decrypt};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.hy#L594"
+source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.coil#L594"
 order: 16
 ---
 

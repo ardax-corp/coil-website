@@ -9,7 +9,7 @@ name: "Saturating"
 signature: "trait Saturating<S>"
 import: "use arith::{Saturating};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/arith.hy#L112"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/arith.coil#L112"
 order: 2
 ---
 

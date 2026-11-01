@@ -88,11 +88,11 @@ explicit statement that you trust it:
 
 ```bash
 coil --root ~/coil-stdlib/src --ffi-search-path . \
-  --allow-dload geom --dload-pin geom=$(sha256sum libgeom.so | cut -c1-64) main.hy
+  --allow-dload geom --dload-pin geom=$(sha256sum libgeom.so | cut -c1-64) main.coil
 
 # while developing:
 coil --root ~/coil-stdlib/src --ffi-search-path . \
-  --allow-dload geom --dload-trusted geom main.hy
+  --allow-dload geom --dload-trusted geom main.coil
 ```
 
 Without them, the compiler stops with

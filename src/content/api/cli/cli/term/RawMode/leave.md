@@ -10,7 +10,7 @@ parent: "RawMode"
 signature: "pub fn leave() -> Result<(), TtyError>"
 import: "use cli::term::{RawMode};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/term.hy#L123"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/term.coil#L123"
 order: 0
 ---
 

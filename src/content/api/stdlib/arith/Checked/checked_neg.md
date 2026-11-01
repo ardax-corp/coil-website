@@ -10,7 +10,7 @@ parent: "Checked"
 signature: "fn checked_neg(S a) -> Option<S>"
 import: "use arith::{Checked};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/arith.hy#L51"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/arith.coil#L51"
 order: 5
 ---
 

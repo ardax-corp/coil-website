@@ -10,7 +10,7 @@ parent: "JsonValue"
 signature: "pub fn array_len() -> int"
 import: "use json::{JsonValue};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.hy#L286"
+source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.coil#L286"
 order: 12
 ---
 

@@ -9,7 +9,7 @@ parent: "Gen"
 signature: "pub fn bits() -> int"
 import: "use arbitrary::{Gen};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/arbitrary.hy#L57"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/arbitrary.coil#L57"
 order: 3
 ---
 

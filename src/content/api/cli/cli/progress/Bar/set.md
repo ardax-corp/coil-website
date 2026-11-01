@@ -10,7 +10,7 @@ parent: "Bar"
 signature: "pub fn set(int n)"
 import: "use cli::progress::{Bar};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/progress.hy#L321"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/progress.coil#L321"
 order: 2
 ---
 

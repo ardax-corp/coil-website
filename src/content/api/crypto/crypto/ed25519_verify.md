@@ -9,7 +9,7 @@ name: "ed25519_verify"
 signature: "fn ed25519_verify(Vec<byte> public_key, Vec<byte> msg, Vec<byte> sig) -> Result<bool, CryptoError>"
 import: "use crypto::{ed25519_verify};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.hy#L660"
+source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.coil#L660"
 order: 19
 ---
 

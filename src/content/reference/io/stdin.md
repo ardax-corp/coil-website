@@ -8,7 +8,7 @@ name: "stdin"
 signature: "fn stdin() -> Stream"
 import: "use io::{stdin};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.hy#L254"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.coil#L254"
 order: 4
 ---
 

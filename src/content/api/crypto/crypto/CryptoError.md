@@ -9,7 +9,7 @@ name: "CryptoError"
 signature: "enum CryptoError"
 import: "use crypto::{CryptoError};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.hy#L57"
+source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.coil#L57"
 order: 0
 ---
 

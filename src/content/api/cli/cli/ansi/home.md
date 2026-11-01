@@ -9,7 +9,7 @@ name: "home"
 signature: "fn home() -> string"
 import: "use cli::ansi::{home};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L80"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L80"
 order: 13
 ---
 

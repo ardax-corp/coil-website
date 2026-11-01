@@ -9,7 +9,7 @@ name: "find"
 signature: "fn find(Vec<byte> hay, Vec<byte> needle) -> Option<int>"
 import: "use bytes::{find};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/bytes.hy#L252"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/bytes.coil#L252"
 order: 8
 ---
 

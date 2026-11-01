@@ -133,7 +133,7 @@ builds coil from source, which needs `cargo`, libffi and pcre2 dev files.
 4. Fetches coil-stdlib, coil-toml and coil-json (at the `rev`s
    pinned in this repo's `coil.toml`) into `.bootstrap/`. Pass `--use-siblings`
    to build against `../coil-stdlib`, `../coil-toml` and `../coil-json` instead.
-5. Runs `coil package spool.hy -o target/spool`.
+5. Runs `coil package spool.coil -o target/spool`.
 
 ### Coil channels
 
@@ -179,7 +179,7 @@ spool tree
 ```
 
 `spool new <name> --lib` creates a library. Its entry module is
-`src/<name>.hy`, so consumers write `use <name>::{item}`. More modules can
+`src/<name>.coil`, so consumers write `use <name>::{item}`. More modules can
 go in `src/<name>/` (`use <name>::client`) or next to it in `src/`; spool
 passes each dependency's `src/` as a root, so consumers resolve them the
 way the library resolves them itself.
@@ -189,7 +189,7 @@ way the library resolves them itself.
 | Command | What it does |
 |---|---|
 | `new <name> [--lib] [--no-git]` / `init` | scaffold `coil.toml`, `src/`, `tests/`, `.gitignore` (and `git init`) |
-| `build [-o PATH] [-O LEVEL]` | `coil package` of `[entry].file` (default `src/main.hy`) into `target/<name>`; the natives it pins go into the natives cache |
+| `build [-o PATH] [-O LEVEL]` | `coil package` of `[entry].file` (default `src/main.coil`) into `target/<name>`; the natives it pins go into the natives cache |
 | `run [-O LEVEL] [-- ARGS]` | build, then exec `target/<name>` with ARGS and its exit code |
 | `check` | `coil compile` without packaging |
 | `clean [--all]` | remove `target/` (`--all`: also `.spool/`) |
@@ -375,7 +375,7 @@ Values reach `git`/`sh` only as positional arguments, never inside a script.
 
 ```text
 .spool/deps/<name>     -> <checkout>/src
-.spool/deps/<name>.hy  -> <checkout>/src/<name>.hy   (when it exists)
+.spool/deps/<name>.coil  -> <checkout>/src/<name>.coil   (when it exists)
 ```
 
 spool passes `.spool/deps` as a root, and then each `<checkout>/src` (the
@@ -384,10 +384,10 @@ for you the same way it does in its own repo:
 
 | Import | Resolves to |
 |---|---|
-| `use toml::{Toml}` | `src/toml.hy`, through the file link (single-file libraries) |
-| `use greet::hello` | `src/hello.hy`, through the directory link |
-| `use tls::client::{enable}` | `src/tls/client.hy`, through the package's `src/` root |
-| `use simd::{features}` (coil-sdl) | `src/simd.hy`, a second top-level module of the package |
+| `use toml::{Toml}` | `src/toml.coil`, through the file link (single-file libraries) |
+| `use greet::hello` | `src/hello.coil`, through the directory link |
+| `use tls::client::{enable}` | `src/tls/client.coil`, through the package's `src/` root |
+| `use simd::{features}` (coil-sdl) | `src/simd.coil`, a second top-level module of the package |
 
 Dependency roots come after the stdlib, so a package's top-level module never
 shadows a stdlib module. A package without `src/` is linked, and used as a
@@ -556,7 +556,7 @@ allow_comptime = ['gen']
 ```
 
 An allowed dependency's grants are scoped to its own top-level modules (the
-`.hy` files and directories under its module root): `env = ["GEN_TOKEN"]`
+`.coil` files and directories under its module root): `env = ["GEN_TOKEN"]`
 in `gen` gives `--comptime-env gen=GEN_TOKEN`, so the project's modules do
 not get them. Paths resolve under the dependency's checkout. A dependency
 with `[comptime]` that is not allowed gets a note on stderr.
@@ -770,7 +770,7 @@ export COIL="$(./bootstrap.sh --channel edge --coil-only)"   # newest edge coil
 ./scripts/smoke_all.sh        # end-to-end smoke tests against target/spool
 ```
 
-`spool.hy` is the entry; modules are under `src/`:
+`spool.coil` is the entry; modules are under `src/`:
 
 | Module | Role |
 |---|---|
@@ -793,7 +793,7 @@ export COIL="$(./bootstrap.sh --channel edge --coil-only)"   # newest edge coil
   rec::Rec`). Plain forward references work.
 - In a function that returns `Result`, a `Result`-typed **parameter** is
   corrupted (for example, its `Err` payload reads as empty). Helpers that
-  inspect a `Result` return `bool` instead (see `tests/include.hy`).
+  inspect a `Result` return `bool` instead (see `tests/include.coil`).
 - coil-toml panics (index out of bounds) when a document ends right after a
   value with no trailing newline. `decode_manifest` appends one.
 - coil-toml `main` predates field-visibility enforcement. Spool pins the

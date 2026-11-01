@@ -8,7 +8,7 @@ name: "UInt8"
 signature: "class UInt8"
 import: "use ffi::types::{UInt8};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/ffi/types.hy#L60"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/ffi/types.coil#L60"
 order: 8
 ---
 

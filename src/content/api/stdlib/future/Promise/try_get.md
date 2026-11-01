@@ -10,7 +10,7 @@ parent: "Promise"
 signature: "pub fn try_get() -> Option<T>"
 import: "use future::{Promise};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/future.hy#L127"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/future.coil#L127"
 order: 6
 ---
 

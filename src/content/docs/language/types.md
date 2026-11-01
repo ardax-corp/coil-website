@@ -207,7 +207,7 @@ let mode: string = Mode::Fast;    // "fast"
 | `Default` | First case, same as payload enums |
 | `match` | Constructor cases (`Status::Ok`) plus a `default` catch-all. Payload enums stay the same |
 
-Payload enums (`Color::Red`, `Option::Some(x)`) remain heap-backed. See `examples/scalar_enum.hy` and `tests/positive/scalar_enums.hy` in coil-lang.
+Payload enums (`Color::Red`, `Option::Some(x)`) remain heap-backed. See `examples/scalar_enum.coil` and `tests/positive/scalar_enums.coil` in coil-lang.
 
 ### Constructor types
 
@@ -894,7 +894,7 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 `Into` is multi-parameter: `impl Into<T> for S` stores instance args
 `[S, T]`. Prefer method form with an expected type —
 `let y: T = x.into();` — so the target pins constraint discharge. Open
-`where Into<A, B>` helpers also work. See `examples/into.hy`.
+`where Into<A, B>` helpers also work. See `examples/into.coil`.
 
 On open/generic operands, operators require the matching op trait (or the
 `Num` / `Integral` / `Ord` convenience supertrait). A hand-written
@@ -957,7 +957,7 @@ Rules:
   `format("%v", x)` instead. A class's own `fn to_string()` method is
   unaffected.
 
-See `examples/derive_show_eq.hy`, `examples/derive_hash.hy`, and `examples/typeof_len.hy`.
+See `examples/derive_show_eq.coil`, `examples/derive_hash.coil`, and `examples/typeof_len.coil`.
 
 ### User-defined traits (sketch)
 
@@ -1061,7 +1061,7 @@ let n: int = decode(new Val(4));         // T chosen by the annotation
 - `#[derive(Default)]` generates `static fn default()`, so `Config::default()`
   and `T::default()` under `T: Default` work like any other static.
 
-See `examples/static_trait_method.hy`.
+See `examples/static_trait_method.coil`.
 ### Instances for generic types
 
 A trait can be implemented for a generic class or enum. The head's bare
@@ -1200,8 +1200,8 @@ fn get<P: * -> *, Pointer, A>(P<A> ptr) -> P::Ref<A> {
 ```
 
 Associated types are erased at runtime (no dictionary slot); they exist only
-in the typechecker. See `examples/assoc_type.hy` and
-`examples/gat_pointer.hy`.
+in the typechecker. See `examples/assoc_type.coil` and
+`examples/gat_pointer.coil`.
 
 ### Superclasses and implied bounds
 
@@ -1231,7 +1231,7 @@ Builtin `Ord` works the same way: `Eq` is one of its superclasses, beside
 `Eq` instance for the same type (`#[derive(Eq, Ord)]`), and `==` / `!=` on a
 `T: Ord` value call `T`'s `Eq`, in a monomorphized clone and in a shared
 generic body (called through a function value) alike. See
-`examples/superclass_ord.hy`.
+`examples/superclass_ord.coil`.
 
 ### First-class generic functions
 
@@ -1270,12 +1270,12 @@ binder (rigid variables) and rejects escaping skolems. A polymorphic
 generic function identifier (e.g. `id`) is compatible with a matching
 `forall` parameter type.
 
-See `examples/generics.hy`, `examples/typeclass_dict.hy`,
-`examples/existential_show.hy`, `examples/hkt_container.hy`,
-`examples/hkt_bifunctor.hy`, `examples/multiparam.hy`,
-`examples/constraint_kind.hy`, `examples/superclass_ord.hy`,
-`examples/assoc_type.hy`, `examples/gat_pointer.hy`, and
-`examples/polyfn.hy` for runnable demos.
+See `examples/generics.coil`, `examples/typeclass_dict.coil`,
+`examples/existential_show.coil`, `examples/hkt_container.coil`,
+`examples/hkt_bifunctor.coil`, `examples/multiparam.coil`,
+`examples/constraint_kind.coil`, `examples/superclass_ord.coil`,
+`examples/assoc_type.coil`, `examples/gat_pointer.coil`, and
+`examples/polyfn.coil` for runnable demos.
 
 ### Boxing and unboxing at generic boundaries
 
@@ -1313,7 +1313,7 @@ fn main() {
 }
 ```
 
-Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`, plus the structural ones: tuples, fixed arrays and anonymous records of shown types, and `Option` / `Result` over shown types (`Some(1)`, `None`, `Ok(2)`, `Err(bad)`, the payload as `%v` shows it). `show(x)`, `x.show()` and `format("%v", x)` agree for all of them. User types can `impl Show for MyType`. See `examples/generic_print.hy`.
+Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`, plus the structural ones: tuples, fixed arrays and anonymous records of shown types, and `Option` / `Result` over shown types (`Some(1)`, `None`, `Ok(2)`, `Err(bad)`, the payload as `%v` shows it). `show(x)`, `x.show()` and `format("%v", x)` agree for all of them. User types can `impl Show for MyType`. See `examples/generic_print.coil`.
 
 ---
 

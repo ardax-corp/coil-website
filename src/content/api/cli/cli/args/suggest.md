@@ -9,7 +9,7 @@ name: "suggest"
 signature: "fn suggest(string word, Vec<string> names) -> string"
 import: "use cli::args::{suggest};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/args.hy#L231"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/args.coil#L231"
 order: 12
 ---
 

@@ -9,7 +9,7 @@ name: "HashMapIter"
 signature: "class HashMapIter<K, V>"
 import: "use collections::map::{HashMapIter};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/map.hy#L59"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/map.coil#L59"
 order: 2
 ---
 

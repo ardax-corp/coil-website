@@ -9,7 +9,7 @@ name: "take"
 signature: "fn take(string s, int cols) -> string"
 import: "use cli::width::{take};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/width.hy#L662"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/width.coil#L662"
 order: 7
 ---
 

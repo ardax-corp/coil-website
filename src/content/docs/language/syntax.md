@@ -1,11 +1,11 @@
 ---
 title: Syntax reference
-description: Complete grammar overview for coil source (.hy). This document describes what the parser accepts today; see Types, Operators, and Keywords for semantics.
+description: Complete grammar overview for coil source (.coil). This document describes what the parser accepts today; see Types, Operators, and Keywords for semantics.
 ---
 
 # Syntax reference
 
-Complete grammar overview for coil source (`.hy`). This document describes what the parser accepts today; see [Types](/docs/language/types), [Operators](/docs/language/operators), and [Keywords](/docs/reference/keywords) for semantics.
+Complete grammar overview for coil source (`.coil`). This document describes what the parser accepts today; see [Types](/docs/language/types), [Operators](/docs/language/operators), and [Keywords](/docs/reference/keywords) for semantics.
 
 ---
 
@@ -13,8 +13,8 @@ Complete grammar overview for coil source (`.hy`). This document describes what 
 
 | Extension | Role |
 |-----------|------|
-| `.hy` | Source text parsed by `parser::Pratt` |
-| `.hyc` | Compiled bytecode archive (rkyv-serialized `ArchivedProgram`) |
+| `.coil` | Source text parsed by `parser::Pratt` |
+| `.ccoil` | Compiled bytecode archive (rkyv-serialized `ArchivedProgram`) |
 
 Programs are sequences of **declarations** and **statements**. Most top-level items are declarations; statements appear inside function bodies and blocks.
 
@@ -150,7 +150,7 @@ attr_param  ::= type_fn_sig IDENT          // first param: `fn(...args) -> T tar
 type_fn_sig ::= 'fn' '(' '...' IDENT ')' '->' type_annotation
 ```
 
-Arity overloads (same name, different arities / rest ranges), **type overloads** (same arity, distinct parameter types — e.g. `show(int)` / `show(float)`), first-class monomorphic functions (`let f = add`), positional and named partial application, and explicit-capture lambdas (`fn (T x) use (y) => …`) are supported. See `examples/overload.hy`, `examples/type_overload.hy`, `fn_value.hy`, and `lambda.hy`.
+Arity overloads (same name, different arities / rest ranges), **type overloads** (same arity, distinct parameter types — e.g. `show(int)` / `show(float)`), first-class monomorphic functions (`let f = add`), positional and named partial application, and explicit-capture lambdas (`fn (T x) use (y) => …`) are supported. See `examples/overload.coil`, `examples/type_overload.coil`, `fn_value.coil`, and `lambda.coil`.
 
 A lambda may sit inside a generic function: it is compiled at each instantiation's types, so it can capture values of a type parameter, take or return `T` (or a tuple, `Option` or `Result` of it), call other generic functions, nest inside another lambda, use the function's own trait bounds (`%v` through `T: Show`, `<` through `T: Ord`, `+` through `T: Num`, or a call to another bounded function), and be returned to the caller. A returned lambda can be passed on to a function-typed parameter, bound and called (`fn maker<T>(T x) -> (unit -> T) { return fn () use (x) => x; }`, then `let g = maker(3); g()`), or called in place (`maker(3)()`, as `adder(3)(4)` for any function returning a lambda). When a call uses a generic function's shared body instead of a per-type clone (warning E0804: polymorphic recursion, or past `--clone-budget`), its shared body's lambda is wrapped so it is called at the caller's types like any other (boxing its `T` arguments and unboxing a `T` result). There a call is not compiled yet (E0801) when the lambda's own types hold a type parameter inside another type (`unit -> Option<T>`, `int -> (T, int)`, unless it stands for a function type), take or return a `T` that is `()` or a scalar-backed enum, or have several parameters, or when the function is a method.
 
@@ -412,7 +412,7 @@ impl Cell<T> {
 }
 ```
 
-Classes support positional constructor args (field order), field read/write, and method calls with implicit `self`. See `examples/classes.hy` and `examples/generic_class.hy`.
+Classes support positional constructor args (field order), field read/write, and method calls with implicit `self`. See `examples/classes.coil` and `examples/generic_class.coil`.
 
 An inherent `fn drop()` is a GC-time finalizer (not RAII). The receiver is implicit `self` by value (same as other instance methods); it must return `unit` and appear at most once per class. Explicit `obj.drop()` is allowed and counts toward the once-limit. Storing `self` from `drop` can keep the object alive after the sweep; drop still runs at most once. See [`gc`](/docs/reference/gc).
 
@@ -798,7 +798,7 @@ let xs: Vec<int> = (0..5).to_vec();   // [0, 1, 2, 3, 4]
 let ys = r.to_vec();                  // Vec<int> [0, 1, 2, 3]
 ```
 
-See `examples/range.hy` and `tests/positive/range_to_vec.hy`.
+See `examples/range.coil` and `tests/positive/range_to_vec.coil`.
 
 **Deferred:** step syntax (`0..10 step 2`). Non-numeric `Ord` iteration is
 intentionally unsupported.

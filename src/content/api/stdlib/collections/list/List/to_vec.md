@@ -10,7 +10,7 @@ parent: "List"
 signature: "pub fn to_vec() -> Vec<T>"
 import: "use collections::list::{List};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/list.hy#L176"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/list.coil#L176"
 order: 9
 ---
 

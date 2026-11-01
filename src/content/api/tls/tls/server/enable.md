@@ -9,7 +9,7 @@ name: "enable"
 signature: "fn enable(Stream s, ServerOpts opts) -> Result<Stream, TlsError>"
 import: "use tls::server::{enable};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/src/tls/server.hy#L85"
+source: "https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/src/tls/server.coil#L85"
 order: 1
 ---
 

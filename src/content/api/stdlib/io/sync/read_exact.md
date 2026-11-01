@@ -9,7 +9,7 @@ name: "read_exact"
 signature: "fn read_exact(Stream s, Vec<byte> buf) -> Result<Option<int>, IoError>"
 import: "use io::sync::{read_exact};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/sync.hy#L57"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/sync.coil#L57"
 order: 1
 ---
 

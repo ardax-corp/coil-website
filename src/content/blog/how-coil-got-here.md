@@ -18,7 +18,7 @@ A lot of time later I had something that mostly worked. Most of the VM is still 
 
 I called it zero-script because I wanted the core small. The name was taken, and it was a mouthful. Coil is better. A coil is a small part. A lot of things tick because of one.
 
-Source files are `.hy` because henry is the SI unit of inductance. Programs compile to `.hyc` and run on the VM. Types are Hindley-Milner, so you get checking without a heavyweight toolchain.
+Source files are `.coil` because henry is the SI unit of inductance. Programs compile to `.ccoil` and run on the VM. Types are Hindley-Milner, so you get checking without a heavyweight toolchain.
 
 It is 0.1.0. You clone it and `cargo build`. There is no installer yet. This site is new.
 

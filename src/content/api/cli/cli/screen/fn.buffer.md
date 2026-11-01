@@ -9,7 +9,7 @@ name: "buffer"
 signature: "fn buffer(int cols, int rows) -> Buffer"
 import: "use cli::screen::{buffer};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/screen.hy#L106"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/screen.coil#L106"
 order: 9
 ---
 

@@ -10,7 +10,7 @@ parent: "Tabs"
 signature: "pub fn show()"
 import: "use tui::widgets::tabs::{Tabs};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/tabs.hy#L44"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/tabs.coil#L44"
 order: 1
 ---
 

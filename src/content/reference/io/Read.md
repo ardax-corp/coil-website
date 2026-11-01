@@ -8,7 +8,7 @@ name: "Read"
 signature: "trait Read<S>"
 import: "use io::{Read};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.hy#L209"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.coil#L209"
 order: 2
 ---
 

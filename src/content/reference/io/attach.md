@@ -8,7 +8,7 @@ name: "attach"
 signature: "fn attach(Stream s, int ptr, int read, int write, int shutdown, int free) -> Result<Stream, IoError>"
 import: "use io::{attach};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.hy#L666"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.coil#L666"
 order: 21
 ---
 

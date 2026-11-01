@@ -10,7 +10,7 @@ parent: "Msgpack"
 signature: "pub fn encode(MsgpackValue value) -> Result<Vec<byte>, MsgpackError>"
 import: "use msgpack::{Msgpack};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/src/msgpack.hy#L1542"
+source: "https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/src/msgpack.coil#L1542"
 order: 1
 ---
 

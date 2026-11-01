@@ -9,7 +9,7 @@ name: "from_codepoints"
 signature: "fn from_codepoints(Vec<int> cps) -> string"
 import: "use text::{from_codepoints};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/text.hy#L209"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/text.coil#L209"
 order: 5
 ---
 

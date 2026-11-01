@@ -9,7 +9,7 @@ name: "dialog"
 signature: "fn dialog(string title, Node body, Vec<Node> buttons) -> Node"
 import: "use tui::widgets::dialog::{dialog};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/dialog.hy#L102"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/dialog.coil#L102"
 order: 1
 ---
 

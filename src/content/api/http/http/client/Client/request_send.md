@@ -10,7 +10,7 @@ parent: "Client"
 signature: "pub fn request_send(Vec<byte> head, Url u, Vec<byte> body) -> Result<Response, HttpError>"
 import: "use http::client::{Client};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/client.hy#L117"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/client.coil#L117"
 order: 3
 ---
 

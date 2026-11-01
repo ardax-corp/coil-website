@@ -9,7 +9,7 @@ name: "parse"
 signature: "fn parse(string text, string fmt) -> Result<Timestamp, TimeError>"
 import: "use time::{parse};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.hy#L1250"
+source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.coil#L1250"
 order: 21
 ---
 

@@ -10,7 +10,7 @@ parent: "Server"
 signature: "pub static fn new() -> Server"
 import: "use http::server::{Server};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/server.hy#L134"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/server.coil#L134"
 order: 0
 ---
 

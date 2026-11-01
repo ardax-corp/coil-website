@@ -171,6 +171,6 @@ Illustrative of `dest_prop_field_alias`: **−5.9%**. Flagship `gc_churn` / `bin
 
 ## How we treat the numbers
 
-Each of these is a prove-before-merge A/B: same runner, checksums held, hyperfine on the bench that actually changes `.hyc`. Controls that keep identical bytecode are noise, not a win.
+Each of these is a prove-before-merge A/B: same runner, checksums held, hyperfine on the bench that actually changes `.ccoil`. Controls that keep identical bytecode are noise, not a win.
 
 They are still microbenches. They are chosen because they look like code people write: `?` on a Result, a pair of ints, `i * c` in a loop, sibling recursion, a field through an alias. That is the claim. Not that some unnamed service got 2× overnight.

@@ -10,7 +10,7 @@ parent: "Toml"
 signature: "pub fn decode_str(string s) -> Result<TomlValue, TomlError>"
 import: "use toml::{Toml};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/src/toml.hy#L2416"
+source: "https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/src/toml.coil#L2416"
 order: 4
 ---
 

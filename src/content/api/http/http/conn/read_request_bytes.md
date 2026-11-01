@@ -9,7 +9,7 @@ name: "read_request_bytes"
 signature: "fn read_request_bytes(Stream s) -> Result<Vec<byte>, HttpError>"
 import: "use http::conn::{read_request_bytes};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/conn.hy#L315"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/conn.coil#L315"
 order: 3
 ---
 

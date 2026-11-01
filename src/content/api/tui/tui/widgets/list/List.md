@@ -9,7 +9,7 @@ name: "List"
 signature: "shared class List"
 import: "use tui::widgets::list::{List};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/list.hy#L148"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/list.coil#L148"
 order: 1
 ---
 

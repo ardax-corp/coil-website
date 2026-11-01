@@ -10,7 +10,7 @@ parent: "BitSet"
 signature: "pub static fn with_capacity(int bits) -> BitSet"
 import: "use collections::bitset::{BitSet};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/bitset.hy#L54"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/bitset.coil#L54"
 order: 0
 ---
 

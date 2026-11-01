@@ -9,7 +9,7 @@ name: "VecSum"
 signature: "trait VecSum<V>"
 import: "use collections::vec::{VecSum};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.hy#L470"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.coil#L470"
 order: 4
 ---
 

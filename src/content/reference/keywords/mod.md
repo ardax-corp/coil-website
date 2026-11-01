@@ -13,7 +13,7 @@ order: 24
 
 Loads a module file without importing any of its names: `mod name;`.
 
-The file is looked up as `name.hy` in each source root. Use `use` to bind
+The file is looked up as `name.coil` in each source root. Use `use` to bind
 items from it.
 
 ```coil

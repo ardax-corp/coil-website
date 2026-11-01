@@ -9,7 +9,7 @@ name: "from_hex"
 signature: "fn from_hex(string s) -> Result<Vec<byte>, string>"
 import: "use bytes::{from_hex};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/bytes.hy#L88"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/bytes.coil#L88"
 order: 3
 ---
 

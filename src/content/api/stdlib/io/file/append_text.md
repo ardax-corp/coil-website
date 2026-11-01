@@ -9,7 +9,7 @@ name: "append_text"
 signature: "fn append_text(string path, string text) -> Result<int, IoError>"
 import: "use io::file::{append_text};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/file.hy#L114"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/file.coil#L114"
 order: 5
 ---
 

@@ -9,7 +9,7 @@ name: "H2Frame"
 signature: "class H2Frame"
 import: "use http::h2::{H2Frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.hy#L46"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.coil#L46"
 order: 0
 ---
 

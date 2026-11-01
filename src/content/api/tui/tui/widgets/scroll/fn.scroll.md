@@ -9,7 +9,7 @@ name: "scroll"
 signature: "fn scroll(Node child) -> Node"
 import: "use tui::widgets::scroll::{scroll};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/scroll.hy#L165"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/scroll.coil#L165"
 order: 1
 ---
 

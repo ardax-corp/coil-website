@@ -147,9 +147,9 @@ a & b;             // bitwise and (int or byte cells)
 intersect(a, b);   // byte mask, 1 where both cells are non-zero
 ```
 
-See `examples/vec_tuple.hy`, `examples/vec_array.hy`,
-`examples/vec_generic.hy`, `examples/vec_packed_mul.hy`, `examples/vec_dot.hy`,
-`examples/vec_matmul.hy`, and `examples/matrix_mul.hy`.
+See `examples/vec_tuple.coil`, `examples/vec_array.coil`,
+`examples/vec_generic.coil`, `examples/vec_packed_mul.coil`, `examples/vec_dot.coil`,
+`examples/vec_matmul.coil`, and `examples/matrix_mul.coil`.
 
 String concatenation uses `+`:
 

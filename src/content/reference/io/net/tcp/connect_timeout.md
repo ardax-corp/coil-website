@@ -8,7 +8,7 @@ name: "connect_timeout"
 signature: "fn connect_timeout(string host, int port, int ms) -> Result<Stream, IoError>"
 import: "use io::net::tcp::{connect_timeout};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/net/tcp.hy#L106"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/net/tcp.coil#L106"
 order: 2
 ---
 

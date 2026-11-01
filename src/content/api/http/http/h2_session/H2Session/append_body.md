@@ -10,7 +10,7 @@ parent: "H2Session"
 signature: "pub fn append_body(int idx, Vec<byte> payload)"
 import: "use http::h2_session::{H2Session};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2_session.hy#L809"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2_session.coil#L809"
 order: 20
 ---
 

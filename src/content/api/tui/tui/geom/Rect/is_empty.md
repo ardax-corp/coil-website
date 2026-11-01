@@ -10,7 +10,7 @@ parent: "Rect"
 signature: "pub fn is_empty() -> bool"
 import: "use tui::geom::{Rect};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/geom.hy#L106"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/geom.coil#L106"
 order: 2
 ---
 

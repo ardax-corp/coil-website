@@ -10,7 +10,7 @@ parent: "JsonValue"
 signature: "pub fn is_float() -> bool"
 import: "use json::{JsonValue};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.hy#L265"
+source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.coil#L265"
 order: 8
 ---
 

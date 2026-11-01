@@ -9,7 +9,7 @@ name: "h2_connect"
 signature: "fn h2_connect(string url) -> Result<Response, HttpError>"
 import: "use http::h2_session::{h2_connect};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2_session.hy#L1753"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2_session.coil#L1753"
 order: 3
 ---
 

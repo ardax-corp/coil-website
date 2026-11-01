@@ -9,7 +9,7 @@ name: "stack_rects"
 signature: "fn stack_rects( Rect area, bool horizontal, Vec<int> sizes, int gap, Vec<int> cross, Align align, ) -> Vec<Rect>"
 import: "use tui::layout::{stack_rects};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/layout.hy#L195"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/layout.coil#L195"
 order: 2
 ---
 

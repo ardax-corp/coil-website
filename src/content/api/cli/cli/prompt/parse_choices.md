@@ -9,7 +9,7 @@ name: "parse_choices"
 signature: "fn parse_choices(string answer, int n) -> Option<Vec<int>>"
 import: "use cli::prompt::{parse_choices};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.hy#L713"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.coil#L713"
 order: 17
 ---
 

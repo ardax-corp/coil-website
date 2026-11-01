@@ -9,7 +9,7 @@ name: "width"
 signature: "fn width(string s) -> int"
 import: "use cli::width::{width};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/width.hy#L601"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/width.coil#L601"
 order: 4
 ---
 

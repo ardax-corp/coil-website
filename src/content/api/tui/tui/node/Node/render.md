@@ -10,7 +10,7 @@ parent: "Node"
 signature: "pub fn render(Canvas cv)"
 import: "use tui::node::{Node};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/node.hy#L152"
+source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/node.coil#L152"
 order: 0
 ---
 

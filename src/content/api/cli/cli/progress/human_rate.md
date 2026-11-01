@@ -9,7 +9,7 @@ name: "human_rate"
 signature: "fn human_rate(int count, int elapsed_ms) -> string"
 import: "use cli::progress::{human_rate};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/progress.hy#L155"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/progress.coil#L155"
 order: 8
 ---
 

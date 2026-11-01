@@ -9,7 +9,7 @@ name: "hex"
 signature: "fn hex(string s) -> Option<Color>"
 import: "use cli::style::{hex};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.hy#L141"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.coil#L141"
 order: 20
 ---
 

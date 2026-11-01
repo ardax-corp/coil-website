@@ -9,7 +9,7 @@ name: "ws_send_pong"
 signature: "fn ws_send_pong(WsConn c, Vec<byte> b) -> Result<(), HttpError>"
 import: "use http::ws::{ws_send_pong};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.hy#L558"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.coil#L558"
 order: 17
 ---
 

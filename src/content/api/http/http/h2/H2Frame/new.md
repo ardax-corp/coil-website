@@ -10,7 +10,7 @@ parent: "H2Frame"
 signature: "pub static fn new(int typ, int flags, int stream_id, Vec<byte> payload) -> H2Frame"
 import: "use http::h2::{H2Frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.hy#L59"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.coil#L59"
 order: 0
 ---
 

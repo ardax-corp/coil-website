@@ -9,7 +9,7 @@ name: "data_frame"
 signature: "fn data_frame(int stream_id, Vec<byte> payload, int end_stream) -> H2Frame"
 import: "use http::h2::{data_frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.hy#L493"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.coil#L493"
 order: 51
 ---
 

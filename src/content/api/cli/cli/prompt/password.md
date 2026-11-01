@@ -9,7 +9,7 @@ name: "password"
 signature: "fn password(string question) -> Result<Option<string>, TtyError>"
 import: "use cli::prompt::{password};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.hy#L560"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.coil#L560"
 order: 13
 ---
 

@@ -8,7 +8,7 @@ name: "is_file"
 signature: "fn is_file(string path) -> Result<bool, IoError>"
 import: "use io::fs::{is_file};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/fs.hy#L147"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/fs.coil#L147"
 order: 5
 ---
 

@@ -9,7 +9,7 @@ name: "ws_opcode_close"
 signature: "fn ws_opcode_close() -> int"
 import: "use http::ws::{ws_opcode_close};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.hy#L140"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.coil#L140"
 order: 5
 ---
 

@@ -12,7 +12,7 @@ writing a single case.
 
 ## Test cases
 
-A test file is a `.hy` file under `tests/` with one or more
+A test file is a `.coil` file under `tests/` with one or more
 `test("…") { … }` blocks and no `main`. `assert!` from the stdlib module
 `tests` checks a condition and fails the case when it is false:
 
@@ -65,15 +65,15 @@ and anything the case printed:
 
 ```text
 running 1 file (seed 0x331d79d4efd8a9c4, 4 jobs)
-FAILED tests/fizzbuzz.hy
+FAILED tests/fizzbuzz.coil
 
 failures:
 
----- tests/fizzbuzz.hy: multiples of three are Fizz ----
+---- tests/fizzbuzz.coil: multiples of three are Fizz ----
 failed: Assertion: 'fizzbuzz(9) == "Fizz"' failed
 
 failed:
-    tests/fizzbuzz.hy: multiples of three are Fizz
+    tests/fizzbuzz.coil: multiples of three are Fizz
 
 test result: FAILED. 1 passed; 1 failed; 2 total; finished in 0.05s
 ```
@@ -203,7 +203,7 @@ noticed. Each of those points at a missing test.
    > `Option` compares with `==`, so `assert!(s.pop() == Some(2));` works,
    > and so does `assert!(s.pop().is_none());`.
 
-   ```coil challenge=c11-1 file=tests/stack.hy
+   ```coil challenge=c11-1 file=tests/stack.coil
    use stack::{Stack};
    use tests::assert;
 
@@ -216,7 +216,7 @@ noticed. Each of those points at a missing test.
    }
    ```
 
-   ```coil challenge=c11-1 file=src/stack.hy
+   ```coil challenge=c11-1 file=src/stack.coil
    class Stack<T> {
        items: Vec<T>,
    }
@@ -244,7 +244,7 @@ noticed. Each of those points at a missing test.
    run it with `coil test`. Then break the example on purpose and watch it
    fail.
 
-   ```coil challenge=c11-2 file=src/mathx.hy
+   ```coil challenge=c11-2 file=src/mathx.coil
    /// Returns the larger of `a` and `b`.
    fn larger(int a, int b) -> int {
        if a > b {
@@ -254,7 +254,7 @@ noticed. Each of those points at a missing test.
    }
    ```
 
-   ```coil challenge=c11-2 file=tests/mathx.hy
+   ```coil challenge=c11-2 file=tests/mathx.coil
    use mathx::{larger};
    use tests::assert;
 
@@ -277,7 +277,7 @@ noticed. Each of those points at a missing test.
    > toward zero, which keeps the average inside that range even for
    > negative numbers.
 
-   ```coil challenge=c11-3 file=src/stats.hy
+   ```coil challenge=c11-3 file=src/stats.coil
    fn average(Vec<int> xs) -> int {
        let total = 0;
        for x in xs {
@@ -287,7 +287,7 @@ noticed. Each of those points at a missing test.
    }
    ```
 
-   ```coil challenge=c11-3 file=tests/stats.hy
+   ```coil challenge=c11-3 file=tests/stats.coil
    use stats::{average};
    use tests::assert;
 
@@ -317,7 +317,7 @@ noticed. Each of those points at a missing test.
    > `capture_end()` returns `(stdout, stderr)`, and the output still ends
    > in the newline `println` wrote.
 
-   ```coil challenge=c11-5 file=src/greet.hy
+   ```coil challenge=c11-5 file=src/greet.coil
    use io::sync::{println};
 
    fn greet(string name) {
@@ -325,7 +325,7 @@ noticed. Each of those points at a missing test.
    }
    ```
 
-   ```coil challenge=c11-5 file=tests/greet.hy
+   ```coil challenge=c11-5 file=tests/greet.coil
    use io::{capture_begin, capture_end};
    use greet::{greet};
    use tests::assert;

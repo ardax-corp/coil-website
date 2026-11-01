@@ -9,7 +9,7 @@ name: "HttpConn"
 signature: "class HttpConn"
 import: "use http::conn::{HttpConn};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/conn.hy#L14"
+source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/conn.coil#L14"
 order: 0
 ---
 

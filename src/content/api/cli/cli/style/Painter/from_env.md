@@ -10,7 +10,7 @@ parent: "Painter"
 signature: "pub static fn from_env(bool tty) -> Painter"
 import: "use cli::style::{Painter};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.hy#L597"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/style.coil#L597"
 order: 1
 ---
 

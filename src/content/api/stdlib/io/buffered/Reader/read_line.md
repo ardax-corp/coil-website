@@ -10,7 +10,7 @@ parent: "Reader"
 signature: "pub fn read_line() -> Result<Option<string>, IoError>"
 import: "use io::buffered::{Reader};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/buffered.hy#L126"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/buffered.coil#L126"
 order: 5
 ---
 

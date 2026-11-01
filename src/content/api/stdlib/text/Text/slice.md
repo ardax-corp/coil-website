@@ -10,7 +10,7 @@ parent: "Text"
 signature: "fn slice(T s, int start, int end) -> Result<string, string>"
 import: "use text::{Text};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/text.hy#L764"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/text.coil#L764"
 order: 13
 ---
 

@@ -9,7 +9,7 @@ name: "parse_int"
 signature: "fn parse_int(string s) -> Result<int, string>"
 import: "use conv::{parse_int};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/conv.hy#L213"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/conv.coil#L213"
 order: 4
 ---
 

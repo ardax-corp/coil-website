@@ -9,7 +9,7 @@ name: "from_string"
 signature: "fn from_string(string s) -> Vec<byte>"
 import: "use bytes::{from_string};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/bytes.hy#L447"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/bytes.coil#L447"
 order: 19
 ---
 

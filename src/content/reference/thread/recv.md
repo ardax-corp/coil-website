@@ -8,7 +8,7 @@ name: "recv"
 signature: "fn recv<T>(Receiver<T> rx) -> Result<T, ChannelError>"
 import: "use thread::{recv};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.hy#L419"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.coil#L419"
 order: 13
 ---
 

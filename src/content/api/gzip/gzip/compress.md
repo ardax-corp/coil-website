@@ -9,7 +9,7 @@ name: "compress"
 signature: "fn compress(Vec<byte> data) -> Result<Vec<byte>, GzipError>"
 import: "use gzip::{compress};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/src/gzip.hy#L341"
+source: "https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/src/gzip.coil#L341"
 order: 3
 ---
 

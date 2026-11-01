@@ -10,7 +10,7 @@ parent: "Wrapping"
 signature: "fn wrapping_mul(S a, S b) -> S"
 import: "use arith::{Wrapping};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/arith.hy#L83"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/arith.coil#L83"
 order: 2
 ---
 

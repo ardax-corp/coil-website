@@ -8,7 +8,7 @@ name: "dload"
 signature: "fn dload(string path) -> Result<int, Error>"
 import: "use ffi::{dload};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/ffi.hy#L95"
+source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/ffi.coil#L95"
 order: 2
 ---
 
@@ -41,7 +41,7 @@ but no file is found.
 ```text
 use ffi::{dload, ErrorKind};
 
-// coil --allow-dload sum --dload-trusted sum --ffi-search-path native app.hy
+// coil --allow-dload sum --dload-trusted sum --ffi-search-path native app.coil
 let lib = match dload("sum") {
     Result::Ok(h) => h,
     Result::Err(e) => match e.kind {

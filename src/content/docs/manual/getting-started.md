@@ -101,11 +101,11 @@ spool run
 ```
 
 `spool new` creates the project and `spool run` builds and runs it, printing
-a greeting from the generated `src/main.hy`.
+a greeting from the generated `src/main.coil`.
 [A project with spool](#a-project-with-spool) below shows the layout.
 
 A program does not need a project, though. Put this in a loose file called
-`hello.hy`:
+`hello.coil`:
 
 ```coil
 use io::sync::{println};
@@ -126,7 +126,7 @@ the standard library to compile against; clone it once:
 
 ```bash
 git clone https://github.com/ardax-corp/coil-stdlib.git ~/coil-stdlib
-coil --root ~/coil-stdlib/src hello.hy
+coil --root ~/coil-stdlib/src hello.coil
 ```
 
 `--root` tells the compiler where to find modules: `println` lives in the
@@ -162,12 +162,12 @@ spool run
 hello/
 ├── coil.toml        # name, version, entry file, dependencies
 ├── src/
-│   └── main.hy      # fn main() lives here
+│   └── main.coil      # fn main() lives here
 └── tests/
-    └── main.hy      # tests run by `spool test`
+    └── main.coil      # tests run by `spool test`
 ```
 
-`spool run` compiles `src/main.hy` into a single executable in
+`spool run` compiles `src/main.coil` into a single executable in
 `target/hello` and runs it. spool adds the stdlib root and your project's
 `src/` for you, so `use` paths just work.
 
@@ -228,11 +228,11 @@ LSP client works (Neovim, Helix, Zed, VS Code with a generic LSP extension).
 ## Permissions
 
 A Coil program cannot touch files, the network, environment variables or
-other processes unless you allow it. If `notes.hy` reads a file, running it
+other processes unless you allow it. If `notes.coil` reads a file, running it
 without permission fails at compile time and tells you which flag it needs:
 
 ```bash
-coil --root ~/coil-stdlib/src --allow-read notes.hy
+coil --root ~/coil-stdlib/src --allow-read notes.coil
 ```
 
 `-A` allows everything. In a spool project, grants go in `coil.toml`. See

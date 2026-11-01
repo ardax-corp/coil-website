@@ -9,7 +9,7 @@ name: "heavy_box"
 signature: "fn heavy_box() -> BoxChars"
 import: "use cli::screen::{heavy_box};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/screen.hy#L58"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/screen.coil#L58"
 order: 6
 ---
 

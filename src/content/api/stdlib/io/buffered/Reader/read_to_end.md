@@ -10,7 +10,7 @@ parent: "Reader"
 signature: "pub fn read_to_end() -> Result<Vec<byte>, IoError>"
 import: "use io::buffered::{Reader};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/buffered.hy#L243"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/io/buffered.coil#L243"
 order: 10
 ---
 

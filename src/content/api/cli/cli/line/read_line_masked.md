@@ -9,7 +9,7 @@ name: "read_line_masked"
 signature: "fn read_line_masked(Editor ed, string prompt, string mask) -> Result<LineInput, TtyError>"
 import: "use cli::line::{read_line_masked};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.hy#L651"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/line.coil#L651"
 order: 9
 ---
 

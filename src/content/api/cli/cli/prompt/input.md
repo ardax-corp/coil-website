@@ -9,7 +9,7 @@ name: "input"
 signature: "fn input(string question, string fallback) -> Result<Option<string>, TtyError>"
 import: "use cli::prompt::{input};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.hy#L554"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/prompt.coil#L554"
 order: 12
 ---
 

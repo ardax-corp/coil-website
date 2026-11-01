@@ -7,7 +7,7 @@
 //   no_run         compiled only (servers, programs that wait for input)
 //   ignore         skipped (fragments, deliberate errors)
 //   fail           must fail to compile
-//   file=src/x.hy  part of the page's project (see check-examples.mjs)
+//   file=src/x.coil  part of the page's project (see check-examples.mjs)
 //   challenge=ID   a tutorial challenge's starter code; check=ID holds its
 //                  hidden test cases (see src/lib/remark-challenges.mjs)
 

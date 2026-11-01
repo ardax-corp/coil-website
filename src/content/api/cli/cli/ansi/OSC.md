@@ -9,7 +9,7 @@ name: "OSC"
 signature: "const OSC = \"\\e]\";"
 import: "use cli::ansi::{OSC};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.hy#L12"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L12"
 order: 3
 ---
 

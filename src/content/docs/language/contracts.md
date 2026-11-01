@@ -28,8 +28,8 @@ fn main() {
 ```
 
 ```
-$ coil sqrt.hy
-panic: contract violated: requires n >= 0 ("negative input") in isqrt, called from sqrt.hy:14:4
+$ coil sqrt.coil
+panic: contract violated: requires n >= 0 ("negative input") in isqrt, called from sqrt.coil:14:4
 ```
 
 ## Syntax

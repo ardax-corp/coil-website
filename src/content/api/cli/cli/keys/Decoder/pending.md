@@ -10,7 +10,7 @@ parent: "Decoder"
 signature: "pub fn pending() -> int"
 import: "use cli::keys::{Decoder};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/keys.hy#L530"
+source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/keys.coil#L530"
 order: 1
 ---
 

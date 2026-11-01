@@ -10,7 +10,7 @@ parent: "Bytes"
 signature: "pub static fn from_vec(Vec<byte> buf) -> Bytes"
 import: "use bytes::{Bytes};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/bytes.hy#L15"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/bytes.coil#L15"
 order: 0
 ---
 
