@@ -140,6 +140,71 @@ A class with a `fn drop()` and a `readonly class` are never copied
 either: the first because it owns an outside resource, the second
 because it never changes.
 
+### Views: classes that borrow
+
+A `view class` is a class whose `mut` fields borrow, the way `let c = mut
+a.config` does. Writes through a view land in the object it was given, so
+a view can stand for one place in a collection, such as a map entry or a
+vector slot:
+
+```coil
+use tests::assert;
+
+class Counts {
+    pub vals: Vec<int>,
+}
+
+view class Slot {
+    mut c: Counts,
+    i: int,
+}
+
+impl Counts {
+    pub fn slot(int i) -> Slot {
+        return new Slot(mut self, i);
+    }
+}
+
+impl Slot {
+    pub fn add(int d) -> Slot {
+        self.c.vals[self.i] += d;
+        return self;
+    }
+}
+
+fn main() {
+    let c = new Counts([0, 0, 0]);
+    let _ = c.slot(1).add(2).add(3);
+    assert!(c.vals[1] == 5);
+}
+```
+
+A `mut` field takes `mut place` in the constructor, and a plain field
+never does. The place must hold an object (a class, vector or map), not a
+number: there is no reference to one `int` slot. To point at an element,
+borrow the vector and keep the index, as `Slot` does.
+
+A view is the borrow it holds, so it lives no longer than the place it
+borrows. The compiler refuses (E0151) a view that could outlive it:
+
+- stored in a field, an element, a static, or a new object or variant;
+- held inside another type, such as `Option<Slot>` or `Vec<Slot>`;
+- captured by a lambda, or handed to a function that keeps it;
+- returned from anything except a method of the object it borrows: a
+  method that builds the view over `mut self`, a view's own method that
+  returns `self`, or another such call on `self`.
+
+While a view or a `mut` borrow is live, its place is not shared,
+moved or replaced (E0149): `let other = c` after `c.slot(1)` is an error
+until the last use of the slot, because writes through the view would
+show through both names.
+
+Inside one module, a chain such as `c.slot(i).add(1).add(2)` compiles
+to the same code as writing `c.vals[i]` directly: the view is not
+allocated and the calls inline. The standard library's
+[`HashMap::entry`](/packages/stdlib/reference/collections/map) and
+`Vec`'s `slot(i)` are views.
+
 ### Seeing the copies
 
 The compiler warns where a write will copy:
