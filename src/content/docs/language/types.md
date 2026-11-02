@@ -318,9 +318,11 @@ Proven counted-loop `Index` / `StoreIndex` rewrite to unchecked opcodes ([#192](
 Anonymous structurally typed records:
 
 ```coil
-let d = { x: 1, y: 2 };   // { x: int, y: int }
+let d = { x: 1, y: 2 };   // record { x: int, y: int }
 let n = d.x;              // field access
 ```
+
+- Records are let-local: a record type has no source spelling, so it cannot appear in a parameter, return, field, alias or annotation type. Write the literal and let inference type the binding. A generic parameter (`T`) still accepts a record. To pass a named shape between functions, declare a class. Diagnostics print a record type as `record { x: int, y: int }` so it does not read as writable syntax ([#2095](https://github.com/ardax-corp/coil-lang/issues/2095)).
 
 - Two record literals with the same field names and compatible field types unify structurally.
 - A record is a heap object with one slot per field, like a class instance: its slots are the fields sorted by name, so `{ y: 9, x: 8 }` and `{ x: 8, y: 9 }` have the same layout. Field reads and writes are slot loads and stores (`LoadField` / `SetField`), not keyed lookups. Records are shared by reference: `let b = a; b.x = 5;` changes `a.x` too.
