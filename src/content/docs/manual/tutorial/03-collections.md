@@ -174,6 +174,9 @@ inserted. Each entry has a `key` and a `value`.
 
 Keys can be any type that can be hashed and compared: `int`, `string`,
 `bool` and your own types that derive `Hash` and `Eq` (chapter 4).
+`int` and `string` keys are the fastest: the VM finds them in one step.
+Other keys are compared with their own `==`, so a hand-written `Eq` is
+always respected.
 
 ## Sets
 
@@ -212,6 +215,7 @@ The stdlib has a few more, each with its own reference page:
 | Type | Use it for |
 |------|------------|
 | [`TreeMap`](/packages/stdlib/reference/collections/tree/TreeMap) | A map that keeps its keys sorted |
+| [`KeyIndex`](/packages/stdlib/reference/collections/index/KeyIndex) | Numbering distinct keys `0, 1, 2, …` in insertion order, to build your own keyed collection |
 | [`VecDeque`](/packages/stdlib/reference/collections/deque/VecDeque) | A queue: fast push and pop at both ends |
 | [`List`](/packages/stdlib/reference/collections/list/List) | A singly-linked list |
 | [`BitSet`](/packages/stdlib/reference/collections/bitset/BitSet) | A compact set of small non-negative integers |
