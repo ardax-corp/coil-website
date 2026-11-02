@@ -30,7 +30,7 @@ Integer literals coerce to `byte` when the expected type is `byte` (returns, ann
 
 `byte` implements `Show`, `Eq` and the binary bitwise traits (`Shl`, `Shr`, `BitAnd`, `BitOr`, `BitXor`); it is not in `Num` / `Add`, `BitNot` or `Integral` yet.
 
-The builtin error enums (`IoError`, `TtyError`, `StringError`, `ThreadError`, `ChannelError`, `LockError`, `EnvError`, ffi `ErrorKind`) implement `Show`: `%v` prints the variant name (`NotFound`).
+The builtin error enums (`IoError`, `TtyError`, `StringError`, `ThreadError`, `ChannelError`, `LockError`, `EnvError`, ffi `ErrorKind`) implement `Show`: `%v` prints the variant name (`NotFound`), with its payload for the variants that carry one (`Io(NotFound)`, `Panicked(boom)`).
 
 Strings support `+` / `+=` with other strings. `string::format(...)` returns `string` and validates literal format specifiers (`%i` accepts `byte`).
 
