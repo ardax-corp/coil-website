@@ -16,6 +16,11 @@ module. Its functions report failures in three error sets: `spawn`, `join`
 and `detach` return a `ThreadError`, channel functions a `ChannelError`,
 and lock functions a `LockError`.
 
+A thread that panics does not take the program down. Its `join` returns
+`Err(ThreadError::Panicked(message))` with the panic's message, the same
+way `task::join` reports `TaskError::Panicked`. `JoinFailed` means the
+handle was already joined or detached.
+
 ## spawn and join
 
 `spawn(f)` runs the function `f` on another thread, and `spawn(f, arg)`
