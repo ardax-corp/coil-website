@@ -97,6 +97,44 @@ it before the call, so the other name keeps its value. The compiler knows
 from each function's [escape facts](#what-the-compiler-frees-early)
 whether it writes or keeps an argument, and checks only where one does.
 
+A function may hand back the object it was given, or a field of it.
+Assigning the result back to the same place copies nothing: the old
+value is dead once the call returns, so the object moves into the call
+and back out.
+
+```coil
+use tests::assert;
+
+fn add(Vec<int> v, int x) -> Vec<int> {
+    v.push(x);
+    return v;
+}
+
+class Log {
+    pub items: Vec<int>,
+}
+
+fn main() {
+    let v: Vec<int> = Vec::new();
+    let log = new Log(Vec::new());
+    let i = 0;
+    while i < 1000 {
+        v = add(v, i);                   // no copy
+        log.items = add(log.items, i);   // no copy
+        i += 1;
+    }
+    assert!(v.len() == 1000 && log.items.len() == 1000);
+}
+```
+
+The same holds for an element, `a[i] = f(a[i])`, when nothing else in
+the call reads `a` or `i`. When the caller keeps the argument and also
+binds the result, the two are separate values from then on: a write
+through one never shows up in the other. A result the caller only reads
+(`f(x).len()`) or drops (`let _ = f(x);`) is never copied, which is what
+makes [`HashMap::entry`](/packages/stdlib/reference/collections/map)
+updates such as `m.entry(k).and_modify(f).or_insert(init)` copy nothing.
+
 ### Asking for a shared object
 
 Write `mut` where a second name should reach the same object instead of
