@@ -193,8 +193,15 @@ Dune (1966)
 { title: Dune, year: 1966 }
 ```
 
-For anything with behaviour or a name of its own, declare a class
-(chapter 4) or an enum (chapter 5).
+A record type has no spelling of its own: you cannot write
+`{ title: string, year: int }` as a parameter, return or field type.
+Records stay local to the function that builds them (a generic
+function can still accept one, as a `T`). Error messages show the
+inferred type as `record { title: string, year: int }` to make that
+clear.
+
+For anything you pass around, or with behaviour or a name of its own,
+declare a class (chapter 4) or an enum (chapter 5).
 
 ## Type aliases
 
