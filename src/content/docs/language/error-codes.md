@@ -103,6 +103,8 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0802`–`E0803` | `UnboundedRecursion` / `StackDepthExceeded` | Retired: no longer emitted (the VM grows its stack and checks depth at run time) |
 | `E0804` | `MonomorphizeCap` | A ground call to a generic uses its shared body instead of a per-type clone: the generic instantiates itself at a growing type (polymorphic recursion), or the compile reached `--clone-budget` |
 | `E0805` | `ParLockHint` | Auto-parallelization refused a loop because of a shared escape; the hint suggests locking that resource |
+| `E0806` | `ConflictingOptHints` | Two [optimizer hints](/docs/language/opt-hints) on one function contradict each other (`#[cold]` with `#[inline]` / `#[inline(always)]` / `#[hot]`, or `#[inline(never)]` with any of those three) |
+| `E0807` | `InlineRefused` | Warning: an `#[inline(always)]` function stays a call where it cannot be inlined (recursion, a generator or task, a call through a function value); the message says why |
 | `E0900` | `IoError` | I/O failure |
 | `E0901` | `ArchiveVersionMismatch` | Stale `.ccoil` archive |
 | `E0902` | `InvalidCliFlags` | Conflicting or unknown CLI flags |
