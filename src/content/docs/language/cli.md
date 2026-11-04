@@ -20,7 +20,7 @@ subcommand they go after it: `coil compile --root ../coil-stdlib/src app.coil`.
 | `coil <file.coil>` | Compile and run. The compiled program is kept in the [build cache](#build-cache), so running it again skips compiling. |
 | `coil compile <file.coil> [-o path]` | Compile to a bytecode archive (`out.ccoil` unless `-o`). `--jit` also stores what [native code](/docs/language/native-code) is made from. |
 | `coil run <file.ccoil>` | Run a compiled archive. An archive from an incompatible runtime is rejected. An archive built with `--jit` runs as [native code](/docs/language/native-code) (`--no-jit`: on the VM). |
-| `coil package <file.coil> [-o path]` | Build a single native executable for this OS and CPU ([native code](/docs/language/native-code); `--no-aot`: the `coil-embed` runner with the program inside; `--link-static [STEM=]PATH`: link a C library statically for an `extern` block). |
+| `coil package <file.coil> [-o path]` | Build a single native executable for this OS and CPU ([native code](/docs/language/native-code); `--no-aot`: the `coil-embed` runner with the program inside; `--link-static [STEM=]PATH`: link a C library statically for an `extern` block; `--strip-symbols none|debug|all`: what the executable keeps, default `debug`). |
 | `coil test [path]` | Run every test under `path` (default `./tests`) and the examples in `///` docs. See [Test harness](/docs/language/test-harness). |
 | `coil verify <file.coil>` | Prove `requires` / `ensures` [contracts](/docs/language/contracts) with an SMT solver. |
 | `coil mutate` | Mutation testing: which small edits to your code no test notices. |

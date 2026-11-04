@@ -52,6 +52,12 @@ compiler (`cc`) to link. Where it cannot link (no `cc`, or Windows for now)
 it warns and builds the VM runner instead, which runs the same program.
 `--no-aot` builds the runner on purpose.
 
+The executable leaves out the runtime's debug info by default.
+`--strip-symbols all` also drops its symbol table (the smallest file), and
+`--strip-symbols none` keeps both, for a native debugger or profiler.
+Panic backtraces come from the program's own line table (`-g`), so they
+read the same at every level.
+
 ### Linking C libraries statically
 
 An [`extern` block](/docs/manual/tutorial/16-ffi) loads its library when
