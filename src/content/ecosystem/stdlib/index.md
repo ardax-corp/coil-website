@@ -1,7 +1,7 @@
 ---
 title: "coil-stdlib"
 description: "Userland standard library for Coil. Compiler virtual modules cover systems primitives (io, string, thread, …); this package layers .coil helpers on top."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/README.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/10a02c2caede7c8d37d455c1ade9986d75d6931e/README.md"
 ---
 # coil-stdlib
 

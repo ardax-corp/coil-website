@@ -1,7 +1,7 @@
 ---
 title: "Module catalog"
 description: "use path:: is banned (E0124). List names explicitly."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/docs/modules.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/10a02c2caede7c8d37d455c1ade9986d75d6931e/docs/modules.md"
 ---
 # Module catalog
 
@@ -80,4 +80,4 @@ package (`use json::{Json, JsonValue, JsonError};`). There is no in-tree
   call `set` / `update` on it.
 
 What the **compiler** does *not* provide as builtins:
-[not-builtins](/docs/references/not-builtins).
+[not-builtins](/docs/language/not-builtins).
