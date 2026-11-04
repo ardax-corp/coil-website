@@ -52,13 +52,37 @@ compiler (`cc`) to link. Where it cannot link (no `cc`, or Windows for now)
 it warns and builds the VM runner instead, which runs the same program.
 `--no-aot` builds the runner on purpose.
 
+### Linking C libraries statically
+
+An [`extern` block](/docs/manual/tutorial/16-ffi) loads its library when
+the program starts. A native executable can carry the library instead:
+pass its static archive with `--link-static`, and the program runs where
+no shared library is installed.
+
+```sh
+cc -c -fPIC sum.c -o sum.o && ar rcs libsum.a sum.o
+coil package app.coil -o app --allow-dload sum --dload-trusted sum --link-static libsum.a
+./app   # `extern "sum"` resolves from the executable
+```
+
+- `--link-static PATH` names the library by its file (`libsum.a` and
+  `sum.lib` are `sum`); `--link-static sum=PATH` names it yourself.
+- `--link-arg ARG` passes an argument to the linker, such as `-lm` for a
+  library the archive itself needs.
+- A statically linked library needs no `--ffi-native` entry and is not
+  looked up on the target. Compiling the `extern` block still needs
+  `--allow-dload`.
+- It works only for native executables: with `--no-aot` or `--runner`,
+  `coil package` refuses it.
+
 ## What stays on the VM
 
 The VM is always there, and a function that does not compile runs on it
 while the rest runs natively. Calls between the two cost about as much as
 an ordinary call.
 
-- Compile-time code and macros always run on the VM.
+- Compile-time code and macros always run on the VM. A `const` computed
+  while compiling is stored in the executable and restored at start.
 - `coil debug`, coverage (`coil test --coverage`) and WebAssembly builds
   run on the VM.
 - A generator whose body has a `defer` runs on the VM.
