@@ -63,3 +63,24 @@ jobs:
 
             Review the diff (new or removed pages, changed docs) and merge. Pages also re-pin their `source:` links to the synced commits.
           assignees: DaGhostman
+
+  # The playground's compiler (coil-lang `edge` wasm) is fetched at build time
+  # by scripts/sync-playground.mjs, so a redeploy is what picks up language
+  # changes. Once a day (and on demand), rebuild production through a Vercel
+  # deploy hook. Skipped until the VERCEL_DEPLOY_HOOK secret exists.
+  redeploy:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Trigger a production build
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::notice::VERCEL_DEPLOY_HOOK is not set; skipping the playground redeploy."
+            exit 0
+          fi
+          curl -fsS -X POST "$HOOK" > /dev/null
+          echo "Production build triggered."
