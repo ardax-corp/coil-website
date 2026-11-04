@@ -85,4 +85,8 @@ export default defineConfig({
     remarkPlugins: [remarkHenry, remarkChallenges, remarkSeeAlso],
     rehypePlugins: [rehypeExplicitHeadingIds, rehypeHeadingIds, rehypeHeadingAnchors, rehypeTableWrap],
   },
+  // Never inline processed <script>s: the CSP in vercel.json allows inline
+  // scripts only by hash, and the @vercel/* snippets embed build-time env
+  // (PUBLIC_VERCEL_OBSERVABILITY_*) that differs per deployment.
+  vite: { build: { assetsInlineLimit: 0 } },
 });
