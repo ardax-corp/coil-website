@@ -1,10 +1,20 @@
 # Regenerate the API reference and the package docs from the ardax-corp
-# repositories and open (or update) a PR when they changed. Builds use the
+# repositories and open (or update) a PR when they changed. Merging that PR
+# reruns this on push, finds nothing new and stops. Builds use the
 # committed snapshot, so without this the site drifts until someone runs
 # `npm run sync:reference` and `npm run sync:packages` by hand.
 name: Sync docs
 
 on:
+  # A merge here (the sync scripts or intros may have changed).
+  push:
+    branches: [main]
+  # A merge in coil-lang, coil-stdlib or a package, sent from that repo with
+  # `POST /repos/ardax-corp/coil-website/dispatches` (needs a token that can
+  # write to this repo; GITHUB_TOKEN cannot cross repositories).
+  repository_dispatch:
+    types: [docs-changed]
+  # Fallback for anything the events above miss.
   schedule:
     - cron: "17 5 * * *"
   workflow_dispatch:
