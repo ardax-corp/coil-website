@@ -18,9 +18,9 @@ subcommand they go after it: `coil compile --root ../coil-stdlib/src app.coil`.
 | Invocation | What it does |
 |------------|--------------|
 | `coil <file.coil>` | Compile and run. The compiled program is kept in the [build cache](#build-cache), so running it again skips compiling. |
-| `coil compile <file.coil> [-o path]` | Compile to a bytecode archive (`out.ccoil` unless `-o`). |
-| `coil run <file.ccoil>` | Run a compiled archive. An archive from an incompatible runtime is rejected. |
-| `coil package <file.coil> [-o path]` | Build a single executable for this OS and CPU (the `coil-embed` runner with the program inside). |
+| `coil compile <file.coil> [-o path]` | Compile to a bytecode archive (`out.ccoil` unless `-o`). `--jit` also stores what [native code](/docs/language/native-code) is made from. |
+| `coil run <file.ccoil>` | Run a compiled archive. An archive from an incompatible runtime is rejected. An archive built with `--jit` runs as [native code](/docs/language/native-code) (`--no-jit`: on the VM). |
+| `coil package <file.coil> [-o path]` | Build a single native executable for this OS and CPU ([native code](/docs/language/native-code); `--no-aot`: the `coil-embed` runner with the program inside). |
 | `coil test [path]` | Run every test under `path` (default `./tests`) and the examples in `///` docs. See [Test harness](/docs/language/test-harness). |
 | `coil verify <file.coil>` | Prove `requires` / `ensures` [contracts](/docs/language/contracts) with an SMT solver. |
 | `coil mutate` | Mutation testing: which small edits to your code no test notices. |
@@ -42,6 +42,7 @@ subcommand they go after it: `coil compile --root ../coil-stdlib/src app.coil`.
 | `-g0`, `-g1`, `-g2` | How much debug information to keep. `-g2` (the default) gives panics full locations and is needed by `coil debug` and coverage. `--strip-debug` is `-g0`. |
 | `--contracts all\|requires\|off` | Which [contract](/docs/language/contracts) checks run. |
 | `--auto-par on\|off` | Automatic fork-join of pure recursive calls and counted loops (`on` by default). `off` keeps a program sequential, for example for fair benchmark timing. |
+| `--jit` | Run the program as [native code](/docs/language/native-code). |
 | `--fold-calls on\|off` | Compute pure calls with constant arguments at compile time (`on` by default at `-O2` and above). |
 | `--clone-budget N` | Most per-type clones of generic code one compile makes (4096 by default). Past it a ground call uses the generic's shared body (warning E0804). |
 | `--comptime-read PATH`, `--comptime-net HOST`, … | What [compile-time code](/docs/language/comptime) may touch. |

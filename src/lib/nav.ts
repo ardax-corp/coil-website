@@ -105,6 +105,7 @@ export const groups: NavGroup[] = [
       { id: "language/effects", label: "Effects", hint: "`pure fn`, `uses {…}` and inferred effects." },
       { id: "language/contracts", label: "Contracts", hint: "`requires`, `ensures`, invariants and `--contracts` levels." },
       { id: "language/opt-hints", label: "Optimizer hints", hint: "`#[inline]`, `#[cold]`, `#[hot]` and the inline limits per `-O` level." },
+      { id: "language/native-code", label: "Native code", hint: "`--jit`, compiled archives and native executables from `coil package`." },
       { id: "language/memory", label: "Memory", hint: "The collector, the nursery, early freeing and `region` blocks." },
       { id: "language/permissions", label: "Permissions", hint: "`--allow-read`, `--allow-net` and the reachability check." },
       { id: "language/panic", label: "Panics", hint: "`panic` and what aborts a program." },
