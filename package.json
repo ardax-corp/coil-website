@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/sync-playground.mjs && astro build",
+    "build": "node scripts/sync-playground.mjs && astro build && node scripts/check-csp.mjs",
     "sync:playground": "node scripts/sync-playground.mjs",
     "preview": "astro preview",
     "sync:packages": "node scripts/sync-packages.mjs",
