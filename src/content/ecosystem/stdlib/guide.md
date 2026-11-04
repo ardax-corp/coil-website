@@ -1,13 +1,13 @@
 ---
 title: "coil-stdlib docs"
-description: "Userland .coil library for Coil. Language builtins and virtual modules stay in the Coil references."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/docs/README.md"
+description: "Userland .coil library for Coil. Language builtins and virtual modules stay in the Coil API reference."
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/docs/README.md"
 ---
 # coil-stdlib docs
 
 Userland `.coil` library for [Coil](https://github.com/ardax-corp/coil-lang).
 Language builtins and virtual modules stay in the
-[Coil references](https://github.com/ardax-corp/coil-website/tree/main/src/content/docs/references).
+[Coil API reference](/docs/reference).
 
 | Page | Contents |
 |------|----------|

@@ -1,0 +1,65 @@
+# Regenerate the API reference and the package docs from the ardax-corp
+# repositories and open (or update) a PR when they changed. Merging that PR
+# reruns this on push, finds nothing new and stops. Builds use the
+# committed snapshot, so without this the site drifts until someone runs
+# `npm run sync:reference` and `npm run sync:packages` by hand.
+name: Sync docs
+
+on:
+  # A merge here (the sync scripts or intros may have changed).
+  push:
+    branches: [main]
+  # A merge in coil-lang, coil-stdlib or a package, sent from that repo with
+  # `POST /repos/ardax-corp/coil-website/dispatches` (needs a token that can
+  # write to this repo; GITHUB_TOKEN cannot cross repositories).
+  repository_dispatch:
+    types: [docs-changed]
+  # Fallback for anything the events above miss.
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-docs
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Sync API reference
+        run: node scripts/sync-reference.mjs
+      - name: Sync package docs
+        run: node scripts/sync-packages.mjs
+      - name: Check for real changes
+        id: changed
+        run: |
+          git add -A src/content
+          if scripts/sync-docs-changed.sh; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Only pinned source SHAs moved; nothing to propose."
+          fi
+      - name: Open or update the sync PR
+        if: steps.changed.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: sync/docs
+          delete-branch: true
+          add-paths: src/content
+          commit-message: "docs: sync API reference and package docs"
+          title: "docs: sync API reference and package docs"
+          body: |
+            Automated run of `scripts/sync-reference.mjs` and `scripts/sync-packages.mjs` against the default branches of coil-lang, coil-stdlib and the public packages.
+
+            Review the diff (new or removed pages, changed docs) and merge. Pages also re-pin their `source:` links to the synced commits.
+          assignees: DaGhostman

@@ -81,6 +81,9 @@ function rewriteLink(url, { pkg, repo, sha, file }) {
   const frag = hash ? `#${hash}` : "";
 
   // Cross-repo GitHub links to synced docs → on-site pages.
+  // The language API reference (generated, src/content/reference/<module>/index.md).
+  const ref = base.match(/^https:\/\/github\.com\/ardax-corp\/coil-website\/(?:blob|tree)\/[^/]+\/src\/content\/reference(?:\/(.+?))?(?:\/index\.md|\.md)?\/?$/);
+  if (ref) return `/docs/reference${ref[1] ? `/${ref[1]}` : ""}${frag}`;
   const gh = base.match(/^https:\/\/github\.com\/ardax-corp\/([^/]+)\/blob\/[^/]+\/(.+)$/);
   if (gh) {
     if (gh[1] === "coil-lang") {
