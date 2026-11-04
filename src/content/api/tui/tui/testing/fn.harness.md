@@ -9,7 +9,7 @@ name: "harness"
 signature: "fn harness(Node root, int cols, int rows) -> Harness"
 import: "use tui::testing::{harness};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/testing.coil#L162"
+source: "https://github.com/ardax-corp/coil-tui/blob/611cfd9b4c061de7df4a8352a34580911bde46b9/src/tui/testing.coil#L171"
 order: 2
 ---
 

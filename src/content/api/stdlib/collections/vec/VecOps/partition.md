@@ -10,7 +10,7 @@ parent: "VecOps"
 signature: "fn partition(V xs, Item -> bool pred) -> Partitioned<Item>"
 import: "use collections::vec::{VecOps};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.coil#L92"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/vec.coil#L93"
 order: 15
 ---
 

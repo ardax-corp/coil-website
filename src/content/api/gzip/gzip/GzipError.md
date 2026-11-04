@@ -9,7 +9,7 @@ name: "GzipError"
 signature: "enum GzipError"
 import: "use gzip::{GzipError};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/src/gzip.coil#L30"
+source: "https://github.com/ardax-corp/coil-gzip/blob/d1ea79bc8f4855d21eec6bf98c1ea51e4a51044c/src/gzip.coil#L30"
 order: 0
 ---
 

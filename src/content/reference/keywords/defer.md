@@ -1,28 +1,29 @@
 ---
 slug: "keywords/defer"
 title: "defer"
-description: "Schedules a block to run when the enclosing function exits."
+description: "Schedules a block to run when the enclosing block ends."
 module: "keywords"
 kind: "keyword"
 name: "defer"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/keywords.md#L753"
-order: 31
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/keywords.md#L778"
+order: 32
 ---
 
-Schedules a block to run when the enclosing function exits.
+Schedules a block to run when the enclosing block ends.
 
-Deferred blocks run on every return, on falling off the end, and while a
-panic or task cancellation unwinds, in reverse order of the `defer`
-statements that were reached. The block sees outer locals only when they
-are listed in `defer use (…)`.
+Deferred blocks run when their block ends: on falling off its end, on a
+`return`, on a `break` or `continue` that leaves it, and while a panic or
+task cancellation unwinds. The defers of one block run in reverse order of
+the `defer` statements that were reached, and an inner block's run before
+an outer one's. A `defer` in a loop body runs at the end of every
+iteration.
 
-A `defer` belongs to its function, not to the block or loop it sits in.
-Each `defer` statement is queued at most once per call: inside a loop it
-runs once, when the function exits, however many iterations reached it
-(warning E0147). For cleanup per iteration, move the loop body into a
-function with its own `defer`.
+The block sees outer locals only when they are listed in `defer use (…)`.
+As with a lambda, each one is copied when the `defer` statement runs: a
+later assignment is not seen. `use (mut x)` borrows `x` instead, so the
+block sees its value when it runs and its writes reach `x`.
 
 A deferred block cannot choose another way out: `return`, `raise`, `?`, and
 a `break` or `continue` that would leave the block are errors (E0146).
@@ -34,7 +35,7 @@ skipped.
 ```coil
 fn work(Vec<string> log) -> int {
     log.push("start");
-    defer use (log) {
+    defer use (mut log) {
         log.push("cleanup");
     }
     return log.len(); // 1: the defer runs after the value is computed

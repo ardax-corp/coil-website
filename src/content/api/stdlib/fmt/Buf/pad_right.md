@@ -10,7 +10,7 @@ parent: "Buf"
 signature: "pub fn pad_right(int width, string fill) -> Buf"
 import: "use fmt::{Buf};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/fmt.coil#L95"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/fmt.coil#L95"
 order: 6
 ---
 

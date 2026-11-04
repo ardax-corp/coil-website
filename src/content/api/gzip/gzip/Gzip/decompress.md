@@ -10,7 +10,7 @@ parent: "Gzip"
 signature: "pub static fn decompress(Vec<byte> data) -> Result<Vec<byte>, GzipError>"
 import: "use gzip::{Gzip};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/src/gzip.coil#L301"
+source: "https://github.com/ardax-corp/coil-gzip/blob/d1ea79bc8f4855d21eec6bf98c1ea51e4a51044c/src/gzip.coil#L301"
 order: 1
 ---
 

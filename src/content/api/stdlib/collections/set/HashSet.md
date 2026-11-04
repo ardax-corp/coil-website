@@ -9,20 +9,20 @@ name: "HashSet"
 signature: "class HashSet<T>"
 import: "use collections::set::{HashSet};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/set.coil#L20"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/set.coil#L20"
 order: 0
 ---
 
 A set of unique values.
 
-Values need [`Eq`](/docs/reference/prelude/ops/Eq) and `Hash`. Backed by a `HashMap<T, bool>`.
+Values need [`Eq`](/docs/reference/prelude/ops/Eq) and `Hash`. Backed by a `KeyIndex<T>`.
 
 ## Associated functions
 
 | Name | Description |
 |------|-------------|
-| [`with_capacity`](/packages/stdlib/reference/collections/set/HashSet/with_capacity) | Create a set with bucket count rounded up to the next power of two (min 8). |
-| [`new`](/packages/stdlib/reference/collections/set/HashSet/new) | Empty set with default capacity 8. |
+| [`with_capacity`](/packages/stdlib/reference/collections/set/HashSet/with_capacity) | Creates an empty set with room for `cap` values before it grows. |
+| [`new`](/packages/stdlib/reference/collections/set/HashSet/new) | Creates an empty set. |
 
 ## Methods
 

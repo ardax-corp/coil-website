@@ -10,13 +10,13 @@ parent: "TreeMap"
 signature: "pub fn iter() -> TreeMapIter<K, V>"
 import: "use collections::tree::{TreeMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/tree.coil#L109"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/tree.coil#L109"
 order: 5
 ---
 
 Returns an iterator over the entries in ascending key order.
 
-`for e in m` does the same; each item is an [`Entry`](/packages/stdlib/reference/collections/tree/Entry) with `key` and `value`.
+`for e in m` does the same; each item is a [`Pair`](/packages/stdlib/reference/collections/tree/Pair) with `key` and `value`.
 
 Called on a `TreeMap` value as `value.iter(…)`.
 
@@ -26,7 +26,7 @@ Called on a `TreeMap` value as `value.iter(…)`.
 
 ## See also
 
-- [`collections::tree::Entry`](/packages/stdlib/reference/collections/tree/Entry)
+- [`collections::tree::Pair`](/packages/stdlib/reference/collections/tree/Pair)
 - [`TreeMap`](/packages/stdlib/reference/collections/tree/TreeMap): An ordered map from keys of type `K` to values of type `V`.
 - [`TreeMap::new`](/packages/stdlib/reference/collections/tree/TreeMap/new): Creates an empty map.
 - [`TreeMap::empty`](/packages/stdlib/reference/collections/tree/TreeMap/empty): Creates an empty map; the same as `TreeMap::new`.

@@ -10,7 +10,7 @@ parent: "Harness"
 signature: "pub fn wheel(int x, int y, bool up) -> bool"
 import: "use tui::testing::{Harness};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/testing.coil#L228"
+source: "https://github.com/ardax-corp/coil-tui/blob/611cfd9b4c061de7df4a8352a34580911bde46b9/src/tui/testing.coil#L237"
 order: 8
 ---
 

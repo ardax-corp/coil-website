@@ -9,7 +9,7 @@ name: "ct_eq"
 signature: "fn ct_eq(Vec<byte> a, Vec<byte> b) -> bool"
 import: "use crypto::{ct_eq};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.coil#L775"
+source: "https://github.com/ardax-corp/coil-crypto/blob/0f059437ce1964f08ad14012792b3c7852d57b79/src/crypto.coil#L775"
 order: 24
 ---
 

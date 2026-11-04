@@ -8,7 +8,7 @@ name: "blocking"
 signature: "fn blocking<T>(unit -> T work) -> Result<T, ThreadError>"
 import: "use task::{blocking};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/task.coil#L430"
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/prelude/task.coil#L431"
 order: 10
 ---
 
@@ -29,7 +29,8 @@ follows [`thread::spawn`](/docs/reference/thread/spawn)'s rules: it cannot captu
 
 ## Errors
 
-The `ThreadError` from starting or joining the thread.
+The `ThreadError` from starting or joining the thread:
+`ThreadError::Panicked(message)` when `work` panicked.
 
 ## See also
 

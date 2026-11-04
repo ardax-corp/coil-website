@@ -8,7 +8,7 @@ name: "is_symlink"
 signature: "fn is_symlink(string path) -> Result<bool, IoError>"
 import: "use io::fs::{is_symlink};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/fs.coil#L176"
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io/fs.coil#L176"
 order: 6
 ---
 

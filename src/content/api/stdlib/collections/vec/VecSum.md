@@ -9,7 +9,7 @@ name: "VecSum"
 signature: "trait VecSum<V>"
 import: "use collections::vec::{VecSum};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.coil#L470"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/vec.coil#L471"
 order: 4
 ---
 
@@ -41,3 +41,4 @@ assert!(xs.sum() == 6 && fs.sum() == 0.75);
 - [`VecOps`](/packages/stdlib/reference/collections/vec/VecOps): Methods on any `Vec<T>`.
 - [`VecEq`](/packages/stdlib/reference/collections/vec/VecEq): Methods on a `Vec<T>` whose elements are [`Eq`].
 - [`VecOrd`](/packages/stdlib/reference/collections/vec/VecOrd): Methods on a `Vec<T>` whose elements are [`Ord`].
+- [`VecSlots`](/packages/stdlib/reference/collections/vec/VecSlots): `slot(i)` on any `Vec<T>`: the place of element `i`, which panics when `i` is out of range as `xs[i]` does.

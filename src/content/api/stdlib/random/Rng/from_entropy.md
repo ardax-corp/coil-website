@@ -10,7 +10,7 @@ parent: "Rng"
 signature: "pub static fn from_entropy() -> Rng"
 import: "use random::{Rng};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/c82d918049771e627c6139be8c1c1fa5a6a4642f/src/random.coil#L58"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/random.coil#L58"
 order: 1
 ---
 

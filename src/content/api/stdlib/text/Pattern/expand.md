@@ -10,8 +10,8 @@ parent: "Pattern"
 signature: "fn expand(P pat, string template) -> string"
 import: "use text::{Pattern};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/text.coil#L488"
-order: 3
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/text.coil#L497"
+order: 4
 ---
 
 Returns the replacement text for the match [`find_in`](/packages/stdlib/reference/text/Pattern/find_in) just returned.
@@ -36,3 +36,4 @@ The default is `template` itself. A regex substitutes its captures
 - [`Pattern`](/packages/stdlib/reference/text/Pattern): Something a [`Searchable`] value can be searched for: a plain `string` (matched literally), or a type such as coil-regex's `Regex`.
 - [`Pattern::is_prefix_of`](/packages/stdlib/reference/text/Pattern/is_prefix_of): Returns `true` when a match starts at the beginning of `hay`.
 - [`Pattern::is_suffix_of`](/packages/stdlib/reference/text/Pattern/is_suffix_of): Returns `true` when a match ends at the end of `hay`.
+- [`Pattern::split_of`](/packages/stdlib/reference/text/Pattern/split_of): Returns the pieces of `hay` between the matches of `pat`, as [`Searchable::split`] gives them.

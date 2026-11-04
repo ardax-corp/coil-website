@@ -8,7 +8,7 @@ kind: "module"
 name: "io"
 origin: "stdlib"
 auto: false
-order: 27
+order: 28
 ---
 
 The streams themselves ([`Stream`](/docs/reference/io/Stream), [`open`](/docs/reference/io/open), [`read`](/docs/reference/io/fn.read), [`write`](/docs/reference/io/fn.write)) are the compiler's [`io`](/docs/reference/io) module; these submodules are coil-stdlib code built on top of it.

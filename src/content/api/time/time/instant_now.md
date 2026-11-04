@@ -9,7 +9,7 @@ name: "instant_now"
 signature: "fn instant_now() -> Instant"
 import: "use time::{instant_now};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.coil#L911"
+source: "https://github.com/ardax-corp/coil-time/blob/6234dcab24f4fd5cc26bd37373e7645e3fb0791e/src/time.coil#L911"
 order: 8
 ---
 

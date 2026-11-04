@@ -9,7 +9,7 @@ name: "TreeMapIter"
 signature: "class TreeMapIter<K, V>"
 import: "use collections::tree::{TreeMapIter};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/tree.coil#L54"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/tree.coil#L54"
 order: 2
 ---
 
@@ -29,4 +29,4 @@ An in-order iterator over a [`TreeMap`](/packages/stdlib/reference/collections/t
 
 - [`collections::tree::TreeMap`](/packages/stdlib/reference/collections/tree/TreeMap)
 - [`TreeMap::iter`](/packages/stdlib/reference/collections/tree/TreeMap/iter)
-- [`Entry`](/packages/stdlib/reference/collections/tree/Entry): One key-value pair, as `TreeMap` iteration yields it.
+- [`Pair`](/packages/stdlib/reference/collections/tree/Pair): One key-value pair, as `TreeMap` iteration yields it.

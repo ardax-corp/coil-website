@@ -8,7 +8,7 @@ kind: "module"
 name: "collections::vec"
 origin: "stdlib"
 auto: false
-order: 11
+order: 12
 ---
 
 These are free functions that take the vector first: `map(xs, f)`. The methods on [`Vec`](/docs/reference/prelude/Vec) itself (`push`, `pop`, `len`, …) are in the [prelude](/docs/reference/prelude/Vec).
@@ -35,3 +35,4 @@ use collections::vec::{Partitioned, VecOps};
 | [`VecEq`](/packages/stdlib/reference/collections/vec/VecEq) | Methods on a [`Vec<T>`](/docs/reference/prelude/Vec) whose elements are [[`Eq`](/docs/reference/prelude/ops/Eq)]. |
 | [`VecOrd`](/packages/stdlib/reference/collections/vec/VecOrd) | Methods on a [`Vec<T>`](/docs/reference/prelude/Vec) whose elements are [[`Ord`](/docs/reference/prelude/ops/Ord)]. |
 | [`VecSum`](/packages/stdlib/reference/collections/vec/VecSum) | `xs.sum()` on [`Vec<int>`](/docs/reference/prelude/Vec) and [`Vec<float>`](/docs/reference/prelude/Vec); an empty vector sums to zero. |
+| [`VecSlots`](/packages/stdlib/reference/collections/vec/VecSlots) | `slot(i)` on any [`Vec<T>`](/docs/reference/prelude/Vec): the place of element `i`, which panics when `i` is out of range as `xs[i]` does. |

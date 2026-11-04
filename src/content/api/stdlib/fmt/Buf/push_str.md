@@ -10,7 +10,7 @@ parent: "Buf"
 signature: "pub fn push_str(string s)"
 import: "use fmt::{Buf};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/fmt.coil#L29"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/fmt.coil#L29"
 order: 1
 ---
 

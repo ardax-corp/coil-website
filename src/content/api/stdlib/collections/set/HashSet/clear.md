@@ -10,7 +10,7 @@ parent: "HashSet"
 signature: "pub fn clear()"
 import: "use collections::set::{HashSet};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/set.coil#L46"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/set.coil#L46"
 order: 4
 ---
 
@@ -21,8 +21,8 @@ Called on a `HashSet` value as `value.clear(…)`.
 ## See also
 
 - [`HashSet`](/packages/stdlib/reference/collections/set/HashSet): A set of unique values.
-- [`HashSet::with_capacity`](/packages/stdlib/reference/collections/set/HashSet/with_capacity): Create a set with bucket count rounded up to the next power of two (min 8).
-- [`HashSet::new`](/packages/stdlib/reference/collections/set/HashSet/new): Empty set with default capacity 8.
+- [`HashSet::with_capacity`](/packages/stdlib/reference/collections/set/HashSet/with_capacity): Creates an empty set with room for `cap` values before it grows.
+- [`HashSet::new`](/packages/stdlib/reference/collections/set/HashSet/new): Creates an empty set.
 - [`HashSet::len`](/packages/stdlib/reference/collections/set/HashSet/len): Number of elements.
 - [`HashSet::is_empty`](/packages/stdlib/reference/collections/set/HashSet/is_empty): Returns `true` when the set has no values.
 - [`HashSet::insert`](/packages/stdlib/reference/collections/set/HashSet/insert): Insert `x`; returns `true` when newly added.

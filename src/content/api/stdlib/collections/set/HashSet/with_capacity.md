@@ -2,7 +2,7 @@
 slug: "stdlib/collections/set/HashSet/with_capacity"
 package: "stdlib"
 title: "HashSet::with_capacity"
-description: "Create a set with bucket count rounded up to the next power of two (min 8)."
+description: "Creates an empty set with room for cap values before it grows."
 module: "collections::set"
 kind: "static method"
 name: "with_capacity"
@@ -10,11 +10,11 @@ parent: "HashSet"
 signature: "pub static fn with_capacity(int cap) -> HashSet<T>"
 import: "use collections::set::{HashSet};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/set.coil#L26"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/set.coil#L26"
 order: 0
 ---
 
-Create a set with bucket count rounded up to the next power of two (min 8).
+Creates an empty set with room for `cap` values before it grows.
 
 ## Parameters
 
@@ -29,7 +29,7 @@ Create a set with bucket count rounded up to the next power of two (min 8).
 ## See also
 
 - [`HashSet`](/packages/stdlib/reference/collections/set/HashSet): A set of unique values.
-- [`HashSet::new`](/packages/stdlib/reference/collections/set/HashSet/new): Empty set with default capacity 8.
+- [`HashSet::new`](/packages/stdlib/reference/collections/set/HashSet/new): Creates an empty set.
 - [`HashSet::len`](/packages/stdlib/reference/collections/set/HashSet/len): Number of elements.
 - [`HashSet::is_empty`](/packages/stdlib/reference/collections/set/HashSet/is_empty): Returns `true` when the set has no values.
 - [`HashSet::clear`](/packages/stdlib/reference/collections/set/HashSet/clear): Remove all elements.

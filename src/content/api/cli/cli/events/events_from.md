@@ -9,7 +9,7 @@ name: "events_from"
 signature: "fn events_from(Stream input, Stream output) -> Events"
 import: "use cli::events::{events_from};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/events.coil#L61"
+source: "https://github.com/ardax-corp/coil-cli/blob/05669fce32782c1a5cb55fb2ecff2e1215cd0bfc/src/cli/events.coil#L61"
 order: 2
 ---
 

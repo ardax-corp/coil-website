@@ -11,7 +11,7 @@ auto: false
 order: 4
 ---
 
-The collection types live in submodules: [`HashMap`](/packages/stdlib/reference/collections/map/HashMap), [`HashSet`](/packages/stdlib/reference/collections/set/HashSet), [`TreeMap`](/packages/stdlib/reference/collections/tree/TreeMap), [`VecDeque`](/packages/stdlib/reference/collections/deque/VecDeque), [`List`](/packages/stdlib/reference/collections/list/List), [`BitSet`](/packages/stdlib/reference/collections/bitset/BitSet) and [`KeyIndex`](/packages/stdlib/reference/collections/index/KeyIndex), the insertion-ordered key numbering `HashMap` and `HashSet` are built on. [`Vec`](/docs/reference/prelude/Vec) itself is in the [prelude](/docs/reference/prelude/Vec); its functional helpers ([`map`](/packages/stdlib/reference/collections/map), `filter`, `fold`, …) are in [`collections::vec`](/packages/stdlib/reference/collections/vec).
+The collection types live in submodules: [`HashMap`](/packages/stdlib/reference/collections/map/HashMap), [`HashSet`](/packages/stdlib/reference/collections/set/HashSet), [`TreeMap`](/packages/stdlib/reference/collections/tree/TreeMap), [`VecDeque`](/packages/stdlib/reference/collections/deque/VecDeque), [`List`](/packages/stdlib/reference/collections/list/List) and [`BitSet`](/packages/stdlib/reference/collections/bitset/BitSet). [`Vec`](/docs/reference/prelude/Vec) itself is in the [prelude](/docs/reference/prelude/Vec); its functional helpers ([`map`](/packages/stdlib/reference/collections/map), `filter`, `fold`, …) are in [`collections::vec`](/packages/stdlib/reference/collections/vec).
 
 Part of [coil-stdlib](/packages/stdlib), not the compiler. spool projects declare it as their `stdlib` dependency (`spool new` adds it); with plain `coil`, pass `--root` with the `src` of a coil-stdlib checkout.
 
@@ -27,6 +27,7 @@ use collections::{sort, sort_by};
 |--------|-------------|
 | [`collections::bitset`](/packages/stdlib/reference/collections/bitset) | BitSet: a compact set of small non-negative integers. |
 | [`collections::deque`](/packages/stdlib/reference/collections/deque) | VecDeque: a double-ended queue with fast push and pop at both ends. |
+| [`collections::index`](/packages/stdlib/reference/collections/index) |  |
 | [`collections::list`](/packages/stdlib/reference/collections/list) | List: a singly-linked list. |
 | [`collections::map`](/packages/stdlib/reference/collections/map) | HashMap: a hash map from keys to values. |
 | [`collections::set`](/packages/stdlib/reference/collections/set) | HashSet: a set of unique values. |

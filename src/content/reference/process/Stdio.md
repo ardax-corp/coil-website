@@ -8,7 +8,7 @@ name: "Stdio"
 signature: "enum Stdio"
 import: "use process::{Stdio};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/prelude/process.coil#L10"
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/prelude/process.coil#L10"
 order: 0
 ---
 

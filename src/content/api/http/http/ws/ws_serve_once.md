@@ -9,14 +9,16 @@ name: "ws_serve_once"
 signature: "fn ws_serve_once(Server srv) -> Result<WsConn, HttpError>"
 import: "use http::ws::{ws_serve_once};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/ws.coil#L896"
+source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/ws.coil#L899"
 order: 25
 ---
 
 Accepts one connection on `srv`, reads its HTTP/1.1 request and completes the WebSocket upgrade.
 
-Cleartext only: `Server::tls` is not applied here. Returns `Io(InvalidInput)`
-when `srv` is not bound and `Protocol` when the request is not an upgrade.
+With `Server::tls` set, the accepted connection does a TLS handshake first
+(`wss://`). Returns `Io(InvalidInput)` when `srv` is not bound, `Io` when
+accepting fails, `Tls` when the handshake fails and `Protocol` when the request
+is not an upgrade.
 
 ## Parameters
 

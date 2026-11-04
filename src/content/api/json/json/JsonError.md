@@ -9,7 +9,7 @@ name: "JsonError"
 signature: "enum JsonError"
 import: "use json::{JsonError};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/src/json.coil#L144"
+source: "https://github.com/ardax-corp/coil-json/blob/7656cabca9b22bca27c2968e9781a6eb6b45132a/src/json.coil#L225"
 order: 1
 ---
 
@@ -33,8 +33,8 @@ back as a [`string`](/docs/reference/types/string) ([`Json::encode_str`](/packag
 
 ### `Number { line: int, column: int }` {#variant-number}
 
-A number overflows, or a float is not finite (JSON has no `inf` or
-`NaN`).
+A number is too large for a finite float (JSON has no `inf` or
+`NaN`). An integer too large for [`int`](/docs/reference/types/int) decodes as a float instead.
 
 ## Examples
 
@@ -56,3 +56,4 @@ assert!(pos == "invalid at 2:4");
 
 - [`string`](/docs/reference/types/string)
 - [`Json::encode_str`](/packages/json/reference/json/Json/encode_str)
+- [`int`](/docs/reference/types/int)

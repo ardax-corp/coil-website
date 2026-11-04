@@ -1,7 +1,7 @@
 ---
 title: "coil-csv"
 description: "RFC 4180 CSV for coil, written in plain Coil (no native library, no FFI). The package name is csv: use csv::{parse, stringify, Csv, CsvError}."
-source: "https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/README.md"
+source: "https://github.com/ardax-corp/coil-csv/blob/ca3194324974e188ecdb6a5d3840175387c4bce0/README.md"
 ---
 # coil-csv
 
@@ -49,7 +49,7 @@ coil --root ../coil-stdlib/src --root ../coil-csv/src main.coil
 
 `parse` reads comma-separated fields, `\n` or `\r\n` records, quoted fields and `""` escapes. One trailing line break is ignored. Rows may differ in length, and there is no header handling: the header is `rows[0]`. Bad input returns a `CsvError`, never a panic.
 
-Every public item has `///` docs with examples in [`src/csv.coil`](https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/src/csv.coil).
+Every public item has `///` docs with examples in [`src/csv.coil`](https://github.com/ardax-corp/coil-csv/blob/ca3194324974e188ecdb6a5d3840175387c4bce0/src/csv.coil).
 
 ## Layout
 
@@ -76,4 +76,4 @@ coil test --root ../coil-stdlib/src src      # doc examples
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-csv/tree/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-csv/tree/ca3194324974e188ecdb6a5d3840175387c4bce0/LICENSE).
