@@ -31,5 +31,5 @@ use tui::widgets::dialog::{Popup, dialog};
 |------|-------------|
 | [`dialog`](/packages/tui/reference/tui/widgets/dialog/dialog) | A titled, bordered dialog: `body` above a row of `buttons` (right aligned). |
 | [`alert`](/packages/tui/reference/tui/widgets/dialog/alert) | Open a message box with an OK button. |
-| [`confirm`](/packages/tui/reference/tui/widgets/dialog/confirm) | Ask a yes/no question in a dialog; `answer` gets true for Yes, false for No. |
+| [`confirm`](/packages/tui/reference/tui/widgets/dialog/confirm) | Ask a yes/no question in a dialog; `answer` gets true for Yes, false for No and for Esc, which closes the dialog. |
 | [`menu`](/packages/tui/reference/tui/widgets/dialog/menu) | Open a popup menu at (`x`, `y`): Enter or a click on an item closes it and calls `pick` with the item's index; Esc closes it. |

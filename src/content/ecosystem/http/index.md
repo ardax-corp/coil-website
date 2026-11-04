@@ -1,7 +1,7 @@
 ---
 title: "coil-http"
 description: "HTTP/1.1 and HTTP/2 client and server, plus WebSocket, for Coil. Extracted from coil-stdlib with a class-oriented API, connection pooling, and an extensible server handler trait."
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/README.md"
+source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/README.md"
 ---
 # coil-http
 
@@ -112,4 +112,4 @@ Every public item has `///` docs with examples. See [docs/](/packages/http/guide
 
 ## License
 
-MIT — see [LICENSE](https://github.com/ardax-corp/coil-http/tree/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/LICENSE).
+MIT — see [LICENSE](https://github.com/ardax-corp/coil-http/tree/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/LICENSE).

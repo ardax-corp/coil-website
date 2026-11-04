@@ -9,7 +9,7 @@ name: "blocks"
 signature: "fn blocks() -> BarStyle"
 import: "use cli::progress::{blocks};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/progress.coil#L32"
+source: "https://github.com/ardax-corp/coil-cli/blob/05669fce32782c1a5cb55fb2ecff2e1215cd0bfc/src/cli/progress.coil#L32"
 order: 3
 ---
 

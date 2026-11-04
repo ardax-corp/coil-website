@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-crypto"
 description: "This package is crypto. use crypto::{sha256} resolves from this repo's src/. RustCrypto lives in libcrypto.so / .dylib / crypto.dll. extern \"crypto\" in src/crypto.coil already…"
-source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-crypto/blob/0f059437ce1964f08ad14012792b3c7852d57b79/docs/consume.md"
 ---
 # Consuming coil-crypto
 

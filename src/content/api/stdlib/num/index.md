@@ -8,7 +8,7 @@ kind: "module"
 name: "num"
 origin: "stdlib"
 auto: false
-order: 21
+order: 22
 ---
 
 Float functions such as `sqrt` and `sin` are in [`math`](/packages/stdlib/reference/math); this module adds the rest. Powers are the `**` operator.

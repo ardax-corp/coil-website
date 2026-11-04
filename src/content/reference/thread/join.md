@@ -8,15 +8,15 @@ name: "join"
 signature: "fn join<T>(Thread<T> t) -> Result<T, ThreadError>"
 import: "use thread::{join};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.coil#L306"
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/thread.coil#L308"
 order: 9
 ---
 
 Waits for the thread to finish and returns the value its function returned.
 
 Returns `Err(ThreadError::JoinFailed)` if the thread was already joined
-or detached, or if its function panicked (the panic message is printed to
-stderr). Inside a [`task::scope`](/docs/reference/task/fn.scope), only the joining task waits; other tasks
+or detached, and `Err(ThreadError::Panicked(message))` if its function
+panicked (the panic is also printed to stderr). Inside a [`task::scope`](/docs/reference/task/fn.scope), only the joining task waits; other tasks
 keep running.
 
 ## Parameters

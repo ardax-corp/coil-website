@@ -8,7 +8,7 @@ kind: "module"
 name: "math"
 origin: "stdlib"
 auto: false
-order: 19
+order: 20
 ---
 
 The float functions, written in Coil itself rather than as host natives:

@@ -10,7 +10,7 @@ parent: "RadioGroup"
 signature: "pub fn on_change(fn(int, Ctx) -> () f) -> RadioGroup"
 import: "use tui::widgets::input::{RadioGroup};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/widgets/input.coil#L211"
+source: "https://github.com/ardax-corp/coil-tui/blob/611cfd9b4c061de7df4a8352a34580911bde46b9/src/tui/widgets/input.coil#L211"
 order: 1
 ---
 

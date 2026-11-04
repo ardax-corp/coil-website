@@ -9,7 +9,7 @@ name: "crc32"
 signature: "fn crc32(Vec<byte> data) -> int"
 import: "use gzip::{crc32};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/src/gzip.coil#L74"
+source: "https://github.com/ardax-corp/coil-gzip/blob/d1ea79bc8f4855d21eec6bf98c1ea51e4a51044c/src/gzip.coil#L74"
 order: 2
 ---
 

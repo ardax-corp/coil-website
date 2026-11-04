@@ -10,7 +10,7 @@ parent: "Msgpack"
 signature: "pub fn encode_str(MsgpackValue value) -> Result<string, MsgpackError>"
 import: "use msgpack::{Msgpack};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/src/msgpack.coil#L1580"
+source: "https://github.com/ardax-corp/coil-msgpack/blob/d4bbea9d2025672c7051197559461ba467a0c8b0/src/msgpack.coil#L1580"
 order: 3
 ---
 

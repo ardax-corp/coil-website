@@ -7,7 +7,7 @@ kind: "module"
 name: "types"
 origin: "builtin"
 auto: true
-order: 21
+order: 23
 ---
 
 The primitive types are always in scope. Arithmetic on [`int`](/docs/reference/types/int) is checked:

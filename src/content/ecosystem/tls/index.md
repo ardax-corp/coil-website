@@ -1,7 +1,7 @@
 ---
 title: "coil-tls"
 description: "TLS for coil streams. tls::client::enable and tls::server::enable upgrade a TCP Stream to TLS in place, so the same stream's read / write are then encrypted; tls::alpnprotocol…"
-source: "https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/README.md"
+source: "https://github.com/ardax-corp/coil-tls/blob/7e2e118089854b5d182a3330bc1289849fcc581c/README.md"
 ---
 # coil-tls
 
@@ -64,7 +64,7 @@ coil --root ../coil-tls/src --root ../coil-stdlib/src --ffi-search-path ../coil-
   --allow-dload tls --dload-trusted tls --allow-attach --allow-net main.coil
 ```
 
-A client and server handshake over loopback is in [examples/loopback.coil](https://github.com/ardax-corp/coil-tls/blob/8eb103338d9385609c0e75d08c5fc5c9b86015a6/examples/loopback.coil).
+A client and server handshake over loopback is in [examples/loopback.coil](https://github.com/ardax-corp/coil-tls/blob/7e2e118089854b5d182a3330bc1289849fcc581c/examples/loopback.coil).
 
 ## Build
 
@@ -86,4 +86,4 @@ Consume with `spool add tls --git https://github.com/ardax-corp/coil-tls.git --r
 
 ## License
 
-MIT — see [LICENSE](https://github.com/ardax-corp/coil-tls/tree/8eb103338d9385609c0e75d08c5fc5c9b86015a6/LICENSE).
+MIT — see [LICENSE](https://github.com/ardax-corp/coil-tls/tree/7e2e118089854b5d182a3330bc1289849fcc581c/LICENSE).

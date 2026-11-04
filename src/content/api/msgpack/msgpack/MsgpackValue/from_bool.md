@@ -10,7 +10,7 @@ parent: "MsgpackValue"
 signature: "pub static fn from_bool(bool flag) -> MsgpackValue"
 import: "use msgpack::{MsgpackValue};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-msgpack/blob/5b073ea8d83d5b051d57bdf030ec80a385e25add/src/msgpack.coil#L329"
+source: "https://github.com/ardax-corp/coil-msgpack/blob/d4bbea9d2025672c7051197559461ba467a0c8b0/src/msgpack.coil#L329"
 order: 1
 ---
 

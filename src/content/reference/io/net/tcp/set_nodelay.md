@@ -8,7 +8,7 @@ name: "set_nodelay"
 signature: "fn set_nodelay(Stream s, bool enabled) -> Result<unit, IoError>"
 import: "use io::net::tcp::{set_nodelay};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io/net/tcp.coil#L231"
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io/net/tcp.coil#L231"
 order: 6
 ---
 

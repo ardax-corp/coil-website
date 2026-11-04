@@ -9,7 +9,7 @@ name: "Request"
 signature: "class Request"
 import: "use http::request::{Request};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/request.coil#L64"
+source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/request.coil#L66"
 order: 0
 ---
 
@@ -20,8 +20,8 @@ Build one with [`Request::new`](/packages/http/reference/http/request/Request/ne
 `Client::post` build one for you.
 
 The client writes `Host`, `Content-Length` and `Connection` itself: fields with
-those names added through [`header`](/packages/http/reference/http/request/Request/header) are dropped. A header name or value that
-holds CR / LF makes `send` return `InvalidHeader`.
+those names (compared case-insensitively) added through [`header`](/packages/http/reference/http/request/Request/header) are dropped.
+A header name or value that holds CR / LF makes `send` return `InvalidHeader`.
 
 ## Fields
 

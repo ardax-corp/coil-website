@@ -9,7 +9,7 @@ name: "canvas"
 signature: "fn canvas(Frame f) -> Canvas"
 import: "use tui::canvas::{canvas};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/canvas.coil#L69"
+source: "https://github.com/ardax-corp/coil-tui/blob/611cfd9b4c061de7df4a8352a34580911bde46b9/src/tui/canvas.coil#L69"
 order: 3
 ---
 

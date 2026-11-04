@@ -9,7 +9,7 @@ name: "to_upper"
 signature: "fn to_upper(byte c) -> byte"
 import: "use ascii::{to_upper};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/ascii.coil#L60"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/ascii.coil#L60"
 order: 8
 ---
 

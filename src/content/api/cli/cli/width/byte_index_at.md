@@ -9,7 +9,7 @@ name: "byte_index_at"
 signature: "fn byte_index_at(string s, int cols) -> int"
 import: "use cli::width::{byte_index_at};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/width.coil#L645"
+source: "https://github.com/ardax-corp/coil-cli/blob/05669fce32782c1a5cb55fb2ecff2e1215cd0bfc/src/cli/width.coil#L645"
 order: 6
 ---
 

@@ -9,7 +9,7 @@ name: "reverse"
 signature: "fn reverse<T>(Vec<T> arr) -> Vec<T>"
 import: "use collections::{reverse};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections.coil#L186"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections.coil#L186"
 order: 2
 ---
 

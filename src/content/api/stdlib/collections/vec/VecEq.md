@@ -9,7 +9,7 @@ name: "VecEq"
 signature: "trait VecEq<V>"
 import: "use collections::vec::{VecEq};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.coil#L321"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/vec.coil#L322"
 order: 2
 ---
 
@@ -45,3 +45,4 @@ assert!(xs.dedup().len() == 2);
 - [`VecOps`](/packages/stdlib/reference/collections/vec/VecOps): Methods on any `Vec<T>`.
 - [`VecOrd`](/packages/stdlib/reference/collections/vec/VecOrd): Methods on a `Vec<T>` whose elements are [`Ord`].
 - [`VecSum`](/packages/stdlib/reference/collections/vec/VecSum): `xs.sum()` on `Vec<int>` and `Vec<float>`; an empty vector sums to zero.
+- [`VecSlots`](/packages/stdlib/reference/collections/vec/VecSlots): `slot(i)` on any `Vec<T>`: the place of element `i`, which panics when `i` is out of range as `xs[i]` does.

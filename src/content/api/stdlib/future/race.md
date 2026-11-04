@@ -9,7 +9,7 @@ name: "race"
 signature: "fn race<T>(Vec<unit -> T> bodies) -> Result<T, TaskError>"
 import: "use future::{race};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/future.coil#L438"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/future.coil#L438"
 order: 5
 ---
 

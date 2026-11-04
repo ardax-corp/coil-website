@@ -8,7 +8,7 @@ name: "fn_key"
 signature: "fn fn_key() -> int"
 import: "use symbol::{fn_key};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/symbol.coil#L41"
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/symbol.coil#L41"
 order: 0
 ---
 

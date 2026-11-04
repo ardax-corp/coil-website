@@ -9,7 +9,7 @@ name: "compress"
 signature: "fn compress(Vec<byte> data) -> Result<Vec<byte>, DeflateError>"
 import: "use deflate::{compress};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-deflate/blob/37456ec7936e9b8736b968aa3d0c702d47c36c56/src/deflate.coil#L794"
+source: "https://github.com/ardax-corp/coil-deflate/blob/03a5fb90cfb42ef1c20403939890cf4995f32e32/src/deflate.coil#L794"
 order: 2
 ---
 

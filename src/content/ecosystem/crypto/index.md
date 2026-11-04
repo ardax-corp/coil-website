@@ -1,7 +1,7 @@
 ---
 title: "coil-crypto"
 description: "Userland cryptography for coil. RustCrypto lives in a cdylib (libcrypto.so / .dylib / .dll) plus Coil wrappers. use crypto::{…} is this package, not a compiler builtin."
-source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/README.md"
+source: "https://github.com/ardax-corp/coil-crypto/blob/0f059437ce1964f08ad14012792b3c7852d57b79/README.md"
 ---
 # coil-crypto
 
@@ -67,4 +67,4 @@ Consume with `spool add crypto --git https://github.com/ardax-corp/coil-crypto.g
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-crypto/tree/d016857a83ab00e5c4f0397570843be1b851a191/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-crypto/tree/0f059437ce1964f08ad14012792b3c7852d57b79/LICENSE).

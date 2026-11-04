@@ -10,7 +10,7 @@ parent: "Overflowing"
 signature: "fn overflowing_pow(S a, int exp) -> (S, bool)"
 import: "use arith::{Overflowing};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/arith.coil#L156"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/arith.coil#L156"
 order: 4
 ---
 

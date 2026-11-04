@@ -9,7 +9,7 @@ name: "render_line"
 signature: "fn render_line( BarStyle st, string label, int current, int total, int elapsed_ms, int cols, ) -> string"
 import: "use cli::progress::{render_line};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/progress.coil#L181"
+source: "https://github.com/ardax-corp/coil-cli/blob/05669fce32782c1a5cb55fb2ecff2e1215cd0bfc/src/cli/progress.coil#L181"
 order: 10
 ---
 

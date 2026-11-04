@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-toml"
 description: "This package is toml. use toml::{Toml, TomlValue, TomlError} resolves from src/toml.coil. One-shot encode/decode ships here. Do not add a native/FFI dep."
-source: "https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-toml/blob/d9d7f5a87b80bf3fb7db0a59740c473324900f41/docs/consume.md"
 ---
 # Consuming coil-toml
 
@@ -25,7 +25,7 @@ coil --root ../coil-toml/src main.coil
 
 ## Call Toml::v1()
 
-Signatures are in [`src/toml.coil`](https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/src/toml.coil). Call patterns are in [`tests/v1.coil`](https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/tests/v1.coil).
+Signatures are in [`src/toml.coil`](https://github.com/ardax-corp/coil-toml/blob/d9d7f5a87b80bf3fb7db0a59740c473324900f41/src/toml.coil). Call patterns are in [`tests/v1.coil`](https://github.com/ardax-corp/coil-toml/blob/d9d7f5a87b80bf3fb7db0a59740c473324900f41/tests/v1.coil).
 
 ```coil
 use toml::{Toml, TomlValue, TomlError};
@@ -60,7 +60,7 @@ let n = t.decode_str("a = -42\n")?;
 let is_neg = n.get("a").is_int() && n.get("a").i == (0 - 42);
 ```
 
-A number token with no `.` / `e` / `E` / `inf` / `nan` that fits in i64 is an int. Otherwise it is a float. `inf` / `-inf` / `nan` use `i` as a kind (`1` inf, `2` nan) and `flag` for the sign of inf.
+A number token with no `.` / `e` / `E` / `inf` / `nan` is an int, and one outside i64 is `TomlError::Number` (TOML integers are 64-bit). Otherwise it is a float. `inf` / `-inf` / `nan` use `i` as a kind (`1` inf, `2` nan) and `flag` for the sign of inf.
 
 ### TomlError
 

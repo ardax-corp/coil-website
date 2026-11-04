@@ -10,7 +10,7 @@ parent: "Node"
 signature: "pub fn hidden(bool h) -> Node"
 import: "use tui::node::{Node};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/e9b465674e02eee2b78c82c0e7fef33d891c8c82/src/tui/node.coil#L229"
+source: "https://github.com/ardax-corp/coil-tui/blob/611cfd9b4c061de7df4a8352a34580911bde46b9/src/tui/node.coil#L229"
 order: 14
 ---
 

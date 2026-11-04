@@ -10,7 +10,7 @@ parent: "Csv"
 signature: "pub static fn stringify(Vec<Vec<string>> rows) -> string"
 import: "use csv::{Csv};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/src/csv.coil#L331"
+source: "https://github.com/ardax-corp/coil-csv/blob/ca3194324974e188ecdb6a5d3840175387c4bce0/src/csv.coil#L331"
 order: 1
 ---
 

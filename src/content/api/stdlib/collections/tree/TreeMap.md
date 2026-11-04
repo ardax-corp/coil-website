@@ -9,7 +9,7 @@ name: "TreeMap"
 signature: "class TreeMap<K, V>"
 import: "use collections::tree::{TreeMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/tree.coil#L34"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/tree.coil#L34"
 order: 1
 ---
 
@@ -91,5 +91,5 @@ assert!(m.min_key(0) == 10);
 - [`Eq`](/docs/reference/prelude/ops/Eq)
 - [`TreeMap::min_key`](/packages/stdlib/reference/collections/tree/TreeMap/min_key)
 - [`TreeMap::max_key`](/packages/stdlib/reference/collections/tree/TreeMap/max_key)
-- [`Entry`](/packages/stdlib/reference/collections/tree/Entry): One key-value pair, as `TreeMap` iteration yields it.
+- [`Pair`](/packages/stdlib/reference/collections/tree/Pair): One key-value pair, as `TreeMap` iteration yields it.
 - [`TreeMapIter`](/packages/stdlib/reference/collections/tree/TreeMapIter): An in-order iterator over a `TreeMap`, from `TreeMap::iter`.

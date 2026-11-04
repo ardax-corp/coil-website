@@ -9,7 +9,7 @@ name: "HashMapIter"
 signature: "class HashMapIter<K, V>"
 import: "use collections::map::{HashMapIter};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/map.coil#L59"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/map.coil#L84"
 order: 2
 ---
 
@@ -29,4 +29,4 @@ An iterator over the entries of a [`HashMap`](/packages/stdlib/reference/collect
 
 - [`collections::map::HashMap`](/packages/stdlib/reference/collections/map/HashMap)
 - [`HashMap::iter`](/packages/stdlib/reference/collections/map/HashMap/iter)
-- [`Entry`](/packages/stdlib/reference/collections/map/Entry): One key-value pair, as `HashMap` iteration yields it.
+- [`Pair`](/packages/stdlib/reference/collections/map/Pair): One key-value pair, as `HashMap` iteration yields it.

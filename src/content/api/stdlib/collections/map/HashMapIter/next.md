@@ -7,10 +7,10 @@ module: "collections::map"
 kind: "method"
 name: "next"
 parent: "HashMapIter"
-signature: "pub fn next() -> Option<Entry<K, V>>"
+signature: "pub fn next() -> Option<Pair<K, V>>"
 import: "use collections::map::{HashMapIter};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/map.coil#L449"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/map.coil#L572"
 order: 0
 ---
 
@@ -20,7 +20,7 @@ Called on a `HashMapIter` value as `value.next(…)`.
 
 ## Returns
 
-`Option<Entry<K, V>>`
+`Option<Pair<K, V>>`
 
 ## See also
 

@@ -8,7 +8,7 @@ kind: "module"
 name: "collections::set"
 origin: "stdlib"
 auto: false
-order: 9
+order: 10
 ---
 
 Part of [coil-stdlib](/packages/stdlib), not the compiler. spool projects declare it as their `stdlib` dependency (`spool new` adds it); with plain `coil`, pass `--root` with the `src` of a coil-stdlib checkout.

@@ -9,7 +9,7 @@ name: "HashMap"
 signature: "class HashMap<K, V>"
 import: "use collections::map::{HashMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/map.coil#L40"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/map.coil#L48"
 order: 1
 ---
 
@@ -23,19 +23,24 @@ insertion order, skipping removed ones.
 [`get`](/packages/stdlib/reference/collections/map/HashMap/get) takes a fallback instead of returning an [`Option`](/docs/reference/prelude/Option); use [`contains`](/packages/stdlib/reference/collections/map/HashMap/contains) first
 when the fallback could be a real value.
 
+To read or change one key's value with one lookup, use `entry(k)`, a view
+whose [`or_insert`](/packages/stdlib/reference/collections/map/HashMap/or_insert) and [`and_modify`](/packages/stdlib/reference/collections/map/HashMap/and_modify) write the map
+(`m.entry(w).and_modify(fn (int n) => n + 1).or_insert(1)`), or the
+one-call forms [`or_insert`](/packages/stdlib/reference/collections/map/HashMap/or_insert), [`or_insert_with`](/packages/stdlib/reference/collections/map/HashMap/or_insert_with), [`and_update`](/packages/stdlib/reference/collections/map/HashMap/and_update) and
+[`and_modify`](/packages/stdlib/reference/collections/map/HashMap/and_modify).
+
 ## Fields
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `keys` | `Vec<K>` | Key slots, including removed ones (see `live`). Prefer [`keys()`](/packages/stdlib/reference/collections/map/HashMap/keys). |
-| `vals` | `Vec<V>` | Value slots parallel to [`keys`](/packages/stdlib/reference/collections/map/HashMap/keys). Prefer [`values()`](/packages/stdlib/reference/collections/map/HashMap/values). |
-| `live` | `Vec<int>` | `1` where the slot holds an entry, `0` where it was removed. |
+| `idx` | `KeyIndex<K>` | Keys to slots, in insertion order. Prefer the map's methods. |
+| `vals` | `Vec<V>` | Each slot's value, removed slots included until the index compacts. Prefer [`values()`](/packages/stdlib/reference/collections/map/HashMap/values). |
 
 ## Associated functions
 
 | Name | Description |
 |------|-------------|
-| [`with_capacity`](/packages/stdlib/reference/collections/map/HashMap/with_capacity) | Creates an empty map with room for about `cap` buckets before it grows. |
+| [`with_capacity`](/packages/stdlib/reference/collections/map/HashMap/with_capacity) | Creates an empty map with room for `cap` entries before it grows. |
 | [`new`](/packages/stdlib/reference/collections/map/HashMap/new) | Creates an empty map. |
 
 ## Methods
@@ -44,12 +49,17 @@ when the fallback could be a real value.
 |------|-------------|
 | [`len`](/packages/stdlib/reference/collections/map/HashMap/len) | Returns the number of entries. |
 | [`is_empty`](/packages/stdlib/reference/collections/map/HashMap/is_empty) | Returns `true` when the map has no entries. |
-| [`capacity`](/packages/stdlib/reference/collections/map/HashMap/capacity) | Returns the number of buckets. |
-| [`clear`](/packages/stdlib/reference/collections/map/HashMap/clear) | Removes every entry, keeping the bucket count. |
+| [`capacity`](/packages/stdlib/reference/collections/map/HashMap/capacity) | Returns how many entries the map holds before it grows. |
+| [`clear`](/packages/stdlib/reference/collections/map/HashMap/clear) | Removes every entry, keeping the capacity. |
 | [`keys`](/packages/stdlib/reference/collections/map/HashMap/keys) | Returns the keys, in insertion order. |
 | [`values`](/packages/stdlib/reference/collections/map/HashMap/values) | Returns the values, in the insertion order of their keys. |
 | [`iter`](/packages/stdlib/reference/collections/map/HashMap/iter) | Returns an iterator over the entries, in insertion order. |
 | [`insert`](/packages/stdlib/reference/collections/map/HashMap/insert) | Stores `v` under `k`, replacing any value already there. |
+| [`or_insert`](/packages/stdlib/reference/collections/map/HashMap/or_insert) | Returns the value stored under `k`, storing `v` there first when `k` has no entry, with one lookup. |
+| [`or_insert_with`](/packages/stdlib/reference/collections/map/HashMap/or_insert_with) | Returns the value stored under `k`, storing `make()` there first when `k` has no entry. |
+| [`and_update`](/packages/stdlib/reference/collections/map/HashMap/and_update) | Replaces the value stored under `k` with `v` when `k` has an entry; a missing key stays missing. |
+| [`and_modify`](/packages/stdlib/reference/collections/map/HashMap/and_modify) | Replaces the value `old` stored under `k` with `f(old)` when `k` has an entry; a missing key stays missing. |
+| [`entry`](/packages/stdlib/reference/collections/map/HashMap/entry) | The place of `k` in the map, looked up once: [`or_insert`](/packages/stdlib/reference/collections/map/HashMap/or_insert), [`and_update`](/packages/stdlib/reference/collections/map/HashMap/and_update) and the other `Entry` methods work on it. |
 | [`contains`](/packages/stdlib/reference/collections/map/HashMap/contains) | Returns `true` when the map has an entry for `k`. |
 | [`get_or`](/packages/stdlib/reference/collections/map/HashMap/get_or) | Returns the value stored under `k`, or `fallback` when there is none. |
 | [`get`](/packages/stdlib/reference/collections/map/HashMap/get) | Returns the value stored under `k`, or `None` when there is none. |
@@ -58,17 +68,6 @@ when the fallback could be a real value.
 ## Trait implementations
 
 - [`IntoIterator`](/docs/reference/prelude/IntoIterator) for `HashMap<K, V>`
-
-## Invariants
-
-Checked according to `--contracts` (see [Contracts](/docs/language/contracts)).
-
-```coil
-invariant self.len >= 0 && self.len <= self.keys.len()
-invariant self.cap >= 8 && self.heads.len() == self.cap
-invariant self.vals.len() == self.keys.len() && self.next.len() == self.keys.len()
-invariant self.live.len() == self.keys.len()
-```
 
 ## Examples
 
@@ -96,7 +95,8 @@ assert!(total == 78);
 - [`HashMap::get`](/packages/stdlib/reference/collections/map/HashMap/get)
 - [`Option`](/docs/reference/prelude/Option)
 - [`HashMap::contains`](/packages/stdlib/reference/collections/map/HashMap/contains)
-- [`HashMap::keys`](/packages/stdlib/reference/collections/map/HashMap/keys)
+- [`HashMap::or_insert`](/packages/stdlib/reference/collections/map/HashMap/or_insert)
+- [`HashMap::and_modify`](/packages/stdlib/reference/collections/map/HashMap/and_modify)
+- [`HashMap::or_insert_with`](/packages/stdlib/reference/collections/map/HashMap/or_insert_with)
+- [`HashMap::and_update`](/packages/stdlib/reference/collections/map/HashMap/and_update)
 - [`HashMap::values`](/packages/stdlib/reference/collections/map/HashMap/values)
-- [`Entry`](/packages/stdlib/reference/collections/map/Entry): One key-value pair, as `HashMap` iteration yields it.
-- [`HashMapIter`](/packages/stdlib/reference/collections/map/HashMapIter): An iterator over the entries of a `HashMap`, from `HashMap::iter`.

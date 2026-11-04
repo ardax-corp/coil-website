@@ -9,7 +9,7 @@ name: "parse_http_date"
 signature: "fn parse_http_date(string text) -> Result<Timestamp, TimeError>"
 import: "use time::{parse_http_date};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-time/blob/2373411132e804c05780996e38c8fd0727a80ec0/src/time.coil#L1548"
+source: "https://github.com/ardax-corp/coil-time/blob/6234dcab24f4fd5cc26bd37373e7645e3fb0791e/src/time.coil#L1548"
 order: 31
 ---
 

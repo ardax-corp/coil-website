@@ -9,7 +9,7 @@ name: "rounded_box"
 signature: "fn rounded_box() -> BoxChars"
 import: "use cli::screen::{rounded_box};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/screen.coil#L53"
+source: "https://github.com/ardax-corp/coil-cli/blob/05669fce32782c1a5cb55fb2ecff2e1215cd0bfc/src/cli/screen.coil#L53"
 order: 5
 ---
 

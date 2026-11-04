@@ -9,7 +9,7 @@ name: "MouseEvent"
 signature: "class MouseEvent"
 import: "use cli::keys::{MouseEvent};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/keys.coil#L131"
+source: "https://github.com/ardax-corp/coil-cli/blob/05669fce32782c1a5cb55fb2ecff2e1215cd0bfc/src/cli/keys.coil#L131"
 order: 4
 ---
 

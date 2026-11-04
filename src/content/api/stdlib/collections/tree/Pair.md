@@ -1,15 +1,15 @@
 ---
-slug: "stdlib/collections/tree/Entry"
+slug: "stdlib/collections/tree/Pair"
 package: "stdlib"
-title: "Entry"
+title: "Pair"
 description: "One key-value pair, as TreeMap iteration yields it."
 module: "collections::tree"
 kind: "class"
-name: "Entry"
-signature: "class Entry<K, V>"
-import: "use collections::tree::{Entry};"
+name: "Pair"
+signature: "class Pair<K, V>"
+import: "use collections::tree::{Pair};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/tree.coil#L4"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/tree.coil#L4"
 order: 0
 ---
 
