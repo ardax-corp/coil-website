@@ -8,9 +8,11 @@ description: "How Coil runs functions as machine code: `--jit` for a run or a co
 Coil compiles a program to bytecode, and the VM can run every program.
 Most functions can also run as machine code, made by
 [Cranelift](https://cranelift.dev) from the compiler's typed intermediate
-code. Native code is a speed choice only: output, panics (message,
-location and backtrace), exit status, tasks, generators, `defer`, `drop`
-and the collector all behave as they do on the VM.
+code. Native code is a speed choice: output, panics (message, location
+and backtrace), exit status, tasks, generators, `defer` and `drop` behave
+as they do on the VM. One thing can differ: the collector may free an
+object as soon as native code has used it for the last time (see
+[Collection timing](#collection-timing)).
 
 | How you run it | What runs |
 |---|---|
@@ -18,7 +20,7 @@ and the collector all behave as they do on the VM.
 | `coil app.coil --jit` | native code, compiled when the program starts |
 | `coil compile --jit app.coil -o app.ccoil`, then `coil run app.ccoil` | native code, compiled from the archive when it starts |
 | `coil run --no-jit app.ccoil` | the VM, even for an archive built with `--jit` |
-| `coil package app.coil -o app` | a native executable, compiled ahead of time |
+| `coil package app.coil -o app` | a native executable, compiled ahead of time, with no VM inside |
 | `coil package --no-aot app.coil -o app` | the VM runner with the program inside |
 
 ## JIT
@@ -47,10 +49,14 @@ says so on stderr.
 ## Native executables
 
 `coil package` links the program's machine code with the Coil runtime into
-one executable, so nothing is compiled when it starts. It needs a C
-compiler (`cc`) to link. Where it cannot link (no `cc`, or Windows for now)
-it warns and builds the VM runner instead, which runs the same program.
-`--no-aot` builds the runner on purpose.
+one executable, so nothing is compiled when it starts. The executable has
+no bytecode VM: every function runs as machine code, so it is smaller and
+starts faster than the VM runner. If a function cannot be compiled to
+machine code, `coil package` stops with an error naming it and why;
+`--no-aot` builds the VM runner instead, which runs the same program.
+
+Linking needs a C compiler (`cc`). Where it cannot link (no `cc`, or
+Windows for now) `coil package` warns and builds the VM runner.
 
 The executable leaves out the runtime's debug info by default.
 `--strip-symbols all` also drops its symbol table (the smallest file), and
@@ -83,19 +89,27 @@ coil package app.coil -o app --allow-dload sum --dload-trusted sum --link-static
 
 ## What stays on the VM
 
-The VM is always there, and a function that does not compile runs on it
-while the rest runs natively. Calls between the two cost about as much as
-an ordinary call.
-
-- Compile-time code and macros always run on the VM. A `const` computed
-  while compiling is stored in the executable and restored at start.
+- Compile-time code and macros always run on the VM, while compiling. A
+  `const` computed then is stored in the executable and restored at start.
 - `coil debug`, coverage (`coil test --coverage`) and WebAssembly builds
   run on the VM.
-- A generator whose body has a `defer` runs on the VM.
+- With `--jit`, a function that does not compile runs on the VM while the
+  rest runs natively. When every function compiles, the whole run is
+  native, tasks and generators included.
 
-Functions that call the host (files, sockets, processes, FFI) run natively
-and make those calls through the VM's own code, so permissions, task
-switching and errors are the same.
+Functions that call the host (files, sockets, processes, FFI) call the
+same runtime code the VM does, so permissions, task switching and errors
+are the same.
+
+## Collection timing
+
+On the VM, a local variable keeps its value alive until the variable is
+reassigned or its function returns. In native code a value stays alive
+only until its last use, so the collector can free it earlier. Correct
+programs see no difference, but a [`gc::Weak`](/docs/reference/gc/Weak)
+handle can be cleared, or a [`drop`](/docs/language/memory#the-collector)
+run, sooner. A variable holding a [`gc::Root`](/docs/reference/gc/Root)
+pin stays alive until its function returns in both.
 
 ## Seeing what ran
 
