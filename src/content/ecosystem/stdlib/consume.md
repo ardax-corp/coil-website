@@ -1,7 +1,7 @@
 ---
 title: "Consume coil-stdlib"
 description: "Every spool project declares the stdlib as a dependency; there is no global copy. spool new and spool init write it for you. spool passes the locked checkout's src/ as a module…"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/docs/consume.md"
 ---
 # Consume coil-stdlib
 

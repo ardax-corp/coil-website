@@ -8,7 +8,7 @@ name: "read_link"
 signature: "fn read_link(string path) -> Result<string, IoError>"
 import: "use io::fs::{read_link};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io/fs.coil#L256"
+source: "https://github.com/ardax-corp/coil-lang/blob/9c93ed17ff191a9c4e7d41030d8a6da8342de21a/compiler/src/builtin_docs/io/fs.coil#L256"
 order: 9
 ---
 

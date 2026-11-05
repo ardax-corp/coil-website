@@ -1,7 +1,7 @@
 ---
 title: "coil-stdlib docs"
 description: "Userland .coil library for Coil. Language builtins and virtual modules stay in the Coil API reference."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/docs/README.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/docs/README.md"
 ---
 # coil-stdlib docs
 

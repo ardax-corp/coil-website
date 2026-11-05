@@ -8,7 +8,7 @@ name: "Bool"
 signature: "class Bool"
 import: "use ffi::types::{Bool};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/ffi/types.coil#L42"
+source: "https://github.com/ardax-corp/coil-lang/blob/9c93ed17ff191a9c4e7d41030d8a6da8342de21a/compiler/src/builtin_docs/ffi/types.coil#L42"
 order: 4
 ---
 

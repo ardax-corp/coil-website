@@ -10,7 +10,7 @@ parent: "HashMap"
 signature: "pub fn and_modify(K k, V -> V f) -> bool"
 import: "use collections::map::{HashMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/map.coil#L357"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/src/collections/map.coil#L357"
 order: 13
 ---
 

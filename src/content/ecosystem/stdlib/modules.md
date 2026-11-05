@@ -1,7 +1,7 @@
 ---
 title: "Module catalog"
 description: "use path:: is banned (E0124). List names explicitly."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/docs/modules.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/docs/modules.md"
 ---
 # Module catalog
 

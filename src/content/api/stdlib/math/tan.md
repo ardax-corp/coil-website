@@ -9,7 +9,7 @@ name: "tan"
 signature: "fn tan(float x) -> float"
 import: "use math::{tan};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/math.coil#L1578"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/src/math.coil#L1578"
 order: 10
 ---
 

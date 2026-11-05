@@ -8,7 +8,7 @@ name: "Integral"
 signature: "trait Integral<T: Num + Shl + Shr + BitAnd + BitOr + BitXor + BitNot>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/prelude/ops.coil#L448"
+source: "https://github.com/ardax-corp/coil-lang/blob/9c93ed17ff191a9c4e7d41030d8a6da8342de21a/compiler/src/builtin_docs/prelude/ops.coil#L448"
 order: 14
 ---
 
