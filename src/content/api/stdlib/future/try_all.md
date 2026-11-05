@@ -9,7 +9,7 @@ name: "try_all"
 signature: "fn try_all<T, E>(Vec<unit -> Result<T, E>> bodies) -> Result<Vec<T>, E>"
 import: "use future::{try_all};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/future.coil#L367"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/src/future.coil#L367"
 order: 4
 ---
 

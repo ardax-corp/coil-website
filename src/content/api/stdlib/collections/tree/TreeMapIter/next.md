@@ -10,7 +10,7 @@ parent: "TreeMapIter"
 signature: "pub fn next() -> Option<Pair<K, V>>"
 import: "use collections::tree::{TreeMapIter};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/tree.coil#L402"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/src/collections/tree.coil#L402"
 order: 0
 ---
 

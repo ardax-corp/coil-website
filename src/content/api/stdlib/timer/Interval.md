@@ -9,7 +9,7 @@ name: "Interval"
 signature: "shared class Interval"
 import: "use timer::{Interval};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/timer.coil#L48"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/src/timer.coil#L48"
 order: 0
 ---
 

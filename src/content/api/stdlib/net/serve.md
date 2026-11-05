@@ -9,7 +9,7 @@ name: "serve"
 signature: "fn serve(Stream listener, int max, Stream -> unit handler) -> Result<int, IoError>"
 import: "use net::{serve};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/net.coil#L22"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/src/net.coil#L22"
 order: 0
 ---
 

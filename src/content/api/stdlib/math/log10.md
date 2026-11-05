@@ -9,7 +9,7 @@ name: "log10"
 signature: "fn log10(float x) -> float"
 import: "use math::{log10};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/math.coil#L1121"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/src/math.coil#L1121"
 order: 7
 ---
 

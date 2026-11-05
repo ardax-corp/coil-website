@@ -10,7 +10,7 @@ signature: "fn signum(int x) -> int"
 signatures: ["fn signum(int x) -> int","fn signum(float x) -> float"]
 import: "use num::{signum};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/num.coil#L121"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/src/num.coil#L121"
 order: 8
 ---
 

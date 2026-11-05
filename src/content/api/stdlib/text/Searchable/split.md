@@ -10,7 +10,7 @@ parent: "Searchable"
 signature: "fn split<P: Pattern>(T hay, P pat) -> Vec<string>"
 import: "use text::{Searchable};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/text.coil#L666"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/src/text.coil#L666"
 order: 5
 ---
 

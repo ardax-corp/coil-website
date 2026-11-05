@@ -8,7 +8,7 @@ name: "channel"
 signature: "fn channel<T>() -> Result<(Sender<T>, Receiver<T>), ChannelError>"
 import: "use thread::{channel};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/thread.coil#L371"
+source: "https://github.com/ardax-corp/coil-lang/blob/9c93ed17ff191a9c4e7d41030d8a6da8342de21a/compiler/src/builtin_docs/thread.coil#L371"
 order: 11
 ---
 

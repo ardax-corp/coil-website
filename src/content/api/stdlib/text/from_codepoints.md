@@ -9,7 +9,7 @@ name: "from_codepoints"
 signature: "fn from_codepoints(Vec<int> cps) -> string"
 import: "use text::{from_codepoints};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/text.coil#L209"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/src/text.coil#L209"
 order: 5
 ---
 
@@ -37,3 +37,8 @@ let cps: Vec<int> = [104, 233];
 assert!(from_codepoints(cps) == "h\u{e9}");
 assert!(from_codepoints("\u{416}".codepoints()) == "\u{416}");
 ```
+
+## See also
+
+- [`ord`](/packages/stdlib/reference/text/ord): Returns the code of the single character in `s` as a `byte`.
+- [`char`](/packages/stdlib/reference/text/char): Returns the one-character string whose code point is `b`.
