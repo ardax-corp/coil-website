@@ -21,7 +21,7 @@ type Props = {
 };
 
 const { title, description, ogImage = "/og-home.png", section = "none", wide = false } = Astro.props;
-const canonicalTitle = title === "Coil" ? "Coil — a small, statically typed scripting language" : `${title} · Coil`;
+const canonicalTitle = title === "Coil" ? "Coil — a statically typed language compiled to native code" : `${title} · Coil`;
 
 const nav: { href: string; label: string; key: Section }[] = [
   { href: "/docs", label: "Docs", key: "docs" },
@@ -126,7 +126,7 @@ const nav: { href: string; label: string; key: Section }[] = [
       <div class="wrap footer-grid">
         <div class="footer-brand">
           <Logo size={24} />
-          <p>A small, statically typed scripting language, compiled to native code.</p>
+          <p>A statically typed language compiled to native code.</p>
         </div>
         <div>
           <h2>Learn</h2>
