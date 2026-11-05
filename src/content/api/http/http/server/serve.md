@@ -9,7 +9,7 @@ name: "serve"
 signature: "fn serve(Server srv, HttpHandler handler) -> Result<(), HttpError>"
 import: "use http::server::{serve};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/server.coil#L359"
+source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/server.coil#L360"
 order: 5
 ---
 
@@ -17,9 +17,10 @@ Serves HTTP/1.1 until accepting fails, each connection in its own task.
 
 A slow client or TLS handshake does not hold up the others. A connection is
 kept open until the client closes it or sends `Connection: close`; per
-connection errors only end that connection. Returns `Io(InvalidInput)` when
-`srv` is not bound; otherwise returns once `accept` fails and the open
-connections are done, after closing the listener.
+connection errors only end that connection. Every connection's task calls the
+same `handler` object. Returns `Io(InvalidInput)` when `srv` is not bound;
+otherwise returns once `accept` fails and the open connections are done,
+after closing the listener.
 
 ## Parameters
 

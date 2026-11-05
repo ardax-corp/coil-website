@@ -9,7 +9,7 @@ name: "h2_serve_conn"
 signature: "fn h2_serve_conn(Stream conn, HttpHandler handler) -> Result<(), HttpError>"
 import: "use http::server::{h2_serve_conn};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/server.coil#L543"
+source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/server.coil#L544"
 order: 6
 ---
 

@@ -9,7 +9,7 @@ name: "h2_request"
 signature: "fn h2_request(string url, string method, Headers extra, Vec<byte> body) -> Result<Response, HttpError>"
 import: "use http::h2_session::{h2_request};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2_session.coil#L1732"
+source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2_session.coil#L1732"
 order: 2
 ---
 

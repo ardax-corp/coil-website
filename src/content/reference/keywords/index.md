@@ -7,7 +7,7 @@ kind: "module"
 name: "keywords"
 origin: "builtin"
 auto: true
-order: 22
+order: 24
 ---
 
 Keywords are recognized by position. Contextual keywords such as `self`,
@@ -49,10 +49,11 @@ Built into the compiler.
 | [`extern`](/docs/reference/keywords/extern) | Binds C functions from a native library at compile time: `extern "lib" { fn …; }`. |
 | [`class`](/docs/reference/keywords/class) | Declares a class: a named heap type with fields, constructed with `new`. |
 | [`shared`](/docs/reference/keywords/shared) | Declares a `shared class`: a class whose instances are never copied. |
+| [`view`](/docs/reference/keywords/view) | Declares a `view class`: a class whose `mut` fields borrow places. |
 | [`impl`](/docs/reference/keywords/impl) | Adds methods to a type (`impl Type { … }`) or implements a trait for it (`impl Trait for Type { … }`). |
 | [`pub`](/docs/reference/keywords/pub) | Makes a class field or method accessible from outside the type. |
 | [`new`](/docs/reference/keywords/new) | Constructs a class instance: `new Class(args)`. |
-| [`defer`](/docs/reference/keywords/defer) | Schedules a block to run when the enclosing function exits. |
+| [`defer`](/docs/reference/keywords/defer) | Schedules a block to run when the enclosing block ends. |
 | [`region`](/docs/reference/keywords/region) | Runs a block whose garbage is freed in one go when the block ends. |
 | [`true`](/docs/reference/keywords/true) | The [`bool`](/docs/reference/types/bool) value true. |
 | [`false`](/docs/reference/keywords/false) | The [`bool`](/docs/reference/types/bool) value false. |

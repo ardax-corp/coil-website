@@ -2,7 +2,7 @@
 slug: "http/http/request/Request/header"
 package: "http"
 title: "Request::header"
-description: "Appends a header field. Host, Content-Length and Connection are ignored."
+description: "Appends a header field. Host, Content-Length and Connection, in any case, are ignored."
 module: "http::request"
 kind: "method"
 name: "header"
@@ -10,11 +10,11 @@ parent: "Request"
 signature: "pub fn header(string name, string value)"
 import: "use http::request::{Request};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/request.coil#L94"
+source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/request.coil#L97"
 order: 3
 ---
 
-Appends a header field. `Host`, `Content-Length` and `Connection` are ignored.
+Appends a header field. `Host`, `Content-Length` and `Connection`, in any case, are ignored.
 
 Called on a `Request` value as `value.header(…)`.
 

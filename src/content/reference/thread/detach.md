@@ -8,7 +8,7 @@ name: "detach"
 signature: "fn detach<T>(Thread<T> t) -> Result<unit, ThreadError>"
 import: "use thread::{detach};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.coil#L336"
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/thread.coil#L338"
 order: 10
 ---
 

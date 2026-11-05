@@ -8,7 +8,7 @@ name: "format"
 signature: "fn format(string fmt) -> string"
 import: "use string::{format};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/string.coil#L40"
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/string.coil#L40"
 order: 1
 ---
 

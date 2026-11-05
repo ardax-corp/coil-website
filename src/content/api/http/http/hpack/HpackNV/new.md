@@ -10,7 +10,7 @@ parent: "HpackNV"
 signature: "pub static fn new(string name, string value, int next) -> HpackNV"
 import: "use http::hpack::{HpackNV};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/hpack.coil#L55"
+source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/hpack.coil#L55"
 order: 0
 ---
 

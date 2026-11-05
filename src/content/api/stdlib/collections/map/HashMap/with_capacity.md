@@ -2,7 +2,7 @@
 slug: "stdlib/collections/map/HashMap/with_capacity"
 package: "stdlib"
 title: "HashMap::with_capacity"
-description: "Creates an empty map with room for about cap buckets before it grows."
+description: "Creates an empty map with room for cap entries before it grows."
 module: "collections::map"
 kind: "static method"
 name: "with_capacity"
@@ -10,13 +10,11 @@ parent: "HashMap"
 signature: "pub static fn with_capacity(int cap) -> HashMap<K, V>"
 import: "use collections::map::{HashMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/map.coil#L78"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/map.coil#L101"
 order: 0
 ---
 
-Creates an empty map with room for about `cap` buckets before it grows.
-
-The bucket count is rounded up to a power of two, at least 8.
+Creates an empty map with room for `cap` entries before it grows.
 
 ## Parameters
 
@@ -44,7 +42,7 @@ assert!(m.capacity() >= 100);
 - [`HashMap::new`](/packages/stdlib/reference/collections/map/HashMap/new): Creates an empty map.
 - [`HashMap::len`](/packages/stdlib/reference/collections/map/HashMap/len): Returns the number of entries.
 - [`HashMap::is_empty`](/packages/stdlib/reference/collections/map/HashMap/is_empty): Returns `true` when the map has no entries.
-- [`HashMap::capacity`](/packages/stdlib/reference/collections/map/HashMap/capacity): Returns the number of buckets.
-- [`HashMap::clear`](/packages/stdlib/reference/collections/map/HashMap/clear): Removes every entry, keeping the bucket count.
+- [`HashMap::capacity`](/packages/stdlib/reference/collections/map/HashMap/capacity): Returns how many entries the map holds before it grows.
+- [`HashMap::clear`](/packages/stdlib/reference/collections/map/HashMap/clear): Removes every entry, keeping the capacity.
 - [`HashMap::keys`](/packages/stdlib/reference/collections/map/HashMap/keys): Returns the keys, in insertion order.
 - [`HashMap::values`](/packages/stdlib/reference/collections/map/HashMap/values): Returns the values, in the insertion order of their keys.

@@ -1,13 +1,13 @@
 ---
 title: "WebSocket (RFC 6455)"
 description: "WebSocket runs on top of HTTP/1.1 in this package: an upgrade handshake, then framed messages on the same TCP (or TLS) stream. It is not a separate transport and does not…"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/docs/ws.md"
+source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/docs/ws.md"
 ---
 # WebSocket (RFC 6455)
 
 WebSocket runs **on top of HTTP/1.1** in this package: an upgrade handshake, then framed messages on the same TCP (or TLS) stream. It is not a separate transport and does not require HTTP/2.
 
-`ws://` is cleartext. `wss://` uses [coil-tls](https://github.com/ardax-corp/coil-tls) the same way HTTPS does (client side; `ws_serve_once` accepts cleartext only).
+`ws://` is cleartext. `wss://` uses [coil-tls](https://github.com/ardax-corp/coil-tls) the same way HTTPS does: `ws_connect` / `ws_connect_tls` on the client, and `ws_serve_once` on a `Server` with `tls` set (see `examples/ws_tls_loopback.coil`).
 
 `Sec-WebSocket-Accept` is SHA-1(key + GUID) then Base64. SHA-1 is a small pure-Coil helper in `http::sha1` (handshake only). Base64 is stdlib `encoding`. There is no HostInvoke and no SHA-1 in coil-lang / coil-crypto.
 

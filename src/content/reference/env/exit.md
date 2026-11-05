@@ -8,14 +8,18 @@ name: "exit"
 signature: "fn exit(int code)"
 import: "use env::{exit};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/env.coil#L150"
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/env.coil#L154"
 order: 7
 ---
 
 Ends the process at once with exit status `code`.
 
-Does not return. Needs `--allow-exit`; without the grant the program does
-not compile (error `E0407`).
+Does not return, and runs no cleanup: the pending `defer` blocks of every
+function on the stack, and the `fn drop()` of objects still alive, are
+skipped. To end the program with its cleanup, return from `main` instead.
+
+Needs `--allow-exit`; without the grant the program does not compile
+(error `E0407`).
 
 ## Parameters
 

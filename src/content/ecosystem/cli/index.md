@@ -1,7 +1,7 @@
 ---
 title: "coil-cli"
 description: "Building blocks for command-line and terminal programs in Coil: terminal state and size, raw mode, colour detection, styled output, key and mouse input, a line editor and…"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/README.md"
+source: "https://github.com/ardax-corp/coil-cli/blob/05669fce32782c1a5cb55fb2ecff2e1215cd0bfc/README.md"
 ---
 # coil-cli
 
@@ -67,9 +67,9 @@ Every public item has `///` docs with examples; the pure modules' examples run a
 
 | File | Shows |
 |------|-------|
-| [examples/hello.coil](https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/examples/hello.coil) | `cli::args` with help and errors, `Painter` colours, a progress bar |
-| [examples/ask.coil](https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/examples/ask.coil) | `confirm`, `input`, `select`, `multi_select` and a `read_line` REPL; pipe answers in to see the fallbacks |
-| [examples/bounce.coil](https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/examples/bounce.coil) | a full-screen program: alternate screen, `Screen` diff rendering, timed `Events`, resizes |
+| [examples/hello.coil](https://github.com/ardax-corp/coil-cli/blob/05669fce32782c1a5cb55fb2ecff2e1215cd0bfc/examples/hello.coil) | `cli::args` with help and errors, `Painter` colours, a progress bar |
+| [examples/ask.coil](https://github.com/ardax-corp/coil-cli/blob/05669fce32782c1a5cb55fb2ecff2e1215cd0bfc/examples/ask.coil) | `confirm`, `input`, `select`, `multi_select` and a `read_line` REPL; pipe answers in to see the fallbacks |
+| [examples/bounce.coil](https://github.com/ardax-corp/coil-cli/blob/05669fce32782c1a5cb55fb2ecff2e1215cd0bfc/examples/bounce.coil) | a full-screen program: alternate screen, `Screen` diff rendering, timed `Events`, resizes |
 
 ```bash
 coil --allow-env --allow-exit --root ../coil-stdlib/src --root src examples/hello.coil -- --name Ada -n 3
@@ -88,4 +88,4 @@ make fmt                                                  # format check
 
 ## License
 
-MIT — see [LICENSE](https://github.com/ardax-corp/coil-cli/tree/8b75c6df2d1b161b8ad272010f80f9033392343e/LICENSE).
+MIT — see [LICENSE](https://github.com/ardax-corp/coil-cli/tree/05669fce32782c1a5cb55fb2ecff2e1215cd0bfc/LICENSE).

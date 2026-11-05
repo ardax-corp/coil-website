@@ -9,7 +9,7 @@ name: "VecOrd"
 signature: "trait VecOrd<V>"
 import: "use collections::vec::{VecOrd};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.coil#L391"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/vec.coil#L392"
 order: 3
 ---
 
@@ -45,3 +45,4 @@ assert!(xs.binary_search(4).is_none());
 - [`VecOps`](/packages/stdlib/reference/collections/vec/VecOps): Methods on any `Vec<T>`.
 - [`VecEq`](/packages/stdlib/reference/collections/vec/VecEq): Methods on a `Vec<T>` whose elements are [`Eq`].
 - [`VecSum`](/packages/stdlib/reference/collections/vec/VecSum): `xs.sum()` on `Vec<int>` and `Vec<float>`; an empty vector sums to zero.
+- [`VecSlots`](/packages/stdlib/reference/collections/vec/VecSlots): `slot(i)` on any `Vec<T>`: the place of element `i`, which panics when `i` is out of range as `xs[i]` does.

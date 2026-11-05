@@ -9,7 +9,7 @@ name: "CursorShape"
 signature: "enum CursorShape"
 import: "use cli::ansi::{CursorShape};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/ansi.coil#L112"
+source: "https://github.com/ardax-corp/coil-cli/blob/05669fce32782c1a5cb55fb2ecff2e1215cd0bfc/src/cli/ansi.coil#L112"
 order: 0
 ---
 

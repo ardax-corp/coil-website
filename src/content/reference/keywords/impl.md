@@ -7,8 +7,8 @@ kind: "keyword"
 name: "impl"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/keywords.md#L675"
-order: 28
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/keywords.md#L700"
+order: 29
 ---
 
 Adds methods to a type (`impl Type { … }`) or implements a trait for it (`impl Trait for Type { … }`).

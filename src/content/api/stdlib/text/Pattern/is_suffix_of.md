@@ -10,7 +10,7 @@ parent: "Pattern"
 signature: "fn is_suffix_of(P pat, string hay) -> bool"
 import: "use text::{Pattern};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/text.coil#L482"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/text.coil#L482"
 order: 2
 ---
 
@@ -32,4 +32,5 @@ Returns `true` when a match ends at the end of `hay`.
 - [`Pattern`](/packages/stdlib/reference/text/Pattern): Something a [`Searchable`] value can be searched for: a plain `string` (matched literally), or a type such as coil-regex's `Regex`.
 - [`Pattern::find_in`](/packages/stdlib/reference/text/Pattern/find_in): Returns the span of the leftmost match in `hay` at or after byte `from`.
 - [`Pattern::is_prefix_of`](/packages/stdlib/reference/text/Pattern/is_prefix_of): Returns `true` when a match starts at the beginning of `hay`.
+- [`Pattern::split_of`](/packages/stdlib/reference/text/Pattern/split_of): Returns the pieces of `hay` between the matches of `pat`, as [`Searchable::split`] gives them.
 - [`Pattern::expand`](/packages/stdlib/reference/text/Pattern/expand): Returns the replacement text for the match `find_in` just returned.

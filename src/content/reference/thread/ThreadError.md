@@ -8,7 +8,7 @@ name: "ThreadError"
 signature: "enum ThreadError"
 import: "use thread::{ThreadError};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/thread.coil#L163"
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/thread.coil#L163"
 order: 5
 ---
 
@@ -16,14 +16,13 @@ Why starting, joining or detaching a thread failed.
 
 Channel functions report a [`ChannelError`](/docs/reference/thread/ChannelError) and lock functions a
 [`LockError`](/docs/reference/thread/LockError) instead. It implements [`Show`](/docs/reference/prelude/ops/Show), so `format("%v", e)` gives the
-variant name.
+variant name (`Panicked(<message>)` for a panic).
 
 ## Variants
 
 ### `JoinFailed` {#variant-joinfailed}
 
-The thread cannot be joined: it was already joined or detached, or it
-panicked instead of returning a value.
+The thread cannot be joined: it was already joined or detached.
 
 ### `NotSendable` {#variant-notsendable}
 
@@ -31,6 +30,11 @@ A [`spawn`](/docs/reference/thread/spawn) argument or capture cannot cross to an
 contains a stream, a [`Thread`](/docs/reference/thread/Thread), a coroutine, a [`gc`](/docs/reference/gc) handle, a partially
 applied function, or a cycle. The typechecker rejects most of these,
 so this is left for values of a generic type.
+
+### `Panicked(string)` {#variant-panicked}
+
+The thread panicked instead of returning a value; the payload is the
+panic message, as in [`task::TaskError::Panicked`](/docs/reference/task/TaskError#variant-panicked).
 
 ## Examples
 
@@ -63,3 +67,4 @@ fn main() {
 - [`thread::spawn`](/docs/reference/thread/spawn)
 - [`thread::Thread`](/docs/reference/thread/Thread)
 - [`gc`](/docs/reference/gc)
+- [`task::TaskError`](/docs/reference/task/TaskError)

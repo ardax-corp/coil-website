@@ -10,7 +10,7 @@ parent: "RawMode"
 signature: "pub fn is_active() -> bool"
 import: "use cli::term::{RawMode};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-cli/blob/8b75c6df2d1b161b8ad272010f80f9033392343e/src/cli/term.coil#L132"
+source: "https://github.com/ardax-corp/coil-cli/blob/05669fce32782c1a5cb55fb2ecff2e1215cd0bfc/src/cli/term.coil#L132"
 order: 1
 ---
 

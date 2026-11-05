@@ -1,7 +1,7 @@
 ---
 title: "coil-json"
 description: "Userland JSON for coil. Package name is json, so use json::{Json, JsonValue, JsonError} resolves here."
-source: "https://github.com/ardax-corp/coil-json/blob/e19bb6df6e254766aac3717a85a724f108eb2006/README.md"
+source: "https://github.com/ardax-corp/coil-json/blob/7656cabca9b22bca27c2968e9781a6eb6b45132a/README.md"
 ---
 # coil-json
 
@@ -62,7 +62,7 @@ Reading a decoded value:
 
 Object representation: ordered children. Each object member is a child node whose `keys[child]` is the member name. Duplicates are kept in encounter order. Not a HashMap.
 
-Numbers: a token with no `.` / `e` / `E` that fits in i64 is an int; otherwise float. Overflow and non-finite floats are `JsonError::Number`.
+Numbers: a token with no `.` / `e` / `E` that fits in i64 is an int; otherwise it is a float. A float that is not finite is `JsonError::Number`.
 
 ## Layout
 
@@ -89,4 +89,4 @@ This runs `tests/` and the examples in the `///` docs of `src/json.coil`.
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-json/tree/e19bb6df6e254766aac3717a85a724f108eb2006/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-json/tree/7656cabca9b22bca27c2968e9781a6eb6b45132a/LICENSE).

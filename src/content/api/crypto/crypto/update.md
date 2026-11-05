@@ -9,7 +9,7 @@ name: "update"
 signature: "fn update(Hasher h, Vec<byte> data) -> Result<(), CryptoError>"
 import: "use crypto::{update};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-crypto/blob/d016857a83ab00e5c4f0397570843be1b851a191/src/crypto.coil#L367"
+source: "https://github.com/ardax-corp/coil-crypto/blob/0f059437ce1964f08ad14012792b3c7852d57b79/src/crypto.coil#L367"
 order: 6
 ---
 

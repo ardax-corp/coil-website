@@ -1,15 +1,15 @@
 ---
-slug: "stdlib/collections/map/Entry"
+slug: "stdlib/collections/map/Pair"
 package: "stdlib"
-title: "Entry"
+title: "Pair"
 description: "One key-value pair, as HashMap iteration yields it."
 module: "collections::map"
 kind: "class"
-name: "Entry"
-signature: "class Entry<K, V>"
-import: "use collections::map::{Entry};"
+name: "Pair"
+signature: "class Pair<K, V>"
+import: "use collections::map::{Pair};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/map.coil#L4"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/map.coil#L6"
 order: 0
 ---
 

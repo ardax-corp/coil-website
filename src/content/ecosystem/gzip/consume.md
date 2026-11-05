@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-gzip"
 description: "This package is gzip. use gzip::{compress, decompress, crc32, Gzip, GzipError} resolves from src/gzip.coil. The repo is https://github.com/ardax-corp/coil-gzip.git. There is no…"
-source: "https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-gzip/blob/d1ea79bc8f4855d21eec6bf98c1ea51e4a51044c/docs/consume.md"
 ---
 # Consuming coil-gzip
 
@@ -41,7 +41,7 @@ coil reads no `coil.toml`; spool turns its dependencies into these `--root`s.
 
 ## Call compress / decompress
 
-Signatures are in [`src/gzip.coil`](https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/src/gzip.coil). Call patterns are in [`tests/roundtrip.coil`](https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/tests/roundtrip.coil) and [`tests/vectors.coil`](https://github.com/ardax-corp/coil-gzip/blob/e76ad55603f9a41e6372eec358c524eaa141ef46/tests/vectors.coil).
+Signatures are in [`src/gzip.coil`](https://github.com/ardax-corp/coil-gzip/blob/d1ea79bc8f4855d21eec6bf98c1ea51e4a51044c/src/gzip.coil). Call patterns are in [`tests/roundtrip.coil`](https://github.com/ardax-corp/coil-gzip/blob/d1ea79bc8f4855d21eec6bf98c1ea51e4a51044c/tests/roundtrip.coil) and [`tests/vectors.coil`](https://github.com/ardax-corp/coil-gzip/blob/d1ea79bc8f4855d21eec6bf98c1ea51e4a51044c/tests/vectors.coil).
 
 ```coil
 use string::{to_bytes};

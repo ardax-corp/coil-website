@@ -1,7 +1,7 @@
 ---
 title: "coil-toml"
 description: "Userland TOML 1.0 for coil. Package name is toml, so use toml::{Toml, TomlValue, TomlError} resolves here."
-source: "https://github.com/ardax-corp/coil-toml/blob/c03123838096b7fe8af6151ae8306728d56239db/README.md"
+source: "https://github.com/ardax-corp/coil-toml/blob/d9d7f5a87b80bf3fb7db0a59740c473324900f41/README.md"
 ---
 # coil-toml
 
@@ -98,4 +98,4 @@ This runs `tests/` and the examples in the `///` docs of `src/toml.coil`.
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-toml/tree/c03123838096b7fe8af6151ae8306728d56239db/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-toml/tree/d9d7f5a87b80bf3fb7db0a59740c473324900f41/LICENSE).

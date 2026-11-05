@@ -1,0 +1,53 @@
+---
+slug: "stdlib/collections/map/HashMap/and_modify"
+package: "stdlib"
+title: "HashMap::and_modify"
+description: "Replaces the value old stored under k with f(old) when k has an entry; a missing key stays missing. Returns true when it had one."
+module: "collections::map"
+kind: "method"
+name: "and_modify"
+parent: "HashMap"
+signature: "pub fn and_modify(K k, V -> V f) -> bool"
+import: "use collections::map::{HashMap};"
+origin: "stdlib"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/map.coil#L357"
+order: 13
+---
+
+Replaces the value `old` stored under `k` with `f(old)` when `k` has an entry; a missing key stays missing. Returns `true` when it had one.
+
+Called on a `HashMap` value as `value.and_modify(…)`.
+
+## Parameters
+
+| Name | Type |
+|------|------|
+| `k` | `K` |
+| `f` | `V -> V` |
+
+## Returns
+
+`bool`
+
+## Examples
+
+```coil
+use collections::map::{HashMap};
+use tests::assert;
+let m: HashMap<string, int> = HashMap::new();
+m.insert("a", 1);
+assert!(m.and_modify("a", fn (int n) => n * 10));
+assert!(!m.and_modify("b", fn (int n) => n * 10));
+assert!(m.get_or("a", 0) == 10);
+```
+
+## See also
+
+- [`HashMap`](/packages/stdlib/reference/collections/map/HashMap): A hash map from keys of type `K` to values of type `V`.
+- [`HashMap::with_capacity`](/packages/stdlib/reference/collections/map/HashMap/with_capacity): Creates an empty map with room for `cap` entries before it grows.
+- [`HashMap::new`](/packages/stdlib/reference/collections/map/HashMap/new): Creates an empty map.
+- [`HashMap::len`](/packages/stdlib/reference/collections/map/HashMap/len): Returns the number of entries.
+- [`HashMap::is_empty`](/packages/stdlib/reference/collections/map/HashMap/is_empty): Returns `true` when the map has no entries.
+- [`HashMap::capacity`](/packages/stdlib/reference/collections/map/HashMap/capacity): Returns how many entries the map holds before it grows.
+- [`HashMap::clear`](/packages/stdlib/reference/collections/map/HashMap/clear): Removes every entry, keeping the capacity.
+- [`HashMap::keys`](/packages/stdlib/reference/collections/map/HashMap/keys): Returns the keys, in insertion order.

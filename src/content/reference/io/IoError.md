@@ -8,7 +8,7 @@ name: "IoError"
 signature: "enum IoError"
 import: "use io::{IoError};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.coil#L151"
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L151"
 order: 1
 ---
 
@@ -66,6 +66,13 @@ An attached package stream (such as coil-tls) reported a failure of
 its own protocol, for example a TLS alert; the package's API says
 which.
 
+### `TooManyOpenFiles` {#variant-toomanyopenfiles}
+
+The process or the system has as many files and sockets open as it
+may (EMFILE / ENFILE). [`open`](/docs/reference/io/open) and `accept` first collect once, which
+closes the streams nothing reaches, and try again; this is the error
+when that did not free a descriptor. Close streams you are done with.
+
 ## Examples
 
 ```coil
@@ -89,3 +96,4 @@ assert!(format("%v", IoError::TimedOut) == "TimedOut");
 - [`Show`](/docs/reference/prelude/ops/Show)
 - [`io::wait_readable`](/docs/reference/io/wait_readable)
 - [`io::wait_writable`](/docs/reference/io/wait_writable)
+- [`io::open`](/docs/reference/io/open)

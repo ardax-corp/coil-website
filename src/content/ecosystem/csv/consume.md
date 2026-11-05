@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-csv"
-description: "This package is csv. use csv::{parse, stringify, Csv, CsvError} resolves from src/csv.coil. The repo is https://github.com/ardax-corp/coil-csv.git. There is no native/FFI dependency."
-source: "https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/docs/consume.md"
+description: "This package is csv. use csv::{parse, stringify, Csv, CsvError} resolves from src/csv.coil. The repo is https://github.com/ardax-corp/coil-csv.git. There is no native/FFI…"
+source: "https://github.com/ardax-corp/coil-csv/blob/ca3194324974e188ecdb6a5d3840175387c4bce0/docs/consume.md"
 ---
 # Consuming coil-csv
 
@@ -26,7 +26,7 @@ coil --root ../coil-stdlib/src --root ../coil-csv/src main.coil
 
 ## Call parse / stringify
 
-Signatures and `///` docs with examples are in [`src/csv.coil`](https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/src/csv.coil). Call patterns are in [`tests/rfc4180.coil`](https://github.com/ardax-corp/coil-csv/blob/b4835729f4ce8afe1f85fcca3f1c178bb2a045f6/tests/rfc4180.coil).
+Signatures and `///` docs with examples are in [`src/csv.coil`](https://github.com/ardax-corp/coil-csv/blob/ca3194324974e188ecdb6a5d3840175387c4bce0/src/csv.coil). Call patterns are in [`tests/rfc4180.coil`](https://github.com/ardax-corp/coil-csv/blob/ca3194324974e188ecdb6a5d3840175387c4bce0/tests/rfc4180.coil).
 
 ```coil
 use csv::{parse, stringify, Csv, CsvError};

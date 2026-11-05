@@ -8,7 +8,7 @@ name: "open"
 signature: "fn open(string path, string mode) -> Result<Stream, IoError>"
 import: "use io::{open};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/17c56cf22ba1d915b8e4450cded97436475339ba/compiler/src/builtin_docs/io.coil#L377"
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L386"
 order: 9
 ---
 
@@ -27,6 +27,10 @@ Any other mode returns `Err(IoError::InvalidInput)`. OS errors map to
 A program that reaches `open` compiles only with the matching grant: a
 literal `"r"` needs `--allow-read`, `"w"` and `"a"` need `--allow-write`,
 `"rw"` and a mode computed at run time need both.
+
+Close the stream with [`close`](/docs/reference/io/close) when you are done, often with
+`defer use (s) { let _ = close(s); }` right after the open. The compiler
+warns (`E0148`) about a local stream that is never closed or handed on.
 
 ## Parameters
 
@@ -75,11 +79,11 @@ assert!(size == 4);
 
 ## See also
 
+- [`io::close`](/docs/reference/io/close)
 - [`stdin`](/docs/reference/io/stdin): Returns a new stream on the process's standard input.
 - [`stdout`](/docs/reference/io/stdout): Returns a new stream on the process's standard output.
 - [`stderr`](/docs/reference/io/stderr): Returns a new stream on the process's standard error.
 - [`capture_begin`](/docs/reference/io/capture_begin): Starts keeping this thread's stdout and stderr writes in memory instead of writing them, until the matching `capture_end()`.
 - [`capture_end`](/docs/reference/io/capture_end): Ends the innermost `capture_begin()` and returns what it kept, as `(stdout, stderr)`.
-- [`close`](/docs/reference/io/close): Closes `s`.
 - [`read`](/docs/reference/io/fn.read): Reads bytes from `s` into the front of `buf` without waiting.
 - [`write`](/docs/reference/io/fn.write): Writes bytes from `buf` to `s` without waiting and returns how many were written.

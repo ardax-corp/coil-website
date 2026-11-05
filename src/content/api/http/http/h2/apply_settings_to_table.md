@@ -9,7 +9,7 @@ name: "apply_settings_to_table"
 signature: "fn apply_settings_to_table(HpackTable t, H2Settings s)"
 import: "use http::h2::{apply_settings_to_table};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/516265cfe247ea0f8d6d5e9e45f18b40fadf1410/src/http/h2.coil#L645"
+source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L645"
 order: 59
 ---
 

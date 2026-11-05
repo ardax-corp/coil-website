@@ -8,7 +8,7 @@ name: "bytes"
 signature: "fn bytes(int n) -> Vec<byte>"
 import: "use entropy::{bytes};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/ac871b4642030d774d5891ff78e899fa6def6daf/compiler/src/builtin_docs/entropy.coil#L24"
+source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/entropy.coil#L24"
 order: 0
 ---
 

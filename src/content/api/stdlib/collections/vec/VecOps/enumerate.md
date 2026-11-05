@@ -10,7 +10,7 @@ parent: "VecOps"
 signature: "fn enumerate(V xs) -> Vec<(int, Item)>"
 import: "use collections::vec::{VecOps};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/fdab30f88861e639fc9a7cc9dbbaaee8b5909998/src/collections/vec.coil#L55"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/vec.coil#L56"
 order: 3
 ---
 

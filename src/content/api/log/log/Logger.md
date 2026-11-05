@@ -9,7 +9,7 @@ name: "Logger"
 signature: "class Logger"
 import: "use log::{Logger};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-log/blob/2a00a5ba1086040c2b5368e33f81c44ed036eb87/src/log.coil#L130"
+source: "https://github.com/ardax-corp/coil-log/blob/0eeceb5c7b573acd4f30e445566a5393a75e23cc/src/log.coil#L130"
 order: 1
 ---
 
