@@ -23,7 +23,7 @@ The built-in derives (`Show`, `Eq`, `Ord`, `Hash`, `Default`, `Send`, `Sensitive
 
 Macros live in a **provider** module and are imported with `use`, like any item:
 
-```coil
+```coil ignore
 use my_macros::{FieldNames, add_after, check};
 ```
 
@@ -55,7 +55,7 @@ derive FieldNames(TypeDecl t) -> Code attrs(names) {
 }
 ```
 
-```coil
+```coil ignore
 // main.coil
 use my_macros::{FieldNames};
 
@@ -92,7 +92,7 @@ attr add_after(FnDecl f, int by) -> Code {
 }
 ```
 
-```coil
+```coil ignore
 // main.coil
 use my_macros::{add_after};
 
@@ -156,7 +156,7 @@ macro counter(Expr name) -> Code {
 }
 ```
 
-```coil
+```coil ignore
 // main.coil
 use my_macros::{square, check, sum, counter};
 
