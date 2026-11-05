@@ -228,7 +228,7 @@ Because types are as written, a derive cannot ask whether a field's type impleme
 
 ## At compile time
 
-- A macro runs in the VM with **no host access** unless the build grants it: files, environment variables, programs and TCP connections need a `--comptime-*` flag ([IO](/docs/language/comptime#io)), scoped to the module that declares the macro. Clocks, threads, listening and UDP are unavailable. Pure computation (strings, math, `Vec`) always works.
+- A macro runs with **no host access** unless the build grants it: files, environment variables, programs and TCP connections need a `--comptime-*` flag ([IO](/docs/language/comptime#io)), scoped to the module that declares the macro. Clocks, threads, listening and UDP are unavailable. Pure computation (strings, math, `Vec`) always works.
 - It runs within the compile-time [limits](/docs/language/comptime#limits) (`--comptime-steps`, `--comptime-mem`, `--comptime-timeout`); a runaway macro fails with an error that names the flag to raise.
 - Output that used IO is kept in the [result cache](/docs/language/comptime#the-result-cache).
 - `panic "…"` fails the macro with that message, which is the way to see what a macro received.
