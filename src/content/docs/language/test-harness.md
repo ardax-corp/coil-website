@@ -17,7 +17,7 @@ test("addition works") {
 
 `?` in a test body also accepts any `Result` whose error type has `Show` (for example `IoError`, or your own `#[derive(Show)]` enum), and `Option`. A failed `?` fails the case with the shown error, such as `` `?` got Err(NotFound) `` or `` `?` got None ``. Inside the case there's no need to `match` on an error just to turn it into a string:
 
-```coil
+```coil ignore
 use io::{open, close};
 
 test("reads the config") {

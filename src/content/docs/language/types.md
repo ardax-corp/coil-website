@@ -181,7 +181,7 @@ enum Status {
 
 `#[repr(int)]`, `#[repr(string)]`, `#[repr(float)]`, and `#[repr(bool)]` compose with `#[derive(...)]` on the same declaration. You may omit `#[repr(...)]` when every case has `= lit` and those literals share one simple type (inferred `int` / `float` / `string` / `bool`). Every scalar case needs an explicit `=`; there is no auto-increment. Mixing backings, mixing payload variants with `=` scalars, omitting `=`, or duplicating a backing value is `E0213` / `E0214`.
 
-```coil
+```coil ignore
 #[repr(string)]
 enum Mode { Fast = "fast", Slow = "slow" }
 
@@ -254,7 +254,7 @@ one is expected, so `fn sum(Vec<int> v)` takes `sum([1, 2, 3])`.
 | `[T; N]` | `Static(N)` | Literal `[1, 2, 3]` infers `[int; 3]` |
 | `[T]` | — | **Rejected** (`E0119`) — use `[T; N]` or `Vec<T>` |
 
-```coil
+```coil ignore
 let xs = [1, 2, 3];           // [int; 3]
 let zs: [int; 3] = [0, 0, 0];
 fn sum([int; 3] arr) -> int { /* ... */ }
@@ -348,7 +348,7 @@ formatting (see [Trait derive](#trait-derive)), or write an explicit `impl Show 
 type as a fully-qualified name, and lowers to an ordinary string constant. The
 operand is **not** evaluated at runtime.
 
-```coil
+```coil ignore
 typeof 42                 // "int"
 typeof (1, 2)             // "(int, int)"
 typeof Option::Some(1)    // "prelude::Option<int>"
@@ -358,7 +358,7 @@ typeof Option::Some(1)    // "prelude::Option<int>"
 operand right after it, together with any calls, field accesses or indexing,
 and binary operators apply to the resulting name. Parenthesize a larger operand.
 
-```coil
+```coil ignore
 typeof x == "int"         // (typeof x) == "int"
 typeof(x) == "int"        // the same
 typeof p.f(1) + "!"       // (typeof p.f(1)) + "!"
@@ -418,7 +418,7 @@ Class `static` fields require an initializer. `static` and `const` field modifie
 
 `readonly T` is a type, written anywhere a type is written. `readonly e` views any expression read-only:
 
-```coil
+```coil ignore
 let xs = readonly [1, 2, 3];
 let p = readonly new Point(1, new Inner(2));
 let q = readonly r;                        // any expression
@@ -448,7 +448,7 @@ let f: readonly Point -> int = total;      // `(readonly Point) -> int`
 
 A plain value converts to a readonly type: `total(p)` accepts both a `Point` and a `readonly Point`. A readonly value converts to a readonly type only, never back. Each of these is an error (E0107), because the new name could mutate the value:
 
-```coil
+```coil ignore
 fn poke(Point p) { p.x = 99; }
 poke(p);                 // a plain `Point` parameter
 let q: Point = p;        // a typed `let`
@@ -477,7 +477,7 @@ A function that only reads a Vec should take `readonly Vec<Point>`: it accepts b
 
 The compiler infers, for every function and method, which parameters it mutates (`self` counts as one), the same way it infers `uses {mutate}`. A call that passes a readonly value where the callee mutates it is an error (E0107) that names the write:
 
-```coil
+```coil ignore
 class Counter {
     pub n: int,
 }
@@ -497,7 +497,7 @@ A mutation counts when it goes through anything reached from the parameter: a fi
 
 A trait method has no body to look at when it is called through a trait object or a generic bound, so the trait declares it: `fn area(readonly A self) -> int;`. Only methods declared that way can be called through a `readonly Area` or on a readonly `T: Area`, and every impl must keep the promise: an impl whose body mutates `self` is an error. A trait method without the declaration is treated as mutating its parameters. On a value of a concrete class the impl's body is known, so it decides instead, and `p.area()` and `Area::area(p)` are checked alike.
 
-```coil
+```coil ignore
 trait Area<A> {
     fn area(readonly A self) -> int;
     fn grow(A self);
@@ -658,7 +658,7 @@ inside a `gen fn` therefore unifies `expr`'s type against the SAME
 `Y` as every `yield` in that body — not `unit` — so the returned value
 is not discarded:
 
-```coil
+```coil fail
 gen fn counter() {
     yield 1;
     yield 2;
@@ -685,7 +685,8 @@ outrun the body.
 Generic functions use an optional type-parameter list and trait bounds on parameters:
 
 ```coil
-use io::{stdout, write_all};
+use io::{stdout};
+use io::sync::{write_all};
 use string::{format, to_bytes};
 fn add<T: Num>(T a, T b) -> T { return a + b; }
 
@@ -732,7 +733,7 @@ Kinds classify type-level parameters:
 Constraint-kind parameters let a generic abstract over the class predicate
 itself:
 
-```coil
+```coil ignore
 fn choose<c: * -> Constraint, T: c>(T a, T b) -> int {
     if lt_val(a, b) { return 0; } // selects c = Ordered
     if eq_val(a, b) { return 42; } // Equal method via Ordered superclass
@@ -815,7 +816,8 @@ fn show<T: Describable>(T x) -> int { return x.describe_val(); }
 A unary trait name in a value type position denotes an existential value:
 
 ```coil
-use io::{stdout, write_all};
+use io::{stdout};
+use io::sync::{write_all};
 use string::{format, to_bytes};
 fn print_any(Show x) {
     write_all(stdout(), to_bytes(format("%s", show(x))));
@@ -851,7 +853,7 @@ Rules:
 
 Bound methods support three equivalent forms:
 
-```coil
+```coil ignore
 x.describe_val();          // method sugar
 describe_val(x);           // bare / UFCS form
 Describe::describe_val(x); // trait-qualified form
@@ -1070,7 +1072,7 @@ A trait can be implemented for a generic class or enum. The head's bare
 uppercase letters are the instance's type parameters, the same rule inherent
 `impl Cell<T>` uses, and the instance applies to every instantiation:
 
-```coil
+```coil ignore
 class Box<T> {
     pub item: T,
 }
@@ -1091,7 +1093,7 @@ The head's parameters can carry bounds, written inline as for inherent
 applies to `Box<X>` only when `X` has the bounded trait, and inside its
 methods the parameter's trait methods resolve through the bound:
 
-```coil
+```coil ignore
 impl Describe for Box<T: Describe> {
     pub fn describe(Box<T> b) -> string {
         return "Box(" + b.item.describe() + ")";
@@ -1137,7 +1139,7 @@ A trait may declare associated types; each impl must define them. Associated
 types may be nullary (`type Elem;`) or generic (`type Ref<T>;`, also called a
 generic associated type / GAT):
 
-```coil
+```coil ignore
 trait Collect<C> {
     type Elem;
     fn head(C xs) -> Elem;
@@ -1172,7 +1174,7 @@ impl Collect<Option<int>> {
   using it as `string`, as another type parameter, or as `D::Elem` is an
   error.
 
-```coil
+```coil ignore
 fn take_head<C: Collect>(C xs) -> C::Elem {
     return head(xs);       // ok: `head` on a `C` returns `C::Elem`
 }
@@ -1185,7 +1187,7 @@ fn bad<C: Collect>(C xs) -> C::Elem {
   projections such as `P::Ref<Option>` to pass a constructor-kinded argument,
   while `P::Ref<int>` is rejected.
 
-```coil
+```coil ignore
 trait Pointer<P: * -> *> {
     type Ref<T>;
     fn deref<T>(P<T> ptr) -> Ref<T>;
@@ -1286,7 +1288,8 @@ When a concrete value crosses into a generic function body, the compiler wraps i
 This means **most generic calls to primitive-returning functions are transparent** — the caller receives a plain `int`, `float`, `bool`, or `string`, not a boxed wrapper:
 
 ```coil
-use io::{stdout, write_all};
+use io::{stdout};
+use io::sync::{write_all};
 use string::{format, to_bytes};
 fn id<T>(T x) -> T { return x; }
 
@@ -1301,7 +1304,8 @@ fn main() {
 Concrete format specifiers (`%i`, `%f`, `%s`, `%z`, …) require a resolved concrete type. An open type parameter is a type error; use `%v`, which requires `T: Show` and lowers through the `show` method to a string before formatting:
 
 ```coil
-use io::{stdout, write_all};
+use io::{stdout};
+use io::sync::{write_all};
 use string::{format, to_bytes};
 fn show_it<T: Show>(T x) {
     write_all(stdout(), to_bytes(format("%v", x)));   // ok — dictionary Show

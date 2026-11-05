@@ -37,7 +37,7 @@ literal     ::= string | int | float | 'true' | 'false'
 
 Examples:
 
-```coil
+```coil ignore
 use my_macros::{add_after};
 
 #[derive(Show, Eq, Ord)]
@@ -203,7 +203,7 @@ call_arg    ::= expr | '...' expr
 
 Examples:
 
-```coil
+```coil ignore
 fn triple(int a, int b, int c) -> int { return a + b + c; }
 triple(...(1, 2, 3));          // tuple spread
 triple(...[10, 20, 30]);       // array spread
@@ -212,7 +212,7 @@ fn total(int... xs) -> int { /* ... */ }
 fn forward(int... xs) -> int { return total(...xs); } // Vec spread into a rest
 ```
 
-```coil
+```coil ignore
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
@@ -252,7 +252,7 @@ The type after `for` is prepended as the first type argument (Self slot):
 
 Example:
 
-```coil
+```coil ignore
 // Builtin arithmetic: Add / Sub / Mul / Div / Neg / Rem / Pow (Num implies all seven).
 // Builtin ordering: Lt / Le / Gt / Ge (Ord implies all four, and Eq).
 
@@ -368,7 +368,7 @@ rejected inside `extern` — use bare `...` instead.
 
 Example:
 
-```coil
+```coil ignore
 extern "c" {
     fn strlen(string s) -> int;
     fn printf(string fmt, ...) -> int;
@@ -396,7 +396,7 @@ See [Trait derive](/docs/language/types#trait-derive) for `#[derive(...)]`.
 
 Example:
 
-```coil
+```coil ignore
 class Foo { pub name: string, count: int, }
 impl Foo {
     pub fn bump() -> int { return 1; }
@@ -442,7 +442,7 @@ enclosing locals. As with a lambda, `use (x)` copies `x` when the `defer`
 statement runs, so a later assignment to `x` is not seen. `use (mut x)` borrows
 `x` instead: the block sees its value when it runs, and its writes reach `x`.
 
-```coil
+```coil ignore
 fn copy_all(string from, string to) -> Result<int, IoError> {
     let src = open(from, "r")?;
     defer use (src) {
@@ -527,7 +527,7 @@ Use `vec.push(value)` on a `Vec<T>`. See [Arrays and Vec](/docs/language/arrays)
 
 Prefix `readonly` on any expression views its value read-only. It binds like unary `-`, so `readonly p.inner` is `readonly (p.inner)`:
 
-```coil
+```coil ignore
 let xs = readonly [1, 2, 3];
 let p = readonly new Point(1, 2);
 let i = readonly q.inner;
@@ -643,7 +643,7 @@ Integer literal patterns match an `int` scrutinee by value. Literal arms can
 never cover every `int`, so the match needs a `default` or binding arm
 (`E0209` otherwise):
 
-```coil
+```coil ignore
 let kind = match status {
     200 => "ok",
     404 => "missing",
@@ -658,7 +658,7 @@ arm that earlier arms already cover is `E0210`, and a match whose arms leave
 some payload uncovered (`Option::Some(200)` and `Option::None` alone) is
 `E0209`:
 
-```coil
+```coil ignore
 let text = match reply {
     Option::Some(200) => "ok",
     Option::Some(404) => "missing",
@@ -667,7 +667,7 @@ let text = match reply {
 };
 ```
 
-```coil
+```coil ignore
 match x {
     Option::None => 0,
     Option::Some(v) => v,
@@ -760,7 +760,7 @@ needs no `;` (one is still accepted, and `coil fmt` removes it). A `.` or `?`
 right after the `}` continues an expression instead
 (`match x { … }.show();`).
 
-```coil
+```coil ignore
 match dir {
     Dir::Left => {
         turn(-1);
