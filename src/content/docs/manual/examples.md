@@ -1839,7 +1839,7 @@ Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/recei
 
 ## OS threads
 
-Native threads via `use thread::{spawn, join, …};` — each worker has its own runtime. See [Tutorial 11 — OS threads](/docs/manual/tutorial/14-threads).
+OS threads via `use thread::{spawn, join, …};`: each worker runs on its own thread. See [Tutorial 14 — Threads](/docs/manual/tutorial/14-threads).
 
 ### `examples/thread_join.coil`
 

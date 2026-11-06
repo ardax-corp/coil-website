@@ -43,12 +43,6 @@ use my_macros::{add_after};
 #[derive(Show, Eq, Ord)]
 enum Color { Red, Blue }
 
-#[max_depth(64)]
-fn walk(int n) -> int {
-    if n == 0 { return 0; }
-    return walk(n - 1);
-}
-
 // An attribute macro from `my_macros`: its output replaces the function.
 #[add_after(by = 10)]
 fn triple(int x) -> int { return x * 3; }
@@ -58,7 +52,6 @@ fn triple(int x) -> int { return x * 3; }
 |-----------|--------|-----------|
 | `#[derive(Trait, …)]` | `enum` / `class` | Runs each derive (built-in `Show`, `Eq`, `Ord`, `Hash`, `Default`, `Send`, `Sensitive`, or a user `derive` imported with `use`) and adds its output after the type. Without derive, non-generic **payload** types still get a default `Show`: a class returns its type name string, an enum its qualified variant name (`E::V`, payload elided). Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
 | `#[repr(int)]` / `#[repr(string)]` / `#[repr(float)]` / `#[repr(bool)]` | `enum` | Scalar-backed enum: each case is `Name = lit` of that primitive. May be omitted when every case has `=` and the literals share one type. See [Types — Scalar-backed enums](/docs/language/types#scalar-backed-enums). |
-| `#[max_depth(N)]` | recursive `fn` | Optional hint of how deep the recursion goes, for when the compiler cannot prove a depth (dynamic args, mutual recursion). Depth is checked at run time either way, so a wrong `N` does no harm. `N` must be a positive integer. |
 | Attribute macro `#[name(…)]` | `fn`, methods, `class`, `enum` | Runs the `attr name(…)` macro imported with `use`; its output replaces the item. See [Macros](/docs/language/macros#attribute-macros). |
 
 Several attribute macros on one item apply outermost first. Unknown attribute names are rejected at compile time.
