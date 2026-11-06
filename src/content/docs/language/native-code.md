@@ -49,8 +49,8 @@ starts faster than the JIT runner, which `--no-aot` builds instead: the
 compiled to machine code, `coil package` stops with an error naming it and
 why, with or without `--no-aot`.
 
-Linking needs a C compiler (`cc`). Where it cannot link (no `cc`, or
-Windows for now) `coil package` warns and builds the JIT runner.
+Linking needs a C compiler (`cc`; on Windows, a mingw-w64 toolchain). Where
+it cannot link, `coil package` warns and builds the JIT runner.
 
 ### Linking it yourself
 
