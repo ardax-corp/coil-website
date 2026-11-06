@@ -97,7 +97,7 @@ test("greets") {
 }
 ```
 
-Each case runs in its own isolated VM, so one that panics does not stop the
+Each case runs in its own isolated runtime, so one that panics does not stop the
 others. `--fail-fast` stops at the first failure.
 
 A test body can use `?` on any `Result` or `Option`: a failure ends the case

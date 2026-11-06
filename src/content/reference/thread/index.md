@@ -10,7 +10,7 @@ auto: false
 order: 9
 ---
 
-[`spawn`](/docs/reference/thread/spawn) runs a function on a new OS thread with its own VM and heap. Values
+[`spawn`](/docs/reference/thread/spawn) runs a function on a new OS thread with its own runtime and heap. Values
 cross between threads by copy through [`send`](/docs/reference/thread/send)/[`recv`](/docs/reference/thread/recv) on a channel or through a
 [`Mutex`](/docs/reference/thread/Mutex) / [`RwLock`](/docs/reference/thread/RwLock); heap handles such as [`gc::Root`](/docs/reference/gc/Root) cannot be sent.
 

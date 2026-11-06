@@ -1,28 +1,24 @@
 ---
 title: "Native code: JIT and AOT"
-description: "How Coil runs programs as machine code: compiled when a run or a compiled archive starts, or ahead of time by `coil package`, with an interpreter for compile-time code, the debugger and WebAssembly."
+description: "How Coil runs programs as machine code: compiled when the program starts, or ahead of time with `coil package`. The MIR interpreter covers what has no machine code."
 ---
 
 # Native code
 
-Coil runs programs as machine code, made by
-[Cranelift](https://cranelift.dev) from the compiler's typed intermediate
-code. An interpreter of the same intermediate code runs what has no machine
-code to run on: compile-time code, `coil debug` and WebAssembly builds.
-`--no-jit` runs a program on the bytecode VM instead. Output, panics
-(message, location and backtrace), exit status, tasks, generators, `defer`
-and `drop` are the same on all three. One thing can differ: the collector
-may free an object as soon as native code has used it for the last time
-(see [Collection timing](#collection-timing)).
+Coil compiles a program to MIR, its typed intermediate code, and
+[Cranelift](https://cranelift.dev) turns the MIR into machine code. There
+are two engines for that MIR: native code, which runs your programs, and
+the [MIR interpreter](#the-mir-interpreter), which runs what has no machine
+code. Output, panics (message, location and backtrace), exit status, tasks,
+generators, `defer` and `drop` behave the same on both.
 
 | How you run it | What runs |
 |---|---|
 | `coil app.coil` | native code, compiled when the program starts |
-| `coil app.coil --no-jit` | the VM |
 | `coil compile app.coil -o app.ccoil`, then `coil run app.ccoil` | native code, compiled from the archive when it starts |
-| `coil run --no-jit app.ccoil` | the VM |
-| `coil package app.coil -o app` | a native executable, compiled ahead of time, with no VM inside |
-| `coil package --no-aot app.coil -o app` | the JIT runner with the program inside, also with no VM |
+| `coil package app.coil -o app` | a native executable, compiled ahead of time |
+| `coil package --no-aot app.coil -o app` | the JIT runner with the program inside, compiled when it starts |
+| `coil --mir app.coil` | the MIR interpreter |
 
 ## JIT
 
@@ -30,35 +26,28 @@ may free an object as soon as native code has used it for the last time
 coil --root ~/coil-stdlib/src app.coil
 ```
 
-compiles the program, turns it into machine code and runs. Making machine
-code takes time on every start, so a very short program can spend longer on
-that than on running. A second run takes the compiled program from the
-[build cache](/docs/language/cli#build-cache), and makes the machine code
-again.
+compiles the program to MIR, turns the MIR into machine code and runs it.
+Making machine code takes time at every start: a few milliseconds for a
+small program, more for a large one. The
+[build cache](/docs/language/cli#build-cache) keeps the MIR, not the machine
+code, so a second run skips compiling the source only.
 
-`coil compile` stores the intermediate code in the archive (not machine
-code), so any machine with the same `coil` can run it natively:
+`coil compile` writes a `.ccoil` archive with the program's MIR and data
+(not machine code), so any machine with the same `coil` can run it:
 
 ```sh
 coil compile --root ~/coil-stdlib/src app.coil -o app.ccoil
-coil run app.ccoil          # native
-coil run --no-jit app.ccoil # VM
+coil run app.ccoil
 ```
-
-An archive built with `--no-jit` has no intermediate code and runs on the
-VM; `coil run --jit` on it says so on stderr.
 
 ## Native executables
 
 `coil package` links the program's machine code with the Coil runtime into
-one executable, so nothing is compiled when it starts. The executable has
-no bytecode VM: every function runs as machine code. If a function cannot
-be compiled to machine code, `coil package` stops with an error naming it
-and why.
-
-`--no-aot` builds the JIT runner instead: the same program, stored as
-intermediate code and compiled when it starts, so it needs no linker. It has
-no VM either.
+one executable, so nothing is compiled when it starts. It is smaller and
+starts faster than the JIT runner, which `--no-aot` builds instead: the
+`coil-embed` runner with the program's MIR inside. If a function cannot be
+compiled to machine code, `coil package` stops with an error naming it and
+why, with or without `--no-aot`.
 
 Linking needs a C compiler (`cc`). Where it cannot link (no `cc`, or
 Windows for now) `coil package` warns and builds the JIT runner.
@@ -92,31 +81,35 @@ coil package app.coil -o app --allow-dload sum --dload-trusted sum --link-static
 - It works only for native executables: with `--no-aot` or `--runner`,
   `coil package` refuses it.
 
-## What does not run as machine code
+## The MIR interpreter
 
-- Compile-time code and macros run on the interpreter, while compiling. A
-  `const` computed then is stored in the executable and restored at start.
-- `coil debug` runs on the interpreter, so it can stop at any line and see
-  every local.
-- WebAssembly builds, the playground among them, run on the interpreter. A
-  task there cannot wait under a native callback, and panics if it tries.
-- `--no-jit` and `--cow-report` run on the VM.
+The interpreter runs MIR directly, with no machine code. It is much slower
+than native code. It runs:
 
-Coverage (`coil test --coverage`) counts lines on whichever engine runs the
-tests.
+- compile-time code and macros, while compiling. A `const` computed then is
+  stored in the program and restored at start;
+- `coil debug`;
+- WebAssembly builds, such as the [playground](/playground);
+- `coil mutate`, which counts steps to stop a change that makes a test run
+  forever;
+- `--cow-report`, on `coil <file.coil>` and `coil run`;
+- `--mir` on `coil <file.coil>` and `coil run`, and `coil test --engine mir`,
+  when you ask for it. A source file runs at `-O0` unless you pass `-O`;
+- a program with a function native code refuses, which `coil <file.coil>` and
+  `coil run` warn about.
 
-Every engine calls the same runtime code for the host (files, sockets,
-processes, FFI), so permissions, task switching and errors are the same.
+Functions that call the host (files, sockets, processes, FFI) call the same
+runtime code on both engines, so permissions, task switching and errors are
+the same.
 
 ## Collection timing
 
-In native code a value stays alive only until its last use, so the
-collector can free it before its variable is reassigned or its function
-returns, which is when the VM (`--no-jit`) lets it go. Correct
-programs see no difference, but a [`gc::Weak`](/docs/reference/gc/Weak)
-handle can be cleared, or a [`drop`](/docs/language/memory#the-collector)
-run, sooner. A variable holding a [`gc::Root`](/docs/reference/gc/Root)
-pin stays alive until its function returns in both.
+A value stays alive only until its last use, so the collector can free it
+while the variable that held it is still in scope. Correct programs see no
+difference, but a [`gc::Weak`](/docs/reference/gc/Weak) handle can be
+cleared, or a [`drop`](/docs/language/memory#the-collector) run, before the
+function returns. A variable holding a [`gc::Root`](/docs/reference/gc/Root)
+pin stays alive until its function returns. Both engines follow this rule.
 
 ## Seeing what ran
 
@@ -125,6 +118,5 @@ COIL_NATIVE_STATS=1 coil app.coil   # counts on stderr
 COIL_NATIVE_STATS=2 coil app.coil   # plus each compiled function
 ```
 
-`coil test` runs a suite as native code. `--engine mir` runs it on the
-interpreter and `--engine vm` on the VM, to check a library behaves the same
-on each.
+`coil test` runs a suite as native code. `coil test --engine mir` runs it on
+the interpreter, to check a library behaves the same on both.

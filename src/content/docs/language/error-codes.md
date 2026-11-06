@@ -51,7 +51,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0122` | `AmbiguousOverload` | A call or a function value matches more than one overload; annotate the value or the arguments |
 | `E0123` | `DeferNeverRuns` | Warning: a `defer` whose block never ends, because a loop after it in the same block (or an enclosing one) never terminates. A `defer` in a block that ends before the loop does not warn. See [Defer](/docs/language/syntax#defer) |
 | `E0124` | `WildcardImport` | `use path::*` is banned (virtual and userland) — list names explicitly; prelude is auto-injected |
-| `E0125` | `ExpressionNestingTooDeep` | A single expression recursed past the compiler's internal depth limit during typecheck or codegen (not the compiled program's own call stack, which the VM grows at run time) |
+| `E0125` | `ExpressionNestingTooDeep` | A single expression recursed past the compiler's internal depth limit during typecheck or codegen (not the compiled program's own call stack, whose depth is checked at run time) |
 | `E0126` | `InvalidDrop` | Invalid `fn drop(self)` (not an inherent class or enum method, on a scalar-backed enum, static, extra args, duplicate, non-unit return, or on a `readonly class`) |
 | `E0127` | `UnsupportedGenericFnValue` | A generic `fn` with a type parameter nested in its signature (`Vec<T>`, `Option<T>`, tuples, classes) used as a value where no specialized copy can stand in for it, such as copying it on (`let g = wrap; let k = g;`). A `let` binding only called (`let g = wrap; g(2.5)`) or passing it to a parameter of a concrete function type works. Otherwise call it directly or wrap it in a lambda at a concrete type. Also a generic `fn` whose result is a type parameter, held as a polymorphic value and called with more arguments than it declares (`let f = id; f(add, 1, 2)`): call it by name with every argument |
 | `E0128` | `PrivateMember` | Private field or inherent method used outside the type's `impl` |
@@ -100,7 +100,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0413` | `EffectMismatch` | A function's effects exceed its `pure fn` / `uses {…}`, or its trait method's, or a contract clause has an effect. The message names the call chain; see [Effects](/docs/language/effects) and [Contracts](/docs/language/contracts) |
 | `E0414` | `HostCapDenied` | A host call `main` or a test reaches needs read, write, net or env and the build did not grant it. The message names the flag and the call chain; see [Permissions](/docs/language/permissions) |
 | `E0800`–`E0801` | Codegen family | Unknown expression / codegen error |
-| `E0802`–`E0803` | `UnboundedRecursion` / `StackDepthExceeded` | Retired: no longer emitted (the VM grows its stack and checks depth at run time) |
+| `E0802`–`E0803` | `UnboundedRecursion` / `StackDepthExceeded` | Retired: no longer emitted (call depth is checked at run time) |
 | `E0804` | `MonomorphizeCap` | A ground call to a generic uses its shared body instead of a per-type clone: the generic instantiates itself at a growing type (polymorphic recursion), or the compile reached `--clone-budget` |
 | `E0805` | `ParLockHint` | Auto-parallelization refused a loop because of a shared escape; the hint suggests locking that resource |
 | `E0806` | `ConflictingOptHints` | Two [optimizer hints](/docs/language/opt-hints) on one function contradict each other (`#[cold]` with `#[inline]` / `#[inline(always)]` / `#[hot]`, or `#[inline(never)]` with any of those three) |

@@ -309,7 +309,7 @@ Statics: `Vec::new`, `Vec::with_capacity`, `Vec::from`. Methods: `push`, `pop`,
 | Tuple | OOB literal → diagnostic | — |
 | Non-aggregate | Error | — |
 
-Proven counted-loop `Index` / `StoreIndex` rewrite to unchecked opcodes ([#192](https://github.com/ardax-corp/coil-lang/pull/192)). Dynamic indices stay checked and **panic** on OOB (archive major 4). Prefer `i < a.len()` in loops (`LEQ`/`GEQ` are not proofs). Details: [Arrays and Vec](/docs/language/arrays#out-of-range-index).
+The compiler drops the check on an index it proves in range, as in a counted loop. Every other index stays checked and **panics** on OOB. Prefer `i < a.len()` in loops. Details: [Arrays and Vec](/docs/language/arrays#out-of-range-index).
 
 ---
 
@@ -510,7 +510,7 @@ a.grow();    // E0107: `grow` may mutate `self`
 
 A function value of type `(Point) -> R` cannot be passed where `(readonly Point) -> R` is expected, since it could mutate what it is given. A readonly argument to a foreign function must be declared `readonly` in the `extern` block, or `ConstBytes` (`const uint8_t *`) in a `declare` signature.
 
-`readonly` costs nothing at runtime: a program compiles to the same bytecode with or without it.
+`readonly` costs nothing at runtime: a program compiles to the same code with or without it.
 
 Type pretty-print: `readonly T`.
 
@@ -543,7 +543,7 @@ impl Point {
 
 A written `#[derive(Eq)]` / `impl Eq` (or `Hash`) takes the place of the implied one. Generic readonly classes work the same way: in `readonly class Pair<A, B>`, `pair.a` is read-only even when `A` is a mutable class.
 
-A `readonly class` costs nothing at runtime either: it compiles to the same bytecode as a plain class with `#[derive(Eq, Hash)]`.
+A `readonly class` costs nothing at runtime either: it compiles to the same code as a plain class with `#[derive(Eq, Hash)]`.
 
 ---
 
@@ -779,19 +779,19 @@ function: its parameters are fresh at each call, so `second(a, b)` inside
 
 ### Call-site dispatch
 
-One calling convention, two ways to name the callee. **`CALL`** packs arity and a static bytecode offset. **`CallIndirect`** pops the target from the stack (`CodePtr`, dictionary `Index`, or a `PolyFn` local). Dictionaries are the ABI for open bounds; they are not a second dispatch model.
+One calling convention, two ways to name the callee. A **direct call** names a known function. An **indirect call** takes the target from a value (a function value, a dictionary slot, or a generic function value). Dictionaries are the ABI for open bounds; they are not a second dispatch model.
 
-| Situation | Bytecode |
-|-----------|----------|
-| Direct call to a function or instance method with a known entry | `CALL` |
-| Ground trait method / UFCS (`x.m()` / `m(x)`) with a resolved instance | `CALL` to that instance method (`Show`, `Length`, `Hash`, user traits, inherent methods). Primitive `Num`/`Eq`/`Ord` operators further lower to opcodes (`ADD`, `EQ`, …); structural `.len()` may become `ArrayLen`. |
-| Ground call to a generic whose bounds are only `Num`/`Add`/…/`Ord`/`Lt`/…/`Eq` | **Monomorphize** into a specialized clone (unboxed `ADD`, etc.). No dictionary at the call site. |
+| Situation | Call |
+|-----------|------|
+| Direct call to a function or instance method with a known entry | Direct |
+| Ground trait method / UFCS (`x.m()` / `m(x)`) with a resolved instance | Direct, to that instance method (`Show`, `Length`, `Hash`, user traits, inherent methods). Primitive `Num`/`Eq`/`Ord` operators compile to the operation itself; structural `.len()` may read the length directly. |
+| Ground call to a generic whose bounds are only `Num`/`Add`/…/`Ord`/`Lt`/…/`Eq` | **Monomorphize** into a specialized clone (unboxed arithmetic). No dictionary at the call site. |
 | Same, with named args and/or rest packs (`T...`) | Same monomorphization — args are reordered/packed to match formals before keying |
-| Open type params inside a generic body (any bound) | Dictionary passing — `CALL` the shared generic body with trailing dict tuples; method slots use `Index` + `CallIndirect` |
-| Existential (`Show x`) | Unpack the dict from the value; `CallIndirect` |
-| Escaped generic fn value (`let f = id;`) | `MakePolyFn` / `MakePolyFnCapture` + `CallIndirect` |
+| Open type params inside a generic body (any bound) | Dictionary passing: a direct call to the shared generic body with trailing dict tuples; method slots are indirect calls |
+| Existential (`Show x`) | Unpack the dict from the value, then an indirect call |
+| Escaped generic fn value (`let f = id;`) | Make a generic function value, then an indirect call |
 
-**Decision:** dictionaries are for generic bodies, not for ground user traits. Ground Show/Length/Hash/user-trait methods with a static entry emit `CALL`. Operators on ground numeric/eq/ord types still lower to opcodes. Caps, escaped `PolyFn`, and nested open bounds still use dictionaries.
+**Decision:** dictionaries are for generic bodies, not for ground user traits. Ground Show/Length/Hash/user-trait methods with a static entry are direct calls. Operators on ground numeric/eq/ord types compile to the operation itself. Caps, escaped `PolyFn`, and nested open bounds still use dictionaries.
 
 ### Dictionary passing
 
@@ -808,7 +808,7 @@ methods fill the trailing dict slots.
 trait Describable<T> { fn describe_val(T x) -> int; }
 impl Describable for int { fn describe_val(int x) -> int { return x + 1; } }
 fn show<T: Describable>(T x) -> int { return x.describe_val(); }
-// show(42) → CALL arity = 2 (value + Describable dict)
+// show(42) → a direct call with 2 arguments (value + Describable dict)
 ```
 
 ### Bare-class existential types
@@ -848,8 +848,7 @@ Rules:
   constructor wins.
 - Packing a concrete value requires exactly one matching instance; otherwise
   the call site reports `No instance for Class<T>`.
-- Runtime representation reuses existing tuple bytecode: `(boxed_value,
-  dictionary_tuple)`. No separate opcode is needed.
+- At run time the value is a tuple: `(boxed_value, dictionary_tuple)`.
 
 Bound methods support three equivalent forms:
 
@@ -903,7 +902,7 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 On open/generic operands, operators require the matching op trait (or the
 `Num` / `Integral` / `Ord` convenience supertrait). A hand-written
 `impl Num for X` needs every superclass instance, `Rem` and `Pow` included. Concrete `int`/`float` arithmetic and
-comparisons still use hardwired opcodes. String concatenation
+comparisons compile straight to the operation. String concatenation
 (`string + string`) is a separate path and is **not** covered by `Num`/`Add`.
 
 ### Trait derive
@@ -1331,7 +1330,7 @@ Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`, plu
 | Classes | Nominal types; ctor args / fields / methods supported — no inheritance or virtual dispatch |
 | FFI | Broad scalar/Ptr/struct/callback tags via `ffi::types` / `extern struct` — see [FFI tutorial](/docs/manual/tutorial/16-ffi) |
 | Generics | Generic functions/enums/aliases/classes, `T: Class` bounds, multi-param `where` constraints, `forall` annotations, user `trait`/`impl`, superclasses, orphan/coherence checks, associated types, and GATs are supported |
-| Trait runtime | **Decided:** ground instance methods use `CALL`; dictionaries stay in generic bodies. Only ground `Num`/`Ord`/`Eq` (and operator supertraits) monomorphize to opcodes. See [Call-site dispatch](#call-site-dispatch). |
+| Trait runtime | **Decided:** ground instance methods are direct calls; dictionaries stay in generic bodies. Only ground `Num`/`Ord`/`Eq` (and operator supertraits) monomorphize to the operation itself. See [Call-site dispatch](#call-site-dispatch). |
 | Option / Result ABI | **Decided:** pointer niche, two-slot call return, or boxed enum — see [Option / Result runtime ABI](#option--result-runtime-abi). |
 | Enum runtime | **Decided:** heap objects; DCE may skip discarded or unary-unpack constructors only — see [Runtime representation](#runtime-representation). |
 | Existentials | Bare class names are existential value types only for unary `* -> Constraint` classes; multi-param bare existentials and constructor-kinded bare existentials are rejected |

@@ -1,11 +1,15 @@
 ---
 title: Host embedder API
-description: "Advanced: register Rust closures callable from bytecode without a .so file."
+description: "Advanced: register Rust closures callable from Coil without a .so file."
 ---
 
 # Host embedder API
 
-Advanced: register Rust closures callable from bytecode without a `.so` file.
+Advanced: register Rust closures callable from Coil without a `.so` file.
+
+These calls sit behind the `compiler` crate's `vm-wire` feature, and the
+compiler's own tests are what use them. A `coil` build has no step that hands a
+registered closure to a run, so a program cannot call one yet.
 
 ### Rust API
 
@@ -28,10 +32,6 @@ pipeline.register_host_native(sig, |heap: &mut Heap, args: &[Value]| {
     let sum = args[0].as_int() + args[1].as_int();
     Ok(Some(Value::from(sum)))
 });
-
-// After compile:
-pipeline.wire_host_natives(&mut vm);
-vm.run_raw(&bytecode);
 ```
 
 ### Workflow
@@ -40,8 +40,6 @@ vm.run_raw(&bytecode);
 |------|-----|
 | Register type + closure | `Pipeline::register_host_native(sig, closure)` |
 | Typecheck user calls | Signatures forwarded to HM checker via `Compiler::register` |
-| Wire before run | `Pipeline::wire_host_natives(&mut vm)` |
-| Bytecode opcode | `HostInvoke` |
 
 ### Metadata-only registration
 
