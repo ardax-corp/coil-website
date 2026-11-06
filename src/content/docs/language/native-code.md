@@ -52,6 +52,30 @@ why, with or without `--no-aot`.
 Linking needs a C compiler (`cc`). Where it cannot link (no `cc`, or
 Windows for now) `coil package` warns and builds the JIT runner.
 
+### Linking it yourself
+
+`--emit` stops before the link, so your own build can do it, with your own
+code beside the program:
+
+```sh
+coil package --emit obj app.coil -o app.o     # the program
+coil package --emit lib app.coil -o libapp.a  # the program and the runtime
+```
+
+Both hold everything the program needs, and `coil package` prints the `cc`
+line to link them. An object links with the runtime library, `libcoil_rt.a`.
+A static library has the runtime inside, so it is the only Coil input:
+
+```sh
+cc libapp.a -o app -Wl,--gc-sections -ldl -lgcc_s -lutil -lrt -lpthread -lm -lc
+```
+
+An `extern` block named with `--link-static` becomes an undefined symbol for
+that link, so C code linked beside the program provides it. The result is
+still a Coil program, with Coil's `main`: C code can't call Coil functions yet.
+`--no-aot` and `--link-arg` don't apply, because `--emit` needs native code
+and leaves the link to you.
+
 The executable leaves out the runtime's debug info by default.
 `--strip-symbols all` also drops its symbol table (the smallest file), and
 `--strip-symbols none` keeps both, for a native debugger or profiler.
