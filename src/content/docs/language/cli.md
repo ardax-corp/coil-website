@@ -96,6 +96,23 @@ Some compiles are never cached:
 is always safe. At most 256 programs are kept, and the least recently used
 are dropped first.
 
+## Code cache {#code-cache}
+
+`coil <file.coil>` and `coil run` keep the machine code they make in
+`~/.cache/coil/code` (or `$XDG_CACHE_HOME/coil/code`). A later run of the same
+program on the same machine loads it instead of compiling, which takes a large
+program's start from hundreds of milliseconds to a few. The same program means
+the same MIR, so this helps a compile that the build cache skips too.
+
+An entry belongs to one program, one build of `coil` and one CPU. An entry that
+doesn't load is dropped with a warning, and the run compiles. `coil test`,
+`--mir` and JIT runners (`coil package --no-aot`) don't use the cache.
+
+`--no-build-cache` skips it for one command, on `coil run` too. Deleting the
+directory is always safe. At most 256 programs are kept, and the least recently
+used are dropped first. What's stored runs as machine code, so only your user
+can read the directory.
+
 ## Toolkit binaries
 
 The release archive holds `coil` and the helpers it starts for some
