@@ -92,9 +92,11 @@ than native code. It runs:
 - WebAssembly builds, such as the [playground](/playground);
 - `coil mutate`, which counts steps to stop a change that makes a test run
   forever;
-- `coil <file.coil> --cow-report`;
-- `coil <file.coil> --mir` and `coil test --engine mir`, when you ask for it.
-  These two run at `-O0` unless you pass `-O`.
+- `--cow-report`, on `coil <file.coil>` and `coil run`;
+- `--mir` on `coil <file.coil>` and `coil run`, and `coil test --engine mir`,
+  when you ask for it. A source file runs at `-O0` unless you pass `-O`;
+- a program with a function native code refuses, which `coil <file.coil>` and
+  `coil run` warn about.
 
 Functions that call the host (files, sockets, processes, FFI) call the same
 runtime code on both engines, so permissions, task switching and errors are
@@ -113,7 +115,7 @@ pin stays alive until its function returns. Both engines follow this rule.
 
 ```sh
 COIL_NATIVE_STATS=1 coil app.coil   # counts on stderr
-COIL_NATIVE_STATS=2 coil app.coil   # plus each function, and why one did not compile
+COIL_NATIVE_STATS=2 coil app.coil   # plus each compiled function
 ```
 
 `coil test` runs a suite as native code. `coil test --engine mir` runs it on
