@@ -17,17 +17,17 @@ subcommand they go after it: `coil compile --root ../coil-stdlib/src app.coil`.
 
 | Invocation | What it does |
 |------------|--------------|
-| `coil <file.coil>` | Compile and run. The compiled program is kept in the [build cache](#build-cache), so running it again skips compiling. |
-| `coil compile <file.coil> [-o path]` | Compile to an archive (`out.ccoil` unless `-o`) holding what [native code](/docs/language/native-code) is made from (`--no-jit`: bytecode only). |
-| `coil run <file.ccoil>` | Run a compiled archive. An archive from an incompatible runtime is rejected. It runs as [native code](/docs/language/native-code) (`--no-jit`: on the VM). |
+| `coil <file.coil>` | Compile and run as [native code](/docs/language/native-code). The compiled program is kept in the [build cache](#build-cache), so running it again skips compiling the source. |
+| `coil compile <file.coil> [-o path]` | Compile to a `.ccoil` archive of the program's MIR and data (`out.ccoil` unless `-o`). |
+| `coil run <file.ccoil>` | Run a compiled archive as [native code](/docs/language/native-code). An archive from an incompatible runtime is rejected. |
 | `coil package <file.coil> [-o path]` | Build a single native executable for this OS and CPU ([native code](/docs/language/native-code); `--no-aot`: the `coil-embed` JIT runner with the program inside; `--link-static [STEM=]PATH`: link a C library statically for an `extern` block; `--strip-symbols` (`none`, `debug`, `all`): what the executable keeps, default `debug`). |
-| `coil test [path]` | Run every test under `path` (default `./tests`) and the examples in `///` docs. See [Test harness](/docs/language/test-harness). |
+| `coil test [path]` | Run every test under `path` (default `./tests`) and the examples in `///` docs. `--engine native\|mir` picks what runs them (`native` by default). See [Test harness](/docs/language/test-harness). |
 | `coil verify <file.coil>` | Prove `requires` / `ensures` [contracts](/docs/language/contracts) with an SMT solver. |
-| `coil mutate` | Mutation testing: which small edits to your code no test notices. |
+| `coil mutate` | Mutation testing: which small edits to your code no test notices. Runs on the [MIR interpreter](/docs/language/native-code#the-mir-interpreter), where a step budget stops an edit that makes a test run forever. |
 | `coil fmt [--check] <file\|dir>…` | Format sources in place; `--check` only reports. Keeps `//` and `///` comments. A legacy `.hy` file is written to its `.coil` name and the `.hy` removed. |
 | `coil lsp` | Start the language server on stdin/stdout, for editors. |
-| `coil debug <file.coil>` | Interactive debugger (`--dap` for IDEs, `-x script --batch` for scripts). |
-| `coil dissect <file.coil> [--fn name]` | Print the compiled bytecode of the matching functions. |
+| `coil debug <file.coil>` | Interactive debugger, on the [MIR interpreter](/docs/language/native-code#the-mir-interpreter) (`--dap` for IDEs, `-x script --batch` for scripts). |
+| `coil dissect <file.coil> [--fn name]` | Print a symbol index and the MIR of the matching functions. `--hir`, `--effects` and `--ast` add those sections; `--expand` prints the file after macro expansion instead. |
 | `coil natives dump [exe]` | Print the native-library lock embedded in a packaged executable. |
 | `coil -V` | Print the version. |
 
@@ -42,7 +42,7 @@ subcommand they go after it: `coil compile --root ../coil-stdlib/src app.coil`.
 | `-g0`, `-g1`, `-g2` | How much debug information to keep. `-g2` (the default) gives panics full locations and is needed by `coil debug` and coverage. `--strip-debug` is `-g0`. |
 | `--contracts all\|requires\|off` | Which [contract](/docs/language/contracts) checks run. |
 | `--auto-par on\|off` | Automatic fork-join of pure recursive calls and counted loops (`on` by default). `off` keeps a program sequential, for example for fair benchmark timing. |
-| `--no-jit` | Run the program on the bytecode VM instead of as [native code](/docs/language/native-code). |
+| `--mir` | With `coil <file.coil>`: run on the [MIR interpreter](/docs/language/native-code#the-mir-interpreter) instead of native code, at `-O0` unless `-O` says otherwise. |
 | `--fold-calls on\|off` | Compute pure calls with constant arguments at compile time (`on` by default at `-O2` and above). |
 | `--clone-budget N` | Most per-type clones of generic code one compile makes (4096 by default). Past it a ground call uses the generic's shared body (warning E0804). |
 | `--comptime-read PATH`, `--comptime-net HOST`, … | What [compile-time code](/docs/language/comptime) may touch. |
@@ -89,7 +89,8 @@ Some compiles are never cached:
 
 - a compile that printed warnings, so they show again on the next run;
 - a compile with [compile-time IO](/docs/language/comptime) grants;
-- runs with `--opt-stats`.
+- runs with `--opt-stats`;
+- runs on the interpreter (`--mir`, `--cow-report`).
 
 `--no-build-cache` skips the cache for one command. Deleting the directory
 is always safe. At most 256 programs are kept, and the least recently used
@@ -107,12 +108,12 @@ commands. Keep them in the same directory.
 | `coil-lsp` | `coil lsp` |
 | `coil-debug` | `coil debug` |
 | `coil-dissect` | `coil dissect` |
-| `coil-embed` | `coil package` (the runner the program is embedded in) |
+| `coil-embed` | `coil package --no-aot` (the JIT runner the program is embedded in) |
 
 ## Files
 
 | Extension | Meaning |
 |-----------|---------|
 | `.coil` | Coil source |
-| `.ccoil` | Compiled archive |
+| `.ccoil` | Compiled archive: the program's MIR and data |
 | `.hy`, `.hyc` | Source and archive names from before the rename. Coil still reads `.hy` sources and runs `.hyc` archives from a compatible runtime, but writes only `.coil` and `.ccoil`. `coil fmt` renames `.hy` files to `.coil`. |
