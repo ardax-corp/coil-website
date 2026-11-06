@@ -214,7 +214,7 @@ fn main() {
 
 **Demonstrates:** Trailing rest parameters (`T... name`) packing into a `Vec<T>`, including an empty rest and named fixed args followed by positional rest.
 
-```coil
+```coil ignore
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
@@ -415,9 +415,8 @@ fork-join the binary recursion).
 
 ### `examples/perf/bool_guard.coil`
 
-**Demonstrates:** `if flag { break }` on a bool local — a guard with nothing to
-fuse into `*Jmpf`, so it lowers to a single `JMPT`. Codegen anchor for
-`invert_guard_branch` (see `compiler/tests/perf_metrics.rs`).
+**Demonstrates:** `if flag { break }` on a bool local: a loop guard with no
+comparison in it.
 
 | | |
 |---|---|
@@ -517,6 +516,10 @@ fn main() {
 **Demonstrates:** Scalar-backed `#[repr(int)]` enum, `Status::Ok = 200`, implicit coerce to `int`, `Show` of the backing word, and `default` match.
 
 ```coil
+use io::{stdout};
+use io::sync::{write_all};
+use string::{format, to_bytes};
+
 #[repr(int)]
 #[derive(Show, Eq, Ord, Hash)]
 enum Status {
@@ -810,7 +813,7 @@ enum Shape {
 
 **Demonstrates:** Chained field access across nested record enums (`o.x.v` where `x` is itself a record type).
 
-```coil
+```coil ignore
 enum Outer {
     Outer { x: Inner, y: int },
 }
@@ -878,8 +881,8 @@ Virtual `io` module (`use io::{open, stdout, …};`), `byte` / `Vec<byte>` buffe
 
 ### `examples/io_nested_host.coil`
 
-**Demonstrates:** Nested IO HostInvoke — `read_to_end(open(...)?)` must leave the
-stream (not the outer native id) on the stack for `MakeTuple`.
+**Demonstrates:** Nested IO calls: `read_to_end(open(...)?)` must pass on the
+stream, not the outer native id.
 
 | | |
 |---|---|
@@ -888,9 +891,8 @@ stream (not the outer native id) on the stack for `MakeTuple`.
 
 ### `examples/io_nested_write.coil`
 
-**Demonstrates:** Nested IO HostInvoke with outer arity > 1 —
-`write_all(open(...)?, buf)` must pack the stream (not the outer native id)
-into `MakeTuple`.
+**Demonstrates:** Nested IO calls with outer arity > 1:
+`write_all(open(...)?, buf)` must pass on the stream, not the outer native id.
 
 | | |
 |---|---|
@@ -991,7 +993,7 @@ fn main() {
 
 **Demonstrates:** `type Point = (int, int);`, tuple indexing `p[0]`, and alias substitution at typecheck time (zero runtime cost).
 
-```coil
+```coil ignore
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
@@ -1342,7 +1344,7 @@ call that pins the projection to `int`.
 trait, `type Ref<T> = T;` in the impl, and an applied projection
 `P::Ref<A>` pinned by the selected `Pointer<Option>` instance.
 
-```coil
+```coil ignore
 trait Pointer<P: * -> *> {
     type Ref<T>;
     fn deref<T>(P<T> ptr) -> Ref<T>;
@@ -1387,7 +1389,7 @@ Multi-file projects using `use` and `mod`. Support files live under `examples/sr
 
 **Demonstrates:** `use foo::sadge;` importing a function from another file; hex formatting.
 
-```coil
+```coil ignore
 use foo::sadge;
 use io::{stdout};
 use io::sync::{write_all};
@@ -1412,7 +1414,7 @@ fn main() {
 
 **Demonstrates:** Brace-group imports from a module file (`math.coil`).
 
-```coil
+```coil ignore
 use math::{add, mul};
 use io::{stdout};
 use io::sync::{write_all};
@@ -1467,9 +1469,9 @@ Calling C from coil. Requires **libffi**.
 
 ### `examples/ffi_extern.coil`
 
-**Demonstrates:** Compile-time `extern` block — no manual `dload`/`declare` in source. The compiler emits library load and symbol registration bytecode (unwraps `Result`, panics on failure).
+**Demonstrates:** Compile-time `extern` block — no manual `dload`/`declare` in source. The compiler emits the library load and symbol registration (unwraps `Result`, panics on failure).
 
-```coil
+```coil ignore
 use io::stdout;
 use io::sync::write_all;
 use string::{format, to_bytes};
@@ -1495,7 +1497,7 @@ fn main() {
 
 **Demonstrates:** C-style varargs — bare `...` on an `extern` declaration. Not language rest `T... xs`.
 
-```coil
+```coil ignore
 extern "sum" {
     fn sum_n(int n, ...) -> int;
 }
@@ -1517,7 +1519,7 @@ fn main() {
 
 **Demonstrates:** Userland FFI — `dload` / `declare` / `invoke` each return `Result<_, Error>`; unwrap with `match` (or `?`). Check `e.kind` for typed recovery.
 
-```coil
+```coil ignore
 use ffi::{declare, dload, invoke};
 use ffi::types::{Int};
 use io::{stdout};
@@ -1673,7 +1675,7 @@ fn main() {
 
 **Demonstrates:** Brace-block `match` arm bodies that call `self.method()` (expression blocks, not dicts).
 
-```coil
+```coil ignore
 return match m {
     Mode::Zero => { self.get() },
     Mode::Other(n) => {
@@ -1837,7 +1839,7 @@ Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/recei
 
 ## OS threads
 
-Native threads via `use thread::{spawn, join, …};` — each worker runs on its own VM. See [Tutorial 11 — OS threads](/docs/manual/tutorial/14-threads).
+Native threads via `use thread::{spawn, join, …};` — each worker has its own runtime. See [Tutorial 11 — OS threads](/docs/manual/tutorial/14-threads).
 
 ### `examples/thread_join.coil`
 

@@ -148,7 +148,7 @@ Putting it together: a TCP server that serves each connection in its own
 task, and two clients that talk to it at the same time. The listener uses
 port 0, which lets the operating system pick a free port:
 
-```coil
+```coil no_run
 use io::{Stream, close};
 use io::sync::{println, write_all, read_line, accept_wait};
 use io::net::tcp::{listen, connect, local_addr};
@@ -200,14 +200,15 @@ fn main() {
 }
 ```
 
-Output:
+Run it with `--allow-net` on your own machine (the playground has no sockets),
+and it prints:
 
 ```text
 echo: hello
 echo: world
 ```
 
-Run it with `--allow-net`. A real server would loop on `accept_wait` for
+A real server would loop on `accept_wait` for
 ever instead of twice; each connection costs one task, not one thread.
 
 ## Henry's challenges

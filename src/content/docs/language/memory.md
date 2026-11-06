@@ -256,7 +256,9 @@ The compiler warns where a write will copy:
 
 At run time, `coil FILE --cow-report` prints how many copies each source
 line made when the program exits, and hints at a `mut` borrow or a `Ref`
-for lines that copy over and over.
+for lines that copy over and over. That run is on the
+[MIR interpreter](/docs/language/native-code#the-mir-interpreter), so it is
+slower than a normal one.
 
 ### Threads and tasks
 
@@ -449,7 +451,7 @@ Two flags change the defaults, for measuring and debugging:
 | `--early-free on` / `off` | Compile the early frees, or not, whatever the `-O` level |
 | `--early-free check` | Compile the frees, but free nothing when the program runs; at the next collection, abort if a freed object was still reachable |
 | `--nursery on` / `off` | Turn the nursery on (the default) or off for `coil FILE`, `coil run` and `coil test` |
-| `--cow-report` | At exit, print the copies copy-on-write made, per source line, for `coil FILE` |
+| `--cow-report` | At exit, print the copies copy-on-write made, per source line, for `coil FILE` (runs on the MIR interpreter) |
 
 `coil FILE` and `coil test` take `--early-free` and `--nursery`. `coil compile`, `coil package`
 and `coil dissect` take `--early-free`, and `coil run` takes `--nursery`.

@@ -1,15 +1,15 @@
 ---
 title: Docs
-description: A small typed scripting language with more structure than a typical script, and a bytecode runtime they can keep thin.
+description: A small typed scripting language with more structure than a typical script, compiled to native code.
 ---
 
 # coil
 
-**coil** is a statically typed scripting language with type inference. Programs are compiled to bytecode and executed on a custom virtual machine. Source files use the `.coil` extension (short for **henry**, the SI unit of inductance — the measure of a coil); compiled archives are stored as `.ccoil` files.
+**coil** is a statically typed scripting language with type inference. Programs are compiled to native code with Cranelift, when they start or ahead of time. Source files use the `.coil` extension (short for **henry**, the SI unit of inductance — the measure of a coil); compiled archives are stored as `.ccoil` files.
 
-For developers who want a small typed scripting language with more structure than a typical script, and a bytecode runtime they can keep thin.
+For developers who want a small typed scripting language with more structure than a typical script, compiled to native code.
 
-The language targets embeddable scripting: you get real type checking and inference without a heavyweight build pipeline, plus optional FFI for calling into C libraries or host-provided Rust closures.
+The language targets embeddable scripting: you get real type checking and inference without a heavyweight build pipeline, plus optional FFI for calling into C libraries.
 
 ## Quick start
 
@@ -34,7 +34,7 @@ Expected output: `hello`
 
 ## How programs run
 
-Parse → typecheck → typed HIR (inlining, optimization passes) → stack IL + MIR tiers / lower/fuse-select → bytecode → VM executes `main`. `coil <file.coil>` compiles in memory on every run; `coil compile` writes a versioned `.ccoil` archive (packed `major.minor`) that `coil run` executes. Full stage notes: [Internals — Pipeline](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/pipeline.md).
+Parse → typecheck → typed HIR (inlining, optimization passes) → MIR (every function) → native code with Cranelift, compiled when the program starts or ahead of time by `coil package`. Compile-time code, macros, `coil debug` and WebAssembly builds run the same MIR on an [interpreter](/docs/language/native-code#the-mir-interpreter). `coil <file.coil>` compiles in memory and keeps the result in the [build cache](/docs/language/cli#build-cache); `coil compile` writes a versioned `.ccoil` archive (packed `major.minor`) of the MIR and data, and `coil run` runs it. Full stage notes: [Internals — Pipeline](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/pipeline.md).
 
 ## Language at a glance
 
@@ -79,7 +79,7 @@ Docs are split into three trees:
 |------|----------|------------|
 | [Manual](/docs/manual/getting-started) | Learners | Getting started, tutorial chapters 01–16, examples catalog |
 | [References](/docs/reference) | Lookup | Syntax, types, keywords, per-API builtin pages |
-| [Internals](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/README.md) | Contributors / embedders | Pipeline, debug info, opcodes, grammar |
+| [Internals](https://github.com/ardax-corp/coil-lang/blob/main/docs/internals/README.md) | Contributors / embedders | Pipeline, debug info, MIR, grammar |
 
 
 ### Manual (tutorial)
@@ -113,14 +113,16 @@ Full API index: [Reference](/docs/reference).
 
 ```
 coil/
-├── common/          # Shared types: opcodes, values, archive format
+├── common/          # Shared types: values, archive format
 ├── parser/          # Pratt parser and AST
-├── compiler/        # Typechecker, HIR optimizations, stack IL / MIR lowering, pipeline
-├── machine/         # VM, heap/GC, FFI (libffi)
+├── compiler/        # Typechecker, HIR and MIR optimizations, pipeline
+├── coil-native/     # MIR to machine code with Cranelift (JIT and AOT)
+├── coil-mir-interp/ # MIR interpreter
+├── machine/         # Runtime: heap/GC, tasks, FFI (libffi)
 ├── coil-*/          # CLI helpers: test, fmt, lsp, debug, dissect, verify, embed
 ├── examples/        # Runnable .coil demos (see manual/examples.md)
 │   └── projects/    # Showcase multi-file apps + co-located tests
-├── docs/internals/  # Pipeline, VM notes, grammar (user docs live on this site)
+├── docs/internals/  # Pipeline, runtime notes, grammar (user docs live on this site)
 └── src/main.rs      # CLI: default build+run, compile, run, test
 ```
 
@@ -131,7 +133,7 @@ coil/
 | *(no subcommand)* `<file.coil>` | Compile in memory → run (no `out.ccoil`) |
 | `compile <file.coil> [-o path]` | Compile entry file to a `.ccoil` archive |
 | `run <file.ccoil>` | Execute a compiled archive |
-| `package <file.coil> [-o path] [--check-native]` | Single executable (embeds `.ccoil` into `coil-embed` by default) |
+| `package <file.coil> [-o path] [--check-native]` | Single native executable (`--no-aot`: the `coil-embed` JIT runner with the program inside) |
 | `test [path] [--fail-fast]` | Compile+run all `[path]/**/*.coil` (default `./tests`); continue after failures unless `--fail-fast` |
 | `lsp` | Start the Coil language server over stdin/stdout |
 

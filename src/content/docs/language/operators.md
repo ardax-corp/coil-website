@@ -60,18 +60,18 @@ Forms **not** in the Pratt table but still tight-binding:
 
 ## Arithmetic
 
-| Operator | Types | Result | VM op (int / float) |
-|----------|-------|--------|---------------------|
-| `+` | `int` / `float` / `byte` (both same), `string` + `string`, or a type with an `Add` instance | same | `ADD` / `ADDF`; strings lower through `FORMAT "%s%s"`; an instance is a `CALL` |
-| `-` | `int` / `float` / `byte`, or a type with a `Sub` instance | same | `SUB` / `SUBF` |
-| `*` | `int` / `float` / `byte`, or a type with a `Mul` instance | same | `MUL` / `MULF` |
-| `/` | `int` / `float` / `byte`, or a type with a `Div` instance | same | `DIV` / `DIVF` |
-| `%` | `int` / `float` / `byte`, or a type with a `Rem` instance | same | `MOD` / `MODF` |
-| `**` | `int` / `float` / `byte`, or a type with a `Pow` instance | same | `Pow` / `PowF` |
+| Operator | Types | Result |
+|----------|-------|--------|
+| `+` | `int` / `float` / `byte` (both same), `string` + `string`, or a type with an `Add` instance | same |
+| `-` | `int` / `float` / `byte`, or a type with a `Sub` instance | same |
+| `*` | `int` / `float` / `byte`, or a type with a `Mul` instance | same |
+| `/` | `int` / `float` / `byte`, or a type with a `Div` instance | same |
+| `%` | `int` / `float` / `byte`, or a type with a `Rem` instance | same |
+| `**` | `int` / `float` / `byte`, or a type with a `Pow` instance | same |
 
 Mixed `int` and `float` operands → **type error** at compile time. Any other
 operand type is a type error too (`"a" - "b"`, `true * false`, a class with no
-`Sub` instance): the VM never operates on a non-numeric word.
+`Sub` instance).
 
 `int` arithmetic is exact or it panics, in every build (debug and release):
 `+`, `-`, `*`, unary `-`, `++` / `--` and compound forms panic with
@@ -101,9 +101,9 @@ operators on a `byte` warns `E0130`; convert to `int` first (`x as int`) when
 you want the exact result. `/` and `%` by zero still panic.
 
 When the factor is a **compile-time power of two** (`2`, `4`, `8`, …), `byte`
-multiplication lowers to a left shift (`SHL` / `<<`) instead of `MUL`. `int`
-`*` stays a `MUL` (a shift would not trap on overflow); trait/`Mul` dictionary
-dispatch and float `*` are never rewritten either.
+multiplication becomes a left shift. `int` `*` stays a multiplication (a shift
+would not trap on overflow); trait/`Mul` dictionary dispatch and float `*` are
+never rewritten either.
 
 ### Aggregate (vector) arithmetic
 
@@ -124,9 +124,9 @@ known), so use fixed `[T; N]` for that.
 negates each element. Compound assign (`+=`, `**=`, …) follows the same
 rules with the LHS shape fixed.
 
-Static-length zip/broadcast uses a packed HostInvoke SIMD kernel when the
-fixed length is ≥ 8 (`packed_vec_arith`); smaller shapes still unroll to
-scalar opcodes (bytecode size scales with `N` in that case).
+Static-length zip/broadcast uses a packed SIMD kernel when the fixed length
+is ≥ 8; smaller shapes unroll to scalar operations (code size scales with `N`
+in that case).
 
 For **dot product**, **cross product**, and bare-array **matrix multiply**,
 use the named helpers `dot`, `cross`, and `matmul`. For matmul via `*`
@@ -209,16 +209,7 @@ A user type's `Shl` / `Shr` instance takes the count as an `int` too:
 | `&&` | `bool`, `bool` | `bool` |
 | `\|\|` | `bool`, `bool` | `bool` |
 
-`&&` and `||` short-circuit: the right operand runs only when the left does not decide the result. The compiler evaluates the right operand eagerly (one `AND` / `OR` opcode) only when it is a side-effect-free, non-trapping expression, where the difference cannot be observed.
-
-| Operator | VM opcode |
-|----------|-----------|
-| `&&` | `AND` |
-| `\|\|` | `OR` |
-| `&` | `BITAND` |
-| `\|` | `BITOR` |
-| `^` | `XOR` |
-| `<<`, `>>` | `SHL`, `SHR` |
+`&&` and `||` short-circuit: the right operand runs only when the left does not decide the result. The compiler evaluates the right operand eagerly only when it is a side-effect-free, non-trapping expression, where the difference cannot be observed.
 
 ---
 
@@ -239,8 +230,6 @@ strings, and a case compares with a plain `string` without one.
 
 Ordering any other type (`bool`, a class without an `Ord` instance) is a type
 error.
-
-Float and int comparisons use separate opcode families (`LE` vs `LEF`, etc.) selected at codegen from inferred types.
 
 `==` / `!=` on arrays, tuples, records and enums are **structural**, recursively: arrays and tuples by length and element-wise, records field by field (`{ a: 1 } == { a: 1 }`, whatever order the literals name the fields in), enums by variant and payload (`Some("x") == Some("x")`). Strings compare by UTF-8 content. A `float` inside an array, tuple or record compares by IEEE 754, as scalar `float` `==` does (`NaN != NaN`, `0.0 == -0.0`).
 
@@ -264,8 +253,6 @@ identifier += expr    // and other compound forms
 | Type | `x op= y` checks like `x = x op y`: the RHS must unify with the assigned slot, except the `int` count of `<<=` / `>>=`; bitwise compound ops require `int` or `byte`, or a type with the operator's trait |
 | Undeclared | Error — use `let` first |
 | Value | Assignment and compound-assignment expressions evaluate to the assigned value |
-
-`let` bindings use `STORE` (pop TOS into the slot); match arms need no store opcode for pattern slots (value already placed by unpack/match).
 
 ---
 
@@ -301,14 +288,14 @@ Field resolution:
 
 | Receiver type | Mechanism |
 |---------------|-----------|
-| Enum record variant | `LoadField` (index by declaration order) |
-| `{ }` record | `LoadField` (slot of the field, fields sorted by name) |
+| Enum record variant | Field slot, by declaration order |
+| `{ }` record | Field slot, with fields sorted by name |
 
 ---
 
 ## Error-handling operators (`?`, `?.`, `??`)
 
-Desugared to `match` / `return` / `MakeEnum` — no new opcodes. See [Tutorial: Error handling](/docs/manual/tutorial/06-error-handling).
+Desugared to `match` and `return`. See [Tutorial: Error handling](/docs/manual/tutorial/06-error-handling).
 
 | Operator | Form | Operand | Result type | Notes |
 |----------|------|---------|-------------|-------|
