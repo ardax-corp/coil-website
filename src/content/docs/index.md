@@ -5,7 +5,7 @@ description: A statically typed language with type inference, compiled to native
 
 # coil
 
-**coil** is a statically typed language with type inference. The compiler turns functions into machine code with [Cranelift](https://cranelift.dev), and `coil package` links a program into a native executable with no VM inside ([native code](/docs/language/native-code)). Source files use the `.coil` extension (short for **henry**, the SI unit of inductance — the measure of a coil); compiled archives are stored as `.ccoil` files.
+**coil** is a statically typed language with type inference. The compiler turns functions into machine code with [Cranelift](https://cranelift.dev), and `coil package` links a program into a native executable ([native code](/docs/language/native-code)). Source files use the `.coil` extension (short for **henry**, the SI unit of inductance — the measure of a coil); compiled archives are stored as `.ccoil` files.
 
 For developers who want type checking and inference without a heavyweight build pipeline, and native speed without managing memory by hand:
 
@@ -136,7 +136,7 @@ coil/
 
 | Command | Role |
 |---------|------|
-| *(no subcommand)* `<file.coil>` | Compile in memory → run (no `out.ccoil`); `--jit` runs it as machine code |
+| *(no subcommand)* `<file.coil>` | Compile in memory → run as machine code (no `out.ccoil`) |
 | `compile <file.coil> [-o path]` | Compile entry file to a `.ccoil` archive |
 | `run <file.ccoil>` | Execute a compiled archive |
 | `package <file.coil> [-o path] [--check-native]` | Single native executable (`--no-aot`: the `coil-embed` JIT runner with the program inside) |

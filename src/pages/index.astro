@@ -100,9 +100,9 @@ use env::{args, var};`,
 const systems = [
   {
     title: "Native code",
-    text: "Cranelift compiles each function to machine code. `coil package` links a native executable with no VM inside, and `--jit` runs a program natively straight from source.",
+    text: "Cranelift compiles each function to machine code: when the program starts with `coil app.coil`, or ahead of time with `coil package`, which links a native executable.",
     href: "/docs/language/native-code",
-    tag: "coil package · --jit",
+    tag: "coil app.coil · coil package",
   },
   {
     title: "Parallel by default",
@@ -145,8 +145,7 @@ const pipeline = [
 ];
 
 const commands = [
-  ["coil app.coil", "Compile (cached) and run"],
-  ["coil app.coil --jit", "Run as machine code"],
+  ["coil app.coil", "Compile (cached) and run as machine code"],
   ["coil test", "Run test blocks under ./tests"],
   ["coil fmt src/", "Format sources in place"],
   ["coil package app.coil", "Build a native executable"],
@@ -260,7 +259,7 @@ const commands = [
         <p>
           <code>coil app.coil</code> compiles and runs at once, caching the build until sources, version or entry
           point change. <code>coil package</code> compiles every function ahead of time and links one native
-          executable, with no VM inside.
+          executable.
         </p>
       </header>
 
