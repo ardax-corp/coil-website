@@ -14,7 +14,7 @@ Complete grammar overview for coil source (`.coil`). This document describes wha
 | Extension | Role |
 |-----------|------|
 | `.coil` | Source text parsed by `parser::Pratt` |
-| `.ccoil` | Compiled bytecode archive (rkyv-serialized `ArchivedProgram`) |
+| `.ccoil` | Compiled archive of MIR and data (rkyv-serialized `ArchivedProgram`) |
 
 Programs are sequences of **declarations** and **statements**. Most top-level items are declarations; statements appear inside function bodies and blocks.
 
@@ -58,7 +58,7 @@ fn triple(int x) -> int { return x * 3; }
 |-----------|--------|-----------|
 | `#[derive(Trait, …)]` | `enum` / `class` | Runs each derive (built-in `Show`, `Eq`, `Ord`, `Hash`, `Default`, `Send`, `Sensitive`, or a user `derive` imported with `use`) and adds its output after the type. Without derive, non-generic **payload** types still get a default `Show`: a class returns its type name string, an enum its qualified variant name (`E::V`, payload elided). Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
 | `#[repr(int)]` / `#[repr(string)]` / `#[repr(float)]` / `#[repr(bool)]` | `enum` | Scalar-backed enum: each case is `Name = lit` of that primitive. May be omitted when every case has `=` and the literals share one type. See [Types — Scalar-backed enums](/docs/language/types#scalar-backed-enums). |
-| `#[max_depth(N)]` | recursive `fn` | Optional hint: presizes the VM stack for `N` simultaneous frames when the compiler cannot prove a depth (dynamic args, mutual recursion). The stack grows at run time either way, so a wrong `N` only costs a regrow. `N` must be a positive integer. |
+| `#[max_depth(N)]` | recursive `fn` | Optional hint of how deep the recursion goes, for when the compiler cannot prove a depth (dynamic args, mutual recursion). Depth is checked at run time either way, so a wrong `N` does no harm. `N` must be a positive integer. |
 | Attribute macro `#[name(…)]` | `fn`, methods, `class`, `enum` | Runs the `attr name(…)` macro imported with `use`; its output replaces the item. See [Macros](/docs/language/macros#attribute-macros). |
 
 Several attribute macros on one item apply outermost first. Unknown attribute names are rejected at compile time.
@@ -782,9 +782,8 @@ A record arm still works when the body is a real record literal (`{ x: 1 }`).
 | Rule | Detail |
 |------|--------|
 | Entry function | `fn main()` required for standalone programs |
-| Prologue | Compiler emits `CALL`, `JMP`, `HALT`; patches jump to `main` |
 | Extern setup | `extern` blocks may emit setup before `main` |
-| Archive | Output wrapped in `ArchivedProgram { version, bytecode, ... }` |
+| Archive | Output is an `ArchivedProgram`: a version, the MIR and the program's data |
 
 ---
 

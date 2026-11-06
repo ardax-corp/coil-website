@@ -415,9 +415,8 @@ fork-join the binary recursion).
 
 ### `examples/perf/bool_guard.coil`
 
-**Demonstrates:** `if flag { break }` on a bool local — a guard with nothing to
-fuse into `*Jmpf`, so it lowers to a single `JMPT`. Codegen anchor for
-`invert_guard_branch` (see `compiler/tests/perf_metrics.rs`).
+**Demonstrates:** `if flag { break }` on a bool local: a loop guard with no
+comparison in it.
 
 | | |
 |---|---|
@@ -882,8 +881,8 @@ Virtual `io` module (`use io::{open, stdout, …};`), `byte` / `Vec<byte>` buffe
 
 ### `examples/io_nested_host.coil`
 
-**Demonstrates:** Nested IO HostInvoke — `read_to_end(open(...)?)` must leave the
-stream (not the outer native id) on the stack for `MakeTuple`.
+**Demonstrates:** Nested IO calls: `read_to_end(open(...)?)` must pass on the
+stream, not the outer native id.
 
 | | |
 |---|---|
@@ -892,9 +891,8 @@ stream (not the outer native id) on the stack for `MakeTuple`.
 
 ### `examples/io_nested_write.coil`
 
-**Demonstrates:** Nested IO HostInvoke with outer arity > 1 —
-`write_all(open(...)?, buf)` must pack the stream (not the outer native id)
-into `MakeTuple`.
+**Demonstrates:** Nested IO calls with outer arity > 1:
+`write_all(open(...)?, buf)` must pass on the stream, not the outer native id.
 
 | | |
 |---|---|
@@ -1471,7 +1469,7 @@ Calling C from coil. Requires **libffi**.
 
 ### `examples/ffi_extern.coil`
 
-**Demonstrates:** Compile-time `extern` block — no manual `dload`/`declare` in source. The compiler emits library load and symbol registration bytecode (unwraps `Result`, panics on failure).
+**Demonstrates:** Compile-time `extern` block — no manual `dload`/`declare` in source. The compiler emits the library load and symbol registration (unwraps `Result`, panics on failure).
 
 ```coil ignore
 use io::stdout;
@@ -1841,7 +1839,7 @@ Stackful coroutines via `gen fn`, `yield`, and `resume`. Phase 2 adds send/recei
 
 ## OS threads
 
-Native threads via `use thread::{spawn, join, …};` — each worker runs on its own VM. See [Tutorial 11 — OS threads](/docs/manual/tutorial/14-threads).
+Native threads via `use thread::{spawn, join, …};` — each worker has its own runtime. See [Tutorial 11 — OS threads](/docs/manual/tutorial/14-threads).
 
 ### `examples/thread_join.coil`
 

@@ -18,8 +18,9 @@ program as if you had written it out: a value for a `const` or a
 | `comptime { … }` at the top level | while compiling, before typechecking | the items in the `Code` it returns |
 | a macro, derive or attribute | while compiling, before typechecking | the code it returns |
 
-Compile-time code is ordinary Coil, run by the same VM as your program. It
-gets no files, network or environment unless the build grants them
+Compile-time code is ordinary Coil, run by the
+[MIR interpreter](/docs/language/native-code#the-mir-interpreter) on the same
+runtime as your program. It gets no files, network or environment unless the build grants them
 ([IO](#io)).
 
 ## Computed consts
