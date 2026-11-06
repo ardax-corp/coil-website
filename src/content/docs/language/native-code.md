@@ -27,10 +27,10 @@ coil --root ~/coil-stdlib/src app.coil
 ```
 
 compiles the program to MIR, turns the MIR into machine code and runs it.
-Making machine code takes time at every start: a few milliseconds for a
-small program, more for a large one. The
-[build cache](/docs/language/cli#build-cache) keeps the MIR, not the machine
-code, so a second run skips compiling the source only.
+Making machine code takes a few milliseconds for a small program and more for
+a large one, so Coil keeps it: a second run of the same program loads the
+machine code from the [code cache](/docs/language/cli#code-cache) and starts
+almost as fast as a [native executable](#native-executables).
 
 `coil compile` writes a `.ccoil` archive with the program's MIR and data
 (not machine code), so any machine with the same `coil` can run it:
