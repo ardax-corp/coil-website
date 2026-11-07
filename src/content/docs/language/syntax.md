@@ -441,6 +441,24 @@ explicit-capture rule as lambdas); bare `defer { … }` cannot close over
 enclosing locals. As with a lambda, `use (x)` copies `x` when the `defer`
 statement runs, so a later assignment to `x` is not seen. `use (mut x)` borrows
 `x` instead: the block sees its value when it runs, and its writes reach `x`.
+The variable must still exist then: assigning a `use (x)` copy, or a `use (mut x)`
+of a local declared in the block the defer ends, is an error
+([E0152](/docs/language/error-codes)); a local of an outer block is written as
+usual, also while a panic unwinds, so that block's own defers see the new value.
+
+```coil
+fn count(int n) -> int {
+    let done = 0;
+    let i = 0;
+    while i < n {
+        defer use (mut done) {
+            done += 1; // `done` belongs to the function's block: alive here
+        }
+        i += 1;
+    }
+    return done;
+}
+```
 
 ```coil
 fn copy_all(string from, string to) -> Result<int, IoError> {
