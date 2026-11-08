@@ -77,6 +77,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0149` | `BorrowConflict` | While a `mut` borrow or a view is live, the place it borrows is shared, moved, captured by a lambda or replaced. Writes through the borrow would show through the second name, or go to the old object. Use the borrow for the last time first, or borrow again afterwards. See [Views](/docs/language/memory#views-classes-that-borrow) |
 | `E0150` | `MisplacedMut` | `mut` where it borrows nothing: outside a `let` initializer, a `for` iterable or a view constructor's `mut` field argument; a `mut` field in a class that is not a `view class`; a `mut` field given a plain value, or a plain field given `mut place`; or a borrow of a number (there is no reference to one scalar slot: borrow the object that holds it) |
 | `E0151` | `ViewEscape` | A view could outlive the place it borrows: it is stored (field, element, static, new object), held inside another type (`Option<View>`, `Vec<View>`), captured by a lambda, passed to a function that keeps it, or returned from something other than a method of the borrowed object. See [Views](/docs/language/memory#views-classes-that-borrow) |
+| `E0152` | `DeferAssignsCapture` | A `defer` body assigns a variable that is gone when it runs: a `use (x)` capture (the defer's own copy; capture it with `use (mut x)` to change the variable), or a `use (mut x)` of a local declared in the block the defer ends. Declare the variable in an outer block, whose locals a defer may assign. See [Defer](/docs/language/syntax#defer) |
 | `E0202` | `UnknownEnum` | Cannot find the enum (or type or trait) named before `::` |
 | `E0203` | `UnknownVariant` | `Enum::Case` names a case the enum does not declare |
 | `E0204` | `ConstructorArity` | A constructor or constructor pattern has the wrong number of payload values |
@@ -105,6 +106,7 @@ SARIF `ruleId`, and LSP `code`). Codes are grouped by family:
 | `E0805` | `ParLockHint` | Auto-parallelization refused a loop because of a shared escape; the hint suggests locking that resource |
 | `E0806` | `ConflictingOptHints` | Two [optimizer hints](/docs/language/opt-hints) on one function contradict each other (`#[cold]` with `#[inline]` / `#[inline(always)]` / `#[hot]`, or `#[inline(never)]` with any of those three) |
 | `E0807` | `InlineRefused` | Warning: an `#[inline(always)]` function stays a call where it cannot be inlined (recursion, a generator or task, a call through a function value); the message says why |
+| `E0808` | `BoxedResidue` | Warning: your code boxes a two-word value (`Option<int>`, `(int, float)`) where nothing can keep its two words: a class field typed by a class parameter, a value used as a bare trait type, or an argument to a `forall` function value. The help names a form that keeps both words |
 | `E0900` | `IoError` | I/O failure |
 | `E0901` | `ArchiveVersionMismatch` | Stale `.ccoil` archive |
 | `E0902` | `InvalidCliFlags` | Conflicting or unknown CLI flags |
