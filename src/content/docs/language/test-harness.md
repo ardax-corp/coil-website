@@ -17,7 +17,7 @@ test("addition works") {
 
 `?` in a test body also accepts any `Result` whose error type has `Show` (for example `IoError`, or your own `#[derive(Show)]` enum), and `Option`. A failed `?` fails the case with the shown error, such as `` `?` got Err(NotFound) `` or `` `?` got None ``. Inside the case there's no need to `match` on an error just to turn it into a string:
 
-```coil
+```coil ignore
 use io::{open, close};
 
 test("reads the config") {
@@ -28,7 +28,7 @@ test("reads the config") {
 
 (A case that reaches `open` needs `coil test --allow-read`, like any program; see [Permissions](/docs/language/permissions).) This applies only to the test body itself. Helper functions and lambdas keep their own declared `Result` / `Option` types. A user class without `#[derive(Show)]` or an `impl Show` shows as its type name and an enum as its variant name without the payload (`E::V`), so derive `Show` to get the fields in the message.
 
-Do **not** also define `fn main` in a file that uses `test(...)` cases — the compiler injects a virtual `main` for standalone runs. The `coil test` CLI runs each case in an isolated VM (so a `panic` in one case does not skip later cases). Failing files print `FAILED <file>` as they finish; after the run each failed case is listed with why it failed and what it printed (`stdout:` and `stderr:` apart, a panic message under stderr), then a list of the failed cases and the summary. On a terminal a progress bar counts files (`COIL_PROGRESS=0` turns it off); passing files and their compiler warnings show only with `-v` / `--verbose`, and passing cases' output with `--show-output`. Pass `--fail-fast` to stop after the first failed case. `env::exit` inside a case ends only that case, not the run: a `test` case that calls it fails whatever the code (the rest of its body never ran), and a file without `test` cases, whose `main` runs as one case, passes on `exit(0)` and fails on any other code. To check a program's real exit status, run it as a subprocess. The code examples in `///` docs also run; see [Doc-tests](#doc-tests).
+Do **not** also define `fn main` in a file that uses `test(...)` cases — the compiler injects a virtual `main` for standalone runs. The `coil test` CLI runs each case in an isolated runtime (so a `panic` in one case does not skip later cases). Failing files print `FAILED <file>` as they finish; after the run each failed case is listed with why it failed and what it printed (`stdout:` and `stderr:` apart, a panic message under stderr), then a list of the failed cases and the summary. On a terminal a progress bar counts files (`COIL_PROGRESS=0` turns it off); passing files and their compiler warnings show only with `-v` / `--verbose`, and passing cases' output with `--show-output`. Pass `--fail-fast` to stop after the first failed case. `env::exit` inside a case ends only that case, not the run: a `test` case that calls it fails whatever the code (the rest of its body never ran), and a file without `test` cases, whose `main` runs as one case, passes on `exit(0)` and fails on any other code. To check a program's real exit status, run it as a subprocess. The code examples in `///` docs also run; see [Doc-tests](#doc-tests).
 
 `#[test]` on `fn` is a type error. Tests are the statement form only.
 

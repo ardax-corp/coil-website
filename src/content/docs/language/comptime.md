@@ -18,8 +18,9 @@ program as if you had written it out: a value for a `const` or a
 | `comptime { … }` at the top level | while compiling, before typechecking | the items in the `Code` it returns |
 | a macro, derive or attribute | while compiling, before typechecking | the code it returns |
 
-Compile-time code is ordinary Coil, run by the same VM as your program. It
-gets no files, network or environment unless the build grants them
+Compile-time code is ordinary Coil, run by the
+[MIR interpreter](/docs/language/native-code#the-mir-interpreter) on the same
+runtime as your program. It gets no files, network or environment unless the build grants them
 ([IO](#io)).
 
 ## Computed consts
@@ -63,12 +64,12 @@ compiling, which makes the build take longer.
 `comptime e` computes `e` while compiling and uses the value in its place.
 It is a `const` written inline, with the same rules:
 
-```coil
+```coil ignore
 use env::var;
 
 fn main() {
     let total = comptime sum_of_squares(10);
-    let target = comptime (var("TARGET") ?? "dev"); // needs --comptime-env TARGET
+    let target = comptime var("TARGET").unwrap_or("dev"); // needs --comptime-env TARGET
 }
 ```
 
@@ -81,14 +82,14 @@ does. Use a value it can compute itself, or a module `const`.
 `comptime { … }` inside a function is a block that runs while compiling. The
 value it returns takes its place:
 
-```coil
+```coil ignore
 use io::file::read_text;
 use text::{Text};
 
 fn main() {
     // needs --comptime-read names.txt
     let count = comptime {
-        let text = read_text("names.txt") ?? "";
+        let text = read_text("names.txt").unwrap_or("");
         let names: Vec<string> = text.lines();
         let n = 0;
         for name in names {
@@ -109,12 +110,12 @@ a block that only has side effects ends with `return;` and gives `()`.
 A top-level `comptime { … }` returns `Code`. The items in it replace the
 block, as the output of a top-level `name!(…);` macro call does:
 
-```coil
+```coil ignore
 use api_gen::classes;
 use io::file::read_text;
 
 comptime {
-    return classes(read_text("api/schema.json") ?? "{}");
+    return classes(read_text("api/schema.json").unwrap_or("{}"));
 }
 ```
 

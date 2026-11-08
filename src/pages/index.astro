@@ -100,9 +100,9 @@ use env::{args, var};`,
 const pipeline = [
   { step: "Parse", detail: "Pratt parser → AST", file: ".coil" },
   { step: "Typecheck", detail: "Hindley–Milner inference" },
-  { step: "Codegen", detail: "Stack IL, lowered & fused" },
-  { step: "Archive", detail: "Versioned bytecode", file: ".ccoil" },
-  { step: "Run", detail: "Thin VM executes main" },
+  { step: "Optimize", detail: "Typed HIR, then MIR" },
+  { step: "Archive", detail: "Versioned MIR and data", file: ".ccoil" },
+  { step: "Run", detail: "Native code with Cranelift" },
 ];
 
 const commands = [
@@ -116,7 +116,7 @@ const commands = [
 
 <Base
   title="Coil"
-  description="A small, statically typed scripting language with Hindley–Milner inference, pattern matching, coroutines and FFI — compiled to bytecode for a thin VM."
+  description="A small, statically typed scripting language with Hindley–Milner inference, pattern matching, coroutines and FFI, compiled to native code."
   section="home"
 >
   <!-- ------------------------------------------------------------ hero -->
@@ -129,8 +129,8 @@ const commands = [
         </a>
         <h1>A small, statically&nbsp;typed scripting&nbsp;language.</h1>
         <p class="lede">
-          Coil gives you real type inference, algebraic data types and pattern matching, coroutines and FFI —
-          compiled to compact bytecode and run on a thin, embeddable VM.
+          Coil gives you real type inference, algebraic data types and pattern matching, coroutines and FFI,
+          compiled to native code with Cranelift when the program starts or ahead of time.
         </p>
         <div class="cta">
           <a class="btn btn-primary" href="/docs/manual/getting-started">Get started <span class="arrow">→</span></a>
@@ -138,7 +138,7 @@ const commands = [
         </div>
         <dl class="facts">
           <div><dt>Source</dt><dd><code>.coil</code></dd></div>
-          <div><dt>Bytecode</dt><dd><code>.ccoil</code></dd></div>
+          <div><dt>Archive</dt><dd><code>.ccoil</code></dd></div>
           <div><dt>CLI</dt><dd><code>coil</code></dd></div>
           <div><dt>Packages</dt><dd><code>spool</code></dd></div>
         </dl>
@@ -190,10 +190,10 @@ const commands = [
     <div class="wrap">
       <header class="section-head">
         <span class="eyebrow">How it runs</span>
-        <h2>From source to bytecode, once.</h2>
+        <h2>From source to native code.</h2>
         <p>
-          The CLI caches the compiled archive and reuses it until sources, version or entry point change — so
-          the second run starts straight on the VM.
+          The CLI caches the compiled archive and reuses it until sources, version or entry point change, so
+          the second run skips straight to making machine code.
         </p>
       </header>
 

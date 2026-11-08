@@ -181,7 +181,7 @@ enum Status {
 
 `#[repr(int)]`, `#[repr(string)]`, `#[repr(float)]`, and `#[repr(bool)]` compose with `#[derive(...)]` on the same declaration. You may omit `#[repr(...)]` when every case has `= lit` and those literals share one simple type (inferred `int` / `float` / `string` / `bool`). Every scalar case needs an explicit `=`; there is no auto-increment. Mixing backings, mixing payload variants with `=` scalars, omitting `=`, or duplicating a backing value is `E0213` / `E0214`.
 
-```coil
+```coil ignore
 #[repr(string)]
 enum Mode { Fast = "fast", Slow = "slow" }
 
@@ -254,7 +254,7 @@ one is expected, so `fn sum(Vec<int> v)` takes `sum([1, 2, 3])`.
 | `[T; N]` | `Static(N)` | Literal `[1, 2, 3]` infers `[int; 3]` |
 | `[T]` | — | **Rejected** (`E0119`) — use `[T; N]` or `Vec<T>` |
 
-```coil
+```coil ignore
 let xs = [1, 2, 3];           // [int; 3]
 let zs: [int; 3] = [0, 0, 0];
 fn sum([int; 3] arr) -> int { /* ... */ }
@@ -309,7 +309,7 @@ Statics: `Vec::new`, `Vec::with_capacity`, `Vec::from`. Methods: `push`, `pop`,
 | Tuple | OOB literal → diagnostic | — |
 | Non-aggregate | Error | — |
 
-Proven counted-loop `Index` / `StoreIndex` rewrite to unchecked opcodes ([#192](https://github.com/ardax-corp/coil-lang/pull/192)). Dynamic indices stay checked and **panic** on OOB (archive major 4). Prefer `i < a.len()` in loops (`LEQ`/`GEQ` are not proofs). Details: [Arrays and Vec](/docs/language/arrays#out-of-range-index).
+The compiler drops the check on an index it proves in range, as in a counted loop. Every other index stays checked and **panics** on OOB. Prefer `i < a.len()` in loops. Details: [Arrays and Vec](/docs/language/arrays#out-of-range-index).
 
 ---
 
@@ -348,7 +348,7 @@ formatting (see [Trait derive](#trait-derive)), or write an explicit `impl Show 
 type as a fully-qualified name, and lowers to an ordinary string constant. The
 operand is **not** evaluated at runtime.
 
-```coil
+```coil ignore
 typeof 42                 // "int"
 typeof (1, 2)             // "(int, int)"
 typeof Option::Some(1)    // "prelude::Option<int>"
@@ -358,7 +358,7 @@ typeof Option::Some(1)    // "prelude::Option<int>"
 operand right after it, together with any calls, field accesses or indexing,
 and binary operators apply to the resulting name. Parenthesize a larger operand.
 
-```coil
+```coil ignore
 typeof x == "int"         // (typeof x) == "int"
 typeof(x) == "int"        // the same
 typeof p.f(1) + "!"       // (typeof p.f(1)) + "!"
@@ -418,7 +418,7 @@ Class `static` fields require an initializer. `static` and `const` field modifie
 
 `readonly T` is a type, written anywhere a type is written. `readonly e` views any expression read-only:
 
-```coil
+```coil ignore
 let xs = readonly [1, 2, 3];
 let p = readonly new Point(1, new Inner(2));
 let q = readonly r;                        // any expression
@@ -448,7 +448,7 @@ let f: readonly Point -> int = total;      // `(readonly Point) -> int`
 
 A plain value converts to a readonly type: `total(p)` accepts both a `Point` and a `readonly Point`. A readonly value converts to a readonly type only, never back. Each of these is an error (E0107), because the new name could mutate the value:
 
-```coil
+```coil ignore
 fn poke(Point p) { p.x = 99; }
 poke(p);                 // a plain `Point` parameter
 let q: Point = p;        // a typed `let`
@@ -477,7 +477,7 @@ A function that only reads a Vec should take `readonly Vec<Point>`: it accepts b
 
 The compiler infers, for every function and method, which parameters it mutates (`self` counts as one), the same way it infers `uses {mutate}`. A call that passes a readonly value where the callee mutates it is an error (E0107) that names the write:
 
-```coil
+```coil ignore
 class Counter {
     pub n: int,
 }
@@ -497,7 +497,7 @@ A mutation counts when it goes through anything reached from the parameter: a fi
 
 A trait method has no body to look at when it is called through a trait object or a generic bound, so the trait declares it: `fn area(readonly A self) -> int;`. Only methods declared that way can be called through a `readonly Area` or on a readonly `T: Area`, and every impl must keep the promise: an impl whose body mutates `self` is an error. A trait method without the declaration is treated as mutating its parameters. On a value of a concrete class the impl's body is known, so it decides instead, and `p.area()` and `Area::area(p)` are checked alike.
 
-```coil
+```coil ignore
 trait Area<A> {
     fn area(readonly A self) -> int;
     fn grow(A self);
@@ -510,7 +510,7 @@ a.grow();    // E0107: `grow` may mutate `self`
 
 A function value of type `(Point) -> R` cannot be passed where `(readonly Point) -> R` is expected, since it could mutate what it is given. A readonly argument to a foreign function must be declared `readonly` in the `extern` block, or `ConstBytes` (`const uint8_t *`) in a `declare` signature.
 
-`readonly` costs nothing at runtime: a program compiles to the same bytecode with or without it.
+`readonly` costs nothing at runtime: a program compiles to the same code with or without it.
 
 Type pretty-print: `readonly T`.
 
@@ -543,7 +543,7 @@ impl Point {
 
 A written `#[derive(Eq)]` / `impl Eq` (or `Hash`) takes the place of the implied one. Generic readonly classes work the same way: in `readonly class Pair<A, B>`, `pair.a` is read-only even when `A` is a mutable class.
 
-A `readonly class` costs nothing at runtime either: it compiles to the same bytecode as a plain class with `#[derive(Eq, Hash)]`.
+A `readonly class` costs nothing at runtime either: it compiles to the same code as a plain class with `#[derive(Eq, Hash)]`.
 
 ---
 
@@ -658,7 +658,7 @@ inside a `gen fn` therefore unifies `expr`'s type against the SAME
 `Y` as every `yield` in that body — not `unit` — so the returned value
 is not discarded:
 
-```coil
+```coil fail
 gen fn counter() {
     yield 1;
     yield 2;
@@ -685,7 +685,8 @@ outrun the body.
 Generic functions use an optional type-parameter list and trait bounds on parameters:
 
 ```coil
-use io::{stdout, write_all};
+use io::{stdout};
+use io::sync::{write_all};
 use string::{format, to_bytes};
 fn add<T: Num>(T a, T b) -> T { return a + b; }
 
@@ -732,7 +733,7 @@ Kinds classify type-level parameters:
 Constraint-kind parameters let a generic abstract over the class predicate
 itself:
 
-```coil
+```coil ignore
 fn choose<c: * -> Constraint, T: c>(T a, T b) -> int {
     if lt_val(a, b) { return 0; } // selects c = Ordered
     if eq_val(a, b) { return 42; } // Equal method via Ordered superclass
@@ -778,19 +779,19 @@ function: its parameters are fresh at each call, so `second(a, b)` inside
 
 ### Call-site dispatch
 
-One calling convention, two ways to name the callee. **`CALL`** packs arity and a static bytecode offset. **`CallIndirect`** pops the target from the stack (`CodePtr`, dictionary `Index`, or a `PolyFn` local). Dictionaries are the ABI for open bounds; they are not a second dispatch model.
+One calling convention, two ways to name the callee. A **direct call** names a known function. An **indirect call** takes the target from a value (a function value, a dictionary slot, or a generic function value). Dictionaries are the ABI for open bounds; they are not a second dispatch model.
 
-| Situation | Bytecode |
-|-----------|----------|
-| Direct call to a function or instance method with a known entry | `CALL` |
-| Ground trait method / UFCS (`x.m()` / `m(x)`) with a resolved instance | `CALL` to that instance method (`Show`, `Length`, `Hash`, user traits, inherent methods). Primitive `Num`/`Eq`/`Ord` operators further lower to opcodes (`ADD`, `EQ`, …); structural `.len()` may become `ArrayLen`. |
-| Ground call to a generic whose bounds are only `Num`/`Add`/…/`Ord`/`Lt`/…/`Eq` | **Monomorphize** into a specialized clone (unboxed `ADD`, etc.). No dictionary at the call site. |
+| Situation | Call |
+|-----------|------|
+| Direct call to a function or instance method with a known entry | Direct |
+| Ground trait method / UFCS (`x.m()` / `m(x)`) with a resolved instance | Direct, to that instance method (`Show`, `Length`, `Hash`, user traits, inherent methods). Primitive `Num`/`Eq`/`Ord` operators compile to the operation itself; structural `.len()` may read the length directly. |
+| Ground call to a generic whose bounds are only `Num`/`Add`/…/`Ord`/`Lt`/…/`Eq` | **Monomorphize** into a specialized clone (unboxed arithmetic). No dictionary at the call site. |
 | Same, with named args and/or rest packs (`T...`) | Same monomorphization — args are reordered/packed to match formals before keying |
-| Open type params inside a generic body (any bound) | Dictionary passing — `CALL` the shared generic body with trailing dict tuples; method slots use `Index` + `CallIndirect` |
-| Existential (`Show x`) | Unpack the dict from the value; `CallIndirect` |
-| Escaped generic fn value (`let f = id;`) | `MakePolyFn` / `MakePolyFnCapture` + `CallIndirect` |
+| Open type params inside a generic body (any bound) | Dictionary passing: a direct call to the shared generic body with trailing dict tuples; method slots are indirect calls |
+| Existential (`Show x`) | Unpack the dict from the value, then an indirect call |
+| Escaped generic fn value (`let f = id;`) | Make a generic function value, then an indirect call |
 
-**Decision:** dictionaries are for generic bodies, not for ground user traits. Ground Show/Length/Hash/user-trait methods with a static entry emit `CALL`. Operators on ground numeric/eq/ord types still lower to opcodes. Caps, escaped `PolyFn`, and nested open bounds still use dictionaries.
+**Decision:** dictionaries are for generic bodies, not for ground user traits. Ground Show/Length/Hash/user-trait methods with a static entry are direct calls. Operators on ground numeric/eq/ord types compile to the operation itself. Caps, escaped `PolyFn`, and nested open bounds still use dictionaries.
 
 ### Dictionary passing
 
@@ -807,7 +808,7 @@ methods fill the trailing dict slots.
 trait Describable<T> { fn describe_val(T x) -> int; }
 impl Describable for int { fn describe_val(int x) -> int { return x + 1; } }
 fn show<T: Describable>(T x) -> int { return x.describe_val(); }
-// show(42) → CALL arity = 2 (value + Describable dict)
+// show(42) → a direct call with 2 arguments (value + Describable dict)
 ```
 
 ### Bare-class existential types
@@ -815,7 +816,8 @@ fn show<T: Describable>(T x) -> int { return x.describe_val(); }
 A unary trait name in a value type position denotes an existential value:
 
 ```coil
-use io::{stdout, write_all};
+use io::{stdout};
+use io::sync::{write_all};
 use string::{format, to_bytes};
 fn print_any(Show x) {
     write_all(stdout(), to_bytes(format("%s", show(x))));
@@ -846,12 +848,11 @@ Rules:
   constructor wins.
 - Packing a concrete value requires exactly one matching instance; otherwise
   the call site reports `No instance for Class<T>`.
-- Runtime representation reuses existing tuple bytecode: `(boxed_value,
-  dictionary_tuple)`. No separate opcode is needed.
+- At run time the value is a tuple: `(boxed_value, dictionary_tuple)`.
 
 Bound methods support three equivalent forms:
 
-```coil
+```coil ignore
 x.describe_val();          // method sugar
 describe_val(x);           // bare / UFCS form
 Describe::describe_val(x); // trait-qualified form
@@ -901,7 +902,7 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 On open/generic operands, operators require the matching op trait (or the
 `Num` / `Integral` / `Ord` convenience supertrait). A hand-written
 `impl Num for X` needs every superclass instance, `Rem` and `Pow` included. Concrete `int`/`float` arithmetic and
-comparisons still use hardwired opcodes. String concatenation
+comparisons compile straight to the operation. String concatenation
 (`string + string`) is a separate path and is **not** covered by `Num`/`Add`.
 
 ### Trait derive
@@ -1070,7 +1071,7 @@ A trait can be implemented for a generic class or enum. The head's bare
 uppercase letters are the instance's type parameters, the same rule inherent
 `impl Cell<T>` uses, and the instance applies to every instantiation:
 
-```coil
+```coil ignore
 class Box<T> {
     pub item: T,
 }
@@ -1091,7 +1092,7 @@ The head's parameters can carry bounds, written inline as for inherent
 applies to `Box<X>` only when `X` has the bounded trait, and inside its
 methods the parameter's trait methods resolve through the bound:
 
-```coil
+```coil ignore
 impl Describe for Box<T: Describe> {
     pub fn describe(Box<T> b) -> string {
         return "Box(" + b.item.describe() + ")";
@@ -1137,7 +1138,7 @@ A trait may declare associated types; each impl must define them. Associated
 types may be nullary (`type Elem;`) or generic (`type Ref<T>;`, also called a
 generic associated type / GAT):
 
-```coil
+```coil ignore
 trait Collect<C> {
     type Elem;
     fn head(C xs) -> Elem;
@@ -1172,7 +1173,7 @@ impl Collect<Option<int>> {
   using it as `string`, as another type parameter, or as `D::Elem` is an
   error.
 
-```coil
+```coil ignore
 fn take_head<C: Collect>(C xs) -> C::Elem {
     return head(xs);       // ok: `head` on a `C` returns `C::Elem`
 }
@@ -1185,7 +1186,7 @@ fn bad<C: Collect>(C xs) -> C::Elem {
   projections such as `P::Ref<Option>` to pass a constructor-kinded argument,
   while `P::Ref<int>` is rejected.
 
-```coil
+```coil ignore
 trait Pointer<P: * -> *> {
     type Ref<T>;
     fn deref<T>(P<T> ptr) -> Ref<T>;
@@ -1286,7 +1287,8 @@ When a concrete value crosses into a generic function body, the compiler wraps i
 This means **most generic calls to primitive-returning functions are transparent** — the caller receives a plain `int`, `float`, `bool`, or `string`, not a boxed wrapper:
 
 ```coil
-use io::{stdout, write_all};
+use io::{stdout};
+use io::sync::{write_all};
 use string::{format, to_bytes};
 fn id<T>(T x) -> T { return x; }
 
@@ -1301,7 +1303,8 @@ fn main() {
 Concrete format specifiers (`%i`, `%f`, `%s`, `%z`, …) require a resolved concrete type. An open type parameter is a type error; use `%v`, which requires `T: Show` and lowers through the `show` method to a string before formatting:
 
 ```coil
-use io::{stdout, write_all};
+use io::{stdout};
+use io::sync::{write_all};
 use string::{format, to_bytes};
 fn show_it<T: Show>(T x) {
     write_all(stdout(), to_bytes(format("%v", x)));   // ok — dictionary Show
@@ -1327,7 +1330,7 @@ Builtin `Show` instances cover `int`, `float`, `string`, `bool`, and `unit`, plu
 | Classes | Nominal types; ctor args / fields / methods supported — no inheritance or virtual dispatch |
 | FFI | Broad scalar/Ptr/struct/callback tags via `ffi::types` / `extern struct` — see [FFI tutorial](/docs/manual/tutorial/16-ffi) |
 | Generics | Generic functions/enums/aliases/classes, `T: Class` bounds, multi-param `where` constraints, `forall` annotations, user `trait`/`impl`, superclasses, orphan/coherence checks, associated types, and GATs are supported |
-| Trait runtime | **Decided:** ground instance methods use `CALL`; dictionaries stay in generic bodies. Only ground `Num`/`Ord`/`Eq` (and operator supertraits) monomorphize to opcodes. See [Call-site dispatch](#call-site-dispatch). |
+| Trait runtime | **Decided:** ground instance methods are direct calls; dictionaries stay in generic bodies. Only ground `Num`/`Ord`/`Eq` (and operator supertraits) monomorphize to the operation itself. See [Call-site dispatch](#call-site-dispatch). |
 | Option / Result ABI | **Decided:** pointer niche, two-slot call return, or boxed enum — see [Option / Result runtime ABI](#option--result-runtime-abi). |
 | Enum runtime | **Decided:** heap objects; DCE may skip discarded or unary-unpack constructors only — see [Runtime representation](#runtime-representation). |
 | Existentials | Bare class names are existential value types only for unary `* -> Constraint` classes; multi-param bare existentials and constructor-kinded bare existentials are rejected |

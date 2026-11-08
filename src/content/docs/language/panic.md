@@ -1,13 +1,13 @@
 ---
 title: "`panic`"
-description: "Keyword that aborts the program with a string message. Writes panic: <msg> and stops the VM; the CLI exits with code 1. Under coil test, a language panic fails the current case…"
+description: "Keyword that aborts the program with a string message. Writes panic: <msg> and stops the program; the CLI exits with code 1. Under coil test, a language panic fails the current case…"
 ---
 
 # `panic`
 
-Keyword that aborts the program with a string message. Writes `panic: <msg>` and stops the VM; the CLI exits with code `1`. Under `coil test`, a language panic fails the current case only (the next case still runs unless `--fail-fast` is set).
+Keyword that aborts the program with a string message. Writes `panic: <msg>` and stops the program; the CLI exits with code `1`. Under `coil test`, a language panic fails the current case only (the next case still runs unless `--fail-fast` is set).
 
-```coil
+```coil ignore
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};

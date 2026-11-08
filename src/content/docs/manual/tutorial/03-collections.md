@@ -174,7 +174,7 @@ inserted. Each entry has a `key` and a `value`.
 
 Keys can be any type that can be hashed and compared: `int`, `string`,
 `bool` and your own types that derive `Hash` and `Eq` (chapter 4).
-`int` and `string` keys are the fastest: the VM finds them in one step.
+`int` and `string` keys are the fastest: the runtime finds them in one step.
 Other keys are compared with their own `==`, so a hand-written `Eq` is
 always respected.
 

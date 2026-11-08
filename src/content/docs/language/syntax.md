@@ -14,7 +14,7 @@ Complete grammar overview for coil source (`.coil`). This document describes wha
 | Extension | Role |
 |-----------|------|
 | `.coil` | Source text parsed by `parser::Pratt` |
-| `.ccoil` | Compiled bytecode archive (rkyv-serialized `ArchivedProgram`) |
+| `.ccoil` | Compiled archive of MIR and data (rkyv-serialized `ArchivedProgram`) |
 
 Programs are sequences of **declarations** and **statements**. Most top-level items are declarations; statements appear inside function bodies and blocks.
 
@@ -37,7 +37,7 @@ literal     ::= string | int | float | 'true' | 'false'
 
 Examples:
 
-```coil
+```coil ignore
 use my_macros::{add_after};
 
 #[derive(Show, Eq, Ord)]
@@ -58,7 +58,7 @@ fn triple(int x) -> int { return x * 3; }
 |-----------|--------|-----------|
 | `#[derive(Trait, …)]` | `enum` / `class` | Runs each derive (built-in `Show`, `Eq`, `Ord`, `Hash`, `Default`, `Send`, `Sensitive`, or a user `derive` imported with `use`) and adds its output after the type. Without derive, non-generic **payload** types still get a default `Show`: a class returns its type name string, an enum its qualified variant name (`E::V`, payload elided). Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
 | `#[repr(int)]` / `#[repr(string)]` / `#[repr(float)]` / `#[repr(bool)]` | `enum` | Scalar-backed enum: each case is `Name = lit` of that primitive. May be omitted when every case has `=` and the literals share one type. See [Types — Scalar-backed enums](/docs/language/types#scalar-backed-enums). |
-| `#[max_depth(N)]` | recursive `fn` | Optional hint: presizes the VM stack for `N` simultaneous frames when the compiler cannot prove a depth (dynamic args, mutual recursion). The stack grows at run time either way, so a wrong `N` only costs a regrow. `N` must be a positive integer. |
+| `#[max_depth(N)]` | recursive `fn` | Optional hint of how deep the recursion goes, for when the compiler cannot prove a depth (dynamic args, mutual recursion). Depth is checked at run time either way, so a wrong `N` does no harm. `N` must be a positive integer. |
 | Attribute macro `#[name(…)]` | `fn`, methods, `class`, `enum` | Runs the `attr name(…)` macro imported with `use`; its output replaces the item. See [Macros](/docs/language/macros#attribute-macros). |
 
 Several attribute macros on one item apply outermost first. Unknown attribute names are rejected at compile time.
@@ -203,7 +203,7 @@ call_arg    ::= expr | '...' expr
 
 Examples:
 
-```coil
+```coil ignore
 fn triple(int a, int b, int c) -> int { return a + b + c; }
 triple(...(1, 2, 3));          // tuple spread
 triple(...[10, 20, 30]);       // array spread
@@ -212,7 +212,7 @@ fn total(int... xs) -> int { /* ... */ }
 fn forward(int... xs) -> int { return total(...xs); } // Vec spread into a rest
 ```
 
-```coil
+```coil ignore
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
@@ -252,7 +252,7 @@ The type after `for` is prepended as the first type argument (Self slot):
 
 Example:
 
-```coil
+```coil ignore
 // Builtin arithmetic: Add / Sub / Mul / Div / Neg / Rem / Pow (Num implies all seven).
 // Builtin ordering: Lt / Le / Gt / Ge (Ord implies all four, and Eq).
 
@@ -368,7 +368,7 @@ rejected inside `extern` — use bare `...` instead.
 
 Example:
 
-```coil
+```coil ignore
 extern "c" {
     fn strlen(string s) -> int;
     fn printf(string fmt, ...) -> int;
@@ -396,7 +396,7 @@ See [Trait derive](/docs/language/types#trait-derive) for `#[derive(...)]`.
 
 Example:
 
-```coil
+```coil ignore
 class Foo { pub name: string, count: int, }
 impl Foo {
     pub fn bump() -> int { return 1; }
@@ -460,7 +460,7 @@ fn count(int n) -> int {
 }
 ```
 
-```coil
+```coil ignore
 fn copy_all(string from, string to) -> Result<int, IoError> {
     let src = open(from, "r")?;
     defer use (src) {
@@ -545,7 +545,7 @@ Use `vec.push(value)` on a `Vec<T>`. See [Arrays and Vec](/docs/language/arrays)
 
 Prefix `readonly` on any expression views its value read-only. It binds like unary `-`, so `readonly p.inner` is `readonly (p.inner)`:
 
-```coil
+```coil ignore
 let xs = readonly [1, 2, 3];
 let p = readonly new Point(1, 2);
 let i = readonly q.inner;
@@ -661,7 +661,7 @@ Integer literal patterns match an `int` scrutinee by value. Literal arms can
 never cover every `int`, so the match needs a `default` or binding arm
 (`E0209` otherwise):
 
-```coil
+```coil ignore
 let kind = match status {
     200 => "ok",
     404 => "missing",
@@ -676,7 +676,7 @@ arm that earlier arms already cover is `E0210`, and a match whose arms leave
 some payload uncovered (`Option::Some(200)` and `Option::None` alone) is
 `E0209`:
 
-```coil
+```coil ignore
 let text = match reply {
     Option::Some(200) => "ok",
     Option::Some(404) => "missing",
@@ -685,7 +685,7 @@ let text = match reply {
 };
 ```
 
-```coil
+```coil ignore
 match x {
     Option::None => 0,
     Option::Some(v) => v,
@@ -778,7 +778,7 @@ needs no `;` (one is still accepted, and `coil fmt` removes it). A `.` or `?`
 right after the `}` continues an expression instead
 (`match x { … }.show();`).
 
-```coil
+```coil ignore
 match dir {
     Dir::Left => {
         turn(-1);
@@ -800,9 +800,8 @@ A record arm still works when the body is a real record literal (`{ x: 1 }`).
 | Rule | Detail |
 |------|--------|
 | Entry function | `fn main()` required for standalone programs |
-| Prologue | Compiler emits `CALL`, `JMP`, `HALT`; patches jump to `main` |
 | Extern setup | `extern` blocks may emit setup before `main` |
-| Archive | Output wrapped in `ArchivedProgram { version, bytecode, ... }` |
+| Archive | Output is an `ArchivedProgram`: a version, the MIR and the program's data |
 
 ---
 
