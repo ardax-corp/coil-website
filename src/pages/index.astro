@@ -79,7 +79,7 @@ let p = port(s) ?? 80;`,
 for n in countdown(3) { … }`,
   },
   {
-    title: "Reach native code",
+    title: "Call C directly",
     text: "Declare C functions in an extern block and call them directly, or load libraries at runtime through libffi.",
     href: "/docs/manual/tutorial/16-ffi",
     code: `extern "c" {
@@ -97,26 +97,65 @@ use env::{args, var};`,
   },
 ];
 
+const systems = [
+  {
+    title: "Native code",
+    text: "Cranelift compiles each function to machine code: when the program starts with `coil app.coil`, or ahead of time with `coil package`, which links a native executable.",
+    href: "/docs/language/native-code",
+    tag: "coil app.coil · coil package",
+  },
+  {
+    title: "Parallel by default",
+    text: "Auto-parallelization forks pure recursive calls and counted loops across cores, with no annotations. OS threads with channels and mutexes cover the rest.",
+    href: "/docs/manual/tutorial/14-threads",
+    tag: "--auto-par · spawn · Mutex",
+  },
+  {
+    title: "SIMD from plain loops",
+    text: "The compiler vectorizes byte scans and counted map and reduce loops, with no intrinsics to learn. Kernels pick SSE2, AVX2, AVX-512 or NEON at run time.",
+    href: "/docs/language/operators#aggregate-vector-arithmetic",
+    tag: "x86-64 · ARM64",
+  },
+  {
+    title: "Metaprogramming",
+    text: "Derives, attribute macros and `name!(…)` macros return code built with `quote`. `const` and `comptime` run ordinary Coil while compiling, sandboxed unless you grant IO.",
+    href: "/docs/language/macros",
+    tag: "macros · quote · comptime",
+  },
+  {
+    title: "Managed memory",
+    text: "Values are copy-on-write, a tracing collector with a nursery backs them, and the compiler frees objects early when it can prove they are dead. `region` blocks free a unit of work at once.",
+    href: "/docs/language/memory",
+    tag: "COW · GC · region",
+  },
+  {
+    title: "Tuned when it matters",
+    text: "Optimizer hints, `-O` levels and `coil dissect` to see what the compiler made. C libraries link statically into a package, and `int` arithmetic panics on overflow instead of wrapping.",
+    href: "/docs/language/opt-hints",
+    tag: "#[inline] · #[hot] · -O3",
+  },
+];
+
 const pipeline = [
   { step: "Parse", detail: "Pratt parser → AST", file: ".coil" },
   { step: "Typecheck", detail: "Hindley–Milner inference" },
-  { step: "Optimize", detail: "Typed HIR, then MIR" },
-  { step: "Archive", detail: "Versioned MIR and data", file: ".ccoil" },
-  { step: "Run", detail: "Native code with Cranelift" },
+  { step: "Optimize", detail: "Inlining, HIR and MIR passes" },
+  { step: "Compile", detail: "Cranelift → machine code" },
+  { step: "Ship", detail: "One native executable", file: "coil package" },
 ];
 
 const commands = [
-  ["coil app.coil", "Compile (cached) and run"],
+  ["coil app.coil", "Compile (cached) and run as machine code"],
   ["coil test", "Run test blocks under ./tests"],
   ["coil fmt src/", "Format sources in place"],
-  ["coil package app.coil", "Build a single executable"],
+  ["coil package app.coil", "Build a native executable"],
   ["coil lsp", "Language server for your editor"],
 ];
 ---
 
 <Base
   title="Coil"
-  description="A small, statically typed scripting language with Hindley–Milner inference, pattern matching, coroutines and FFI, compiled to native code."
+  description="A statically typed language with Hindley–Milner inference, pattern matching, coroutines and FFI, compiled with Cranelift to native executables, with automatic parallelism, SIMD loops and managed memory."
   section="home"
 >
   <!-- ------------------------------------------------------------ hero -->
@@ -127,10 +166,10 @@ const commands = [
         <a class="status" href={RELEASES}>
           <span class="dot"></span> Pre-release · download the latest build <span aria-hidden="true">→</span>
         </a>
-        <h1>A small, statically&nbsp;typed scripting&nbsp;language.</h1>
+        <h1>Statically typed. Compiled to native&nbsp;code.</h1>
         <p class="lede">
           Coil gives you real type inference, algebraic data types and pattern matching, coroutines and FFI,
-          compiled to native code with Cranelift when the program starts or ahead of time.
+          compiled with Cranelift to native executables that parallelize, vectorize and manage memory for you.
         </p>
         <div class="cta">
           <a class="btn btn-primary" href="/docs/manual/getting-started">Get started <span class="arrow">→</span></a>
@@ -138,7 +177,7 @@ const commands = [
         </div>
         <dl class="facts">
           <div><dt>Source</dt><dd><code>.coil</code></dd></div>
-          <div><dt>Archive</dt><dd><code>.ccoil</code></dd></div>
+          <div><dt>Backend</dt><dd><code>Cranelift</code></dd></div>
           <div><dt>CLI</dt><dd><code>coil</code></dd></div>
           <div><dt>Packages</dt><dd><code>spool</code></dd></div>
         </dl>
@@ -164,7 +203,7 @@ const commands = [
     <div class="wrap">
       <header class="section-head">
         <span class="eyebrow">The language</span>
-        <h2>More structure than a script. Less ceremony than a systems language.</h2>
+        <h2>Expressive types. Less ceremony than a systems language.</h2>
         <p>Every feature below links to the tutorial chapter that teaches it.</p>
       </header>
 
@@ -185,15 +224,42 @@ const commands = [
     </div>
   </section>
 
+  <!-- --------------------------------------------------------- systems -->
+  <section class="section systems-section">
+    <div class="wrap">
+      <header class="section-head">
+        <span class="eyebrow">Under the hood</span>
+        <h2>Low-level where it counts.</h2>
+        <p>The compiler does the machine work: native code, parallel arms, vector loops and memory. You keep writing ordinary Coil.</p>
+      </header>
+
+      <div class="systems">
+        {
+          systems.map((f) => (
+            <a class="card system" href={f.href}>
+              <h3>{f.title}</h3>
+              <p set:html={inlineCode(f.text)} />
+              <code class="system-tag">{f.tag}</code>
+              <span class="feature-more">
+                Learn more <span class="arrow">→</span>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
   <!-- -------------------------------------------------------- pipeline -->
   <section class="section pipeline-section">
     <div class="wrap">
       <header class="section-head">
         <span class="eyebrow">How it runs</span>
-        <h2>From source to native code.</h2>
+        <h2>From source to machine code.</h2>
         <p>
-          The CLI caches the compiled archive and reuses it until sources, version or entry point change, so
-          the second run skips straight to making machine code.
+          <code>coil app.coil</code> compiles and runs at once, caching the build until sources, version or entry
+          point change. <code>coil package</code> compiles every function ahead of time and links one native
+          executable.
         </p>
       </header>
 
@@ -576,6 +642,48 @@ const commands = [
     color: var(--accent);
   }
 
+  /* ------------------------------------------------------------ systems */
+
+  .systems {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .system {
+    display: flex !important;
+    flex-direction: column;
+    min-width: 0;
+    padding: 1.4rem 1.25rem;
+  }
+
+  .system h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin: 0 0 0.45rem;
+  }
+
+  .system p {
+    color: var(--muted);
+    font-size: 0.93rem;
+    margin: 0 0 1.1rem;
+  }
+
+  .system-tag {
+    background: var(--accent-soft);
+    border-radius: 5px;
+    color: var(--accent);
+    font-size: 0.76rem;
+    margin: auto 0 1rem;
+    padding: 0.15rem 0.5rem;
+    width: fit-content;
+  }
+
+  .system:hover .feature-more {
+    color: var(--accent);
+  }
+
   /* ----------------------------------------------------------- pipeline */
 
   .pipeline-section {
@@ -941,7 +1049,8 @@ const commands = [
     .hero-grid {
       grid-template-columns: 1fr;
     }
-    .features {
+    .features,
+    .systems {
       grid-template-columns: 1fr 1fr;
     }
     .pkgs {
@@ -983,7 +1092,8 @@ const commands = [
     .hero {
       padding: 3rem 0 3.5rem;
     }
-    .features {
+    .features,
+    .systems {
       grid-template-columns: 1fr;
     }
     .pkgs {
