@@ -8,8 +8,8 @@ name: "black_box"
 signature: "fn black_box<T>(T x) -> T"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/prelude.coil#L491"
-order: 9
+source: "https://github.com/ardax-corp/coil-lang/blob/7e00bc9855ac69de2246a6ec36296028c4ea7482/compiler/src/builtin_docs/prelude.coil#L448"
+order: 7
 ---
 
 Returns `x` unchanged, through a call the optimizer cannot see into.
@@ -48,5 +48,3 @@ fn main() {
 ## See also
 
 - [`Result`](/docs/reference/prelude/Result)
-- [`ord`](/docs/reference/prelude/ord): Returns the code of the single character in `s` as a `byte`.
-- [`char`](/docs/reference/prelude/char): Returns the one-character string whose code point is `b`.
