@@ -268,14 +268,14 @@ The stdlib has a few more, each with its own reference page:
 
    test("the average keeps its fraction") {
        let a = average([3, 7, 5, 9, 4, 6, 8]);
-       assert!(a == 6.0, "got " + show(a));
+       assert!(a == 6.0, "got " + a.show());
        let b = average([1, 2, 2, 2, 2, 2, 2]);
-       assert!(b > 1.857 && b < 1.858, "got " + show(b));
+       assert!(b > 1.857 && b < 1.858, "got " + b.show());
    }
 
    test("the average of a cold week is negative") {
        let a = average([-4, -9, -1, -6, -3, -8, -2]);
-       assert!(a > -4.715 && a < -4.714, "got " + show(a));
+       assert!(a > -4.715 && a < -4.714, "got " + a.show());
    }
    ```
 
@@ -311,9 +311,9 @@ The stdlib has a few more, each with its own reference page:
 
    test("a occurs three times, b twice, c once") {
        let counts = count_words(["a", "b", "a", "c", "b", "a"]);
-       assert!(counts.get_or("a", 0) == 3, "a: " + show(counts.get_or("a", 0)));
-       assert!(counts.get_or("b", 0) == 2, "b: " + show(counts.get_or("b", 0)));
-       assert!(counts.get_or("c", 0) == 1, "c: " + show(counts.get_or("c", 0)));
+       assert!(counts.get_or("a", 0) == 3, "a: " + counts.get_or("a", 0).show());
+       assert!(counts.get_or("b", 0) == 2, "b: " + counts.get_or("b", 0).show());
+       assert!(counts.get_or("c", 0) == 1, "c: " + counts.get_or("c", 0).show());
    }
 
    test("words that never occur are not counted") {
@@ -349,12 +349,12 @@ The stdlib has a few more, each with its own reference page:
 
    test("[3, 1, 3, 2, 1, 5] becomes [3, 1, 2, 5]") {
        let d = dedup([3, 1, 3, 2, 1, 5]);
-       assert!(show(d) == "[3, 1, 2, 5]", "got " + show(d));
+       assert!(d.show() == "[3, 1, 2, 5]", "got " + d.show());
    }
 
    test("a vector without duplicates stays as it is") {
        let d = dedup([4, 2, 9]);
-       assert!(show(d) == "[4, 2, 9]", "got " + show(d));
+       assert!(d.show() == "[4, 2, 9]", "got " + d.show());
    }
 
    test("an empty vector stays empty") {
@@ -389,17 +389,17 @@ The stdlib has a few more, each with its own reference page:
 
    test("[1, 2, 3, 4] becomes [4, 3, 2, 1]") {
        let r = reversed([1, 2, 3, 4]);
-       assert!(show(r) == "[4, 3, 2, 1]", "got " + show(r));
+       assert!(r.show() == "[4, 3, 2, 1]", "got " + r.show());
    }
 
    test("the original is left alone") {
        let xs: Vec<int> = [1, 2, 3];
        let _ = reversed(xs);
-       assert!(show(xs) == "[1, 2, 3]", "the original became " + show(xs));
+       assert!(xs.show() == "[1, 2, 3]", "the original became " + xs.show());
    }
 
    test("one element and no elements") {
-       assert!(show(reversed([7])) == "[7]");
+       assert!(reversed([7]).show() == "[7]");
        let none: Vec<int> = [];
        assert!(reversed(none).len() == 0);
    }
@@ -432,7 +432,7 @@ The stdlib has a few more, each with its own reference page:
        let names: Vec<string> = ["Ada", "Grace"];
        println(names[2])?;
        let primes = [2, 3, 5, 7];
-       println(show(primes[4]))?;
+       println(primes[4].show())?;
    }
    ```
 

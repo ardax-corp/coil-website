@@ -40,7 +40,7 @@ fn main() {
     match c.get("http://example.com/") {
         Result::Ok(r) => r.status,
         Result::Err(HttpError::Io(IoError::TimedOut)) => 0,
-        Result::Err(e) => panic show(e),
+        Result::Err(e) => panic e.show(),
     };
 }
 ```

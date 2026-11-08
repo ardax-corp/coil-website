@@ -1199,14 +1199,14 @@ primitives, a user `impl Show for Point`, and `string::format("%v", ...)`.
 
 **Demonstrates:** Bare-class existential `Show` in a parameter type. The call
 `print_any(42)` packs the concrete value with its `Show<int>` dictionary, and
-`show(x)` dispatches through that stored dictionary.
+`x.show()` dispatches through that stored dictionary.
 
 ```coil
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
 fn print_any(Show x) {
-    write_all(stdout(), to_bytes(format("%s", show(x))));
+    write_all(stdout(), to_bytes(format("%s", x.show())));
 }
 
 fn main() {
@@ -1356,7 +1356,7 @@ impl Pointer for Option {
 }
 
 fn get<P: * -> *, Pointer, A>(P<A> ptr) -> P::Ref<A> {
-    return deref(ptr);
+    return ptr.deref();
 }
 ```
 

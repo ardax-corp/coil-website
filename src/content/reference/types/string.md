@@ -35,7 +35,7 @@ let greeting = "hi" + ", " + "there";
 greeting += "!";
 assert!(greeting == "hi, there!");
 assert!("apple" < "banana" && "B" < "a");
-assert!(show(s) == "héllo");
+assert!(s.show() == "héllo");
 ```
 
 ## See also

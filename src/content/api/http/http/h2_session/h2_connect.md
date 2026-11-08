@@ -33,7 +33,7 @@ use http::h2_session::h2_connect;
 fn main() {
     let r = match h2_connect("http://127.0.0.1:8080/") {
         Result::Ok(r) => r,
-        Result::Err(e) => panic show(e),
+        Result::Err(e) => panic e.show(),
     };
     if r.status != 200 {
         panic "unexpected status";

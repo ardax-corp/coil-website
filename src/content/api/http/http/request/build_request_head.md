@@ -45,11 +45,11 @@ use string::from_bytes;
 
 let u = match parse_url("http://example.com:8080/x") {
     Result::Ok(u) => u,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 let head = match build_request_head("GET", u, Headers::new(), 0) {
     Result::Ok(b) => b,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 let text = match from_bytes(head) {
     Result::Ok(s) => s,

@@ -40,7 +40,7 @@ use string::to_bytes;
 let raw = to_bytes("HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\n\r\n2\r\nhi\r\n0\r\n\r\n");
 let r = match parse_response(raw) {
     Result::Ok(r) => r,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(r.status == 200);
 assert!(r.body.len() == 2);

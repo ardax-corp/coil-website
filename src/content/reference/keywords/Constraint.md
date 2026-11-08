@@ -18,7 +18,7 @@ which trait bounds another parameter.
 
 ```coil
 fn show_it<c: * -> Constraint, T: c>(T x) -> string {
-    return show(x);
+    return x.show();
 }
 ```
 

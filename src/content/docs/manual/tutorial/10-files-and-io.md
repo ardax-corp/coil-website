@@ -167,7 +167,7 @@ fn main() {
             println("no settings file, using defaults")?;
         },
         Err(e) => {
-            println("cannot read settings: " + show(e))?;
+            println("cannot read settings: " + e.show())?;
         },
     }
 }

@@ -149,17 +149,17 @@ use http::url::parse_url;
 
 let u = match parse_url("http://example.com/hello") {
     Result::Ok(u) => u,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 let sess = H2Session::new();
 match sess.feed(h2_prior_knowledge_get(u)) {
     Result::Ok(_) => 0,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(sess.stream_count() == 1);
 let h = match sess.stream_headers(1) {
     Result::Ok(h) => h,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(h.value_at(1) == "/hello");
 assert!(sess.drain().len() > 0);

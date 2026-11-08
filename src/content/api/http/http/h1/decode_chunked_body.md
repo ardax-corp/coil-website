@@ -37,11 +37,11 @@ use string::to_bytes;
 
 let wire = match encode_chunked_body(to_bytes("hello")) {
     Result::Ok(b) => b,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 let back = match decode_chunked_body(wire) {
     Result::Ok(b) => b,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(back.len() == 5);
 ```

@@ -29,7 +29,7 @@ fn fizzbuzz(int n) -> string {
     if n % 5 == 0 {
         return "Buzz";
     }
-    return show(n);
+    return n.show();
 }
 
 test("multiples of three are Fizz") {

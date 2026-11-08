@@ -19,7 +19,7 @@ fn main() {
         });
         s.spawn(fn () use (squares) {
             while let Ok(sq) = squares.recv() {
-                let _ = println(show(sq));
+                let _ = println(sq.show());
             }
         });
         return 0;

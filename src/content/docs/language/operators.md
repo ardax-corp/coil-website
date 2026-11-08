@@ -339,7 +339,7 @@ use conv::{parse_int};
 
 fn load(string s) -> Result<int, string> {
     // println's error is an IoError; turn it into this function's string error.
-    println("loading " + s).map_err(fn (IoError e) => show(e))?;
+    println("loading " + s).map_err(fn (IoError e) => e.show())?;
     return parse_int(s);
 }
 ```

@@ -300,12 +300,12 @@ ever instead of twice; each connection costs one task, not one thread.
            });
            s.spawn(fn () use (numbers) {
                while let Ok(n) = numbers.recv() {
-                   let _ = println(show(n));
+                   let _ = println(n.show());
                }
            });
            return 0;
        });
-       println(show(r))?;
+       println(r.show())?;
    }
    ```
 
@@ -328,7 +328,7 @@ ever instead of twice; each connection costs one task, not one thread.
        let r = scope(fn (Scope s) {
            s.spawn(fn () {
                for i in 0..3 {
-                   let _ = println("busy " + show(i));
+                   let _ = println("busy " + i.show());
                }
            });
            s.spawn(fn () {
@@ -359,7 +359,7 @@ ever instead of twice; each connection costs one task, not one thread.
            });
            return 0;
        });
-       println(show(r))?;
+       println(r.show())?;
    }
    ```
 
