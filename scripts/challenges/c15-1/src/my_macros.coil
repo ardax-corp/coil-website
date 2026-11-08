@@ -15,7 +15,7 @@ macro check_eq(Expr a, Expr b) -> Code {
         let left = ${a};
         let right = ${b};
         if left != right {
-            panic "check failed: " + ${lit(a.str() + " == " + b.str())} + " (" + show(left) + " vs " + show(right) + ")";
+            panic "check failed: " + ${lit(a.str() + " == " + b.str())} + " (" + left.show() + " vs " + right.show() + ")";
         }
     };
 }

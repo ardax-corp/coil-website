@@ -8,5 +8,5 @@ fn main() {
     let inc = fn (int x) => x + 1;
     let dbl = fn (int x) => x * 2;
     let h = compose(inc, dbl);
-    println(show(h(5)))?;
+    println(h(5).show())?;
 }

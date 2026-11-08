@@ -29,6 +29,6 @@ fn main() {
     let d = Direction::North;
     for i in 0..4 {
         d = turn_right(d);
-        println(show(degrees(d)))?;
+        println(degrees(d).show())?;
     }
 }

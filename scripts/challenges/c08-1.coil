@@ -14,7 +14,7 @@ fn count_if(Vec<int> xs, int -> bool pred) -> int {
 
 fn main() {
     let xs: Vec<int> = [1, 5, 8, 12];
-    println(show(count_if(xs, fn (int x) => x > 4)))?;
+    println(count_if(xs, fn (int x) => x > 4).show())?;
     let words: Vec<string> = ["banana", "fig", "apple", "kiwi"];
     println(format("%v", sort_by(words, fn (string w) => w.len())))?;
 }
