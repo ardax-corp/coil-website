@@ -45,7 +45,7 @@ let wire = encode_frame(data_frame(1, to_bytes("hi"), 1));
 assert!(wire.len() == 9 + 2);
 let f = match decode_frame(wire) {
     Result::Ok(f) => f,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(f.typ == frame_type_data());
 assert!(f.flags == flag_end_stream());

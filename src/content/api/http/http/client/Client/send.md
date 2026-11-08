@@ -49,7 +49,7 @@ fn main() {
     req.body(to_bytes("{}"));
     match c.send(req) {
         Result::Ok(r) => r.status,
-        Result::Err(e) => panic show(e),
+        Result::Err(e) => panic e.show(),
     };
 }
 ```

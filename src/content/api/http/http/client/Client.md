@@ -65,7 +65,7 @@ fn main() {
     let c = Client::new();
     let r = match c.get("https://example.com/") {
         Result::Ok(r) => r,
-        Result::Err(e) => panic show(e),
+        Result::Err(e) => panic e.show(),
     };
     if r.status != 200 {
         panic "unexpected status";

@@ -44,7 +44,7 @@ use http::url::parse_url;
 
 let u = match parse_url("https://example.com:8443/a?b=1") {
     Result::Ok(u) => u,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(u.scheme == "https");
 assert!(u.host == "example.com");

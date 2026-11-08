@@ -53,7 +53,7 @@ fn main() {
     let h = new Hello();
     let req = match parse_request(to_bytes("GET /missing HTTP/1.1\r\nHost: x\r\n\r\n")) {
         Result::Ok(r) => r,
-        Result::Err(e) => panic show(e),
+        Result::Err(e) => panic e.show(),
     };
     assert!(h.handle(req).status == 404);
 }

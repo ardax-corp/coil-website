@@ -75,7 +75,7 @@ fn main() {
     let c = Client::new();
     let r = match c.get("http://example.com/") {
         Result::Ok(r) => r,
-        Result::Err(e) => panic show(e),
+        Result::Err(e) => panic e.show(),
     };
     let kind = header_get(r, "Content-Type");
     let text = from_bytes(r.body);

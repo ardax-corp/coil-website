@@ -29,7 +29,7 @@ let ready = 3 > 2 && !false;
 assert!(ready);
 assert!(true as int == 1);
 assert!(!(0 as bool));
-assert!(show(ready) == "true");
+assert!(ready.show() == "true");
 ```
 
 ## See also

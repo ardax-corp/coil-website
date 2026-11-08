@@ -48,7 +48,7 @@ use string::to_bytes;
 let raw = to_bytes("POST /items?x=1 HTTP/1.1\r\nHost: example.com\r\nContent-Length: 3\r\n\r\nabc");
 let req = match parse_request(raw) {
     Result::Ok(r) => r,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(req.method_val() == "POST");
 assert!(req.path_val() == "/items?x=1");

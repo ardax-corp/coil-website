@@ -40,7 +40,7 @@ h.add(":status", "200");
 h.add("content-type", "text/plain");
 let back = match decode_header_block(encode_header_block(h)) {
     Result::Ok(v) => v,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(back.count() == 2);
 assert!(back.name_at(1) == "content-type");

@@ -38,7 +38,7 @@ use string::to_bytes;
 let raw = to_bytes("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 2\r\n\r\nhi");
 let r = match parse_response(raw) {
     Result::Ok(r) => r,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(header_get(r, "Content-Type") == "text/plain");
 assert!(header_get(r, "X-Missing") == "");

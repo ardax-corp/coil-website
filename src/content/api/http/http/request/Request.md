@@ -81,7 +81,7 @@ fn main() {
     req.url("http://example.com/items/1");
     let status = match c.send(req) {
         Result::Ok(r) => r.status,
-        Result::Err(e) => panic show(e),
+        Result::Err(e) => panic e.show(),
     };
     if status != 204 {
         panic "delete failed";

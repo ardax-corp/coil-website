@@ -38,7 +38,7 @@ assert!(7.5 % 2.0 == 1.5);
 assert!(-2.7 as int == -2);
 assert!(3 as float + x == 5.5);
 assert!(1.0 / 0.0 > 1000000.0);
-assert!(show(x) == "2.5");
+assert!(x.show() == "2.5");
 ```
 
 ## See also

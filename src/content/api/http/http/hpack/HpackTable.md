@@ -52,11 +52,11 @@ let second = encode_header_block_with(h, enc);
 assert!(second.len() < first.len());
 let a = match decode_header_block_with(first, dec) {
     Result::Ok(v) => v,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 let b = match decode_header_block_with(second, dec) {
     Result::Ok(v) => v,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(b.value_at(1) == "abc");
 ```
