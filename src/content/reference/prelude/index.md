@@ -53,6 +53,4 @@ Built into the compiler.
 
 | Name | Description |
 |------|-------------|
-| [`ord`](/docs/reference/prelude/ord) | Returns the code of the single character in `s` as a [`byte`](/docs/reference/types/byte). |
-| [`char`](/docs/reference/prelude/char) | Returns the one-character string whose code point is `b`. |
 | [`black_box`](/docs/reference/prelude/black_box) | Returns `x` unchanged, through a call the optimizer cannot see into. |
