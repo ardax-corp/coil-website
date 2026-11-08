@@ -287,7 +287,7 @@ parameter can carry both an explicit kind and a bound:
 `F: * -> * -> *, Bifunctor`.
 
 Constraint-kind parameters use `Constraint` as the result kind:
-`fn apply_c<c: * -> Constraint, T: c>(T x) -> string { return show(x); }`.
+`fn apply_c<c: * -> Constraint, T: c>(T x) -> string { return x.show(); }`.
 The abstract `T: c` bound must be resolved by method/operator/`%v` use in the
 function body so codegen can pass a concrete dictionary at call sites.
 

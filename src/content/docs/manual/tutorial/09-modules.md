@@ -33,7 +33,7 @@ inventory/
 const CURRENCY = "EUR";
 
 fn format_cents(int cents) -> string {
-    return show(cents / 100) + "." + show(cents % 100 / 10) + show(cents % 10) + " " + CURRENCY;
+    return (cents / 100).show() + "." + (cents % 100 / 10).show() + (cents % 10).show() + " " + CURRENCY;
 }
 ```
 
@@ -238,7 +238,7 @@ documentation.
    const CURRENCY = "EUR";
 
    fn format_cents(int cents) -> string {
-       return show(cents / 100) + "." + show(cents % 100 / 10) + show(cents % 10) + " " + CURRENCY;
+       return (cents / 100).show() + "." + (cents % 100 / 10).show() + (cents % 10).show() + " " + CURRENCY;
    }
    ```
 
@@ -270,8 +270,8 @@ documentation.
    use kv::{parse};
 
    fn main() {
-       println(show(parse("a,b,c")))?;
-       println(show(parse("a=1")))?;
+       println(parse("a,b,c").show())?;
+       println(parse("a=1").show())?;
    }
    ```
 
@@ -315,7 +315,7 @@ documentation.
    const CURRENCY = "EUR";
 
    fn format_cents(int cents) -> string {
-       return show(cents / 100) + "." + show(cents % 100 / 10) + show(cents % 10) + " " + CURRENCY;
+       return (cents / 100).show() + "." + (cents % 100 / 10).show() + (cents % 10).show() + " " + CURRENCY;
    }
    ```
 
@@ -343,7 +343,7 @@ documentation.
    const CURRENCY = "EUR";
 
    fn format_cents(int cents) -> string {
-       return show(cents / 100) + "." + show(cents % 100 / 10) + show(cents % 10) + " " + CURRENCY;
+       return (cents / 100).show() + "." + (cents % 100 / 10).show() + (cents % 10).show() + " " + CURRENCY;
    }
    ```
 

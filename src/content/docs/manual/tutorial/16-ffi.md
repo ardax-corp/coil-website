@@ -142,7 +142,7 @@ fn add_via_plugin() -> Result<int, Error> {
 }
 
 fn main() {
-    println(show(add_via_plugin() ?? -1))?;
+    println((add_via_plugin() ?? -1).show())?;
 }
 ```
 

@@ -116,7 +116,7 @@ declaration, and a call through the trait (an existential such as `Area a`)
 gets the declared effects. A call through a trait method with no declaration
 has unknown effects, so a `pure fn` cannot make one. The built-in traits
 (`Show`, `Num` and the operator traits) declare no effects yet, so that
-includes `show(x)` and arithmetic on a generic `T`.
+includes `x.show()` and arithmetic on a generic `T`.
 
 ```coil
 trait Area<A> {
@@ -124,7 +124,7 @@ trait Area<A> {
 }
 
 pure fn total(Area a, Area b) -> int {
-    return area(a) + area(b);
+    return a.area() + b.area();
 }
 ```
 

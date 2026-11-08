@@ -162,7 +162,7 @@ impl Area for int {
 }
 ```
 
-Each impl checks the trait's clauses (here `area(0)` fails
+Each impl checks the trait's clauses (here `0.area()` fails
 `requires x > 0`, blaming the caller), plus any `ensures` of its own. An impl
 may promise more with `ensures`, but it cannot add a `requires`: code
 written against the trait could not know about it. Adding one is a compile

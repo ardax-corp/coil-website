@@ -27,7 +27,7 @@ fn increment(int x) -> int {
 }
 
 fn main() {
-    println(show(apply_twice(increment, 5)))?;
+    println(apply_twice(increment, 5).show())?;
 }
 ```
 
@@ -56,8 +56,8 @@ fn main() {
         let tax = p / 5;
         return p + tax;
     });
-    println(show(cheap.len()))?;
-    println(show(with_tax[0]))?;
+    println(cheap.len().show())?;
+    println(with_tax[0].show())?;
 }
 ```
 
@@ -84,7 +84,7 @@ fn main() {
     let limit = 50;
     let scores: Vec<int> = [20, 75, 40, 90];
     let low = scores.filter(fn (int s) use (limit) => s < limit);
-    println(show(low.len()))?;
+    println(low.len().show())?;
 }
 ```
 
@@ -113,7 +113,7 @@ fn main() {
     };
     on_click();
     on_click();
-    println(show(clicks.get()))?;
+    println(clicks.get().show())?;
 }
 ```
 
@@ -205,7 +205,7 @@ parameters that change least often usually come first.
 
    fn main() {
        let xs: Vec<int> = [1, 5, 8, 12];
-       println(show(count_if(xs, fn (int x) => x > 4)))?;
+       println(count_if(xs, fn (int x) => x > 4).show())?;
    }
    ```
 
@@ -255,13 +255,13 @@ parameters that change least often usually come first.
 
    test("words come out from shortest to longest") {
        let sorted = shortest_first(["banana", "fig", "kiwi"]);
-       assert!(show(sorted) == show(["fig", "kiwi", "banana"]), "got " + show(sorted));
+       assert!(sorted.show() == ["fig", "kiwi", "banana"].show(), "got " + sorted.show());
    }
 
    test("the lengths never go down") {
        let sorted = shortest_first(["ccc", "a", "dddd", "bb"]);
        for i in 1..sorted.len() {
-           assert!(sorted[i - 1].len() <= sorted[i].len(), "got " + show(sorted));
+           assert!(sorted[i - 1].len() <= sorted[i].len(), "got " + sorted.show());
        }
    }
    ```
@@ -305,7 +305,7 @@ parameters that change least often usually come first.
        let a = next();
        let b = next();
        let c = next();
-       assert!(a == 1 && b == 2 && c == 3, "got " + show((a, b, c)));
+       assert!(a == 1 && b == 2 && c == 3, "got " + (a, b, c).show());
    }
 
    test("two counters count on their own") {
@@ -327,7 +327,7 @@ parameters that change least often usually come first.
        let limit = 50;
        let below = fn (int s) use (limit) => s < limit;
        limit = 10;
-       println(show(below(30)))?;
+       println(below(30).show())?;
    }
    ```
 
@@ -349,7 +349,7 @@ parameters that change least often usually come first.
    fn main() {
        let inc = fn (int x) => x + 1;
        let double = fn (int x) => x * 2;
-       println(show(compose(inc, double)(5)))?;
+       println(compose(inc, double)(5).show())?;
    }
    ```
 
@@ -416,7 +416,7 @@ parameters that change least often usually come first.
    test("between(0, 100) filters the readings") {
        let readings: Vec<int> = [-5, 42, 130, 99];
        let kept = readings.filter(between(0, 100));
-       assert!(show(kept) == "[42, 99]", "got " + show(kept));
+       assert!(kept.show() == "[42, 99]", "got " + kept.show());
    }
    ```
 

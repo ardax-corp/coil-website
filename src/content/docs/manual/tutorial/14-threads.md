@@ -63,7 +63,7 @@ fn main() {
             println(format("%i primes below 50000, %i below 60000", counts[0], counts[1]))?;
         },
         Err(e) => {
-            println("thread failed: " + show(e))?;
+            println("thread failed: " + e.show())?;
         },
     }
 }
@@ -107,7 +107,7 @@ fn sum_of_squares() -> Result<int, ChannelError> {
     let results = channel()?;
     let t = match spawn(squarer, (jobs[1], results[0])) {
         Ok(t) => t,
-        Err(e) => panic "spawn failed: " + show(e),
+        Err(e) => panic "spawn failed: " + e.show(),
     };
     for n in 1..=3 {
         send(jobs[0], n)?;
@@ -119,7 +119,7 @@ fn sum_of_squares() -> Result<int, ChannelError> {
     }
     match join(t) {
         Ok(done) => done?,
-        Err(e) => panic "join failed: " + show(e),
+        Err(e) => panic "join failed: " + e.show(),
     }
     return Ok(total);
 }
@@ -180,7 +180,7 @@ fn count() -> Result<int, LockError> {
     let counter = mutex(0)?;
     match run_both(counter) {
         Ok(_) => {},
-        Err(e) => panic "thread failed: " + show(e),
+        Err(e) => panic "thread failed: " + e.show(),
     }
     return with_lock(counter, fn (int n) => (n, n));
 }
@@ -344,7 +344,7 @@ The compiler can also parallelise some pure recursive functions on its own;
                println(format("the thread returned %v", join(t)))?;
            },
            Err(e) => {
-               println("spawn failed: " + show(e))?;
+               println("spawn failed: " + e.show())?;
            },
        }
        println(format("c.value is %i", c.value))?;

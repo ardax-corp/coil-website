@@ -121,7 +121,7 @@ fn is_north(Direction d) -> bool {
 }
 
 fn main() {
-    println(show(is_north(Direction::West)))?;
+    println(is_north(Direction::West).show())?;
 }
 ```
 
@@ -566,7 +566,7 @@ rules.
        let d = Direction::North;
        for i in 0..4 {
            d = turn_right(d);
-           println(show(degrees(d)))?;
+           println(degrees(d).show())?;
        }
    }
    ```
@@ -590,7 +590,7 @@ rules.
            d = turn_right(d);
            seen.push(degrees(d));
        }
-       assert!(show(seen) == "[90, 180, 270, 0]", "got " + show(seen));
+       assert!(seen.show() == "[90, 180, 270, 0]", "got " + seen.show());
    }
    ```
 
