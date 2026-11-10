@@ -128,6 +128,11 @@ Static-length zip/broadcast uses a packed SIMD kernel when the fixed length
 is ≥ 8; smaller shapes unroll to scalar operations (code size scales with `N`
 in that case).
 
+On `byte` elements (arrays, tuples, `Vec<byte>`, `Matrix` cells) the
+element-wise `+ - *`, unary `-` and `**` wrap each element modulo 256, like the
+scalar operators, and warn `E0130` the same way: `[250, 1] + [10, 2]` is
+`[4, 3]`. `/` and `%` stay exact.
+
 For **dot product**, **cross product**, and bare-array **matrix multiply**,
 use the named helpers `dot`, `cross`, and `matmul`. For matmul via `*`
 (Mul), wrap rows with `matrix(...)` to get a nominal `Matrix` — see
