@@ -289,7 +289,10 @@ combines the element hashes as a derived `Hash` combines fields. They meet
 
 Tuples and fixed arrays whose element has `Add` .. `Pow` / `Neg` (so `int` and
 `float`) also have those instances, and `Num`, structurally: `(int, int)` or
-`[float; 3]` meets a `T: Num` bound. Nested aggregates and `Vec`s do not.
+`[float; 3]` meets a `T: Num` bound, and so do nested ones
+(`((int, int), (int, int))`, `[[float; 2]; 2]`). A `Vec` has only `Neg`
+(`-v` negates each element): `v + v` does not zip two dynamic lengths
+(`E0119`), so a `Vec` does not meet `T: Num` or `T: Add` .. `T: Pow`.
 
 ### `Vec<T>` — growable vectors
 
