@@ -106,6 +106,22 @@ tried as `.coil` first and then as `.hy` (`a/b/c.coil`, `a/b/c.hy`,
 `a/b.coil`, `a/b.hy`). Support for `.hy` will be removed; rename your files
 to `.coil`. `coil fmt src tests` does it, formatting each file as it moves.
 
+## Import cycles
+
+Modules cannot import each other, directly or through other modules. Each
+module is checked after the modules it imports, so in `a -> b -> a` neither
+can come first. Such a program is one error, at the import that starts the
+cycle (`E0154`):
+
+```text
+Error: [E0154] import cycle: `ca -> cb -> ca`
+```
+
+Move what the modules share into a module of its own that each of them
+imports: if `ca` defines `Box1` and needs `twice` from `cb`, and `twice`
+takes a `Box1`, put `Box1` in a third module that both `ca` and `cb` import.
+A `mod` declaration counts as an import here too.
+
 ## mod
 
 `mod name;` loads a module without importing any names from it. Its
@@ -161,5 +177,6 @@ exactly as a project module would. The compiler itself never reads
 | `E0100`, `E0101` | The module was found but does not declare the name; reported where the name is used |
 | `E0124` | `use path::*` |
 | `E0133` | Two imports bind the same local name |
+| `E0154` | Modules import each other: ``import cycle: `a -> b -> a` `` |
 
 See [error codes](/docs/language/error-codes) for the full list.
