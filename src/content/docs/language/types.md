@@ -287,6 +287,10 @@ combines the element hashes as a derived `Hash` combines fields. They meet
 `T: Show`, `T: Eq` and `T: Hash` bounds. An array of values with no `Show`
 (functions, say) is still refused by `%v` (`E0300`).
 
+Tuples and fixed arrays whose element has `Add` .. `Pow` / `Neg` (so `int` and
+`float`) also have those instances, and `Num`, structurally: `(int, int)` or
+`[float; 3]` meets a `T: Num` bound. Nested aggregates and `Vec`s do not.
+
 ### `Vec<T>` — growable vectors
 
 ```coil
