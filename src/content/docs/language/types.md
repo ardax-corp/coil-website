@@ -327,7 +327,7 @@ let n = d.x;              // field access
 - Two record literals with the same field names and compatible field types unify structurally.
 - A record is a heap object with one slot per field, like a class instance: its slots are the fields sorted by name, so `{ y: 9, x: 8 }` and `{ x: 8, y: 9 }` have the same layout. Field reads and writes are slot loads and stores (`LoadField` / `SetField`), not keyed lookups. Records are shared by reference: `let b = a; b.x = 5;` changes `a.x` too.
 - `r.len()` is the number of fields, a compile-time constant.
-- `==` / `!=` compare records field by field, as tuples compare element-wise: `{ a: 1, s: "x" } == { s: "x", a: 1 }` holds, and so do records nested in each other or inside arrays, tuples, `Option`s and enums. A `float` field compares by IEEE 754. Records have no `Eq` or `Hash` instance yet, so a `T: Eq` bound (and a `HashMap` key) does not accept one.
+- `==` / `!=` compare records field by field, as tuples compare element-wise: `{ a: 1, s: "x" } == { s: "x", a: 1 }` holds, and so do records nested in each other or inside arrays, tuples, `Option`s and enums. A `float` field compares by IEEE 754. A record whose field types are all ground also has structural `Eq` and `Hash` instances when every field has one: `r.hash()` combines the field hashes in field-name order, as a derived `Hash` combines fields, so `{ x: 1, y: 2 }` and `{ y: 2, x: 1 }` hash alike. So a record meets a `T: Eq` or `T: Hash` bound and can key a `HashMap`.
 - A record is not iterable: its fields are a fixed set of names, so `for x in r` is an error (`E0119`). For keys you add, remove or iterate, use `collections::map::HashMap` from the stdlib.
 - Duplicate field names in one literal → parse error (`E0208`); typecheck repeats the check if parse is bypassed.
 - Anonymous records have structural `Show` support when every field is showable: `%v`, `r.show()` and a `T: Show` bound all accept a ground record, through a monomorphic clone or a shared generic body's dictionary. Fields print in canonical name order as `{ a: 1, b: 2 }`, the same text `%v` prints.
@@ -890,8 +890,8 @@ The compiler pre-registers these traits and instances for `int`, `float`, and (w
 | `Gt` | Greater-than | `>` → `gt` |
 | `Ge` | Greater-or-equal | `>=` → `ge` |
 | `Ord` | Convenience bundle | Supertrait of `Lt` + `Le` + `Gt` + `Ge` + `Eq` (no own methods); `T: Ord` allows `==` / `!=` too |
-| `Eq` | Equality | `==`, `!=` (`unit` too: `()` equals `()`, also under a `T: Eq` bound); structural for ground tuples and fixed arrays of `Eq` elements |
-| `Hash` | Hashing | `hash(T) -> int`; structural for ground tuples and fixed arrays of `Hash` elements (combined as a derived `Hash` combines fields) |
+| `Eq` | Equality | `==`, `!=` (`unit` too: `()` equals `()`, also under a `T: Eq` bound); structural for ground tuples, anonymous records and fixed arrays of `Eq` elements |
+| `Hash` | Hashing | `hash(T) -> int`; structural for ground tuples, anonymous records (fields in name order) and fixed arrays of `Hash` elements (combined as a derived `Hash` combines fields) |
 | `Show` | Display | `show(T) -> string`; used by format `%v`; structural for tuples (bounded type-parameter elements included), fixed arrays, anonymous records, `Option` and `Result` |
 | `Length` | Size query | `fn len(T) -> int`; called as `x.len()` on custom types (arrays/`Vec`/tuples/records/strings are structural and meet a `T: Length` bound) |
 | `Into` | Conversion | `into(Self) -> T` via `impl Into<T> for Self` (no builtin instances) |
