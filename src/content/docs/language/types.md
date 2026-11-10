@@ -940,7 +940,8 @@ class Cell {
 `#[derive(Show)]` and has no explicit `impl Show` gets a
 compiler-generated instance: a class shows its type name, an enum its
 qualified variant name without the payload (`E::V`, the text a derived `Show`
-prints for a unit variant), Explicit
+prints for a unit variant), so an enum may carry a function value (`Map(fn(int) -> int)`
+shows as `Step::Map`); `#[derive(Show)]` on it is `E0300`, since a function has no `Show`. Explicit
 `impl` and structural `#[derive(Show)]` take precedence (overlap with a manual
 `impl` is still an error if both exist).
 
