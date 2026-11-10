@@ -752,6 +752,17 @@ fn main() {
 }
 ```
 
+`o.f(args)` is always a method call, so on a function-typed field it is `E0101`
+(or the method `f`, if the class has one). To call the function a field holds,
+parenthesize the read: `(o.f)(args)`. `o.f` alone reads the field.
+
+```coil
+class Handler { pub op: fn(int) -> int, }
+
+let h = new Handler(fn (int x) => x + 1);
+let r = (h.op)(2); // 3
+```
+
 Bare `[int]` (no `; N`) is a type error (`E0119`) — use `[int; N]` or `Vec<int>`.
 Primitive names are case-insensitive in the typechecker (`String` ≡ `string`).
 
