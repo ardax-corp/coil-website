@@ -27,6 +27,12 @@ values:
   cells, with scalar broadcast.
 - `/`, `%` and `**` are rejected: `Matrix` is not [`Num`](/docs/reference/prelude/ops/Num).
 
+A `Matrix<D>` has the `Show`, `Eq` and `Hash` instances of its data `D`:
+`format("%v", m)` prints the rows, `m.hash()` is the rows' hash, and
+`Eq::eq(m, n)` (or a `T: Eq` bound, a `HashMap` key) is one `bool`
+comparing the data. The `==` operator on two matrices stays the
+cell-by-cell comparison above.
+
 ## Examples
 
 ```coil
@@ -40,6 +46,8 @@ assert!(s[1][1] == 8);
 let ones = a == 1;
 assert!(ones[0][0] == 1 as byte);
 assert!(ones[0][1] == 0 as byte);
+assert!(Eq::eq(a, matrix([[1, 2], [3, 4]])));
+assert!(a.show() == "[[1, 2], [3, 4]]");
 ```
 
 ## See also
