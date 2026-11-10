@@ -199,7 +199,7 @@ let mode: string = Mode::Fast;    // "fast"
 |------|----------|
 | Type of `Status::Ok` | `Status` (nominal: params, locals, exhaustive `match`) |
 | Runtime word | `200` (the `=` literal) |
-| Expression coerce | Implicit to the backing wherever that primitive is expected: `let n: int = Status::Ok`, `Status::Ok + 1`, pass `Status` to an `int` parameter, `format("%i", s)` |
+| Expression coerce | Implicit to the backing wherever that primitive is expected: `let n: int = Status::Ok`, `Status::Ok + 1`, pass `Status` to an `int` parameter, `format("%i", s)`. When the enum has an instance of an operator's trait (`impl Mul for Bit`), two values of that enum use it and the result is the enum (`a * b` is a `Bit`); with a backing-type value on either side, or without an instance, the operator works on the backing value (`a * 2` is an `int`) |
 | Reverse coerce | None. Write `Status::Ok`, not `200 as Status`. Matching a raw `200` against a `Status` scrutinee is a type error |
 | `.value` | Does not exist. Conversion is the implicit coerce above |
 | `Show` | Prints the backing (`Status::Ok` shows as `200`, same as showing that `int`). Not the qualified name |
