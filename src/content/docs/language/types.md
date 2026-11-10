@@ -940,7 +940,7 @@ class Cell {
 `#[derive(Show)]` and has no explicit `impl Show` gets a
 compiler-generated instance: a class shows its type name, an enum its
 qualified variant name without the payload (`E::V`, the text a derived `Show`
-prints for a unit variant). Explicit
+prints for a unit variant), Explicit
 `impl` and structural `#[derive(Show)]` take precedence (overlap with a manual
 `impl` is still an error if both exist).
 
@@ -1015,6 +1015,11 @@ let a = Area::size(s);   // 9
 let v = Volume::size(s); // 27
 ```
 
+- The method form `x.m()` goes to the one trait that has an instance for the
+  receiver's type, even when other traits declare `m` too. If several traits
+  have an instance for it, the call is `E0119` (Ambiguous trait method) and
+  you write `Trait::m(x)`. In the example above `Sq` implements both, so
+  `s.size()` is `E0119`.
 - It works under a bound (dictionary dispatch), at a concrete type, in a
   trait's default body, and on a trait-object value.
 - Receiverless methods take their instance from the expected type:
