@@ -122,6 +122,40 @@ variable number of arguments is declared with a trailing `...`:
 Coil string straight away, so C must return memory that is still valid at
 that moment (not a pointer to a local array).
 
+## Structs by value
+
+An `extern struct` declares a C struct's layout. In Coil, a value of it is a
+record with the same fields: build one with a record literal and read its
+fields with `.name`. A field that holds another struct is a nested record.
+
+```c
+typedef struct { double x; double y; } Vec2;
+Vec2 vec2_add(Vec2 a, Vec2 b);
+```
+
+```coil ignore
+use io::sync::{println};
+use string::{format};
+
+extern struct Vec2 {
+    x: float,
+    y: float,
+};
+
+extern "geom" {
+    fn vec2_add(Vec2 a, Vec2 b) -> Vec2;
+}
+
+fn main() {
+    let v = vec2_add({ x: 1.5, y: 2.0 }, { x: 0.5, y: 1.0 });
+    let _ = println(format("%f %f", v.x, v.y)); // 2.0 3.0
+}
+```
+
+The struct travels the way the platform's C calling convention says, in
+registers or in memory, so the C side needs nothing special. A struct
+returned from C is a new record that Coil owns.
+
 ## Loading at run time
 
 `extern` fixes the library and functions when the program compiles. To
