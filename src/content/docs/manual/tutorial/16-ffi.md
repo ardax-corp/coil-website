@@ -232,8 +232,12 @@ The same permission flags apply.
 ## Shipping
 
 `coil package` builds a single executable, but shared libraries are not
-embedded in it. Ship `libgeom.so` next to the executable (or in `./lib`, or
-in the natives cache `~/.coil/natives`); `--check-native` makes
+embedded in it. Ship `libgeom.so` next to the executable or in `./lib`. On
+Linux the executable links it by name, so the system's loader finds it
+there (or on the system's library path) and the program does not start
+without it; elsewhere it opens at start and may also sit in the natives
+cache `~/.coil/natives` (see
+[Native code](/docs/language/native-code#shared-libraries)). `--check-native` makes
 `coil package` verify the libraries it needs are present. spool's
 `[[ffi.native]]` entries and `spool download` automate this for packages
 that use native code.
