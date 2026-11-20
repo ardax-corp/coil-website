@@ -9,7 +9,7 @@ name: "find"
 signature: "fn find(Regex re, string subject) -> Result<Option<(int, int)>, RegexError>"
 import: "use regex::{find};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-regex/blob/119a25d1b292c155b98f63b5b83ee577f85439b4/src/regex.coil#L787"
+source: "https://github.com/ardax-corp/coil-regex/blob/2684a3e405066c7de4df8aab37ff8c4a34876db4/src/regex.coil#L783"
 order: 5
 ---
 

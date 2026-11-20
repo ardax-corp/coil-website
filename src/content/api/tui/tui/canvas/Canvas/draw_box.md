@@ -10,7 +10,7 @@ parent: "Canvas"
 signature: "pub fn draw_box(int x, int y, int w, int h, BoxChars bc, Style style)"
 import: "use tui::canvas::{Canvas};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/611cfd9b4c061de7df4a8352a34580911bde46b9/src/tui/canvas.coil#L217"
+source: "https://github.com/ardax-corp/coil-tui/blob/0912e5a7bad70e7775e26db08f3f0efa46e1553f/src/tui/canvas.coil#L217"
 order: 14
 ---
 

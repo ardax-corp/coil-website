@@ -10,7 +10,7 @@ parent: "TreeMap"
 signature: "pub fn min_key(K fallback) -> K"
 import: "use collections::tree::{TreeMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/tree.coil#L371"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/c40bfae5c8365e4f259e9293f705ad9411cd6bf7/src/collections/tree.coil#L371"
 order: 11
 ---
 

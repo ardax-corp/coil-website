@@ -10,7 +10,7 @@ parent: "Toml"
 signature: "pub fn decode(Vec<byte> bytes) -> Result<TomlValue, TomlError>"
 import: "use toml::{Toml};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-toml/blob/d9d7f5a87b80bf3fb7db0a59740c473324900f41/src/toml.coil#L2396"
+source: "https://github.com/ardax-corp/coil-toml/blob/e9f84627dc3d9d21a620a43debeb440a832f9503/src/toml.coil#L2391"
 order: 2
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "coil-stdlib"
 description: "Userland standard library for Coil. Compiler virtual modules cover systems primitives (io, string, thread, …); this package layers .coil helpers on top."
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/README.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/c40bfae5c8365e4f259e9293f705ad9411cd6bf7/README.md"
 ---
 # coil-stdlib
 
@@ -41,12 +41,9 @@ docs/                 # package documentation
 
 ## Develop
 
-Needs a Coil toolchain on `PATH` (or `COIL`). `random::Rng::from_time` uses
-[coil-time](https://github.com/ardax-corp/coil-time), a pure-Coil dependency
-declared in `coil.toml`. With spool, `spool install` fetches it and
-`spool test` passes its root. With plain `coil`, clone it next to this checkout:
+Needs a Coil toolchain on `PATH` (or `COIL`). stdlib has no package
+dependencies (`random::Rng::from_time` reads the builtin `clock` module):
 
 ```bash
-git clone https://github.com/ardax-corp/coil-time.git ../coil-time
-coil test --allow-read --allow-write --allow-net --root ../coil-time/src
+coil test --allow-read --allow-write --allow-net
 ```

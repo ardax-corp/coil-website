@@ -8,7 +8,7 @@ name: "capture_end"
 signature: "fn capture_end() -> (string, string)"
 import: "use io::{capture_end};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L331"
+source: "https://github.com/ardax-corp/coil-lang/blob/9c93ed17ff191a9c4e7d41030d8a6da8342de21a/compiler/src/builtin_docs/io.coil#L331"
 order: 8
 ---
 

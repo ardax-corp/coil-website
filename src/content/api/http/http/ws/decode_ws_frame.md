@@ -9,7 +9,7 @@ name: "decode_ws_frame"
 signature: "fn decode_ws_frame(Vec<byte> raw) -> Result<WsFrame, HttpError>"
 import: "use http::ws::{decode_ws_frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/ws.coil#L262"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/ws.coil#L262"
 order: 9
 ---
 

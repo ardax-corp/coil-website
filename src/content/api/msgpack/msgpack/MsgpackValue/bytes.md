@@ -10,7 +10,7 @@ parent: "MsgpackValue"
 signature: "pub fn bytes() -> Vec<byte>"
 import: "use msgpack::{MsgpackValue};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-msgpack/blob/d4bbea9d2025672c7051197559461ba467a0c8b0/src/msgpack.coil#L524"
+source: "https://github.com/ardax-corp/coil-msgpack/blob/7b6fd8c91f36fe663780a5f920d6ed1d88dac11a/src/msgpack.coil#L523"
 order: 24
 ---
 

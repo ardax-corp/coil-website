@@ -1,7 +1,7 @@
 ---
 title: "coil-json"
 description: "Userland JSON for coil. Package name is json, so use json::{Json, JsonValue, JsonError} resolves here."
-source: "https://github.com/ardax-corp/coil-json/blob/7656cabca9b22bca27c2968e9781a6eb6b45132a/README.md"
+source: "https://github.com/ardax-corp/coil-json/blob/796a1a6ada9a8d2df95f170ef535295c67e92c59/README.md"
 ---
 # coil-json
 
@@ -89,4 +89,4 @@ This runs `tests/` and the examples in the `///` docs of `src/json.coil`.
 
 ## License
 
-MIT. See [LICENSE](https://github.com/ardax-corp/coil-json/tree/7656cabca9b22bca27c2968e9781a6eb6b45132a/LICENSE).
+MIT. See [LICENSE](https://github.com/ardax-corp/coil-json/tree/796a1a6ada9a8d2df95f170ef535295c67e92c59/LICENSE).

@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-json"
 description: "This package is json. use json::{Json, JsonValue, JsonError} resolves from src/json.coil. Strict one-shot encode/decode ships here. coil-stdlib is not a dependency of this…"
-source: "https://github.com/ardax-corp/coil-json/blob/7656cabca9b22bca27c2968e9781a6eb6b45132a/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-json/blob/796a1a6ada9a8d2df95f170ef535295c67e92c59/docs/consume.md"
 ---
 # Consuming coil-json
 
@@ -25,7 +25,7 @@ coil --root ../coil-json/src main.coil
 
 ## Call Json::strict()
 
-Signatures are in [`src/json.coil`](https://github.com/ardax-corp/coil-json/blob/7656cabca9b22bca27c2968e9781a6eb6b45132a/src/json.coil). Call patterns are in [`tests/strict.coil`](https://github.com/ardax-corp/coil-json/blob/7656cabca9b22bca27c2968e9781a6eb6b45132a/tests/strict.coil). `Json::strict()` is RFC 8259 one-shot.
+Signatures are in [`src/json.coil`](https://github.com/ardax-corp/coil-json/blob/796a1a6ada9a8d2df95f170ef535295c67e92c59/src/json.coil). Call patterns are in [`tests/strict.coil`](https://github.com/ardax-corp/coil-json/blob/796a1a6ada9a8d2df95f170ef535295c67e92c59/tests/strict.coil). `Json::strict()` is RFC 8259 one-shot.
 
 `Json::jsonc()` is parse-only sugar: comments and trailing commas on decode. Encode stays RFC 8259. Not JSON5.
 

@@ -10,7 +10,7 @@ parent: "Harness"
 signature: "pub fn mouse(MouseKind kind, MouseButton b, int x, int y) -> bool"
 import: "use tui::testing::{Harness};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/611cfd9b4c061de7df4a8352a34580911bde46b9/src/tui/testing.coil#L226"
+source: "https://github.com/ardax-corp/coil-tui/blob/0912e5a7bad70e7775e26db08f3f0efa46e1553f/src/tui/testing.coil#L226"
 order: 6
 ---
 

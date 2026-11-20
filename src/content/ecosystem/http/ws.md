@@ -1,7 +1,7 @@
 ---
 title: "WebSocket (RFC 6455)"
 description: "WebSocket runs on top of HTTP/1.1 in this package: an upgrade handshake, then framed messages on the same TCP (or TLS) stream. It is not a separate transport and does not…"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/docs/ws.md"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/docs/ws.md"
 ---
 # WebSocket (RFC 6455)
 

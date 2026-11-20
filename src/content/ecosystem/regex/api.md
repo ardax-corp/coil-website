@@ -1,7 +1,7 @@
 ---
 title: "API"
 description: "Module: use regex::{…}; (package name regex from coil.toml)."
-source: "https://github.com/ardax-corp/coil-regex/blob/119a25d1b292c155b98f63b5b83ee577f85439b4/docs/api.md"
+source: "https://github.com/ardax-corp/coil-regex/blob/2684a3e405066c7de4df8aab37ff8c4a34876db4/docs/api.md"
 ---
 # API
 

@@ -9,7 +9,7 @@ name: "WsFrame"
 signature: "class WsFrame"
 import: "use http::ws::{WsFrame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/ws.coil#L53"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/ws.coil#L53"
 order: 0
 ---
 
@@ -43,7 +43,7 @@ let no_mask: Vec<byte> = Vec::new();
 let wire = encode_ws_frame(1, ws_opcode_text(), no_mask, to_bytes("hi"));
 let f = match decode_ws_frame(wire) {
     Result::Ok(f) => f,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(f.fin == 1);
 assert!(f.opcode == ws_opcode_text());

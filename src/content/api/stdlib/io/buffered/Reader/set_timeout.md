@@ -10,7 +10,7 @@ parent: "Reader"
 signature: "pub fn set_timeout(int ms)"
 import: "use io::buffered::{Reader};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/io/buffered.coil#L105"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/c40bfae5c8365e4f259e9293f705ad9411cd6bf7/src/io/buffered.coil#L105"
 order: 2
 ---
 

@@ -41,3 +41,5 @@ use text::{Span, Pattern};
 | Name | Description |
 |------|-------------|
 | [`from_codepoints`](/packages/stdlib/reference/text/from_codepoints) | Returns the string whose characters are the code points `cps`. |
+| [`ord`](/packages/stdlib/reference/text/ord) | Returns the code of the single character in `s` as a [`byte`](/docs/reference/types/byte). |
+| [`char`](/packages/stdlib/reference/text/char) | Returns the one-character string whose code point is `b`. |

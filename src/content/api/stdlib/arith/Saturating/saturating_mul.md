@@ -10,7 +10,7 @@ parent: "Saturating"
 signature: "fn saturating_mul(S a, S b) -> S"
 import: "use arith::{Saturating};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/arith.coil#L120"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/c40bfae5c8365e4f259e9293f705ad9411cd6bf7/src/arith.coil#L120"
 order: 2
 ---
 

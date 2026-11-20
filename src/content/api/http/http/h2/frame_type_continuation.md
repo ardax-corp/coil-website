@@ -9,7 +9,7 @@ name: "frame_type_continuation"
 signature: "fn frame_type_continuation() -> int"
 import: "use http::h2::{frame_type_continuation};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L153"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/h2.coil#L153"
 order: 13
 ---
 

@@ -9,7 +9,7 @@ name: "headers_frames"
 signature: "fn headers_frames(int stream_id, Headers h, int end_stream, int max_payload) -> Vec<byte>"
 import: "use http::h2::{headers_frames};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L564"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/h2.coil#L564"
 order: 54
 ---
 

@@ -10,7 +10,7 @@ parent: "Node"
 signature: "pub fn children() -> Vec<Node>"
 import: "use tui::node::{Node};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/611cfd9b4c061de7df4a8352a34580911bde46b9/src/tui/node.coil#L176"
+source: "https://github.com/ardax-corp/coil-tui/blob/0912e5a7bad70e7775e26db08f3f0efa46e1553f/src/tui/node.coil#L176"
 order: 4
 ---
 
