@@ -149,6 +149,32 @@ a copy:
   compiler warns (E0143). Use a `Ref<int>` for a counter.
 
 `mut` is a borrow: the name lives in its own scope and is never stored.
+While it lives, any other name made for the borrowed object is a copy
+taken at that point: a `let`, a store into a field or a vector, a value a
+function keeps or hands back, a `use (x)` capture, a `for` over it. Writes
+through the borrow do not show through that name:
+
+```coil
+use tests::assert;
+
+class Config {
+    pub port: int,
+}
+
+fn main() {
+    let a = new Config(1);
+    let c = mut a;
+    let before = a;
+    c.port = 80;
+    assert!(a.port == 80);
+    assert!(before.port == 1);
+}
+```
+
+Replacing the borrowed variable while the borrow lives (`a = new
+Config(2)`) is still an error (E0149): the borrow would go on writing the
+old object.
+
 State that must be shared beyond that goes in one of two places:
 
 - **`Ref<T>`** from [`cell`](/packages/stdlib/reference/cell) holds one shared value.
@@ -232,10 +258,10 @@ borrows. The compiler refuses (E0151) a view that could outlive it:
   method that builds the view over `mut self`, a view's own method that
   returns `self`, or another such call on `self`.
 
-While a view or a `mut` borrow is live, its place is not shared,
-moved or replaced (E0149): `let other = c` after `c.slot(1)` is an error
-until the last use of the slot, because writes through the view would
-show through both names.
+While a view is live, its place is not shared, moved or replaced
+(E0149): `let other = c` after `c.slot(1)` is an error until the last use
+of the slot, because writes through the view would show through both
+names. (A plain `mut` borrow gives such a name a copy instead.)
 
 Inside one module, a chain such as `c.slot(i).add(1).add(2)` compiles
 to the same code as writing `c.vals[i]` directly: the view is not
