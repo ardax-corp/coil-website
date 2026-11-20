@@ -9,7 +9,7 @@ name: "encode_push_promise_payload"
 signature: "fn encode_push_promise_payload(int promised_id, Vec<byte> block) -> Vec<byte>"
 import: "use http::h2::{encode_push_promise_payload};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L584"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/h2.coil#L584"
 order: 55
 ---
 

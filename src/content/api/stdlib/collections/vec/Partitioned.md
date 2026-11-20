@@ -9,7 +9,7 @@ name: "Partitioned"
 signature: "class Partitioned<T>"
 import: "use collections::vec::{Partitioned};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/vec.coil#L10"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/c40bfae5c8365e4f259e9293f705ad9411cd6bf7/src/collections/vec.coil#L10"
 order: 0
 ---
 

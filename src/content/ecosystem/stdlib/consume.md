@@ -1,7 +1,7 @@
 ---
 title: "Consume coil-stdlib"
 description: "Every spool project declares the stdlib as a dependency; there is no global copy. spool new and spool init write it for you. spool passes the locked checkout's src/ as a module…"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/c40bfae5c8365e4f259e9293f705ad9411cd6bf7/docs/consume.md"
 ---
 # Consume coil-stdlib
 
@@ -35,12 +35,9 @@ one cached checkout.
 roots = ["./src", "../coil-stdlib/src"]
 ```
 
-`random::Rng::from_time` seeds from [coil-time](https://github.com/ardax-corp/coil-time)
-timestamps as ints. `coil.toml` declares it as a git dependency
-(`https://github.com/ardax-corp/coil-time.git`), so spool fetches it along with
-stdlib. It is pure Coil: no `--allow-dload time` and no `[ffi]` search path.
-With plain `coil`, clone coil-time and pass `--root ../coil-time/src` (the
-compiler reads no `coil.toml`).
+stdlib has no package dependencies: `random::Rng::from_time` reads the
+compiler's builtin `clock` module, and `from_entropy` the builtin `entropy`
+module, so one `--root` (or the spool dependency) is all it needs.
 
 ## Language repo checkout
 

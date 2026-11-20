@@ -9,7 +9,7 @@ parent: "Task"
 signature: "pub fn join() -> Result<R, TaskError>"
 import: "use task::{Task};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/prelude/task.coil#L105"
+source: "https://github.com/ardax-corp/coil-lang/blob/9c93ed17ff191a9c4e7d41030d8a6da8342de21a/compiler/src/prelude/task.coil#L105"
 order: 0
 ---
 

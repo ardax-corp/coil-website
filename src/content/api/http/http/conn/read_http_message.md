@@ -9,7 +9,7 @@ name: "read_http_message"
 signature: "fn read_http_message(HttpConn c) -> Result<Vec<byte>, HttpError>"
 import: "use http::conn::{read_http_message};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/conn.coil#L220"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/conn.coil#L220"
 order: 2
 ---
 

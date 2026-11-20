@@ -1,7 +1,7 @@
 ---
 title: "Consuming coil-toml"
 description: "This package is toml. use toml::{Toml, TomlValue, TomlError} resolves from src/toml.coil. One-shot encode/decode ships here. Do not add a native/FFI dep."
-source: "https://github.com/ardax-corp/coil-toml/blob/d9d7f5a87b80bf3fb7db0a59740c473324900f41/docs/consume.md"
+source: "https://github.com/ardax-corp/coil-toml/blob/e9f84627dc3d9d21a620a43debeb440a832f9503/docs/consume.md"
 ---
 # Consuming coil-toml
 
@@ -25,7 +25,7 @@ coil --root ../coil-toml/src main.coil
 
 ## Call Toml::v1()
 
-Signatures are in [`src/toml.coil`](https://github.com/ardax-corp/coil-toml/blob/d9d7f5a87b80bf3fb7db0a59740c473324900f41/src/toml.coil). Call patterns are in [`tests/v1.coil`](https://github.com/ardax-corp/coil-toml/blob/d9d7f5a87b80bf3fb7db0a59740c473324900f41/tests/v1.coil).
+Signatures are in [`src/toml.coil`](https://github.com/ardax-corp/coil-toml/blob/e9f84627dc3d9d21a620a43debeb440a832f9503/src/toml.coil). Call patterns are in [`tests/v1.coil`](https://github.com/ardax-corp/coil-toml/blob/e9f84627dc3d9d21a620a43debeb440a832f9503/tests/v1.coil).
 
 ```coil
 use toml::{Toml, TomlValue, TomlError};

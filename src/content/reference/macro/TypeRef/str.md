@@ -9,7 +9,7 @@ parent: "TypeRef"
 signature: "pub fn str() -> string"
 import: "use macro::{TypeRef};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/prelude/macro.coil#L218"
+source: "https://github.com/ardax-corp/coil-lang/blob/9c93ed17ff191a9c4e7d41030d8a6da8342de21a/compiler/src/prelude/macro.coil#L218"
 order: 0
 ---
 

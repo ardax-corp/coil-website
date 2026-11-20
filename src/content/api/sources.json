@@ -1,19 +1,19 @@
 {
-  "coil-stdlib": "72363df1f418f029700c2e574fbc0479390432f0",
-  "coil-json": "7656cabca9b22bca27c2968e9781a6eb6b45132a",
-  "coil-toml": "d9d7f5a87b80bf3fb7db0a59740c473324900f41",
-  "coil-msgpack": "d4bbea9d2025672c7051197559461ba467a0c8b0",
+  "coil-stdlib": "c40bfae5c8365e4f259e9293f705ad9411cd6bf7",
+  "coil-json": "796a1a6ada9a8d2df95f170ef535295c67e92c59",
+  "coil-toml": "e9f84627dc3d9d21a620a43debeb440a832f9503",
+  "coil-msgpack": "7b6fd8c91f36fe663780a5f920d6ed1d88dac11a",
   "coil-csv": "ca3194324974e188ecdb6a5d3840175387c4bce0",
-  "coil-http": "d2b81eaeb6f5b4e7d794874f593cb4e9406afd27",
+  "coil-http": "5b91a79d1460e4bb06d99db02a2a90ab6b76533f",
   "coil-url": "575ebd3850dcd9223d9da5b5e1b04f2feb361f81",
   "coil-tls": "7e2e118089854b5d182a3330bc1289849fcc581c",
   "coil-crypto": "0f059437ce1964f08ad14012792b3c7852d57b79",
-  "coil-regex": "119a25d1b292c155b98f63b5b83ee577f85439b4",
+  "coil-regex": "2684a3e405066c7de4df8aab37ff8c4a34876db4",
   "coil-deflate": "03a5fb90cfb42ef1c20403939890cf4995f32e32",
   "coil-gzip": "d1ea79bc8f4855d21eec6bf98c1ea51e4a51044c",
   "coil-time": "6234dcab24f4fd5cc26bd37373e7645e3fb0791e",
   "coil-uuid": "98c88bb6a6d617623fa9ca8a3bc4e475f005b12f",
   "coil-log": "0eeceb5c7b573acd4f30e445566a5393a75e23cc",
   "coil-cli": "05669fce32782c1a5cb55fb2ecff2e1215cd0bfc",
-  "coil-tui": "611cfd9b4c061de7df4a8352a34580911bde46b9"
+  "coil-tui": "0912e5a7bad70e7775e26db08f3f0efa46e1553f"
 }

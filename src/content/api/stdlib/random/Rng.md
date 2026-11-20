@@ -9,7 +9,7 @@ name: "Rng"
 signature: "class Rng"
 import: "use random::{Rng};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/random.coil#L30"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/c40bfae5c8365e4f259e9293f705ad9411cd6bf7/src/random.coil#L30"
 order: 0
 ---
 
@@ -18,7 +18,6 @@ A seeded pseudo-random number generator.
 The same seed always gives the same sequence, which makes tests repeatable.
 It is not cryptographically secure: for keys, tokens and nonces use the
 builtin `entropy::bytes(n)`, which reads the OS CSPRNG on every call.
-[`from_time`](/packages/stdlib/reference/random/Rng/from_time) needs the coil-time package on the module roots.
 
 ## Associated functions
 
@@ -26,7 +25,7 @@ builtin `entropy::bytes(n)`, which reads the OS CSPRNG on every call.
 |------|-------------|
 | [`seeded`](/packages/stdlib/reference/random/Rng/seeded) | Creates a generator from `seed`. |
 | [`from_entropy`](/packages/stdlib/reference/random/Rng/from_entropy) | Creates a generator seeded with 64 bits from the OS CSPRNG ([`entropy::bytes`](/docs/reference/entropy/bytes)), so two processes started in the same instant still get different sequences. |
-| [`from_time`](/packages/stdlib/reference/random/Rng/from_time) | Creates a generator seeded from the current wall-clock and monotonic time (via coil-time). |
+| [`from_time`](/packages/stdlib/reference/random/Rng/from_time) | Creates a generator seeded from the host's wall clock and monotonic clock (builtin [`clock::wall_nanos`](/docs/reference/clock/wall_nanos) / [`clock::mono_nanos`](/docs/reference/clock/mono_nanos)). |
 
 ## Methods
 
@@ -48,7 +47,3 @@ assert!(a.range(0, 100) == b.range(0, 100));
 let roll = a.range(1, 7);
 assert!(roll >= 1 && roll < 7);
 ```
-
-## See also
-
-- [`Rng::from_time`](/packages/stdlib/reference/random/Rng/from_time)

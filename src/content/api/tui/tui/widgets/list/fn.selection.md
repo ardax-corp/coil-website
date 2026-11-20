@@ -9,7 +9,7 @@ name: "selection"
 signature: "fn selection() -> Selection"
 import: "use tui::widgets::list::{selection};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/611cfd9b4c061de7df4a8352a34580911bde46b9/src/tui/widgets/list.coil#L35"
+source: "https://github.com/ardax-corp/coil-tui/blob/0912e5a7bad70e7775e26db08f3f0efa46e1553f/src/tui/widgets/list.coil#L35"
 order: 4
 ---
 

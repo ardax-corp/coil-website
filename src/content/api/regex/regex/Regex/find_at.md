@@ -10,7 +10,7 @@ parent: "Regex"
 signature: "pub fn find_at(string subject, int from) -> Result<Option<(int, int)>, RegexError>"
 import: "use regex::{Regex};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-regex/blob/119a25d1b292c155b98f63b5b83ee577f85439b4/src/regex.coil#L609"
+source: "https://github.com/ardax-corp/coil-regex/blob/2684a3e405066c7de4df8aab37ff8c4a34876db4/src/regex.coil#L605"
 order: 3
 ---
 

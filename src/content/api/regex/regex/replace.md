@@ -9,7 +9,7 @@ name: "replace"
 signature: "fn replace(Regex re, string subject, string template) -> Result<string, RegexError>"
 import: "use regex::{replace};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-regex/blob/119a25d1b292c155b98f63b5b83ee577f85439b4/src/regex.coil#L818"
+source: "https://github.com/ardax-corp/coil-regex/blob/2684a3e405066c7de4df8aab37ff8c4a34876db4/src/regex.coil#L814"
 order: 9
 ---
 

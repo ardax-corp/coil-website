@@ -9,7 +9,7 @@ name: "Timer"
 signature: "shared class Timer"
 import: "use tui::node::{Timer};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/611cfd9b4c061de7df4a8352a34580911bde46b9/src/tui/node.coil#L242"
+source: "https://github.com/ardax-corp/coil-tui/blob/0912e5a7bad70e7775e26db08f3f0efa46e1553f/src/tui/node.coil#L242"
 order: 2
 ---
 

@@ -8,7 +8,7 @@ name: "join"
 signature: "fn join<T>(Thread<T> t) -> Result<T, ThreadError>"
 import: "use thread::{join};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/thread.coil#L308"
+source: "https://github.com/ardax-corp/coil-lang/blob/9c93ed17ff191a9c4e7d41030d8a6da8342de21a/compiler/src/builtin_docs/thread.coil#L308"
 order: 9
 ---
 

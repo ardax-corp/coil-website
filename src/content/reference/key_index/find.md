@@ -8,7 +8,7 @@ name: "find"
 signature: "fn find<K>(Vec<int> table, Vec<int> hashes, Vec<K> keys, int h, K k, int mode) -> int"
 import: "use key_index::{find};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/key_index.coil#L53"
+source: "https://github.com/ardax-corp/coil-lang/blob/9c93ed17ff191a9c4e7d41030d8a6da8342de21a/compiler/src/builtin_docs/key_index.coil#L53"
 order: 8
 ---
 

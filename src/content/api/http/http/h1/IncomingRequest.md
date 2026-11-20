@@ -9,7 +9,7 @@ name: "IncomingRequest"
 signature: "class IncomingRequest"
 import: "use http::h1::{IncomingRequest};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h1.coil#L39"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/h1.coil#L39"
 order: 0
 ---
 
@@ -48,7 +48,7 @@ use string::to_bytes;
 let raw = to_bytes("POST /items?x=1 HTTP/1.1\r\nHost: example.com\r\nContent-Length: 3\r\n\r\nabc");
 let req = match parse_request(raw) {
     Result::Ok(r) => r,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(req.method_val() == "POST");
 assert!(req.path_val() == "/items?x=1");

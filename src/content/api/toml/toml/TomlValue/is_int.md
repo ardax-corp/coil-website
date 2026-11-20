@@ -10,7 +10,7 @@ parent: "TomlValue"
 signature: "pub fn is_int() -> bool"
 import: "use toml::{TomlValue};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-toml/blob/d9d7f5a87b80bf3fb7db0a59740c473324900f41/src/toml.coil#L372"
+source: "https://github.com/ardax-corp/coil-toml/blob/e9f84627dc3d9d21a620a43debeb440a832f9503/src/toml.coil#L372"
 order: 7
 ---
 

@@ -9,7 +9,7 @@ name: "encode_response"
 signature: "fn encode_response(Response r) -> Vec<byte>"
 import: "use http::h1::{encode_response};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h1.coil#L316"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/h1.coil#L316"
 order: 2
 ---
 

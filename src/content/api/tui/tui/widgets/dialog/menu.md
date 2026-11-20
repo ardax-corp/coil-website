@@ -9,7 +9,7 @@ name: "menu"
 signature: "fn menu(Ctx ctx, int x, int y, Vec<string> items, fn(int, Ctx) -> () pick)"
 import: "use tui::widgets::dialog::{menu};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/611cfd9b4c061de7df4a8352a34580911bde46b9/src/tui/widgets/dialog.coil#L195"
+source: "https://github.com/ardax-corp/coil-tui/blob/0912e5a7bad70e7775e26db08f3f0efa46e1553f/src/tui/widgets/dialog.coil#L195"
 order: 4
 ---
 

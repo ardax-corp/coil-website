@@ -9,7 +9,7 @@ name: "headers_from_frame_with"
 signature: "fn headers_from_frame_with(H2Frame f, HpackTable t) -> Result<Headers, HttpError>"
 import: "use http::h2::{headers_from_frame_with};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L480"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/h2.coil#L480"
 order: 49
 ---
 

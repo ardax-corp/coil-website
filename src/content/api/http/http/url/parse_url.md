@@ -9,7 +9,7 @@ name: "parse_url"
 signature: "fn parse_url(string s) -> Result<Url, HttpError>"
 import: "use http::url::{parse_url};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/url.coil#L386"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/url.coil#L386"
 order: 3
 ---
 
@@ -40,7 +40,7 @@ use http::url::parse_url;
 
 let u = match parse_url("http://localhost:8080/health") {
     Result::Ok(u) => u,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(u.host == "localhost");
 assert!(u.port == 8080);
@@ -48,7 +48,7 @@ assert!(u.path == "/health");
 
 let plain = match parse_url("https://example.com") {
     Result::Ok(u) => u,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(plain.port == 443);
 assert!(plain.path == "/");

@@ -10,7 +10,7 @@ parent: "TreeMap"
 signature: "pub fn remove(K k) -> bool"
 import: "use collections::tree::{TreeMap};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/tree.coil#L313"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/c40bfae5c8365e4f259e9293f705ad9411cd6bf7/src/collections/tree.coil#L313"
 order: 10
 ---
 

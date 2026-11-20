@@ -9,7 +9,7 @@ name: "Text"
 signature: "shared class Text"
 import: "use tui::widgets::text::{Text};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tui/blob/611cfd9b4c061de7df4a8352a34580911bde46b9/src/tui/widgets/text.coil#L20"
+source: "https://github.com/ardax-corp/coil-tui/blob/0912e5a7bad70e7775e26db08f3f0efa46e1553f/src/tui/widgets/text.coil#L20"
 order: 0
 ---
 

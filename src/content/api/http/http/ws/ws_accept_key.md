@@ -9,7 +9,7 @@ name: "ws_accept_key"
 signature: "fn ws_accept_key(string key) -> string"
 import: "use http::ws::{ws_accept_key};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/ws.coil#L434"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/ws.coil#L434"
 order: 11
 ---
 

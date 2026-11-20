@@ -9,7 +9,7 @@ name: "frame_wire_len"
 signature: "fn frame_wire_len(Vec<byte> raw) -> int"
 import: "use http::h2::{frame_wire_len};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L273"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/h2.coil#L273"
 order: 30
 ---
 

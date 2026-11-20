@@ -10,7 +10,7 @@ parent: "Server"
 signature: "pub fn bind(string host, int port) -> Result<(), HttpError>"
 import: "use http::server::{Server};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/server.coil#L140"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/server.coil#L140"
 order: 1
 ---
 

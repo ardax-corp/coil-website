@@ -9,7 +9,7 @@ name: "encode_header_block_with"
 signature: "fn encode_header_block_with(Headers h, HpackTable t) -> Vec<byte>"
 import: "use http::hpack::{encode_header_block_with};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/hpack.coil#L1005"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/hpack.coil#L1005"
 order: 11
 ---
 

@@ -9,7 +9,7 @@ name: "sha1"
 signature: "fn sha1(Vec<byte> msg) -> Vec<byte>"
 import: "use http::sha1::{sha1};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/sha1.coil#L203"
+source: "https://github.com/ardax-corp/coil-http/blob/5b91a79d1460e4bb06d99db02a2a90ab6b76533f/src/http/sha1.coil#L203"
 order: 0
 ---
 

@@ -9,7 +9,7 @@ name: "captures"
 signature: "fn captures(Regex re, string subject) -> Result<Option<Vec<string>>, RegexError>"
 import: "use regex::{captures};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-regex/blob/119a25d1b292c155b98f63b5b83ee577f85439b4/src/regex.coil#L808"
+source: "https://github.com/ardax-corp/coil-regex/blob/2684a3e405066c7de4df8aab37ff8c4a34876db4/src/regex.coil#L804"
 order: 7
 ---
 
