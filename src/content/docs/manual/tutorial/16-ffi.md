@@ -118,7 +118,12 @@ settings live in `coil.toml` under `[ffi]` and in `coil.lock`; see
 
 A function without `->` returns nothing (`void`). A C function that takes a
 variable number of arguments is declared with a trailing `...`:
-`fn sum_n(int n, ...) -> int;`. Strings returned from C are copied into a
+`fn sum_n(int n, ...) -> int;`. Each argument after the declared ones is
+passed with C's default promotions: an `int` as `int64_t`, a `float` as
+`double`, a `bool` as `int`, a `string` as `const char *` (a struct cannot be
+one), so the C side reads them with `va_arg(args, int64_t)`,
+`va_arg(args, double)`, `va_arg(args, int)` and `va_arg(args, const char *)`.
+Strings returned from C are copied into a
 Coil string straight away, so C must return memory that is still valid at
 that moment (not a pointer to a local array).
 
