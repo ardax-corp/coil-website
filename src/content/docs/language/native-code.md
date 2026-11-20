@@ -82,6 +82,29 @@ The executable leaves out the runtime's debug info by default.
 Panic backtraces come from the program's own line table (`-g`), so they
 read the same at every level.
 
+### Shared libraries
+
+On Linux and other ELF systems, a native executable links each shared
+library an `extern` block names (one with an `--ffi-native` row) by name,
+as a C program would: the system's loader opens it when the program
+starts, and each call goes straight to the C function. `coil package`
+checks the library's sha256 against its pin (`--dload-pin`, the lock in a
+spool project) at that link and fails on a mismatch. At start the library
+is trusted by name.
+
+```sh
+coil package app.coil -o app --allow-dload sum --dload-pin sum=<sha256> \
+  --ffi-native name=sum,version=1.0.0,path=native
+./app   # finds libsum.so beside it, in ./lib there, or on the system path
+```
+
+The loader looks beside the executable, in its `lib/` and on the system's
+library path (`LD_LIBRARY_PATH`, `/usr/lib`, …); without the library the
+program does not start. The natives cache is not searched for a linked
+library. A library the program opens only with `ffi::dload`, and every
+shared library on macOS and Windows, still opens at start through the
+`dload` gate, with its hash checked then.
+
 ### Linking C libraries statically
 
 An [`extern` block](/docs/manual/tutorial/16-ffi) loads its library when
