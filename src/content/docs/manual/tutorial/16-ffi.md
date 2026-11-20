@@ -113,7 +113,7 @@ settings live in `coil.toml` under `[ffi]` and in `coil.lock`; see
 | `ptr` | `void *` |
 | `Bytes` (from a `Vec<byte>`) | `uint8_t *` that C may write into |
 | `ConstBytes` (from a `string` or `Vec<byte>`) | read-only `const uint8_t *`, no NUL |
-| `Callback` | a C function pointer that calls back into Coil |
+| `fn(int x) -> int` | a C function pointer that calls back into Coil (see below) |
 | `extern struct Point { x: int32, y: int32 };` | a C struct passed by value |
 
 A function without `->` returns nothing (`void`). A C function that takes a
@@ -126,6 +126,42 @@ one), so the C side reads them with `va_arg(args, int64_t)`,
 Strings returned from C are copied into a
 Coil string straight away, so C must return memory that is still valid at
 that moment (not a pointer to a local array).
+
+## Callbacks
+
+A C function that takes a function pointer gets a parameter of function
+type. Pass it the name of a top-level Coil function, and C calls it like
+any other function pointer:
+
+```c
+typedef int64_t (*int64_fn_int64)(int64_t);
+int64_t apply_cb(int64_fn_int64 cb, int64_t x) { return cb(x); }
+```
+
+```coil ignore
+use io::sync::{println};
+use string::{format};
+
+extern "sum" {
+    fn apply_cb(fn(int x) -> int cb, int x) -> int;
+}
+
+fn doubler(int x) -> int {
+    return x * 2;
+}
+
+fn main() {
+    let _ = println(format("%i", apply_cb(doubler, 21))); // 42
+}
+```
+
+A callback takes up to five `int`, `float`, `bool`, `ptr` or `string`
+parameters and returns an `int`, `float`, `bool`, `ptr` or nothing; a C
+string argument arrives as a Coil string. C may keep the pointer and call it
+later, during another call into the library. The argument must name a
+function: a closure or a local that holds a function has no C entry of its
+own (E0403). A panic inside a callback ends the program the same way as a
+panic in the code that called C.
 
 ## Structs by value
 
