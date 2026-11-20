@@ -80,6 +80,14 @@ use toml::{parse as parse_toml}; // fine
 
 Importing the same item twice under the same name is allowed.
 
+An import also cannot take the name of an item the module declares itself;
+the local item does not shadow it:
+
+```coil ignore
+use json::{parse};
+fn parse(string s) -> int { return s.len(); } // error E0133: `parse` is both imported and declared here
+```
+
 ## How a path is resolved
 
 For `use a::b::{c}`, each root is tried in order, and within a root:
@@ -176,7 +184,7 @@ exactly as a project module would. The compiler itself never reads
 | `E0900` | No root has a file for the path: ``Module not found: `use a::b::c` `` |
 | `E0100`, `E0101` | The module was found but does not declare the name; reported where the name is used |
 | `E0124` | `use path::*` |
-| `E0133` | Two imports bind the same local name |
+| `E0133` | Two imports bind the same local name, or an import takes the name of an item the module declares |
 | `E0154` | Modules import each other: ``import cycle: `a -> b -> a` `` |
 
 See [error codes](/docs/language/error-codes) for the full list.
