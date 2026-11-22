@@ -91,6 +91,15 @@ Anything declared at the top level of a module can be imported: functions,
 classes, enums, traits, constants and type aliases. There is no `use x::*`;
 listing the names keeps every file's dependencies visible at its top.
 
+What a module imports stays private to it. To pass a name on, so that
+importers of your module can import it from there, write `pub use`
+([re-exports](/docs/language/modules#re-exports)):
+
+```coil ignore
+// src/store.coil
+pub use store::item::{Item};
+```
+
 The same rule covers the stdlib and the compiler's built-in modules. `io`,
 `string`, `env` and `thread` are built into the compiler, and `text`,
 `collections` and `conv` are stdlib source files, but you import from both
