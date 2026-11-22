@@ -1,13 +1,13 @@
 ---
 title: Modules
-description: "How Coil maps files to modules, the use and mod syntax, how an import path is resolved against the search roots, the prelude, and the related errors."
+description: "How Coil maps files to modules, the use and mod syntax, re-exports with pub use, how an import path is resolved against the search roots, the prelude, and the related errors."
 ---
 
 # Modules
 
 A module is a `.coil` file. Its path below a search root is its name, and
-`use` imports names from it. There are no module declarations, no export
-lists and no wildcard imports. For a gentler introduction, see
+`use` imports names from it, and `pub use` re-exports them. There are no
+module declarations, no export lists and no wildcard imports. For a gentler introduction, see
 [chapter 9 of the tutorial](/docs/manual/tutorial/09-modules).
 
 ## Module names
@@ -46,8 +46,8 @@ Each is listed in the [reference](/docs/reference#ref-builtin).
 ## use
 
 ```text
-use_stmt  ::= 'use' path '::' '{' item (',' item)* ','? '}' ';'
-            | 'use' path ('as' IDENT)? ';'
+use_stmt  ::= 'pub'? 'use' path '::' '{' item (',' item)* ','? '}' ';'
+            | 'pub'? 'use' path ('as' IDENT)? ';'
 path      ::= IDENT ('::' IDENT)*
 item      ::= IDENT ('as' IDENT)?
 ```
@@ -62,7 +62,8 @@ item      ::= IDENT ('as' IDENT)?
 
 Any top-level item can be imported: functions, classes, enums, traits,
 type aliases, constants, statics and macros. Imports are local to the file;
-importing a name in one module does not make it visible in another.
+importing a name in one module does not make it visible in another, unless
+the module re-exports it with [`pub use`](#re-exports).
 
 `use path::*;` is always an error (`E0124`). List the names.
 
@@ -87,6 +88,44 @@ the local item does not shadow it:
 use json::{parse};
 fn parse(string s) -> int { return s.len(); } // error E0133: `parse` is both imported and declared here
 ```
+
+## Re-exports
+
+`pub use` imports a name and also makes it an item of the module, so other
+modules can import it from there. A library can keep its code in several
+files and still offer one path to import from:
+
+```coil ignore
+// src/shapes/circle.coil
+class Circle {
+    pub r: int,
+}
+
+// src/shapes.coil
+pub use shapes::circle::Circle;
+pub use shapes::square::{Square, area as square_area};
+
+// src/main.coil
+use shapes::{Circle, square_area};
+```
+
+Every kind of item can be re-exported, under its own name or a new one
+(`as`), and a re-exported name can be re-exported again. Importing it is the
+same as importing the item from the module that declares it: `use
+shapes::Circle` and `use shapes::circle::Circle` name the same class.
+
+A plain `use` stays private. Importing a name that a module only imports is
+an error (`E0100`), and its help names the module to import it from:
+
+```text
+Error: [E0100] module `shapes` has no item `Triangle`
+Help: `shapes` imports `Triangle` from `shapes::triangle` without re-exporting it: import it from `shapes::triangle`, or write `pub use` in `shapes` to re-export it
+```
+
+`pub use` belongs at the top level of a module; inside a function it is a
+parse error. Only `use` follows a re-export for now: a qualified path such
+as `shapes::Circle` (after `mod shapes;`) does not, so write the declaring
+module's path there.
 
 ## How a path is resolved
 
