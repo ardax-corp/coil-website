@@ -1,6 +1,6 @@
 ---
 title: Chapter 16 — Calling C
-description: "Calling functions in C shared libraries with extern blocks, loading libraries at run time with dload, the types that cross the boundary, and the flags that allow a library to load."
+description: "Calling functions in C shared libraries with extern blocks, loading libraries at run time with coil-ffi, the types that cross the boundary, and the flags that allow a library to load."
 ---
 
 # Chapter 16 — Calling C
@@ -200,24 +200,26 @@ returned from C is a new record that Coil owns.
 ## Loading at run time
 
 `extern` fixes the library and functions when the program compiles. To
-choose them while the program runs, for example for plugins, use
-[`ffi::dload`](/docs/reference/ffi/dload), [`declare`](/docs/reference/ffi/declare)
-and [`invoke`](/docs/reference/ffi/invoke). Each step can fail and returns a
-`Result`:
+choose them while the program runs, for example for plugins, use the
+[coil-ffi](https://github.com/ardax-corp/coil-ffi) package. `Library::open`
+takes the library's path and its sha256, `function` looks up a symbol with a
+signature, and `call` takes the arguments as a list. Each step can fail and
+returns a `Result`:
 
 ```coil ignore
 use io::sync::{println};
-use ffi::{dload, declare, invoke, Error};
-use ffi::types::{Int};
+use coil_ffi::{Arg, FfiError, Library, Type};
 
-fn add_via_plugin() -> Result<int, Error> {
-    let lib = dload("geom")?;
-    let add = declare(lib, "add", (Int, Int), Int)?;
-    return invoke(lib, add, (40, 2));
+fn add_via_plugin(string path, string sha256) -> Result<int, FfiError> {
+    let lib = Library::open(path, sha256)?;
+    let add = lib.function("add", Vec::from([Type::Int, Type::Int]), Type::Int)?;
+    let v = add.call(Vec::from([Arg::Int(40), Arg::Int(2)]))?;
+    return v.int();
 }
 
 fn main() {
-    println((add_via_plugin() ?? -1).show())?;
+    let sha = "…"; // sha256sum libgeom.so
+    println((add_via_plugin("./libgeom.so", sha) ?? -1).show())?;
 }
 ```
 
@@ -227,7 +229,10 @@ Output:
 42
 ```
 
-The same permission flags apply.
+Every library coil-ffi opens is pinned by its hash, so a different file
+never loads. A call through coil-ffi checks its arguments against the
+signature you gave and costs more than an `extern` call; prefer `extern`
+whenever the library is known when the program is written.
 
 ## Shipping
 
@@ -266,16 +271,15 @@ that use native code.
    > `count_char` wants the byte as an `int`: `to_bytes(ch)[0] as int`
    > (from `string`, as in chapter 10's streams) gives it to you.
 
-3. Check something: using `declare` and `invoke`, declare `add` with
-   three `Int` parameters and call it with two arguments. Then declare a
-   function `subtract` that the library does not have. Print each `Err`'s
+3. Check something: with coil-ffi, look up `add` with three `Type::Int`
+   parameters and call it with two arguments. Then look up a function
+   `subtract` that the library does not have. Print each `Err`'s
    `message`.
 
    > [!hint]
-   > `ffi::Error` has no `%v`. `match` on the `Result` and read
-   > `e.message`. Notice which mistake can be caught: `declare` cannot
-   > see C's real signature, only whether what you invoke fits what you
-   > declared.
+   > `match` on the `Result` and read the error's `message`. Notice which
+   > mistake can be caught: coil-ffi cannot see C's real signature, only
+   > whether what you call fits the signature you gave.
 
 4. Check something: run the `extern` example without `--allow-dload`,
    then with `--allow-dload geom` and a `--dload-pin` of 64 zeros. What

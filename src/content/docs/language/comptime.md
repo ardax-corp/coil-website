@@ -46,7 +46,7 @@ const TOTAL = sum_of_squares(1000);
 - A const whose value exists only in a running program, such as a function
   value, a stream or another handle, is computed when the program starts
   instead. So is one whose initializer only opens a handle: `stdout()`,
-  `stderr()`, `stdin()`, `dload(…)` or `declare(…)`.
+  `stderr()` or `stdin()`.
 - Write `static let` when a value should be computed when the program
   starts instead.
 
