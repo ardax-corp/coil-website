@@ -370,7 +370,7 @@ extern "c" {
 
 `extern "c"` is a libc alias and is **denied** by the `dload` gate. See [FFI tutorial](/docs/manual/tutorial/16-ffi) and [Project config — `[ffi]`](/docs/language/project-config#ffi).
 
-Signature-only `fn foo() -> T;` outside `extern` is a parse error. Runtime loading stays `use ffi::{dload, declare, invoke}`.
+Signature-only `fn foo() -> T;` outside `extern` is a parse error. A library chosen while the program runs is loaded with the coil-ffi package (`use coil_ffi::{Library}`).
 
 ### Classes and impl
 
@@ -565,8 +565,6 @@ atom ::= match_expr
        | IDENT
        | group
 ```
-
-`dload` / `declare` / `invoke` are ordinary `IDENT` calls after `use ffi::{dload, declare, invoke};` (not keyword atoms).
 
 Primitive casts use postfix `expr as T` (`int` / `float` / `byte` / `bool`). `float as int` truncates toward zero (not `round`/`floor`); see [Built-ins](/docs/language/casts).
 

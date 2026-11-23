@@ -8,7 +8,7 @@ name: "ConstBytes"
 signature: "class ConstBytes"
 import: "use ffi::types::{ConstBytes};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/ffi/types.coil#L159"
+source: "https://github.com/ardax-corp/coil-lang/blob/5949c73a89666e807490a6e6573daf60068768ea/compiler/src/builtin_docs/ffi/types.coil#L150"
 order: 16
 ---
 

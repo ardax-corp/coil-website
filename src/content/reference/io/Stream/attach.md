@@ -9,7 +9,7 @@ parent: "Stream"
 signature: "pub fn attach(int ptr, int read, int write, int shutdown, int free) -> Result<Stream, IoError>"
 import: "use io::{Stream};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L71"
+source: "https://github.com/ardax-corp/coil-lang/blob/5949c73a89666e807490a6e6573daf60068768ea/compiler/src/builtin_docs/io.coil#L71"
 order: 0
 ---
 
@@ -17,7 +17,7 @@ Installs package IO hooks on this stream in place and returns the same stream.
 
 `ptr` is the package's session pointer and `read`, `write`,
 `shutdown` and `free` are C function pointers (as [`int`](/docs/reference/types/int), usually
-looked up through `dload`). After [`attach`](/docs/reference/io/attach), `read` / `write` on the
+returned by the package's `extern` block). After [`attach`](/docs/reference/io/attach), `read` / `write` on the
 stream go through those hooks, [`close`](/docs/reference/io/close) (or a GC drop) calls `shutdown`
 then `free`, and the socket keeps its descriptor. This is how the
 coil-tls package turns a TCP stream into a TLS stream.
@@ -47,7 +47,7 @@ Called on a `Stream` value as `value.attach(…)`.
 ```text
 use io::net::tcp::{connect};
 let s = connect("example.com", 443)?;
-// session, rd, wr, sd, fr: a session pointer and C hooks from a dload'ed library
+// session, rd, wr, sd, fr: a session pointer and C hooks from the package's extern library
 let tls = s.attach(session, rd, wr, sd, fr)?;
 ```
 

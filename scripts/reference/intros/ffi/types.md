@@ -1,5 +1,6 @@
 ---
-description: "Type tags that describe C argument and return types to ffi::declare."
+description: "Type tags for the C types that cross an extern block."
 ---
-Each tag stands for one C type. Pass a tuple of tags for the arguments and one
-tag for the return type to [`declare`](/docs/reference/ffi/declare).
+Each tag stands for one C type. In an `extern` block, `Bytes` and
+`ConstBytes` name buffer parameters; the other tags are the C types the bare
+names (`int`, `float`, `string`, `ptr`, …) stand for.

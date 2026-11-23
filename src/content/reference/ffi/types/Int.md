@@ -8,23 +8,22 @@ name: "Int"
 signature: "class Int"
 import: "use ffi::types::{Int};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/ffi/types.coil#L20"
+source: "https://github.com/ardax-corp/coil-lang/blob/5949c73a89666e807490a6e6573daf60068768ea/compiler/src/builtin_docs/ffi/types.coil#L21"
 order: 0
 ---
 
 FFI tag for a 64-bit signed integer (`int64_t`), passed from and returned as [`int`](/docs/reference/types/int).
 
-The bare name [`int`](/docs/reference/types/int) means the same in `declare` and `extern` blocks.
+Written [`int`](/docs/reference/types/int) in an `extern` block.
 
 ## Examples
 
 ```text
-use ffi::{dload, declare, invoke};
-use ffi::types::{Int};
+extern "sum" {
+    fn sum(int a, int b) -> int; // int64_t sum(int64_t, int64_t)
+}
 
-let lib = dload("sum")?;
-let sum_id = declare(lib, "sum", (Int, Int), Int)?; // int64_t sum(int64_t, int64_t)
-let n = invoke(lib, sum_id, (40, 2))?;
+let n = sum(40, 2);
 ```
 
 ## See also

@@ -8,15 +8,15 @@ name: "attach"
 signature: "fn attach(Stream s, int ptr, int read, int write, int shutdown, int free) -> Result<Stream, IoError>"
 import: "use io::{attach};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L675"
+source: "https://github.com/ardax-corp/coil-lang/blob/5949c73a89666e807490a6e6573daf60068768ea/compiler/src/builtin_docs/io.coil#L675"
 order: 21
 ---
 
 Installs package IO hooks on `s` in place; the free-function form of [`Stream.attach`](/docs/reference/io/Stream/attach).
 
 `ptr` is the package's session pointer and `read`, `write`, `shutdown`
-and `free` are C function pointers (as [`int`](/docs/reference/types/int), usually looked up through
-`dload`). Afterwards `read` / `write` on `s` go through those hooks and
+and `free` are C function pointers (as [`int`](/docs/reference/types/int), usually returned by the
+package's `extern` block). Afterwards `read` / `write` on `s` go through those hooks and
 [`close`](/docs/reference/io/close) calls `shutdown` then `free`. Returns `s`.
 
 Returns `Err(IoError::InvalidInput)` when `ptr` is `0` or `s` is already
@@ -44,7 +44,7 @@ that reaches `attach` compiles only with `--allow-attach`.
 use io::{attach};
 use io::net::tcp::{connect};
 let s = connect("example.com", 443)?;
-// session, rd, wr, sd, fr: a session pointer and C hooks from a dload'ed library
+// session, rd, wr, sd, fr: a session pointer and C hooks from the package's extern library
 let tls = attach(s, session, rd, wr, sd, fr)?;
 ```
 

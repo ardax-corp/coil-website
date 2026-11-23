@@ -8,13 +8,13 @@ name: "Float"
 signature: "class Float"
 import: "use ffi::types::{Float};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/ffi/types.coil#L25"
+source: "https://github.com/ardax-corp/coil-lang/blob/5949c73a89666e807490a6e6573daf60068768ea/compiler/src/builtin_docs/ffi/types.coil#L26"
 order: 1
 ---
 
 FFI tag for a 64-bit float (`double`), passed from and returned as [`float`](/docs/reference/types/float).
 
-The bare name [`float`](/docs/reference/types/float) means the same.
+Written [`float`](/docs/reference/types/float) in an `extern` block.
 
 ## See also
 

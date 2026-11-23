@@ -8,30 +8,25 @@ name: "Ptr"
 signature: "class Ptr"
 import: "use ffi::types::{Ptr};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/ffi/types.coil#L94"
+source: "https://github.com/ardax-corp/coil-lang/blob/5949c73a89666e807490a6e6573daf60068768ea/compiler/src/builtin_docs/ffi/types.coil#L89"
 order: 12
 ---
 
 FFI tag for a raw pointer (`void *`), returned as an [`int`](/docs/reference/types/int) address.
 
-A [`Vec<T>`](/docs/reference/prelude/Vec), `[T; N]` or tuple type written in a `declare` signature also
-means `Ptr`.
-
-As an argument, an [`int`](/docs/reference/types/int) is passed as the address itself, and a non-empty
-array or tuple of [`int`](/docs/reference/types/int) is passed as a pointer to a temporary
-`int64_t[]` copy whose changes are copied back after the call. Keep a
-value C retains alive with [`gc::root`](/docs/reference/gc/fn.root).
+Written `ptr` in an `extern` block. A [`Vec<int>`](/docs/reference/prelude/Vec) parameter is passed as
+a pointer to a temporary `int64_t[]` copy whose changes are copied back
+after the call. Keep a value C retains alive with [`gc::root`](/docs/reference/gc/fn.root).
 
 ## Examples
 
 ```text
-use ffi::{dload, declare, invoke};
-use ffi::types::{Int, Ptr};
+extern "sum" {
+    // int64_t sum_array(const int64_t *xs, int64_t n)
+    fn sum_array(Vec<int> xs, int n) -> int;
+}
 
-let lib = dload("sum")?;
-// int64_t sum_array(const int64_t *xs, int64_t n)
-let id = declare(lib, "sum_array", (Ptr, Int), Int)?;
-let n = invoke(lib, id, ([1, 2, 3, 4, 5], 5))?; // 15
+let n = sum_array([1, 2, 3, 4, 5], 5); // 15
 ```
 
 ## See also

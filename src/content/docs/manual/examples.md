@@ -1469,7 +1469,7 @@ Calling C from coil. Requires **libffi**.
 
 ### `examples/ffi_extern.coil`
 
-**Demonstrates:** Compile-time `extern` block — no manual `dload`/`declare` in source. The compiler emits the library load and symbol registration (unwraps `Result`, panics on failure).
+**Demonstrates:** Compile-time `extern` block. The compiler emits the library load and symbol registration (unwraps `Result`, panics on failure).
 
 ```coil ignore
 use io::stdout;
@@ -1517,29 +1517,18 @@ fn main() {
 
 ### `examples/ffi_sum.coil`
 
-**Demonstrates:** Userland FFI — `dload` / `declare` / `invoke` each return `Result<_, Error>`; unwrap with `match` (or `?`). Check `e.kind` for typed recovery.
+**Demonstrates:** The smallest `extern` block: one C function from a shared library, called like a Coil function. To load a library chosen while the program runs, use the coil-ffi package.
 
 ```coil ignore
-use ffi::{declare, dload, invoke};
-use ffi::types::{Int};
-use io::{stdout};
-use io::sync::{write_all};
-use string::{format, to_bytes};
+use io::sync::print;
+use string::format;
+
+extern "sum" {
+    fn sum(int a, int b) -> int;
+}
 
 fn main() {
-    let lib = match dload("sum") {
-        Result::Ok(h) => h,
-        Result::Err(e) => panic e.message,
-    };
-    let sum_id = match declare(lib, "sum", (Int, Int), Int) {
-        Result::Ok(id) => id,
-        Result::Err(e) => panic e.message,
-    };
-    let n = match invoke(lib, sum_id, (40, 2)) {
-        Result::Ok(v) => v,
-        Result::Err(e) => panic e.message,
-    };
-    write_all(stdout(), to_bytes(format("%i", n)));
+    let _ = print(format("%i", sum(40, 2)));
 }
 ```
 

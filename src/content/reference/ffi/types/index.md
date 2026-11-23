@@ -1,17 +1,18 @@
 ---
 slug: "ffi/types/index"
 title: "ffi::types"
-description: "Type tags that describe C argument and return types to ffi::declare."
+description: "Type tags for the C types that cross an extern block."
 module: "ffi::types"
 kind: "module"
 name: "ffi::types"
 origin: "builtin"
 auto: false
-order: 17
+order: 18
 ---
 
-Each tag stands for one C type. Pass a tuple of tags for the arguments and one
-tag for the return type to [`declare`](/docs/reference/ffi/declare).
+Each tag stands for one C type. In an `extern` block, [`Bytes`](/docs/reference/ffi/types/Bytes) and
+[`ConstBytes`](/docs/reference/ffi/types/ConstBytes) name buffer parameters; the other tags are the C types the bare
+names ([`int`](/docs/reference/types/int), [`float`](/docs/reference/types/float), [`string`](/docs/reference/types/string), `ptr`, …) stand for.
 
 Built into the compiler.
 
