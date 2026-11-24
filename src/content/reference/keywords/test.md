@@ -7,14 +7,14 @@ kind: "keyword"
 name: "test"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/keywords.md#L1152"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/keywords.md#L1153"
 order: 49
 ---
 
 Declares a test case run by `coil test`: `test("name") { … }`.
 
 The body runs in result mode, so `assert!(…)`, `raise` and `?` fail the case.
-Each case runs in its own VM. Cases are left out of ordinary builds; a file
+Each case runs in its own runtime. Cases are left out of ordinary builds; a file
 with test cases has no `fn main`.
 
 ```coil

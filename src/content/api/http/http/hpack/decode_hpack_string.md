@@ -9,7 +9,7 @@ name: "decode_hpack_string"
 signature: "fn decode_hpack_string(Vec<byte> raw, int pos) -> Result<HpackStr, HttpError>"
 import: "use http::hpack::{decode_hpack_string};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/hpack.coil#L571"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/hpack.coil#L571"
 order: 9
 ---
 

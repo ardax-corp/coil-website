@@ -7,7 +7,7 @@ kind: "module"
 name: "io::fs"
 origin: "builtin"
 auto: false
-order: 4
+order: 5
 ---
 
 Functions that inspect the file system ([`exists`](/docs/reference/io/fs/exists), [`metadata`](/docs/reference/io/fs/metadata), [`list_dir`](/docs/reference/io/fs/list_dir),

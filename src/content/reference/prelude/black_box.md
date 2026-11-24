@@ -8,7 +8,7 @@ name: "black_box"
 signature: "fn black_box<T>(T x) -> T"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/7e00bc9855ac69de2246a6ec36296028c4ea7482/compiler/src/builtin_docs/prelude.coil#L448"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/prelude.coil#L448"
 order: 7
 ---
 

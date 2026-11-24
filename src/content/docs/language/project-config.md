@@ -114,11 +114,12 @@ that is `true` into the matching `coil` flag on every compile, run and test.
 | `write` | bool | `--allow-write` |
 | `net` | bool | `--allow-net` |
 | `env` | bool | `--allow-env` |
+| `exec` | bool | `--allow-exec` |
 | `exit` | bool | `--allow-exit` |
-| `attach` | bool | `--allow-attach` |
 | `all` | bool | `--allow-all` |
 
-Every key defaults to `false`.
+Every key defaults to `false`. spool accepts `attach` (and `[ffi] allow_attach`)
+from older manifests, prints a note and ignores it: `Stream.attach` is gone.
 
 ```toml
 [permissions]

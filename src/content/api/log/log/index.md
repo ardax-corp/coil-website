@@ -24,7 +24,7 @@ use log::{Level, Logger};
 | Name | Description |
 |------|-------------|
 | [`Level`](/packages/log/reference/log/Level) | Severity of a log event, from `Debug` (least severe) to `Error` (most severe). |
-| [`Logger`](/packages/log/reference/log/Logger) | A logger that writes events at or above a minimum [`Level`](/packages/log/reference/log/Level) to a stream. |
+| [`Logger`](/packages/log/reference/log/Logger) | A logger that writes events at or above a minimum [`Level`](/packages/log/reference/log/Level) to a writer. |
 
 ## Functions
 

@@ -8,13 +8,13 @@ name: "Div"
 signature: "trait Div<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/prelude/ops.coil#L128"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/prelude/ops.coil#L128"
 order: 3
 ---
 
 The division operator `/`.
 
-`a / b` on a type with a `Div` instance calls `div(a, b)`. [`int`](/docs/reference/types/int) and
+`a / b` on a type with a `Div` instance calls `Div::div(a, b)`. [`int`](/docs/reference/types/int) and
 [`float`](/docs/reference/types/float) have builtin instances: [`int`](/docs/reference/types/int) division truncates toward zero and
 panics with `division by zero` when `b` is `0`; [`float`](/docs/reference/types/float) division follows
 IEEE-754 (`1.0 / 0.0` is infinity).

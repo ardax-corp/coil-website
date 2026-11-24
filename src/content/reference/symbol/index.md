@@ -7,7 +7,7 @@ kind: "module"
 name: "symbol"
 origin: "builtin"
 auto: false
-order: 13
+order: 14
 ---
 
 [`fn_key()`](/docs/reference/symbol/fn_key) is a key of the function it is written in, fixed while compiling:

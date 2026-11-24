@@ -2,18 +2,18 @@
 slug: "log/log/Logger"
 package: "log"
 title: "Logger"
-description: "A logger that writes events at or above a minimum Level to a stream."
+description: "A logger that writes events at or above a minimum Level to a writer."
 module: "log"
 kind: "class"
 name: "Logger"
 signature: "class Logger"
 import: "use log::{Logger};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-log/blob/0eeceb5c7b573acd4f30e445566a5393a75e23cc/src/log.coil#L130"
+source: "https://github.com/ardax-corp/coil-log/blob/9b641422374ce1f7b5643bbc828ad54d8da32952/src/log.coil#L130"
 order: 1
 ---
 
-A logger that writes events at or above a minimum [`Level`](/packages/log/reference/log/Level) to a stream.
+A logger that writes events at or above a minimum [`Level`](/packages/log/reference/log/Level) to a writer.
 
 Each kept event is one line in the [`format_line`](/packages/log/reference/log/format_line) layout. Events below the
 minimum are dropped without formatting. Logging never fails or panics: a
@@ -24,7 +24,7 @@ write error drops that line.
 | Name | Description |
 |------|-------------|
 | [`new`](/packages/log/reference/log/Logger/new) | A logger writing events at or above `min` to stderr. |
-| [`to`](/packages/log/reference/log/Logger/to) | A logger writing events at or above `min` to `out`, such as a file opened for writing. |
+| [`to`](/packages/log/reference/log/Logger/to) | A logger writing events at or above `min` to `out`: any [`io::Write`](/docs/reference/io/Write), such as a file opened for writing, a socket, or a type of your own. |
 
 ## Methods
 

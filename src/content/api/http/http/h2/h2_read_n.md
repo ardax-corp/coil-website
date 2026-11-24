@@ -6,10 +6,10 @@ description: "Reads exactly n bytes from s, waiting while none are ready. Return
 module: "http::h2"
 kind: "fn"
 name: "h2_read_n"
-signature: "fn h2_read_n(Stream s, int n) -> Result<Vec<byte>, HttpError>"
+signature: "fn h2_read_n(Conn s, int n) -> Result<Vec<byte>, HttpError>"
 import: "use http::h2::{h2_read_n};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L818"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2.coil#L818"
 order: 61
 ---
 
@@ -19,7 +19,7 @@ Reads exactly `n` bytes from `s`, waiting while none are ready. Returns `Protoco
 
 | Name | Type |
 |------|------|
-| `s` | `Stream` |
+| `s` | `Conn` |
 | `n` | `int` |
 
 ## Returns

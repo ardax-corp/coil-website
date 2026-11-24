@@ -9,7 +9,7 @@ name: "starts_with"
 signature: "fn starts_with(Vec<byte> buf, Vec<byte> prefix) -> bool"
 import: "use bytes::{starts_with};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/bytes.coil#L286"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/bytes.coil#L286"
 order: 11
 ---
 

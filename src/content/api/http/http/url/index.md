@@ -31,4 +31,5 @@ use http::url::{HttpError, Url};
 
 | Name | Description |
 |------|-------------|
+| [`http_io`](/packages/http/reference/http/url/http_io) | `HttpError::Io(e)`, for `map_err`. |
 | [`parse_url`](/packages/http/reference/http/url/parse_url) | Parses an `http://`, `https://`, `ws://` or `wss://` URL. |

@@ -9,7 +9,7 @@ name: "format_line"
 signature: "fn format_line(Level level, string msg) -> string"
 import: "use log::{format_line};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-log/blob/0eeceb5c7b573acd4f30e445566a5393a75e23cc/src/log.coil#L105"
+source: "https://github.com/ardax-corp/coil-log/blob/9b641422374ce1f7b5643bbc828ad54d8da32952/src/log.coil#L105"
 order: 3
 ---
 

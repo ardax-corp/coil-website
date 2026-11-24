@@ -10,7 +10,7 @@ parent: "Reader"
 signature: "pub fn read_exact(int n) -> Result<Vec<byte>, IoError>"
 import: "use io::buffered::{Reader};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/io/buffered.coil#L191"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/io/buffered.coil#L192"
 order: 7
 ---
 
@@ -36,7 +36,7 @@ buffered), `TimedOut` after [`set_timeout`](/packages/stdlib/reference/io/buffer
 ## See also
 
 - [`Reader::set_timeout`](/packages/stdlib/reference/io/buffered/Reader/set_timeout)
-- [`Reader`](/packages/stdlib/reference/io/buffered/Reader): A buffered reader over any `Stream`: lines, delimited frames, exact counts, and the leftover bytes for a protocol switch.
+- [`Reader`](/packages/stdlib/reference/io/buffered/Reader): A buffered reader over any `Read` (a `Stream`, a TLS stream): lines, delimited frames, exact counts, and the leftover bytes for a protocol switch.
 - [`Reader::new`](/packages/stdlib/reference/io/buffered/Reader/new): A reader over `s` that asks for 8 KiB at a time.
 - [`Reader::with_capacity`](/packages/stdlib/reference/io/buffered/Reader/with_capacity): A reader over `s` that asks for up to `n` bytes at a time (at least 1).
 - [`Reader::stream`](/packages/stdlib/reference/io/buffered/Reader/stream): The stream being read.

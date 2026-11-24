@@ -9,7 +9,7 @@ name: "frame_type_data"
 signature: "fn frame_type_data() -> int"
 import: "use http::h2::{frame_type_data};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L108"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2.coil#L108"
 order: 4
 ---
 

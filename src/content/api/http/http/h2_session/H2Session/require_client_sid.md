@@ -10,7 +10,7 @@ parent: "H2Session"
 signature: "pub fn require_client_sid(int sid) -> Result<(), HttpError>"
 import: "use http::h2_session::{H2Session};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2_session.coil#L484"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2_session.coil#L482"
 order: 10
 ---
 

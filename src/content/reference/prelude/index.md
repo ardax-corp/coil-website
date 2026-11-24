@@ -31,6 +31,7 @@ Built into the compiler.
 |--------|-------------|
 | [`prelude::ops`](/docs/reference/prelude/ops) | Operator traits (Add, Eq, Ord, Show, …): implement them to use operators on your types. |
 | [`prelude::math`](/docs/reference/prelude/math) | Small linear algebra (dot, cross, matmul, Matrix) on fixed-size float arrays. Auto-imported. |
+| [`prelude::thread`](/docs/reference/prelude/thread) |  |
 
 ## Types
 

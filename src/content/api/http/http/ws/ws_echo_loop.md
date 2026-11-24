@@ -9,7 +9,7 @@ name: "ws_echo_loop"
 signature: "fn ws_echo_loop(WsConn c) -> Result<(), HttpError>"
 import: "use http::ws::{ws_echo_loop};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/ws.coil#L935"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/ws.coil#L923"
 order: 26
 ---
 

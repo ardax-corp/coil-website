@@ -23,5 +23,5 @@ use io::buffered::{Reader, Writer};
 
 | Name | Description |
 |------|-------------|
-| [`Reader`](/packages/stdlib/reference/io/buffered/Reader) | A buffered reader over any `Stream`: lines, delimited frames, exact counts, and the leftover bytes for a protocol switch. |
-| [`Writer`](/packages/stdlib/reference/io/buffered/Writer) | A buffered writer over any `Stream`: small writes collect in memory and go out in one call once 8 KiB are held, or on `flush`. |
+| [`Reader`](/packages/stdlib/reference/io/buffered/Reader) | A buffered reader over any `Read` (a `Stream`, a TLS stream): lines, delimited frames, exact counts, and the leftover bytes for a protocol switch. |
+| [`Writer`](/packages/stdlib/reference/io/buffered/Writer) | A buffered writer over any `Write` (a `Stream`, a TLS stream): small writes collect in memory and go out in one call once 8 KiB are held, or on `flush`. |

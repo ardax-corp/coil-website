@@ -203,6 +203,72 @@ fn main() {
 `defer` makes sure the file is closed however the function returns. Reading
 works the same way with `read_to_end`, `read_exact` or `read_line`.
 
+## Reading and writing through traits
+
+A `Stream` is one kind of reader and writer among several. Three traits say
+what each one can do:
+
+- `io::Read`: `read(buf)` fills the front of `buf` and returns how much
+  arrived (`None` at the end), and `wait_readable()` waits until a retry can
+  make progress.
+- `io::Write`: `write(buf)` returns how many bytes it took, and
+  `wait_writable()` waits. `write_from(buf, offset)` and `flush()` have
+  default bodies.
+- `io::Close`: `close()` releases the resource.
+
+Neither `read` nor `write` waits: each returns `Err(IoError::WouldBlock)`
+when it is not ready. The `io::sync` helpers do the waiting, and they take
+any reader or writer: `write_all<W: Write>`, `read_to_end<R: Read>`,
+`read_exact` and `read_line`. So does `io::buffered`. A TLS stream from the
+`tls` package implements all three, and so can a class of your own:
+
+```coil
+use io::{Write, IoError, stdout};
+use io::sync::{println, write_all};
+use string::{to_bytes, format};
+
+// Counts the bytes it is given and keeps none of them.
+shared class Counter {
+    pub bytes: int,
+}
+
+impl Write for Counter {
+    fn write(Counter c, Vec<byte> buf) -> Result<int, IoError> {
+        c.bytes = c.bytes + buf.len();
+        return buf.len();
+    }
+
+    fn wait_writable(Counter c) -> Result<unit, IoError> {
+        return Ok(());
+    }
+}
+
+fn report<W: Write>(W out) -> Result<int, IoError> {
+    write_all(out, to_bytes("all good\n"))?;
+    return 0;
+}
+
+fn main() {
+    let c = new Counter(0);
+    report(stdout())?;
+    report(c)?;
+    println(format("counted %i bytes", c.bytes))?;
+}
+```
+
+Output:
+
+```text
+all good
+counted 9 bytes
+```
+
+The traits are separate so a type implements only what it can do: a
+read-only source implements `Read` alone, and a function asks for exactly
+what it uses (`<R: Read>`, `<W: Write>`, or a trait of your own with both as
+supertraits). A trait value (`let w: Write = s;`) holds any writer when the
+type is only known at run time.
+
 ## Directories
 
 [`io::fs`](/docs/reference/io/fs) works with paths: `exists`, `is_dir`,

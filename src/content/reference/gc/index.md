@@ -7,7 +7,7 @@ kind: "module"
 name: "gc"
 origin: "builtin"
 auto: false
-order: 10
+order: 11
 ---
 
 Coil's heap is garbage collected; most programs never touch this module. Use

@@ -10,7 +10,7 @@ parent: "ConnPool"
 signature: "pub fn discard(HttpConn c)"
 import: "use http::pool::{ConnPool};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/pool.coil#L144"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/pool.coil#L137"
 order: 6
 ---
 

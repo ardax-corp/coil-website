@@ -29,5 +29,4 @@ use tls::client::{ClientOpts, enable};
 
 | Name | Description |
 |------|-------------|
-| [`enable`](/packages/tls/reference/tls/client/enable) | Runs a TLS client handshake on the connected TCP stream `s` and returns the same `Stream`, now encrypted. |
-| [`disable`](/packages/tls/reference/tls/client/disable) | Sends TLS `close_notify` to the peer and returns `s`. |
+| [`enable`](/packages/tls/reference/tls/client/enable) | Runs a TLS client handshake on the connected TCP stream `s` and returns a `TlsStream` over it. |

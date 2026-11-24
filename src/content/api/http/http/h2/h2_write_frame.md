@@ -6,10 +6,10 @@ description: "Writes the encoded frame f to s."
 module: "http::h2"
 kind: "fn"
 name: "h2_write_frame"
-signature: "fn h2_write_frame(Stream s, H2Frame f) -> Result<(), HttpError>"
+signature: "fn h2_write_frame(Conn s, H2Frame f) -> Result<(), HttpError>"
 import: "use http::h2::{h2_write_frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L823"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2.coil#L823"
 order: 62
 ---
 
@@ -19,7 +19,7 @@ Writes the encoded frame `f` to `s`.
 
 | Name | Type |
 |------|------|
-| `s` | `Stream` |
+| `s` | `Conn` |
 | `f` | `H2Frame` |
 
 ## Returns

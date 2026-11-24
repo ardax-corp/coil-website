@@ -2,18 +2,18 @@
 slug: "http/http/conn/HttpConn"
 package: "http"
 title: "HttpConn"
-description: "A socket plus the bytes read past the current HTTP/1.1 message."
+description: "A connection plus the bytes read past the current HTTP/1.1 message."
 module: "http::conn"
 kind: "class"
 name: "HttpConn"
 signature: "class HttpConn"
 import: "use http::conn::{HttpConn};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/conn.coil#L14"
-order: 0
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/conn.coil#L97"
+order: 1
 ---
 
-A socket plus the bytes read past the current HTTP/1.1 message.
+A connection plus the bytes read past the current HTTP/1.1 message.
 
 [`read_http_message`](/packages/http/reference/http/conn/read_http_message) keeps any bytes after one message (a pipelined request or
 the next response) in `leftover` for the next read, so a keep-alive
@@ -24,7 +24,7 @@ and `WsConn`. Close it with [`close_conn`](/packages/http/reference/http/conn/cl
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `inner` | `Stream` | The underlying TCP or TLS stream. |
+| `inner` | `Conn` | The underlying TCP or TLS connection. |
 | `leftover` | `Vec<byte>` | Bytes already read that belong to the next message. |
 | `reusable` | `int` | 1 when the last message was framed and the connection can carry another. |
 | `closed` | `int` | 1 once [`close_conn`](/packages/http/reference/http/conn/close_conn) closed the stream. |
@@ -33,13 +33,13 @@ and `WsConn`. Close it with [`close_conn`](/packages/http/reference/http/conn/cl
 
 | Name | Description |
 |------|-------------|
-| [`wrap`](/packages/http/reference/http/conn/HttpConn/wrap) | Wraps an open stream with no buffered bytes. |
+| [`wrap`](/packages/http/reference/http/conn/HttpConn/wrap) | Wraps an open connection with no buffered bytes. |
 
 ## Methods
 
 | Name | Description |
 |------|-------------|
-| [`stream`](/packages/http/reference/http/conn/HttpConn/stream) | The underlying stream, for writing. |
+| [`stream`](/packages/http/reference/http/conn/HttpConn/stream) | The underlying connection, for writing. |
 | [`can_reuse`](/packages/http/reference/http/conn/HttpConn/can_reuse) | 1 when the connection can carry another message, otherwise 0. |
 
 ## See also

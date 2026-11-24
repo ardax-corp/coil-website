@@ -8,7 +8,7 @@ name: "unroot"
 signature: "fn unroot<T>(Root<T> pin) -> Option<T>"
 import: "use gc::{unroot};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/gc.coil#L91"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/gc.coil#L91"
 order: 4
 ---
 

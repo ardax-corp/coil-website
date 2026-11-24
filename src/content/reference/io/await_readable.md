@@ -8,8 +8,8 @@ name: "await_readable"
 signature: "fn await_readable(Stream s) -> Result<unit, IoError>"
 import: "use io::{await_readable};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L588"
-order: 16
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/io.coil#L580"
+order: 17
 ---
 
 Older name of [`wait_readable`](/docs/reference/io/wait_readable); behaves exactly the same.
@@ -60,4 +60,4 @@ fn main() {
 - [`capture_begin`](/docs/reference/io/capture_begin): Starts keeping this thread's stdout and stderr writes in memory instead of writing them, until the matching `capture_end()`.
 - [`capture_end`](/docs/reference/io/capture_end): Ends the innermost `capture_begin()` and returns what it kept, as `(stdout, stderr)`.
 - [`open`](/docs/reference/io/open): Opens the file at `path` with `mode` and returns a stream on it.
-- [`close`](/docs/reference/io/close): Closes `s`.
+- [`close`](/docs/reference/io/fn.close): Closes `s`.

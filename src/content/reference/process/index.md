@@ -7,7 +7,7 @@ kind: "module"
 name: "process"
 origin: "embedded"
 auto: false
-order: 20
+order: 21
 ---
 
 `exec(program, argv)` runs a program, waits for it and returns its exit code.

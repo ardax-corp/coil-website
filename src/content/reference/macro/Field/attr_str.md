@@ -9,7 +9,7 @@ parent: "Field"
 signature: "pub fn attr_str(string attr, string key, string fallback) -> string"
 import: "use macro::{Field};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/prelude/macro.coil#L337"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/prelude/macro.coil#L337"
 order: 1
 ---
 

@@ -29,5 +29,4 @@ use tls::server::{ServerOpts, enable};
 
 | Name | Description |
 |------|-------------|
-| [`enable`](/packages/tls/reference/tls/server/enable) | Runs a TLS server handshake on the accepted TCP stream `s` and returns the same `Stream`, now encrypted. |
-| [`disable`](/packages/tls/reference/tls/server/disable) | Sends TLS `close_notify` to the client and returns `s`, as [`tls::client::disable`](/packages/tls/reference/tls/client/disable) does. |
+| [`enable`](/packages/tls/reference/tls/server/enable) | Runs a TLS server handshake on the accepted TCP stream `s` and returns a `TlsStream` over it. |

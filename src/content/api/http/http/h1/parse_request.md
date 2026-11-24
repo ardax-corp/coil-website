@@ -9,7 +9,7 @@ name: "parse_request"
 signature: "fn parse_request(Vec<byte> raw) -> Result<IncomingRequest, HttpError>"
 import: "use http::h1::{parse_request};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h1.coil#L112"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h1.coil#L112"
 order: 1
 ---
 

@@ -7,10 +7,10 @@ module: "io::buffered"
 kind: "static method"
 name: "with_capacity"
 parent: "Reader"
-signature: "pub static fn with_capacity(Stream s, int n) -> Reader"
+signature: "pub static fn with_capacity(Read s, int n) -> Reader"
 import: "use io::buffered::{Reader};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/io/buffered.coil#L93"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/io/buffered.coil#L94"
 order: 1
 ---
 
@@ -20,7 +20,7 @@ A reader over `s` that asks for up to `n` bytes at a time (at least 1).
 
 | Name | Type |
 |------|------|
-| `s` | `Stream` |
+| `s` | `Read` |
 | `n` | `int` |
 
 ## Returns
@@ -29,7 +29,7 @@ A reader over `s` that asks for up to `n` bytes at a time (at least 1).
 
 ## See also
 
-- [`Reader`](/packages/stdlib/reference/io/buffered/Reader): A buffered reader over any `Stream`: lines, delimited frames, exact counts, and the leftover bytes for a protocol switch.
+- [`Reader`](/packages/stdlib/reference/io/buffered/Reader): A buffered reader over any `Read` (a `Stream`, a TLS stream): lines, delimited frames, exact counts, and the leftover bytes for a protocol switch.
 - [`Reader::new`](/packages/stdlib/reference/io/buffered/Reader/new): A reader over `s` that asks for 8 KiB at a time.
 - [`Reader::set_timeout`](/packages/stdlib/reference/io/buffered/Reader/set_timeout): Gives up a wait for data after `ms` milliseconds with `Err(IoError::TimedOut)`; `0` waits for ever (the default).
 - [`Reader::stream`](/packages/stdlib/reference/io/buffered/Reader/stream): The stream being read.

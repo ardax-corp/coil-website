@@ -28,7 +28,6 @@ $ coil --allow-read load.coil
 | `--allow-env` | Environment variables and the working directory | `env::var` / `set_var` / `remove_var` / `set_cwd` |
 | `--allow-exec` | Run other programs | `process::exec`, `Command.spawn` / `status` / `output` (error `E0406`) |
 | `--allow-exit` | End the process early | `env::exit` (error `E0407`) |
-| `--allow-attach` | Hand a raw descriptor to a stream | `Stream.attach` (error `E0408`) |
 | `--allow-ffi-exec` | Process-exec symbols through FFI | `system`, `execve`, … |
 | `-A`, `--allow-all` | All of the above | |
 
@@ -82,7 +81,7 @@ spool reads `[permissions]` from `coil.toml` and passes the flags to every
 read = true
 write = true
 net = true
-# env, exec, exit, attach: also true / false
+# env, exec, exit: also true / false
 # all = true   # everything, like -A
 ```
 

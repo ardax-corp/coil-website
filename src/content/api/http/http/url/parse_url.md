@@ -9,8 +9,8 @@ name: "parse_url"
 signature: "fn parse_url(string s) -> Result<Url, HttpError>"
 import: "use http::url::{parse_url};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/url.coil#L386"
-order: 3
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/url.coil#L383"
+order: 4
 ---
 
 Parses an `http://`, `https://`, `ws://` or `wss://` URL.
@@ -58,3 +58,4 @@ assert!(plain.path == "/");
 
 - [`http`](/packages/http/reference/http)
 - [`http::ws`](/packages/http/reference/http/ws)
+- [`http_io`](/packages/http/reference/http/url/http_io): `HttpError::Io(e)`, for `map_err`.

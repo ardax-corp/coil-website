@@ -9,7 +9,7 @@ name: "char"
 signature: "fn char(byte b) -> Result<string, string>"
 import: "use text::{char};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/5fb432feb5350a70b043a82a7d58c905c8d7414d/src/text.coil#L1088"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/text.coil#L1089"
 order: 7
 ---
 

@@ -9,7 +9,7 @@ name: "HttpHandler"
 signature: "trait HttpHandler<H>"
 import: "use http::server::{HttpHandler};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/server.coil#L66"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/server.coil#L65"
 order: 0
 ---
 
