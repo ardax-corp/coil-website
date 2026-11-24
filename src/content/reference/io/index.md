@@ -7,7 +7,7 @@ kind: "module"
 name: "io"
 origin: "builtin"
 auto: false
-order: 3
+order: 4
 ---
 
 Everything in `io` is a [`Stream`](/docs/reference/io/Stream): a handle to a file, a standard stream or a
@@ -65,8 +65,9 @@ use io::{Stream, IoError};
 
 | Name | Description |
 |------|-------------|
-| [`Read`](/docs/reference/io/Read) | Types that bytes can be read from; implemented for [`Stream`](/docs/reference/io/Stream). |
-| [`Write`](/docs/reference/io/Write) | Types that bytes can be written to; implemented for [`Stream`](/docs/reference/io/Stream). |
+| [`Read`](/docs/reference/io/Read) | Types that bytes can be read from without waiting; implemented for [`Stream`](/docs/reference/io/Stream), and by any class (a TLS stream, a test double). |
+| [`Write`](/docs/reference/io/Write) | Types that bytes can be written to without waiting; implemented for [`Stream`](/docs/reference/io/Stream), and by any class. |
+| [`Close`](/docs/reference/io/Close) | Types that hold a resource to release; implemented for [`Stream`](/docs/reference/io/Stream), where [`close`](/docs/reference/io/fn.close) behaves like the free function [`io::close`](/docs/reference/io/fn.close). |
 
 ## Functions
 
@@ -78,7 +79,7 @@ use io::{Stream, IoError};
 | [`capture_begin`](/docs/reference/io/capture_begin) | Starts keeping this thread's stdout and stderr writes in memory instead of writing them, until the matching [`capture_end()`](/docs/reference/io/capture_end). |
 | [`capture_end`](/docs/reference/io/capture_end) | Ends the innermost [`capture_begin()`](/docs/reference/io/capture_begin) and returns what it kept, as `(stdout, stderr)`. |
 | [`open`](/docs/reference/io/open) | Opens the file at `path` with `mode` and returns a stream on it. |
-| [`close`](/docs/reference/io/close) | Closes `s`. |
+| [`close`](/docs/reference/io/fn.close) | Closes `s`. |
 | [`read`](/docs/reference/io/fn.read) | Reads bytes from `s` into the front of `buf` without waiting. |
 | [`write`](/docs/reference/io/fn.write) | Writes bytes from `buf` to `s` without waiting and returns how many were written. |
 | [`write_from`](/docs/reference/io/write_from) | Writes `buf[offset..]` to `s` without waiting and returns how many bytes were written. |
@@ -89,5 +90,3 @@ use io::{Stream, IoError};
 | [`drive`](/docs/reference/io/drive) | Deprecated: polls the registered IO waiters once and returns how many became ready. |
 | [`wait_ready`](/docs/reference/io/wait_ready) | Deprecated: waits until any registered IO waiter is ready and returns how many became ready. |
 | [`result_unit_probe`](/docs/reference/io/result_unit_probe) | Returns `Ok(())` when `n >= 0` and `Err(IoError::InvalidInput)` otherwise. |
-| [`attach`](/docs/reference/io/attach) | Installs package IO hooks on `s` in place; the free-function form of [`Stream.attach`](/docs/reference/io/Stream/attach). |
-| [`park`](/docs/reference/io/park) | Waits until the descriptor of `s` is ready; the free-function form of [`Stream.park`](/docs/reference/io/Stream/park). |

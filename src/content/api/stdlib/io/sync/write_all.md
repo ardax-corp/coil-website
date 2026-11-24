@@ -2,20 +2,20 @@
 slug: "stdlib/io/sync/write_all"
 package: "stdlib"
 title: "write_all"
-description: "Writes all of buf to s, waiting whenever the stream is not ready."
+description: "Writes all of buf to w, waiting whenever it is not ready."
 module: "io::sync"
 kind: "fn"
 name: "write_all"
-signature: "fn write_all(Stream s, Vec<byte> buf) -> Result<int, IoError>"
+signature: "fn write_all<W: Write>(W w, Vec<byte> buf) -> Result<int, IoError>"
 import: "use io::sync::{write_all};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/io/sync.coil#L29"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/io/sync.coil#L31"
 order: 0
 ---
 
-Writes all of `buf` to `s`, waiting whenever the stream is not ready.
+Writes all of `buf` to `w`, waiting whenever it is not ready.
 
-[`io::write`](/docs/reference/io/fn.write) may write only part of a buffer; this keeps going until every
+`write` may write only part of a buffer; this keeps going until every
 byte is out, then returns `Ok(0)`. Inside a task, the waits let other
 tasks run.
 
@@ -23,7 +23,7 @@ tasks run.
 
 | Name | Type |
 |------|------|
-| `s` | `Stream` |
+| `w` | `W` |
 | `buf` | `Vec<byte>` |
 
 ## Returns
@@ -43,11 +43,11 @@ assert!(written.is_ok());
 
 ## See also
 
-- [`io::write`](/docs/reference/io/fn.write)
-- [`read_exact`](/packages/stdlib/reference/io/sync/read_exact): Fills all of `buf` from `s`, waiting whenever no data is ready.
-- [`read_to_end`](/packages/stdlib/reference/io/sync/read_to_end): Reads from `s` until it ends and returns everything read.
+- [`read_exact`](/packages/stdlib/reference/io/sync/read_exact): Fills all of `buf` from `r`, waiting whenever no data is ready.
+- [`read_to_end`](/packages/stdlib/reference/io/sync/read_to_end): Reads from `r` until it ends and returns everything read.
 - [`accept_wait`](/packages/stdlib/reference/io/sync/accept_wait): Waits for the next connection on a TCP `listener` and returns its stream.
 - [`recv_from_wait`](/packages/stdlib/reference/io/sync/recv_from_wait): Waits for a UDP datagram, reads it into `buf`, and returns `(bytes, sender host, sender port)`.
 - [`send_to_wait`](/packages/stdlib/reference/io/sync/send_to_wait): Sends `buf` as one UDP datagram to `host`:`port`, waiting while the socket is not ready.
 - [`copy`](/packages/stdlib/reference/io/sync/copy): Copies the file `src` to `dst`.
 - [`print`](/packages/stdlib/reference/io/sync/print): Writes `s` to standard output, without a newline.
+- [`println`](/packages/stdlib/reference/io/sync/println): Writes `s` and a newline to standard output.

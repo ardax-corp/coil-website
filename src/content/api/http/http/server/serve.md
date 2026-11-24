@@ -9,8 +9,8 @@ name: "serve"
 signature: "fn serve(Server srv, HttpHandler handler) -> Result<(), HttpError>"
 import: "use http::server::{serve};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/server.coil#L360"
-order: 5
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/server.coil#L360"
+order: 6
 ---
 
 Serves HTTP/1.1 until accepting fails, each connection in its own task.
@@ -35,6 +35,7 @@ after closing the listener.
 
 ## See also
 
+- [`server_conn`](/packages/http/reference/http/server/server_conn): The connection to serve on the accepted socket `conn`: a TLS session when `srv` has a certificate (`Server::tls`), offering `alpn`, otherwise `conn` itself.
 - [`serve_once`](/packages/http/reference/http/server/serve_once): Accepts one connection, answers one HTTP/1.1 request with `handler`, and closes the connection.
 - [`serve_conn_loop`](/packages/http/reference/http/server/serve_conn_loop): Serves HTTP/1.1 requests on an accepted stream until the client closes, sends `Connection: close`, or sends a malformed request, then closes the stream.
 - [`serve_one_client`](/packages/http/reference/http/server/serve_one_client): Accepts one connection and serves HTTP/1.1 on it until the client closes or sends `Connection: close`.

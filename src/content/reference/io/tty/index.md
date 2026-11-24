@@ -7,7 +7,7 @@ kind: "module"
 name: "io::tty"
 origin: "builtin"
 auto: false
-order: 5
+order: 6
 ---
 
 These work on any `Stream` and need no permission flag, like printing and

@@ -9,7 +9,7 @@ name: "ServerOpts"
 signature: "class ServerOpts"
 import: "use tls::server::{ServerOpts};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tls/blob/7e2e118089854b5d182a3330bc1289849fcc581c/src/tls/server.coil#L23"
+source: "https://github.com/ardax-corp/coil-tls/blob/914a8d971d312c9aabf60aa84bc9e6aac15a859b/src/tls/server.coil#L24"
 order: 0
 ---
 

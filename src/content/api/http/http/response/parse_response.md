@@ -9,7 +9,7 @@ name: "parse_response"
 signature: "fn parse_response(Vec<byte> raw) -> Result<Response, HttpError>"
 import: "use http::response::{parse_response};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/response.coil#L577"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/response.coil#L577"
 order: 6
 ---
 

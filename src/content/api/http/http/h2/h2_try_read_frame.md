@@ -6,10 +6,10 @@ description: "Reads one frame if its first byte is already available, otherwise 
 module: "http::h2"
 kind: "fn"
 name: "h2_try_read_frame"
-signature: "fn h2_try_read_frame(Stream s) -> Result<Option<H2Frame>, HttpError>"
+signature: "fn h2_try_read_frame(Conn s) -> Result<Option<H2Frame>, HttpError>"
 import: "use http::h2::{h2_try_read_frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L847"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2.coil#L847"
 order: 64
 ---
 
@@ -19,7 +19,7 @@ Reads one frame if its first byte is already available, otherwise returns `None`
 
 | Name | Type |
 |------|------|
-| `s` | `Stream` |
+| `s` | `Conn` |
 
 ## Returns
 

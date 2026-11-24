@@ -8,7 +8,7 @@ name: "timeout"
 signature: "fn timeout<T>(int ms, unit -> T body) -> Result<T, TaskError>"
 import: "use task::{timeout};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/prelude/task.coil#L221"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/prelude/task.coil#L224"
 order: 7
 ---
 

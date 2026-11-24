@@ -9,7 +9,7 @@ name: "H2Session"
 signature: "class H2Session"
 import: "use http::h2_session::{H2Session};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2_session.coil#L129"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2_session.coil#L127"
 order: 0
 ---
 

@@ -9,7 +9,7 @@ name: "ws_send_close"
 signature: "fn ws_send_close(WsConn c) -> Result<(), HttpError>"
 import: "use http::ws::{ws_send_close};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/ws.coil#L564"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/ws.coil#L563"
 order: 18
 ---
 

@@ -9,7 +9,7 @@ name: "http_framed_end"
 signature: "fn http_framed_end(Vec<byte> raw) -> Result<int, HttpError>"
 import: "use http::response::{http_framed_end};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/response.coil#L517"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/response.coil#L517"
 order: 5
 ---
 

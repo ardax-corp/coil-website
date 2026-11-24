@@ -9,7 +9,7 @@ name: "TreeMapIter"
 signature: "class TreeMapIter<K, V>"
 import: "use collections::tree::{TreeMapIter};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/tree.coil#L54"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/collections/tree.coil#L54"
 order: 2
 ---
 

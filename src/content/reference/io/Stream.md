@@ -21,7 +21,7 @@ wait, they return `Err(IoError::WouldBlock)` when the OS is not ready.
 Use [`wait_readable`](/docs/reference/io/wait_readable) / [`wait_writable`](/docs/reference/io/wait_writable) to wait, or the blocking adapters in
 [`io::sync`](/packages/stdlib/reference/io/sync) (`write_all`, `read_to_end`, ...).
 
-The handle is closed by [`close`](/docs/reference/io/close), or when its last owner lets go of it.
+The handle is closed by [`close`](/docs/reference/io/fn.close), or when its last owner lets go of it.
 `Stream` implements [`Read`](/docs/reference/io/Read) and [`Write`](/docs/reference/io/Write), so `s.read(buf)` and
 `s.write(buf)` work as methods too.
 
@@ -29,9 +29,13 @@ The handle is closed by [`close`](/docs/reference/io/close), or when its last ow
 
 | Name | Description |
 |------|-------------|
-| [`attach`](/docs/reference/io/Stream/attach) | Installs package IO hooks on this stream in place and returns the same stream. |
-| [`park`](/docs/reference/io/Stream/park) | Waits until this stream's descriptor is ready. |
 | [`fd`](/docs/reference/io/Stream/fd) | Returns the OS file descriptor (socket handle on Windows) of this stream. |
+
+## Trait implementations
+
+- [`Read`](/docs/reference/io/Read) for `Stream`
+- [`Write`](/docs/reference/io/Write) for `Stream`
+- [`Close`](/docs/reference/io/Close) for `Stream`
 
 ## Examples
 
@@ -78,6 +82,6 @@ assert!(text == "hello");
 - [`io::wait_readable`](/docs/reference/io/wait_readable)
 - [`io::wait_writable`](/docs/reference/io/wait_writable)
 - [`io::sync`](/packages/stdlib/reference/io/sync)
-- [`io::close`](/docs/reference/io/close)
+- [`io::close`](/docs/reference/io/fn.close)
 - [`io::Read`](/docs/reference/io/Read)
 - [`io::Write`](/docs/reference/io/Write)

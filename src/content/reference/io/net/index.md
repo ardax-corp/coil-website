@@ -7,7 +7,7 @@ kind: "module"
 name: "io::net"
 origin: "builtin"
 auto: false
-order: 22
+order: 25
 ---
 
 Sockets are ordinary [`Stream`](/docs/reference/io/Stream)s: read and write

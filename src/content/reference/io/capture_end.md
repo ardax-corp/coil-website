@@ -8,8 +8,8 @@ name: "capture_end"
 signature: "fn capture_end() -> (string, string)"
 import: "use io::{capture_end};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L331"
-order: 8
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/io.coil#L324"
+order: 9
 ---
 
 Ends the innermost [`capture_begin()`](/docs/reference/io/capture_begin) and returns what it kept, as `(stdout, stderr)`. Both are empty when no capture is open.
@@ -37,6 +37,6 @@ assert!(err == "oops");
 - [`stdout`](/docs/reference/io/stdout): Returns a new stream on the process's standard output.
 - [`stderr`](/docs/reference/io/stderr): Returns a new stream on the process's standard error.
 - [`open`](/docs/reference/io/open): Opens the file at `path` with `mode` and returns a stream on it.
-- [`close`](/docs/reference/io/close): Closes `s`.
+- [`close`](/docs/reference/io/fn.close): Closes `s`.
 - [`read`](/docs/reference/io/fn.read): Reads bytes from `s` into the front of `buf` without waiting.
 - [`write`](/docs/reference/io/fn.write): Writes bytes from `buf` to `s` without waiting and returns how many were written.

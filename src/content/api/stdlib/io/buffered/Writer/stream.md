@@ -7,10 +7,10 @@ module: "io::buffered"
 kind: "method"
 name: "stream"
 parent: "Writer"
-signature: "pub fn stream() -> Stream"
+signature: "pub fn stream() -> Write"
 import: "use io::buffered::{Writer};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/io/buffered.coil#L368"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/io/buffered.coil#L369"
 order: 3
 ---
 
@@ -20,11 +20,11 @@ Called on a `Writer` value as `value.stream(…)`.
 
 ## Returns
 
-`Stream`
+`Write`
 
 ## See also
 
-- [`Writer`](/packages/stdlib/reference/io/buffered/Writer): A buffered writer over any `Stream`: small writes collect in memory and go out in one call once 8 KiB are held, or on `flush`.
+- [`Writer`](/packages/stdlib/reference/io/buffered/Writer): A buffered writer over any `Write` (a `Stream`, a TLS stream): small writes collect in memory and go out in one call once 8 KiB are held, or on `flush`.
 - [`Writer::new`](/packages/stdlib/reference/io/buffered/Writer/new): A writer over `s` that holds up to 8 KiB before it writes.
 - [`Writer::with_capacity`](/packages/stdlib/reference/io/buffered/Writer/with_capacity): A writer over `s` that holds up to `n` bytes before it writes.
 - [`Writer::set_timeout`](/packages/stdlib/reference/io/buffered/Writer/set_timeout): Gives up a wait for the stream to take more bytes after `ms` milliseconds with `Err(IoError::TimedOut)`; `0` waits for ever.

@@ -9,7 +9,7 @@ name: "level_tag"
 signature: "fn level_tag(Level level) -> string"
 import: "use log::{level_tag};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-log/blob/0eeceb5c7b573acd4f30e445566a5393a75e23cc/src/log.coil#L49"
+source: "https://github.com/ardax-corp/coil-log/blob/9b641422374ce1f7b5643bbc828ad54d8da32952/src/log.coil#L49"
 order: 2
 ---
 

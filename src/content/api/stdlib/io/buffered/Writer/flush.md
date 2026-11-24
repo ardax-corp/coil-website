@@ -10,7 +10,7 @@ parent: "Writer"
 signature: "pub fn flush() -> Result<unit, IoError>"
 import: "use io::buffered::{Writer};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/io/buffered.coil#L407"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/io/buffered.coil#L408"
 order: 7
 ---
 
@@ -30,7 +30,7 @@ yet written stay held.
 ## See also
 
 - [`Writer::set_timeout`](/packages/stdlib/reference/io/buffered/Writer/set_timeout)
-- [`Writer`](/packages/stdlib/reference/io/buffered/Writer): A buffered writer over any `Stream`: small writes collect in memory and go out in one call once 8 KiB are held, or on `flush`.
+- [`Writer`](/packages/stdlib/reference/io/buffered/Writer): A buffered writer over any `Write` (a `Stream`, a TLS stream): small writes collect in memory and go out in one call once 8 KiB are held, or on `flush`.
 - [`Writer::new`](/packages/stdlib/reference/io/buffered/Writer/new): A writer over `s` that holds up to 8 KiB before it writes.
 - [`Writer::with_capacity`](/packages/stdlib/reference/io/buffered/Writer/with_capacity): A writer over `s` that holds up to `n` bytes before it writes.
 - [`Writer::stream`](/packages/stdlib/reference/io/buffered/Writer/stream): The stream being written.

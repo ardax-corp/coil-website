@@ -10,7 +10,7 @@ parent: "Rng"
 signature: "pub fn next_u64() -> int"
 import: "use random::{Rng};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/random.coil#L90"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/random.coil#L91"
 order: 3
 ---
 
@@ -28,7 +28,7 @@ Called on a `Rng` value as `value.next_u64(…)`.
 - [`Rng`](/packages/stdlib/reference/random/Rng): A seeded pseudo-random number generator.
 - [`Rng::seeded`](/packages/stdlib/reference/random/Rng/seeded): Creates a generator from `seed`.
 - [`Rng::from_entropy`](/packages/stdlib/reference/random/Rng/from_entropy): Creates a generator seeded with 64 bits from the OS CSPRNG (`entropy::bytes`), so two processes started in the same instant still get different sequences.
-- [`Rng::from_time`](/packages/stdlib/reference/random/Rng/from_time): Creates a generator seeded from the current wall-clock and monotonic time (via coil-time).
+- [`Rng::from_time`](/packages/stdlib/reference/random/Rng/from_time): Creates a generator seeded from the host's wall clock and monotonic clock (builtin `clock::wall_nanos` / `clock::mono_nanos`).
 - [`Rng::range`](/packages/stdlib/reference/random/Rng/range): Returns a value in `lo..hi` (including `lo`, excluding `hi`), or `lo` when `hi <= lo`.
 - [`Rng::float`](/packages/stdlib/reference/random/Rng/float): Returns a `float` in `0.0..1.0`.
 - [`Rng::bytes`](/packages/stdlib/reference/random/Rng/bytes): Returns `n` pseudo-random bytes (none when `n <= 0`).

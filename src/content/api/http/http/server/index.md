@@ -35,6 +35,7 @@ use http::server::{HttpHandler, Server};
 
 | Name | Description |
 |------|-------------|
+| [`server_conn`](/packages/http/reference/http/server/server_conn) | The connection to serve on the accepted socket `conn`: a TLS session when `srv` has a certificate ([`Server::tls`](/packages/http/reference/http/server/Server/tls)), offering `alpn`, otherwise `conn` itself. |
 | [`serve_once`](/packages/http/reference/http/server/serve_once) | Accepts one connection, answers one HTTP/1.1 request with `handler`, and closes the connection. |
 | [`serve_conn_loop`](/packages/http/reference/http/server/serve_conn_loop) | Serves HTTP/1.1 requests on an accepted stream until the client closes, sends `Connection: close`, or sends a malformed request, then closes the stream. |
 | [`serve_one_client`](/packages/http/reference/http/server/serve_one_client) | Accepts one connection and serves HTTP/1.1 on it until the client closes or sends `Connection: close`. |

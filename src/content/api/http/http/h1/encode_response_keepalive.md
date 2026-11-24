@@ -9,7 +9,7 @@ name: "encode_response_keepalive"
 signature: "fn encode_response_keepalive(Response r) -> Vec<byte>"
 import: "use http::h1::{encode_response_keepalive};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h1.coil#L330"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h1.coil#L330"
 order: 3
 ---
 
