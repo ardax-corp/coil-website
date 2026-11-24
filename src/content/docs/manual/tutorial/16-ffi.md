@@ -109,7 +109,7 @@ settings live in `coil.toml` under `[ffi]` and in `coil.lock`; see
 | `float` | `double` |
 | `bool` | `bool` |
 | `string` | `const char *` (NUL-terminated UTF-8; C must not keep the pointer) |
-| `int8` … `uint64` | the fixed-size integer types |
+| `int8` … `uint64` | the fixed-size integer types (an `int` in Coil: an argument is cut to the C type, a result widened back) |
 | `ptr` | `void *` |
 | `Bytes` (from a `Vec<byte>`) | `uint8_t *` that C may write into |
 | `ConstBytes` (from a `string` or `Vec<byte>`) | read-only `const uint8_t *`, no NUL |
