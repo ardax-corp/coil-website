@@ -8,7 +8,7 @@ name: "close"
 signature: "fn close(Stream s) -> Result<unit, IoError>"
 import: "use io::{close};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L411"
+source: "https://github.com/ardax-corp/coil-lang/blob/c4231aba4e3db4e3f3f9ece8f3d5de6d8aa0ec4a/compiler/src/builtin_docs/io.coil#L411"
 order: 10
 ---
 
@@ -17,7 +17,7 @@ Closes `s`.
 Closing an attached stream calls its package `shutdown` and `free`
 hooks first, and wakes any task waiting on it. Closing twice returns
 `Err(IoError::AlreadyClosed)`. A stream that is never closed is closed
-when the garbage collector drops it.
+when its last owner lets go of it.
 
 ## Parameters
 

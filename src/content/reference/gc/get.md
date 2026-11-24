@@ -8,7 +8,7 @@ name: "get"
 signature: "fn get<T>(Root<T> pin) -> Option<T>"
 import: "use gc::{get};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/gc.coil#L74"
+source: "https://github.com/ardax-corp/coil-lang/blob/c4231aba4e3db4e3f3f9ece8f3d5de6d8aa0ec4a/compiler/src/builtin_docs/gc.coil#L73"
 order: 3
 ---
 
@@ -40,8 +40,8 @@ assert!(match get(pin) { Option::Some(_) => false, Option::None => true });
 ## See also
 
 - [`gc::unroot`](/docs/reference/gc/unroot)
-- [`root`](/docs/reference/gc/fn.root): Pins `value` so the garbage collector keeps it alive while the returned `Root` is reachable.
+- [`root`](/docs/reference/gc/fn.root): Pins `value` so it stays alive while the returned `Root` does.
 - [`weak`](/docs/reference/gc/fn.weak): Makes a handle to `value` that does not keep it alive.
-- [`upgrade`](/docs/reference/gc/upgrade): Returns the value while it is still alive, `None` once it was collected.
+- [`upgrade`](/docs/reference/gc/upgrade): Returns the value while it is still alive, `None` once it was freed.
 - [`heap_bytes`](/docs/reference/gc/heap_bytes): Returns the size of the managed heap in bytes.
-- [`collect`](/docs/reference/gc/collect): Runs a full garbage collection now and returns the number of bytes freed.
+- [`collect`](/docs/reference/gc/collect): Runs every pending `fn drop()` and the cycle collector now, and returns the number of bytes freed.
