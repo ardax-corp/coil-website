@@ -7,7 +7,7 @@ kind: "module"
 name: "macro"
 origin: "embedded"
 auto: false
-order: 18
+order: 19
 ---
 
 Macros are Coil functions that run at compile time and return code. A derive

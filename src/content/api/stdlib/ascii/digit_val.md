@@ -9,7 +9,7 @@ name: "digit_val"
 signature: "fn digit_val(byte c) -> Option<int>"
 import: "use ascii::{digit_val};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/ascii.coil#L69"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/ascii.coil#L69"
 order: 9
 ---
 

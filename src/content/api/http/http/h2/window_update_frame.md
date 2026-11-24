@@ -9,7 +9,7 @@ name: "window_update_frame"
 signature: "fn window_update_frame(int stream_id, int increment) -> Result<H2Frame, HttpError>"
 import: "use http::h2::{window_update_frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L414"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2.coil#L414"
 order: 41
 ---
 

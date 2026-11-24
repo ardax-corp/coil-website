@@ -8,7 +8,7 @@ name: "try_recv"
 signature: "fn try_recv<T>(Receiver<T> rx) -> Result<T, ChannelError>"
 import: "use thread::{try_recv};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/thread.coil#L464"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/thread.coil#L464"
 order: 15
 ---
 

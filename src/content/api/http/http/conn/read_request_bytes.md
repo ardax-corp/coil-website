@@ -2,24 +2,24 @@
 slug: "http/http/conn/read_request_bytes"
 package: "http"
 title: "read_request_bytes"
-description: "Reads one complete HTTP/1.1 message from a fresh stream s."
+description: "Reads one complete HTTP/1.1 message from a fresh connection s."
 module: "http::conn"
 kind: "fn"
 name: "read_request_bytes"
-signature: "fn read_request_bytes(Stream s) -> Result<Vec<byte>, HttpError>"
+signature: "fn read_request_bytes(Conn s) -> Result<Vec<byte>, HttpError>"
 import: "use http::conn::{read_request_bytes};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/conn.coil#L315"
-order: 3
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/conn.coil#L398"
+order: 4
 ---
 
-Reads one complete HTTP/1.1 message from a fresh stream `s`.
+Reads one complete HTTP/1.1 message from a fresh connection `s`.
 
 ## Parameters
 
 | Name | Type |
 |------|------|
-| `s` | `Stream` |
+| `s` | `Conn` |
 
 ## Returns
 

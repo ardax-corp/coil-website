@@ -6,10 +6,10 @@ description: "Reads one complete frame from s, waiting while none is ready."
 module: "http::h2"
 kind: "fn"
 name: "h2_read_frame"
-signature: "fn h2_read_frame(Stream s) -> Result<H2Frame, HttpError>"
+signature: "fn h2_read_frame(Conn s) -> Result<H2Frame, HttpError>"
 import: "use http::h2::{h2_read_frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L835"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2.coil#L835"
 order: 63
 ---
 
@@ -19,7 +19,7 @@ Reads one complete frame from `s`, waiting while none is ready.
 
 | Name | Type |
 |------|------|
-| `s` | `Stream` |
+| `s` | `Conn` |
 
 ## Returns
 

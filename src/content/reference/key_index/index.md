@@ -7,7 +7,7 @@ kind: "module"
 name: "key_index"
 origin: "builtin"
 auto: false
-order: 15
+order: 16
 ---
 
 Built into the compiler.

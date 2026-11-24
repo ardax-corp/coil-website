@@ -8,13 +8,13 @@ name: "Ge"
 signature: "trait Ge<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/prelude/ops.coil#L628"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/prelude/ops.coil#L628"
 order: 20
 ---
 
 The greater-or-equal operator `>=`.
 
-`a >= b` on a type with a `Ge` instance calls `ge(a, b)`.
+`a >= b` on a type with a `Ge` instance calls `Ge::ge(a, b)`.
 
 ## Required methods
 

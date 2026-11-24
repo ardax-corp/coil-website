@@ -9,7 +9,7 @@ name: "settings_id_max_concurrent"
 signature: "fn settings_id_max_concurrent() -> int"
 import: "use http::h2::{settings_id_max_concurrent};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L168"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2.coil#L168"
 order: 16
 ---
 

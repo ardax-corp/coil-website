@@ -8,13 +8,13 @@ name: "Pow"
 signature: "trait Pow<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/prelude/ops.coil#L224"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/prelude/ops.coil#L224"
 order: 6
 ---
 
 The exponentiation operator `**`.
 
-`a ** b` on a type with a `Pow` instance calls `pow(a, b)`. [`int`](/docs/reference/types/int) and
+`a ** b` on a type with a `Pow` instance calls `Pow::pow(a, b)`. [`int`](/docs/reference/types/int) and
 [`float`](/docs/reference/types/float) have builtin instances. `**` is right-associative
 (`2 ** 3 ** 2` is `512`). For [`int`](/docs/reference/types/int) a negative exponent panics with
 `negative exponent` and a result that does not fit panics with

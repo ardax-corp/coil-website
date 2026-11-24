@@ -9,7 +9,7 @@ name: "h2_connect_tls"
 signature: "fn h2_connect_tls(string url, bool verify, string ca_pem) -> Result<Response, HttpError>"
 import: "use http::h2_session::{h2_connect_tls};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2_session.coil#L1760"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2_session.coil#L1753"
 order: 4
 ---
 

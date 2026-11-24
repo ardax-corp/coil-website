@@ -8,13 +8,13 @@ name: "Add"
 signature: "trait Add<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/prelude/ops.coil#L31"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/prelude/ops.coil#L31"
 order: 0
 ---
 
 The addition operator `+`.
 
-`a + b` on a type with an `Add` instance calls `add(a, b)`. [`int`](/docs/reference/types/int) and
+`a + b` on a type with an `Add` instance calls `Add::add(a, b)`. [`int`](/docs/reference/types/int) and
 [`float`](/docs/reference/types/float) have builtin instances (compiled to machine adds, not calls).
 String concatenation with `+` is a separate rule and does not go through
 `Add`. In a generic function, `T: Add` (or `T: Num`) allows `+` on `T`.

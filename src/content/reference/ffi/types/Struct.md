@@ -8,7 +8,7 @@ name: "Struct"
 signature: "class Struct"
 import: "use ffi::types::{Struct};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/5949c73a89666e807490a6e6573daf60068768ea/compiler/src/builtin_docs/ffi/types.coil#L133"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/ffi/types.coil#L133"
 order: 14
 ---
 

@@ -7,7 +7,7 @@ kind: "module"
 name: "thread"
 origin: "builtin"
 auto: false
-order: 9
+order: 10
 ---
 
 [`spawn`](/docs/reference/thread/spawn) runs a function on a new OS thread with its own runtime and heap. Values

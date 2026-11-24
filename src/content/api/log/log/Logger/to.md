@@ -2,19 +2,19 @@
 slug: "log/log/Logger/to"
 package: "log"
 title: "Logger::to"
-description: "A logger writing events at or above min to out, such as a file opened for writing."
+description: "A logger writing events at or above min to out: any io::Write, such as a file opened for writing, a socket, or a type of your own."
 module: "log"
 kind: "static method"
 name: "to"
 parent: "Logger"
-signature: "pub static fn to(Level min, Stream out) -> Logger"
+signature: "pub static fn to(Level min, Write out) -> Logger"
 import: "use log::{Logger};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-log/blob/0eeceb5c7b573acd4f30e445566a5393a75e23cc/src/log.coil#L160"
+source: "https://github.com/ardax-corp/coil-log/blob/9b641422374ce1f7b5643bbc828ad54d8da32952/src/log.coil#L160"
 order: 1
 ---
 
-A logger writing events at or above `min` to `out`, such as a file opened for writing.
+A logger writing events at or above `min` to `out`: any [`io::Write`](/docs/reference/io/Write), such as a file opened for writing, a socket, or a type of your own.
 
 The logger does not close `out`; the caller does.
 
@@ -23,7 +23,7 @@ The logger does not close `out`; the caller does.
 | Name | Type |
 |------|------|
 | `min` | `Level` |
-| `out` | `Stream` |
+| `out` | `Write` |
 
 ## Returns
 
@@ -46,7 +46,8 @@ fn main() -> Result<(), IoError> {
 
 ## See also
 
-- [`Logger`](/packages/log/reference/log/Logger): A logger that writes events at or above a minimum `Level` to a stream.
+- [`io::Write`](/docs/reference/io/Write)
+- [`Logger`](/packages/log/reference/log/Logger): A logger that writes events at or above a minimum `Level` to a writer.
 - [`Logger::new`](/packages/log/reference/log/Logger/new): A logger writing events at or above `min` to stderr.
 - [`Logger::log`](/packages/log/reference/log/Logger/log): Write `msg` at `level`, or do nothing when `level` is below the minimum.
 - [`Logger::error`](/packages/log/reference/log/Logger/error): Write `msg` at `Level::Error`.

@@ -9,7 +9,7 @@ name: "rst_stream_frame"
 signature: "fn rst_stream_frame(int stream_id, int error_code) -> H2Frame"
 import: "use http::h2::{rst_stream_frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L455"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2.coil#L455"
 order: 46
 ---
 

@@ -8,7 +8,7 @@ name: "Stream"
 signature: "class Stream"
 import: "use io::{Stream};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L47"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/io.coil#L47"
 order: 0
 ---
 
@@ -21,7 +21,7 @@ wait, they return `Err(IoError::WouldBlock)` when the OS is not ready.
 Use [`wait_readable`](/docs/reference/io/wait_readable) / [`wait_writable`](/docs/reference/io/wait_writable) to wait, or the blocking adapters in
 [`io::sync`](/packages/stdlib/reference/io/sync) (`write_all`, `read_to_end`, ...).
 
-The handle is closed by [`close`](/docs/reference/io/close), or when the garbage collector drops it.
+The handle is closed by [`close`](/docs/reference/io/fn.close), or when the garbage collector drops it.
 `Stream` implements [`Read`](/docs/reference/io/Read) and [`Write`](/docs/reference/io/Write), so `s.read(buf)` and
 `s.write(buf)` work as methods too.
 
@@ -29,9 +29,13 @@ The handle is closed by [`close`](/docs/reference/io/close), or when the garbage
 
 | Name | Description |
 |------|-------------|
-| [`attach`](/docs/reference/io/Stream/attach) | Installs package IO hooks on this stream in place and returns the same stream. |
-| [`park`](/docs/reference/io/Stream/park) | Waits until this stream's descriptor is ready. |
 | [`fd`](/docs/reference/io/Stream/fd) | Returns the OS file descriptor (socket handle on Windows) of this stream. |
+
+## Trait implementations
+
+- [`Read`](/docs/reference/io/Read) for `Stream`
+- [`Write`](/docs/reference/io/Write) for `Stream`
+- [`Close`](/docs/reference/io/Close) for `Stream`
 
 ## Examples
 
@@ -78,6 +82,6 @@ assert!(text == "hello");
 - [`io::wait_readable`](/docs/reference/io/wait_readable)
 - [`io::wait_writable`](/docs/reference/io/wait_writable)
 - [`io::sync`](/packages/stdlib/reference/io/sync)
-- [`io::close`](/docs/reference/io/close)
+- [`io::close`](/docs/reference/io/fn.close)
 - [`io::Read`](/docs/reference/io/Read)
 - [`io::Write`](/docs/reference/io/Write)

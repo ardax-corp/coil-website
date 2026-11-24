@@ -8,15 +8,15 @@ name: "set_nodelay"
 signature: "fn set_nodelay(Stream s, bool enabled) -> Result<unit, IoError>"
 import: "use io::net::tcp::{set_nodelay};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io/net/tcp.coil#L231"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/io/net/tcp.coil#L231"
 order: 6
 ---
 
 Turns `TCP_NODELAY` on or off for a TCP stream.
 
 With `enabled == true` small writes are sent at once instead of being
-held back to be combined (Nagle's algorithm). Works on streams that a
-package such as coil-tls has attached to, since they share the socket.
+held back to be combined (Nagle's algorithm). Works on the socket under
+a package stream such as coil-tls's `TlsStream`.
 Returns `Err(IoError::InvalidInput)` for a listener or a stream that is
 not TCP.
 

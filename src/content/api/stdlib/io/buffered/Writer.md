@@ -2,18 +2,18 @@
 slug: "stdlib/io/buffered/Writer"
 package: "stdlib"
 title: "Writer"
-description: "A buffered writer over any Stream: small writes collect in memory and go out in one call once 8 KiB are held, or on flush."
+description: "A buffered writer over any Write (a Stream, a TLS stream): small writes collect in memory and go out in one call once 8 KiB are held, or on flush."
 module: "io::buffered"
 kind: "class"
 name: "Writer"
 signature: "shared class Writer"
 import: "use io::buffered::{Writer};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/io/buffered.coil#L342"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/io/buffered.coil#L343"
 order: 1
 ---
 
-A buffered writer over any `Stream`: small writes collect in memory and go out in one call once 8 KiB are held, or on [`flush`](/packages/stdlib/reference/io/buffered/Writer/flush).
+A buffered writer over any `Write` (a `Stream`, a TLS stream): small writes collect in memory and go out in one call once 8 KiB are held, or on [`flush`](/packages/stdlib/reference/io/buffered/Writer/flush).
 
 Call [`flush`](/packages/stdlib/reference/io/buffered/Writer/flush) before closing the stream or waiting for a reply: bytes
 still held are not sent.
@@ -58,4 +58,4 @@ assert!(read_text("/tmp/coil_stdlib_writer_doc.txt") == Result::Ok("hello world"
 ## See also
 
 - [`Writer::flush`](/packages/stdlib/reference/io/buffered/Writer/flush)
-- [`Reader`](/packages/stdlib/reference/io/buffered/Reader): A buffered reader over any `Stream`: lines, delimited frames, exact counts, and the leftover bytes for a protocol switch.
+- [`Reader`](/packages/stdlib/reference/io/buffered/Reader): A buffered reader over any `Read` (a `Stream`, a TLS stream): lines, delimited frames, exact counts, and the leftover bytes for a protocol switch.

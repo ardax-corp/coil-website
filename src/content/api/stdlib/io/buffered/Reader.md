@@ -2,18 +2,18 @@
 slug: "stdlib/io/buffered/Reader"
 package: "stdlib"
 title: "Reader"
-description: "A buffered reader over any Stream: lines, delimited frames, exact counts, and the leftover bytes for a protocol switch."
+description: "A buffered reader over any Read (a Stream, a TLS stream): lines, delimited frames, exact counts, and the leftover bytes for a protocol switch."
 module: "io::buffered"
 kind: "class"
 name: "Reader"
 signature: "shared class Reader"
 import: "use io::buffered::{Reader};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/io/buffered.coil#L76"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/io/buffered.coil#L77"
 order: 0
 ---
 
-A buffered reader over any `Stream`: lines, delimited frames, exact counts, and the leftover bytes for a protocol switch.
+A buffered reader over any `Read` (a `Stream`, a TLS stream): lines, delimited frames, exact counts, and the leftover bytes for a protocol switch.
 
 It asks the stream for up to 8 KiB at a time, so reading a line costs one
 host call per chunk rather than one per byte ([`io::sync::read_line`](/packages/stdlib/reference/io/sync/read_line)).
@@ -64,4 +64,4 @@ assert!(r.read_line() == Result::Ok(Option::None));
 
 - [`io::sync::read_line`](/packages/stdlib/reference/io/sync/read_line)
 - [`Reader::take_buffered`](/packages/stdlib/reference/io/buffered/Reader/take_buffered)
-- [`Writer`](/packages/stdlib/reference/io/buffered/Writer): A buffered writer over any `Stream`: small writes collect in memory and go out in one call once 8 KiB are held, or on `flush`.
+- [`Writer`](/packages/stdlib/reference/io/buffered/Writer): A buffered writer over any `Write` (a `Stream`, a TLS stream): small writes collect in memory and go out in one call once 8 KiB are held, or on `flush`.

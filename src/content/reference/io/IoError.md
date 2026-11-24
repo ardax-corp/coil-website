@@ -8,7 +8,7 @@ name: "IoError"
 signature: "enum IoError"
 import: "use io::{IoError};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L151"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/io.coil#L91"
 order: 1
 ---
 
@@ -62,8 +62,8 @@ The data ended early (the OS reported an unexpected end of file).
 
 ### `Protocol` {#variant-protocol}
 
-An attached package stream (such as coil-tls) reported a failure of
-its own protocol, for example a TLS alert; the package's API says
+A package stream (such as coil-tls's `TlsStream`) reported a failure
+of its own protocol, for example a TLS alert; the package's API says
 which.
 
 ### `TooManyOpenFiles` {#variant-toomanyopenfiles}

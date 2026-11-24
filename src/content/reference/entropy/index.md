@@ -7,7 +7,7 @@ kind: "module"
 name: "entropy"
 origin: "builtin"
 auto: false
-order: 14
+order: 15
 ---
 
 `bytes(n)` returns `n` fresh bytes from the OS CSPRNG on every call. It needs

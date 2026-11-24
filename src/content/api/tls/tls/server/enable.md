@@ -2,24 +2,23 @@
 slug: "tls/tls/server/enable"
 package: "tls"
 title: "enable"
-description: "Runs a TLS server handshake on the accepted TCP stream s and returns the same Stream, now encrypted."
+description: "Runs a TLS server handshake on the accepted TCP stream s and returns a TlsStream over it."
 module: "tls::server"
 kind: "fn"
 name: "enable"
-signature: "fn enable(Stream s, ServerOpts opts) -> Result<Stream, TlsError>"
+signature: "fn enable(Stream s, ServerOpts opts) -> Result<TlsStream, TlsError>"
 import: "use tls::server::{enable};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tls/blob/7e2e118089854b5d182a3330bc1289849fcc581c/src/tls/server.coil#L85"
+source: "https://github.com/ardax-corp/coil-tls/blob/914a8d971d312c9aabf60aa84bc9e6aac15a859b/src/tls/server.coil#L85"
 order: 1
 ---
 
-Runs a TLS server handshake on the accepted TCP stream `s` and returns the same `Stream`, now encrypted.
+Runs a TLS server handshake on the accepted TCP stream `s` and returns a `TlsStream` over it.
 
-As with the client, the stream's `read`, `write` and close go through TLS
-afterwards, and the handshake parks the task on `WouldBlock` instead of
-blocking the thread. Read the negotiated protocol with
-[`tls::alpn_protocol`](/packages/tls/reference/tls/alpn_protocol). The program needs `--allow-attach`, `--allow-dload
-tls` and libtls on the FFI search path.
+As with the client, the `TlsStream` implements [`io::Read`](/docs/reference/io/Read), [`io::Write`](/docs/reference/io/Write)
+and [`io::Close`](/docs/reference/io/Close), and the handshake waits for the socket on `WouldBlock`
+instead of blocking the thread. Read the negotiated protocol with
+`alpn()`. The program needs libtls on the FFI search path.
 
 ## Parameters
 
@@ -30,7 +29,7 @@ tls` and libtls on the FFI search path.
 
 ## Returns
 
-`Result<Stream, TlsError>`
+`Result<TlsStream, TlsError>`
 
 ## Errors
 
@@ -47,7 +46,7 @@ tls` and libtls on the FFI search path.
 Greeting one client on a listening socket:
 
 ```coil
-use io::{IoError, Stream, close};
+use io::{IoError, Stream};
 use io::sync::{accept_wait, write_all};
 use string::{to_bytes};
 use tls::server::{enable, ServerOpts};
@@ -63,7 +62,7 @@ fn greet_one(Stream listener, string cert, string key) -> Result<(), TlsError> {
     let tcp = accept_wait(listener).map_err(io_err)?;
     let s = enable(tcp, new ServerOpts(cert, key, 10000, "", ""))?;
     write_all(s, to_bytes("hello over TLS\n")).map_err(io_err)?;
-    close(s).map_err(io_err)?;
+    s.close().map_err(io_err)?;
     return;
 }
 fn main() {}
@@ -71,5 +70,6 @@ fn main() {}
 
 ## See also
 
-- [`tls::alpn_protocol`](/packages/tls/reference/tls/alpn_protocol)
-- [`disable`](/packages/tls/reference/tls/server/disable): Sends TLS `close_notify` to the client and returns `s`, as `tls::client::disable` does.
+- [`io::Read`](/docs/reference/io/Read)
+- [`io::Write`](/docs/reference/io/Write)
+- [`io::Close`](/docs/reference/io/Close)

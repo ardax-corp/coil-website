@@ -9,7 +9,7 @@ name: "settings_ack_frame"
 signature: "fn settings_ack_frame() -> H2Frame"
 import: "use http::h2::{settings_ack_frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L382"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2.coil#L382"
 order: 38
 ---
 

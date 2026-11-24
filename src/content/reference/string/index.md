@@ -7,7 +7,7 @@ kind: "module"
 name: "string"
 origin: "builtin"
 auto: false
-order: 8
+order: 9
 ---
 
 Strings are immutable UTF-8 text. Offsets in this module are byte offsets,

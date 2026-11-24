@@ -9,7 +9,7 @@ name: "read_text"
 signature: "fn read_text(string path) -> Result<string, IoError>"
 import: "use io::file::{read_text};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/io/file.coil#L69"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/io/file.coil#L69"
 order: 2
 ---
 
