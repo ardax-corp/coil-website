@@ -106,7 +106,7 @@ the next argument, and the compiler checks that the types match:
 `format("%i", "ten")` does not compile, so a wrong specifier never reaches
 your users. To join strings, `+` works too: `"Hello, " + name`.
 
-`show(value)` turns any printable value into a string on its own, the same
+`value.show()` turns any printable value into a string on its own, the same
 text `%v` produces.
 
 ## Functions

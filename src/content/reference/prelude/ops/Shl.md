@@ -8,13 +8,13 @@ name: "Shl"
 signature: "trait Shl<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/prelude/ops.coil#L278"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/prelude/ops.coil#L278"
 order: 8
 ---
 
 The left shift operator `<<`.
 
-`a << n` on a type with a `Shl` instance calls `shl(a, n)`. The shift
+`a << n` on a type with a `Shl` instance calls `Shl::shl(a, n)`. The shift
 count is always an [`int`](/docs/reference/types/int), whatever the type of `a`, and the result has
 the type of `a`. [`int`](/docs/reference/types/int) and [`byte`](/docs/reference/types/byte) have builtin instances; shifting a
 [`byte`](/docs/reference/types/byte) keeps the low 8 bits.

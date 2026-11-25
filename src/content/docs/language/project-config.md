@@ -114,11 +114,12 @@ that is `true` into the matching `coil` flag on every compile, run and test.
 | `write` | bool | `--allow-write` |
 | `net` | bool | `--allow-net` |
 | `env` | bool | `--allow-env` |
+| `exec` | bool | `--allow-exec` |
 | `exit` | bool | `--allow-exit` |
-| `attach` | bool | `--allow-attach` |
 | `all` | bool | `--allow-all` |
 
-Every key defaults to `false`.
+Every key defaults to `false`. spool accepts `attach` (and `[ffi] allow_attach`)
+from older manifests, prints a note and ignores it: `Stream.attach` is gone.
 
 ```toml
 [permissions]
@@ -200,7 +201,7 @@ Rows that declare **direct** shared libraries for `coil package`. Spool passes e
 
 | Key | Type | Required | Description |
 |-----|------|----------|-------------|
-| `name` | string | Yes | `dload` stem (`crypto` → `libcrypto.so` / `libcrypto.dylib` / `crypto.dll`). A path literal such as `dload("./native/libcrypto.so")` reduces to the same stem the gate uses, so this row covers it too |
+| `name` | string | Yes | The library stem an `extern` block names (`crypto` → `libcrypto.so` / `libcrypto.dylib` / `crypto.dll`) |
 | `package` | string | No | Cache key (defaults to `name`) |
 | `version` | string | Yes | Version string used in the natives cache path |
 | `path` | string | Yes | Directory (relative to project root) containing the local platform library (hashed at package time) |
@@ -227,7 +228,7 @@ coil package app.coil -o app --allow-dload crypto \
   --ffi-native 'name=crypto,version=0.1.0,path=.spool/deps/crypto/native'
 ```
 
-The embedded lock holds names, versions and hashes, not URLs. A packaged app looks for each library under `~/.coil/natives/cache/<package>/<version>/<sha16>/`, beside the executable, and in `lib/` next to it. It starts either way; a library found nowhere fails at its `dload`. Getting the files there is up to you. Inspect a lock with `coil natives dump [exe] [--tsv]` (TSV columns: package, version, filename, sha256, size). Without `exe`, `dump` hashes each `--ffi-native` row's local file; a row whose file is not there yet is listed as missing instead of failing (JSON `"missing": true` with an empty `sha256`; TSV empty sha256 and size columns and a sixth column `missing`), so a downloader such as `spool download` can fetch it (spool checks it against the row's `sha256` when the row has one). `coil package` still needs every file.
+The embedded lock holds names, versions and hashes, not URLs. A packaged app looks for each library under `~/.coil/natives/cache/<package>/<version>/<sha16>/`, beside the executable, and in `lib/` next to it. It starts either way; a library found nowhere fails at its `dload`. On Linux, a native executable links a library an `extern` block names at link time instead: `coil package` checks its hash then, and the system's loader finds it beside the executable, in `lib/` or on the system path, never in the natives cache (see [Native code](/docs/language/native-code#shared-libraries)). Getting the files there is up to you. Inspect a lock with `coil natives dump [exe] [--tsv]` (TSV columns: package, version, filename, sha256, size). Without `exe`, `dump` hashes each `--ffi-native` row's local file; a row whose file is not there yet is listed as missing instead of failing (JSON `"missing": true` with an empty `sha256`; TSV empty sha256 and size columns and a sixth column `missing`), so a downloader such as `spool download` can fetch it (spool checks it against the row's `sha256` when the row has one). `coil package` still needs every file.
 
 ### `[package]`
 
@@ -284,7 +285,7 @@ Declares library dependencies for **`spool`**. Each key is the short package nam
 | Git | `git` (string URL). Optional `version`, optional `rev`. Optional `trusted` (bool, default `false`). | `{ git = "…" }` is valid. `version` is optional schema, not a resolved tag. `rev` is stored only. The pin is `coil.lock` (`rev` + `content_hash`) for now; git tag resolution is not implemented yet. |
 | Path | `path` (string). Optional `trusted` (bool, default `false`). | Local checkout relative to the project root. |
 
-Optional **`trusted`** is per dep row. Omitted / `false` is the default. `true` skips native `sha256` for that dependency's `dload` stem, and only when the stem is also on `[ffi] allow`. It is **not** git `content_hash`, not hooks, not engine, and never `dload("c")`. Spool passes it as `--dload-trusted STEM`, which the `dload` gate honors. Trusted without allow is `LibraryDenied`. `crypto` / `tls` / `regex` / `time` use the same skip.
+Optional **`trusted`** is per dep row. Omitted / `false` is the default. `true` skips native `sha256` for that dependency's `dload` stem, and only when the stem is also on `[ffi] allow`. It is **not** git `content_hash`, not hooks, not engine, and never `extern "c"`. Spool passes it as `--dload-trusted STEM`, which the `dload` gate honors. Trusted without allow is `LibraryDenied`. `crypto` / `tls` / `regex` / `time` use the same skip.
 
 `git` and `path` must not be combined on the same entry. `version` or `rev` without `git` is a parse error. Unknown inline keys are parse errors. Duplicate dependency names are parse errors.
 

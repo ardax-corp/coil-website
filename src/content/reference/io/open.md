@@ -8,8 +8,8 @@ name: "open"
 signature: "fn open(string path, string mode) -> Result<Stream, IoError>"
 import: "use io::{open};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L386"
-order: 9
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/io.coil#L379"
+order: 10
 ---
 
 Opens the file at `path` with `mode` and returns a stream on it.
@@ -28,7 +28,7 @@ A program that reaches `open` compiles only with the matching grant: a
 literal `"r"` needs `--allow-read`, `"w"` and `"a"` need `--allow-write`,
 `"rw"` and a mode computed at run time need both.
 
-Close the stream with [`close`](/docs/reference/io/close) when you are done, often with
+Close the stream with [`close`](/docs/reference/io/fn.close) when you are done, often with
 `defer use (s) { let _ = close(s); }` right after the open. The compiler
 warns (`E0148`) about a local stream that is never closed or handed on.
 
@@ -79,7 +79,7 @@ assert!(size == 4);
 
 ## See also
 
-- [`io::close`](/docs/reference/io/close)
+- [`io::close`](/docs/reference/io/fn.close)
 - [`stdin`](/docs/reference/io/stdin): Returns a new stream on the process's standard input.
 - [`stdout`](/docs/reference/io/stdout): Returns a new stream on the process's standard output.
 - [`stderr`](/docs/reference/io/stderr): Returns a new stream on the process's standard error.

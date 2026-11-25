@@ -6,10 +6,10 @@ description: "GET u over HTTP/2 on an already connected stream (cleartext prior 
 module: "http::h2_session"
 kind: "fn"
 name: "h2_get_over_h2"
-signature: "fn h2_get_over_h2(Stream s, Url u) -> Result<Response, HttpError>"
+signature: "fn h2_get_over_h2(Conn s, Url u) -> Result<Response, HttpError>"
 import: "use http::h2_session::{h2_get_over_h2};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2_session.coil#L1781"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2_session.coil#L1774"
 order: 6
 ---
 
@@ -19,7 +19,7 @@ order: 6
 
 | Name | Type |
 |------|------|
-| `s` | `Stream` |
+| `s` | `Conn` |
 | `u` | `Url` |
 
 ## Returns

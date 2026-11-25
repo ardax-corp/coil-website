@@ -9,7 +9,7 @@ name: "ConnPool"
 signature: "class ConnPool"
 import: "use http::pool::{ConnPool};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/pool.coil#L48"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/pool.coil#L46"
 order: 0
 ---
 
@@ -50,11 +50,11 @@ fn main() {
     pool.max(8);
     let u = match parse_url("http://127.0.0.1:8080/") {
         Result::Ok(u) => u,
-        Result::Err(e) => panic show(e),
+        Result::Err(e) => panic e.show(),
     };
     let c = match pool.acquire(u) {
         Result::Ok(c) => c,
-        Result::Err(e) => panic show(e),
+        Result::Err(e) => panic e.show(),
     };
     // ... write a request on c.stream(), read the response ...
     pool.release(u, c);

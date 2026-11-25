@@ -9,7 +9,7 @@ Test whether a coroutine handle has finished.
 
 ### Syntax
 
-```coil
+```coil ignore
 done(handle_expr)
 ```
 
@@ -23,7 +23,7 @@ done(handle_expr)
 
 ### Example
 
-```coil
+```coil ignore
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};

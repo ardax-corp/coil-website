@@ -10,7 +10,7 @@ parent: "Logger"
 signature: "pub static fn new(Level min) -> Logger"
 import: "use log::{Logger};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-log/blob/0eeceb5c7b573acd4f30e445566a5393a75e23cc/src/log.coil#L137"
+source: "https://github.com/ardax-corp/coil-log/blob/9b641422374ce1f7b5643bbc828ad54d8da32952/src/log.coil#L137"
 order: 0
 ---
 
@@ -28,8 +28,8 @@ A logger writing events at or above `min` to stderr.
 
 ## See also
 
-- [`Logger`](/packages/log/reference/log/Logger): A logger that writes events at or above a minimum `Level` to a stream.
-- [`Logger::to`](/packages/log/reference/log/Logger/to): A logger writing events at or above `min` to `out`, such as a file opened for writing.
+- [`Logger`](/packages/log/reference/log/Logger): A logger that writes events at or above a minimum `Level` to a writer.
+- [`Logger::to`](/packages/log/reference/log/Logger/to): A logger writing events at or above `min` to `out`: any `io::Write`, such as a file opened for writing, a socket, or a type of your own.
 - [`Logger::log`](/packages/log/reference/log/Logger/log): Write `msg` at `level`, or do nothing when `level` is below the minimum.
 - [`Logger::error`](/packages/log/reference/log/Logger/error): Write `msg` at `Level::Error`.
 - [`Logger::warn`](/packages/log/reference/log/Logger/warn): Write `msg` at `Level::Warn`.

@@ -1,7 +1,7 @@
 ---
 description: "OS threads, channels, mutexes and read-write locks."
 ---
-`spawn` runs a function on a new OS thread with its own VM and heap. Values
+`spawn` runs a function on a new OS thread with its own runtime and heap. Values
 cross between threads by copy through `send`/`recv` on a channel or through a
 `Mutex` / `RwLock`; heap handles such as `gc::Root` cannot be sent.
 

@@ -1,13 +1,13 @@
 ---
 title: Modules
-description: "How Coil maps files to modules, the use and mod syntax, how an import path is resolved against the search roots, the prelude, and the related errors."
+description: "How Coil maps files to modules, the use and mod syntax, re-exports with pub use, how an import path is resolved against the search roots, the prelude, and the related errors."
 ---
 
 # Modules
 
 A module is a `.coil` file. Its path below a search root is its name, and
-`use` imports names from it. There are no module declarations, no export
-lists and no wildcard imports. For a gentler introduction, see
+`use` imports names from it, and `pub use` re-exports them. There are no
+module declarations, no export lists and no wildcard imports. For a gentler introduction, see
 [chapter 9 of the tutorial](/docs/manual/tutorial/09-modules).
 
 ## Module names
@@ -46,8 +46,8 @@ Each is listed in the [reference](/docs/reference#ref-builtin).
 ## use
 
 ```text
-use_stmt  ::= 'use' path '::' '{' item (',' item)* ','? '}' ';'
-            | 'use' path ('as' IDENT)? ';'
+use_stmt  ::= 'pub'? 'use' path '::' '{' item (',' item)* ','? '}' ';'
+            | 'pub'? 'use' path ('as' IDENT)? ';'
 path      ::= IDENT ('::' IDENT)*
 item      ::= IDENT ('as' IDENT)?
 ```
@@ -62,7 +62,8 @@ item      ::= IDENT ('as' IDENT)?
 
 Any top-level item can be imported: functions, classes, enums, traits,
 type aliases, constants, statics and macros. Imports are local to the file;
-importing a name in one module does not make it visible in another.
+importing a name in one module does not make it visible in another, unless
+the module re-exports it with [`pub use`](#re-exports).
 
 `use path::*;` is always an error (`E0124`). List the names.
 
@@ -79,6 +80,52 @@ use toml::{parse as parse_toml}; // fine
 ```
 
 Importing the same item twice under the same name is allowed.
+
+An import also cannot take the name of an item the module declares itself;
+the local item does not shadow it:
+
+```coil ignore
+use json::{parse};
+fn parse(string s) -> int { return s.len(); } // error E0133: `parse` is both imported and declared here
+```
+
+## Re-exports
+
+`pub use` imports a name and also makes it an item of the module, so other
+modules can import it from there. A library can keep its code in several
+files and still offer one path to import from:
+
+```coil ignore
+// src/shapes/circle.coil
+class Circle {
+    pub r: int,
+}
+
+// src/shapes.coil
+pub use shapes::circle::Circle;
+pub use shapes::square::{Square, area as square_area};
+
+// src/main.coil
+use shapes::{Circle, square_area};
+```
+
+Every kind of item can be re-exported, under its own name or a new one
+(`as`), and a re-exported name can be re-exported again. Importing it is the
+same as importing the item from the module that declares it: `use
+shapes::Circle` and `use shapes::circle::Circle` name the same class.
+
+A plain `use` stays private. Importing a name that a module only imports is
+an error (`E0100`), and its help names the module to import it from:
+
+```text
+Error: [E0100] module `shapes` has no item `Triangle`
+Help: `shapes` imports `Triangle` from `shapes::triangle` without re-exporting it: import it from `shapes::triangle`, or write `pub use` in `shapes` to re-export it
+```
+
+`pub use` belongs at the top level of a module; inside a function it is a
+parse error. Only `use` follows a re-export for now: a qualified path such
+as `shapes::Circle` (after `mod shapes;`) does not, so write the declaring
+module's path there.
 
 ## How a path is resolved
 
@@ -105,6 +152,22 @@ package that has not renamed its files keeps working: each file above is
 tried as `.coil` first and then as `.hy` (`a/b/c.coil`, `a/b/c.hy`,
 `a/b.coil`, `a/b.hy`). Support for `.hy` will be removed; rename your files
 to `.coil`. `coil fmt src tests` does it, formatting each file as it moves.
+
+## Import cycles
+
+Modules cannot import each other, directly or through other modules. Each
+module is checked after the modules it imports, so in `a -> b -> a` neither
+can come first. Such a program is one error, at the import that starts the
+cycle (`E0154`):
+
+```text
+Error: [E0154] import cycle: `ca -> cb -> ca`
+```
+
+Move what the modules share into a module of its own that each of them
+imports: if `ca` defines `Box1` and needs `twice` from `cb`, and `twice`
+takes a `Box1`, put `Box1` in a third module that both `ca` and `cb` import.
+A `mod` declaration counts as an import here too.
 
 ## mod
 
@@ -160,6 +223,7 @@ exactly as a project module would. The compiler itself never reads
 | `E0900` | No root has a file for the path: ``Module not found: `use a::b::c` `` |
 | `E0100`, `E0101` | The module was found but does not declare the name; reported where the name is used |
 | `E0124` | `use path::*` |
-| `E0133` | Two imports bind the same local name |
+| `E0133` | Two imports bind the same local name, or an import takes the name of an item the module declares |
+| `E0154` | Modules import each other: ``import cycle: `a -> b -> a` `` |
 
 See [error codes](/docs/language/error-codes) for the full list.

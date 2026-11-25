@@ -8,7 +8,7 @@ name: "next_id"
 signature: "fn next_id() -> int"
 import: "use symbol::{next_id};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/symbol.coil#L64"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/symbol.coil#L64"
 order: 1
 ---
 

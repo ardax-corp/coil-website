@@ -2,28 +2,27 @@
 slug: "tls/tls/client/enable"
 package: "tls"
 title: "enable"
-description: "Runs a TLS client handshake on the connected TCP stream s and returns the same Stream, now encrypted."
+description: "Runs a TLS client handshake on the connected TCP stream s and returns a TlsStream over it."
 module: "tls::client"
 kind: "fn"
 name: "enable"
-signature: "fn enable(Stream s, string host, ClientOpts opts) -> Result<Stream, TlsError>"
+signature: "fn enable(Stream s, string host, ClientOpts opts) -> Result<TlsStream, TlsError>"
 import: "use tls::client::{enable};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tls/blob/7e2e118089854b5d182a3330bc1289849fcc581c/src/tls/client.coil#L90"
+source: "https://github.com/ardax-corp/coil-tls/blob/914a8d971d312c9aabf60aa84bc9e6aac15a859b/src/tls/client.coil#L90"
 order: 1
 ---
 
-Runs a TLS client handshake on the connected TCP stream `s` and returns the same `Stream`, now encrypted.
+Runs a TLS client handshake on the connected TCP stream `s` and returns a `TlsStream` over it.
 
 `host` is the server name sent in SNI and checked against the server's
-certificate (a DNS name or an IP address). After `enable`, the stream's
-`read`, `write` and close go through TLS. The handshake does not block
-the thread: on `WouldBlock` it parks the task until the socket is ready,
-so call it from a normal task, not a blocking thread. Do not call
-`enable` twice on one stream.
+certificate (a DNS name or an IP address). The `TlsStream` implements
+[`io::Read`](/docs/reference/io/Read), [`io::Write`](/docs/reference/io/Write) and [`io::Close`](/docs/reference/io/Close); leave `s` to it from here on.
+The handshake does not block the thread: on `WouldBlock` it waits for
+the socket, which lets other tasks run.
 
-The program needs `--allow-attach`, `--allow-dload tls` and libtls on
-the FFI search path (see the package README).
+The program needs libtls on the FFI search path (see the package
+README).
 
 ## Parameters
 
@@ -35,7 +34,7 @@ the FFI search path (see the package README).
 
 ## Returns
 
-`Result<Stream, TlsError>`
+`Result<TlsStream, TlsError>`
 
 ## Errors
 
@@ -66,11 +65,15 @@ fn fetch(Stream tcp, string host) -> Result<Vec<byte>, TlsError> {
     let s = enable(tcp, host, new ClientOpts(true, None, None, 10000, "http/1.1"))?;
     let request = "GET / HTTP/1.1\r\nHost: " + host + "\r\nConnection: close\r\n\r\n";
     write_all(s, to_bytes(request)).map_err(io_err)?;
-    return read_to_end(s).map_err(io_err)?;
+    let body = read_to_end(s).map_err(io_err)?;
+    s.close().map_err(io_err)?;
+    return body;
 }
 fn main() {}
 ```
 
 ## See also
 
-- [`disable`](/packages/tls/reference/tls/client/disable): Sends TLS `close_notify` to the peer and returns `s`.
+- [`io::Read`](/docs/reference/io/Read)
+- [`io::Write`](/docs/reference/io/Write)
+- [`io::Close`](/docs/reference/io/Close)

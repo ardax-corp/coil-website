@@ -8,13 +8,13 @@ name: "Shr"
 signature: "trait Shr<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/prelude/ops.coil#L309"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/prelude/ops.coil#L309"
 order: 9
 ---
 
 The right shift operator `>>`.
 
-`a >> n` on a type with a `Shr` instance calls `shr(a, n)`. The shift
+`a >> n` on a type with a `Shr` instance calls `Shr::shr(a, n)`. The shift
 count is always an [`int`](/docs/reference/types/int). [`int`](/docs/reference/types/int) and [`byte`](/docs/reference/types/byte) have builtin instances; the
 [`int`](/docs/reference/types/int) shift is arithmetic (it keeps the sign, so `-8 >> 1` is `-4`).
 

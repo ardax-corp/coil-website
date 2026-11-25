@@ -8,7 +8,7 @@ name: "ErrorKind"
 signature: "enum ErrorKind"
 import: "use ffi::{ErrorKind};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/ffi.coil#L16"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/ffi.coil#L16"
 order: 0
 ---
 
@@ -25,11 +25,11 @@ The library passed the load gate but no file was found for it.
 
 ### `SymbolNotFound` {#variant-symbolnotfound}
 
-[`declare`](/docs/reference/ffi/declare) named a symbol the library does not export.
+The library does not export a symbol an `extern` block names.
 
 ### `ArityMismatch` {#variant-aritymismatch}
 
-[`invoke`](/docs/reference/ffi/invoke) got a different number of arguments than [`declare`](/docs/reference/ffi/declare) gave
+A call got a different number of arguments than the signature has
 (fewer than the fixed prefix, for a variadic function).
 
 ### `Libffi` {#variant-libffi}
@@ -43,14 +43,12 @@ type, or `Void` used as an argument type.
 
 ### `InvalidHandle` {#variant-invalidhandle}
 
-A library handle or function id is not one [`dload`](/docs/reference/ffi/dload) / [`declare`](/docs/reference/ffi/declare)
-returned.
+A library handle or function id the runtime does not know.
 
 ### `Unsupported` {#variant-unsupported}
 
 The call cannot be marshalled: an unsupported tag or value (such as
-`Bytes` as a return type), a string with a NUL byte, or a
-[`read_ints`](/docs/reference/ffi/read_ints) count out of range or null pointer.
+`Bytes` as a return type) or a string with a NUL byte.
 
 ### `Other` {#variant-other}
 
@@ -68,8 +66,4 @@ assert!(format("%v", ErrorKind::SymbolNotFound) == "SymbolNotFound");
 ## See also
 
 - [`Show`](/docs/reference/prelude/ops/Show)
-- [`ffi::declare`](/docs/reference/ffi/declare)
-- [`ffi::invoke`](/docs/reference/ffi/invoke)
-- [`ffi::dload`](/docs/reference/ffi/dload)
-- [`ffi::read_ints`](/docs/reference/ffi/read_ints)
-- [`Error`](/docs/reference/ffi/Error): The error of `dload`, `declare`, `invoke` and `read_ints`.
+- [`Error`](/docs/reference/ffi/Error): The error of loading an `extern` block's library or one of its functions.

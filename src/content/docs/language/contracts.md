@@ -9,7 +9,7 @@ A function can state what it expects from its caller (`requires`) and what
 it promises in return (`ensures`). The clauses are checked at run time, and a
 failed clause is a panic that names the clause and who broke it.
 
-```coil
+```coil fail
 fn isqrt(int n) -> int
     requires n >= 0, "negative input"
     ensures result * result <= n
@@ -83,7 +83,7 @@ brace on the line after.
 Inside `ensures`, `old(e)` is the value `e` had when the function was
 entered:
 
-```coil
+```coil ignore
 impl Account {
     pub fn deposit(int amount)
         requires amount > 0
@@ -162,7 +162,7 @@ impl Area for int {
 }
 ```
 
-Each impl checks the trait's clauses (here `area(0)` fails
+Each impl checks the trait's clauses (here `0.area()` fails
 `requires x > 0`, blaming the caller), plus any `ensures` of its own. An impl
 may promise more with `ensures`, but it cannot add a `requires`: code
 written against the trait could not know about it. Adding one is a compile

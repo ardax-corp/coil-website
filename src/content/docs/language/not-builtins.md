@@ -7,7 +7,7 @@ description: Compiler virtual modules cover systems I/O, threads, env, FFI, and 
 
 Compiler virtual modules cover systems I/O, threads, env, FFI,
 and IEEE float math. Collections, text/bytes helpers, decimal parse, path, blocking
-IO adapters, whole-file helpers, regex, TLS, crypto, time, and HTTP are **not** HostInvoke/opcodes — they
+IO adapters, whole-file helpers, regex, TLS, crypto, time, and HTTP are **not** built in: they
 live in userland packages ([coil-stdlib](https://github.com/ardax-corp/coil-stdlib),
 [coil-regex](https://github.com/ardax-corp/coil-regex),
 [coil-tls](https://github.com/ardax-corp/coil-tls),
@@ -24,7 +24,7 @@ Still not a compiler builtin (and not coil-stdlib either):
 | Crypto | hashes, AEAD, keys | [coil-crypto](https://github.com/ardax-corp/coil-crypto) ([crypto](/packages/crypto)) |
 | Time | calendar, monotonic Instant | [coil-time](https://github.com/ardax-corp/coil-time) ([time](/packages/time)) |
 
-Use **`io`** for streams, **FFI** for C libraries, or **host natives** when embedding the VM in Rust.
+Use **`io`** for streams, **FFI** for C libraries, or **host natives** when embedding Coil in Rust.
 
 ---
 

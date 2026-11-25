@@ -9,7 +9,7 @@ parent: "Expr"
 signature: "pub fn is_literal() -> bool"
 import: "use macro::{Expr};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/prelude/macro.coil#L129"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/prelude/macro.coil#L129"
 order: 3
 ---
 

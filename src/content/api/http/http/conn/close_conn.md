@@ -9,8 +9,8 @@ name: "close_conn"
 signature: "fn close_conn(HttpConn c)"
 import: "use http::conn::{close_conn};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/conn.coil#L26"
-order: 1
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/conn.coil#L109"
+order: 2
 ---
 
 Closes `c`'s stream. Closing twice does nothing; close errors are ignored.
@@ -24,4 +24,4 @@ Closes `c`'s stream. Closing twice does nothing; close errors are ignored.
 ## See also
 
 - [`read_http_message`](/packages/http/reference/http/conn/read_http_message): Reads one complete HTTP/1.1 message (head and body) from `c`.
-- [`read_request_bytes`](/packages/http/reference/http/conn/read_request_bytes): Reads one complete HTTP/1.1 message from a fresh stream `s`.
+- [`read_request_bytes`](/packages/http/reference/http/conn/read_request_bytes): Reads one complete HTTP/1.1 message from a fresh connection `s`.

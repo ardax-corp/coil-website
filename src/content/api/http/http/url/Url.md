@@ -9,7 +9,7 @@ name: "Url"
 signature: "class Url"
 import: "use http::url::{Url};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/url.coil#L63"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/url.coil#L63"
 order: 1
 ---
 
@@ -44,7 +44,7 @@ use http::url::parse_url;
 
 let u = match parse_url("https://example.com:8443/a?b=1") {
     Result::Ok(u) => u,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(u.scheme == "https");
 assert!(u.host == "example.com");

@@ -9,8 +9,8 @@ name: "read_http_message"
 signature: "fn read_http_message(HttpConn c) -> Result<Vec<byte>, HttpError>"
 import: "use http::conn::{read_http_message};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/conn.coil#L220"
-order: 2
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/conn.coil#L303"
+order: 3
 ---
 
 Reads one complete HTTP/1.1 message (head and body) from `c`.
@@ -33,4 +33,4 @@ peer closes before the head is complete and `Io` when the socket fails.
 ## See also
 
 - [`close_conn`](/packages/http/reference/http/conn/close_conn): Closes `c`'s stream.
-- [`read_request_bytes`](/packages/http/reference/http/conn/read_request_bytes): Reads one complete HTTP/1.1 message from a fresh stream `s`.
+- [`read_request_bytes`](/packages/http/reference/http/conn/read_request_bytes): Reads one complete HTTP/1.1 message from a fresh connection `s`.

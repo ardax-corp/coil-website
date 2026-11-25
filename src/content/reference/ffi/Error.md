@@ -1,18 +1,22 @@
 ---
 slug: "ffi/Error"
 title: "Error"
-description: "The error of dload, declare, invoke and read_ints."
+description: "The error of loading an extern block's library or one of its functions."
 module: "ffi"
 kind: "enum"
 name: "Error"
 signature: "enum Error"
 import: "use ffi::{Error};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/ffi.coil#L62"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/ffi.coil#L64"
 order: 1
 ---
 
-The error of [`dload`](/docs/reference/ffi/dload), [`declare`](/docs/reference/ffi/declare), [`invoke`](/docs/reference/ffi/invoke) and [`read_ints`](/docs/reference/ffi/read_ints).
+The error of loading an `extern` block's library or one of its functions.
+
+A program never sees one: an `extern` library that does not load stops
+the program with its message. To load a library while the program runs,
+use the coil-ffi package, which has an error type of its own.
 
 One record variant: read `e.kind` (an [`ErrorKind`](/docs/reference/ffi/ErrorKind)) to decide what to do
 and `e.message` for a human-readable description.
@@ -43,8 +47,4 @@ fn main() {
 
 ## See also
 
-- [`ffi::dload`](/docs/reference/ffi/dload)
-- [`ffi::declare`](/docs/reference/ffi/declare)
-- [`ffi::invoke`](/docs/reference/ffi/invoke)
-- [`ffi::read_ints`](/docs/reference/ffi/read_ints)
 - [`ffi::ErrorKind`](/docs/reference/ffi/ErrorKind)

@@ -16,14 +16,20 @@ Part of the [http](/packages/http) package ([coil-http](https://github.com/ardax
 Import what you use (`use path::*` is not allowed):
 
 ```coil
-use http::conn::{HttpConn, close_conn};
+use http::conn::{Conn, HttpConn};
 ```
 
 ## Types
 
 | Name | Description |
 |------|-------------|
-| [`HttpConn`](/packages/http/reference/http/conn/HttpConn) | A socket plus the bytes read past the current HTTP/1.1 message. |
+| [`HttpConn`](/packages/http/reference/http/conn/HttpConn) | A connection plus the bytes read past the current HTTP/1.1 message. |
+
+## Traits
+
+| Name | Description |
+|------|-------------|
+| [`Conn`](/packages/http/reference/http/conn/Conn) | A connection HTTP runs over: a plain TCP `Stream` or a `TlsStream`. |
 
 ## Functions
 
@@ -31,4 +37,4 @@ use http::conn::{HttpConn, close_conn};
 |------|-------------|
 | [`close_conn`](/packages/http/reference/http/conn/close_conn) | Closes `c`'s stream. |
 | [`read_http_message`](/packages/http/reference/http/conn/read_http_message) | Reads one complete HTTP/1.1 message (head and body) from `c`. |
-| [`read_request_bytes`](/packages/http/reference/http/conn/read_request_bytes) | Reads one complete HTTP/1.1 message from a fresh stream `s`. |
+| [`read_request_bytes`](/packages/http/reference/http/conn/read_request_bytes) | Reads one complete HTTP/1.1 message from a fresh connection `s`. |

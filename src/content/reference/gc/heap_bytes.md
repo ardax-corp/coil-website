@@ -8,14 +8,14 @@ name: "heap_bytes"
 signature: "fn heap_bytes() -> int"
 import: "use gc::{heap_bytes};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/gc.coil#L152"
+source: "https://github.com/ardax-corp/coil-lang/blob/c4231aba4e3db4e3f3f9ece8f3d5de6d8aa0ec4a/compiler/src/builtin_docs/gc.coil#L159"
 order: 7
 ---
 
 Returns the size of the managed heap in bytes.
 
-This counts only memory the VM's garbage collector manages: not native
-libraries, stacks or other process memory.
+This counts only the memory of Coil values: not native libraries, stacks
+or other process memory.
 
 ## Returns
 
@@ -32,9 +32,9 @@ assert!(heap_bytes() > 0 && v.len() == 3);
 
 ## See also
 
-- [`root`](/docs/reference/gc/fn.root): Pins `value` so the garbage collector keeps it alive while the returned `Root` is reachable.
+- [`root`](/docs/reference/gc/fn.root): Pins `value` so it stays alive while the returned `Root` does.
 - [`get`](/docs/reference/gc/get): Returns the pinned value, leaving the pin in place.
 - [`unroot`](/docs/reference/gc/unroot): Releases the pin and returns the value it held.
 - [`weak`](/docs/reference/gc/fn.weak): Makes a handle to `value` that does not keep it alive.
-- [`upgrade`](/docs/reference/gc/upgrade): Returns the value while it is still alive, `None` once it was collected.
-- [`collect`](/docs/reference/gc/collect): Runs a full garbage collection now and returns the number of bytes freed.
+- [`upgrade`](/docs/reference/gc/upgrade): Returns the value while it is still alive, `None` once it was freed.
+- [`collect`](/docs/reference/gc/collect): Runs every pending `fn drop()` and the cycle collector now, and returns the number of bytes freed.

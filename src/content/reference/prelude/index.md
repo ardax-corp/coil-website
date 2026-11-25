@@ -31,6 +31,7 @@ Built into the compiler.
 |--------|-------------|
 | [`prelude::ops`](/docs/reference/prelude/ops) | Operator traits (Add, Eq, Ord, Show, …): implement them to use operators on your types. |
 | [`prelude::math`](/docs/reference/prelude/math) | Small linear algebra (dot, cross, matmul, Matrix) on fixed-size float arrays. Auto-imported. |
+| [`prelude::thread`](/docs/reference/prelude/thread) |  |
 
 ## Types
 
@@ -53,6 +54,4 @@ Built into the compiler.
 
 | Name | Description |
 |------|-------------|
-| [`ord`](/docs/reference/prelude/ord) | Returns the code of the single character in `s` as a [`byte`](/docs/reference/types/byte). |
-| [`char`](/docs/reference/prelude/char) | Returns the one-character string whose code point is `b`. |
 | [`black_box`](/docs/reference/prelude/black_box) | Returns `x` unchanged, through a call the optimizer cannot see into. |

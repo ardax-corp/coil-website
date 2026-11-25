@@ -23,7 +23,7 @@ The built-in derives (`Show`, `Eq`, `Ord`, `Hash`, `Default`, `Send`, `Sensitive
 
 Macros live in a **provider** module and are imported with `use`, like any item:
 
-```coil
+```coil ignore
 use my_macros::{FieldNames, add_after, check};
 ```
 
@@ -55,7 +55,7 @@ derive FieldNames(TypeDecl t) -> Code attrs(names) {
 }
 ```
 
-```coil
+```coil ignore
 // main.coil
 use my_macros::{FieldNames};
 
@@ -92,7 +92,7 @@ attr add_after(FnDecl f, int by) -> Code {
 }
 ```
 
-```coil
+```coil ignore
 // main.coil
 use my_macros::{add_after};
 
@@ -156,7 +156,7 @@ macro counter(Expr name) -> Code {
 }
 ```
 
-```coil
+```coil ignore
 // main.coil
 use my_macros::{square, check, sum, counter};
 
@@ -228,7 +228,7 @@ Because types are as written, a derive cannot ask whether a field's type impleme
 
 ## At compile time
 
-- A macro runs in the VM with **no host access** unless the build grants it: files, environment variables, programs and TCP connections need a `--comptime-*` flag ([IO](/docs/language/comptime#io)), scoped to the module that declares the macro. Clocks, threads, listening and UDP are unavailable. Pure computation (strings, math, `Vec`) always works.
+- A macro runs on the MIR interpreter with **no host access** unless the build grants it: files, environment variables, programs and TCP connections need a `--comptime-*` flag ([IO](/docs/language/comptime#io)), scoped to the module that declares the macro. Clocks, threads, listening and UDP are unavailable. Pure computation (strings, math, `Vec`) always works.
 - It runs within the compile-time [limits](/docs/language/comptime#limits) (`--comptime-steps`, `--comptime-mem`, `--comptime-timeout`); a runaway macro fails with an error that names the flag to raise.
 - Output that used IO is kept in the [result cache](/docs/language/comptime#the-result-cache).
 - `panic "…"` fails the macro with that message, which is the way to see what a macro received.

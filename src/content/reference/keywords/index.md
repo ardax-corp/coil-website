@@ -7,7 +7,7 @@ kind: "module"
 name: "keywords"
 origin: "builtin"
 auto: true
-order: 24
+order: 27
 ---
 
 Keywords are recognized by position. Contextual keywords such as `self`,
@@ -54,7 +54,6 @@ Built into the compiler.
 | [`pub`](/docs/reference/keywords/pub) | Makes a class field or method accessible from outside the type. |
 | [`new`](/docs/reference/keywords/new) | Constructs a class instance: `new Class(args)`. |
 | [`defer`](/docs/reference/keywords/defer) | Schedules a block to run when the enclosing block ends. |
-| [`region`](/docs/reference/keywords/region) | Runs a block whose garbage is freed in one go when the block ends. |
 | [`true`](/docs/reference/keywords/true) | The [`bool`](/docs/reference/types/bool) value true. |
 | [`false`](/docs/reference/keywords/false) | The [`bool`](/docs/reference/types/bool) value false. |
 | [`gen`](/docs/reference/keywords/gen) | Declares a generator function (a coroutine): `gen fn name(…) { … }`. |

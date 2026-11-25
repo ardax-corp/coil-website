@@ -31,7 +31,7 @@ fn largest<T: Ord>(Vec<T> items) -> T {
 fn main() {
     let numbers: Vec<int> = [3, 8, 1];
     let words: Vec<string> = ["pear", "apple", "plum"];
-    println(show(largest(numbers)))?;
+    println(largest(numbers).show())?;
     println(largest(words))?;
 }
 ```
@@ -51,7 +51,7 @@ called with a type that has no order. The common built-in traits are:
 | `Eq` | `==` and `!=` |
 | `Ord` | `<`, `<=`, `>`, `>=` (and `Eq`) |
 | `Num` | `+`, `-`, `*`, `/`, `%`, `**` and unary `-` |
-| `Show` | `show(x)` and `%v` in `format` |
+| `Show` | `x.show()` and `%v` in `format` |
 | `Hash` | use as a key in `HashMap` and `HashSet` |
 
 Several bounds combine with `+`: `fn report<T: Show + Ord>(Vec<T> xs)`.
@@ -116,7 +116,8 @@ circle with area 3.14159
 shape with area 4.0
 ```
 
-Trait functions can be called either way: `shape.area()` or `area(shape)`.
+Trait functions are called as methods, `shape.area()`, or through the trait,
+`Shape::area(shape)`; a bare `area(shape)` is an error.
 `Square` did not write `name`, so it gets the default.
 
 ## Implementing built-in traits
@@ -250,8 +251,8 @@ impl Pair<T: Ord> {
 
 fn main() {
     let p = new Pair(3, 9);
-    println(show(p.swap().first))?;
-    println(show(p.max()))?;
+    println(p.swap().first.show())?;
+    println(p.max().show())?;
 }
 ```
 
@@ -377,7 +378,7 @@ higher-kinded parameters and more.
        for room in plan {
            total += room.area();
        }
-       assert!(total == 10.0, "total area " + show(total));
+       assert!(total == 10.0, "total area " + total.show());
    }
    ```
 
@@ -449,7 +450,7 @@ higher-kinded parameters and more.
 
    fn main() {
        let none: Vec<int> = [];
-       println(show(largest(none)))?;
+       println(largest(none).show())?;
    }
    ```
 

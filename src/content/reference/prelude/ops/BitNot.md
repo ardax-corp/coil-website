@@ -8,13 +8,13 @@ name: "BitNot"
 signature: "trait BitNot<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/prelude/ops.coil#L425"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/prelude/ops.coil#L425"
 order: 13
 ---
 
 The bitwise NOT operator `~x`.
 
-`~x` on a type with a `BitNot` instance calls `bitnot(x)`. Only [`int`](/docs/reference/types/int) has
+`~x` on a type with a `BitNot` instance calls `BitNot::bitnot(x)`. Only [`int`](/docs/reference/types/int) has
 a builtin instance (`~x` is `-x - 1`); [`byte`](/docs/reference/types/byte) does not.
 
 ## Required methods

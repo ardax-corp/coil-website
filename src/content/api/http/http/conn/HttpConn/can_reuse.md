@@ -10,7 +10,7 @@ parent: "HttpConn"
 signature: "pub fn can_reuse() -> int"
 import: "use http::conn::{HttpConn};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/conn.coil#L50"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/conn.coil#L133"
 order: 2
 ---
 
@@ -24,6 +24,6 @@ Called on a `HttpConn` value as `value.can_reuse(…)`.
 
 ## See also
 
-- [`HttpConn`](/packages/http/reference/http/conn/HttpConn): A socket plus the bytes read past the current HTTP/1.1 message.
-- [`HttpConn::wrap`](/packages/http/reference/http/conn/HttpConn/wrap): Wraps an open stream with no buffered bytes.
-- [`HttpConn::stream`](/packages/http/reference/http/conn/HttpConn/stream): The underlying stream, for writing.
+- [`HttpConn`](/packages/http/reference/http/conn/HttpConn): A connection plus the bytes read past the current HTTP/1.1 message.
+- [`HttpConn::wrap`](/packages/http/reference/http/conn/HttpConn/wrap): Wraps an open connection with no buffered bytes.
+- [`HttpConn::stream`](/packages/http/reference/http/conn/HttpConn/stream): The underlying connection, for writing.

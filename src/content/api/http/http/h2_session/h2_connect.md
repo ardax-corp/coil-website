@@ -9,7 +9,7 @@ name: "h2_connect"
 signature: "fn h2_connect(string url) -> Result<Response, HttpError>"
 import: "use http::h2_session::{h2_connect};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2_session.coil#L1753"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2_session.coil#L1746"
 order: 3
 ---
 
@@ -33,7 +33,7 @@ use http::h2_session::h2_connect;
 fn main() {
     let r = match h2_connect("http://127.0.0.1:8080/") {
         Result::Ok(r) => r,
-        Result::Err(e) => panic show(e),
+        Result::Err(e) => panic e.show(),
     };
     if r.status != 200 {
         panic "unexpected status";

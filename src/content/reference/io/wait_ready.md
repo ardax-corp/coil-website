@@ -8,8 +8,8 @@ name: "wait_ready"
 signature: "fn wait_ready() -> int"
 import: "use io::{wait_ready};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L631"
-order: 19
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/io.coil#L623"
+order: 20
 ---
 
 Deprecated: waits until any registered IO waiter is ready and returns how many became ready.
@@ -38,4 +38,4 @@ let ready = wait_ready(); // warning E0129: `wait_ready` is deprecated
 - [`capture_begin`](/docs/reference/io/capture_begin): Starts keeping this thread's stdout and stderr writes in memory instead of writing them, until the matching `capture_end()`.
 - [`capture_end`](/docs/reference/io/capture_end): Ends the innermost `capture_begin()` and returns what it kept, as `(stdout, stderr)`.
 - [`open`](/docs/reference/io/open): Opens the file at `path` with `mode` and returns a stream on it.
-- [`close`](/docs/reference/io/close): Closes `s`.
+- [`close`](/docs/reference/io/fn.close): Closes `s`.

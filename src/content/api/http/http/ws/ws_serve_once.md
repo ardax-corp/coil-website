@@ -9,7 +9,7 @@ name: "ws_serve_once"
 signature: "fn ws_serve_once(Server srv) -> Result<WsConn, HttpError>"
 import: "use http::ws::{ws_serve_once};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/ws.coil#L899"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/ws.coil#L893"
 order: 25
 ---
 

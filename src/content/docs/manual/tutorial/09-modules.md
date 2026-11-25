@@ -33,7 +33,7 @@ inventory/
 const CURRENCY = "EUR";
 
 fn format_cents(int cents) -> string {
-    return show(cents / 100) + "." + show(cents % 100 / 10) + show(cents % 10) + " " + CURRENCY;
+    return (cents / 100).show() + "." + (cents % 100 / 10).show() + (cents % 10).show() + " " + CURRENCY;
 }
 ```
 
@@ -90,6 +90,15 @@ use conv::{parse_int as to_int}; // `as` renames on import
 Anything declared at the top level of a module can be imported: functions,
 classes, enums, traits, constants and type aliases. There is no `use x::*`;
 listing the names keeps every file's dependencies visible at its top.
+
+What a module imports stays private to it. To pass a name on, so that
+importers of your module can import it from there, write `pub use`
+([re-exports](/docs/language/modules#re-exports)):
+
+```coil ignore
+// src/store.coil
+pub use store::item::{Item};
+```
 
 The same rule covers the stdlib and the compiler's built-in modules. `io`,
 `string`, `env` and `thread` are built into the compiler, and `text`,
@@ -238,7 +247,7 @@ documentation.
    const CURRENCY = "EUR";
 
    fn format_cents(int cents) -> string {
-       return show(cents / 100) + "." + show(cents % 100 / 10) + show(cents % 10) + " " + CURRENCY;
+       return (cents / 100).show() + "." + (cents % 100 / 10).show() + (cents % 10).show() + " " + CURRENCY;
    }
    ```
 
@@ -270,8 +279,8 @@ documentation.
    use kv::{parse};
 
    fn main() {
-       println(show(parse("a,b,c")))?;
-       println(show(parse("a=1")))?;
+       println(parse("a,b,c").show())?;
+       println(parse("a=1").show())?;
    }
    ```
 
@@ -315,7 +324,7 @@ documentation.
    const CURRENCY = "EUR";
 
    fn format_cents(int cents) -> string {
-       return show(cents / 100) + "." + show(cents % 100 / 10) + show(cents % 10) + " " + CURRENCY;
+       return (cents / 100).show() + "." + (cents % 100 / 10).show() + (cents % 10).show() + " " + CURRENCY;
    }
    ```
 
@@ -343,7 +352,7 @@ documentation.
    const CURRENCY = "EUR";
 
    fn format_cents(int cents) -> string {
-       return show(cents / 100) + "." + show(cents % 100 / 10) + show(cents % 10) + " " + CURRENCY;
+       return (cents / 100).show() + "." + (cents % 100 / 10).show() + (cents % 10).show() + " " + CURRENCY;
    }
    ```
 

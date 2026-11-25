@@ -396,7 +396,7 @@ means the program itself is wrong.
 
    > [!hint]
    > The error names the two types that disagree. To turn the `IoError`
-   > into a `string`: `println(…).map_err(fn (IoError e) => show(e))?`.
+   > into a `string`: `println(…).map_err(fn (IoError e) => e.show())?`.
 
    ```coil challenge=c06-6
    use io::sync::{println};

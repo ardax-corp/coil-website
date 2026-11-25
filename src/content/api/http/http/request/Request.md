@@ -9,7 +9,7 @@ name: "Request"
 signature: "class Request"
 import: "use http::request::{Request};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/request.coil#L66"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/request.coil#L66"
 order: 0
 ---
 
@@ -81,7 +81,7 @@ fn main() {
     req.url("http://example.com/items/1");
     let status = match c.send(req) {
         Result::Ok(r) => r.status,
-        Result::Err(e) => panic show(e),
+        Result::Err(e) => panic e.show(),
     };
     if status != 204 {
         panic "delete failed";

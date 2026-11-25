@@ -37,8 +37,7 @@ Each slot holds one `Value`:
 
 Escaping into a single-value context (call, return, store into a heap object)
 boxes the spine into a non-growable heap array. Copying or assigning one stack
-array local into another copies slots without boxing (forward per-element
-`STORE`, so values never pile into the destination slot range).
+array local into another copies slots without boxing.
 
 `[T; 0]` stays a single empty heap array. Params/returns of `[T; N]` still pass
 one heap pointer at the call boundary today, so a parameter aliases the
@@ -97,8 +96,8 @@ non-array target. A write `v[i] = x` with a bad index also panics. The
 expression type stays `T` (not `Result`). Literal OOB on `[T; N]` and
 tuples is a compile error.
 
-Proven counted-loop reads/writes rewrite to unchecked / pin opcodes
-(archive minor 12–13). Prefer `i < a.len()` in loops.
+The compiler drops the check on reads and writes it proves in range, as in a
+counted loop. Prefer `i < a.len()` in loops.
 
 ---
 

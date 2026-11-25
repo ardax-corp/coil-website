@@ -8,13 +8,13 @@ name: "Rem"
 signature: "trait Rem<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/prelude/ops.coil#L191"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/prelude/ops.coil#L191"
 order: 5
 ---
 
 The remainder operator `%`.
 
-`a % b` on a type with a `Rem` instance calls `rem(a, b)`. [`int`](/docs/reference/types/int) and
+`a % b` on a type with a `Rem` instance calls `Rem::rem(a, b)`. [`int`](/docs/reference/types/int) and
 [`float`](/docs/reference/types/float) have builtin instances. The [`int`](/docs/reference/types/int) result has the sign of `a`
 (`-7 % 2` is `-1`) and `% 0` panics with `division by zero`.
 

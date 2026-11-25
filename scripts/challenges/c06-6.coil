@@ -4,7 +4,7 @@ use conv::{parse_int};
 
 fn run() -> Result<int, string> {
     let n = parse_int("5")?;
-    println("got it").map_err(fn (IoError e) => show(e))?;
+    println("got it").map_err(fn (IoError e) => e.show())?;
     return Ok(n);
 }
 

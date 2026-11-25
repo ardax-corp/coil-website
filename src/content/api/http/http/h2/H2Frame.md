@@ -9,7 +9,7 @@ name: "H2Frame"
 signature: "class H2Frame"
 import: "use http::h2::{H2Frame};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L46"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2.coil#L46"
 order: 0
 ---
 
@@ -45,7 +45,7 @@ let wire = encode_frame(data_frame(1, to_bytes("hi"), 1));
 assert!(wire.len() == 9 + 2);
 let f = match decode_frame(wire) {
     Result::Ok(f) => f,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(f.typ == frame_type_data());
 assert!(f.flags == flag_end_stream());

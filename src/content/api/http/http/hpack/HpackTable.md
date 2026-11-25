@@ -9,7 +9,7 @@ name: "HpackTable"
 signature: "class HpackTable"
 import: "use http::hpack::{HpackTable};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/hpack.coil#L91"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/hpack.coil#L91"
 order: 3
 ---
 
@@ -52,11 +52,11 @@ let second = encode_header_block_with(h, enc);
 assert!(second.len() < first.len());
 let a = match decode_header_block_with(first, dec) {
     Result::Ok(v) => v,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 let b = match decode_header_block_with(second, dec) {
     Result::Ok(v) => v,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(b.value_at(1) == "abc");
 ```

@@ -16,6 +16,6 @@ fn main() {
         if f >= 1000 {
             break;
         }
-        println(show(f))?;
+        println(f.show())?;
     }
 }

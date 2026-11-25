@@ -9,7 +9,7 @@ name: "header_get"
 signature: "fn header_get(Response r, string name) -> string"
 import: "use http::response::{header_get};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/response.coil#L151"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/response.coil#L151"
 order: 1
 ---
 
@@ -38,7 +38,7 @@ use string::to_bytes;
 let raw = to_bytes("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 2\r\n\r\nhi");
 let r = match parse_response(raw) {
     Result::Ok(r) => r,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(header_get(r, "Content-Type") == "text/plain");
 assert!(header_get(r, "X-Missing") == "");

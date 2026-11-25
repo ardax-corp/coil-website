@@ -8,13 +8,13 @@ name: "Eq"
 signature: "trait Eq<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/prelude/ops.coil#L480"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/prelude/ops.coil#L480"
 order: 15
 ---
 
 The equality operators `==` and `!=`.
 
-`a == b` calls `eq(a, b)` and `a != b` calls `ne(a, b)` on a type with an
+`a == b` calls `Eq::eq(a, b)` and `a != b` calls `Eq::ne(a, b)` on a type with an
 `Eq` instance. The primitives have builtin instances (strings compare by
 content). Arrays, [`Vec`](/docs/reference/prelude/Vec)s, tuples, records and enums compare structurally,
 and an element with an `Eq` instance (a class's too) compares with it.

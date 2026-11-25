@@ -8,7 +8,7 @@ name: "float"
 signature: "type float"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/types.coil#L70"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/types.coil#L70"
 order: 1
 ---
 
@@ -38,7 +38,7 @@ assert!(7.5 % 2.0 == 1.5);
 assert!(-2.7 as int == -2);
 assert!(3 as float + x == 5.5);
 assert!(1.0 / 0.0 > 1000000.0);
-assert!(show(x) == "2.5");
+assert!(x.show() == "2.5");
 ```
 
 ## See also

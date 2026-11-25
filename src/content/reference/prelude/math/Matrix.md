@@ -8,7 +8,7 @@ name: "Matrix"
 signature: "class Matrix<D>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/prelude/math.coil#L137"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/prelude/math.coil#L145"
 order: 0
 ---
 
@@ -27,6 +27,12 @@ values:
   cells, with scalar broadcast.
 - `/`, `%` and `**` are rejected: `Matrix` is not [`Num`](/docs/reference/prelude/ops/Num).
 
+A `Matrix<D>` has the [`Show`](/docs/reference/prelude/ops/Show), [`Eq`](/docs/reference/prelude/ops/Eq) and `Hash` instances of its data `D`:
+`format("%v", m)` prints the rows, `m.hash()` is the rows' hash, and
+`Eq::eq(m, n)` (or a `T: Eq` bound, a `HashMap` key) is one [`bool`](/docs/reference/types/bool)
+comparing the data. The `==` operator on two matrices stays the
+cell-by-cell comparison above.
+
 ## Examples
 
 ```coil
@@ -40,6 +46,8 @@ assert!(s[1][1] == 8);
 let ones = a == 1;
 assert!(ones[0][0] == 1 as byte);
 assert!(ones[0][1] == 0 as byte);
+assert!(Eq::eq(a, matrix([[1, 2], [3, 4]])));
+assert!(a.show() == "[[1, 2], [3, 4]]");
 ```
 
 ## See also
@@ -47,3 +55,6 @@ assert!(ones[0][1] == 0 as byte);
 - [`byte`](/docs/reference/types/byte)
 - [`int`](/docs/reference/types/int)
 - [`Num`](/docs/reference/prelude/ops/Num)
+- [`Show`](/docs/reference/prelude/ops/Show)
+- [`Eq`](/docs/reference/prelude/ops/Eq)
+- [`bool`](/docs/reference/types/bool)

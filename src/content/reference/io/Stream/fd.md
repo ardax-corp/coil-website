@@ -9,8 +9,8 @@ parent: "Stream"
 signature: "pub fn fd() -> Result<int, IoError>"
 import: "use io::{Stream};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L128"
-order: 2
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/io.coil#L68"
+order: 0
 ---
 
 Returns the OS file descriptor (socket handle on Windows) of this stream.
@@ -44,5 +44,3 @@ assert!(fd >= 0);
 - [`io::stdout`](/docs/reference/io/stdout)
 - [`io::stderr`](/docs/reference/io/stderr)
 - [`Stream`](/docs/reference/io/Stream): An open file, socket or standard stream.
-- [`Stream::attach`](/docs/reference/io/Stream/attach): Installs package IO hooks on this stream in place and returns the same stream.
-- [`Stream::park`](/docs/reference/io/Stream/park): Waits until this stream's descriptor is ready.

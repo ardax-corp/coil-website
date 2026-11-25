@@ -1,26 +1,32 @@
 ---
 slug: "io/Read"
 title: "Read"
-description: "Types that bytes can be read from; implemented for Stream."
+description: "Types that bytes can be read from without waiting; implemented for Stream, and by any class (a TLS stream, a test double)."
 module: "io"
 kind: "trait"
 name: "Read"
 signature: "trait Read<S>"
 import: "use io::{Read};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/io.coil#L214"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/io.coil#L160"
 order: 2
 ---
 
-Types that bytes can be read from; implemented for [`Stream`](/docs/reference/io/Stream).
+Types that bytes can be read from without waiting; implemented for [`Stream`](/docs/reference/io/Stream), and by any class (a TLS stream, a test double).
 
-[`read`](/docs/reference/io/Read/read) behaves like the free function [`io::read`](/docs/reference/io/fn.read).
+[`read`](/docs/reference/io/Read/read) fills the front of `buf` like the free function [`io::read`](/docs/reference/io/fn.read):
+`Ok(Some(n))`, `Ok(None)` at end of input, or `Err(IoError::WouldBlock)`
+when nothing is ready; [`wait_readable`](/docs/reference/io/Read/wait_readable) then waits until a retry can make
+progress. Generic code takes it as a bound (`fn f<R: Read>(R r)`) or
+holds a trait value (`let r: Read = s;`). A [`Stream`](/docs/reference/io/Stream)'s methods need no
+import of the trait.
 
 ## Required methods
 
 | Name | Description |
 |------|-------------|
 | [`read`](/docs/reference/io/Read/read) | Reads into `buf`; see [`io::read`](/docs/reference/io/fn.read). |
+| [`wait_readable`](/docs/reference/io/Read/wait_readable) | Waits until a [`read`](/docs/reference/io/Read/read) can make progress; see [`io::wait_readable`](/docs/reference/io/wait_readable). |
 
 ## Examples
 
@@ -55,4 +61,6 @@ assert!(n == 3);
 - [`io::Stream`](/docs/reference/io/Stream)
 - [`Read::read`](/docs/reference/io/Read/read)
 - [`io::read`](/docs/reference/io/fn.read)
-- [`Write`](/docs/reference/io/Write): Types that bytes can be written to; implemented for `Stream`.
+- [`Read::wait_readable`](/docs/reference/io/Read/wait_readable)
+- [`Write`](/docs/reference/io/Write): Types that bytes can be written to without waiting; implemented for `Stream`, and by any class.
+- [`Close`](/docs/reference/io/Close): Types that hold a resource to release; implemented for `Stream`, where `close` behaves like the free function `io::close`.

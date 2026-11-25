@@ -7,15 +7,17 @@ kind: "keyword"
 name: "struct"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/keywords.md#L1208"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/keywords.md#L1209"
 order: 52
 ---
 
 Declares a C struct layout for FFI: `extern struct Name { field: type, … };`.
 
-The struct can be passed to and returned from C functions by value; a
-returned struct is read with `.field`. Field types are C scalar names such as
-`int32`, [`int`](/docs/reference/types/int) or [`float`](/docs/reference/types/float). There are no Coil structs: use `class`.
+The struct can be passed to and returned from C functions by value. In Coil
+its value is a record with the same fields: build one with a record literal,
+`{ x: 3, y: 4 }`, and read a field with `.field`. Field types are C scalar names
+such as `int32`, [`int`](/docs/reference/types/int) or [`float`](/docs/reference/types/float), or another `extern struct` (a nested record).
+There are no Coil structs: use `class`.
 
 ```coil
 extern struct Point {

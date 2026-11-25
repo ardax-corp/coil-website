@@ -9,7 +9,7 @@ name: "is_digit"
 signature: "fn is_digit(byte c) -> bool"
 import: "use ascii::{is_digit};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/ascii.coil#L9"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/ascii.coil#L9"
 order: 1
 ---
 

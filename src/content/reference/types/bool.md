@@ -8,7 +8,7 @@ name: "bool"
 signature: "type bool"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/types.coil#L91"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/types.coil#L91"
 order: 2
 ---
 
@@ -29,7 +29,7 @@ let ready = 3 > 2 && !false;
 assert!(ready);
 assert!(true as int == 1);
 assert!(!(0 as bool));
-assert!(show(ready) == "true");
+assert!(ready.show() == "true");
 ```
 
 ## See also

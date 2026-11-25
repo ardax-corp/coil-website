@@ -9,7 +9,7 @@ name: "Response"
 signature: "class Response"
 import: "use http::response::{Response};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/response.coil#L54"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/response.coil#L54"
 order: 0
 ---
 
@@ -75,7 +75,7 @@ fn main() {
     let c = Client::new();
     let r = match c.get("http://example.com/") {
         Result::Ok(r) => r,
-        Result::Err(e) => panic show(e),
+        Result::Err(e) => panic e.show(),
     };
     let kind = header_get(r, "Content-Type");
     let text = from_bytes(r.body);

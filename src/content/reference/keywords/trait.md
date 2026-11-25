@@ -7,7 +7,7 @@ kind: "keyword"
 name: "trait"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/keywords.md#L1117"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/keywords.md#L1117"
 order: 48
 ---
 
@@ -18,11 +18,12 @@ bodies, and a trait can declare associated types (`type Elem;`) and
 `static fn` constructors. Use it as a bound (`T: Area`) or as an
 existential parameter type.
 
-A trait method is called as a method (`x.area()`), as a function
-(`area(x)`), or qualified by its trait (`Area::area(x)`). The qualified
-form resolves like the function form but only considers that trait's
-method, so it picks between two traits (or a trait and a free function)
-that share a method name; it compiles to the same call.
+A trait method is called as a method (`x.area()`) or qualified by its
+trait (`Area::area(x)`); both compile to the same call. The qualified form
+only considers that trait's method, so it picks between two traits (or a
+trait and a free function) that share a method name, and it is the
+spelling for a method without a receiver. A bare `area(x)` is not a trait
+call (E0153).
 
 ```coil
 trait Area<T> {
@@ -40,7 +41,7 @@ impl Area for Square {
 }
 
 fn total<T: Area>(T a, T b) -> int {
-    return area(a) + Area::area(b);
+    return a.area() + Area::area(b);
 }
 ```
 

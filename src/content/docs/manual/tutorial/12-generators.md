@@ -28,7 +28,7 @@ gen fn countdown(int from) {
 
 fn main() {
     for n in countdown(3) {
-        println(show(n))?;
+        println(n.show())?;
     }
     println("liftoff")?;
 }
@@ -69,7 +69,7 @@ fn main() {
         if sq > 50 {
             break;
         }
-        println(show(sq))?;
+        println(sq.show())?;
     }
 }
 ```
@@ -125,7 +125,7 @@ gen fn take(coroutine<int> source, int count) {
 
 fn main() {
     for x in take(only_odd(naturals()), 4) {
-        println(show(x))?;
+        println(x.show())?;
     }
 }
 ```
@@ -276,7 +276,7 @@ already in an object.
            if f >= 1000 {
                break;
            }
-           println(show(f))?;
+           println(f.show())?;
        }
    }
    ```
@@ -293,7 +293,7 @@ already in an object.
            }
            got.push(f);
        }
-       assert!(show(got) == "[0, 1, 1, 2, 3, 5, 8, 13, 21, 34]", "got " + show(got));
+       assert!(got.show() == "[0, 1, 1, 2, 3, 5, 8, 13, 21, 34]", "got " + got.show());
    }
 
    test("there are 17 below 1000, the last is 987") {
@@ -304,7 +304,7 @@ already in an object.
            }
            below.push(f);
        }
-       assert!(below.len() == 17 && below[16] == 987, "got " + show(below));
+       assert!(below.len() == 17 && below[16] == 987, "got " + below.show());
    }
    ```
 
@@ -357,7 +357,7 @@ already in an object.
        for line in lines_of("one\ntwo\nthree") {
            got.push(line);
        }
-       assert!(show(got) == show(["one", "two", "three"]), "got " + show(got));
+       assert!(got.show() == ["one", "two", "three"].show(), "got " + got.show());
    }
 
    test("take(lines_of(…), 2) gives the first two lines") {
@@ -365,7 +365,7 @@ already in an object.
        for line in take(lines_of("one\ntwo\nthree\nfour"), 2) {
            got.push(line);
        }
-       assert!(show(got) == show(["one", "two"]), "got " + show(got));
+       assert!(got.show() == ["one", "two"].show(), "got " + got.show());
    }
    ```
 
@@ -408,7 +408,7 @@ already in an object.
        let one = resume d with "a";
        let two = resume d with "b";
        let still_two = resume d with "a";
-       assert!(one == 1 && two == 2 && still_two == 2, "got " + show((one, two, still_two)));
+       assert!(one == 1 && two == 2 && still_two == 2, "got " + (one, two, still_two).show());
    }
 
    test("each generator counts on its own") {
@@ -422,7 +422,7 @@ already in an object.
    }
    ```
 
-4. Check something: add `let _ = println("made " + show(n));` before the
+4. Check something: add `let _ = println("made " + n.show());` before the
    `yield` in `naturals`, and run `take(naturals(), 3)`. How many numbers
    does `naturals` make? Change `take` so it makes exactly three.
 
@@ -455,7 +455,7 @@ already in an object.
 
    fn main() {
        for x in take(naturals(), 3) {
-           println(show(x))?;
+           println(x.show())?;
        }
    }
    ```
@@ -492,7 +492,7 @@ already in an object.
    test("the first resume gives 0.0") {
        let avg = running_average();
        let first = resume avg;
-       assert!(first == 0.0, "got " + show(first));
+       assert!(first == 0.0, "got " + first.show());
    }
 
    test("then it averages: 10 and 20 give 15") {
@@ -500,7 +500,7 @@ already in an object.
        resume avg;
        resume avg with 10.0;
        let now = resume avg with 20.0;
-       assert!(now == 15.0, "got " + show(now));
+       assert!(now == 15.0, "got " + now.show());
    }
    ```
 

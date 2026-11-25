@@ -8,30 +8,30 @@ name: "Struct"
 signature: "class Struct"
 import: "use ffi::types::{Struct};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/ffi/types.coil#L141"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/ffi/types.coil#L133"
 order: 14
 ---
 
 FFI tag for a C struct passed or returned by value.
 
-Not written directly: name an `extern struct` type in `declare` instead,
-and the compiler uses this tag with that struct's layout. A returned
-struct becomes a record whose fields are read with `.name`.
+Not written directly: name an `extern struct` type in an `extern` block
+instead, and the compiler uses this tag with that struct's layout. A
+returned struct becomes a record whose fields are read with `.name`.
 
 ## Examples
 
 ```text
-use ffi::{dload, declare, invoke};
-use ffi::types::{Int32};
-
 extern struct Point {
-    x: int32,
-    y: int32,
+    x: float,
+    y: float,
 };
 
-let make_id = declare(lib, "make_point", (Int32, Int32), Point)?;
-let p = invoke(lib, make_id, (3, 4))?;
-let sum = p.x + p.y; // 7
+extern "geom" {
+    fn make_point(float x, float y) -> Point;
+}
+
+let p = make_point(3.0, 4.0);
+let sum = p.x + p.y; // 7.0
 ```
 
 ## See also

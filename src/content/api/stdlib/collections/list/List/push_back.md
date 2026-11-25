@@ -10,7 +10,7 @@ parent: "List"
 signature: "pub fn push_back(T v)"
 import: "use collections::list::{List};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/collections/list.coil#L95"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/collections/list.coil#L95"
 order: 4
 ---
 

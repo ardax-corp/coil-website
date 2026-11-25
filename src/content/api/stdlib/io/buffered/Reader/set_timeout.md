@@ -10,7 +10,7 @@ parent: "Reader"
 signature: "pub fn set_timeout(int ms)"
 import: "use io::buffered::{Reader};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/io/buffered.coil#L105"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/io/buffered.coil#L106"
 order: 2
 ---
 
@@ -26,7 +26,7 @@ Called on a `Reader` value as `value.set_timeout(…)`.
 
 ## See also
 
-- [`Reader`](/packages/stdlib/reference/io/buffered/Reader): A buffered reader over any `Stream`: lines, delimited frames, exact counts, and the leftover bytes for a protocol switch.
+- [`Reader`](/packages/stdlib/reference/io/buffered/Reader): A buffered reader over any `Read` (a `Stream`, a TLS stream): lines, delimited frames, exact counts, and the leftover bytes for a protocol switch.
 - [`Reader::new`](/packages/stdlib/reference/io/buffered/Reader/new): A reader over `s` that asks for 8 KiB at a time.
 - [`Reader::with_capacity`](/packages/stdlib/reference/io/buffered/Reader/with_capacity): A reader over `s` that asks for up to `n` bytes at a time (at least 1).
 - [`Reader::stream`](/packages/stdlib/reference/io/buffered/Reader/stream): The stream being read.

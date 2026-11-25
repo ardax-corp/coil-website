@@ -9,7 +9,7 @@ parent: "Gen"
 signature: "pub fn int_in(int lo, int hi) -> int"
 import: "use arbitrary::{Gen};"
 origin: "embedded"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/prelude/arbitrary.coil#L78"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/prelude/arbitrary.coil#L79"
 order: 5
 ---
 

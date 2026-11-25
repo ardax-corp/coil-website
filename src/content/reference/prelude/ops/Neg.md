@@ -8,13 +8,13 @@ name: "Neg"
 signature: "trait Neg<T>"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/prelude/ops.coil#L160"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/prelude/ops.coil#L160"
 order: 4
 ---
 
 The unary negation operator `-x`.
 
-`-x` on a type with a `Neg` instance calls `neg(x)`. [`int`](/docs/reference/types/int) and [`float`](/docs/reference/types/float)
+`-x` on a type with a `Neg` instance calls `Neg::neg(x)`. [`int`](/docs/reference/types/int) and [`float`](/docs/reference/types/float)
 have builtin instances; negating the smallest [`int`](/docs/reference/types/int) panics with
 `integer overflow`.
 

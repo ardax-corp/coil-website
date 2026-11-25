@@ -10,7 +10,7 @@ parent: "H2Session"
 signature: "pub fn on_frame(H2Frame f) -> Result<(), HttpError>"
 import: "use http::h2_session::{H2Session};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2_session.coil#L973"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2_session.coil#L971"
 order: 22
 ---
 

@@ -210,7 +210,7 @@ derive Describe(TypeDecl t) -> Code {
     let parts: Vec<Code> = Vec::new();
     let sep = "";
     for f in t.fields() {
-        parts.push(quote expr { ${lit(sep + f.name.str() + "=")} + show(value.${f.name}) });
+        parts.push(quote expr { ${lit(sep + f.name.str() + "=")} + (value.${f.name}).show() });
         sep = ", ";
     }
     return quote items {
@@ -224,7 +224,7 @@ derive Describe(TypeDecl t) -> Code {
 ```
 
 A macro sees types as written, not their meaning, so `Describe` cannot ask
-whether a field is printable. It emits `show(…)` anyway; a field without
+whether a field is printable. It emits `(…).show()` anyway; a field without
 `Show` is reported at the `#[derive]` line.
 
 ## Using them
@@ -356,7 +356,7 @@ renamed function deletes the item it was meant to decorate.
    > Pasting `${a}` twice evaluates it twice. Bind each side with `let`
    > inside a `quote stmts { … }`; the template's own variables are renamed,
    > so they cannot clash with the caller's. `a.str()` is the source text
-   > and `show(left)` the value.
+   > and `left.show()` the value.
 
    ```coil challenge=c15-1 file=src/my_macros.coil
    use macro::{Expr, Code, lit, raw};

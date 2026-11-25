@@ -14,7 +14,7 @@ Complete grammar overview for coil source (`.coil`). This document describes wha
 | Extension | Role |
 |-----------|------|
 | `.coil` | Source text parsed by `parser::Pratt` |
-| `.ccoil` | Compiled bytecode archive (rkyv-serialized `ArchivedProgram`) |
+| `.ccoil` | Compiled archive of MIR and data (rkyv-serialized `ArchivedProgram`) |
 
 Programs are sequences of **declarations** and **statements**. Most top-level items are declarations; statements appear inside function bodies and blocks.
 
@@ -37,17 +37,11 @@ literal     ::= string | int | float | 'true' | 'false'
 
 Examples:
 
-```coil
+```coil ignore
 use my_macros::{add_after};
 
 #[derive(Show, Eq, Ord)]
 enum Color { Red, Blue }
-
-#[max_depth(64)]
-fn walk(int n) -> int {
-    if n == 0 { return 0; }
-    return walk(n - 1);
-}
 
 // An attribute macro from `my_macros`: its output replaces the function.
 #[add_after(by = 10)]
@@ -58,7 +52,6 @@ fn triple(int x) -> int { return x * 3; }
 |-----------|--------|-----------|
 | `#[derive(Trait, …)]` | `enum` / `class` | Runs each derive (built-in `Show`, `Eq`, `Ord`, `Hash`, `Default`, `Send`, `Sensitive`, or a user `derive` imported with `use`) and adds its output after the type. Without derive, non-generic **payload** types still get a default `Show`: a class returns its type name string, an enum its qualified variant name (`E::V`, payload elided). Scalar-backed enums with `#[derive(Show)]` print the backing word instead. |
 | `#[repr(int)]` / `#[repr(string)]` / `#[repr(float)]` / `#[repr(bool)]` | `enum` | Scalar-backed enum: each case is `Name = lit` of that primitive. May be omitted when every case has `=` and the literals share one type. See [Types — Scalar-backed enums](/docs/language/types#scalar-backed-enums). |
-| `#[max_depth(N)]` | recursive `fn` | Optional hint: presizes the VM stack for `N` simultaneous frames when the compiler cannot prove a depth (dynamic args, mutual recursion). The stack grows at run time either way, so a wrong `N` only costs a regrow. `N` must be a positive integer. |
 | Attribute macro `#[name(…)]` | `fn`, methods, `class`, `enum` | Runs the `attr name(…)` macro imported with `use`; its output replaces the item. See [Macros](/docs/language/macros#attribute-macros). |
 
 Several attribute macros on one item apply outermost first. Unknown attribute names are rejected at compile time.
@@ -203,7 +196,7 @@ call_arg    ::= expr | '...' expr
 
 Examples:
 
-```coil
+```coil ignore
 fn triple(int a, int b, int c) -> int { return a + b + c; }
 triple(...(1, 2, 3));          // tuple spread
 triple(...[10, 20, 30]);       // array spread
@@ -212,7 +205,7 @@ fn total(int... xs) -> int { /* ... */ }
 fn forward(int... xs) -> int { return total(...xs); } // Vec spread into a rest
 ```
 
-```coil
+```coil ignore
 use io::{stdout};
 use io::sync::{write_all};
 use string::{format, to_bytes};
@@ -252,7 +245,7 @@ The type after `for` is prepended as the first type argument (Self slot):
 
 Example:
 
-```coil
+```coil ignore
 // Builtin arithmetic: Add / Sub / Mul / Div / Neg / Rem / Pow (Num implies all seven).
 // Builtin ordering: Lt / Le / Gt / Ge (Ord implies all four, and Eq).
 
@@ -294,7 +287,7 @@ parameter can carry both an explicit kind and a bound:
 `F: * -> * -> *, Bifunctor`.
 
 Constraint-kind parameters use `Constraint` as the result kind:
-`fn apply_c<c: * -> Constraint, T: c>(T x) -> string { return show(x); }`.
+`fn apply_c<c: * -> Constraint, T: c>(T x) -> string { return x.show(); }`.
 The abstract `T: c` bound must be resolved by method/operator/`%v` use in the
 function body so codegen can pass a concrete dictionary at call sites.
 
@@ -368,7 +361,7 @@ rejected inside `extern` — use bare `...` instead.
 
 Example:
 
-```coil
+```coil ignore
 extern "c" {
     fn strlen(string s) -> int;
     fn printf(string fmt, ...) -> int;
@@ -377,7 +370,7 @@ extern "c" {
 
 `extern "c"` is a libc alias and is **denied** by the `dload` gate. See [FFI tutorial](/docs/manual/tutorial/16-ffi) and [Project config — `[ffi]`](/docs/language/project-config#ffi).
 
-Signature-only `fn foo() -> T;` outside `extern` is a parse error. Runtime loading stays `use ffi::{dload, declare, invoke}`.
+Signature-only `fn foo() -> T;` outside `extern` is a parse error. A library chosen while the program runs is loaded with the coil-ffi package (`use coil_ffi::{Library}`).
 
 ### Classes and impl
 
@@ -396,7 +389,7 @@ See [Trait derive](/docs/language/types#trait-derive) for `#[derive(...)]`.
 
 Example:
 
-```coil
+```coil ignore
 class Foo { pub name: string, count: int, }
 impl Foo {
     pub fn bump() -> int { return 1; }
@@ -441,8 +434,26 @@ explicit-capture rule as lambdas); bare `defer { … }` cannot close over
 enclosing locals. As with a lambda, `use (x)` copies `x` when the `defer`
 statement runs, so a later assignment to `x` is not seen. `use (mut x)` borrows
 `x` instead: the block sees its value when it runs, and its writes reach `x`.
+The variable must still exist then: assigning a `use (x)` copy, or a `use (mut x)`
+of a local declared in the block the defer ends, is an error
+([E0152](/docs/language/error-codes)); a local of an outer block is written as
+usual, also while a panic unwinds, so that block's own defers see the new value.
 
 ```coil
+fn count(int n) -> int {
+    let done = 0;
+    let i = 0;
+    while i < n {
+        defer use (mut done) {
+            done += 1; // `done` belongs to the function's block: alive here
+        }
+        i += 1;
+    }
+    return done;
+}
+```
+
+```coil ignore
 fn copy_all(string from, string to) -> Result<int, IoError> {
     let src = open(from, "r")?;
     defer use (src) {
@@ -503,7 +514,7 @@ statement ::= while_stmt
 | `yield` | `yield expr ';'` or `yield from expr ';'` |
 | `while` | `while expr loop_clause* block` — `loop_clause` is `invariant expr` or `decreases expr` ([Contracts](/docs/language/contracts)); a `for` takes `invariant` the same way |
 | `for` | `for IDENT in expr block` — via prelude `IntoIterator` / `Iterator` (arrays, homogeneous tuples, ranges, coroutines, or user `impl`s — not records; see [Built-ins](/docs/reference/prelude/Iterator)). C-style `for (init; cond; step)` is a parse error. |
-| `break` | `break ';'` (innermost loop) |
+| `break` | `break ';'` (innermost loop of its own function; outside every loop it is E0155) |
 | `continue` | `continue ';'` (jumps to the `while` condition / next for-in iteration) |
 | `if` | `if expr block ('else' (block \| if_stmt \| if_let_stmt))?` |
 | `if let` | `if let pattern '=' expr block ('else' (block \| if_stmt \| if_let_stmt))?` — runs the block when the value matches the pattern, with its bindings in scope; the same patterns as a `match` arm |
@@ -527,7 +538,7 @@ Use `vec.push(value)` on a `Vec<T>`. See [Arrays and Vec](/docs/language/arrays)
 
 Prefix `readonly` on any expression views its value read-only. It binds like unary `-`, so `readonly p.inner` is `readonly (p.inner)`:
 
-```coil
+```coil ignore
 let xs = readonly [1, 2, 3];
 let p = readonly new Point(1, 2);
 let i = readonly q.inner;
@@ -554,8 +565,6 @@ atom ::= match_expr
        | IDENT
        | group
 ```
-
-`dload` / `declare` / `invoke` are ordinary `IDENT` calls after `use ffi::{dload, declare, invoke};` (not keyword atoms).
 
 Primitive casts use postfix `expr as T` (`int` / `float` / `byte` / `bool`). `float as int` truncates toward zero (not `round`/`floor`); see [Built-ins](/docs/language/casts).
 
@@ -643,7 +652,7 @@ Integer literal patterns match an `int` scrutinee by value. Literal arms can
 never cover every `int`, so the match needs a `default` or binding arm
 (`E0209` otherwise):
 
-```coil
+```coil ignore
 let kind = match status {
     200 => "ok",
     404 => "missing",
@@ -658,7 +667,7 @@ arm that earlier arms already cover is `E0210`, and a match whose arms leave
 some payload uncovered (`Option::Some(200)` and `Option::None` alone) is
 `E0209`:
 
-```coil
+```coil ignore
 let text = match reply {
     Option::Some(200) => "ok",
     Option::Some(404) => "missing",
@@ -667,7 +676,7 @@ let text = match reply {
 };
 ```
 
-```coil
+```coil ignore
 match x {
     Option::None => 0,
     Option::Some(v) => v,
@@ -741,6 +750,17 @@ fn main() {
 }
 ```
 
+`o.f(args)` is always a method call, so on a function-typed field it is `E0101`
+(or the method `f`, if the class has one). To call the function a field holds,
+parenthesize the read: `(o.f)(args)`. `o.f` alone reads the field.
+
+```coil
+class Handler { pub op: fn(int) -> int, }
+
+let h = new Handler(fn (int x) => x + 1);
+let r = (h.op)(2); // 3
+```
+
 Bare `[int]` (no `; N`) is a type error (`E0119`) — use `[int; N]` or `Vec<int>`.
 Primitive names are case-insensitive in the typechecker (`String` ≡ `string`).
 
@@ -760,7 +780,7 @@ needs no `;` (one is still accepted, and `coil fmt` removes it). A `.` or `?`
 right after the `}` continues an expression instead
 (`match x { … }.show();`).
 
-```coil
+```coil ignore
 match dir {
     Dir::Left => {
         turn(-1);
@@ -782,9 +802,8 @@ A record arm still works when the body is a real record literal (`{ x: 1 }`).
 | Rule | Detail |
 |------|--------|
 | Entry function | `fn main()` required for standalone programs |
-| Prologue | Compiler emits `CALL`, `JMP`, `HALT`; patches jump to `main` |
 | Extern setup | `extern` blocks may emit setup before `main` |
-| Archive | Output wrapped in `ArchivedProgram { version, bytecode, ... }` |
+| Archive | Output is an `ArchivedProgram`: a version, the MIR and the program's data |
 
 ---
 

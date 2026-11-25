@@ -307,7 +307,7 @@ ordinary values can be passed to it.
 
    test("the average of 1, 2 and 4 is 2.333…") {
        let a = average(1, 2, 4);
-       assert!(a > 2.333 && a < 2.334, "got " + show(a));
+       assert!(a > 2.333 && a < 2.334, "got " + a.show());
    }
 
    test("the average of 1, 2 and 3 is 2.0") {
@@ -316,7 +316,7 @@ ordinary values can be passed to it.
 
    test("the average of -1, -2 and -4 is -2.333…") {
        let a = average(-1, -2, -4);
-       assert!(a < -2.333 && a > -2.334, "got " + show(a));
+       assert!(a < -2.333 && a > -2.334, "got " + a.show());
    }
    ```
 
@@ -356,7 +356,7 @@ ordinary values can be passed to it.
 
    test("stats(4, 9, 2) is (2, 9, 5.0)") {
        let (low, high, mean) = stats(4, 9, 2);
-       assert!(low == 2 && high == 9 && mean == 5.0, "got " + show(stats(4, 9, 2)));
+       assert!(low == 2 && high == 9 && mean == 5.0, "got " + stats(4, 9, 2).show());
    }
 
    test("the smallest and largest can come in any position") {
@@ -368,7 +368,7 @@ ordinary values can be passed to it.
 
    test("the mean keeps its fraction") {
        let (_, _, mean) = stats(1, 2, 4);
-       assert!(mean > 2.333 && mean < 2.334, "got " + show(mean));
+       assert!(mean > 2.333 && mean < 2.334, "got " + mean.show());
    }
    ```
 

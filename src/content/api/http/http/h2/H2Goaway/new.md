@@ -10,7 +10,7 @@ parent: "H2Goaway"
 signature: "pub static fn new(int last_stream_id, int error_code) -> H2Goaway"
 import: "use http::h2::{H2Goaway};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2.coil#L102"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2.coil#L102"
 order: 0
 ---
 

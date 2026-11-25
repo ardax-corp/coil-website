@@ -8,14 +8,13 @@ name: "Void"
 signature: "class Void"
 import: "use ffi::types::{Void};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/d7885cdf76165c70da4908418715c8292ae54a1d/compiler/src/builtin_docs/ffi/types.coil#L39"
+source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/ffi/types.coil#L39"
 order: 3
 ---
 
 FFI tag for no value (`void`), valid only as a return type.
 
-`invoke` then returns `Ok(())`. As an argument type it is
-`ErrorKind::InvalidSignature`. The bare name `void` means the same.
+In an `extern` block, leave out the `->` result.
 
 ## See also
 

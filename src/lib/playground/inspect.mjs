@@ -1,6 +1,6 @@
 // The playground's Inspect panel: what `coil dissect` makes of the program
-// (bytecode, HIR, MIR, IL, effects, AST, macro expansion), compiled on the
-// analysis runner so it never waits behind a running program.
+// (MIR, HIR, effects, AST, macro expansion), compiled on the analysis runner
+// so it never waits behind a running program.
 
 import { hasMain, isTestBlock } from "../examples.mjs";
 import { analysis } from "./client.mjs";
@@ -10,11 +10,8 @@ const MAX_CHARS = 400_000;
 
 /** [label, dissect flag, section header] */
 const VIEWS = [
-  ["Bytecode", "", "bytecode"],
-  ["HIR", "--hir", "hir"],
   ["MIR", "--mir", "mir"],
-  ["IL", "--il", "il"],
-  ["Optimized IL", "--il-post", "il (optimized)"],
+  ["HIR", "--hir", "hir"],
   ["Effects", "--effects", "effects"],
   ["AST", "--ast", "ast"],
   ["Macro expansion", "--expand", null],
@@ -67,17 +64,12 @@ export class InspectPanel {
     this.view = select("View", VIEWS.map(([label], i) => [label, String(i)]));
     this.fn = select("Function", [["All functions", ""]]);
     this.level = select("Optimization level", LEVELS);
-    const source = document.createElement("label");
-    this.source = document.createElement("input");
-    this.source.type = "checkbox";
-    this.source.checked = true;
-    source.append(this.source, " source lines");
-    bar.append(this.view, this.fn, this.level, source);
+    bar.append(this.view, this.fn, this.level);
     this.body = el.appendChild(document.createElement("pre"));
     this.body.className = "pg-inspect-body";
     this.status = el.appendChild(document.createElement("div"));
     this.status.className = "pg-status";
-    for (const c of [this.view, this.fn, this.level, this.source]) c.addEventListener("change", () => this.refresh());
+    for (const c of [this.view, this.fn, this.level]) c.addEventListener("change", () => this.refresh());
     this.timer = undefined;
     this.generation = 0;
     this.shown = "";
@@ -105,11 +97,9 @@ export class InspectPanel {
     const target = entry ?? paths.find((p) => isTestBlock(files[p])) ?? paths[0];
     if (!target) return;
     const [, flag, section] = VIEWS[Number(this.view.value)];
-    const args = ["dissect", target, "--root", STDLIB, "-A", "-O", this.level.value];
+    const args = ["dissect", target, "--root", STDLIB, "-A", "-O", this.level.value, flag];
     if (!entry) args.push("--tests");
-    if (flag) args.push(flag);
     if (this.fn.value) args.push("--fn", this.fn.value);
-    if (!this.source.checked) args.push("--no-source");
     const key = JSON.stringify([files, args]);
     if (key === this.shown) return;
     const mine = ++this.generation;
@@ -132,7 +122,7 @@ export class InspectPanel {
     if (result.code === 0) {
       const parts = sections(stdout);
       text = section === null ? stdout : (parts[section] ?? "").replace(/^\n+/, "");
-      if (!text.trim()) text = section === "mir" ? "No MIR: none of these functions has a numeric body.\n" : "(nothing to show)\n";
+      if (!text.trim()) text = "(nothing to show)\n";
       this.status.textContent = "";
       this.status.dataset.kind = "";
     } else {

@@ -9,7 +9,7 @@ name: "build_request_head"
 signature: "fn build_request_head(string method, Url u, Headers headers, int body_len) -> Result<Vec<byte>, HttpError>"
 import: "use http::request::{build_request_head};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/request.coil#L430"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/request.coil#L430"
 order: 1
 ---
 
@@ -45,11 +45,11 @@ use string::from_bytes;
 
 let u = match parse_url("http://example.com:8080/x") {
     Result::Ok(u) => u,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 let head = match build_request_head("GET", u, Headers::new(), 0) {
     Result::Ok(b) => b,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 let text = match from_bytes(head) {
     Result::Ok(s) => s,

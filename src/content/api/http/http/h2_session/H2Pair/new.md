@@ -10,7 +10,7 @@ parent: "H2Pair"
 signature: "pub static fn new(Response first, Response second) -> H2Pair"
 import: "use http::h2_session::{H2Pair};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/h2_session.coil#L1496"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/h2_session.coil#L1494"
 order: 0
 ---
 

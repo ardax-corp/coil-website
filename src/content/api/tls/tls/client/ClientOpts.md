@@ -9,7 +9,7 @@ name: "ClientOpts"
 signature: "class ClientOpts"
 import: "use tls::client::{ClientOpts};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-tls/blob/7e2e118089854b5d182a3330bc1289849fcc581c/src/tls/client.coil#L27"
+source: "https://github.com/ardax-corp/coil-tls/blob/914a8d971d312c9aabf60aa84bc9e6aac15a859b/src/tls/client.coil#L26"
 order: 0
 ---
 

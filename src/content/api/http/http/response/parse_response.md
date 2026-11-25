@@ -9,7 +9,7 @@ name: "parse_response"
 signature: "fn parse_response(Vec<byte> raw) -> Result<Response, HttpError>"
 import: "use http::response::{parse_response};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/response.coil#L577"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/response.coil#L577"
 order: 6
 ---
 
@@ -40,7 +40,7 @@ use string::to_bytes;
 let raw = to_bytes("HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\n\r\n2\r\nhi\r\n0\r\n\r\n");
 let r = match parse_response(raw) {
     Result::Ok(r) => r,
-    Result::Err(e) => panic show(e),
+    Result::Err(e) => panic e.show(),
 };
 assert!(r.status == 200);
 assert!(r.body.len() == 2);

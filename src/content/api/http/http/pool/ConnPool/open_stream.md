@@ -7,10 +7,10 @@ module: "http::pool"
 kind: "method"
 name: "open_stream"
 parent: "ConnPool"
-signature: "pub fn open_stream(Url u) -> Result<Stream, HttpError>"
+signature: "pub fn open_stream(Url u) -> Result<Conn, HttpError>"
 import: "use http::pool::{ConnPool};"
 origin: "package"
-source: "https://github.com/ardax-corp/coil-http/blob/d2b81eaeb6f5b4e7d794874f593cb4e9406afd27/src/http/pool.coil#L80"
+source: "https://github.com/ardax-corp/coil-http/blob/ff451cfa7e0dc940487a1ab88a8e84412cc71127/src/http/pool.coil#L78"
 order: 3
 ---
 
@@ -30,7 +30,7 @@ Called on a `ConnPool` value as `value.open_stream(…)`.
 
 ## Returns
 
-`Result<Stream, HttpError>`
+`Result<Conn, HttpError>`
 
 ## See also
 

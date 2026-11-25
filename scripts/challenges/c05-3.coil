@@ -21,7 +21,7 @@ fn eval(Expr e) -> int {
 
 fn render(Expr e) -> string {
     return match e {
-        Expr::Num(n) => show(n),
+        Expr::Num(n) => n.show(),
         Expr::Add(a, b) => format("(%s + %s)", render(a), render(b)),
         Expr::Sub(a, b) => format("(%s - %s)", render(a), render(b)),
         Expr::Mul(a, b) => format("(%s * %s)", render(a), render(b)),

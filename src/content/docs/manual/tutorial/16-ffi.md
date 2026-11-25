@@ -1,6 +1,6 @@
 ---
 title: Chapter 16 — Calling C
-description: "Calling functions in C shared libraries with extern blocks, loading libraries at run time with dload, the types that cross the boundary, and the flags that allow a library to load."
+description: "Calling functions in C shared libraries with extern blocks, loading libraries at run time with coil-ffi, the types that cross the boundary, and the flags that allow a library to load."
 ---
 
 # Chapter 16 — Calling C
@@ -109,40 +109,117 @@ settings live in `coil.toml` under `[ffi]` and in `coil.lock`; see
 | `float` | `double` |
 | `bool` | `bool` |
 | `string` | `const char *` (NUL-terminated UTF-8; C must not keep the pointer) |
-| `int8` … `uint64` | the fixed-size integer types |
+| `int8` … `uint64` | the fixed-size integer types (an `int` in Coil: an argument is cut to the C type, a result widened back) |
 | `ptr` | `void *` |
 | `Bytes` (from a `Vec<byte>`) | `uint8_t *` that C may write into |
 | `ConstBytes` (from a `string` or `Vec<byte>`) | read-only `const uint8_t *`, no NUL |
-| `Callback` | a C function pointer that calls back into Coil |
+| `fn(int x) -> int` | a C function pointer that calls back into Coil (see below) |
 | `extern struct Point { x: int32, y: int32 };` | a C struct passed by value |
 
 A function without `->` returns nothing (`void`). A C function that takes a
 variable number of arguments is declared with a trailing `...`:
-`fn sum_n(int n, ...) -> int;`. Strings returned from C are copied into a
+`fn sum_n(int n, ...) -> int;`. Each argument after the declared ones is
+passed with C's default promotions: an `int` as `int64_t`, a `float` as
+`double`, a `bool` as `int`, a `string` as `const char *` (a struct cannot be
+one), so the C side reads them with `va_arg(args, int64_t)`,
+`va_arg(args, double)`, `va_arg(args, int)` and `va_arg(args, const char *)`.
+Strings returned from C are copied into a
 Coil string straight away, so C must return memory that is still valid at
 that moment (not a pointer to a local array).
+
+## Callbacks
+
+A C function that takes a function pointer gets a parameter of function
+type. Pass it the name of a top-level Coil function, and C calls it like
+any other function pointer:
+
+```c
+typedef int64_t (*int64_fn_int64)(int64_t);
+int64_t apply_cb(int64_fn_int64 cb, int64_t x) { return cb(x); }
+```
+
+```coil ignore
+use io::sync::{println};
+use string::{format};
+
+extern "sum" {
+    fn apply_cb(fn(int x) -> int cb, int x) -> int;
+}
+
+fn doubler(int x) -> int {
+    return x * 2;
+}
+
+fn main() {
+    let _ = println(format("%i", apply_cb(doubler, 21))); // 42
+}
+```
+
+A callback takes up to five `int`, `float`, `bool`, `ptr` or `string`
+parameters and returns an `int`, `float`, `bool`, `ptr` or nothing; a C
+string argument arrives as a Coil string. C may keep the pointer and call it
+later, during another call into the library. The argument must name a
+function: a closure or a local that holds a function has no C entry of its
+own (E0403). A panic inside a callback ends the program the same way as a
+panic in the code that called C.
+
+## Structs by value
+
+An `extern struct` declares a C struct's layout. In Coil, a value of it is a
+record with the same fields: build one with a record literal and read its
+fields with `.name`. A field that holds another struct is a nested record.
+
+```c
+typedef struct { double x; double y; } Vec2;
+Vec2 vec2_add(Vec2 a, Vec2 b);
+```
+
+```coil ignore
+use io::sync::{println};
+use string::{format};
+
+extern struct Vec2 {
+    x: float,
+    y: float,
+};
+
+extern "geom" {
+    fn vec2_add(Vec2 a, Vec2 b) -> Vec2;
+}
+
+fn main() {
+    let v = vec2_add({ x: 1.5, y: 2.0 }, { x: 0.5, y: 1.0 });
+    let _ = println(format("%f %f", v.x, v.y)); // 2.0 3.0
+}
+```
+
+The struct travels the way the platform's C calling convention says, in
+registers or in memory, so the C side needs nothing special. A struct
+returned from C is a new record that Coil owns.
 
 ## Loading at run time
 
 `extern` fixes the library and functions when the program compiles. To
-choose them while the program runs, for example for plugins, use
-[`ffi::dload`](/docs/reference/ffi/dload), [`declare`](/docs/reference/ffi/declare)
-and [`invoke`](/docs/reference/ffi/invoke). Each step can fail and returns a
-`Result`:
+choose them while the program runs, for example for plugins, use the
+[coil-ffi](https://github.com/ardax-corp/coil-ffi) package. `Library::open`
+takes the library's path and its sha256, `function` looks up a symbol with a
+signature, and `call` takes the arguments as a list. Each step can fail and
+returns a `Result`:
 
 ```coil ignore
 use io::sync::{println};
-use ffi::{dload, declare, invoke, Error};
-use ffi::types::{Int};
+use coil_ffi::{Arg, FfiError, Library, Type};
 
-fn add_via_plugin() -> Result<int, Error> {
-    let lib = dload("geom")?;
-    let add = declare(lib, "add", (Int, Int), Int)?;
-    return invoke(lib, add, (40, 2));
+fn add_via_plugin(string path, string sha256) -> Result<int, FfiError> {
+    let lib = Library::open(path, sha256)?;
+    let add = lib.function("add", Vec::from([Type::Int, Type::Int]), Type::Int)?;
+    let v = add.call(Vec::from([Arg::Int(40), Arg::Int(2)]))?;
+    return v.int();
 }
 
 fn main() {
-    println(show(add_via_plugin() ?? -1))?;
+    let sha = "…"; // sha256sum libgeom.so
+    println((add_via_plugin("./libgeom.so", sha) ?? -1).show())?;
 }
 ```
 
@@ -152,13 +229,20 @@ Output:
 42
 ```
 
-The same permission flags apply.
+Every library coil-ffi opens is pinned by its hash, so a different file
+never loads. A call through coil-ffi checks its arguments against the
+signature you gave and costs more than an `extern` call; prefer `extern`
+whenever the library is known when the program is written.
 
 ## Shipping
 
 `coil package` builds a single executable, but shared libraries are not
-embedded in it. Ship `libgeom.so` next to the executable (or in `./lib`, or
-in the natives cache `~/.coil/natives`); `--check-native` makes
+embedded in it. Ship `libgeom.so` next to the executable or in `./lib`. On
+Linux the executable links it by name, so the system's loader finds it
+there (or on the system's library path) and the program does not start
+without it; elsewhere it opens at start and may also sit in the natives
+cache `~/.coil/natives` (see
+[Native code](/docs/language/native-code#shared-libraries)). `--check-native` makes
 `coil package` verify the libraries it needs are present. spool's
 `[[ffi.native]]` entries and `spool download` automate this for packages
 that use native code.
@@ -187,16 +271,15 @@ that use native code.
    > `count_char` wants the byte as an `int`: `to_bytes(ch)[0] as int`
    > (from `string`, as in chapter 10's streams) gives it to you.
 
-3. Check something: using `declare` and `invoke`, declare `add` with
-   three `Int` parameters and call it with two arguments. Then declare a
-   function `subtract` that the library does not have. Print each `Err`'s
+3. Check something: with coil-ffi, look up `add` with three `Type::Int`
+   parameters and call it with two arguments. Then look up a function
+   `subtract` that the library does not have. Print each `Err`'s
    `message`.
 
    > [!hint]
-   > `ffi::Error` has no `%v`. `match` on the `Result` and read
-   > `e.message`. Notice which mistake can be caught: `declare` cannot
-   > see C's real signature, only whether what you invoke fits what you
-   > declared.
+   > `match` on the `Result` and read the error's `message`. Notice which
+   > mistake can be caught: coil-ffi cannot see C's real signature, only
+   > whether what you call fits the signature you gave.
 
 4. Check something: run the `extern` example without `--allow-dload`,
    then with `--allow-dload geom` and a `--dload-pin` of 64 zeros. What

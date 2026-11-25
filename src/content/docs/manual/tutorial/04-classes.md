@@ -365,14 +365,14 @@ checks that you only push what the stack holds.
        let a = Account::open("Ada");
        a.deposit(100);
        assert!(a.withdraw(30), "withdraw(30) from 100 should succeed");
-       assert!(a.balance() == 70, "balance is " + show(a.balance()));
+       assert!(a.balance() == 70, "balance is " + a.balance().show());
    }
 
    test("withdrawing more than the balance is refused") {
        let a = Account::open("Ada");
        a.deposit(100);
        assert!(!a.withdraw(500));
-       assert!(a.balance() == 100, "balance is " + show(a.balance()));
+       assert!(a.balance() == 100, "balance is " + a.balance().show());
    }
 
    test("the whole balance can be withdrawn") {
@@ -386,7 +386,7 @@ checks that you only push what the stack holds.
        let a = Account::open("Ada");
        a.deposit(100);
        assert!(!a.withdraw(-50));
-       assert!(a.balance() == 100, "balance is " + show(a.balance()));
+       assert!(a.balance() == 100, "balance is " + a.balance().show());
    }
    ```
 
@@ -422,23 +422,23 @@ checks that you only push what the stack holds.
 
    test("212 °F is 100 °C") {
        let t = Temperature::from_fahrenheit(212.0);
-       assert!(t.celsius() > 99.999 && t.celsius() < 100.001, "got " + show(t.celsius()));
+       assert!(t.celsius() > 99.999 && t.celsius() < 100.001, "got " + t.celsius().show());
    }
 
    test("32 °F is 0 °C and back to 32 °F") {
        let t = Temperature::from_fahrenheit(32.0);
-       assert!(t.celsius() > -0.001 && t.celsius() < 0.001, "got " + show(t.celsius()));
-       assert!(t.fahrenheit() > 31.999 && t.fahrenheit() < 32.001, "got " + show(t.fahrenheit()));
+       assert!(t.celsius() > -0.001 && t.celsius() < 0.001, "got " + t.celsius().show());
+       assert!(t.fahrenheit() > 31.999 && t.fahrenheit() < 32.001, "got " + t.fahrenheit().show());
    }
 
    test("-40 is the same on both scales") {
        let t = Temperature::from_fahrenheit(-40.0);
-       assert!(t.celsius() > -40.001 && t.celsius() < -39.999, "got " + show(t.celsius()));
+       assert!(t.celsius() > -40.001 && t.celsius() < -39.999, "got " + t.celsius().show());
    }
 
    test("98.6 °F is 37 °C") {
        let t = Temperature::from_fahrenheit(98.6);
-       assert!(t.celsius() > 36.999 && t.celsius() < 37.001, "got " + show(t.celsius()));
+       assert!(t.celsius() > 36.999 && t.celsius() < 37.001, "got " + t.celsius().show());
    }
    ```
 
@@ -539,13 +539,13 @@ checks that you only push what the stack holds.
    test("a hand sorts by rank first") {
        let hand: Vec<Card> = [new Card(12, "hearts"), new Card(3, "spades"), new Card(7, "clubs")];
        let sorted = sort(hand);
-       assert!(sorted[0].rank == 3 && sorted[1].rank == 7 && sorted[2].rank == 12, "got " + show(sorted));
+       assert!(sorted[0].rank == 3 && sorted[1].rank == 7 && sorted[2].rank == 12, "got " + sorted.show());
    }
 
    test("cards of the same rank sort by suit") {
        let hand: Vec<Card> = [new Card(12, "hearts"), new Card(12, "clubs")];
        let sorted = sort(hand);
-       assert!(sorted[0].suit == "clubs", "got " + show(sorted));
+       assert!(sorted[0].suit == "clubs", "got " + sorted.show());
    }
    ```
 

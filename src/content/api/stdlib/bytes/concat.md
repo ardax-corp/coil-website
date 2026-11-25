@@ -9,7 +9,7 @@ name: "concat"
 signature: "fn concat(Vec<byte> a, Vec<byte> b) -> Vec<byte>"
 import: "use bytes::{concat};"
 origin: "stdlib"
-source: "https://github.com/ardax-corp/coil-stdlib/blob/72363df1f418f029700c2e574fbc0479390432f0/src/bytes.coil#L144"
+source: "https://github.com/ardax-corp/coil-stdlib/blob/88dc9dc329c75d41081b17f35d2886415a2b7cd1/src/bytes.coil#L144"
 order: 5
 ---
 
