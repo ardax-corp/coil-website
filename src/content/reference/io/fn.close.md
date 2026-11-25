@@ -16,7 +16,7 @@ Closes `s`.
 
 Closing a stream wakes any task waiting on it. Closing twice returns
 `Err(IoError::AlreadyClosed)`. A stream that is never closed is closed
-when the garbage collector drops it.
+when its last owner lets go of it.
 
 ## Parameters
 

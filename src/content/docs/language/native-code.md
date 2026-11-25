@@ -149,14 +149,16 @@ Functions that call the host (files, sockets, processes, FFI) call the same
 runtime code on both engines, so permissions, task switching and errors are
 the same.
 
-## Collection timing
+## When values are freed
 
-A value stays alive only until its last use, so the collector can free it
-while the variable that held it is still in scope. Correct programs see no
+A value stays alive only until its last use, so it can be freed while the
+variable that held it is still in scope. Correct programs see no
 difference, but a [`gc::Weak`](/docs/reference/gc/Weak) handle can be
-cleared, or a [`drop`](/docs/language/memory#the-collector) run, before the
-function returns. A variable holding a [`gc::Root`](/docs/reference/gc/Root)
-pin stays alive until its function returns. Both engines follow this rule.
+cleared before the function returns. A class with a
+[`drop`](/docs/language/memory#when-memory-comes-back) keeps its object to
+the end of the scope that owns it, and a variable holding a
+[`gc::Root`](/docs/reference/gc/Root) pin stays alive until its function
+returns. Both engines follow these rules.
 
 ## Seeing what ran
 

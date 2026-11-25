@@ -8,14 +8,14 @@ name: "Weak"
 signature: "class Weak<T>"
 import: "use gc::{Weak};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/gc.coil#L45"
+source: "https://github.com/ardax-corp/coil-lang/blob/c4231aba4e3db4e3f3f9ece8f3d5de6d8aa0ec4a/compiler/src/builtin_docs/gc.coil#L45"
 order: 1
 ---
 
 A handle that refers to a value without keeping it alive, made by [`weak`](/docs/reference/gc/fn.weak).
 
 [`upgrade`](/docs/reference/gc/upgrade) returns the value while something else still keeps it alive,
-and `None` once a collection has freed it. Use it for registries and
+and `None` once it was freed. Use it for registries and
 caches that must not extend lifetimes. A `Weak` cannot be sent to
 another thread.
 

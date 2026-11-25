@@ -1,27 +1,27 @@
 ---
 title: "Memory management"
-description: "How Coil manages memory: copy-on-write values, a tracing garbage collector as the backstop, a nursery for young objects, early freeing the compiler proves safe, and checked region blocks."
+description: "How Coil manages memory: copy-on-write values, reference counts the compiler inserts and mostly removes, early freeing it proves safe, and a cycle collector for the few types that can form cycles."
 ---
 
 # Memory management
 
-Coil programs never free memory by hand. Four layers share the work, each
-one cheaper than the one below it:
+Coil programs never free memory by hand. Three layers share the work:
 
 1. **The compiler frees early.** Objects it can prove dead are freed where
-   they die: at the end of their scope, right after a call, or when an
-   assignment replaces them.
-2. **`region` blocks** free everything a unit of work made, in one go,
-   checked by the compiler.
-3. **The nursery** holds new objects and empties itself with a quick
-   minor collection that copies out the few still alive.
-4. **The tracing collector** reclaims whatever the program can no longer
-   reach. It is the backstop for everything the other three miss.
+   they die, whole: at the end of their scope, right after a call, or when
+   an assignment replaces them.
+2. **Reference counts** free every other object when its last owner lets go
+   of it. The compiler inserts the count updates and removes most of them,
+   so a loop over numbers or a read of a field usually counts nothing.
+3. **The cycle collector** frees groups of objects that only own each other.
+   Only a few kinds of type can form such a cycle, and a program without
+   them never runs it.
 
 None of these layers changes what a program computes. They change when
-memory comes back, and with it how often the collector has to run.
+memory comes back. Nothing ever moves an object, and nothing stops the
+program to scan its memory.
 
-What a program computes depends on one rule that sits above all four:
+What a program computes depends on one rule that sits above all three:
 class instances, vectors and maps are values, shared until written and
 copied on write. That rule is what lets the compiler know when an object
 has a single owner, and so when it can free it.
@@ -39,7 +39,7 @@ pointer to them.
 
 Each thread has its own heap. [`thread::spawn`](/docs/reference/thread/spawn)
 starts a thread with a fresh one, and values cross between threads by copy,
-so no collector ever waits on another thread.
+so no thread ever waits on another to free memory.
 
 ## Copy-on-write
 
@@ -291,40 +291,48 @@ slower than a normal one.
 Values that cross to a thread or a task were always copied, and still
 are. A value sent on a channel arrives as the receiver's own copy.
 
-## The collector
+## When memory comes back
 
-When the heap has grown enough since the last collection, an allocation
-starts one. The collector marks every object reachable from the program's
-locals, statics and [`gc::Root`](/docs/reference/gc/Root) pins. It then runs
-the `fn drop()` of each unreachable object that has one (at most once per
-object) and clears the [`gc::Weak`](/docs/reference/gc/Weak) handles whose
-object is gone. Then it frees the rest, a little at each later allocation
-rather than all at once. Between collections it may move objects out of
-nearly empty memory pages so the pages can go back to the system.
+Every object has a count of the places that own it: variables, fields,
+elements, captures. When the count reaches zero the object is freed at
+once, and what it held loses an owner in turn. A variable lets go of its
+object after its last use, not at the end of its scope, so a
+[`gc::Weak`](/docs/reference/gc/Weak) can find an object gone right after
+the last line that used it.
 
-A `drop` the compiler cannot run at an early free runs when the collector
-finds its object unreachable, which may be long after the last use, or at
-program exit for an object still reachable then. When the release has to
-happen at a known point, write it with a
-[`defer`](/docs/language/syntax#defer). A `panic` inside a `drop`
-the collector runs aborts the program at once, with the message and a
-non-zero exit status; the remaining defers and drops do not run. A call to
-`obj.drop()` you write yourself is an ordinary method call, and a panic in it
-unwinds like any other.
+A class with a `fn drop()` runs it when its count reaches zero, or at the
+end of the scope that owns it, at most once per object; its memory goes
+right after. When the release has to happen at a known point, a
+[`defer`](/docs/language/syntax#defer) states it in the code. A `panic`
+inside a `drop` the runtime runs aborts the program at once, with the
+message and a non-zero exit status; the remaining defers and drops do not
+run. A call to `obj.drop()` you write yourself is an ordinary method call,
+and a panic in it unwinds like any other.
 
-The collector closes two kinds of resource the same way:
+Two kinds of resource are closed the same way:
 
 - A **suspended generator** with a `defer` armed at its current `yield` is
-  closed when nothing reaches it: its pending defers run, last first. A
+  closed when its last owner goes: its pending defers run, last first. A
   panic in one aborts, as in a `drop`.
-- A **`Stream`** nothing reaches gives its descriptor back. When `open` or
-  `accept` fails with `IoError::TooManyOpenFiles`, the runtime collects
-  once and tries again before it returns the error. The compiler warns
-  (`E0148`) about a local stream a function opens and never closes or
-  hands on.
+- A **`Stream`** whose last owner goes gives its descriptor back. When
+  `open` or `accept` fails with `IoError::TooManyOpenFiles`, the runtime
+  runs the cycle collector once and tries again before it returns the
+  error. The compiler warns (`E0148`) about a local stream a function opens and never
+  closes or hands on.
 
 `env::exit` ends the program at once: neither the pending defers nor the
 drops run.
+
+### Cycles
+
+A write to a shared value copies it, so values cannot point at
+themselves. Only objects with an identity can close a cycle: a
+`shared class` or a class with a `fn drop()` whose fields can lead back to
+its own type, or one that holds a function or a generator. For those
+types, and only those, the runtime runs a cycle collector as the heap
+grows: it finds groups whose owners are all inside the group and frees
+them, running their `drop`s. [`gc::collect`](/docs/reference/gc/collect)
+runs it on demand.
 
 The [`gc`](/docs/reference/gc) module is the program's handle on all this:
 `root` and `weak` for native code and registries, `heap_bytes` and
@@ -356,8 +364,8 @@ keeps nothing of `self` (it does not store `self`, or anything `self`
 reaches, anywhere that outlives the call). The free runs the `drop` first,
 right there: at the end of the block that holds the object, after a
 `return`'s value is computed. A block-end free gives back the object itself,
-so a `drop` object it holds is dropped by the collector. A `drop` that keeps
-`self` leaves its objects to the collector. A panic in a `drop` run at a free
+so a `drop` object it holds is dropped when its own count reaches zero. A
+`drop` that keeps `self` leaves its objects to their counts. A panic in a `drop` run at a free
 unwinds from there like any call.
 
 `coil dissect --effects FILE` prints the facts the compiler inferred, one
@@ -396,88 +404,17 @@ Error: [E0139] `keep` states `#[noescape(s)]`, but it may keep `s`
 A stated fact is never trusted in place of the analysis; it documents an
 intent and fails the build when a later change breaks it.
 
-## Regions
-
-`region { … }` runs a block whose garbage is freed in one go when it ends.
-It suits code with a clear unit of work: one request, one frame of a game
-loop, one pass over a file.
-
-```coil
-use string::format;
-
-fn total_len(int rounds) -> int {
-    let total = 0;
-    let i = 0;
-    while i < rounds {
-        total += region {
-            let line = format("row %i", i);
-            line.len()
-        };
-        i += 1;
-    }
-    return total;
-}
-```
-
-A region is a block: it works as a statement or as a value. Its value may
-be a plain value (`int`, `bool`, `float`, …) or an object made before the
-region. `region` is a keyword only right before `{`; anywhere else it is an
-ordinary name.
-
-### What may not leave a region
-
-The compiler rejects, with error `E0140`, an object made inside a region
-that could outlive it:
-
-- assigned to a local declared outside the region,
-- stored or pushed into an object, vector or static from outside,
-- passed to a function that keeps it (by its escape facts),
-- captured by a `defer` or yielded,
-- the region's value.
-
-```coil fail
-use string::format;
-
-fn main() {
-    let last = "";
-    region {
-        let s = format("a%i", 1);
-        last = s; // E0140: assigned to `last`, declared outside the region
-    }
-}
-```
-
-`return` and `?` may carry an object out of a region (an error built
-inside it, say): the runtime copies it out as the region ends. So do the
-few cases the check cannot follow, such as a function value it cannot see
-into. A region is never unsound, only slower when something escapes.
-`break` and `continue` leave a region like any block.
-
-Regions nest; only the outermost one frees its garbage at its end.
-
-## The nursery
-
-The runtime allocates new objects in a *nursery*: memory it fills by
-bumping a pointer and empties with a minor collection that copies out the
-few objects still alive. Most objects die young, so a minor collection
-touches little memory, and the full collector runs far less often.
-Regions are built on it. The nursery is on by default. Programs that make many short-lived objects run faster with it;
-programs that keep large structures alive across many collections can run
-slower, and `--nursery off` turns it off (regions then run as plain
-blocks).
-
 ## Switches
 
 Early freeing follows the optimization level: on at `-O1` and above, off
 at `-O0` and `-Og`, where frames should match the source for the debugger.
-Two flags change the defaults, for measuring and debugging:
+These flags change the defaults, for measuring and debugging:
 
 | Flag | Effect |
 | --- | --- |
 | `--early-free on` / `off` | Compile the early frees, or not, whatever the `-O` level |
-| `--early-free check` | Compile the frees, but free nothing when the program runs; at the next collection, abort if a freed object was still reachable |
-| `--nursery on` / `off` | Turn the nursery on (the default) or off for `coil FILE`, `coil run` and `coil test` |
+| `--early-free check` | Compile the frees, but free nothing when the program runs; abort at a free that something else still owns |
 | `--cow-report` | At exit, print the copies copy-on-write made, per source line, for `coil FILE` (runs on the MIR interpreter) |
 
-`coil FILE` and `coil test` take `--early-free` and `--nursery`. `coil compile`, `coil package`
-and `coil dissect` take `--early-free`, and `coil run` takes `--nursery`.
+`coil FILE`, `coil test`, `coil compile`, `coil package` and `coil dissect`
+take `--early-free`.

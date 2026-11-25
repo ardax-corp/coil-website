@@ -8,7 +8,7 @@ name: "Stream"
 signature: "class Stream"
 import: "use io::{Stream};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/io.coil#L47"
+source: "https://github.com/ardax-corp/coil-lang/blob/c4231aba4e3db4e3f3f9ece8f3d5de6d8aa0ec4a/compiler/src/builtin_docs/io.coil#L47"
 order: 0
 ---
 
@@ -21,7 +21,7 @@ wait, they return `Err(IoError::WouldBlock)` when the OS is not ready.
 Use [`wait_readable`](/docs/reference/io/wait_readable) / [`wait_writable`](/docs/reference/io/wait_writable) to wait, or the blocking adapters in
 [`io::sync`](/packages/stdlib/reference/io/sync) (`write_all`, `read_to_end`, ...).
 
-The handle is closed by [`close`](/docs/reference/io/fn.close), or when the garbage collector drops it.
+The handle is closed by [`close`](/docs/reference/io/fn.close), or when its last owner lets go of it.
 `Stream` implements [`Read`](/docs/reference/io/Read) and [`Write`](/docs/reference/io/Write), so `s.read(buf)` and
 `s.write(buf)` work as methods too.
 

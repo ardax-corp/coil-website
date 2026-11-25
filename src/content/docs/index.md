@@ -12,7 +12,7 @@ For developers who want type checking and inference without a heavyweight build 
 - **Parallelism**: pure recursive calls and counted loops run across cores automatically (`--auto-par`), and [OS threads](/docs/manual/tutorial/14-threads) with channels and mutexes cover the rest. [Tasks](/docs/manual/tutorial/13-tasks) handle concurrent IO.
 - **SIMD**: the compiler vectorizes byte scans and counted map and reduce loops; fixed-size array arithmetic runs on [packed kernels](/docs/language/operators#aggregate-vector-arithmetic).
 - **Metaprogramming**: [macros](/docs/language/macros) and [compile-time code](/docs/language/comptime) are ordinary Coil that runs while compiling.
-- **Managed memory**: [copy-on-write values, a tracing collector, early freeing and `region` blocks](/docs/language/memory).
+- **Managed memory**: [copy-on-write values, reference counts the compiler mostly removes, early freeing and a cycle collector](/docs/language/memory).
 - **FFI**: [`extern` blocks](/docs/manual/tutorial/16-ffi) call C libraries, which a native executable can link statically.
 
 ## Quick start

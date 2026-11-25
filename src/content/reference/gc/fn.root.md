@@ -1,18 +1,18 @@
 ---
 slug: "gc/fn.root"
 title: "root"
-description: "Pins value so the garbage collector keeps it alive while the returned Root is reachable."
+description: "Pins value so it stays alive while the returned Root does."
 module: "gc"
 kind: "fn"
 name: "root"
 signature: "fn root<T>(T value) -> Root<T>"
 import: "use gc::{root};"
 origin: "builtin"
-source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/gc.coil#L58"
+source: "https://github.com/ardax-corp/coil-lang/blob/c4231aba4e3db4e3f3f9ece8f3d5de6d8aa0ec4a/compiler/src/builtin_docs/gc.coil#L57"
 order: 2
 ---
 
-Pins `value` so the garbage collector keeps it alive while the returned [`Root`](/docs/reference/gc/Root) is reachable.
+Pins `value` so it stays alive while the returned [`Root`](/docs/reference/gc/Root) does.
 
 ## Parameters
 
@@ -39,6 +39,6 @@ assert!(match get(pin) { Option::Some(s) => s == "kept", Option::None => false }
 - [`get`](/docs/reference/gc/get): Returns the pinned value, leaving the pin in place.
 - [`unroot`](/docs/reference/gc/unroot): Releases the pin and returns the value it held.
 - [`weak`](/docs/reference/gc/fn.weak): Makes a handle to `value` that does not keep it alive.
-- [`upgrade`](/docs/reference/gc/upgrade): Returns the value while it is still alive, `None` once it was collected.
+- [`upgrade`](/docs/reference/gc/upgrade): Returns the value while it is still alive, `None` once it was freed.
 - [`heap_bytes`](/docs/reference/gc/heap_bytes): Returns the size of the managed heap in bytes.
-- [`collect`](/docs/reference/gc/collect): Runs a full garbage collection now and returns the number of bytes freed.
+- [`collect`](/docs/reference/gc/collect): Runs every pending `fn drop()` and the cycle collector now, and returns the number of bytes freed.

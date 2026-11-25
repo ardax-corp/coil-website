@@ -7,7 +7,7 @@ kind: "keyword"
 name: "impl"
 origin: "builtin"
 auto: true
-source: "https://github.com/ardax-corp/coil-lang/blob/84390e648401f25bdeb09aca3bf5e9e732e54487/compiler/src/builtin_docs/keywords.md#L700"
+source: "https://github.com/ardax-corp/coil-lang/blob/c4231aba4e3db4e3f3f9ece8f3d5de6d8aa0ec4a/compiler/src/builtin_docs/keywords.md#L700"
 order: 29
 ---
 
@@ -15,7 +15,8 @@ Adds methods to a type (`impl Type { … }`) or implements a trait for it (`impl
 
 Methods have an implicit `self`; `pub` makes them callable from outside the
 type, and `static fn` declares one that is called on the type. An inherent
-`fn drop()` is a finalizer the garbage collector runs once.
+`fn drop()` is a finalizer that runs once, when the object's last owner
+lets go of it or at the end of the scope that owns it.
 
 A generic type's inherent impl declares its parameters, `impl Cell<T> { … }`
 (bounds as `impl Cell<T: Eq>`). `impl Show<Foo> { … }` is an error: a trait
